@@ -1,0 +1,133 @@
+{
+  "name": "hygon-4cards",
+  "_说明": "海光 K100 四卡实测校准产物（由 calibration/run_calibration.py 生成）；标称值保留在 devices[].extra.nominal，效率系数为实测/标称。",
+  "comm_bw": 50000000000.0,
+  "comm_efficiency": 0.6,
+  "comm_latency": 7.6026e-06,
+  "launch_overhead": 4.394e-06,
+  "fusion_overhead": 1.9e-07,
+  "link_bw": 13790250000.0,
+  "link_matrix": [
+    [
+      null,
+      13579200000.0,
+      13851600000.0,
+      13896400000.0
+    ],
+    [
+      13579200000.0,
+      null,
+      13890000000.0,
+      13885300000.0
+    ],
+    [
+      13851600000.0,
+      13890000000.0,
+      null,
+      13639000000.0
+    ],
+    [
+      13896400000.0,
+      13885300000.0,
+      13639000000.0,
+      null
+    ]
+  ],
+  "interference": 0.2863,
+  "shape_model": {
+    "_说明": "实测形状效率曲线（逐 K 扫描），matmul 用 table 插值。",
+    "matmul": {
+      "compute": {
+        "curve": "table",
+        "points": [
+          [
+            128,
+            0.698
+          ],
+          [
+            256,
+            0.8037
+          ],
+          [
+            512,
+            0.8973
+          ],
+          [
+            1024,
+            0.9352
+          ],
+          [
+            2048,
+            0.9873
+          ],
+          [
+            4096,
+            1.0
+          ],
+          [
+            8192,
+            0.9024
+          ]
+        ]
+      }
+    }
+  },
+  "devices": [
+    {
+      "name": "HYGON-K100-AI-0",
+      "class": "hygon",
+      "flops": 196000000000000.0,
+      "mem_bw": 896000000000.0,
+      "max_mem": 64000000000.0,
+      "efficiency": {
+        "flops": 0.0844,
+        "mem_bw": 0.4053
+      },
+      "dtype": "FP16/BF16",
+      "source": "实测校准 crdnotebook-2043610295914614786-scnv1ejp8d-22130 2026-08-26 (gemm峰值 16.5 TFLOPS / triad带宽 363.1 GB/s / copy带宽 121.3 GB/s)",
+      "calibrated": true
+    },
+    {
+      "name": "HYGON-K100-AI-1",
+      "class": "hygon",
+      "flops": 196000000000000.0,
+      "mem_bw": 896000000000.0,
+      "max_mem": 64000000000.0,
+      "efficiency": {
+        "flops": 0.0844,
+        "mem_bw": 0.4053
+      },
+      "dtype": "FP16/BF16",
+      "source": "实测校准 crdnotebook-2043610295914614786-scnv1ejp8d-22130 2026-08-26 (gemm峰值 16.5 TFLOPS / triad带宽 363.1 GB/s / copy带宽 121.3 GB/s)",
+      "calibrated": true
+    },
+    {
+      "name": "HYGON-K100-AI-2",
+      "class": "hygon",
+      "flops": 196000000000000.0,
+      "mem_bw": 896000000000.0,
+      "max_mem": 64000000000.0,
+      "efficiency": {
+        "flops": 0.0844,
+        "mem_bw": 0.4053
+      },
+      "dtype": "FP16/BF16",
+      "source": "实测校准 crdnotebook-2043610295914614786-scnv1ejp8d-22130 2026-08-26 (gemm峰值 16.5 TFLOPS / triad带宽 363.1 GB/s / copy带宽 121.3 GB/s)",
+      "calibrated": true
+    },
+    {
+      "name": "HYGON-K100-AI-3",
+      "class": "hygon",
+      "flops": 196000000000000.0,
+      "mem_bw": 896000000000.0,
+      "max_mem": 64000000000.0,
+      "efficiency": {
+        "flops": 0.0844,
+        "mem_bw": 0.4053
+      },
+      "dtype": "FP16/BF16",
+      "source": "实测校准 crdnotebook-2043610295914614786-scnv1ejp8d-22130 2026-08-26 (gemm峰值 16.5 TFLOPS / triad带宽 363.1 GB/s / copy带宽 121.3 GB/s)",
+      "calibrated": true
+    }
+  ]
+}

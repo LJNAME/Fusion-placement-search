@@ -1,0 +1,122 @@
+{
+  "machine": "crdnotebook-2043610295914614786-scnv1ejp8d-22130",
+  "date": "2026-08-26",
+  "nominal_config": "hygon-4cards",
+  "parameters": {
+    "flops_peak_tflops": {
+      "value": 16.5495,
+      "unit": "TFLOPS",
+      "method": "rocblas gemm M=N=4096 逐 K 扫描",
+      "mode": "gemm"
+    },
+    "flops_efficiency": {
+      "value": 0.0844,
+      "method": "实测峰值 / 官方标称"
+    },
+    "mem_bw_gbps": {
+      "value": 121.3285,
+      "unit": "GB/s",
+      "method": "同设备 D2D copy 1GB",
+      "mode": "copy"
+    },
+    "mem_bw_triad_gbps": {
+      "value": 363.1211,
+      "unit": "GB/s",
+      "method": "Stream triad（读2+写1）",
+      "mode": "triad"
+    },
+    "mem_bw_efficiency": {
+      "value": 0.4053,
+      "method": "实测 / 官方标称"
+    },
+    "launch_overhead_s": {
+      "value": 4.394e-06,
+      "method": "空 kernel 连续启动",
+      "mode": "launch"
+    },
+    "fusion_overhead_s": {
+      "value": 1.9e-07,
+      "method": "add+scale 融合 vs 未融合",
+      "mode": "fusion"
+    },
+    "link_matrix_bps": {
+      "value": [
+        [
+          null,
+          13579200000.0,
+          13851600000.0,
+          13896400000.0
+        ],
+        [
+          13579200000.0,
+          null,
+          13890000000.0,
+          13885300000.0
+        ],
+        [
+          13851600000.0,
+          13890000000.0,
+          null,
+          13639000000.0
+        ],
+        [
+          13896400000.0,
+          13885300000.0,
+          13639000000.0,
+          null
+        ]
+      ],
+      "method": "双卡 ping-pong 逐对",
+      "mode": "pingpong"
+    },
+    "link_bw_bps": {
+      "value": 13790250000.0,
+      "method": "逐对带宽均值"
+    },
+    "comm_latency_s": {
+      "value": 7.6026e-06,
+      "method": "小消息 ping-pong",
+      "mode": "pingpong-latency"
+    },
+    "interference": {
+      "value": 0.2863,
+      "method": "同卡并发 GEMM+拷贝 降速比-1",
+      "mode": "overlap"
+    }
+  },
+  "interconnect_verdict": {
+    "concurrency_ratio": 1.9791,
+    "verdict": "链路独立（可并发）",
+    "note": "ratio>=1.4 用逐链路模型；<=1.2 建议退回共享总线/把 link_matrix 视为保守值。"
+  },
+  "shape_model_points": [
+    [
+      128,
+      0.698
+    ],
+    [
+      256,
+      0.8037
+    ],
+    [
+      512,
+      0.8973
+    ],
+    [
+      1024,
+      0.9352
+    ],
+    [
+      2048,
+      0.9873
+    ],
+    [
+      4096,
+      1.0
+    ],
+    [
+      8192,
+      0.9024
+    ]
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "name": "hygon-4cards",
+  "_说明": "海光 K100 四卡配置：官方标称 × 效率系数为占位假设；链路/干扰为占位值，正式实验前用微基准实测校准（见 README 校准流程）。",
+  "comm_bw": 5e10,
+  "comm_efficiency": 0.6,
+  "comm_latency": 1e-5,
+  "launch_overhead": 2e-5,
+  "fusion_overhead": 1e-6,
+  "link_bw": 3e10,
+  "link_matrix": [
+    [null, 3e10, 1.5e10, 3e10],
+    [3e10, null, 3e10, 1.5e10],
+    [1.5e10, 3e10, null, 3e10],
+    [3e10, 1.5e10, 3e10, null]
+  ],
+  "interference": 0.1,
+  "shape_model": {
+    "_说明": "形状相关效率曲线（占位假设，待实测校准）：matmul 有效算力随规约维 K 饱和。",
+    "matmul": {
+      "compute": {"curve": "saturate_k", "eta_max": 0.9, "k_half": 512.0}
+    }
+  },
+  "devices": [
+    {
+      "name": "HYGON-K100-AI-0",
+      "class": "hygon",
+      "flops": 1.96e14,
+      "mem_bw": 8.96e11,
+      "max_mem": 6.4e10,
+      "efficiency": {"flops": 0.7, "mem_bw": 0.7},
+      "dtype": "FP16/BF16",
+      "source": "官方标称（FP16 196T / 带宽 896GB/s / 64GB HBM2e），效率系数为占位假设",
+      "calibrated": false
+    },
+    {
+      "name": "HYGON-K100-AI-1",
+      "class": "hygon",
+      "flops": 1.96e14,
+      "mem_bw": 8.96e11,
+      "max_mem": 6.4e10,
+      "efficiency": {"flops": 0.7, "mem_bw": 0.7},
+      "dtype": "FP16/BF16",
+      "source": "官方标称（FP16 196T / 带宽 896GB/s / 64GB HBM2e），效率系数为占位假设",
+      "calibrated": false
+    },
+    {
+      "name": "HYGON-K100-AI-2",
+      "class": "hygon",
+      "flops": 1.96e14,
+      "mem_bw": 8.96e11,
+      "max_mem": 6.4e10,
+      "efficiency": {"flops": 0.7, "mem_bw": 0.7},
+      "dtype": "FP16/BF16",
+      "source": "官方标称（FP16 196T / 带宽 896GB/s / 64GB HBM2e），效率系数为占位假设",
+      "calibrated": false
+    },
+    {
+      "name": "HYGON-K100-AI-3",
+      "class": "hygon",
+      "flops": 1.96e14,
+      "mem_bw": 8.96e11,
+      "max_mem": 6.4e10,
+      "efficiency": {"flops": 0.7, "mem_bw": 0.7},
+      "dtype": "FP16/BF16",
+      "source": "官方标称（FP16 196T / 带宽 896GB/s / 64GB HBM2e），效率系数为占位假设",
+      "calibrated": false
+    }
+  ]
+}

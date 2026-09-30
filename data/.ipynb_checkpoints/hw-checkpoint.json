@@ -1,0 +1,67 @@
+{
+  "name": "het-4cards",
+  "comm_bw": 50000000000.0,
+  "comm_latency": 1e-05,
+  "launch_overhead": 2e-05,
+  "fusion_overhead": 1e-06,
+  "devices": [
+    {
+      "name": "HYGON-K100-AI",
+      "max_mem": 64000000000.0,
+      "flops": 196000000000000.0,
+      "mem_bw": 896000000000.0,
+      "class": "hygon",
+      "efficiency": {
+        "flops": 0.7,
+        "mem_bw": 0.7
+      },
+      "dtype": "FP16/BF16",
+      "source": "官方标称（FP16 196T / 带宽 896GB/s / 64GB HBM2e），效率系数为占位假设",
+      "calibrated": false
+    },
+    {
+      "name": "MUXI-C500-OAM",
+      "max_mem": 64000000000.0,
+      "flops": 280000000000000.0,
+      "mem_bw": 3350000000000.0,
+      "class": "muxi",
+      "efficiency": {
+        "flops": 0.75,
+        "mem_bw": 0.75
+      },
+      "dtype": "FP16/BF16",
+      "source": "官方标称（OAM 版 FP16 280T / 带宽 3.35TB/s / 64GB HBM2E），效率系数为占位假设",
+      "calibrated": false
+    },
+    {
+      "name": "ILUVATAR-BI-V150",
+      "max_mem": 64000000000.0,
+      "flops": 220000000000000.0,
+      "mem_bw": 1100000000000.0,
+      "class": "iluvatar",
+      "efficiency": {
+        "flops": 0.7,
+        "mem_bw": 0.7
+      },
+      "dtype": "FP16",
+      "source": "官方标称（FP16 220T / 带宽 ≥1.1TB/s / 64GB HBM2e），效率系数为占位假设",
+      "calibrated": false
+    },
+    {
+      "name": "MTHREADS-MTT-S4000",
+      "max_mem": 48000000000.0,
+      "flops": 25000000000000.0,
+      "mem_bw": 768000000000.0,
+      "class": "mthreads",
+      "efficiency": {
+        "flops": 0.6,
+        "mem_bw": 0.7
+      },
+      "dtype": "FP16 向量 / TF32 张量 50T",
+      "source": "官方标称（向量 FP16 25T / 带宽 768GB/s / 48GB GDDR6X），效率系数为占位假设",
+      "calibrated": false
+    }
+  ],
+  "_说明": "四类国产异构卡：flops/mem_bw 为官方标称值，加载时乘 efficiency 系数得到有效值（无真卡时的替代方案）。拿到实测数据后把标称值换成实测值、效率系数改为 1.0，并把 calibrated 改为 true。",
+  "comm_efficiency": 0.6
+}

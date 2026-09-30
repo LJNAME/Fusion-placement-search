@@ -1,0 +1,81 @@
+{
+  "name": "het-4cards",
+  "_说明": "四类国产异构卡：flops/mem_bw 为官方标称值，加载时乘 efficiency 系数得到有效值（无真卡时的替代方案）。拿到实测数据后把标称值换成实测值、效率系数改为 1.0，并把 calibrated 改为 true。",
+  "comm_bw": 5e10,
+  "comm_efficiency": 0.6,
+  "comm_latency": 1e-5,
+  "launch_overhead": 2e-5,
+  "fusion_overhead": 1e-6,
+  "link_bw": 3e10,
+  "link_matrix": [
+    [null, 3e10, 1.5e10, 3e10],
+    [3e10, null, 3e10, 1.5e10],
+    [1.5e10, 3e10, null, 3e10],
+    [3e10, 1.5e10, 3e10, null]
+  ],
+  "interference": 0.1,
+  "shape_model": {
+    "_说明": "形状相关效率曲线（占位假设，待实测校准）：matmul 有效算力随规约维 K 饱和。",
+    "matmul": {
+      "compute": {"curve": "saturate_k", "eta_max": 0.9, "k_half": 512.0}
+    }
+  },
+  "devices": [
+    {
+      "name": "HYGON-K100-AI",
+      "class": "hygon",
+      "flops": 1.96e14,
+      "mem_bw": 8.96e11,
+      "max_mem": 6.4e10,
+      "efficiency": {
+        "flops": 0.7,
+        "mem_bw": 0.7
+      },
+      "dtype": "FP16/BF16",
+      "source": "官方标称（FP16 196T / 带宽 896GB/s / 64GB HBM2e），效率系数为占位假设",
+      "calibrated": false
+    },
+    {
+      "name": "MUXI-C500-OAM",
+      "class": "muxi",
+      "flops": 2.8e14,
+      "mem_bw": 3.35e12,
+      "max_mem": 6.4e10,
+      "efficiency": {
+        "flops": 0.75,
+        "mem_bw": 0.75
+      },
+      "dtype": "FP16/BF16",
+      "source": "官方标称（OAM 版 FP16 280T / 带宽 3.35TB/s / 64GB HBM2E），效率系数为占位假设",
+      "calibrated": false
+    },
+    {
+      "name": "ILUVATAR-BI-V150",
+      "class": "iluvatar",
+      "flops": 2.2e14,
+      "mem_bw": 1.1e12,
+      "max_mem": 6.4e10,
+      "efficiency": {
+        "flops": 0.7,
+        "mem_bw": 0.7
+      },
+      "dtype": "FP16",
+      "source": "官方标称（FP16 220T / 带宽 ≥1.1TB/s / 64GB HBM2e），效率系数为占位假设",
+      "calibrated": false
+    },
+    {
+      "name": "MTHREADS-MTT-S4000",
+      "class": "mthreads",
+      "flops": 2.5e13,
+      "mem_bw": 7.68e11,
+      "max_mem": 4.8e10,
+      "efficiency": {
+        "flops": 0.6,
+        "mem_bw": 0.7
+      },
+      "dtype": "FP16 向量 / TF32 张量 50T",
+      "source": "官方标称（向量 FP16 25T / 带宽 768GB/s / 48GB GDDR6X），效率系数为占位假设",
+      "calibrated": false
+    }
+  ]
+}

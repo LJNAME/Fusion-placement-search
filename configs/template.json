@@ -1,0 +1,45 @@
+{
+  "name": "my-cluster",
+  "_说明": "硬件参数模板：所有数值只是示例，正式实验前必须用微基准实测校准（见同目录 README.md）。",
+  "comm_bw": 5e10,
+  "comm_efficiency": 0.6,
+  "comm_latency": 1e-5,
+  "launch_overhead": 2e-5,
+  "fusion_overhead": 1e-6,
+  "shape_model": {
+    "_说明": "形状相关效率曲线（占位假设，待实测校准）：matmul 有效算力随规约维 K 饱和。",
+    "matmul": {
+      "compute": {"curve": "saturate_k", "eta_max": 0.9, "k_half": 512.0}
+    }
+  },
+  "devices": [
+    {
+      "name": "gpu0",
+      "class": "example",
+      "flops": 3e12,
+      "mem_bw": 2e12,
+      "max_mem": 16e9,
+      "efficiency": {
+        "flops": 0.7,
+        "mem_bw": 0.7
+      },
+      "dtype": "FP16",
+      "source": "示例占位值，待实测校准",
+      "calibrated": false
+    },
+    {
+      "name": "gpu1",
+      "class": "example",
+      "flops": 3e12,
+      "mem_bw": 2e12,
+      "max_mem": 16e9,
+      "efficiency": {
+        "flops": 0.7,
+        "mem_bw": 0.7
+      },
+      "dtype": "FP16",
+      "source": "示例占位值，待实测校准",
+      "calibrated": false
+    }
+  ]
+}
