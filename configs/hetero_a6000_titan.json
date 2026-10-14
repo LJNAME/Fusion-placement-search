@@ -1,0 +1,45 @@
+{
+  "name": "a6000-titan",
+  "_说明": "A6000 + TITAN RTX 两卡异构机（LTserver）。2026-10-12 用 probe_pair_torch.py 实测校准。设备顺序 = CUDA 逻辑顺序（默认最快优先）：0=A6000、1=TITAN；nvidia-smi 的编号相反（0=TITAN）。链路为 PHB（过主机桥，无 NVLink）。",
+  "comm_bw": 2.43e9,
+  "comm_efficiency": 1.0,
+  "comm_latency": 1.79e-5,
+  "launch_overhead": 5.3e-6,
+  "fusion_overhead": 1e-6,
+  "link_bw": 2.43e9,
+  "link_matrix": [
+    [null, 2.43e9],
+    [2.43e9, null]
+  ],
+  "interference": 0.1,
+  "shape_model": {
+    "_说明": "两卡各自归一化曲线的均值（A6000：.493/.683/.853/.874/.950；TITAN：.613/.716/.817/.879/.913）；curve=table 线性插值。fusion_overhead / interference 仍是占位。",
+    "matmul": {
+      "compute": {"curve": "table", "points": [[256, 0.553], [512, 0.700], [1024, 0.835], [2048, 0.876], [4096, 0.931]]}
+    }
+  },
+  "devices": [
+    {
+      "name": "NVIDIA-RTX-A6000",
+      "class": "nvidia",
+      "flops": 1.13e14,
+      "mem_bw": 7.165e11,
+      "max_mem": 5.15e10,
+      "efficiency": {"flops": 1.0, "mem_bw": 1.0},
+      "dtype": "FP16/BF16",
+      "source": "LTserver 实测 2026-10-12（torch 2.4.1+cu121）：8192^3 fp16 GEMM 峰值 113.0 TFLOPS；256MB copy 读写合计 716.5 GB/s；49140 MiB 显存",
+      "calibrated": true
+    },
+    {
+      "name": "NVIDIA-TITAN-RTX",
+      "class": "nvidia",
+      "flops": 8.89e13,
+      "mem_bw": 6.09e11,
+      "max_mem": 2.56e10,
+      "efficiency": {"flops": 1.0, "mem_bw": 1.0},
+      "dtype": "FP16/BF16",
+      "source": "LTserver 实测 2026-10-12：8192^3 fp16 GEMM 峰值 88.9 TFLOPS；copy 609.0 GB/s；24576 MiB 显存",
+      "calibrated": true
+    }
+  ]
+}
