@@ -42,6 +42,14 @@ from .graphs import (
     make_dataset_graphs,
     make_extrapolation_graphs,
 )
+from .model_graphs import (
+    TransformerModelSpec,
+    build_decoder_layer,
+    build_model_graph,
+    build_pipeline_stages,
+    build_stage_graph,
+    slice_pipeline_stage,
+)
 
 __all__ = [
     "OpNode",
@@ -82,4 +90,10 @@ __all__ = [
     "make_transformer_block",
     "make_dataset_graphs",
     "make_extrapolation_graphs",
+    "TransformerModelSpec",
+    "build_decoder_layer",
+    "build_model_graph",
+    "build_pipeline_stages",
+    "build_stage_graph",
+    "slice_pipeline_stage",
 ]

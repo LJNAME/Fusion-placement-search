@@ -18,6 +18,8 @@ FlagScale 本地基线：
 - Roofline、Ridge、GNN 代价模型及 Beam/MCTS 搜索；
 - 海光历史标定数据与 A6000 + TITAN 两卡异构实验；
 - FlagScale 上下文适配层 `integration/flagscale/context.py`；
+- FlagScale 配置 / Megatron 参数到中立 `TransformerModelSpec` 的适配；
+- Qwen3 dense layer、完整模型和 PP stage 的逻辑 Graph Builder；
 - 两卡层切分扫描与 FlagScale 异构配置转换；
 - BW1000 上的 FlagScale 单卡训练、四卡多 mesh 分组消融。
 
@@ -31,7 +33,7 @@ FlagScale 本地基线：
 尚未完成：
 
 - `FusionGroup.device` 到 mesh/rank 感知 `Placement` 的兼容升级；
-- Transformer Layer 到 `OpGraph` 的真实 Graph Builder；
+- TP/CP/EP/DP 候选到通信与分片节点的 Parallel Lowering；
 - AutoTuner 候选注入；
 - plan 解释器与真实融合 kernel；
 - BW1000 上的本项目标定、搜索和端到端插件验证。
@@ -70,13 +72,13 @@ python -m pip install -r requirements.txt
 ## 测试
 
 ```bash
-python -m pytest integration/tests/test_context.py -q
+python -m pytest integration/tests -q
 python -m unittest discover -s simulator/tests
 python -m unittest discover -s cost_model/tests
 python -m compileall -q integration cost_model calibration simulator
 ```
 
-当前本地基线：Context 7/7、Simulator 3/3、Cost Model 4/5（1 项因可选依赖跳过），Python 编译检查通过。
+当前基线：Context 7/7、FlagScale Graph Builder 5/5、Simulator 12/12、Cost Model 5/5，Python 编译检查通过。新增建图测试不需要 torch 或 GPU。
 
 ## 常用入口
 
