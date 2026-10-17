@@ -14,7 +14,16 @@ from .hardware import (
     load_hardware,
     save_hardware,
 )
-from .validate import validate_plan
+from .fusion_rules import (
+    FusionCandidate,
+    FusionPattern,
+    FusionPatternRegistry,
+    FusionRuleError,
+    default_fusion_registry,
+    enumerate_fusion_candidates,
+    make_reference_plan,
+)
+from .validate import validate_fusion_plan, validate_plan
 from .execution import simulate, SimResult, GroupStats, TransferStats
 from .shape_model import compute_efficiency, group_compute_time, resolve_shape_model
 from .generators import (
@@ -63,7 +72,15 @@ __all__ = [
     "hardware_to_dict",
     "load_hardware",
     "save_hardware",
+    "FusionCandidate",
+    "FusionPattern",
+    "FusionPatternRegistry",
+    "FusionRuleError",
+    "default_fusion_registry",
+    "enumerate_fusion_candidates",
+    "make_reference_plan",
     "validate_plan",
+    "validate_fusion_plan",
     "simulate",
     "SimResult",
     "GroupStats",

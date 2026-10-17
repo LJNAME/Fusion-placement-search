@@ -2,8 +2,13 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Optional
 
+from .fusion_rules import (
+    FusionPatternRegistry,
+    FusionRuleError,
+    default_fusion_registry,
+)
 from .schema import OpGraph, Plan
 
 
@@ -39,4 +44,42 @@ def validate_plan(graph: OpGraph, plan: Plan, n_devs: int) -> None:
         if pos[e.src] >= pos[e.dst]:
             raise ValueError(
                 f"方案不满足拓扑序: 边 {e.src} -> {e.dst} 在 {pos[e.src]} / {pos[e.dst]}"
+            )
+
+
+def validate_fusion_plan(
+    graph: OpGraph,
+    plan: Plan,
+    n_devs: int,
+    registry: Optional[FusionPatternRegistry] = None,
+    require_executable: bool = False,
+) -> None:
+    """Validate topology plus each group's explicitly declared fusion pattern."""
+
+    validate_plan(graph, plan, n_devs)
+    rules = registry or default_fusion_registry()
+    for group_index, group in enumerate(plan.groups):
+        pattern_id = group.extra.get("pattern_id")
+        if not pattern_id:
+            raise FusionRuleError(
+                f"fusion group {group_index} is missing extra.pattern_id"
+            )
+        pattern = rules.get(str(pattern_id))
+        try:
+            pattern.validate(graph, group.node_ids)
+        except FusionRuleError as exc:
+            raise FusionRuleError(
+                f"fusion group {group_index} ({pattern_id}) is invalid: {exc}"
+            ) from exc
+        if require_executable and not pattern.executable:
+            raise FusionRuleError(
+                f"fusion group {group_index} pattern {pattern_id} has no executable "
+                f"backend (status={pattern.implementation_status})"
+            )
+
+        declared_backend = group.extra.get("backend")
+        if declared_backend is not None and declared_backend != pattern.backend:
+            raise FusionRuleError(
+                f"fusion group {group_index} pattern {pattern_id} declares backend "
+                f"{declared_backend}, expected {pattern.backend}"
             )
