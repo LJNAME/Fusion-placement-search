@@ -14,6 +14,7 @@ from .schema import FusionGroup, OpGraph, OpNode, Plan, TensorEdge
 def graph_to_dict(graph: OpGraph) -> Dict:
     return {
         "name": graph.name,
+        "extra": graph.extra,
         "nodes": [
             {
                 "id": n.id,
@@ -45,7 +46,7 @@ def plan_to_dict(plan: Plan) -> Dict:
 def graph_from_dict(data: Dict) -> OpGraph:
     """从 graph_to_dict 的字典还原 OpGraph。"""
 
-    g = OpGraph(name=data.get("name", "graph"))
+    g = OpGraph(name=data.get("name", "graph"), extra=data.get("extra", {}))
     for nd in data["nodes"]:
         g.add_node(
             OpNode(

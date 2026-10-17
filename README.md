@@ -20,21 +20,21 @@ FlagScale 本地基线：
 - FlagScale 上下文适配层 `integration/flagscale/context.py`；
 - FlagScale 配置 / Megatron 参数到中立 `TransformerModelSpec` 的适配；
 - Qwen3 dense layer、完整模型和 PP stage 的逻辑 Graph Builder；
+- 逻辑图一致性校验、带版本号的 JSON 工件与 FlagScale YAML 导出入口；
 - 两卡层切分扫描与 FlagScale 异构配置转换；
 - BW1000 上的 FlagScale 单卡训练、四卡多 mesh 分组消融。
 
 当前主线：
 
-1. 把仓库、依赖和实验配置迁移到 BW1000；
-2. 在 FlagScale 异构搜索的层切分阶段之后、训练参数阶段之前插入本项目候选；
-3. 对每份 `layer_split` 生成新的 `tp/cp/ep/dp`，保持 mesh、卡数与 `pp` 不变；
-4. 将本项目候选与 FlagScale 原生候选一起交给上游剪枝和真机评估。
+1. 完成 Qwen3 dense Transformer 的逻辑算子图建模；
+2. 固定 `FlagScale YAML → TransformerModelSpec → Logical OpGraph → JSON artifact`；
+3. 下游自动并行代码读取本项目输出图，具体输入 schema 和职责边界待核对；
+4. 后续再推进融合搜索、算子放置、硬件校准和插件接入。
 
 尚未完成：
 
-- `FusionGroup.device` 到 mesh/rank 感知 `Placement` 的兼容升级；
-- TP/CP/EP/DP 候选到通信与分片节点的 Parallel Lowering；
-- AutoTuner 候选注入；
+- 下游自动并行输入 schema 与本项目输出图契约；
+- 融合组和算子放置结果在逻辑图上的表达；
 - plan 解释器与真实融合 kernel；
 - BW1000 上的本项目标定、搜索和端到端插件验证。
 
@@ -78,11 +78,17 @@ python -m unittest discover -s cost_model/tests
 python -m compileall -q integration cost_model calibration simulator
 ```
 
-当前基线：Context 7/7、FlagScale Graph Builder 5/5、Simulator 12/12、Cost Model 5/5，Python 编译检查通过。新增建图测试不需要 torch 或 GPU。
+当前基线：Integration 13/13、Simulator 17/17、Cost Model 5/5，Python 编译检查通过。建图与工件测试不需要 GPU。
 
 ## 常用入口
 
 ```bash
+# FlagScale Qwen3 YAML → 逻辑图 JSON
+python -m integration.flagscale.export_graph \
+  --model-config /path/to/0_6b_hygon.yaml \
+  --data-config /path/to/data_hygon.yaml \
+  --out data/model_graphs/qwen3_0_6b.json
+
 # 生成仿真标签
 python cost_model/make_dataset.py --out data/labels.jsonl --extrap-out data/labels_extrapolation.jsonl
 
