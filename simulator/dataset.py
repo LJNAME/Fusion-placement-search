@@ -36,6 +36,7 @@ def graph_to_dict(graph: OpGraph) -> Dict:
 def plan_to_dict(plan: Plan) -> Dict:
     return {
         "name": plan.name,
+        "extra": plan.extra,
         "groups": [
             {"device": g.device, "node_ids": list(g.node_ids), "extra": g.extra}
             for g in plan.groups
@@ -77,7 +78,11 @@ def plan_from_dict(data: Dict) -> Plan:
         FusionGroup(list(gd["node_ids"]), gd["device"], extra=gd.get("extra", {}))
         for gd in data["groups"]
     ]
-    return Plan(groups, name=data.get("name", "plan"))
+    return Plan(
+        groups,
+        name=data.get("name", "plan"),
+        extra=data.get("extra", {}),
+    )
 
 
 def build_label_records(
