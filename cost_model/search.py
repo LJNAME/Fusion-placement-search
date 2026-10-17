@@ -1,4 +1,8 @@
-"""融合 + 放置搜索：代价模型打分（随机补完取平均）。
+"""Legacy adjacent-topological-order fusion + placement search.
+
+New standalone Fusion code must use ``cost_model.legal_search``.  This module is
+kept to reproduce historical datasets and experiments whose action space allowed
+arbitrary adjacent nodes to merge.
 
 对应笔记《树搜索——以三算子，两GPU为例》的决策模型：
 按拓扑序逐个算子决策，动作 = 并入当前融合组 / 开新组放设备 d；

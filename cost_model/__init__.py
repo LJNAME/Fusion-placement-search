@@ -11,6 +11,14 @@
 from .features import compute_plan_features, make_targets
 from .baseline import RidgeLogRegressor
 from .metrics import mape, spearman, evaluate_metrics, ranking_metrics
+from .legal_search import (
+    LegalChoice,
+    LegalFusionSearchSpace,
+    LegalPartialState,
+    legal_beam_search,
+    legal_mcts_search,
+    rollout_legal_plan,
+)
 
 __all__ = [
     "compute_plan_features",
@@ -20,4 +28,10 @@ __all__ = [
     "spearman",
     "evaluate_metrics",
     "ranking_metrics",
+    "LegalChoice",
+    "LegalFusionSearchSpace",
+    "LegalPartialState",
+    "legal_beam_search",
+    "legal_mcts_search",
+    "rollout_legal_plan",
 ]
