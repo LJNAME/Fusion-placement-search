@@ -34,6 +34,14 @@ from .structure import (
     analyze_plan_structure,
 )
 from .structural import StructuralCostModel
+from .exact_search import (
+    ExactSearchLimitExceeded,
+    ExactSearchResult,
+    OptimalityGap,
+    count_exact_search_space,
+    exact_legal_search,
+    measure_optimality_gap,
+)
 
 __all__ = [
     "compute_plan_features",
@@ -61,4 +69,10 @@ __all__ = [
     "PlanStructure",
     "analyze_plan_structure",
     "StructuralCostModel",
+    "ExactSearchLimitExceeded",
+    "ExactSearchResult",
+    "OptimalityGap",
+    "count_exact_search_space",
+    "exact_legal_search",
+    "measure_optimality_gap",
 ]
