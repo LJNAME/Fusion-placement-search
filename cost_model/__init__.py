@@ -42,6 +42,14 @@ from .exact_search import (
     exact_legal_search,
     measure_optimality_gap,
 )
+from .legal_policy import (
+    LegalPolicyEncoding,
+    LegalPolicyValueNet,
+    TorchLegalPolicyValueEvaluator,
+    encode_legal_policy_state,
+    legal_action_id,
+    legal_policy_value_loss,
+)
 
 __all__ = [
     "compute_plan_features",
@@ -75,4 +83,10 @@ __all__ = [
     "count_exact_search_space",
     "exact_legal_search",
     "measure_optimality_gap",
+    "LegalPolicyEncoding",
+    "LegalPolicyValueNet",
+    "TorchLegalPolicyValueEvaluator",
+    "encode_legal_policy_state",
+    "legal_action_id",
+    "legal_policy_value_loss",
 ]

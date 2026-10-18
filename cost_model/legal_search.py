@@ -343,6 +343,7 @@ class _LegalMCTSNode:
     q: float = 0.0
     expanded: bool = False
     terminal: bool = False
+    prior: float = 1.0
 
     def update(self, reward: float) -> None:
         self.n += 1
@@ -351,33 +352,55 @@ class _LegalMCTSNode:
         # below the node so selection targets the best reachable plan.
         self.q = reward if self.n == 1 else max(self.q, reward)
 
-    def expand(self, space: LegalFusionSearchSpace) -> None:
+    def expand(
+        self,
+        space: LegalFusionSearchSpace,
+        policy_value_evaluator: Optional[Callable] = None,
+    ) -> None:
         if self.expanded:
             return
         self.expanded = True
         self.terminal = space.is_terminal(self.state)
         if self.terminal:
             return
+        actions = space.actions(self.state)
+        if policy_value_evaluator is None:
+            priors = [1.0 / len(actions)] * len(actions)
+        else:
+            _value, raw_priors = policy_value_evaluator(space, self.state, actions)
+            priors = [float(prior) for prior in raw_priors]
+            if len(priors) != len(actions):
+                raise ValueError("policy prior count does not match legal action count")
+            if any(not math.isfinite(prior) or prior < 0.0 for prior in priors):
+                raise ValueError("policy priors must be finite and non-negative")
+            total = sum(priors)
+            if total <= 0.0:
+                raise ValueError("policy priors must have positive mass")
+            priors = [prior / total for prior in priors]
         self.children = [
             _LegalMCTSNode(
                 state=space.apply(self.state, action),
                 parent=self,
                 terminal=False,
+                prior=prior,
             )
-            for action in space.actions(self.state)
+            for action, prior in zip(actions, priors)
         ]
 
     def select_child(self, exploration: float) -> Optional["_LegalMCTSNode"]:
-        for child in self.children:
-            if child.n == 0:
-                return child
+        unvisited = [child for child in self.children if child.n == 0]
+        if unvisited:
+            return max(unvisited, key=lambda child: child.prior)
         if not self.children:
             return None
         log_parent = math.log(self.n + 1.0)
         return max(
             self.children,
             key=lambda child: child.q
-            + exploration * math.sqrt(log_parent / (1.0 + child.n)),
+            + exploration
+            * child.prior
+            * math.sqrt(log_parent + 1.0)
+            / (1.0 + child.n),
         )
 
 
@@ -393,6 +416,8 @@ def legal_mcts_search(
     n_best: int = 8,
     registry: Optional[FusionPatternRegistry] = None,
     guided_rollout: bool = True,
+    policy_value_evaluator: Optional[Callable] = None,
+    value_mix: float = 0.0,
 ) -> List[Plan]:
     """MCTS over legal fusion candidates and device choices.
 
@@ -406,6 +431,10 @@ def legal_mcts_search(
         raise ValueError("iterations, rollouts, and n_best must be positive")
     if not 0.0 <= fusion_probability <= 1.0:
         raise ValueError("fusion_probability must be in [0, 1]")
+    if not 0.0 <= value_mix <= 1.0:
+        raise ValueError("value_mix must be in [0, 1]")
+    if value_mix and policy_value_evaluator is None:
+        raise ValueError("value_mix requires policy_value_evaluator")
 
     rng = random.Random(seed)
     space = LegalFusionSearchSpace(graph, n_devs, registry)
@@ -427,7 +456,7 @@ def legal_mcts_search(
             node = child
             path.append(node)
 
-        node.expand(space)
+        node.expand(space, policy_value_evaluator)
         if not node.terminal:
             child = node.select_child(exploration)
             if child is None:
@@ -458,7 +487,21 @@ def legal_mcts_search(
                 score = float(scorer(plan))
                 remember(plan, score)
                 rollout_scores.append(score)
-            reward = -min(rollout_scores)
+            best_rollout = min(rollout_scores)
+            if value_mix:
+                leaf_actions = space.actions(node.state)
+                predicted_value, _priors = policy_value_evaluator(
+                    space, node.state, leaf_actions
+                )
+                if not math.isfinite(float(predicted_value)):
+                    raise ValueError("predicted value must be finite")
+                backed_up = (
+                    (1.0 - value_mix) * best_rollout
+                    + value_mix * float(predicted_value)
+                )
+            else:
+                backed_up = best_rollout
+            reward = -backed_up
 
         for visited in path:
             visited.update(reward)
