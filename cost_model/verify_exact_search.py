@@ -1,4 +1,4 @@
-"""CPU verification entry point for the M4a small-graph exact oracle."""
+"""CPU verification entry point for M4b MCTS tuning against the exact oracle."""
 
 from __future__ import annotations
 
@@ -83,25 +83,29 @@ def verify_exact_search() -> dict[str, object]:
         fusion_probability=0.7,
         seed=23,
     )
-    mcts = legal_mcts_search(
-        graph,
-        lambda plan: scorer(plan).makespan,
-        n_devs=2,
-        iterations=100,
-        rollouts=2,
-        fusion_probability=0.7,
-        seed=23,
-        n_best=8,
-    )
+    mcts_gaps = []
+    for seed in (0, 1, 7, 23):
+        mcts = legal_mcts_search(
+            graph,
+            lambda plan: scorer(plan).makespan,
+            n_devs=2,
+            iterations=100,
+            rollouts=2,
+            fusion_probability=0.7,
+            seed=seed,
+            n_best=8,
+        )
+        mcts_gaps.append(measure_optimality_gap(exact, mcts, scorer))
     beam_gap = measure_optimality_gap(exact, beam, scorer)
-    mcts_gap = measure_optimality_gap(exact, mcts, scorer)
 
     if exact.evaluated_plans != exact.search_space_size:
         raise AssertionError("exact search did not evaluate the complete space")
     if beam_gap.candidate_score < exact.optimal_score:
         raise AssertionError("beam score is better than the exact optimum")
-    if mcts_gap.candidate_score < exact.optimal_score:
+    if any(gap.candidate_score < exact.optimal_score for gap in mcts_gaps):
         raise AssertionError("MCTS score is better than the exact optimum")
+    if any(gap.relative_gap > 1e-12 for gap in mcts_gaps):
+        raise AssertionError("guided MCTS did not close the exact gap for all seeds")
 
     return {
         "nodes": len(graph.nodes),
@@ -111,7 +115,8 @@ def verify_exact_search() -> dict[str, object]:
         "optimal_score": f"{exact.optimal_score:.6f}",
         "optimal_groups": len(exact.best_plan.groups),
         "beam_gap": f"{beam_gap.relative_gap:.6f}",
-        "mcts_gap": f"{mcts_gap.relative_gap:.6f}",
+        "mcts_seeds": "0,1,7,23",
+        "mcts_max_gap": f"{max(gap.relative_gap for gap in mcts_gaps):.6f}",
     }
 
 
@@ -119,7 +124,7 @@ def main() -> None:
     result = verify_exact_search()
     for key, value in result.items():
         print(f"{key}: {value}")
-    print("Fusion M4a exact-search verification: OK")
+    print("Fusion M4b MCTS exact-gap verification: OK")
 
 
 if __name__ == "__main__":

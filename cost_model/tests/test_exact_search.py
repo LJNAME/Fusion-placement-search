@@ -11,6 +11,7 @@ from cost_model import (
     count_exact_search_space,
     exact_legal_search,
     legal_beam_search,
+    legal_mcts_search,
     measure_optimality_gap,
 )
 from simulator import OpGraph, OpNode, TensorEdge, validate_fusion_plan
@@ -175,6 +176,27 @@ class TestExactLegalSearch(unittest.TestCase):
         self.assertGreaterEqual(gap.relative_gap, 0.0)
         self.assertEqual(gap.optimal_score, exact.optimal_score)
         self.assertGreaterEqual(gap.candidate_score, exact.optimal_score)
+
+    def test_guided_mcts_closes_exact_gap_across_seeds(self):
+        graph = _swiglu_graph()
+        scorer = lambda plan: float(
+            10 * len(plan.groups)
+            + sum(group.device for group in plan.groups)
+        )
+        exact = exact_legal_search(graph, scorer, n_devs=2)
+        for seed in (0, 1, 7, 23):
+            plans = legal_mcts_search(
+                graph,
+                scorer,
+                n_devs=2,
+                iterations=24,
+                rollouts=2,
+                fusion_probability=0.7,
+                seed=seed,
+                n_best=4,
+            )
+            gap = measure_optimality_gap(exact, plans, scorer)
+            self.assertEqual(gap.relative_gap, 0.0, f"seed={seed}")
 
 
 if __name__ == "__main__":

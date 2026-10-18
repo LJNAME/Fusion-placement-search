@@ -218,6 +218,40 @@ def rollout_legal_plan(
     return space.to_plan(current, name=name, validate=validate)
 
 
+def _guided_rollout_legal_plan(
+    space: LegalFusionSearchSpace,
+    state: LegalPartialState,
+    name: str = "legal-guided-rollout",
+) -> Plan:
+    """Complete a state with a deterministic fusion/affinity baseline.
+
+    The completion prefers the largest executable candidate at the current
+    anchor and keeps groups on the most recently selected device.  It is not a
+    hardware oracle; it merely preserves the two cheap baselines that random
+    rollouts often miss: fuse where legal and avoid gratuitous transfers.
+    """
+
+    current = state
+    preferred_device = current.choices[-1].device if current.choices else 0
+    while not space.is_terminal(current):
+        actions = space.actions(current)
+        if not actions:
+            raise RuntimeError(f"no legal action at anchor {space.anchor(current)}")
+        action = min(
+            actions,
+            key=lambda choice: (
+                -len(choice.candidate.node_ids),
+                choice.device != preferred_device,
+                choice.candidate.pattern_id,
+                choice.candidate.node_ids,
+                choice.device,
+            ),
+        )
+        current = space.apply(current, action)
+        preferred_device = action.device
+    return space.to_plan(current, name=name, validate=False)
+
+
 def _plan_key(plan: Plan) -> tuple:
     return tuple(
         (
@@ -312,7 +346,10 @@ class _LegalMCTSNode:
 
     def update(self, reward: float) -> None:
         self.n += 1
-        self.q += (reward - self.q) / self.n
+        # This tree is used for deterministic minimisation, not for estimating
+        # an environment's expected return.  Back up the best completion seen
+        # below the node so selection targets the best reachable plan.
+        self.q = reward if self.n == 1 else max(self.q, reward)
 
     def expand(self, space: LegalFusionSearchSpace) -> None:
         if self.expanded:
@@ -355,8 +392,15 @@ def legal_mcts_search(
     exploration: float = 1.5,
     n_best: int = 8,
     registry: Optional[FusionPatternRegistry] = None,
+    guided_rollout: bool = True,
 ) -> List[Plan]:
-    """Uniform-prior MCTS over legal fusion candidates and device choices."""
+    """MCTS over legal fusion candidates and device choices.
+
+    With ``guided_rollout=True``, the first completion at every visited leaf is
+    a deterministic fuse-and-colocate baseline; remaining completions are
+    stochastic.  The best completion is backed up because search minimises the
+    best plan in a subtree rather than the mean random completion cost.
+    """
 
     if iterations <= 0 or rollouts <= 0 or n_best <= 0:
         raise ValueError("iterations, rollouts, and n_best must be positive")
@@ -398,18 +442,23 @@ def legal_mcts_search(
             remember(plan, score)
             reward = -score
         else:
-            for _rollout in range(rollouts):
-                plan = rollout_legal_plan(
-                    space,
-                    node.state,
-                    rng,
-                    fusion_probability=fusion_probability,
-                    name="legal-mcts-rollout",
-                    validate=False,
-                )
+            rollout_scores: List[float] = []
+            for rollout_index in range(rollouts):
+                if guided_rollout and rollout_index == 0:
+                    plan = _guided_rollout_legal_plan(space, node.state)
+                else:
+                    plan = rollout_legal_plan(
+                        space,
+                        node.state,
+                        rng,
+                        fusion_probability=fusion_probability,
+                        name="legal-mcts-rollout",
+                        validate=False,
+                    )
                 score = float(scorer(plan))
                 remember(plan, score)
-                reward -= score / rollouts
+                rollout_scores.append(score)
+            reward = -min(rollout_scores)
 
         for visited in path:
             visited.update(reward)
