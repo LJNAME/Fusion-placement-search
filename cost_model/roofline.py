@@ -1,10 +1,12 @@
-"""解析式 roofline 代价模型（对比基线 A：不学习，纯公式）。
+"""Legacy log-space roofline baseline kept for historical experiments.
 
 makespan ≈ max(每设备组时长累计) + 总线传输总耗时
 峰值显存 ≈ max(每设备：参数 + 组边界输出字节)
 
 忽略调度/竞争细节，是"传统解析式代价模型"的代表；
-与可学习模型对比可回答"结构感知的代价模型值多少钱"。
+New code should use ``StructuralCostModel`` and its physical-unit
+``CostEstimate`` output.  This class retains the original numpy log-vector API
+so historical datasets and comparison scripts remain reproducible.
 """
 
 from __future__ import annotations

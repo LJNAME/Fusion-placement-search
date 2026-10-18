@@ -19,6 +19,21 @@ from .legal_search import (
     legal_mcts_search,
     rollout_legal_plan,
 )
+from .estimate import CostEstimate, CostModel
+from .hardware_profile import (
+    AnalyticHardwareProfile,
+    GroupCost,
+    HardwareCostProfile,
+    TransferCost,
+    as_hardware_profile,
+)
+from .structure import (
+    DependencyStructure,
+    GroupStructure,
+    PlanStructure,
+    analyze_plan_structure,
+)
+from .structural import StructuralCostModel
 
 __all__ = [
     "compute_plan_features",
@@ -34,4 +49,16 @@ __all__ = [
     "legal_beam_search",
     "legal_mcts_search",
     "rollout_legal_plan",
+    "CostEstimate",
+    "CostModel",
+    "AnalyticHardwareProfile",
+    "GroupCost",
+    "HardwareCostProfile",
+    "TransferCost",
+    "as_hardware_profile",
+    "DependencyStructure",
+    "GroupStructure",
+    "PlanStructure",
+    "analyze_plan_structure",
+    "StructuralCostModel",
 ]
