@@ -13,6 +13,32 @@ kernel 源文件（HIP -> MUSA）和编译命令，聚合/报告/验证脚本原
 | `run_calibration.py` | 编排 + 聚合：跑测量 -> 生成 calibrated 配置 + 校准报告 |
 | `validate_real.py` | 端到端验证：真机跑一组方案 vs 仿真器，算 MAPE/Spearman |
 
+## BW1000 双卡校准
+
+当前 Fusion 闭环只校准同构 mesh 内的算子、融合和放置，不测 TP / DP / PP。脚本要求 PyTorch 能看到两张同型号设备，默认使用 Qwen3-0.6B 的 BF16 shape，分别测两张卡，再测 0→1 和 1→0 链路。
+
+```bash
+cd ~/private_data/LJ/Fusion-placement-search
+source ~/private_data/LJ/FlagScale-main/tools/install/hygon/env.sh
+
+python calibration/calibrate_bw1000.py \
+    --devices 0,1 \
+    --dtype bf16 \
+    --out-dir data/bw1000_2card \
+    --quick
+
+python calibration/calibrate_bw1000.py \
+    --devices 0,1 \
+    --dtype bf16 \
+    --out-dir data/bw1000_2card
+```
+
+先跑 `--quick` 检查环境，成功后删除同名输出目录或直接用正式命令覆盖。输出：
+
+- `raw_measurements.json`：每轮原始时延、Qwen3 matmul/reference op、显存拷贝和双向链路数据；
+- `bw1000_2card.calibrated.json`：可以由 `load_hardware()` 读取的两卡 profile。
+
+脚本不把 eager `SiLU × Mul` 当作 fused kernel，也不测计算通信干扰，所以输出配置中的 `real_fused_kernels` 和 `compute_communication_interference` 都是 `false`。这两项以后单独补测。
 ## 海光 K100 运行步骤
 
 ```bash
