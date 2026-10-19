@@ -1,0 +1,84 @@
+{
+  "name": "bw1000-2card-calibrated",
+  "comm_bw": 177732732469.61005,
+  "comm_latency": 5.474634617605735e-05,
+  "launch_overhead": 7.770405267365277e-06,
+  "fusion_overhead": 0.0,
+  "link_matrix": [
+    [
+      null,
+      177732732469.61005
+    ],
+    [
+      178205621633.49326,
+      null
+    ]
+  ],
+  "interference": 0.0,
+  "overlap_send": false,
+  "devices": [
+    {
+      "name": "BW",
+      "flops": 94504138186548.42,
+      "mem_bw": 1341567274866.83,
+      "max_mem": 68702699520.0,
+      "class": "BW1000",
+      "dtype": "bf16",
+      "calibrated": true,
+      "source": "crdnotebook-2106728119406280705-abc12335-23081:2026-10-19 18:33:50 +0800:torch-2.9.0:hip-6.3.26093:bf16",
+      "physical_index": 0
+    },
+    {
+      "name": "BW",
+      "flops": 94439834912094.28,
+      "mem_bw": 1340926601504.3394,
+      "max_mem": 68702699520.0,
+      "class": "BW1000",
+      "dtype": "bf16",
+      "calibrated": true,
+      "source": "crdnotebook-2106728119406280705-abc12335-23081:2026-10-19 18:33:50 +0800:torch-2.9.0:hip-6.3.26093:bf16",
+      "physical_index": 1
+    }
+  ],
+  "calibrated": true,
+  "calibration_scope": {
+    "device_compute": true,
+    "device_memory": true,
+    "launch": true,
+    "point_to_point_links": true,
+    "real_fused_kernels": false,
+    "compute_communication_interference": false,
+    "downstream_parallelism": false
+  },
+  "shape_model": {
+    "matmul": {
+      "compute": {
+        "curve": "table",
+        "points": [
+          [
+            128,
+            0.1526314505279237
+          ],
+          [
+            256,
+            0.15718368933336785
+          ],
+          [
+            1024,
+            0.7969594975442034
+          ],
+          [
+            2048,
+            0.7797635929154423
+          ],
+          [
+            3072,
+            0.796832105660283
+          ]
+        ]
+      }
+    }
+  },
+  "operator_latency_source": "raw_measurements.json",
+  "source": "crdnotebook-2106728119406280705-abc12335-23081:2026-10-19 18:33:50 +0800:torch-2.9.0:hip-6.3.26093:bf16"
+}

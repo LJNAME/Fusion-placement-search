@@ -34,6 +34,7 @@ from .structure import (
     analyze_plan_structure,
 )
 from .structural import StructuralCostModel
+from .measured_profile import MeasuredHardwareProfile
 from .exact_search import (
     ExactSearchLimitExceeded,
     ExactSearchResult,
@@ -77,6 +78,7 @@ __all__ = [
     "PlanStructure",
     "analyze_plan_structure",
     "StructuralCostModel",
+    "MeasuredHardwareProfile",
     "ExactSearchLimitExceeded",
     "ExactSearchResult",
     "OptimalityGap",
