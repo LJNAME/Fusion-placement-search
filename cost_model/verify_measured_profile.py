@@ -63,9 +63,10 @@ def verify_measured_profile(
         load_hardware(hardware_path),
     )
 
-    expected_exact = 20 if expect_complete else 15
-    expected_fallback = 0 if expect_complete else 5
-    expected_confidence = 0.95 if expect_complete else 0.25
+    require_complete = expect_complete or raw_path.resolve() == RAW.resolve()
+    expected_exact = 20 if require_complete else 15
+    expected_fallback = 0 if require_complete else 5
+    expected_confidence = 0.95 if require_complete else 0.25
     if sources["measured_exact_shape"] != expected_exact:
         raise AssertionError(f"unexpected exact-shape coverage: {sources}")
     if sources["logical_input"] != 1:
@@ -76,7 +77,7 @@ def verify_measured_profile(
         raise AssertionError("full-shape profile did not separate from the K-only aggregate")
     if measured_estimate.confidence != expected_confidence:
         raise AssertionError(f"unexpected confidence: {measured_estimate.confidence}")
-    if expect_complete and measured_estimate.out_of_distribution:
+    if require_complete and measured_estimate.out_of_distribution:
         raise AssertionError(f"complete profile is still OOD: {measured_estimate.ood_reasons}")
 
     return {
