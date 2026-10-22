@@ -39,6 +39,12 @@ def verify_search_evaluation() -> dict[str, object]:
             raise AssertionError(f"MCTS did not close exact gap for {mode}")
         if exact["candidates"][0]["makespan_s"] <= 0.0:
             raise AssertionError(f"invalid exact score for {mode}")
+        for method in ("beam", "mcts"):
+            metrics = searches[(mode, method)]["budget"]
+            if metrics["scorer_requests"] <= 0:
+                raise AssertionError(f"missing scorer requests for {mode}/{method}")
+            if metrics["unique_requested_plans"] <= 0:
+                raise AssertionError(f"missing requested plans for {mode}/{method}")
     if searches[("placement_only", "exact")]["candidates"][0]["placeholder_groups"]:
         raise AssertionError("placement-only result contains a placeholder")
     if searches[("joint", "exact")]["candidates"][0]["placeholder_groups"] != 1:
@@ -58,6 +64,7 @@ def verify_search_evaluation() -> dict[str, object]:
             f"{searches[(mode, 'mcts')]['optimality_gap']:.6f}"
             for mode in ("placement_only", "fusion_only", "joint")
         ),
+        "telemetry": "requests,unique_requested_plans,cost_model_evaluations",
     }
 
 

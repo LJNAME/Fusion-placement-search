@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import time
 from dataclasses import dataclass
@@ -31,7 +32,7 @@ from .structural import StructuralCostModel
 
 
 REPORT_FORMAT = "fusion-placement-search.search-evaluation"
-REPORT_VERSION = "1.0"
+REPORT_VERSION = "1.1"
 
 
 def qwen3_spec(num_layers: int) -> TransformerModelSpec:
@@ -133,18 +134,37 @@ class _CachedScorer:
         self.score_cache: dict[tuple, float] = {}
         self.cache_enabled = len(graph.nodes) <= 100
         self.calls = 0
+        self.run_requests = 0
+        self.run_model_evaluations = 0
+        self.run_keys: set[tuple] = set()
+
+    def start_run(self) -> None:
+        self.run_requests = 0
+        self.run_model_evaluations = 0
+        self.run_keys.clear()
+
+    def run_metrics(self) -> dict[str, int]:
+        return {
+            "scorer_requests": self.run_requests,
+            "unique_requested_plans": len(self.run_keys),
+            "cost_model_evaluations": self.run_model_evaluations,
+        }
 
     def estimate(self, plan: Plan):
         return self.model.predict(self.graph, plan, self.profile)
 
     def __call__(self, plan: Plan) -> float:
+        key = _plan_key(plan)
+        self.run_requests += 1
+        self.run_keys.add(key)
         if not self.cache_enabled:
             self.calls += 1
+            self.run_model_evaluations += 1
             return float(self.estimate(plan).makespan)
-        key = _plan_key(plan)
         if key not in self.score_cache:
             self.score_cache[key] = float(self.estimate(plan).makespan)
             self.calls += 1
+            self.run_model_evaluations += 1
         return self.score_cache[key]
 
 
@@ -161,6 +181,7 @@ def _candidate_summary(
         for group in plan.groups
         if registry.get(str(group.extra["pattern_id"])).implementation_status == "planned"
     ]
+    signature_payload = json.dumps(_plan_key(plan), separators=(",", ":"))
     return {
         "rank": rank,
         "makespan_s": estimate.makespan,
@@ -175,6 +196,8 @@ def _candidate_summary(
         "placeholder_groups": len(placeholders),
         "used_devices": sorted({group.device for group in plan.groups}),
         "patterns": [str(group.extra["pattern_id"]) for group in fused],
+        "plan_signature": "sha256:"
+        + hashlib.sha256(signature_payload.encode("utf-8")).hexdigest(),
     }
 
 
@@ -190,7 +213,7 @@ def _run_search(
     mcts_iterations: int,
     top_k: int,
 ) -> tuple[list[Plan], float, dict[str, object]]:
-    before = scorer.calls
+    scorer.start_run()
     started = time.perf_counter()
     common = {
         "graph": graph,
@@ -222,7 +245,7 @@ def _run_search(
     else:
         raise ValueError(f"unknown search method: {method}")
     elapsed = time.perf_counter() - started
-    budget["unique_scored_plans"] = scorer.calls - before
+    budget.update(scorer.run_metrics())
     return plans, elapsed, budget
 
 
@@ -351,7 +374,7 @@ def evaluate_scale(
             candidate["improvement_percent"] = (
                 (baseline_makespan - makespan) / baseline_makespan * 100.0
             )
-    result["unique_scored_plans"] = scorer.calls
+    result["cost_model_evaluations"] = scorer.calls
     return result
 
 
@@ -436,7 +459,8 @@ def main() -> None:
     for scale in report["scales"]:
         print(
             f"{scale['scale']}: nodes={scale['nodes']} edges={scale['edges']} "
-            f"searches={len(scale['searches'])} scored={scale['unique_scored_plans']}"
+            f"searches={len(scale['searches'])} "
+            f"cost_model_evaluations={scale['cost_model_evaluations']}"
         )
         for search in scale["searches"]:
             best = search["candidates"][0]
