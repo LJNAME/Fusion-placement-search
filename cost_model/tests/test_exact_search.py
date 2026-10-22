@@ -86,6 +86,15 @@ class TestExactSpaceCounting(unittest.TestCase):
         )
         self.assertEqual(count_exact_search_space(space), 32)
 
+    def test_allowed_devices_reduce_placement_factor(self):
+        space = LegalFusionSearchSpace(
+            _swiglu_graph(),
+            n_devs=2,
+            require_executable=False,
+            allowed_devices=(0,),
+        )
+        self.assertEqual(count_exact_search_space(space), 2)
+
 
 class TestExactLegalSearch(unittest.TestCase):
     def test_finds_known_global_optimum(self):

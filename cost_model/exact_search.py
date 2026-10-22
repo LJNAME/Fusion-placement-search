@@ -89,7 +89,7 @@ def count_exact_search_space(space: LegalFusionSearchSpace) -> int:
             candidate_mask = candidate_masks[candidate]
             if assigned_mask & candidate_mask:
                 continue
-            total += space.n_devs * count(assigned_mask | candidate_mask)
+            total += len(space.allowed_devices) * count(assigned_mask | candidate_mask)
         return total
 
     return count(0)
@@ -115,6 +115,7 @@ def exact_legal_search(
     max_evaluations: int = 1_000_000,
     registry: Optional[FusionPatternRegistry] = None,
     require_executable: bool = True,
+    allowed_devices: Optional[Sequence[int]] = None,
     is_feasible: Optional[Callable[[Plan], bool]] = None,
 ) -> ExactSearchResult:
     """Enumerate every legal plan and return the globally best ``top_k``.
@@ -136,6 +137,7 @@ def exact_legal_search(
         n_devs,
         registry,
         require_executable=require_executable,
+        allowed_devices=allowed_devices,
     )
     search_space_size = count_exact_search_space(space)
     if search_space_size > max_evaluations:

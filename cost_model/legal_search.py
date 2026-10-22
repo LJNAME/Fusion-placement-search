@@ -53,11 +53,23 @@ class LegalFusionSearchSpace:
         n_devs: int,
         registry: Optional[FusionPatternRegistry] = None,
         require_executable: bool = True,
+        allowed_devices: Optional[Sequence[int]] = None,
     ) -> None:
         if n_devs <= 0:
             raise ValueError("n_devs must be positive")
         self.graph = graph
         self.n_devs = int(n_devs)
+        if allowed_devices is None:
+            self.allowed_devices = tuple(range(self.n_devs))
+        else:
+            devices = tuple(dict.fromkeys(int(device) for device in allowed_devices))
+            if not devices:
+                raise ValueError("allowed_devices must not be empty")
+            if any(device < 0 or device >= self.n_devs for device in devices):
+                raise ValueError(
+                    f"allowed_devices must be in [0, {self.n_devs}), got {devices}"
+                )
+            self.allowed_devices = devices
         self.registry = registry or default_fusion_registry()
         self.require_executable = bool(require_executable)
         self.order = tuple(graph.topological_order())
@@ -102,7 +114,7 @@ class LegalFusionSearchSpace:
         for candidate in self.by_node[anchor]:
             if any(node_id in state.assigned for node_id in candidate.node_ids):
                 continue
-            for device in range(self.n_devs):
+            for device in self.allowed_devices:
                 result.append(LegalChoice(candidate, device))
         return result
 
@@ -182,6 +194,7 @@ class LegalFusionSearchSpace:
             extra={
                 "search_space": "legal_fusion_v1",
                 "require_executable": self.require_executable,
+                "allowed_devices": list(self.allowed_devices),
             },
         )
         if validate:
@@ -284,6 +297,7 @@ def legal_beam_search(
     seed: int = 0,
     registry: Optional[FusionPatternRegistry] = None,
     require_executable: bool = True,
+    allowed_devices: Optional[Sequence[int]] = None,
 ) -> List[Plan]:
     """Beam search over legal candidate covers; lower scorer values are better."""
 
@@ -298,6 +312,7 @@ def legal_beam_search(
         n_devs,
         registry,
         require_executable=require_executable,
+        allowed_devices=allowed_devices,
     )
     states = [space.initial_state()]
     completed: Dict[tuple, Tuple[float, Plan]] = {}
@@ -442,6 +457,7 @@ def legal_mcts_search(
     policy_value_evaluator: Optional[Callable] = None,
     value_mix: float = 0.0,
     require_executable: bool = True,
+    allowed_devices: Optional[Sequence[int]] = None,
 ) -> List[Plan]:
     """MCTS over legal fusion candidates and device choices.
 
@@ -466,6 +482,7 @@ def legal_mcts_search(
         n_devs,
         registry,
         require_executable=require_executable,
+        allowed_devices=allowed_devices,
     )
     root = _LegalMCTSNode(space.initial_state())
     best: Dict[tuple, Tuple[float, Plan]] = {}

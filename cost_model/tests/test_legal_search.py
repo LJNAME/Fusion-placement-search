@@ -125,6 +125,19 @@ class TestLegalSearchSpace(unittest.TestCase):
         )
         self.assertEqual(len(space.actions(space.initial_state())), 2)
 
+    def test_allowed_devices_restrict_actions_without_changing_hardware_size(self):
+        space = LegalFusionSearchSpace(
+            _swiglu_graph(),
+            n_devs=2,
+            require_executable=False,
+            allowed_devices=(1,),
+        )
+        self.assertEqual(space.allowed_devices, (1,))
+        self.assertTrue(space.actions(space.initial_state()))
+        self.assertTrue(
+            all(action.device == 1 for action in space.actions(space.initial_state()))
+        )
+
 
 class TestLegalBeamAndMCTS(unittest.TestCase):
     def setUp(self):
