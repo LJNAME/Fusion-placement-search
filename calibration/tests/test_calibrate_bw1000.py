@@ -6,9 +6,14 @@ from calibration.calibrate_bw1000 import (
     MIB,
     build_hardware_config,
     fit_link_model,
+    merge_supplemental_measurements,
+    parse_args,
     parse_int_csv,
     summarize,
+    validate_supplement_base,
 )
+
+
 def _timing(value: float) -> dict:
     return {"median": value, "mean": value, "std": 0.0, "p10": value, "p90": value, "samples": [value]}
 
@@ -68,6 +73,115 @@ class TestBW1000Calibration(unittest.TestCase):
         self.assertEqual(config["devices"][0]["dtype"], "bf16")
         self.assertTrue(config["devices"][0]["calibrated"])
         self.assertFalse(config["calibration_scope"]["real_fused_kernels"])
+
+    def test_supplement_arguments_default_to_existing_output(self):
+        args = parse_args(["--out-dir", "out", "--supplement"])
+        self.assertTrue(args.supplement)
+        self.assertIsNone(args.base_raw)
+
+    def test_supplement_upserts_without_changing_base_source_or_links(self):
+        base = {
+            "format": "fusion-placement-search.bw1000-calibration",
+            "version": "1.0",
+            "source_id": "base-source",
+            "dtype": "bf16",
+            "devices": [
+                {
+                    "index": index,
+                    "name": "BW",
+                    "supplemental_ops": [
+                        {
+                            "name": "softmax_fp32_internal_reference",
+                            "op_type": "softmax",
+                            "dtype": "bf16",
+                            "compute_dtype": "fp32",
+                            "output_numel": 1,
+                            "duration_s": _timing(99e-6),
+                        }
+                    ],
+                }
+                for index in (0, 1)
+            ],
+            "links": [{"src": 0, "dst": 1}],
+        }
+        validate_supplement_base(
+            base,
+            devices=[0, 1],
+            names=["BW", "BW"],
+            dtype_name="bf16",
+        )
+        measured = [
+            {
+                "index": index,
+                "supplemental_ops": [
+                    {
+                        "name": "softmax_fp32_internal_reference",
+                        "op_type": "softmax",
+                        "dtype": "bf16",
+                        "compute_dtype": "fp32",
+                        "output_numel": 1024,
+                        "duration_s": _timing((index + 1) * 10e-6),
+                    },
+                    {
+                        "name": "q_rope_reference",
+                        "op_type": "rope",
+                        "dtype": "bf16",
+                        "output_numel": 2048,
+                        "duration_s": _timing((index + 1) * 20e-6),
+                    },
+                ],
+            }
+            for index in (0, 1)
+        ]
+        merged = merge_supplemental_measurements(
+            base,
+            measured,
+            environment={"hostname": "test"},
+            timing={"samples": 1},
+        )
+        self.assertEqual(merged["source_id"], "base-source")
+        self.assertEqual(merged["links"], base["links"])
+        self.assertEqual(len(merged["devices"][0]["supplemental_ops"]), 2)
+        self.assertEqual(
+            merged["devices"][0]["supplemental_ops"][0]["duration_s"]["median"],
+            10e-6,
+        )
+        self.assertEqual(len(merged["supplemental_runs"]), 1)
+
+        rerun = merge_supplemental_measurements(
+            merged,
+            measured,
+            environment={"hostname": "test-2"},
+            timing={"samples": 2},
+        )
+        self.assertEqual(len(rerun["devices"][0]["supplemental_ops"]), 2)
+        self.assertEqual(len(rerun["supplemental_runs"]), 2)
+
+    def test_supplement_rejects_device_or_dtype_mismatch(self):
+        base = {
+            "format": "fusion-placement-search.bw1000-calibration",
+            "version": "1.0",
+            "source_id": "base-source",
+            "dtype": "bf16",
+            "devices": [
+                {"index": 0, "name": "BW"},
+                {"index": 1, "name": "BW"},
+            ],
+        }
+        with self.assertRaisesRegex(ValueError, "dtype"):
+            validate_supplement_base(
+                base,
+                devices=[0, 1],
+                names=["BW", "BW"],
+                dtype_name="fp16",
+            )
+        with self.assertRaisesRegex(ValueError, "devices"):
+            validate_supplement_base(
+                base,
+                devices=[0, 2],
+                names=["BW", "BW"],
+                dtype_name="bf16",
+            )
 
 
 if __name__ == "__main__":

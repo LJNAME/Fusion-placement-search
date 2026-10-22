@@ -2,13 +2,28 @@
 
 from __future__ import annotations
 
+import copy
+from collections import Counter
+import json
+from pathlib import Path
 import unittest
 
-from cost_model import MeasuredHardwareProfile, analyze_plan_structure
-from simulator import FusionGroup, OpGraph, OpNode, Plan, TensorEdge, hardware_from_dict
+from cost_model import MeasuredHardwareProfile, StructuralCostModel, analyze_plan_structure
+from simulator import (
+    FusionGroup,
+    OpGraph,
+    OpNode,
+    Plan,
+    TensorEdge,
+    hardware_from_dict,
+    load_hardware,
+    make_reference_plan,
+)
+from simulator.model_graphs import TransformerModelSpec, build_decoder_layer
 
 
 SOURCE = "unit-test-source"
+ROOT = Path(__file__).resolve().parents[2]
 
 
 def _timing(value: float) -> dict:
@@ -241,6 +256,174 @@ class TestMeasuredHardwareProfile(unittest.TestCase):
         self.assertEqual(cost.source, "analytic_fallback")
         self.assertIn("pattern:silu_mul:no_measured_fused_kernel", cost.ood_reasons)
         self.assertLessEqual(cost.confidence, 0.15)
+
+    def test_explicit_supplemental_ops_match_dtype_and_full_shape(self):
+        raw = copy.deepcopy(_raw())
+        for device in raw["devices"]:
+            scale = 1.0 if device["index"] == 0 else 1.1
+            device["supplemental_ops"] = [
+                {
+                    "name": "q_rmsnorm_head128_reference",
+                    "op_type": "rmsnorm",
+                    "dtype": "bf16",
+                    "output_numel": 1 * 256 * 16 * 128,
+                    "inner_size": 128,
+                    "duration_s": _timing(11e-6 * scale),
+                    "implementation_status": "reference",
+                },
+                {
+                    "name": "q_rope_reference",
+                    "op_type": "rope",
+                    "dtype": "bf16",
+                    "output_numel": 1 * 256 * 16 * 128,
+                    "inner_size": None,
+                    "duration_s": _timing(12e-6 * scale),
+                    "implementation_status": "reference",
+                },
+                {
+                    "name": "qk_matmul_fp32_reference",
+                    "op_type": "matmul",
+                    "dtype": "fp32",
+                    "shape": {"batch": 16, "m": 256, "n": 256, "k": 128},
+                    "duration_s": _timing(13e-6 * scale),
+                    "implementation_status": "reference",
+                },
+                {
+                    "name": "softmax_fp32_reference",
+                    "op_type": "softmax",
+                    "dtype": "fp32",
+                    "output_numel": 1 * 16 * 256 * 256,
+                    "inner_size": None,
+                    "duration_s": _timing(14e-6 * scale),
+                    "implementation_status": "reference",
+                },
+            ]
+        profile = MeasuredHardwareProfile(_hardware(), raw)
+        graph = OpGraph(name="supplemental")
+        graph.add_node(_matmul("qk", m=4096, n=256, k=128, dtype="fp32"))
+        for node_id, op_type, shape, dtype in (
+            ("q_norm", "rmsnorm", (1, 256, 16, 128), "bf16"),
+            ("q_rope", "rope", (1, 256, 16, 128), "bf16"),
+            ("softmax", "softmax", (1, 16, 256, 256), "fp32"),
+        ):
+            graph.add_node(
+                OpNode(
+                    node_id,
+                    op_type,
+                    flops=1.0,
+                    out_bytes=1.0,
+                    extra={
+                        "output_shape": shape,
+                        "dtype": dtype,
+                        "phase": "forward",
+                        "layer": 0,
+                    },
+                )
+            )
+
+        expected = {
+            "qk": 13e-6,
+            "q_norm": 11e-6,
+            "q_rope": 12e-6,
+            "softmax": 14e-6,
+        }
+        for node_id, duration in expected.items():
+            cost = profile.estimate_group(graph, _group(graph, node_id))
+            self.assertEqual(cost.source, "measured_exact_shape")
+            self.assertEqual(cost.duration, duration)
+
+    def test_qwen_supplement_reaches_full_reference_coverage(self):
+        raw_path = ROOT / "data" / "bw1000_2card" / "raw_measurements.json"
+        hardware_path = (
+            ROOT / "data" / "bw1000_2card" / "bw1000_2card.calibrated.json"
+        )
+        raw = json.loads(raw_path.read_text(encoding="utf-8"))
+        for device in raw["devices"]:
+            device["supplemental_ops"] = [
+                {
+                    "name": "q_rmsnorm_head128_reference",
+                    "op_type": "rmsnorm",
+                    "dtype": "bf16",
+                    "output_numel": 1 * 256 * 16 * 128,
+                    "inner_size": 128,
+                    "duration_s": _timing(11e-6),
+                    "implementation_status": "reference",
+                },
+                {
+                    "name": "k_rmsnorm_head128_reference",
+                    "op_type": "rmsnorm",
+                    "dtype": "bf16",
+                    "output_numel": 1 * 256 * 8 * 128,
+                    "inner_size": 128,
+                    "duration_s": _timing(12e-6),
+                    "implementation_status": "reference",
+                },
+                {
+                    "name": "q_rope_reference",
+                    "op_type": "rope",
+                    "dtype": "bf16",
+                    "output_numel": 1 * 256 * 16 * 128,
+                    "inner_size": None,
+                    "duration_s": _timing(13e-6),
+                    "implementation_status": "reference",
+                },
+                {
+                    "name": "k_rope_reference",
+                    "op_type": "rope",
+                    "dtype": "bf16",
+                    "output_numel": 1 * 256 * 8 * 128,
+                    "inner_size": None,
+                    "duration_s": _timing(14e-6),
+                    "implementation_status": "reference",
+                },
+                {
+                    "name": "softmax_fp32_internal_reference",
+                    "op_type": "softmax",
+                    "dtype": "bf16",
+                    "compute_dtype": "fp32",
+                    "output_numel": 1 * 16 * 256 * 256,
+                    "inner_size": None,
+                    "duration_s": _timing(15e-6),
+                    "implementation_status": "reference",
+                },
+            ]
+        spec = TransformerModelSpec(
+            model_type="qwen3",
+            num_layers=1,
+            hidden_size=1024,
+            ffn_hidden_size=3072,
+            num_attention_heads=16,
+            num_query_groups=8,
+            head_dim=128,
+            seq_length=256,
+            micro_batch_size=1,
+            vocab_size=151936,
+            dtype="bf16",
+            normalization="RMSNorm",
+            activation="silu",
+            use_swiglu=True,
+            qk_layernorm=True,
+            tied_embeddings=True,
+            attention_backend="unfused",
+            attention_softmax_in_fp32=True,
+            use_rotary_position_embeddings=True,
+            linear_bias=False,
+        )
+        graph = build_decoder_layer(spec, layer_id=0)
+        plan = make_reference_plan(graph)
+        for index, group in enumerate(plan.groups):
+            group.device = index & 1
+        profile = MeasuredHardwareProfile(load_hardware(hardware_path), raw)
+        structure = analyze_plan_structure(graph, plan, profile.n_devs)
+        sources = Counter(
+            profile.estimate_group(graph, group).source for group in structure.groups
+        )
+        self.assertEqual(sources["measured_exact_shape"], 20)
+        self.assertEqual(sources["logical_input"], 1)
+        self.assertEqual(sources["analytic_fallback"], 0)
+        estimate = StructuralCostModel().predict(graph, plan, profile)
+        self.assertEqual(estimate.confidence, 0.95)
+        self.assertFalse(estimate.out_of_distribution)
 
 
 if __name__ == "__main__":

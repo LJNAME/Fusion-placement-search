@@ -240,7 +240,7 @@ def build_decoder_layer(spec: TransformerModelSpec, layer_id: int = 0) -> OpGrap
         q_source = q_rope
         k_source = k_rope
 
-    softmax_dtype = "fp32" if spec.attention_softmax_in_fp32 else spec.dtype
+    softmax_compute_dtype = "fp32" if spec.attention_softmax_in_fp32 else spec.dtype
     scores = builder.add_node(
         "self_attention.qk_matmul",
         "matmul",
@@ -248,8 +248,8 @@ def build_decoder_layer(spec: TransformerModelSpec, layer_id: int = 0) -> OpGrap
         flops=2.0 * b * a * s * s * d,
         module_path=f"{layer_path}.self_attention.core_attention.qk",
         matmul_shape={"m": b * a * s, "n": s, "k": d},
-        output_dtype=softmax_dtype,
-        extra={"gqa_repeat_factor": a // qg},
+        output_dtype=spec.dtype,
+        extra={"gqa_repeat_factor": a // qg, "compute_dtype": spec.dtype},
     )
     builder.add_edge(q_source, scores, q_shape)
     builder.add_edge(k_source, scores, kv_shape)
@@ -260,9 +260,10 @@ def build_decoder_layer(spec: TransformerModelSpec, layer_id: int = 0) -> OpGrap
         score_shape,
         flops=5.0 * _numel(score_shape),
         module_path=f"{layer_path}.self_attention.core_attention.softmax",
-        output_dtype=softmax_dtype,
+        output_dtype=spec.dtype,
+        extra={"compute_dtype": softmax_compute_dtype},
     )
-    builder.add_edge(scores, softmax, score_shape, dtype=softmax_dtype)
+    builder.add_edge(scores, softmax, score_shape, dtype=spec.dtype)
 
     context = builder.add_node(
         "self_attention.av_matmul",
@@ -272,7 +273,7 @@ def build_decoder_layer(spec: TransformerModelSpec, layer_id: int = 0) -> OpGrap
         module_path=f"{layer_path}.self_attention.core_attention.av",
         matmul_shape={"m": b * a * s, "n": d, "k": s},
     )
-    builder.add_edge(softmax, context, score_shape, dtype=softmax_dtype)
+    builder.add_edge(softmax, context, score_shape, dtype=spec.dtype)
     builder.add_edge(v_proj, context, kv_shape)
 
     out_proj = builder.add_node(

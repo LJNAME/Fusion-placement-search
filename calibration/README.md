@@ -1,4 +1,4 @@
-# 硬件校准套件（海光 K100 首发，摩尔卡移植）
+# 硬件校准套件
 
 目标：把"差异化参数"从占位假设变成实测值——单卡有效算力与形状曲线、
 四卡链路拓扑与并发性、计算-通信干扰、启动/融合开销——并生成
@@ -33,13 +33,32 @@ python calibration/calibrate_bw1000.py \
     --out-dir data/bw1000_2card
 ```
 
+已有正式基础数据时，用增量模式补测 Q/K RMSNorm、Q/K RoPE 和 Softmax。Softmax 按实际路径计时：BF16 输入，内部转 FP32 计算，再转回 BF16 输出。该模式不重复 GEMM、显存、launch 和链路测试；同名补测会覆盖旧值：
+
+```bash
+python calibration/calibrate_bw1000.py \
+    --devices 0,1 \
+    --dtype bf16 \
+    --out-dir data/bw1000_2card \
+    --supplement \
+    --base-raw data/bw1000_2card/raw_measurements.json
+
+python -m cost_model.verify_measured_profile \
+    --raw data/bw1000_2card/raw_measurements.json \
+    --hardware data/bw1000_2card/bw1000_2card.calibrated.json \
+    --expect-complete
+```
+
+完整验收应输出 20 个 `measured_exact_shape`、1 个 `logical_input`、0 个 `analytic_fallback`，confidence 0.95 且 OOD=false。
+
 先跑 `--quick` 检查环境，成功后删除同名输出目录或直接用正式命令覆盖。输出：
 
 - `raw_measurements.json`：每轮原始时延、Qwen3 matmul/reference op、显存拷贝和双向链路数据；
 - `bw1000_2card.calibrated.json`：可以由 `load_hardware()` 读取的两卡 profile。
 
 脚本不把 eager `SiLU × Mul` 当作 fused kernel，也不测计算通信干扰，所以输出配置中的 `real_fused_kernels` 和 `compute_communication_interference` 都是 `false`。这两项以后单独补测。
-## 海光 K100 运行步骤
+
+## 旧版海光 K100 运行步骤（历史）
 
 ```bash
 # 1. 编译（ROCm 环境，需 rocblas）

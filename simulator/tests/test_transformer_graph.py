@@ -77,6 +77,14 @@ class TestQwen3DenseLayer(unittest.TestCase):
         input_norm_edges = graph.out_edges("L000.input_norm")
         self.assertEqual(len({edge.extra["tensor_id"] for edge in input_norm_edges}), 1)
         self.assertEqual(len(graph.nodes), 21)
+        qk = graph.nodes["L000.self_attention.qk_matmul"]
+        softmax = graph.nodes["L000.self_attention.softmax"]
+        self.assertEqual(qk.extra["dtype"], "bf16")
+        self.assertEqual(qk.extra["compute_dtype"], "bf16")
+        self.assertEqual(softmax.extra["dtype"], "bf16")
+        self.assertEqual(softmax.extra["compute_dtype"], "fp32")
+        self.assertEqual(graph.out_edges(qk.id)[0].extra["dtype"], "bf16")
+        self.assertEqual(graph.out_edges(softmax.id)[0].extra["dtype"], "bf16")
         for edge in graph.edges:
             self.assertIn("tensor_id", edge.extra)
             self.assertIn("shape", edge.extra)

@@ -13,6 +13,7 @@ other downstream auto-parallel choices.
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import math
 import os
@@ -127,6 +128,18 @@ def _dtype_from_name(name: str):
         raise ValueError(f"unsupported dtype: {name}") from exc
 
 
+def _dtype_name(dtype) -> str:
+    mapping = {
+        torch.bfloat16: "bf16",
+        torch.float16: "fp16",
+        torch.float32: "fp32",
+    }
+    try:
+        return mapping[dtype]
+    except KeyError as exc:
+        raise ValueError(f"unsupported dtype: {dtype}") from exc
+
+
 def _new_tensor(shape: Sequence[int], *, device: int, dtype):
     return torch.empty(tuple(shape), device=device, dtype=dtype).normal_()
 
@@ -162,6 +175,7 @@ def benchmark_matmul(
     return {
         "name": name,
         "op_type": "matmul",
+        "dtype": _dtype_name(dtype),
         "shape": {"m": m, "n": n, "k": k},
         "flops": flops,
         "duration_s": timing,
@@ -201,6 +215,7 @@ def benchmark_bmm(
     return {
         "name": name,
         "op_type": "batched_matmul",
+        "dtype": _dtype_name(dtype),
         "shape": {"batch": batch, "m": m, "n": n, "k": k},
         "flops": flops,
         "duration_s": timing,
@@ -226,15 +241,27 @@ def benchmark_reference_ops(
         up = _new_tensor((tokens, ffn), device=device, dtype=dtype)
         weight = torch.ones(hidden, device=device, dtype=dtype)
         cases = [
-            ("rmsnorm_reference", lambda: F.rms_norm(hidden_x, (hidden,), weight, 1e-6)),
-            ("silu", lambda: F.silu(gate)),
-            ("elementwise_mul", lambda: gate * up),
-            ("residual_add", lambda: hidden_x + hidden_y),
+            (
+                "rmsnorm_reference",
+                "rmsnorm",
+                lambda: F.rms_norm(hidden_x, (hidden,), weight, 1e-6),
+                (tokens, hidden),
+                hidden,
+            ),
+            ("silu", "silu", lambda: F.silu(gate), (tokens, ffn), None),
+            ("elementwise_mul", "mul", lambda: gate * up, (tokens, ffn), None),
+            ("residual_add", "add", lambda: hidden_x + hidden_y, (tokens, hidden), None),
             # This is an eager reference expression, not a measured fused kernel.
-            ("silu_mul_eager_reference", lambda: F.silu(gate) * up),
+            (
+                "silu_mul_eager_reference",
+                "eager_expression",
+                lambda: F.silu(gate) * up,
+                (tokens, ffn),
+                None,
+            ),
         ]
         results = []
-        for name, op in cases:
+        for name, op_type, op, output_shape, inner_size in cases:
             timing = time_loop(
                 op,
                 devices=[device],
@@ -245,10 +272,151 @@ def benchmark_reference_ops(
             results.append(
                 {
                     "name": name,
+                    "op_type": op_type,
+                    "dtype": _dtype_name(dtype),
+                    "output_shape": list(output_shape),
+                    "output_numel": int(math.prod(output_shape)),
+                    "inner_size": inner_size,
                     "duration_s": timing,
                     "implementation_status": "reference",
                 }
             )
+    return results
+
+
+def _reference_measurement(
+    *,
+    name: str,
+    op_type: str,
+    dtype,
+    output_shape: Sequence[int],
+    op: Callable[[], object],
+    device: int,
+    warmup: int,
+    iterations: int,
+    samples: int,
+    inner_size: int | None = None,
+) -> dict:
+    timing = time_loop(
+        op,
+        devices=[device],
+        warmup=warmup,
+        iterations=iterations,
+        samples=samples,
+    )
+    return {
+        "name": name,
+        "op_type": op_type,
+        "dtype": _dtype_name(dtype),
+        "output_shape": [int(value) for value in output_shape],
+        "output_numel": int(math.prod(output_shape)),
+        "inner_size": int(inner_size) if inner_size is not None else None,
+        "duration_s": timing,
+        "implementation_status": "reference",
+    }
+
+
+def benchmark_supplemental_ops(
+    device: int,
+    *,
+    dtype_name: str,
+    warmup: int,
+    iterations: int,
+    samples: int,
+) -> list[dict]:
+    """Measure the five Qwen3 reference operations missing from the base run."""
+
+    dtype = _dtype_from_name(dtype_name)
+    batch = QWEN3_06B["micro_batch_size"]
+    seq = QWEN3_06B["seq_length"]
+    heads = QWEN3_06B["num_attention_heads"]
+    groups = QWEN3_06B["num_query_groups"]
+    head_dim = QWEN3_06B["head_dim"]
+    q_shape = (batch, seq, heads, head_dim)
+    k_shape = (batch, seq, groups, head_dim)
+    score_shape = (batch, heads, seq, seq)
+
+    with torch.cuda.device(device):
+        q = _new_tensor(q_shape, device=device, dtype=dtype)
+        k = _new_tensor(k_shape, device=device, dtype=dtype)
+        norm_weight = torch.ones(head_dim, device=device, dtype=dtype)
+        positions = torch.arange(seq, device=device, dtype=torch.float32)
+        frequencies = torch.arange(0, head_dim, 2, device=device, dtype=torch.float32)
+        frequencies = 1.0 / (1000000.0 ** (frequencies / head_dim))
+        angles = positions[:, None] * frequencies[None, :]
+        cos = angles.cos().to(dtype=dtype)[None, :, None, :]
+        sin = angles.sin().to(dtype=dtype)[None, :, None, :]
+
+        def rope(value):
+            even = value[..., 0::2]
+            odd = value[..., 1::2]
+            rotated_even = even * cos - odd * sin
+            rotated_odd = even * sin + odd * cos
+            return torch.stack((rotated_even, rotated_odd), dim=-1).flatten(-2)
+
+        results = [
+            _reference_measurement(
+                name="q_rmsnorm_head128_reference",
+                op_type="rmsnorm",
+                dtype=dtype,
+                output_shape=q_shape,
+                inner_size=head_dim,
+                op=lambda: F.rms_norm(q, (head_dim,), norm_weight, 1e-6),
+                device=device,
+                warmup=warmup,
+                iterations=iterations,
+                samples=samples,
+            ),
+            _reference_measurement(
+                name="k_rmsnorm_head128_reference",
+                op_type="rmsnorm",
+                dtype=dtype,
+                output_shape=k_shape,
+                inner_size=head_dim,
+                op=lambda: F.rms_norm(k, (head_dim,), norm_weight, 1e-6),
+                device=device,
+                warmup=warmup,
+                iterations=iterations,
+                samples=samples,
+            ),
+            _reference_measurement(
+                name="q_rope_reference",
+                op_type="rope",
+                dtype=dtype,
+                output_shape=q_shape,
+                op=lambda: rope(q),
+                device=device,
+                warmup=warmup,
+                iterations=iterations,
+                samples=samples,
+            ),
+            _reference_measurement(
+                name="k_rope_reference",
+                op_type="rope",
+                dtype=dtype,
+                output_shape=k_shape,
+                op=lambda: rope(k),
+                device=device,
+                warmup=warmup,
+                iterations=iterations,
+                samples=samples,
+            ),
+        ]
+
+        scores = _new_tensor(score_shape, device=device, dtype=dtype)
+        softmax = _reference_measurement(
+            name="softmax_fp32_internal_reference",
+            op_type="softmax",
+            dtype=dtype,
+            output_shape=score_shape,
+            op=lambda: F.softmax(scores.float(), dim=-1).to(dtype=dtype),
+            device=device,
+            warmup=warmup,
+            iterations=iterations,
+            samples=samples,
+        )
+        softmax["compute_dtype"] = "fp32"
+        results.append(softmax)
     return results
 
 
@@ -572,6 +740,81 @@ def _write_json(path: Path, value: dict) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def validate_supplement_base(
+    raw: dict,
+    *,
+    devices: Sequence[int],
+    names: Sequence[str],
+    dtype_name: str,
+) -> None:
+    if raw.get("format") != "fusion-placement-search.bw1000-calibration":
+        raise ValueError("unsupported base calibration format")
+    if raw.get("version") != "1.0":
+        raise ValueError("unsupported base calibration version")
+    if str(raw.get("dtype", "")).lower() != dtype_name:
+        raise ValueError(
+            f"base dtype {raw.get('dtype')!r} does not match requested dtype {dtype_name!r}"
+        )
+    base_devices = raw.get("devices") or []
+    base_by_index = {int(item["index"]): item for item in base_devices}
+    if set(base_by_index) != set(int(device) for device in devices):
+        raise ValueError(
+            f"base devices {sorted(base_by_index)} do not match selected devices {sorted(devices)}"
+        )
+    for device, name in zip(devices, names):
+        base_name = str(base_by_index[int(device)].get("name", ""))
+        if base_name != str(name):
+            raise ValueError(
+                f"base device {device} is {base_name!r}, current device is {name!r}"
+            )
+    if not raw.get("source_id"):
+        raise ValueError("base calibration is missing source_id")
+
+
+def merge_supplemental_measurements(
+    raw: dict,
+    measured_devices: Sequence[dict],
+    *,
+    environment: dict,
+    timing: dict,
+) -> dict:
+    """Return a copy with per-device supplemental measurements upserted by name."""
+
+    merged = copy.deepcopy(raw)
+    base_by_index = {int(item["index"]): item for item in merged.get("devices") or []}
+    if set(base_by_index) != {int(item["index"]) for item in measured_devices}:
+        raise ValueError("supplemental device indices do not match the base calibration")
+    for measured in measured_devices:
+        target = base_by_index[int(measured["index"])]
+        incoming = list(measured.get("supplemental_ops") or [])
+        names = [str(item.get("name", "")) for item in incoming]
+        if any(not name for name in names) or len(set(names)) != len(names):
+            raise ValueError("supplemental measurement names must be non-empty and unique")
+        incoming_names = set(names)
+        retained = [
+            item
+            for item in target.get("supplemental_ops") or []
+            if str(item.get("name", "")) not in incoming_names
+        ]
+        target["supplemental_ops"] = retained + incoming
+
+    runs = list(merged.get("supplemental_runs") or [])
+    runs.append(
+        {
+            "environment": copy.deepcopy(environment),
+            "timing": copy.deepcopy(timing),
+            "device_indices": [int(item["index"]) for item in measured_devices],
+            "operations": [
+                str(item["name"])
+                for device in measured_devices
+                for item in device.get("supplemental_ops") or []
+            ],
+        }
+    )
+    merged["supplemental_runs"] = runs
+    return merged
+
+
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out-dir", required=True)
@@ -589,6 +832,15 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--launch-iterations", type=int, default=2000)
     parser.add_argument("--samples", type=int, default=7)
     parser.add_argument("--quick", action="store_true")
+    parser.add_argument(
+        "--supplement",
+        action="store_true",
+        help="measure only missing Q/K norm, RoPE, and FP32-internal softmax",
+    )
+    parser.add_argument(
+        "--base-raw",
+        help="base raw_measurements.json; defaults to <out-dir>/raw_measurements.json",
+    )
     parser.add_argument(
         "--allow-non-hip",
         action="store_true",
@@ -627,6 +879,69 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     print(f"host={env['hostname']} torch={env['torch']} hip={env['torch_hip']}")
     print(f"devices={args.devices} names={names} dtype={args.dtype}")
+    out_dir = Path(args.out_dir)
+    raw_path = out_dir / "raw_measurements.json"
+    profile_path = out_dir / "bw1000_2card.calibrated.json"
+
+    if args.supplement:
+        base_path = Path(args.base_raw) if args.base_raw else raw_path
+        if not base_path.is_file():
+            raise SystemExit(f"base raw calibration does not exist: {base_path}")
+        base_raw = json.loads(base_path.read_text(encoding="utf-8"))
+        try:
+            validate_supplement_base(
+                base_raw,
+                devices=args.devices,
+                names=names,
+                dtype_name=args.dtype,
+            )
+        except ValueError as exc:
+            raise SystemExit(str(exc)) from exc
+
+        measured_devices = []
+        for device in args.devices:
+            print(f"[device {device}] measuring five supplemental Qwen3 reference ops")
+            operations = benchmark_supplemental_ops(
+                device,
+                dtype_name=args.dtype,
+                warmup=warmup,
+                iterations=iterations,
+                samples=samples,
+            )
+            measured_devices.append(
+                {
+                    "index": int(device),
+                    "name": str(torch.cuda.get_device_name(device)),
+                    "supplemental_ops": operations,
+                }
+            )
+            for item in operations:
+                print(
+                    f"  {item['name']}: "
+                    f"{item['duration_s']['median'] * 1e6:.3f} us ({item['dtype']})"
+                )
+
+        timing = {
+            "warmup": warmup,
+            "iterations": iterations,
+            "samples": samples,
+            "quick": bool(args.quick),
+        }
+        raw = merge_supplemental_measurements(
+            base_raw,
+            measured_devices,
+            environment=env,
+            timing=timing,
+        )
+        config = build_hardware_config(raw)
+        _write_json(raw_path, raw)
+        _write_json(profile_path, config)
+        print(f"base raw measurements: {base_path}")
+        print(f"merged raw measurements: {raw_path}")
+        print(f"hardware profile: {profile_path}")
+        print("supplement complete; existing GEMM, memory, launch, and link data were retained")
+        return 0
+
     measured_devices = []
     for device in args.devices:
         print(f"[device {device}] measuring Qwen3 operators")
@@ -691,9 +1006,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         ],
     }
     config = build_hardware_config(raw)
-    out_dir = Path(args.out_dir)
-    raw_path = out_dir / "raw_measurements.json"
-    profile_path = out_dir / "bw1000_2card.calibrated.json"
     _write_json(raw_path, raw)
     _write_json(profile_path, config)
     print(f"raw measurements: {raw_path}")

@@ -106,7 +106,7 @@ def _normalize_raw_matmul_shape(item: Mapping) -> tuple[int, int, int]:
 
 
 def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, int]) -> tuple[_KernelMeasurement, ...]:
-    dtype = str(raw["dtype"]).lower()
+    default_dtype = str(raw["dtype"]).lower()
     reference_shapes = _raw_reference_shapes(raw)
     op_name_to_type = {
         "rmsnorm_reference": "rmsnorm",
@@ -126,7 +126,7 @@ def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, in
                 _KernelMeasurement(
                     device=logical,
                     op_type="matmul",
-                    dtype=dtype,
+                    dtype=str(item.get("dtype", default_dtype)).lower(),
                     duration=float(item["duration_s"]["median"]),
                     m=m,
                     n=n,
@@ -138,12 +138,50 @@ def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, in
             # An eager expression is not evidence for a real fused pattern.
             if name not in op_name_to_type:
                 continue
-            output_numel, inner_size = reference_shapes[name]
+            fallback_numel, fallback_inner = reference_shapes[name]
+            output_numel = int(item.get("output_numel", fallback_numel))
+            raw_inner = item.get("inner_size", fallback_inner)
+            inner_size = int(raw_inner) if raw_inner is not None else None
             measurements.append(
                 _KernelMeasurement(
                     device=logical,
                     op_type=op_name_to_type[name],
-                    dtype=dtype,
+                    dtype=str(item.get("dtype", default_dtype)).lower(),
+                    duration=float(item["duration_s"]["median"]),
+                    output_numel=output_numel,
+                    inner_size=inner_size,
+                )
+            )
+        for item in device.get("supplemental_ops") or []:
+            status = str(item.get("implementation_status", ""))
+            if status not in {"reference", "implemented"}:
+                continue
+            op_type = str(item.get("op_type", "")).lower()
+            item_dtype = str(item.get("dtype", default_dtype)).lower()
+            if op_type in {"matmul", "batched_matmul"}:
+                m, n, k = _normalize_raw_matmul_shape(item)
+                measurements.append(
+                    _KernelMeasurement(
+                        device=logical,
+                        op_type="matmul",
+                        dtype=item_dtype,
+                        duration=float(item["duration_s"]["median"]),
+                        m=m,
+                        n=n,
+                        k=k,
+                    )
+                )
+                continue
+            if op_type not in {"rmsnorm", "rope", "softmax", "silu", "mul", "add"}:
+                continue
+            output_numel = int(item["output_numel"])
+            raw_inner = item.get("inner_size")
+            inner_size = int(raw_inner) if raw_inner is not None else None
+            measurements.append(
+                _KernelMeasurement(
+                    device=logical,
+                    op_type=op_type,
+                    dtype=item_dtype,
                     duration=float(item["duration_s"]["median"]),
                     output_numel=output_numel,
                     inner_size=inner_size,

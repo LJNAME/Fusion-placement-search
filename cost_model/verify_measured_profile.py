@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 from collections import Counter
 from pathlib import Path
 
@@ -40,13 +41,18 @@ def _spec() -> TransformerModelSpec:
     )
 
 
-def verify_measured_profile() -> dict[str, object]:
+def verify_measured_profile(
+    *,
+    raw_path: Path = RAW,
+    hardware_path: Path = HARDWARE,
+    expect_complete: bool = False,
+) -> dict[str, object]:
     graph = build_decoder_layer(_spec(), layer_id=0)
     plan = make_reference_plan(graph)
     for index, group in enumerate(plan.groups):
         group.device = index & 1
 
-    measured = MeasuredHardwareProfile.from_files(HARDWARE, RAW)
+    measured = MeasuredHardwareProfile.from_files(hardware_path, raw_path)
     structure = analyze_plan_structure(graph, plan, measured.n_devs)
     group_costs = [measured.estimate_group(graph, group) for group in structure.groups]
     sources = Counter(cost.source for cost in group_costs)
@@ -54,19 +60,24 @@ def verify_measured_profile() -> dict[str, object]:
     aggregate_estimate = StructuralCostModel().predict(
         graph,
         plan,
-        load_hardware(HARDWARE),
+        load_hardware(hardware_path),
     )
 
-    if sources["measured_exact_shape"] != 14:
+    expected_exact = 20 if expect_complete else 15
+    expected_fallback = 0 if expect_complete else 5
+    expected_confidence = 0.95 if expect_complete else 0.25
+    if sources["measured_exact_shape"] != expected_exact:
         raise AssertionError(f"unexpected exact-shape coverage: {sources}")
     if sources["logical_input"] != 1:
         raise AssertionError(f"logical input was not recognized: {sources}")
-    if sources["analytic_fallback"] != 6:
+    if sources["analytic_fallback"] != expected_fallback:
         raise AssertionError(f"unexpected fallback coverage: {sources}")
     if not measured_estimate.makespan > aggregate_estimate.makespan:
         raise AssertionError("full-shape profile did not separate from the K-only aggregate")
-    if measured_estimate.confidence != 0.25:
+    if measured_estimate.confidence != expected_confidence:
         raise AssertionError(f"unexpected confidence: {measured_estimate.confidence}")
+    if expect_complete and measured_estimate.out_of_distribution:
+        raise AssertionError(f"complete profile is still OOD: {measured_estimate.ood_reasons}")
 
     return {
         "nodes": len(graph.nodes),
@@ -82,8 +93,21 @@ def verify_measured_profile() -> dict[str, object]:
     }
 
 
-def main() -> None:
-    for key, value in verify_measured_profile().items():
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--raw", type=Path, default=RAW)
+    parser.add_argument("--hardware", type=Path, default=HARDWARE)
+    parser.add_argument("--expect-complete", action="store_true")
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = parse_args(argv)
+    for key, value in verify_measured_profile(
+        raw_path=args.raw,
+        hardware_path=args.hardware,
+        expect_complete=args.expect_complete,
+    ).items():
         print(f"{key}: {value}")
     print("Fusion M3b measured-profile verification: OK")
 
