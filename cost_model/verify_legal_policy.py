@@ -16,7 +16,11 @@ from cost_model.verify_exact_search import _eight_node_graph
 
 def verify_legal_policy() -> dict[str, object]:
     graph = _eight_node_graph()
-    space = LegalFusionSearchSpace(graph, n_devs=2)
+    space = LegalFusionSearchSpace(
+        graph,
+        n_devs=2,
+        require_executable=False,
+    )
     root = space.initial_state()
     root_actions = space.actions(root)
     root_encoding = encode_legal_policy_state(space, root, root_actions)
@@ -39,6 +43,7 @@ def verify_legal_policy() -> dict[str, object]:
         n_best=4,
         policy_value_evaluator=evaluator,
         value_mix=0.0,
+        require_executable=False,
     )
     if len(priors) != len(next_actions) or abs(sum(priors) - 1.0) > 1e-6:
         raise AssertionError("variable policy prior contract failed")

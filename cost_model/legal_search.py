@@ -1,4 +1,4 @@
-"""Beam and MCTS over executable fusion-pattern candidates.
+"""Beam and MCTS over graph-local fusion-pattern candidates.
 
 Unlike the legacy search, a state selects disjoint graph-local candidates.  A
 candidate may cover nodes that are not adjacent in one arbitrary linear
@@ -52,15 +52,23 @@ class LegalFusionSearchSpace:
         graph: OpGraph,
         n_devs: int,
         registry: Optional[FusionPatternRegistry] = None,
+        require_executable: bool = True,
     ) -> None:
         if n_devs <= 0:
             raise ValueError("n_devs must be positive")
         self.graph = graph
         self.n_devs = int(n_devs)
         self.registry = registry or default_fusion_registry()
+        self.require_executable = bool(require_executable)
         self.order = tuple(graph.topological_order())
         self.position = {node_id: index for index, node_id in enumerate(self.order)}
-        self.candidates = tuple(enumerate_fusion_candidates(graph, self.registry))
+        self.candidates = tuple(
+            enumerate_fusion_candidates(
+                graph,
+                self.registry,
+                require_executable=self.require_executable,
+            )
+        )
         by_node: Dict[str, List[FusionCandidate]] = {node_id: [] for node_id in self.order}
         for candidate in self.candidates:
             for node_id in candidate.node_ids:
@@ -171,7 +179,10 @@ class LegalFusionSearchSpace:
                 for group_index in group_order
             ],
             name=name,
-            extra={"search_space": "legal_fusion_v1"},
+            extra={
+                "search_space": "legal_fusion_v1",
+                "require_executable": self.require_executable,
+            },
         )
         if validate:
             validate_fusion_plan(
@@ -179,7 +190,7 @@ class LegalFusionSearchSpace:
                 plan,
                 self.n_devs,
                 registry=self.registry,
-                require_executable=False,
+                require_executable=self.require_executable,
             )
         return plan
 
@@ -225,7 +236,7 @@ def _guided_rollout_legal_plan(
 ) -> Plan:
     """Complete a state with a deterministic fusion/affinity baseline.
 
-    The completion prefers the largest executable candidate at the current
+    The completion prefers the largest available candidate at the current
     anchor and keeps groups on the most recently selected device.  It is not a
     hardware oracle; it merely preserves the two cheap baselines that random
     rollouts often miss: fuse where legal and avoid gratuitous transfers.
@@ -272,6 +283,7 @@ def legal_beam_search(
     fusion_probability: float = 0.5,
     seed: int = 0,
     registry: Optional[FusionPatternRegistry] = None,
+    require_executable: bool = True,
 ) -> List[Plan]:
     """Beam search over legal candidate covers; lower scorer values are better."""
 
@@ -281,7 +293,12 @@ def legal_beam_search(
         raise ValueError("fusion_probability must be in [0, 1]")
 
     rng = random.Random(seed)
-    space = LegalFusionSearchSpace(graph, n_devs, registry)
+    space = LegalFusionSearchSpace(
+        graph,
+        n_devs,
+        registry,
+        require_executable=require_executable,
+    )
     states = [space.initial_state()]
     completed: Dict[tuple, Tuple[float, Plan]] = {}
 
@@ -330,7 +347,13 @@ def legal_beam_search(
         completed[_plan_key(plan)] = (float(scorer(plan)), plan)
     result = [plan for _, plan in sorted(completed.values(), key=lambda item: item[0])[:beam]]
     for plan in result:
-        validate_fusion_plan(graph, plan, n_devs, registry=space.registry)
+        validate_fusion_plan(
+            graph,
+            plan,
+            n_devs,
+            registry=space.registry,
+            require_executable=space.require_executable,
+        )
     return result
 
 
@@ -418,6 +441,7 @@ def legal_mcts_search(
     guided_rollout: bool = True,
     policy_value_evaluator: Optional[Callable] = None,
     value_mix: float = 0.0,
+    require_executable: bool = True,
 ) -> List[Plan]:
     """MCTS over legal fusion candidates and device choices.
 
@@ -437,7 +461,12 @@ def legal_mcts_search(
         raise ValueError("value_mix requires policy_value_evaluator")
 
     rng = random.Random(seed)
-    space = LegalFusionSearchSpace(graph, n_devs, registry)
+    space = LegalFusionSearchSpace(
+        graph,
+        n_devs,
+        registry,
+        require_executable=require_executable,
+    )
     root = _LegalMCTSNode(space.initial_state())
     best: Dict[tuple, Tuple[float, Plan]] = {}
 
@@ -518,5 +547,11 @@ def legal_mcts_search(
         best[_plan_key(plan)] = (float(scorer(plan)), plan)
     result = [plan for _, plan in sorted(best.values(), key=lambda item: item[0])[:n_best]]
     for plan in result:
-        validate_fusion_plan(graph, plan, n_devs, registry=space.registry)
+        validate_fusion_plan(
+            graph,
+            plan,
+            n_devs,
+            registry=space.registry,
+            require_executable=space.require_executable,
+        )
     return result

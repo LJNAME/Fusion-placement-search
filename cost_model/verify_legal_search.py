@@ -38,6 +38,10 @@ def _qwen3_layer_spec() -> TransformerModelSpec:
 def main() -> None:
     graph = build_decoder_layer(_qwen3_layer_spec(), layer_id=0)
     candidates = enumerate_fusion_candidates(graph)
+    executable_candidates = enumerate_fusion_candidates(
+        graph,
+        require_executable=True,
+    )
     scorer = lambda plan: float(len(plan.groups))
     beam = legal_beam_search(
         graph,
@@ -59,20 +63,23 @@ def main() -> None:
         n_best=4,
     )
     for plan in beam + mcts:
-        validate_fusion_plan(graph, plan, n_devs=2)
+        validate_fusion_plan(graph, plan, n_devs=2, require_executable=True)
 
     counts = Counter(candidate.pattern_id for candidate in candidates)
     beam_patterns = Counter(group.extra["pattern_id"] for group in beam[0].groups)
     mcts_patterns = Counter(group.extra["pattern_id"] for group in mcts[0].groups)
-    if beam_patterns["silu_mul"] != 1 or mcts_patterns["silu_mul"] != 1:
-        raise AssertionError("legal search did not retain the Qwen3 silu_mul candidate")
+    if beam_patterns["silu_mul"] or mcts_patterns["silu_mul"]:
+        raise AssertionError("executable search returned the planned silu_mul pattern")
+    if len(beam[0].groups) != 21 or len(mcts[0].groups) != 21:
+        raise AssertionError("executable search did not return singleton reference groups")
 
     print(f"nodes: {len(graph.nodes)}")
     print(f"candidates: {len(candidates)}")
+    print(f"executable candidates: {len(executable_candidates)}")
     print(f"candidate patterns: {dict(sorted(counts.items()))}")
     print(f"beam plans: {len(beam)}, best groups: {len(beam[0].groups)}")
     print(f"mcts plans: {len(mcts)}, best groups: {len(mcts[0].groups)}")
-    print("strict plan validation: OK")
+    print("strict executable plan validation: OK")
     print("Fusion M1b verification: OK")
 
 

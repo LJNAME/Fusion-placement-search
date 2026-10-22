@@ -6,6 +6,8 @@ import unittest
 
 from simulator import (
     FusionGroup,
+    FusionPattern,
+    FusionPatternRegistry,
     FusionRuleError,
     OpGraph,
     OpNode,
@@ -123,6 +125,44 @@ class TestStrictFusionValidation(unittest.TestCase):
         plan = make_reference_plan(graph)
         validate_fusion_plan(graph, plan, n_devs=1, require_executable=True)
         self.assertEqual(len(plan.groups), len(graph.nodes))
+
+    def test_executable_enumeration_filters_planned_patterns(self):
+        candidates = enumerate_fusion_candidates(
+            _small_swiglu_graph(),
+            require_executable=True,
+        )
+        self.assertTrue(all(candidate.executable for candidate in candidates))
+        self.assertNotIn("silu_mul", {candidate.pattern_id for candidate in candidates})
+
+    def test_executable_fallback_survives_planned_singleton_filter(self):
+        graph = OpGraph(name="planned-singleton")
+        graph.add_node(_node("silu", "silu"))
+        registry = FusionPatternRegistry(
+            (
+                FusionPattern(
+                    pattern_id="planned_silu",
+                    backend="template",
+                    implementation_status="planned",
+                    op_types=("silu",),
+                    priority=10,
+                ),
+                FusionPattern(
+                    pattern_id="unfused",
+                    backend="reference",
+                    implementation_status="reference",
+                    supported_dtypes=(),
+                    require_same_layer=False,
+                    fallback=True,
+                    priority=-100,
+                ),
+            )
+        )
+        candidates = enumerate_fusion_candidates(
+            graph,
+            registry,
+            require_executable=True,
+        )
+        self.assertEqual([candidate.pattern_id for candidate in candidates], ["unfused"])
 
     def test_valid_planned_silu_mul_group(self):
         graph = _small_swiglu_graph()

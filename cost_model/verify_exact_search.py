@@ -73,6 +73,7 @@ def verify_exact_search() -> dict[str, object]:
         top_k=5,
         max_nodes=15,
         max_evaluations=1_000_000,
+        require_executable=False,
     )
     beam = legal_beam_search(
         graph,
@@ -82,6 +83,7 @@ def verify_exact_search() -> dict[str, object]:
         rollouts=3,
         fusion_probability=0.7,
         seed=23,
+        require_executable=False,
     )
     mcts_gaps = []
     for seed in (0, 1, 7, 23):
@@ -94,6 +96,7 @@ def verify_exact_search() -> dict[str, object]:
             fusion_probability=0.7,
             seed=seed,
             n_best=8,
+            require_executable=False,
         )
         mcts_gaps.append(measure_optimality_gap(exact, mcts, scorer))
     beam_gap = measure_optimality_gap(exact, beam, scorer)

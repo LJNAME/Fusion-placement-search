@@ -80,7 +80,11 @@ class TestLegalSearchSpace(unittest.TestCase):
     def test_non_contiguous_linear_order_candidate_contracts_to_valid_plan(self):
         graph = _swiglu_graph()
         self.assertEqual(graph.topological_order(), ["gate", "silu", "up", "mul", "out"])
-        space = LegalFusionSearchSpace(graph, n_devs=1)
+        space = LegalFusionSearchSpace(
+            graph,
+            n_devs=1,
+            require_executable=False,
+        )
         state = space.initial_state()
 
         def choose(pattern_id, node_ids):
@@ -108,6 +112,19 @@ class TestLegalSearchSpace(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "partial state"):
             space.to_plan(space.initial_state())
 
+    def test_executable_space_filters_planned_candidates(self):
+        space = LegalFusionSearchSpace(
+            _swiglu_graph(),
+            n_devs=2,
+        )
+        self.assertTrue(space.require_executable)
+        self.assertTrue(all(candidate.executable for candidate in space.candidates))
+        self.assertNotIn(
+            "silu_mul",
+            {candidate.pattern_id for candidate in space.candidates},
+        )
+        self.assertEqual(len(space.actions(space.initial_state())), 2)
+
 
 class TestLegalBeamAndMCTS(unittest.TestCase):
     def setUp(self):
@@ -129,6 +146,7 @@ class TestLegalBeamAndMCTS(unittest.TestCase):
             rollouts=3,
             fusion_probability=0.7,
             seed=7,
+            require_executable=False,
         )
         second = legal_beam_search(
             self.graph,
@@ -138,6 +156,7 @@ class TestLegalBeamAndMCTS(unittest.TestCase):
             rollouts=3,
             fusion_probability=0.7,
             seed=7,
+            require_executable=False,
         )
         self._assert_strict(first)
         self.assertEqual([_plan_key(plan) for plan in first], [_plan_key(plan) for plan in second])
@@ -158,6 +177,7 @@ class TestLegalBeamAndMCTS(unittest.TestCase):
             fusion_probability=0.7,
             seed=3,
             n_best=5,
+            require_executable=False,
         )
         self._assert_strict(plans)
         self.assertTrue(
@@ -177,6 +197,7 @@ class TestLegalBeamAndMCTS(unittest.TestCase):
             rollouts=1,
             fusion_probability=1.0,
             seed=0,
+            require_executable=False,
         )
         self.assertTrue(plans)
         validate_fusion_plan(graph, plans[0], n_devs=1)
@@ -185,6 +206,38 @@ class TestLegalBeamAndMCTS(unittest.TestCase):
             ["L000.mlp.silu", "L000.mlp.gated_mul"],
             [group.node_ids for group in plans[0].groups],
         )
+
+    def test_beam_and_mcts_executable_only(self):
+        searches = (
+            legal_beam_search(
+                self.graph,
+                self.scorer,
+                n_devs=2,
+                beam=8,
+                rollouts=2,
+                seed=0,
+            ),
+            legal_mcts_search(
+                self.graph,
+                self.scorer,
+                n_devs=2,
+                iterations=24,
+                rollouts=2,
+                seed=0,
+                n_best=4,
+            ),
+        )
+        for plans in searches:
+            self.assertTrue(plans)
+            for plan in plans:
+                self.assertTrue(plan.extra["require_executable"])
+                self.assertEqual(len(plan.groups), 5)
+                validate_fusion_plan(
+                    self.graph,
+                    plan,
+                    n_devs=2,
+                    require_executable=True,
+                )
 
 
 if __name__ == "__main__":

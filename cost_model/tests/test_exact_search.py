@@ -71,8 +71,20 @@ class TestExactSpaceCounting(unittest.TestCase):
         self.assertEqual(count_exact_search_space(space), 8)
 
     def test_swiglu_counts_fused_and_unfused_covers(self):
-        space = LegalFusionSearchSpace(_swiglu_graph(), n_devs=2)
+        space = LegalFusionSearchSpace(
+            _swiglu_graph(),
+            n_devs=2,
+            require_executable=False,
+        )
         self.assertEqual(count_exact_search_space(space), 48)
+
+    def test_executable_swiglu_excludes_planned_fusion(self):
+        space = LegalFusionSearchSpace(
+            _swiglu_graph(),
+            n_devs=2,
+            require_executable=True,
+        )
+        self.assertEqual(count_exact_search_space(space), 32)
 
 
 class TestExactLegalSearch(unittest.TestCase):
@@ -82,7 +94,13 @@ class TestExactLegalSearch(unittest.TestCase):
         def scorer(plan):
             return float(10 * len(plan.groups) + sum(group.device for group in plan.groups))
 
-        result = exact_legal_search(graph, scorer, n_devs=2, top_k=5)
+        result = exact_legal_search(
+            graph,
+            scorer,
+            n_devs=2,
+            top_k=5,
+            require_executable=False,
+        )
         self.assertEqual(result.search_space_size, 48)
         self.assertEqual(result.evaluated_plans, 48)
         self.assertEqual(result.feasible_plans, 48)
@@ -101,6 +119,23 @@ class TestExactLegalSearch(unittest.TestCase):
         self.assertEqual(
             [_plan_key(plan) for plan in first.plans],
             [_plan_key(plan) for plan in second.plans],
+        )
+
+    def test_exact_search_returns_only_executable_patterns(self):
+        graph = _swiglu_graph()
+        result = exact_legal_search(
+            graph,
+            lambda plan: float(len(plan.groups)),
+            n_devs=2,
+        )
+        self.assertEqual(result.search_space_size, 32)
+        self.assertEqual(len(result.best_plan.groups), 5)
+        self.assertTrue(result.best_plan.extra["require_executable"])
+        validate_fusion_plan(
+            graph,
+            result.best_plan,
+            n_devs=2,
+            require_executable=True,
         )
 
     def test_feasibility_filter_preserves_exact_count(self):

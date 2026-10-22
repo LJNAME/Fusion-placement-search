@@ -283,6 +283,7 @@ def _candidate_paths(graph: OpGraph, pattern: FusionPattern) -> Iterable[Tuple[s
 def enumerate_fusion_candidates(
     graph: OpGraph,
     registry: Optional[FusionPatternRegistry] = None,
+    require_executable: bool = False,
 ) -> List[FusionCandidate]:
     """Enumerate deterministic graph-local candidates for small-graph oracles/tests.
 
@@ -292,6 +293,8 @@ def enumerate_fusion_candidates(
     """
 
     patterns = (registry or default_fusion_registry()).patterns()
+    if require_executable:
+        patterns = tuple(pattern for pattern in patterns if pattern.executable)
     candidates: Dict[Tuple[str, ...], FusionCandidate] = {}
     specialized_singletons: set[str] = set()
 

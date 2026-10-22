@@ -47,7 +47,11 @@ def _swiglu_graph() -> OpGraph:
 
 class TestLegalPolicyEncoding(unittest.TestCase):
     def setUp(self):
-        self.space = LegalFusionSearchSpace(_swiglu_graph(), n_devs=2)
+        self.space = LegalFusionSearchSpace(
+            _swiglu_graph(),
+            n_devs=2,
+            require_executable=False,
+        )
         self.patterns = tuple(
             pattern.pattern_id for pattern in self.space.registry.patterns()
         )
@@ -104,6 +108,7 @@ class TestLegalPolicyEncoding(unittest.TestCase):
             n_best=4,
             policy_value_evaluator=evaluator,
             value_mix=0.25,
+            require_executable=False,
         )
         self.assertIn(2, action_counts)
         self.assertIn(4, action_counts)

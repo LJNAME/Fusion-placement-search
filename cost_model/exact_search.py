@@ -114,6 +114,7 @@ def exact_legal_search(
     max_nodes: int = 15,
     max_evaluations: int = 1_000_000,
     registry: Optional[FusionPatternRegistry] = None,
+    require_executable: bool = True,
     is_feasible: Optional[Callable[[Plan], bool]] = None,
 ) -> ExactSearchResult:
     """Enumerate every legal plan and return the globally best ``top_k``.
@@ -130,7 +131,12 @@ def exact_legal_search(
             f"exact search supports at most {max_nodes} nodes, got {len(graph.nodes)}"
         )
 
-    space = LegalFusionSearchSpace(graph, n_devs, registry)
+    space = LegalFusionSearchSpace(
+        graph,
+        n_devs,
+        registry,
+        require_executable=require_executable,
+    )
     search_space_size = count_exact_search_space(space)
     if search_space_size > max_evaluations:
         raise ExactSearchLimitExceeded(
@@ -183,7 +189,13 @@ def exact_legal_search(
                 "rank": rank,
             }
         )
-        validate_fusion_plan(graph, plan, n_devs, registry=space.registry)
+        validate_fusion_plan(
+            graph,
+            plan,
+            n_devs,
+            registry=space.registry,
+            require_executable=space.require_executable,
+        )
     return ExactSearchResult(
         plans=plans,
         scores=scores,
