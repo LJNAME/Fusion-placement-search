@@ -24,7 +24,7 @@ from simulator.validate import validate_fusion_plan
 
 
 EXECUTION_REPORT_FORMAT = "fusion-placement-search.execution-report"
-EXECUTION_REPORT_VERSION = "1.0"
+EXECUTION_REPORT_VERSION = "1.1"
 
 
 @dataclass(frozen=True)
@@ -48,6 +48,7 @@ class ExecutionReport:
     warmup_iterations: int
     measured_iterations: int
     devices: tuple[str, ...]
+    group_timing_method: str
     predicted_makespan_s: float | None
     predicted_peak_memory_bytes: tuple[float, ...]
     total_median_s: float
@@ -99,6 +100,9 @@ class _ReferenceExecutor:
         self._weights: dict[tuple[str, str], torch.Tensor] = {}
         self._inputs: dict[tuple[str, str], torch.Tensor] = {}
         self._norm_weights: dict[tuple[str, str], torch.Tensor] = {}
+        self._rope_tables: dict[
+            tuple[str, str], tuple[torch.Tensor, torch.Tensor]
+        ] = {}
         self._validate()
 
     def _validate(self) -> None:
@@ -152,19 +156,25 @@ class _ReferenceExecutor:
             self._norm_weights[key] = torch.ones(width, dtype=value.dtype, device=value.device)
         return F.rms_norm(value, (width,), self._norm_weights[key], eps=1e-6)
 
-    @staticmethod
-    def _rope(value: torch.Tensor) -> torch.Tensor:
+    def _rope(self, node_id: str, value: torch.Tensor) -> torch.Tensor:
         width = int(value.shape[-1])
         if width % 2:
             raise ValueError(f"RoPE head dimension must be even, got {width}")
-        positions = torch.arange(value.shape[1], device=value.device, dtype=torch.float32)
-        inv_freq = 1.0 / (
-            10000
-            ** (torch.arange(0, width, 2, device=value.device, dtype=torch.float32) / width)
-        )
-        angles = torch.outer(positions, inv_freq)
-        cos = angles.cos().to(value.dtype)[None, :, None, :]
-        sin = angles.sin().to(value.dtype)[None, :, None, :]
+        key = (node_id, str(value.device))
+        if key not in self._rope_tables:
+            positions = torch.arange(
+                value.shape[1], device=value.device, dtype=torch.float32
+            )
+            frequencies = torch.arange(
+                0, width, 2, device=value.device, dtype=torch.float32
+            )
+            frequencies = 1.0 / (1000000.0 ** (frequencies / width))
+            angles = torch.outer(positions, frequencies)
+            self._rope_tables[key] = (
+                angles.cos().to(value.dtype)[None, :, None, :],
+                angles.sin().to(value.dtype)[None, :, None, :],
+            )
+        cos, sin = self._rope_tables[key]
         even, odd = value[..., 0::2], value[..., 1::2]
         return torch.stack((even * cos - odd * sin, even * sin + odd * cos), dim=-1).flatten(-2)
 
@@ -199,7 +209,7 @@ class _ReferenceExecutor:
         elif op_type == "rmsnorm":
             result = self._rmsnorm(node_id, inputs[0])
         elif op_type == "rope":
-            result = self._rope(inputs[0])
+            result = self._rope(node_id, inputs[0])
         elif op_type == "softmax":
             compute_dtype = str(node.extra.get("compute_dtype", node.extra["dtype"]))
             source = inputs[0].float() if compute_dtype == "fp32" else inputs[0]
@@ -236,21 +246,31 @@ class _ReferenceExecutor:
             target = self.devices[group.device]
             predecessors = self.graph.predecessors(node_id)
             inputs: list[torch.Tensor] = []
-            if measure_groups:
+            cross_device = any(outputs[item].device != target for item in predecessors)
+            if measure_groups and cross_device:
                 _sync(self.devices)
-            transfer_start = time.perf_counter()
+                transfer_start = time.perf_counter()
             for predecessor in predecessors:
                 value = outputs[predecessor]
                 inputs.append(value if value.device == target else value.to(target))
-            if measure_groups:
+            if measure_groups and cross_device:
                 _sync(self.devices)
                 transfer_times[index] = time.perf_counter() - transfer_start
 
-            kernel_start = time.perf_counter()
-            outputs[node_id] = self._execute_node(node_id, inputs, target)
-            if measure_groups:
-                _sync((target,))
-                kernel_times[index] = time.perf_counter() - kernel_start
+            if measure_groups and target.type == "cuda":
+                with torch.cuda.device(target):
+                    start_event = torch.cuda.Event(enable_timing=True)
+                    end_event = torch.cuda.Event(enable_timing=True)
+                    start_event.record()
+                    outputs[node_id] = self._execute_node(node_id, inputs, target)
+                    end_event.record()
+                    end_event.synchronize()
+                    kernel_times[index] = start_event.elapsed_time(end_event) / 1e3
+            else:
+                kernel_start = time.perf_counter()
+                outputs[node_id] = self._execute_node(node_id, inputs, target)
+                if measure_groups:
+                    kernel_times[index] = time.perf_counter() - kernel_start
 
             for predecessor in predecessors:
                 remaining[predecessor] -= 1
@@ -327,6 +347,10 @@ def execute_reference_plan(
         warmup_iterations=warmup_iterations,
         measured_iterations=measured_iterations,
         devices=tuple(str(device) for device in executor.devices),
+        group_timing_method=(
+            "cuda-event" if all(device.type == "cuda" for device in executor.devices)
+            else "perf-counter"
+        ),
         predicted_makespan_s=placed.predicted_makespan,
         predicted_peak_memory_bytes=tuple(placed.predicted_peak_memory),
         total_median_s=float(statistics.median(totals)),

@@ -105,6 +105,8 @@ def verify_reference() -> dict[str, object]:
     _verify_planned_rejection()
     if report.output_shape != (2, 4) or len(report.groups) != 4:
         raise AssertionError(f"unexpected report: {report}")
+    if any(group.transfer_median_s != 0.0 for group in report.groups):
+        raise AssertionError("same-device CPU execution reported a transfer")
     return {
         "groups": len(report.groups),
         "devices": ",".join(report.devices),
