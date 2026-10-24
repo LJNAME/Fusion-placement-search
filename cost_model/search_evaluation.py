@@ -256,7 +256,7 @@ def evaluate_scale(
     seed: int = 23,
     beam: int = 8,
     rollouts: int = 3,
-    mcts_iterations: int = 128,
+    mcts_iterations: int = 64,
     top_k: int = 4,
     include_exact: bool = True,
     include_model_beam: bool = False,
@@ -422,7 +422,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=23)
     parser.add_argument("--beam", type=int, default=8)
     parser.add_argument("--rollouts", type=int, default=3)
-    parser.add_argument("--mcts-iterations", type=int, default=128)
+    parser.add_argument("--mcts-iterations", type=int, default=64)
     parser.add_argument("--top-k", type=int, default=4)
     parser.add_argument("--quick", action="store_true")
     parser.add_argument(
