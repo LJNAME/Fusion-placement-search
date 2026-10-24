@@ -138,6 +138,41 @@ class TestLegalSearchSpace(unittest.TestCase):
             all(action.device == 1 for action in space.actions(space.initial_state()))
         )
 
+    def test_anchor_index_skips_nodes_covered_by_fusion(self):
+        space = LegalFusionSearchSpace(
+            _swiglu_graph(),
+            n_devs=2,
+            require_executable=False,
+        )
+        state = space.initial_state()
+        gate = next(
+            action
+            for action in space.actions(state)
+            if len(action.candidate.node_ids) == 1 and action.device == 0
+        )
+        state = space.apply(state, gate)
+        fused = next(
+            action
+            for action in space.actions(state)
+            if len(action.candidate.node_ids) > 1 and action.device == 0
+        )
+        state = space.apply(state, fused)
+        self.assertNotIn(space.anchor(state), fused.candidate.node_ids)
+        up = next(
+            action
+            for action in space.actions(state)
+            if len(action.candidate.node_ids) == 1 and action.device == 0
+        )
+        state = space.apply(state, up)
+        self.assertEqual(
+            state.anchor_index,
+            next(
+                index
+                for index, node_id in enumerate(space.order)
+                if node_id not in state.assigned
+            ),
+        )
+
 
 class TestLegalBeamAndMCTS(unittest.TestCase):
     def setUp(self):

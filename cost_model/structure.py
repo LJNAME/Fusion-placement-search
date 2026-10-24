@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Optional, Tuple
 
 from simulator.fusion_rules import FusionPatternRegistry, default_fusion_registry
-from simulator.schema import OpGraph, Plan, edge_bytes, group_boundary_io
+from simulator.schema import OpGraph, Plan, TensorEdge, edge_bytes
 from simulator.validate import validate_fusion_plan, validate_plan
 
 
@@ -71,13 +71,38 @@ def analyze_plan_structure(
     else:
         validate_plan(graph, plan, n_devs)
 
+    incoming: dict[str, list[TensorEdge]] = {node_id: [] for node_id in graph.nodes}
+    outgoing: dict[str, list[TensorEdge]] = {node_id: [] for node_id in graph.nodes}
+    edge_sizes: dict[int, float] = {}
+    for edge in graph.edges:
+        incoming[edge.dst].append(edge)
+        outgoing[edge.src].append(edge)
+        edge_sizes[id(edge)] = edge_bytes(edge, graph)
+
     node_to_group: dict[str, int] = {}
     groups = []
     rules = registry or default_fusion_registry()
     for index, group in enumerate(plan.groups):
         for node_id in group.node_ids:
             node_to_group[node_id] = index
-        input_bytes, output_bytes = group_boundary_io(graph, group.node_ids)
+        node_ids = tuple(group.node_ids)
+        node_set = set(node_ids)
+        input_bytes = sum(float(graph.nodes[node_id].param_bytes) for node_id in node_ids)
+        input_bytes += sum(
+            edge_sizes[id(edge)]
+            for node_id in node_ids
+            for edge in incoming[node_id]
+            if edge.src not in node_set
+        )
+        output_nodes = {
+            node_id
+            for node_id in node_ids
+            if not outgoing[node_id]
+            or any(edge.dst not in node_set for edge in outgoing[node_id])
+        }
+        output_bytes = sum(
+            float(graph.nodes[node_id].out_bytes) for node_id in output_nodes
+        )
         pattern_id = str(group.extra.get("pattern_id", "legacy"))
         pattern = rules.get(pattern_id) if strict_fusion else None
         workspace_bytes = float(group.extra.get("workspace_bytes", 0.0))
@@ -87,7 +112,7 @@ def analyze_plan_structure(
             GroupStructure(
                 index=index,
                 group_id=f"fg{index:04d}",
-                node_ids=tuple(group.node_ids),
+                node_ids=node_ids,
                 device=int(group.device),
                 pattern_id=pattern_id,
                 backend=str(
@@ -104,9 +129,9 @@ def analyze_plan_structure(
                         else "unknown",
                     )
                 ),
-                flops=sum(float(graph.nodes[node_id].flops) for node_id in group.node_ids),
+                flops=sum(float(graph.nodes[node_id].flops) for node_id in node_ids),
                 parameter_bytes=sum(
-                    float(graph.nodes[node_id].param_bytes) for node_id in group.node_ids
+                    float(graph.nodes[node_id].param_bytes) for node_id in node_ids
                 ),
                 input_bytes=float(input_bytes),
                 output_bytes=float(output_bytes),

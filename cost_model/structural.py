@@ -40,6 +40,7 @@ def _peak_memory(
     makespan: float,
     transfers: Dict[int, _ScheduledTransfer],
 ) -> tuple[float, ...]:
+    node_to_group = dict(structure.node_to_group)
     events: dict[int, list[tuple[float, float]]] = {
         device: [] for device in range(structure.n_devs)
     }
@@ -54,15 +55,18 @@ def _peak_memory(
             events[device].append((ends[group.index], -group.workspace_bytes))
 
     dependency_by_edge: dict[tuple[str, str], list] = {}
+    outgoing_by_node: dict[str, list] = {node_id: [] for node_id in graph.nodes}
     for dep in structure.dependencies:
         dependency_by_edge.setdefault((dep.src_node, dep.dst_node), []).append(dep)
+    for edge in graph.edges:
+        outgoing_by_node[edge.src].append(edge)
     dependency_cursor: dict[tuple[str, str], int] = {}
     for node_id, node in graph.nodes.items():
         if node.out_bytes <= 0.0:
             continue
-        src_group = structure.group_index(node_id)
+        src_group = node_to_group[node_id]
         src_device = structure.groups[src_group].device
-        consumers = graph.out_edges(node_id)
+        consumers = outgoing_by_node[node_id]
         if not consumers:
             events[src_device].append((ends[src_group], float(node.out_bytes)))
             events[src_device].append((makespan, -float(node.out_bytes)))
@@ -70,7 +74,7 @@ def _peak_memory(
         external = [
             edge
             for edge in consumers
-            if structure.group_index(edge.dst) != src_group
+            if node_to_group[edge.dst] != src_group
         ]
         if not external:
             continue

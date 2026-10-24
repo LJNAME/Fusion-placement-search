@@ -36,6 +36,7 @@ class LegalChoice:
 class LegalPartialState:
     choices: Tuple[LegalChoice, ...] = ()
     assigned: frozenset[str] = frozenset()
+    anchor_index: int = 0
 
     def key(self) -> tuple:
         return tuple(
@@ -104,7 +105,9 @@ class LegalFusionSearchSpace:
         return len(state.assigned) == len(self.order)
 
     def anchor(self, state: LegalPartialState) -> Optional[str]:
-        return next((node_id for node_id in self.order if node_id not in state.assigned), None)
+        if state.anchor_index >= len(self.order):
+            return None
+        return self.order[state.anchor_index]
 
     def actions(self, state: LegalPartialState) -> List[LegalChoice]:
         anchor = self.anchor(state)
@@ -119,17 +122,26 @@ class LegalFusionSearchSpace:
         return result
 
     def apply(self, state: LegalPartialState, choice: LegalChoice) -> LegalPartialState:
-        if choice.device < 0 or choice.device >= self.n_devs:
-            raise ValueError(f"device out of range: {choice.device}")
-        legal = self.actions(state)
-        if choice not in legal:
+        if choice.device not in self.allowed_devices:
+            raise ValueError(f"device is not allowed: {choice.device}")
+        anchor = self.anchor(state)
+        if (
+            anchor is None
+            or choice.candidate not in self.by_node[anchor]
+            or any(node_id in state.assigned for node_id in choice.candidate.node_ids)
+        ):
             raise ValueError(
-                f"choice is not legal at anchor {self.anchor(state)}: "
+                f"choice is not legal at anchor {anchor}: "
                 f"{choice.candidate.pattern_id}{choice.candidate.node_ids}"
             )
+        assigned = state.assigned.union(choice.candidate.node_ids)
+        anchor_index = state.anchor_index + 1
+        while anchor_index < len(self.order) and self.order[anchor_index] in assigned:
+            anchor_index += 1
         return LegalPartialState(
             choices=state.choices + (choice,),
-            assigned=state.assigned.union(choice.candidate.node_ids),
+            assigned=assigned,
+            anchor_index=anchor_index,
         )
 
     def to_plan(

@@ -131,6 +131,42 @@ class TestPlanStructure(unittest.TestCase):
         second = analyze_plan_structure(_graph(), _plan(), n_devs=2)
         self.assertEqual(first, second)
 
+    def test_fused_boundary_io_matches_external_edges(self):
+        graph = _graph()
+        plan = Plan(
+            name="fused-chain",
+            groups=[
+                FusionGroup(
+                    ["a", "b"],
+                    0,
+                    {
+                        "pattern_id": "legacy",
+                        "backend": "unknown",
+                        "implementation_status": "unknown",
+                    },
+                ),
+                FusionGroup(
+                    ["c"],
+                    1,
+                    {
+                        "pattern_id": "legacy",
+                        "backend": "unknown",
+                        "implementation_status": "unknown",
+                    },
+                ),
+            ],
+        )
+        structure = analyze_plan_structure(
+            graph,
+            plan,
+            n_devs=2,
+            strict_fusion=False,
+        )
+        self.assertEqual(structure.groups[0].input_bytes, 32.0)
+        self.assertEqual(structure.groups[0].output_bytes, 64.0)
+        self.assertEqual(structure.groups[1].input_bytes, 80.0)
+        self.assertEqual(structure.groups[1].output_bytes, 64.0)
+
 
 class TestStructuralCostModel(unittest.TestCase):
     def test_returns_physical_cost_estimate_and_critical_path(self):
