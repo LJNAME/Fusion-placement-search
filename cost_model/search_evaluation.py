@@ -60,6 +60,33 @@ def qwen3_spec(num_layers: int) -> TransformerModelSpec:
     )
 
 
+def qwen25_3b_spec() -> TransformerModelSpec:
+    """Official Qwen2.5-3B dimensions represented by the dense graph builder."""
+
+    return TransformerModelSpec(
+        model_type="qwen2.5-3b",
+        num_layers=36,
+        hidden_size=2048,
+        ffn_hidden_size=11008,
+        num_attention_heads=16,
+        num_query_groups=2,
+        head_dim=128,
+        seq_length=256,
+        micro_batch_size=1,
+        vocab_size=151936,
+        dtype="bf16",
+        normalization="RMSNorm",
+        activation="silu",
+        use_swiglu=True,
+        qk_layernorm=False,
+        tied_embeddings=True,
+        attention_backend="unfused",
+        attention_softmax_in_fp32=True,
+        use_rotary_position_embeddings=True,
+        linear_bias=False,
+    )
+
+
 def _small_graph() -> OpGraph:
     full = build_decoder_layer(qwen3_spec(1), layer_id=0)
     selected = {
@@ -86,6 +113,8 @@ def build_evaluation_graph(scale: str) -> OpGraph:
         return build_decoder_layer(qwen3_spec(1), layer_id=0)
     if scale == "model":
         return build_model_graph(qwen3_spec(28))
+    if scale == "model_3b":
+        return build_model_graph(qwen25_3b_spec())
     raise ValueError(f"unknown evaluation scale: {scale}")
 
 
@@ -262,6 +291,7 @@ def evaluate_scale(
     include_model_beam: bool = False,
 ) -> dict[str, object]:
     graph = build_evaluation_graph(scale)
+    is_large_model = scale in {"model", "model_3b"}
     scorer = _CachedScorer(graph, profile)
     reference_registry = default_fusion_registry()
     baseline = make_reference_plan(graph, device=0, registry=reference_registry)
@@ -270,6 +300,12 @@ def evaluate_scale(
         "graph_name": graph.name,
         "nodes": len(graph.nodes),
         "edges": len(graph.edges),
+        "parameter_elements": int(
+            sum(float(node.param_bytes) for node in graph.nodes.values()) / 2.0
+        ),
+        "parameter_bytes": sum(
+            float(node.param_bytes) for node in graph.nodes.values()
+        ),
         "configuration": {
             "seed": seed,
             "beam": beam,
@@ -283,7 +319,7 @@ def evaluate_scale(
         "searches": [],
         "skipped_methods": (
             []
-            if scale != "model" or include_model_beam
+            if not is_large_model or include_model_beam
             else [
                 {
                     "method": "beam",
@@ -323,7 +359,7 @@ def evaluate_scale(
 
         methods = (
             ("beam", "mcts")
-            if scale != "model" or include_model_beam
+            if not is_large_model or include_model_beam
             else ("mcts",)
         )
         for method in methods:
@@ -428,7 +464,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--model-beam",
         action="store_true",
-        help="also run direct Beam on the 591-node model (slow and memory intensive)",
+        help="also run direct Beam on large full-model graphs (slow and memory intensive)",
     )
     parser.add_argument("--output", required=True, type=Path)
     return parser.parse_args()
@@ -437,7 +473,7 @@ def _parse_args() -> argparse.Namespace:
 def main() -> None:
     args = _parse_args()
     scales = tuple(item.strip() for item in args.scales.split(",") if item.strip())
-    unknown = sorted(set(scales) - {"small", "layer", "model"})
+    unknown = sorted(set(scales) - {"small", "layer", "model", "model_3b"})
     if not scales or unknown:
         raise ValueError(f"invalid --scales value; unknown={unknown}")
     profile = MeasuredHardwareProfile.from_files(args.hardware, args.raw)

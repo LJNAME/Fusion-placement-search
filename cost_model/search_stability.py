@@ -174,7 +174,11 @@ def _parse_args() -> argparse.Namespace:
         type=Path,
         default=root / "data" / "bw1000_2card" / "raw_measurements.json",
     )
-    parser.add_argument("--scale", choices=("small", "layer", "model"), default="model")
+    parser.add_argument(
+        "--scale",
+        choices=("small", "layer", "model", "model_3b"),
+        default="model",
+    )
     parser.add_argument("--modes", default="joint")
     parser.add_argument("--seeds", type=_csv_ints, default=(0, 1, 7, 23))
     parser.add_argument("--iteration-budgets", type=_csv_ints, default=(32, 64, 128))
