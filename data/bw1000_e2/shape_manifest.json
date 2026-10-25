@@ -237,6 +237,98 @@
   ],
   "objects": [
     {
+      "object_id": "sha256:00177662f80d83c91fbe3ae5c161f78373133540f574e0e8783f8bf8a8963485",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            512,
+            1024
+          ],
+          "normalized_size": 1024
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 1048576,
+        "estimated_parameter_bytes": 2048,
+        "estimated_memory_bytes": 2097152,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen3-0.6b-s512-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 512,
+          "micro_batch_size": 1,
+          "local_name": "final_norm",
+          "occurrence_count": 1,
+          "example_node_id": "final_norm"
+        },
+        {
+          "model_id": "qwen3-0.6b-s512-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 512,
+          "micro_batch_size": 1,
+          "local_name": "input_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.input_norm"
+        },
+        {
+          "model_id": "qwen3-0.6b-s512-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 512,
+          "micro_batch_size": 1,
+          "local_name": "pre_mlp_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.pre_mlp_norm"
+        }
+      ]
+    },
+    {
       "object_id": "sha256:00549250f15f213b744060d4c92ff3866ca0d038684e3156966100557bc8918f",
       "kernel_key": {
         "key_version": "1.0",
@@ -940,80 +1032,6 @@
       ]
     },
     {
-      "object_id": "sha256:0e0489db7dd856636e7f605e825f5e9d11756c48119de3b3f051f6216efd0d9c",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            512,
-            8,
-            128
-          ],
-          "normalized_size": 128
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 1048576,
-        "estimated_parameter_bytes": 256,
-        "estimated_memory_bytes": 2097152,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen3-0.6b-s512-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 512,
-          "micro_batch_size": 1,
-          "local_name": "self_attention.k_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.self_attention.k_norm"
-        }
-      ]
-    },
-    {
       "object_id": "sha256:10a69d65ce3cc80edef48dbae67fd95e1173e598bdd83bd0eb0f416874bb56a0",
       "kernel_key": {
         "key_version": "1.0",
@@ -1156,6 +1174,81 @@
           "local_name": "input",
           "occurrence_count": 36,
           "example_node_id": "L000.input"
+        }
+      ]
+    },
+    {
+      "object_id": "sha256:12469036c7972c02ba0dc66221ececdd9f4222878978f7a7949e068c9f4d2da6",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            128,
+            8,
+            128
+          ],
+          "normalized_size": 128
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 262144,
+        "estimated_parameter_bytes": 256,
+        "estimated_memory_bytes": 524288,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen3-0.6b-s128-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 128,
+          "micro_batch_size": 1,
+          "local_name": "self_attention.k_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.self_attention.k_norm"
         }
       ]
     },
@@ -1694,6 +1787,98 @@
       ]
     },
     {
+      "object_id": "sha256:2b55eaa9c13880918e29bfd64bac1ea461b10214a564717974eef98716f46911",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            512,
+            2048
+          ],
+          "normalized_size": 2048
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 2097152,
+        "estimated_parameter_bytes": 4096,
+        "estimated_memory_bytes": 4194304,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen2.5-3b-s512-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 512,
+          "micro_batch_size": 1,
+          "local_name": "final_norm",
+          "occurrence_count": 1,
+          "example_node_id": "final_norm"
+        },
+        {
+          "model_id": "qwen2.5-3b-s512-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 512,
+          "micro_batch_size": 1,
+          "local_name": "input_norm",
+          "occurrence_count": 36,
+          "example_node_id": "L000.input_norm"
+        },
+        {
+          "model_id": "qwen2.5-3b-s512-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 512,
+          "micro_batch_size": 1,
+          "local_name": "pre_mlp_norm",
+          "occurrence_count": 36,
+          "example_node_id": "L000.pre_mlp_norm"
+        }
+      ]
+    },
+    {
       "object_id": "sha256:2cce1df28d0c0dd7c1f382c583c72d223c8a95647c46dcf24156295f14b327a5",
       "kernel_key": {
         "key_version": "1.0",
@@ -1929,6 +2114,98 @@
       ]
     },
     {
+      "object_id": "sha256:2f56b388c58822284f953bdba8b9040661e684ae1b1cfbbcb3bd66591418617a",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            128,
+            2048
+          ],
+          "normalized_size": 2048
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 524288,
+        "estimated_parameter_bytes": 4096,
+        "estimated_memory_bytes": 1048576,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen2.5-3b-s128-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 128,
+          "micro_batch_size": 1,
+          "local_name": "final_norm",
+          "occurrence_count": 1,
+          "example_node_id": "final_norm"
+        },
+        {
+          "model_id": "qwen2.5-3b-s128-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 128,
+          "micro_batch_size": 1,
+          "local_name": "input_norm",
+          "occurrence_count": 36,
+          "example_node_id": "L000.input_norm"
+        },
+        {
+          "model_id": "qwen2.5-3b-s128-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 128,
+          "micro_batch_size": 1,
+          "local_name": "pre_mlp_norm",
+          "occurrence_count": 36,
+          "example_node_id": "L000.pre_mlp_norm"
+        }
+      ]
+    },
+    {
       "object_id": "sha256:3091a8fa7b2f7f043c92061bb81373060f0c570dec65ffaeaed50bae353ea9d9",
       "kernel_key": {
         "key_version": "1.0",
@@ -2087,97 +2364,6 @@
           "local_name": "self_attention.av_matmul",
           "occurrence_count": 28,
           "example_node_id": "L000.self_attention.av_matmul"
-        }
-      ]
-    },
-    {
-      "object_id": "sha256:32a8df4f725a03ac125b7a519643ecfadeaa4b042172cd21b7bd4cfeed7a606e",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            512,
-            1024
-          ],
-          "normalized_size": 1024
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 1048576,
-        "estimated_parameter_bytes": 2048,
-        "estimated_memory_bytes": 2097152,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen3-0.6b-s512-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 512,
-          "micro_batch_size": 1,
-          "local_name": "final_norm",
-          "occurrence_count": 1,
-          "example_node_id": "final_norm"
-        },
-        {
-          "model_id": "qwen3-0.6b-s512-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 512,
-          "micro_batch_size": 1,
-          "local_name": "input_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.input_norm"
-        },
-        {
-          "model_id": "qwen3-0.6b-s512-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 512,
-          "micro_batch_size": 1,
-          "local_name": "pre_mlp_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.pre_mlp_norm"
         }
       ]
     },
@@ -2793,171 +2979,6 @@
       ]
     },
     {
-      "object_id": "sha256:4579d06fcfcaff5593da87151aeb1fa18a7044a4ae416bfef06dd4b79281d60f",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            128,
-            1024
-          ],
-          "normalized_size": 1024
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 262144,
-        "estimated_parameter_bytes": 2048,
-        "estimated_memory_bytes": 524288,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen3-0.6b-s128-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 128,
-          "micro_batch_size": 1,
-          "local_name": "final_norm",
-          "occurrence_count": 1,
-          "example_node_id": "final_norm"
-        },
-        {
-          "model_id": "qwen3-0.6b-s128-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 128,
-          "micro_batch_size": 1,
-          "local_name": "input_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.input_norm"
-        },
-        {
-          "model_id": "qwen3-0.6b-s128-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 128,
-          "micro_batch_size": 1,
-          "local_name": "pre_mlp_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.pre_mlp_norm"
-        }
-      ]
-    },
-    {
-      "object_id": "sha256:4893e81c13ffee0661697fbba9affebf4b24091e453224e1755fb6e4f04e0a38",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            1024,
-            8,
-            128
-          ],
-          "normalized_size": 128
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 2097152,
-        "estimated_parameter_bytes": 256,
-        "estimated_memory_bytes": 4194304,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen3-0.6b-s1024-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 1024,
-          "micro_batch_size": 1,
-          "local_name": "self_attention.k_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.self_attention.k_norm"
-        }
-      ]
-    },
-    {
       "object_id": "sha256:48bd27b5c2ea8bfa2389ef3f50c19d317c686b69ae14275d221da082cfcfb1a0",
       "kernel_key": {
         "key_version": "1.0",
@@ -3342,6 +3363,81 @@
       ]
     },
     {
+      "object_id": "sha256:4eea6a9c0c2d8458a3c4fd7a64491624070bf4d22a9e6201ceac953326857901",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            512,
+            8,
+            128
+          ],
+          "normalized_size": 128
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 1048576,
+        "estimated_parameter_bytes": 256,
+        "estimated_memory_bytes": 2097152,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen3-0.6b-s512-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 512,
+          "micro_batch_size": 1,
+          "local_name": "self_attention.k_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.self_attention.k_norm"
+        }
+      ]
+    },
+    {
       "object_id": "sha256:512a9b57a23981a34181a0d226e7bc334c2c720fb2d52504a0672c335e80b816",
       "kernel_key": {
         "key_version": "1.0",
@@ -3645,97 +3741,6 @@
       ]
     },
     {
-      "object_id": "sha256:531891ccc4da6afd9d965b1d234da066a510a45196c6ddbc9945ca55d7eb0b3d",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            128,
-            2048
-          ],
-          "normalized_size": 2048
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 524288,
-        "estimated_parameter_bytes": 4096,
-        "estimated_memory_bytes": 1048576,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen2.5-3b-s128-b1",
-          "model_family": "qwen2.5-3b",
-          "sequence_length": 128,
-          "micro_batch_size": 1,
-          "local_name": "final_norm",
-          "occurrence_count": 1,
-          "example_node_id": "final_norm"
-        },
-        {
-          "model_id": "qwen2.5-3b-s128-b1",
-          "model_family": "qwen2.5-3b",
-          "sequence_length": 128,
-          "micro_batch_size": 1,
-          "local_name": "input_norm",
-          "occurrence_count": 36,
-          "example_node_id": "L000.input_norm"
-        },
-        {
-          "model_id": "qwen2.5-3b-s128-b1",
-          "model_family": "qwen2.5-3b",
-          "sequence_length": 128,
-          "micro_batch_size": 1,
-          "local_name": "pre_mlp_norm",
-          "occurrence_count": 36,
-          "example_node_id": "L000.pre_mlp_norm"
-        }
-      ]
-    },
-    {
       "object_id": "sha256:5375714f588d456348b2d41b2ac31131839f2fb781eedff7a91e4ea205b89ade",
       "kernel_key": {
         "key_version": "1.0",
@@ -3805,97 +3810,6 @@
           "local_name": "mlp.gated_mul",
           "occurrence_count": 36,
           "example_node_id": "L000.mlp.gated_mul"
-        }
-      ]
-    },
-    {
-      "object_id": "sha256:5582ca45345fc4e44e88ce0aa41e4586c4f8a5a8ddbdc8e53d67a8892aa608ef",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            512,
-            2048
-          ],
-          "normalized_size": 2048
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 2097152,
-        "estimated_parameter_bytes": 4096,
-        "estimated_memory_bytes": 4194304,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen2.5-3b-s512-b1",
-          "model_family": "qwen2.5-3b",
-          "sequence_length": 512,
-          "micro_batch_size": 1,
-          "local_name": "final_norm",
-          "occurrence_count": 1,
-          "example_node_id": "final_norm"
-        },
-        {
-          "model_id": "qwen2.5-3b-s512-b1",
-          "model_family": "qwen2.5-3b",
-          "sequence_length": 512,
-          "micro_batch_size": 1,
-          "local_name": "input_norm",
-          "occurrence_count": 36,
-          "example_node_id": "L000.input_norm"
-        },
-        {
-          "model_id": "qwen2.5-3b-s512-b1",
-          "model_family": "qwen2.5-3b",
-          "sequence_length": 512,
-          "micro_batch_size": 1,
-          "local_name": "pre_mlp_norm",
-          "occurrence_count": 36,
-          "example_node_id": "L000.pre_mlp_norm"
         }
       ]
     },
@@ -4111,6 +4025,248 @@
           "local_name": "mlp.silu",
           "occurrence_count": 28,
           "example_node_id": "L000.mlp.silu"
+        }
+      ]
+    },
+    {
+      "object_id": "sha256:6004798cfd78ab4a84d11ae1b995d700228284927634a173676eafa94847f6a3",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            1024,
+            2048
+          ],
+          "normalized_size": 2048
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 4194304,
+        "estimated_parameter_bytes": 4096,
+        "estimated_memory_bytes": 8388608,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen2.5-3b-s1024-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 1024,
+          "micro_batch_size": 1,
+          "local_name": "final_norm",
+          "occurrence_count": 1,
+          "example_node_id": "final_norm"
+        },
+        {
+          "model_id": "qwen2.5-3b-s1024-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 1024,
+          "micro_batch_size": 1,
+          "local_name": "input_norm",
+          "occurrence_count": 36,
+          "example_node_id": "L000.input_norm"
+        },
+        {
+          "model_id": "qwen2.5-3b-s1024-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 1024,
+          "micro_batch_size": 1,
+          "local_name": "pre_mlp_norm",
+          "occurrence_count": 36,
+          "example_node_id": "L000.pre_mlp_norm"
+        }
+      ]
+    },
+    {
+      "object_id": "sha256:60a01cf18b47667a2935796c22efcaaca3b9879b82e925d7ad9cec510defafd8",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            256,
+            16,
+            128
+          ],
+          "normalized_size": 128
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 1048576,
+        "estimated_parameter_bytes": 256,
+        "estimated_memory_bytes": 2097152,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen3-0.6b-s256-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 256,
+          "micro_batch_size": 1,
+          "local_name": "self_attention.q_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.self_attention.q_norm"
+        }
+      ]
+    },
+    {
+      "object_id": "sha256:65615e92c3b88f498d7beb37e4d311828ddad6c8a9ca02604208bc3a6f519701",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            1024,
+            8,
+            128
+          ],
+          "normalized_size": 128
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 2097152,
+        "estimated_parameter_bytes": 256,
+        "estimated_memory_bytes": 4194304,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen3-0.6b-s1024-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 1024,
+          "micro_batch_size": 1,
+          "local_name": "self_attention.k_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.self_attention.k_norm"
         }
       ]
     },
@@ -4490,80 +4646,6 @@
           "local_name": "self_attention.qk_matmul",
           "occurrence_count": 36,
           "example_node_id": "L000.self_attention.qk_matmul"
-        }
-      ]
-    },
-    {
-      "object_id": "sha256:7305de36c6b852d08ba502074d135fa99c3f652a3727ba42669bc151c20f3b5f",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            1024,
-            16,
-            128
-          ],
-          "normalized_size": 128
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 4194304,
-        "estimated_parameter_bytes": 256,
-        "estimated_memory_bytes": 8388608,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen3-0.6b-s1024-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 1024,
-          "micro_batch_size": 1,
-          "local_name": "self_attention.q_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.self_attention.q_norm"
         }
       ]
     },
@@ -5089,6 +5171,81 @@
           "local_name": "lm_head",
           "occurrence_count": 1,
           "example_node_id": "lm_head"
+        }
+      ]
+    },
+    {
+      "object_id": "sha256:7e1c1ecf76c64a16e79c4e6fe55b1984af94b9589d4ad4b022e43bcb259f1128",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            512,
+            16,
+            128
+          ],
+          "normalized_size": 128
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 2097152,
+        "estimated_parameter_bytes": 256,
+        "estimated_memory_bytes": 4194304,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen3-0.6b-s512-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 512,
+          "micro_batch_size": 1,
+          "local_name": "self_attention.q_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.self_attention.q_norm"
         }
       ]
     },
@@ -5680,80 +5837,6 @@
       ]
     },
     {
-      "object_id": "sha256:8b9460680f704e6244d6d9941210d7fb6c2b67d4b277f77cc3a28cde0464cd08",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            256,
-            16,
-            128
-          ],
-          "normalized_size": 128
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 1048576,
-        "estimated_parameter_bytes": 256,
-        "estimated_memory_bytes": 2097152,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen3-0.6b-s256-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 256,
-          "micro_batch_size": 1,
-          "local_name": "self_attention.q_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.self_attention.q_norm"
-        }
-      ]
-    },
-    {
       "object_id": "sha256:8e4c3db6cd9d29fdab934d04419062b2af2e0272c0edeaeab3167133cfd840d5",
       "kernel_key": {
         "key_version": "1.0",
@@ -6049,7 +6132,7 @@
       ]
     },
     {
-      "object_id": "sha256:96a55134a18bc3c600a3e0ec23b14a781aa9b2fe9014e068e71d8bdb387bda60",
+      "object_id": "sha256:96e077b29288d9864eb39565b278d1763c29f4a9dade463aaa87037344f254f3",
       "kernel_key": {
         "key_version": "1.0",
         "hardware": {
@@ -6079,23 +6162,24 @@
         "shape": {
           "input": [
             1,
-            128,
-            8,
+            1024,
+            16,
             128
           ],
           "normalized_size": 128
         },
         "compile_flags": {},
         "runtime_flags": {
-          "phase": "forward"
+          "phase": "forward",
+          "epsilon": 1e-06
         }
       },
       "measurement": {
         "enabled": true,
         "skip_reason": null,
-        "estimated_output_bytes": 262144,
+        "estimated_output_bytes": 4194304,
         "estimated_parameter_bytes": 256,
-        "estimated_memory_bytes": 524288,
+        "estimated_memory_bytes": 8388608,
         "recipe": {
           "input_initialization": {
             "distribution": "normal",
@@ -6112,13 +6196,13 @@
       },
       "usages": [
         {
-          "model_id": "qwen3-0.6b-s128-b1",
+          "model_id": "qwen3-0.6b-s1024-b1",
           "model_family": "qwen3-0.6b",
-          "sequence_length": 128,
+          "sequence_length": 1024,
           "micro_batch_size": 1,
-          "local_name": "self_attention.k_norm",
+          "local_name": "self_attention.q_norm",
           "occurrence_count": 28,
-          "example_node_id": "L000.self_attention.k_norm"
+          "example_node_id": "L000.self_attention.q_norm"
         }
       ]
     },
@@ -6196,7 +6280,7 @@
       ]
     },
     {
-      "object_id": "sha256:98ab136e67385b3872ea95652beb96baa61f3a64b737164d94b7831952a578f7",
+      "object_id": "sha256:98b382ffc6abf52e605800080036d6dbf0bdedf59a9d3ff284776d66fbaa9e90",
       "kernel_key": {
         "key_version": "1.0",
         "hardware": {
@@ -6227,22 +6311,22 @@
           "input": [
             1,
             128,
-            16,
-            128
+            1024
           ],
-          "normalized_size": 128
+          "normalized_size": 1024
         },
         "compile_flags": {},
         "runtime_flags": {
-          "phase": "forward"
+          "phase": "forward",
+          "epsilon": 1e-06
         }
       },
       "measurement": {
         "enabled": true,
         "skip_reason": null,
-        "estimated_output_bytes": 524288,
-        "estimated_parameter_bytes": 256,
-        "estimated_memory_bytes": 1048576,
+        "estimated_output_bytes": 262144,
+        "estimated_parameter_bytes": 2048,
+        "estimated_memory_bytes": 524288,
         "recipe": {
           "input_initialization": {
             "distribution": "normal",
@@ -6263,9 +6347,27 @@
           "model_family": "qwen3-0.6b",
           "sequence_length": 128,
           "micro_batch_size": 1,
-          "local_name": "self_attention.q_norm",
+          "local_name": "final_norm",
+          "occurrence_count": 1,
+          "example_node_id": "final_norm"
+        },
+        {
+          "model_id": "qwen3-0.6b-s128-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 128,
+          "micro_batch_size": 1,
+          "local_name": "input_norm",
           "occurrence_count": 28,
-          "example_node_id": "L000.self_attention.q_norm"
+          "example_node_id": "L000.input_norm"
+        },
+        {
+          "model_id": "qwen3-0.6b-s128-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 128,
+          "micro_batch_size": 1,
+          "local_name": "pre_mlp_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.pre_mlp_norm"
         }
       ]
     },
@@ -6576,6 +6678,81 @@
       ]
     },
     {
+      "object_id": "sha256:a13410684a2d67c29c861c5eaabec4c76746f4a945a527c2a0aa10f5bf6d0ad4",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            256,
+            8,
+            128
+          ],
+          "normalized_size": 128
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 524288,
+        "estimated_parameter_bytes": 256,
+        "estimated_memory_bytes": 1048576,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen3-0.6b-s256-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 256,
+          "micro_batch_size": 1,
+          "local_name": "self_attention.k_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.self_attention.k_norm"
+        }
+      ]
+    },
+    {
       "object_id": "sha256:a1d6f207cc0420c129256fd1a80630ea4ee5aed5b1f0e586f889505bd55c89e7",
       "kernel_key": {
         "key_version": "1.0",
@@ -6645,6 +6822,81 @@
           "local_name": "embedding",
           "occurrence_count": 1,
           "example_node_id": "embedding"
+        }
+      ]
+    },
+    {
+      "object_id": "sha256:a1f56c0032eced3d29d1d223c2a1098149442cec0a9141e19f6021c03d4f91b8",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            128,
+            16,
+            128
+          ],
+          "normalized_size": 128
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 524288,
+        "estimated_parameter_bytes": 256,
+        "estimated_memory_bytes": 1048576,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen3-0.6b-s128-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 128,
+          "micro_batch_size": 1,
+          "local_name": "self_attention.q_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.self_attention.q_norm"
         }
       ]
     },
@@ -6871,188 +7123,6 @@
           "local_name": "mlp.gated_mul",
           "occurrence_count": 36,
           "example_node_id": "L000.mlp.gated_mul"
-        }
-      ]
-    },
-    {
-      "object_id": "sha256:a84bcc51fbb41258e701b65b9faa4811cede96a5c8fa9ef300f58f2278b5cbc3",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            1024,
-            1024
-          ],
-          "normalized_size": 1024
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 2097152,
-        "estimated_parameter_bytes": 2048,
-        "estimated_memory_bytes": 4194304,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen3-0.6b-s1024-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 1024,
-          "micro_batch_size": 1,
-          "local_name": "final_norm",
-          "occurrence_count": 1,
-          "example_node_id": "final_norm"
-        },
-        {
-          "model_id": "qwen3-0.6b-s1024-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 1024,
-          "micro_batch_size": 1,
-          "local_name": "input_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.input_norm"
-        },
-        {
-          "model_id": "qwen3-0.6b-s1024-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 1024,
-          "micro_batch_size": 1,
-          "local_name": "pre_mlp_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.pre_mlp_norm"
-        }
-      ]
-    },
-    {
-      "object_id": "sha256:a8b05a074a98060b1cf5e8adb9753ed095333bb1698e7029d97db33524249b5a",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            1024,
-            2048
-          ],
-          "normalized_size": 2048
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 4194304,
-        "estimated_parameter_bytes": 4096,
-        "estimated_memory_bytes": 8388608,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen2.5-3b-s1024-b1",
-          "model_family": "qwen2.5-3b",
-          "sequence_length": 1024,
-          "micro_batch_size": 1,
-          "local_name": "final_norm",
-          "occurrence_count": 1,
-          "example_node_id": "final_norm"
-        },
-        {
-          "model_id": "qwen2.5-3b-s1024-b1",
-          "model_family": "qwen2.5-3b",
-          "sequence_length": 1024,
-          "micro_batch_size": 1,
-          "local_name": "input_norm",
-          "occurrence_count": 36,
-          "example_node_id": "L000.input_norm"
-        },
-        {
-          "model_id": "qwen2.5-3b-s1024-b1",
-          "model_family": "qwen2.5-3b",
-          "sequence_length": 1024,
-          "micro_batch_size": 1,
-          "local_name": "pre_mlp_norm",
-          "occurrence_count": 36,
-          "example_node_id": "L000.pre_mlp_norm"
         }
       ]
     },
@@ -7514,154 +7584,6 @@
       ]
     },
     {
-      "object_id": "sha256:b838e0cded4cb536c86e621f9cc519441e73dd4cb91d0bb62d6ae4706a7154f3",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            512,
-            16,
-            128
-          ],
-          "normalized_size": 128
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 2097152,
-        "estimated_parameter_bytes": 256,
-        "estimated_memory_bytes": 4194304,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen3-0.6b-s512-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 512,
-          "micro_batch_size": 1,
-          "local_name": "self_attention.q_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.self_attention.q_norm"
-        }
-      ]
-    },
-    {
-      "object_id": "sha256:b9ebeead3f3880ff8ca2d40985b1427634dda7bad19388a7e7dbba7bdf2f46ac",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            256,
-            8,
-            128
-          ],
-          "normalized_size": 128
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 524288,
-        "estimated_parameter_bytes": 256,
-        "estimated_memory_bytes": 1048576,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen3-0.6b-s256-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 256,
-          "micro_batch_size": 1,
-          "local_name": "self_attention.k_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.self_attention.k_norm"
-        }
-      ]
-    },
-    {
       "object_id": "sha256:bd1a4c7be89f5feec5ea726dbc696f2716320d6bdf6677101ecd9708c84e0ffb",
       "kernel_key": {
         "key_version": "1.0",
@@ -7738,6 +7660,98 @@
           "local_name": "mlp.up_proj",
           "occurrence_count": 36,
           "example_node_id": "L000.mlp.up_proj"
+        }
+      ]
+    },
+    {
+      "object_id": "sha256:bf9cea0b30bbddd2eacb83066e922e229d0231aa9e34f9849f0d8943e3f305a6",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            256,
+            1024
+          ],
+          "normalized_size": 1024
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 524288,
+        "estimated_parameter_bytes": 2048,
+        "estimated_memory_bytes": 1048576,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen3-0.6b-s256-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 256,
+          "micro_batch_size": 1,
+          "local_name": "final_norm",
+          "occurrence_count": 1,
+          "example_node_id": "final_norm"
+        },
+        {
+          "model_id": "qwen3-0.6b-s256-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 256,
+          "micro_batch_size": 1,
+          "local_name": "input_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.input_norm"
+        },
+        {
+          "model_id": "qwen3-0.6b-s256-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 256,
+          "micro_batch_size": 1,
+          "local_name": "pre_mlp_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.pre_mlp_norm"
         }
       ]
     },
@@ -8629,97 +8643,6 @@
       ]
     },
     {
-      "object_id": "sha256:dca40157b18abee3f8f616ad3933b2d37940c597e82840238b944f4220a1d9b8",
-      "kernel_key": {
-        "key_version": "1.0",
-        "hardware": {
-          "class": "BW1000",
-          "scope": "single_device"
-        },
-        "backend": {
-          "framework": "pytorch",
-          "framework_version": "2.9.0",
-          "accelerator": "hip",
-          "accelerator_version": "6.3.26093"
-        },
-        "implementation": {
-          "id": "torch.rms_norm.reference",
-          "version": "e2-v1"
-        },
-        "operator": "rmsnorm",
-        "dtype": {
-          "input": "bf16",
-          "compute": "bf16",
-          "output": "bf16"
-        },
-        "layout": {
-          "contiguity": "contiguous",
-          "order": "row_major"
-        },
-        "shape": {
-          "input": [
-            1,
-            256,
-            1024
-          ],
-          "normalized_size": 1024
-        },
-        "compile_flags": {},
-        "runtime_flags": {
-          "phase": "forward"
-        }
-      },
-      "measurement": {
-        "enabled": true,
-        "skip_reason": null,
-        "estimated_output_bytes": 524288,
-        "estimated_parameter_bytes": 2048,
-        "estimated_memory_bytes": 1048576,
-        "recipe": {
-          "input_initialization": {
-            "distribution": "normal",
-            "seed": 1234
-          },
-          "warmup": 10,
-          "iterations_per_sample": 50,
-          "samples": 7,
-          "timing": "accelerator_event",
-          "synchronize_before": true,
-          "synchronize_after": true,
-          "implementation_id": "torch.rms_norm.reference"
-        }
-      },
-      "usages": [
-        {
-          "model_id": "qwen3-0.6b-s256-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 256,
-          "micro_batch_size": 1,
-          "local_name": "final_norm",
-          "occurrence_count": 1,
-          "example_node_id": "final_norm"
-        },
-        {
-          "model_id": "qwen3-0.6b-s256-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 256,
-          "micro_batch_size": 1,
-          "local_name": "input_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.input_norm"
-        },
-        {
-          "model_id": "qwen3-0.6b-s256-b1",
-          "model_family": "qwen3-0.6b",
-          "sequence_length": 256,
-          "micro_batch_size": 1,
-          "local_name": "pre_mlp_norm",
-          "occurrence_count": 28,
-          "example_node_id": "L000.pre_mlp_norm"
-        }
-      ]
-    },
-    {
       "object_id": "sha256:ddb81ce83b340445182f4e1576d571e9f5a4532edf354d705bb5c8b65183642a",
       "kernel_key": {
         "key_version": "1.0",
@@ -9170,6 +9093,98 @@
           "local_name": "mlp.gated_mul",
           "occurrence_count": 28,
           "example_node_id": "L000.mlp.gated_mul"
+        }
+      ]
+    },
+    {
+      "object_id": "sha256:ebc5a667ee532486e79dd47914bb3a36542bf14500ad486e08ef8140dfc1951d",
+      "kernel_key": {
+        "key_version": "1.0",
+        "hardware": {
+          "class": "BW1000",
+          "scope": "single_device"
+        },
+        "backend": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26093"
+        },
+        "implementation": {
+          "id": "torch.rms_norm.reference",
+          "version": "e2-v1"
+        },
+        "operator": "rmsnorm",
+        "dtype": {
+          "input": "bf16",
+          "compute": "bf16",
+          "output": "bf16"
+        },
+        "layout": {
+          "contiguity": "contiguous",
+          "order": "row_major"
+        },
+        "shape": {
+          "input": [
+            1,
+            1024,
+            1024
+          ],
+          "normalized_size": 1024
+        },
+        "compile_flags": {},
+        "runtime_flags": {
+          "phase": "forward",
+          "epsilon": 1e-06
+        }
+      },
+      "measurement": {
+        "enabled": true,
+        "skip_reason": null,
+        "estimated_output_bytes": 2097152,
+        "estimated_parameter_bytes": 2048,
+        "estimated_memory_bytes": 4194304,
+        "recipe": {
+          "input_initialization": {
+            "distribution": "normal",
+            "seed": 1234
+          },
+          "warmup": 10,
+          "iterations_per_sample": 50,
+          "samples": 7,
+          "timing": "accelerator_event",
+          "synchronize_before": true,
+          "synchronize_after": true,
+          "implementation_id": "torch.rms_norm.reference"
+        }
+      },
+      "usages": [
+        {
+          "model_id": "qwen3-0.6b-s1024-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 1024,
+          "micro_batch_size": 1,
+          "local_name": "final_norm",
+          "occurrence_count": 1,
+          "example_node_id": "final_norm"
+        },
+        {
+          "model_id": "qwen3-0.6b-s1024-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 1024,
+          "micro_batch_size": 1,
+          "local_name": "input_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.input_norm"
+        },
+        {
+          "model_id": "qwen3-0.6b-s1024-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 1024,
+          "micro_batch_size": 1,
+          "local_name": "pre_mlp_norm",
+          "occurrence_count": 28,
+          "example_node_id": "L000.pre_mlp_norm"
         }
       ]
     },
@@ -10030,7 +10045,7 @@
       ]
     },
     {
-      "object_id": "sha256:febe6a8d188ed73a73d61f69d02666817630f035932a196352893303ed6e4a2f",
+      "object_id": "sha256:ff441e3dc61e3b988d75b0c3e2018fb8e7f7200790667bcd4aabcf2ef79e8ad0",
       "kernel_key": {
         "key_version": "1.0",
         "hardware": {
@@ -10067,7 +10082,8 @@
         },
         "compile_flags": {},
         "runtime_flags": {
-          "phase": "forward"
+          "phase": "forward",
+          "epsilon": 1e-06
         }
       },
       "measurement": {
@@ -10121,5 +10137,5 @@
       ]
     }
   ],
-  "manifest_id": "sha256:01c0310d331444550e46b4190d6096e2f0c40d41d0abb3ad0483643296c00800"
+  "manifest_id": "sha256:22ca53c2cba8936e32616b6b89bef58b08fc810451b001727677bbb17a105020"
 }

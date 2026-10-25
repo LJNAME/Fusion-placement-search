@@ -10,6 +10,7 @@ from .e2_records import (
     pending_measurement_object_ids,
     validate_raw_measurement_record,
 )
+from .profile_e2_bw1000 import plan_measurements
 
 
 def main() -> int:
@@ -54,6 +55,23 @@ def main() -> int:
     if len(pending) != len(enabled) - 1:
         raise AssertionError("resumable measurement accounting failed")
     print(f"raw_record_schema: OK (pending_after_one={len(pending)})")
+    shard = plan_measurements(
+        manifest,
+        (),
+        environment_by_device={0: "environment", 1: "environment"},
+        assignment="shard",
+        resume=True,
+    )
+    replicate = plan_measurements(
+        manifest,
+        (),
+        environment_by_device={0: "environment", 1: "environment"},
+        assignment="replicate",
+        resume=True,
+    )
+    if len(shard) != len(enabled) or len(replicate) != 2 * len(enabled):
+        raise AssertionError("device assignment planning failed")
+    print(f"device_assignment: shard={len(shard)} replicate={len(replicate)}")
     for split in contract["splits"]:
         train = split["train_object_ids"]
         hidden = split["hidden_object_ids"]

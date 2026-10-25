@@ -187,3 +187,27 @@ python -m calibration.verify_e2_interfaces
 `model-qwen06-to-qwen25-3b` 包含 68 个训练 Key、44 个未见 Key和 12 个测试侧重复 Key；`sequence-short-to-1024` 包含 84 个训练 Key和 28 个未见 Key。重复 Key 记入 `shared_seen_object_ids`，不计作未见 Shape。
 
 真机标签使用 `calibration.e2_records` 的追加式 JSONL 格式。每条记录引用 object id 和 environment id，保留全部计时样本；统计量会在读取时重新计算。Zero-shot 不允许揭示测试标签，Active calibration 只允许逐项揭示 `hidden_object_ids`，由隐藏标签派生的聚合值也保持隐藏。
+### E2 真机采集
+
+先运行 quick，输出到独立的 `raw_measurements.quick.jsonl` 和 `environments.quick.json`，不会混入正式标签：
+
+```bash
+python -m calibration.profile_e2_bw1000 \
+    --manifest data/bw1000_e2/shape_manifest.json \
+    --out-dir data/bw1000_e2 \
+    --devices 0,1 \
+    --assignment shard \
+    --quick
+```
+
+正式采集：
+
+```bash
+python -m calibration.profile_e2_bw1000 \
+    --manifest data/bw1000_e2/shape_manifest.json \
+    --out-dir data/bw1000_e2 \
+    --devices 0,1 \
+    --assignment shard
+```
+
+`shard` 将 112 个对象分到两张同型号卡，每个对象只测一次；`replicate` 在每张卡上都测一遍，共 224 项。默认读取已有 JSONL 并跳过同一环境下成功的对象；失败项会写入错误记录，下次运行继续补测。单项记录包含原始样本、设备、环境指纹、源码提交和 profiling wall time。

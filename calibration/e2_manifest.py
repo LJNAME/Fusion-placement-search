@@ -157,6 +157,8 @@ def kernel_key_for_node(
         runtime_flags["gqa_repeat_factor"] = int(node.extra.get("gqa_repeat_factor", 1))
     elif node.op_type == "matmul":
         layout["rank"] = 2
+    elif node.op_type == "rmsnorm":
+        runtime_flags["epsilon"] = 1e-6
     elif node.op_type == "rope":
         layout["logical_axes"] = ["batch", "sequence", "heads", "head_dim"]
         runtime_flags.update({"rotary_base": 1_000_000, "pairing": "even_odd"})

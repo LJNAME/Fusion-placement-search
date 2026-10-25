@@ -9,9 +9,12 @@ from calibration.e2_manifest import build_shape_manifest
 from calibration.e2_records import (
     append_jsonl_record,
     build_environment_record,
+    build_failed_measurement_record,
     build_raw_measurement_record,
+    load_environment_registry,
     load_jsonl_records,
     pending_measurement_object_ids,
+    upsert_environment_record,
     validate_environment_record,
     validate_raw_measurement_record,
 )
@@ -77,6 +80,39 @@ class E2RecordTests(unittest.TestCase):
             self.assertFalse(append_jsonl_record(path, record))
             self.assertEqual(load_jsonl_records(path), [record])
 
+    def test_environment_registry_upsert_is_idempotent(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "environments.json"
+            self.assertTrue(upsert_environment_record(path, self.environment))
+            self.assertFalse(upsert_environment_record(path, self.environment))
+            self.assertEqual(
+                load_environment_registry(path),
+                {self.environment["environment_id"]: self.environment},
+            )
+
+    def test_failed_record_is_valid_but_does_not_complete_object(self) -> None:
+        failure = build_failed_measurement_record(
+            object_id=self.object_id,
+            environment_id=self.environment["environment_id"],
+            physical_device_index=0,
+            run_id="failed-run",
+            measured_at="2026-10-25T12:00:00+08:00",
+            error_type="RuntimeError",
+            error_message="synthetic failure",
+            profiling_wall_time_s=0.5,
+        )
+        validate_raw_measurement_record(
+            failure,
+            manifest=self.manifest,
+            environments={self.environment["environment_id"]: self.environment},
+        )
+        pending = pending_measurement_object_ids(
+            self.manifest,
+            (failure,),
+            environment_id=self.environment["environment_id"],
+        )
+        self.assertIn(self.object_id, pending)
+
     def test_pending_objects_are_environment_specific(self) -> None:
         record = self._record()
         before = pending_measurement_object_ids(
@@ -92,6 +128,23 @@ class E2RecordTests(unittest.TestCase):
         self.assertNotIn(self.object_id, after)
         self.assertIn(self.object_id, other)
         self.assertEqual(len(before) - len(after), 1)
+
+    def test_pending_can_be_scoped_to_physical_device(self) -> None:
+        record = self._record()
+        device_zero = pending_measurement_object_ids(
+            self.manifest,
+            (record,),
+            environment_id=self.environment["environment_id"],
+            physical_device_index=0,
+        )
+        device_one = pending_measurement_object_ids(
+            self.manifest,
+            (record,),
+            environment_id=self.environment["environment_id"],
+            physical_device_index=1,
+        )
+        self.assertNotIn(self.object_id, device_zero)
+        self.assertIn(self.object_id, device_one)
 
 
 if __name__ == "__main__":
