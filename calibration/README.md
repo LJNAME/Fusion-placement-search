@@ -169,3 +169,21 @@ log std 小 -> "数值问题"，建议全局修正因子（median real/sim）；
 的算子融合 codegen；真融合的额外开销差异会在对比中暴露出来，这正是要
 校准/修正的对象。摩尔卡移植：kernels 与 rocblas 换成 MUSA 对应物，
 生成/编排/验证脚本不动。
+## E2 Shape Manifest 与严格划分
+
+E2a 先从 0.6B / 3B、sequence length 128 / 256 / 512 / 1024 的逻辑图生成测量清单。对象按完整 Kernel Key 去重，图中节点只作为 usage；当前清单为 128 个对象，其中 112 个可测，16 个 input / embedding 逻辑节点不计时。此步骤不需要 GPU：
+
+```bash
+python -m calibration.e2_manifest \
+    --output data/bw1000_e2/shape_manifest.json
+
+python -m calibration.e2_contract \
+    --manifest data/bw1000_e2/shape_manifest.json \
+    --output data/bw1000_e2/split_contract.json
+
+python -m calibration.verify_e2_interfaces
+```
+
+`model-qwen06-to-qwen25-3b` 包含 68 个训练 Key、44 个未见 Key和 12 个测试侧重复 Key；`sequence-short-to-1024` 包含 84 个训练 Key和 28 个未见 Key。重复 Key 记入 `shared_seen_object_ids`，不计作未见 Shape。
+
+真机标签使用 `calibration.e2_records` 的追加式 JSONL 格式。每条记录引用 object id 和 environment id，保留全部计时样本；统计量会在读取时重新计算。Zero-shot 不允许揭示测试标签，Active calibration 只允许逐项揭示 `hidden_object_ids`，由隐藏标签派生的聚合值也保持隐藏。
