@@ -1,9 +1,9 @@
 """E2c fixed-candidate diagnostic for search-regret-aware profiling.
 
 The candidate set is the union of plans found by the current predictor and by
-the oracle.  This is deliberately a diagnostic experiment: oracle candidates
-never enter the sampling score, but their presence prevents candidate-pool
-recall from hiding a re-ranking failure.
+the oracle. Acquisition scores use these candidate structures with public
+predicted costs. Thus oracle-derived candidate discovery information is
+present: this is a diagnostic, not evidence of an oracle-free search loop.
 """
 
 from __future__ import annotations
@@ -13,6 +13,7 @@ import json
 import math
 import random
 import statistics
+import time
 from dataclasses import dataclass
 from dataclasses import replace as dataclass_replace
 from pathlib import Path
@@ -27,7 +28,8 @@ from simulator.model_graphs import build_decoder_layer, build_model_graph
 from .e2_residual import NearestShapePredictor
 from .hardware_profile import AnalyticHardwareProfile, GroupCost, TransferCost
 from .search_evaluation import qwen25_3b_spec, qwen3_spec
-from .search_regret_profiling import _aggregate_policy_runs, _ranking_metrics
+from .search_regret_profiling import _aggregate_policy_runs
+from .e2_audit import PreparedCandidateRanker, ranking_metrics, selection_diagnostics, summarize_metrics
 from .search_sensitivity import (
     SymmetricHardwareProfile,
     _rank_plans,
@@ -39,7 +41,7 @@ from .structure import GroupStructure
 
 
 REPORT_FORMAT = "fusion-placement-search.e2-srop-proxy"
-REPORT_VERSION = "1.0"
+REPORT_VERSION = "1.1"
 
 
 @dataclass(frozen=True)
@@ -137,6 +139,9 @@ class DatasetLatencyProfile:
         self.object_by_local_name = dict(object_by_local_name)
         self.durations_s = {str(key): float(value) for key, value in durations_s.items()}
         self.sources = {str(key): str(value) for key, value in sources.items()}
+        self._group_costs: dict[str, GroupCost] = {}
+        self._fallback_costs: dict[tuple, GroupCost] = {}
+        self._transfer_costs: dict[tuple, TransferCost] = {}
 
     @property
     def n_devs(self) -> int:
@@ -163,11 +168,16 @@ class DatasetLatencyProfile:
     def estimate_group(self, graph: OpGraph, group: GroupStructure) -> GroupCost:
         object_id = self.object_id_for_group(graph, group)
         if object_id is None or object_id not in self.durations_s:
-            return self.fallback.estimate_group(graph, group)
+            cache_key = (id(graph), group.node_ids, group.device, group.pattern_id)
+            if cache_key not in self._fallback_costs:
+                self._fallback_costs[cache_key] = self.fallback.estimate_group(graph, group)
+            return self._fallback_costs[cache_key]
+        if object_id in self._group_costs:
+            return self._group_costs[object_id]
         duration = self.durations_s[object_id]
         source = self.sources.get(object_id, "e2_unknown")
         exact = source in {"train_exact", "revealed_exact", "oracle_exact"}
-        return GroupCost(
+        cost = GroupCost(
             duration=duration,
             compute_time=duration,
             memory_time=0.0,
@@ -176,9 +186,14 @@ class DatasetLatencyProfile:
             source=source,
             ood_reasons=() if exact else (f"e2:{object_id}:predicted",),
         )
+        self._group_costs[object_id] = cost
+        return cost
 
     def estimate_transfer(self, src_device: int, dst_device: int, nbytes: float) -> TransferCost:
-        return self.fallback.estimate_transfer(src_device, dst_device, nbytes)
+        key = (src_device, dst_device, nbytes)
+        if key not in self._transfer_costs:
+            self._transfer_costs[key] = self.fallback.estimate_transfer(src_device, dst_device, nbytes)
+        return self._transfer_costs[key]
 
     def link_key(self, src_device: int, dst_device: int) -> tuple[int, int]:
         return self.fallback.link_key(src_device, dst_device)
@@ -294,17 +309,22 @@ def _object_impact_ms_per_relative_error(
     delta: float,
     registry,
     exchange_permutations: Sequence[Sequence[int]],
+    ranker=None,
+    baseline_ranked=None,
 ) -> float:
-    baseline = _rank_plans(graph, plans, profile, registry, exchange_permutations)
+    baseline = baseline_ranked if baseline_ranked is not None else _rank(
+        graph, plans, profile, registry, exchange_permutations, ranker
+    )
     baseline_by_id = {item.plan_id: item.makespan for item in baseline}
     maximum = 0.0
     for relative_delta in (-abs(delta), abs(delta)):
-        perturbed = _rank_plans(
+        perturbed = _rank(
             graph,
             plans,
             ObjectCounterfactualProfile(profile, object_id, relative_delta),
             registry,
             exchange_permutations,
+            ranker,
         )
         responses = [
             item.makespan - baseline_by_id[item.plan_id] for item in perturbed
@@ -325,6 +345,7 @@ def _expected_decision_regret_ms(
     q90_normalizer: float,
     registry,
     exchange_permutations: Sequence[Sequence[int]],
+    ranker=None,
 ) -> float:
     """Proxy EVPI: expected loss of keeping the current Top-1 decision.
 
@@ -338,18 +359,25 @@ def _expected_decision_regret_ms(
     regrets = []
     for quantile in standard_normal_quantiles:
         relative_delta = math.exp(float(quantile) * sigma) - 1.0
-        sampled = _rank_plans(
+        sampled = _rank(
             graph,
             plans,
             ObjectCounterfactualProfile(profile, object_id, relative_delta),
             registry,
             exchange_permutations,
+            ranker,
         )
         sampled_by_id = {item.plan_id: item.makespan for item in sampled}
         regrets.append(
             max(0.0, sampled_by_id[current_top1] - sampled[0].makespan) * 1e3
         )
     return statistics.fmean(regrets)
+
+
+def _rank(graph, plans, profile, registry, exchange, ranker=None):
+    if ranker is not None:
+        return ranker.rank(profile)
+    return _rank_plans(graph, plans, profile, registry, exchange)
 
 
 def _profiling_cost_proxy_s(record: Mapping[str, Any], repetitions: int) -> float:
@@ -391,6 +419,7 @@ def _run_policy_trajectory(
     random_seed: int | None,
     registry,
     exchange_permutations: Sequence[Sequence[int]],
+    ranker=None,
 ) -> list[dict[str, Any]]:
     active_protocol = contract["active_profiling_protocol"]
     delta = float(active_protocol["impact_relative_delta"])
@@ -408,7 +437,10 @@ def _run_policy_trajectory(
     else:
         random_order = []
     trajectory: list[dict[str, Any]] = []
+    fit_elapsed = ranking_elapsed = selection_elapsed = 0.0
+    previous_top1 = None
     for budget in range(len(measurement_pool) + 1):
+        fit_started = time.perf_counter()
         profile, uncertainty = _active_profile(
             records,
             contract,
@@ -417,10 +449,13 @@ def _run_policy_trajectory(
             split_id=split_id,
             revealed_object_ids=revealed,
         )
-        predicted_ranked = _rank_plans(
-            graph, plans, profile, registry, exchange_permutations
+        fit_elapsed += time.perf_counter() - fit_started
+        ranking_started = time.perf_counter()
+        predicted_ranked = _rank(
+            graph, plans, profile, registry, exchange_permutations, ranker
         )
-        metrics = _ranking_metrics(
+        ranking_elapsed += time.perf_counter() - ranking_started
+        metrics = ranking_metrics(
             oracle_ranked,
             predicted_ranked,
             top_k=min(5, len(plans)),
@@ -433,6 +468,8 @@ def _run_policy_trajectory(
         selected_impact = None
         selected_expected_regret = None
         selected_cost_proxy = None
+        scores: dict[str, float] = {}
+        selection_started = time.perf_counter()
         if remaining:
             if policy == "random":
                 next_selection = next(item for item in random_order if item in remaining)
@@ -448,6 +485,8 @@ def _run_policy_trajectory(
                             delta=delta,
                             registry=registry,
                             exchange_permutations=exchange_permutations,
+                            ranker=ranker,
+                            baseline_ranked=predicted_ranked,
                         )
                         for object_id in remaining
                     }
@@ -465,6 +504,7 @@ def _run_policy_trajectory(
                             q90_normalizer=q90_normalizer,
                             registry=registry,
                             exchange_permutations=exchange_permutations,
+                            ranker=ranker,
                         )
                         for object_id in remaining
                     }
@@ -493,6 +533,8 @@ def _run_policy_trajectory(
                 selected_cost_proxy = _profiling_cost_proxy_s(
                     by_id[next_selection], repetitions
                 )
+        selection_elapsed += time.perf_counter() - selection_started
+        audit = selection_diagnostics(scores, remaining)
         trajectory.append(
             {
                 "budget": budget,
@@ -508,9 +550,17 @@ def _run_policy_trajectory(
                 "next_impact_ms_per_relative_error": selected_impact,
                 "next_expected_decision_regret_ms": selected_expected_regret,
                 "next_cost_proxy_s": selected_cost_proxy,
+                "predictor_fit_wall_time_s": fit_elapsed,
+                "selection_wall_time_s": selection_elapsed,
+                "ranking_wall_time_s": ranking_elapsed,
+                "algorithm_wall_time_s": fit_elapsed + selection_elapsed + ranking_elapsed,
+                "top1_decision_changed": previous_top1 is not None and previous_top1 != predicted_ranked[0].plan_id,
+                "selection_tie_break": "object_id_ascending" if scores else "random_order",
+                **audit,
                 **metrics,
             }
         )
+        previous_top1 = predicted_ranked[0].plan_id
         if next_selection is None:
             break
         revealed.append(next_selection)
@@ -520,6 +570,17 @@ def _run_policy_trajectory(
 def _policy_report(trajectories: Sequence[Sequence[Mapping[str, Any]]], budgets: Sequence[int]) -> dict[str, Any]:
     runs = [dict(point) for trajectory in trajectories for point in trajectory if int(point["budget"]) in budgets]
     by_budget = _aggregate_policy_runs(runs)
+    all_points = [dict(point) for trajectory in trajectories for point in trajectory]
+    all_by_budget = _aggregate_policy_runs(all_points)
+    summarize_metrics(runs, by_budget)
+    stopping_runs = []
+    for trajectory in trajectories:
+        stopped = next((point for point in trajectory if point["stop_recommended"]), trajectory[-1])
+        stopping_runs.append({
+            **dict(stopped),
+            "stop_reason": "no_positive_proxy_value" if stopped["stop_recommended"] else "pool_exhausted",
+            "saved_measurements": int(trajectory[-1]["budget"]) - int(stopped["budget"]),
+        })
     budget_aucs = [
         _area_under_curve(
             [(float(point["budget"]), float(point["top1_regret_ms"])) for point in trajectory]
@@ -538,10 +599,10 @@ def _policy_report(trajectories: Sequence[Sequence[Mapping[str, Any]]], budgets:
     stable_zero_budget = next(
         (
             int(item["budget"])
-            for index, item in enumerate(by_budget)
+            for index, item in enumerate(all_by_budget)
             if all(
                 float(later["top1_regret_ms_mean"]) <= 1e-12
-                for later in by_budget[index:]
+                for later in all_by_budget[index:]
             )
         ),
         None,
@@ -549,16 +610,19 @@ def _policy_report(trajectories: Sequence[Sequence[Mapping[str, Any]]], budgets:
     stable_full_top_k_budget = next(
         (
             int(item["budget"])
-            for index, item in enumerate(by_budget)
+            for index, item in enumerate(all_by_budget)
             if all(
                 float(later["top_k_recall_mean"]) >= 1.0 - 1e-12
-                for later in by_budget[index:]
+                for later in all_by_budget[index:]
             )
         ),
         None,
     )
     return {
         "runs": runs,
+        "full_trajectories": trajectories,
+        "stopping_mode": "offline prefix replay at first score-based recommendation; later outcomes do not affect the stop",
+        "stopping_runs": stopping_runs,
         "by_budget": by_budget,
         "summary": {
             "regret_budget_auc_ms_mean": statistics.fmean(budget_aucs),
@@ -566,7 +630,7 @@ def _policy_report(trajectories: Sequence[Sequence[Mapping[str, Any]]], budgets:
             "first_zero_mean_regret_budget": next(
                 (
                     int(item["budget"])
-                    for item in by_budget
+                    for item in all_by_budget
                     if float(item["top1_regret_ms_mean"]) <= 1e-12
                 ),
                 None,
@@ -574,7 +638,7 @@ def _policy_report(trajectories: Sequence[Sequence[Mapping[str, Any]]], budgets:
             "first_full_mean_top_k_recall_budget": next(
                 (
                     int(item["budget"])
-                    for item in by_budget
+                    for item in all_by_budget
                     if float(item["top_k_recall_mean"]) >= 1.0 - 1e-12
                 ),
                 None,
@@ -594,12 +658,19 @@ def evaluate_fixed_candidate_srop(
     workload: E2Workload,
     *,
     random_seeds: Sequence[int] | None = None,
+    use_prepared: bool = True,
 ) -> dict[str, Any]:
+    evaluation_started = time.perf_counter()
     registry = default_fusion_registry()
     object_map = object_map_for_workload(records, workload)
     split = next(item for item in contract["splits"] if item["split_id"] == workload.split_id)
     hidden = set(split["hidden_object_ids"])
-    measurement_pool = tuple(sorted(set(object_map.values()) & hidden))
+    used_object_ids = {
+        object_map[str(node.extra.get("local_name", node.id))]
+        for node in graph.nodes.values()
+        if str(node.extra.get("local_name", node.id)) in object_map
+    }
+    measurement_pool = tuple(sorted(used_object_ids & hidden))
     if not measurement_pool:
         raise ValueError(f"workload has no hidden E2 objects: {workload.workload_id}")
     oracle = _oracle_profile(records, hardware, object_map)
@@ -608,7 +679,8 @@ def evaluate_fixed_candidate_srop(
     candidates = list(unique.values())
     if len(candidates) < 2:
         raise ValueError("E2c requires at least two canonical candidate plans")
-    oracle_ranked = _rank_plans(graph, candidates, oracle, registry, exchange)
+    ranker = PreparedCandidateRanker(graph, candidates, hardware.n_devs, exchange, registry) if use_prepared else None
+    oracle_ranked = _rank(graph, candidates, oracle, registry, exchange, ranker)
     active_protocol = contract["active_profiling_protocol"]
     seeds = tuple(
         int(seed)
@@ -643,6 +715,7 @@ def evaluate_fixed_candidate_srop(
                 random_seed=seed,
                 registry=registry,
                 exchange_permutations=exchange,
+                ranker=ranker,
             )
             for seed in policy_seeds
         ]
@@ -650,6 +723,7 @@ def evaluate_fixed_candidate_srop(
             if float(trajectory[-1]["top1_regret_ms"]) > 1e-9:
                 raise AssertionError("full E2 active budget did not recover oracle top-1")
         policy_reports[policy] = _policy_report(trajectories, budgets)
+    initial_regret = next(iter(policy_reports.values()))["runs"][0]["top1_regret_ms"]
     return {
         "workload_id": workload.workload_id,
         "split_id": workload.split_id,
@@ -659,10 +733,25 @@ def evaluate_fixed_candidate_srop(
         "edges": len(graph.edges),
         "measurement_pool_objects": len(measurement_pool),
         "measurement_pool_object_ids": list(measurement_pool),
+        "excluded_non_graph_hidden_objects": sorted((set(object_map.values()) & hidden) - used_object_ids),
         "candidate_plans": len(candidates),
         "oracle_top1_ms": oracle_ranked[0].makespan * 1e3,
         "oracle_top1_plan_id": oracle_ranked[0].plan_id,
         "budgets": list(budgets),
+        "ranking_metrics": {
+            "strict_top_k_recall": "exactly k candidates, ties broken by plan_id",
+            "tie_aware_top_k_recall": "include all candidates tied at kth boundary",
+            "best_of_k_regret_ms": "best oracle cost within predicted strict top-k minus oracle best",
+        },
+        "stopping_rule": "stop when max acquisition score <= 0; this is a proxy rule, not a safety certificate",
+        "scoring_engine": "prepared_exact" if ranker else "reference",
+        "initial_top1_regret_ms": initial_regret,
+        "eligible_for_initial_regret_reduction_evidence": initial_regret > 1e-12,
+        "evaluation_wall_time_s": time.perf_counter() - evaluation_started,
+        "timing_scope": "algorithm times exclude oracle metric aggregation and candidate generation; evaluation includes both oracle metrics and preparation",
+        "structure_preparation_wall_time_s": ranker.preparation_wall_time_s if ranker else 0.0,
+        "ranking_calls": ranker.calls if ranker else None,
+        "ranking_total_wall_time_s": ranker.scoring_wall_time_s if ranker else None,
         "policies": policy_reports,
     }
 
@@ -720,7 +809,8 @@ def diagnostic_candidate_union(
             sources.setdefault(identifier, set()).add(source)
     return list(unique.values()), {
         "diagnostic_oracle_union": True,
-        "oracle_candidates_available_to_sampling": False,
+        "oracle_derived_candidates_in_diagnostic_pool": True,
+        "oracle_labels_available_to_sampling": False,
         "predicted_search": predicted_metadata,
         "oracle_search": oracle_metadata,
         "union_candidate_plans": len(unique),
@@ -751,6 +841,7 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--iterations", type=int, default=32)
     parser.add_argument("--rollouts", type=int, default=3)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--reference-scoring", action="store_true")
     return parser.parse_args(argv)
 
 
@@ -767,6 +858,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     for workload_id in workload_ids:
         workload = WORKLOADS[workload_id]
         graph = build_workload_graph(workload, args.scale)
+        candidate_started = time.perf_counter()
         plans, candidate_metadata = diagnostic_candidate_union(
             graph,
             records,
@@ -778,8 +870,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             iterations=args.iterations,
             rollouts=args.rollouts,
         )
+        candidate_metadata["generation_wall_time_s"] = time.perf_counter() - candidate_started
         report = evaluate_fixed_candidate_srop(
-            graph, plans, records, contract, hardware, workload
+            graph, plans, records, contract, hardware, workload,
+            use_prepared=not args.reference_scoring,
         )
         report["candidate_pool"] = candidate_metadata
         reports.append(report)
@@ -799,7 +893,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         "configuration": {
             "candidate_scope": "fixed diagnostic predicted+oracle union",
             "diagnostic_oracle_union": True,
-            "oracle_candidates_available_to_sampling": False,
+            "oracle_derived_candidates_in_diagnostic_pool": True,
+            "oracle_labels_available_to_sampling": False,
             "scale": args.scale,
             "candidate_count_per_source": args.candidates,
             "seeds": list(_parse_int_csv(args.seeds)),

@@ -31,6 +31,17 @@ class _ScheduledTransfer:
     cause_group: int
 
 
+@dataclass(frozen=True)
+class PreparedPlan:
+    """Validated graph/plan structure, bound to unchanged inputs for reuse."""
+
+    graph: OpGraph
+    plan: Plan
+    structure: PlanStructure
+    incoming: tuple[tuple[int, ...], ...]
+    outgoing: tuple[tuple[int, ...], ...]
+
+
 def _peak_memory(
     graph: OpGraph,
     plan: Plan,
@@ -128,10 +139,15 @@ class StructuralCostModel:
         hardware: HardwareSpec | HardwareCostProfile,
     ) -> CostEstimate:
         profile = as_hardware_profile(hardware)
+        return self.predict_prepared(self.prepare(graph, plan, profile.n_devs), profile)
+
+    def prepare(self, graph: OpGraph, plan: Plan, n_devs: int) -> PreparedPlan:
+        """Extract static structure once; callers must keep graph/plan unchanged."""
+
         structure = analyze_plan_structure(
             graph,
             plan,
-            profile.n_devs,
+            n_devs,
             strict_fusion=self.strict_fusion,
             registry=self.registry,
         )
@@ -141,6 +157,23 @@ class StructuralCostModel:
         for dep in structure.dependencies:
             incoming[dep.dst_group].append(dep.index)
             outgoing[dep.src_group].append(dep.index)
+
+        return PreparedPlan(
+            graph, plan, structure,
+            tuple(tuple(items) for items in incoming),
+            tuple(tuple(items) for items in outgoing),
+        )
+
+    def predict_prepared(
+        self, prepared: PreparedPlan, hardware: HardwareSpec | HardwareCostProfile
+    ) -> CostEstimate:
+        """Run the same scheduler with new costs, including memory and critical paths."""
+
+        profile = as_hardware_profile(hardware)
+        graph, plan, structure = prepared.graph, prepared.plan, prepared.structure
+        if profile.n_devs != structure.n_devs:
+            raise ValueError("prepared plan and profile device counts differ")
+        incoming, outgoing = prepared.incoming, prepared.outgoing
 
         starts = [0.0] * len(structure.groups)
         ends = [0.0] * len(structure.groups)
@@ -322,4 +355,4 @@ class StructuralCostModel:
         )
 
 
-__all__ = ["StructuralCostModel"]
+__all__ = ["PreparedPlan", "StructuralCostModel"]
