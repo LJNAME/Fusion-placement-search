@@ -4,10 +4,19 @@ from __future__ import annotations
 
 import unittest
 
-from cost_model import GroupCost, TransferCost, analyze_plan_structure
+from cost_model import (
+    GroupCost,
+    StructuralCostModel,
+    TransferCost,
+    analyze_plan_structure,
+)
 from cost_model.search_sensitivity import (
     CounterfactualHardwareProfile,
+    SymmetricHardwareProfile,
+    device_exchange_permutations,
     evaluate_counterfactual_sensitivity,
+    permute_plan_devices,
+    plan_id,
     shape_key_for_group,
 )
 from simulator import FusionGroup, OpGraph, OpNode, Plan
@@ -63,7 +72,8 @@ class _FixedProfile:
         )
 
     def estimate_transfer(self, src_device, dst_device, nbytes) -> TransferCost:
-        return TransferCost(0.0, 1.0, "fixed")
+        duration = 1.0e-3 if (src_device, dst_device) == (0, 1) else 3.0e-3
+        return TransferCost(duration, 1.0, "fixed")
 
     def link_key(self, src_device, dst_device) -> tuple[int, int]:
         return tuple(sorted((int(src_device), int(dst_device))))
@@ -101,12 +111,12 @@ class TestCounterfactualSensitivity(unittest.TestCase):
         b_on_device_1 = next(
             item
             for label, item in by_label.items()
-            if label.startswith("device=1") and "|b[bf16]" in label
+            if label.startswith("device_class=physical:1") and "|b[bf16]" in label
         )
         a_on_device_0 = next(
             item
             for label, item in by_label.items()
-            if label.startswith("device=0") and "|a[bf16]" in label
+            if label.startswith("device_class=physical:0") and "|a[bf16]" in label
         )
         self.assertTrue(b_on_device_1["top1_flip"])
         self.assertTrue(b_on_device_1["top_k_flip"])
@@ -134,6 +144,43 @@ class TestCounterfactualSensitivity(unittest.TestCase):
             shape_key_for_group(graph, structure.groups[0]),
             shape_key_for_group(graph, structure.groups[1]),
         )
+
+    def test_symmetric_profile_collapses_device_swaps(self):
+        graph = OpGraph(name="device-symmetry")
+        graph.add_node(_node("a", "a"))
+        graph.add_node(_node("b", "b"))
+        colocated = Plan([_group("a", 0), _group("b", 0)], name="colocated")
+        split = Plan([_group("a", 0), _group("b", 1)], name="split")
+        classes = ("model:bw1000", "model:bw1000")
+        exchange = device_exchange_permutations(classes)
+        symmetric = SymmetricHardwareProfile(_FixedProfile(), classes)
+        swapped_colocated = permute_plan_devices(colocated, (1, 0))
+        swapped_split = permute_plan_devices(split, (1, 0))
+
+        model = StructuralCostModel()
+        self.assertAlmostEqual(
+            model.predict(graph, colocated, symmetric).makespan,
+            model.predict(graph, swapped_colocated, symmetric).makespan,
+        )
+        self.assertEqual(
+            plan_id(colocated, exchange),
+            plan_id(swapped_colocated, exchange),
+        )
+        report = evaluate_counterfactual_sensitivity(
+            graph,
+            (colocated, swapped_colocated, split, swapped_split),
+            symmetric,
+            perturbations=(-0.20, 0.20),
+            top_k=1,
+        )
+        self.assertEqual(report["summary"]["candidate_plans"], 2)
+        self.assertEqual(report["summary"]["shape_keys"], 2)
+        self.assertTrue(report["configuration"]["symmetry_enabled"])
+        self.assertEqual(
+            report["configuration"]["max_exchange_score_delta_ms"], 0.0
+        )
+        self.assertEqual(symmetric.estimate_transfer(0, 1, 1.0).duration, 2.0e-3)
+        self.assertEqual(symmetric.estimate_transfer(1, 0, 1.0).duration, 2.0e-3)
 
     def test_rejects_invalid_experiment_inputs(self):
         graph = OpGraph(name="invalid")

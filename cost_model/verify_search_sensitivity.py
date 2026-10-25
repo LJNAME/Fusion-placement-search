@@ -7,8 +7,10 @@ from pathlib import Path
 from .measured_profile import MeasuredHardwareProfile
 from .search_evaluation import build_evaluation_graph
 from .search_sensitivity import (
+    SymmetricHardwareProfile,
     evaluate_counterfactual_sensitivity,
     generate_candidate_pool,
+    infer_hardware_model_classes,
 )
 
 
@@ -16,10 +18,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def verify_search_sensitivity() -> dict[str, object]:
-    profile = MeasuredHardwareProfile.from_files(
+    measured = MeasuredHardwareProfile.from_files(
         ROOT / "data" / "bw1000_2card" / "bw1000_2card.calibrated.json",
         ROOT / "data" / "bw1000_2card" / "raw_measurements.json",
     )
+    classes = infer_hardware_model_classes(measured)
+    profile = SymmetricHardwareProfile(measured, classes)
     graph = build_evaluation_graph("small")
     plans, pool = generate_candidate_pool(
         graph,
@@ -46,6 +50,12 @@ def verify_search_sensitivity() -> dict[str, object]:
         raise AssertionError("E0 found no perturbable ShapeKey")
     if pool["include_planned"] or not pool["require_executable"]:
         raise AssertionError("E0 smoke verification must be executable-only")
+    if pool["symmetry_duplicates_removed"] <= 0:
+        raise AssertionError("E0 did not remove any device-swap duplicate")
+    if not report["configuration"]["symmetry_enabled"]:
+        raise AssertionError("E0 did not enable device-exchange symmetry")
+    if report["configuration"]["max_exchange_score_delta_ms"] != 0.0:
+        raise AssertionError("symmetric profile changed under device exchange")
     if any(
         group.extra.get("implementation_status") == "planned"
         for plan in plans
@@ -56,6 +66,7 @@ def verify_search_sensitivity() -> dict[str, object]:
         "nodes": report["nodes"],
         "candidates": summary["candidate_plans"],
         "shape_keys": summary["shape_keys"],
+        "symmetry_duplicates_removed": pool["symmetry_duplicates_removed"],
         "top1_flip_shapes": summary["top1_flip_shapes"],
         "top_k_flip_shapes": summary["top_k_flip_shapes"],
         "max_rank_shift": summary["max_rank_shift"],
