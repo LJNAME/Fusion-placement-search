@@ -313,5 +313,45 @@
     "sampler": "same visibility as predictor",
     "oracle_evaluator": "all labels; never available to candidate generation or sampling"
   },
-  "contract_id": "sha256:18a178751388fa0feedd884b833f465cf308532058a97903e90f54e7929aa7a7"
+  "prediction_protocol": {
+    "target": "log(measured_duration_s / analytic_estimate_s)",
+    "baselines": [
+      "analytic_only",
+      "family_median",
+      "nearest_shape",
+      "shared_ridge"
+    ],
+    "numeric_features": [
+      "batch",
+      "m",
+      "n",
+      "k",
+      "normalized_size",
+      "numel",
+      "flops",
+      "memory_bytes",
+      "arithmetic_intensity",
+      "compute_demand_s",
+      "memory_demand_s",
+      "launch_s"
+    ],
+    "categorical_features": [
+      "operator",
+      "implementation_id"
+    ],
+    "numeric_transform": "log1p_then_train_fold_standardize",
+    "ridge_alphas": [
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "ridge_cv_folds": 5,
+    "family_uncertainty_min_samples": 5,
+    "uncertainty_interval_coverage": 0.9,
+    "model_selection_scope": "train_fold_only"
+  },
+  "contract_id": "sha256:dee95fb2caf7299bf0e0fa7c50c84f0d530a5534906add00a2353c086ec65cbf"
 }

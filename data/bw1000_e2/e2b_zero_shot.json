@@ -1,0 +1,2522 @@
+{
+  "format": "fusion-placement-search.e2-zero-shot-evaluation",
+  "version": "1.0",
+  "dataset": "data\\bw1000_e2\\profiling_dataset.jsonl",
+  "contract_id": "sha256:dee95fb2caf7299bf0e0fa7c50c84f0d530a5534906add00a2353c086ec65cbf",
+  "splits": [
+    {
+      "split_id": "model-qwen06-to-qwen25-3b",
+      "mode": "zero_shot",
+      "train_records": 68,
+      "hidden_records": 44,
+      "shared_seen_records": 12,
+      "protocol": {
+        "target": "log(measured_duration_s / analytic_estimate_s)",
+        "baselines": [
+          "analytic_only",
+          "family_median",
+          "nearest_shape",
+          "shared_ridge"
+        ],
+        "numeric_features": [
+          "batch",
+          "m",
+          "n",
+          "k",
+          "normalized_size",
+          "numel",
+          "flops",
+          "memory_bytes",
+          "arithmetic_intensity",
+          "compute_demand_s",
+          "memory_demand_s",
+          "launch_s"
+        ],
+        "categorical_features": [
+          "operator",
+          "implementation_id"
+        ],
+        "numeric_transform": "log1p_then_train_fold_standardize",
+        "ridge_alphas": [
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0
+        ],
+        "ridge_cv_folds": 5,
+        "family_uncertainty_min_samples": 5,
+        "uncertainty_interval_coverage": 0.9,
+        "model_selection_scope": "train_fold_only"
+      },
+      "methods": {
+        "analytic_only": {
+          "mape": 0.9635753472018421,
+          "mdape": 0.4600793792721144,
+          "p90_ape": 2.4817461871387985,
+          "spearman": 0.5796039199678913,
+          "log_mae": 0.7762466884958305,
+          "interval_coverage": 0.8181818181818182,
+          "coverage_calibration_error": 0.08181818181818179,
+          "by_operator": {
+            "add": {
+              "records": 4,
+              "mape": 0.20994503929131533,
+              "mdape": 0.18893141528751087,
+              "p90_ape": 0.3783957520404987,
+              "spearman": 0.39999999999999997,
+              "log_mae": 0.18356749037272346,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "matmul": {
+              "records": 24,
+              "mape": 1.4517799223537855,
+              "mdape": 1.1799138013836357,
+              "p90_ape": 3.194018874462804,
+              "spearman": 0.9632529038321742,
+              "log_mae": 0.8019873081249509,
+              "interval_coverage": 0.7916666666666666,
+              "coverage_calibration_error": 0.10833333333333339
+            },
+            "mul": {
+              "records": 4,
+              "mape": 0.21821363176106232,
+              "mdape": 0.17255908044184637,
+              "p90_ape": 0.3793946417222028,
+              "spearman": 1.0,
+              "log_mae": 0.19078404669551574,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "rmsnorm": {
+              "records": 4,
+              "mape": 0.28952424388364334,
+              "mdape": 0.31693917741416744,
+              "p90_ape": 0.3943372895012545,
+              "spearman": 1.0,
+              "log_mae": 0.3536075738729392,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "rope": {
+              "records": 4,
+              "mape": 0.9339162693276079,
+              "mdape": 0.9339487938189805,
+              "p90_ape": 0.93643388618556,
+              "spearman": -0.39999999999999997,
+              "log_mae": 2.717467188919997,
+              "interval_coverage": 0.25,
+              "coverage_calibration_error": 0.65
+            },
+            "silu": {
+              "records": 4,
+              "mape": 0.23705010083391992,
+              "mdape": 0.24456616676857001,
+              "p90_ape": 0.36159443743923714,
+              "spearman": 1.0,
+              "log_mae": 0.2813634248432552,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            }
+          }
+        },
+        "family_median": {
+          "mape": 0.4335811514496518,
+          "mdape": 0.2795785486240554,
+          "p90_ape": 1.0551082918013508,
+          "spearman": 0.9223017025353154,
+          "log_mae": 0.36242250733864256,
+          "interval_coverage": 0.8863636363636364,
+          "coverage_calibration_error": 0.013636363636363669,
+          "by_operator": {
+            "add": {
+              "records": 4,
+              "mape": 0.20288966705515427,
+              "mdape": 0.18705383126595226,
+              "p90_ape": 0.36469737458708806,
+              "spearman": 0.39999999999999997,
+              "log_mae": 0.1785736783905433,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "matmul": {
+              "records": 24,
+              "mape": 0.6438621533464864,
+              "mdape": 0.592431847884477,
+              "p90_ape": 1.4755288012429373,
+              "spearman": 0.9632529038321742,
+              "log_mae": 0.5172699457632358,
+              "interval_coverage": 0.7916666666666666,
+              "coverage_calibration_error": 0.10833333333333339
+            },
+            "mul": {
+              "records": 4,
+              "mape": 0.09949304094974719,
+              "mdape": 0.09847098015145844,
+              "p90_ape": 0.16639096048748514,
+              "spearman": 1.0,
+              "log_mae": 0.09854686746998054,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "rmsnorm": {
+              "records": 4,
+              "mape": 0.26680752049806933,
+              "mdape": 0.21792556545394126,
+              "p90_ape": 0.4927990595883061,
+              "spearman": 1.0,
+              "log_mae": 0.22471285271457087,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "rope": {
+              "records": 4,
+              "mape": 0.10809584578342196,
+              "mdape": 0.10853481508303595,
+              "p90_ape": 0.1420750553632355,
+              "spearman": -0.39999999999999997,
+              "log_mae": 0.11503109706879655,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "silu": {
+              "records": 4,
+              "mape": 0.228933671580858,
+              "mdape": 0.2212483207369211,
+              "p90_ape": 0.34188888288409763,
+              "spearman": 1.0,
+              "log_mae": 0.2661634105017623,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            }
+          }
+        },
+        "nearest_shape": {
+          "mape": 0.08566266560514214,
+          "mdape": 0.040124605382422865,
+          "p90_ape": 0.2196591050462033,
+          "spearman": 0.9887244538407328,
+          "log_mae": 0.08775584991184263,
+          "interval_coverage": 0.9545454545454546,
+          "coverage_calibration_error": 0.054545454545454564,
+          "by_operator": {
+            "add": {
+              "records": 4,
+              "mape": 0.029075274063975105,
+              "mdape": 0.023222336871860923,
+              "p90_ape": 0.05674403131824562,
+              "spearman": 0.39999999999999997,
+              "log_mae": 0.028766119023490987,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "matmul": {
+              "records": 24,
+              "mape": 0.10771818873799603,
+              "mdape": 0.041541119998781066,
+              "p90_ape": 0.25815245848979473,
+              "spearman": 0.988695652173913,
+              "log_mae": 0.10989478308778074,
+              "interval_coverage": 0.9583333333333334,
+              "coverage_calibration_error": 0.05833333333333335
+            },
+            "mul": {
+              "records": 4,
+              "mape": 0.0853699442486868,
+              "mdape": 0.07495066797930014,
+              "p90_ape": 0.13727716807228835,
+              "spearman": 1.0,
+              "log_mae": 0.09049596796651396,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "rmsnorm": {
+              "records": 4,
+              "mape": 0.05527305320893275,
+              "mdape": 0.010597698633944143,
+              "p90_ape": 0.14060940158508833,
+              "spearman": 0.7999999999999999,
+              "log_mae": 0.051058870112911034,
+              "interval_coverage": 0.75,
+              "coverage_calibration_error": 0.15000000000000002
+            },
+            "rope": {
+              "records": 4,
+              "mape": 0.021378146979533046,
+              "mdape": 0.017126447957680667,
+              "p90_ape": 0.038236643329850266,
+              "spearman": -0.39999999999999997,
+              "log_mae": 0.021667421562478584,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "silu": {
+              "records": 4,
+              "mape": 0.10488377072745962,
+              "mdape": 0.08199920998037959,
+              "p90_ape": 0.19317490812615587,
+              "spearman": 1.0,
+              "log_mae": 0.11395727183818993,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            }
+          }
+        },
+        "shared_ridge": {
+          "mape": 0.2348249484235765,
+          "mdape": 0.14876171201525473,
+          "p90_ape": 0.4653998142422826,
+          "spearman": 0.9781536293164199,
+          "log_mae": 0.2026458469839514,
+          "interval_coverage": 0.9090909090909091,
+          "coverage_calibration_error": 0.009090909090909038,
+          "by_operator": {
+            "add": {
+              "records": 4,
+              "mape": 0.1139150514971619,
+              "mdape": 0.12268878598007785,
+              "p90_ape": 0.19488016550644122,
+              "spearman": 0.39999999999999997,
+              "log_mae": 0.10658334417895088,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "matmul": {
+              "records": 24,
+              "mape": 0.3240043336625105,
+              "mdape": 0.23565845563548804,
+              "p90_ape": 0.7137245662264109,
+              "spearman": 0.9843478260869565,
+              "log_mae": 0.257291858025075,
+              "interval_coverage": 0.875,
+              "coverage_calibration_error": 0.025000000000000022
+            },
+            "mul": {
+              "records": 4,
+              "mape": 0.13365437284403353,
+              "mdape": 0.14876171201525473,
+              "p90_ape": 0.1735948730107981,
+              "spearman": 1.0,
+              "log_mae": 0.13688502469000002,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "rmsnorm": {
+              "records": 4,
+              "mape": 0.0881529276223814,
+              "mdape": 0.10497289492679085,
+              "p90_ape": 0.1242864955378871,
+              "spearman": 1.0,
+              "log_mae": 0.08915217908537325,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "rope": {
+              "records": 4,
+              "mape": 0.0438271046006245,
+              "mdape": 0.04435352871083957,
+              "p90_ape": 0.07234706699701125,
+              "spearman": 0.39999999999999997,
+              "log_mae": 0.04521087345990005,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "silu": {
+              "records": 4,
+              "mape": 0.2594989741200771,
+              "mdape": 0.25051945278301924,
+              "p90_ape": 0.38113533516979126,
+              "spearman": 1.0,
+              "log_mae": 0.3075217472587916,
+              "interval_coverage": 0.75,
+              "coverage_calibration_error": 0.15000000000000002
+            }
+          },
+          "selected_alpha": 0.1,
+          "train_cv_mse": 0.07771108538116446
+        }
+      },
+      "predictions": [
+        {
+          "object_id": "sha256:045a2e5ab4176bdd3384361d2b7a8407b95cbaaaa5caab78939c12d7d1d360fd",
+          "operator": "matmul",
+          "measured_s": 4.437439918518067e-05,
+          "analytic_only": {
+            "predicted_s": 0.00012437719927158318,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 7.341391353518262e-05,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 4.5186938326931756e-05,
+            "residual_mean": -1.0125108078990517,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 4.5877237084323725e-05,
+            "residual_mean": -0.9973498079413454,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:05f10e82af02f666f659f21f0bb1b22603cc751ee038a0af7ce4d18c535dd293",
+          "operator": "add",
+          "measured_s": 9.5551997423172e-06,
+          "analytic_only": {
+            "predicted_s": 8.943093126118373e-06,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 8.854217442149368e-06,
+            "residual_mean": -0.009987623964360294,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 9.628779888153076e-06,
+            "residual_mean": 0.0738750021263115,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 8.880731521519445e-06,
+            "residual_mean": -0.006997584446555738,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:12d805f284d79c22905f3e3eb5225f676454df761f26ca8043873675465e5ccf",
+          "operator": "mul",
+          "measured_s": 2.897279977798462e-05,
+          "analytic_only": {
+            "predicted_s": 3.298319423055685e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 2.68763541735815e-05,
+            "residual_mean": -0.20475129297334133,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 2.602093344361664e-05,
+            "residual_mean": -0.23709681948292324,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 2.5167807497647007e-05,
+            "residual_mean": -0.2704324684141577,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:15ec31fcf0bab3adba190c2e7034c6ebc3e09377d37c22f50c02c6696355a04f",
+          "operator": "matmul",
+          "measured_s": 0.0006376192474365235,
+          "analytic_only": {
+            "predicted_s": 0.0021704620378143443,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 0.0012811199585509873,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 0.0006108610294982534,
+            "residual_mean": -1.2678258588501314,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 0.001537700151993066,
+            "residual_mean": -0.34465217315582874,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:29efb509b2a4afef84d20250a6d79742157a703f14a55d5c67c6fb790ade53dc",
+          "operator": "add",
+          "measured_s": 1.2198400497436524e-05,
+          "analytic_only": {
+            "predicted_s": 1.7151908137390048e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 1.6981453961682975e-05,
+            "residual_mean": -0.009987623964360294,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 1.2984688300077544e-05,
+            "residual_mean": -0.2783385888663744,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 1.4680650357211475e-05,
+            "residual_mean": -0.15557910461081106,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:2b55eaa9c13880918e29bfd64bac1ea461b10214a564717974eef98716f46911",
+          "operator": "rmsnorm",
+          "measured_s": 1.4847979545593263e-05,
+          "analytic_only": {
+            "predicted_s": 1.0897572890706868e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.084967858621925
+          },
+          "family_median": {
+            "predicted_s": 1.9430821072045757e-05,
+            "residual_mean": 0.57832042658751,
+            "residual_q90": 0.5096160813478048
+          },
+          "nearest_shape": {
+            "predicted_s": 1.4764800071716306e-05,
+            "residual_mean": 0.30370588055151887,
+            "residual_q90": 0.15175930633555354
+          },
+          "shared_ridge": {
+            "predicted_s": 1.4679538038532921e-05,
+            "residual_mean": 0.29791446006345745,
+            "residual_q90": 0.47655457873656965
+          }
+        },
+        {
+          "object_id": "sha256:2cce1df28d0c0dd7c1f382c583c72d223c8a95647c46dcf24156295f14b327a5",
+          "operator": "rope",
+          "measured_s": 0.00012147839546203614,
+          "analytic_only": {
+            "predicted_s": 8.161301220282975e-06,
+            "residual_mean": 0.0,
+            "residual_q90": 2.6914986228294797
+          },
+          "family_median": {
+            "predicted_s": 0.00011014962969129412,
+            "residual_mean": 2.6024360918512004,
+            "residual_q90": 0.2637741693470925
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00012348152160644528,
+            "residual_mean": 2.7166879027205026,
+            "residual_q90": 0.10437481795544473
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00011476891421790328,
+            "residual_mean": 2.643517045610295,
+            "residual_q90": 0.18730868797237005
+          }
+        },
+        {
+          "object_id": "sha256:2f56b388c58822284f953bdba8b9040661e684ae1b1cfbbcb3bd66591418617a",
+          "operator": "rmsnorm",
+          "measured_s": 1.439039945602417e-05,
+          "analytic_only": {
+            "predicted_s": 8.552197173200675e-06,
+            "residual_mean": 0.0,
+            "residual_q90": 1.084967858621925
+          },
+          "family_median": {
+            "predicted_s": 1.5248919618333368e-05,
+            "residual_mean": 0.57832042658751,
+            "residual_q90": 0.5096160813478048
+          },
+          "nearest_shape": {
+            "predicted_s": 1.4611200094223023e-05,
+            "residual_mean": 0.5356001351051144,
+            "residual_q90": 0.15175930633555354
+          },
+          "shared_ridge": {
+            "predicted_s": 1.2838086189260937e-05,
+            "residual_mean": 0.40622800721519103,
+            "residual_q90": 0.47655457873656965
+          }
+        },
+        {
+          "object_id": "sha256:3091a8fa7b2f7f043c92061bb81373060f0c570dec65ffaeaed50bae353ea9d9",
+          "operator": "matmul",
+          "measured_s": 5.883195877075195e-05,
+          "analytic_only": {
+            "predicted_s": 0.0001644607847105331,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 9.70733373912358e-05,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 5.974953109923864e-05,
+            "residual_mean": -1.0125108078990517,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 7.343947288396663e-05,
+            "residual_mean": -0.8062105821878154,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:333d2ebacef3310358d765eed9fa93e5497e691740ad8b70ff14d25ae06f312a",
+          "operator": "matmul",
+          "measured_s": 1.892799973487854e-05,
+          "analytic_only": {
+            "predicted_s": 1.242447416259996e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 7.333573012056244e-06,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 1.8716800212860108e-05,
+            "residual_mean": 0.40975327746961693,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 1.3638459366185837e-05,
+            "residual_mean": 0.09322544617326994,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:3b0e4505250c3184c398ffbf4927f885e3abc6f7de9d61e77ab39cc1dc3e308d",
+          "operator": "rope",
+          "measured_s": 0.000123503999710083,
+          "analytic_only": {
+            "predicted_s": 8.552197173200675e-06,
+            "residual_mean": 0.0,
+            "residual_q90": 2.6914986228294797
+          },
+          "family_median": {
+            "predicted_s": 0.00011542538698777794,
+            "residual_mean": 2.6024360918512004,
+            "residual_q90": 0.2637741693470925
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00012402873992919922,
+            "residual_mean": 2.6743250831153995,
+            "residual_q90": 0.10437481795544473
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00011366293630502843,
+            "residual_mean": 2.5870491403891807,
+            "residual_q90": 0.18730868797237005
+          }
+        },
+        {
+          "object_id": "sha256:43f1ffbf7ed848788ca8052dc7897d7d9f5de2425ef39ebe9e2d5e967ab46abc",
+          "operator": "silu",
+          "measured_s": 1.1152000427246094e-05,
+          "analytic_only": {
+            "predicted_s": 1.1972536761230539e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 1.2342090991562587e-05,
+            "residual_mean": 0.030400028682985865,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 1.1612474611806504e-05,
+            "residual_mean": -0.030535505846187458,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 1.2614209944054049e-05,
+            "residual_mean": 0.05220852813413768,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:48f1693618d7e695fd31c0e15761a2d31c9053fbde6fc8c9c74f49eedd489254",
+          "operator": "matmul",
+          "measured_s": 1.3952000141143798e-05,
+          "analytic_only": {
+            "predicted_s": 1.1414367579997086e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 6.737355395396429e-06,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 1.4525656364973122e-05,
+            "residual_mean": 0.24104361444921488,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 1.340247864165794e-05,
+            "residual_mean": 0.16056678720326778,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:4ea314b61467a2e1fc5854d182dafa9a2271119585f04e9c770d24e396792058",
+          "operator": "matmul",
+          "measured_s": 8.463680267333984e-05,
+          "analytic_only": {
+            "predicted_s": 0.00016110440421391207,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 9.509222647208675e-05,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 6.531971533107746e-05,
+            "residual_mean": -0.902758718168811,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00012098387150975097,
+            "residual_mean": -0.2863953847902362,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:518266649dbbe86fc03f3b329d22be1762e1c0fb790232771b8af069e96b76e1",
+          "operator": "matmul",
+          "measured_s": 6.271997928619385e-05,
+          "analytic_only": {
+            "predicted_s": 0.000305630814562385,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 0.0001803992558553836,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 6.181436061859132e-05,
+            "residual_mean": -1.5982421752626987,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 8.684331912444677e-05,
+            "residual_mean": -1.2582723197740013,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:51948536a9c64b2814a89d1166fd11874757f871927359db6c0d8dd7e8d2fc3c",
+          "operator": "mul",
+          "measured_s": 1.688639998435974e-05,
+          "analytic_only": {
+            "predicted_s": 2.0376799748961062e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 1.6604034259054787e-05,
+            "residual_mean": -0.20475129297334133,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 1.607556097675954e-05,
+            "residual_mean": -0.23709681948292324,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 1.5867690310376324e-05,
+            "residual_mean": -0.25011200061521455,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:5375714f588d456348b2d41b2ac31131839f2fb781eedff7a91e4ea205b89ade",
+          "operator": "mul",
+          "measured_s": 9.68317985534668e-06,
+          "analytic_only": {
+            "predicted_s": 1.407360250816317e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 1.1467874301791432e-05,
+            "residual_mean": -0.20475129297334133,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 9.30424995289951e-06,
+            "residual_mean": -0.4138296001993491,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 1.1394844969231682e-05,
+            "residual_mean": -0.21113982270811227,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:6004798cfd78ab4a84d11ae1b995d700228284927634a173676eafa94847f6a3",
+          "operator": "rmsnorm",
+          "measured_s": 1.5910400152206423e-05,
+          "analytic_only": {
+            "predicted_s": 1.4024740514048457e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.084967858621925
+          },
+          "family_median": {
+            "predicted_s": 2.5006689676995605e-05,
+            "residual_mean": 0.57832042658751,
+            "residual_q90": 0.5096160813478048
+          },
+          "nearest_shape": {
+            "predicted_s": 1.90017072447582e-05,
+            "residual_mean": 0.30370588055151887,
+            "residual_q90": 0.15175930633555354
+          },
+          "shared_ridge": {
+            "predicted_s": 1.7999777999927446e-05,
+            "residual_mean": 0.2495364749172666,
+            "residual_q90": 0.47655457873656965
+          }
+        },
+        {
+          "object_id": "sha256:72b75e45db18802471025ff78cddc277126e8f436eee01da7f93e9224b629b46",
+          "operator": "matmul",
+          "measured_s": 1.8755199909210204e-05,
+          "analytic_only": {
+            "predicted_s": 2.6386680848304006e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 1.557479600459564e-05,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 1.8921600580215453e-05,
+            "residual_mean": -0.33255521221222634,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 1.8014112296149238e-05,
+            "residual_mean": -0.38170390235223817,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:77397e4c8a0ec2f694adb5a1b596fde4ddfda110733fb0269a6455f594a7ccf3",
+          "operator": "add",
+          "measured_s": 9.58079993724823e-06,
+          "analytic_only": {
+            "predicted_s": 1.011578098487147e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 1.001525123065417e-05,
+            "residual_mean": -0.009987623964360294,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 9.20960009098053e-06,
+            "residual_mean": -0.09385025005503209,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 9.515718982375943e-06,
+            "residual_mean": -0.06115161726610807,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:7a942a4decefc5d98739f7f906bfbd1853403d4ddbe3fd14aa840262ce0fc5b2",
+          "operator": "matmul",
+          "measured_s": 0.0018119223022460937,
+          "analytic_only": {
+            "predicted_s": 0.008658536935455282,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 0.005110720338160321,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 0.0023029064850931136,
+            "residual_mean": -1.324373748881079,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 0.002590526451536018,
+            "residual_mean": -1.2066846450063582,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:90b24e11005c7f01c0ba4fb001f2652212eb7754386b05a113f7cfde9ad9704f",
+          "operator": "matmul",
+          "measured_s": 0.0009716192626953125,
+          "analytic_only": {
+            "predicted_s": 0.004333153670361324,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 0.0025576534184207655,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 0.0011524865878343006,
+            "residual_mean": -1.324373748881079,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 0.0020838237012815366,
+            "residual_mean": -0.732091083249452,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:92999d74647172cf349b137af249441ad60c694f4f74ae73cf1d368bffbca05e",
+          "operator": "matmul",
+          "measured_s": 6.871995925903321e-05,
+          "analytic_only": {
+            "predicted_s": 8.443740474063867e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 4.9839362576648265e-05,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 5.993969688508306e-05,
+            "residual_mean": -0.3426714826521445,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 8.55575326359225e-05,
+            "residual_mean": 0.013178558420448683,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:99f3715209f355c8836cb80d02495ee4c1c20d238d0366264ba33759f8286cde",
+          "operator": "matmul",
+          "measured_s": 2.0028800964355468e-05,
+          "analytic_only": {
+            "predicted_s": 3.692210376841976e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 2.179335239470299e-05,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 2.0297292612811032e-05,
+            "residual_mean": -0.5983228814948164,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 2.4388240727072547e-05,
+            "residual_mean": -0.41470931110616727,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:9a907b39733d602d21fe7a9eddc696d958f73663f9220ac3ea8a400a6183ff54",
+          "operator": "add",
+          "measured_s": 9.484800100326537e-06,
+          "analytic_only": {
+            "predicted_s": 1.2461156702377662e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 1.233731880766377e-05,
+            "residual_mean": -0.009987623964360294,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 9.433599710464478e-06,
+            "residual_mean": -0.2783385888663744,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 1.1142658363845014e-05,
+            "residual_mean": -0.11183550397415626,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:9f47e3ee28964f129d00bb5df8d4313c08b9ab9f5b5894b795d60377ed8288ee",
+          "operator": "silu",
+          "measured_s": 1.980479955673218e-05,
+          "analytic_only": {
+            "predicted_s": 1.6174668255095802e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 1.6673928954569634e-05,
+            "residual_mean": 0.030400028682985865,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 2.044175202452833e-05,
+            "residual_mean": 0.23413314670256083,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 1.6288471271290002e-05,
+            "residual_mean": 0.007011243154157798,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:a7a34945bf0057c4e2e778aee48e3c61ea4bb944f2ce663993fd3f7c6e190df2",
+          "operator": "mul",
+          "measured_s": 5.416959762573242e-05,
+          "analytic_only": {
+            "predicted_s": 5.819598319374842e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 4.7420994002634925e-05,
+            "residual_mean": -0.20475129297334133,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 4.591167837733084e-05,
+            "residual_mean": -0.23709681948292324,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 4.5166956407647836e-05,
+            "residual_mean": -0.25345056850550063,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:b2cfdb021481acc7f63aabcf9879f94a5b692c09327c0ae24f6237ce6e3da61f",
+          "operator": "silu",
+          "measured_s": 6.735040187835694e-05,
+          "analytic_only": {
+            "predicted_s": 4.1387457218287376e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 4.266495673261192e-05,
+            "residual_mean": 0.030400028682985865,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 5.2305996267680144e-05,
+            "residual_mean": 0.23413314670256083,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 4.0016871164819744e-05,
+            "residual_mean": -0.03367672487540596,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:b4313d29ccf1d9121dbd9e45a06db0e5087b21f4fa64a6573c307923d5c4b3d3",
+          "operator": "matmul",
+          "measured_s": 1.5235199928283692e-05,
+          "analytic_only": {
+            "predicted_s": 2.2346254517892516e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 1.3189925537956385e-05,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 1.8025661621943306e-05,
+            "residual_mean": -0.21486233563217533,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 1.9836263473880237e-05,
+            "residual_mean": -0.11914697277380515,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:b71dea42f767805d682c3bea0931f3613356db85af4f1a9811ad0c51c72f9da2",
+          "operator": "matmul",
+          "measured_s": 0.0006043040084838867,
+          "analytic_only": {
+            "predicted_s": 0.0010891162215408549,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 0.0006428532286160987,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00038522204218705583,
+            "residual_mean": -1.0393019394218161,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 0.0010874057279425756,
+            "residual_mean": -0.0015717681605063039,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:bd1a4c7be89f5feec5ea726dbc696f2716320d6bdf6677101ecd9708c84e0ffb",
+          "operator": "matmul",
+          "measured_s": 0.00011345589637756347,
+          "analytic_only": {
+            "predicted_s": 0.00032115116415370093,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 0.00018956017610126182,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00011667603011825642,
+            "residual_mean": -1.0125108078990517,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00010615041821230835,
+            "residual_mean": -1.1070548006849545,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:ce28cd4dac85e18cfb2d558b912ad6b28f79f00166963820942281e3d76c5d45",
+          "operator": "matmul",
+          "measured_s": 0.00017753910064697266,
+          "analytic_only": {
+            "predicted_s": 0.0006345319230400366,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 0.0003745338535213139,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 0.000230529028156292,
+            "residual_mean": -1.0125108078990517,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00015491521734741255,
+            "residual_mean": -1.410009615595613,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:cf37438eb8cbbadd4a30cd3ac5a082bb5ed04963f123ca6b1c6e1aa37996f763",
+          "operator": "matmul",
+          "measured_s": 0.0001180416202545166,
+          "analytic_only": {
+            "predicted_s": 0.00031443840316045885,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 0.00018559795426296372,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00012748892299882948,
+            "residual_mean": -0.902758718168811,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00017478360566423228,
+            "residual_mean": -0.5872395308358492,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:d5ce5675903615774d661d581ede6a07155b19ed25dd94a2a5d9c6a18ca5df56",
+          "operator": "matmul",
+          "measured_s": 1.5055999755859376e-05,
+          "analytic_only": {
+            "predicted_s": 2.2346254517892516e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 1.3189925537956385e-05,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 1.4975980520248414e-05,
+            "residual_mean": -0.4002111049207905,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 1.4932522641838233e-05,
+            "residual_mean": -0.4031171620215922,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:dbbea5246e9cb7b7a7f46e9e2b1448071276edffe9028ce3b5a1e3c8a24f3aac",
+          "operator": "rope",
+          "measured_s": 0.00012270400047302246,
+          "analytic_only": {
+            "predicted_s": 7.965853243824127e-06,
+            "residual_mean": 0.0,
+            "residual_q90": 2.6914986228294797
+          },
+          "family_median": {
+            "predicted_s": 0.00010751175104305223,
+            "residual_mean": 2.6024360918512004,
+            "residual_q90": 0.2637741693470925
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00012052436895680906,
+            "residual_mean": 2.7166879027205026,
+            "residual_q90": 0.10437481795544473
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00011859646338114968,
+            "residual_mean": 2.700562604627731,
+            "residual_q90": 0.18730868797237005
+          }
+        },
+        {
+          "object_id": "sha256:ddb81ce83b340445182f4e1576d571e9f5a4532edf354d705bb5c8b65183642a",
+          "operator": "silu",
+          "measured_s": 3.540800094604492e-05,
+          "analytic_only": {
+            "predicted_s": 2.457893124282633e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.2594552273204904
+          },
+          "family_median": {
+            "predicted_s": 2.5337604880583733e-05,
+            "residual_mean": 0.030400028682985865,
+            "residual_q90": 0.7655054169651281
+          },
+          "nearest_shape": {
+            "predicted_s": 3.10631667722456e-05,
+            "residual_mean": 0.23413314670256083,
+            "residual_q90": 0.35444738100187806
+          },
+          "shared_ridge": {
+            "predicted_s": 2.395388066378609e-05,
+            "residual_mean": -0.025759279806759627,
+            "residual_q90": 0.4563236791357802
+          }
+        },
+        {
+          "object_id": "sha256:ddc2f8b7f342d7781305ed98f56694db23c580ac0973d594bd8cfeca95f08e00",
+          "operator": "matmul",
+          "measured_s": 1.5001579523086546e-05,
+          "analytic_only": {
+            "predicted_s": 1.5058329892628897e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 8.888212109583082e-06,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 1.4860800504684448e-05,
+            "residual_mean": -0.013204411716328286,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 1.3304976989234253e-05,
+            "residual_mean": -0.12379314437286415,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:ec87497778db4f6a12e4cf3f7af84e806c4bc8777d7102913da358a6ad6e650f",
+          "operator": "rope",
+          "measured_s": 0.00012491831779479982,
+          "analytic_only": {
+            "predicted_s": 7.868129255594702e-06,
+            "residual_mean": 0.0,
+            "residual_q90": 2.6914986228294797
+          },
+          "family_median": {
+            "predicted_s": 0.00010619281171893128,
+            "residual_mean": 2.6024360918512004,
+            "residual_q90": 0.2637741693470925
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00011904579263199092,
+            "residual_mean": 2.7166879027205026,
+            "residual_q90": 0.10437481795544473
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00012405398076371175,
+            "residual_mean": 2.7578964712131806,
+            "residual_q90": 0.18730868797237005
+          }
+        },
+        {
+          "object_id": "sha256:ed38c81918b2dbaccb3fa75b4dfa15eeac3a7886a97cc7b63a7bc69e5dea0958",
+          "operator": "matmul",
+          "measured_s": 2.6899199485778808e-05,
+          "analytic_only": {
+            "predicted_s": 6.607380226947423e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 3.9000206108196204e-05,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 2.7583980560302734e-05,
+            "residual_mean": -0.8735371437568971,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 3.254775037801229e-05,
+            "residual_mean": -0.7080640800370301,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:eef7e0c020a0ff2b10712899e862740db68f9bc2495cad4c469a9ce194803cc3",
+          "operator": "matmul",
+          "measured_s": 0.00020795190811157227,
+          "analytic_only": {
+            "predicted_s": 0.0006211064010535524,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 0.0003666094098447177,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00025182733833433357,
+            "residual_mean": -0.902758718168811,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00025501136071422935,
+            "residual_mean": -0.8901943095207137,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:ef20ab83825d920babf7559c9ef63a8bf1a71b844cdb573ac40f5216aa0d2058",
+          "operator": "matmul",
+          "measured_s": 5.192319869995118e-05,
+          "analytic_only": {
+            "predicted_s": 8.61155949889492e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 5.082991803622279e-05,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 4.190147371739086e-05,
+            "residual_mean": -0.7203695229385705,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 5.18862606324372e-05,
+            "residual_mean": -0.5066364940743233,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:f19f720ac052d60623d774fe4be6dfa60bfa360e544b74ef3948dcd58910c73a",
+          "operator": "matmul",
+          "measured_s": 2.339518070220947e-05,
+          "analytic_only": {
+            "predicted_s": 8.22355075911202e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 4.8539687974753234e-05,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 2.3372800350189212e-05,
+            "residual_mean": -1.2580142065393525,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 3.541407505213132e-05,
+            "residual_mean": -0.8424778331601167,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:f52c111f0116b92a9592fa26bf36b74fa50600dd815f73f0b546265bbbff5c6d",
+          "operator": "matmul",
+          "measured_s": 1.5443199872970582e-05,
+          "analytic_only": {
+            "predicted_s": 9.592386423681182e-06,
+            "residual_mean": 0.0,
+            "residual_q90": 1.2361429798275994
+          },
+          "family_median": {
+            "predicted_s": 5.661927038303105e-06,
+            "residual_mean": -0.5272054025513002,
+            "residual_q90": 0.8260295306806945
+          },
+          "nearest_shape": {
+            "predicted_s": 1.2207045894912552e-05,
+            "residual_mean": 0.24104361444921488,
+            "residual_q90": 0.4252740962164622
+          },
+          "shared_ridge": {
+            "predicted_s": 1.5028838203135309e-05,
+            "residual_mean": 0.44900119929769866,
+            "residual_q90": 0.5384321449198793
+          }
+        },
+        {
+          "object_id": "sha256:ff441e3dc61e3b988d75b0c3e2018fb8e7f7200790667bcd4aabcf2ef79e8ad0",
+          "operator": "rmsnorm",
+          "measured_s": 1.4764800071716307e-05,
+          "analytic_only": {
+            "predicted_s": 9.333989079036072e-06,
+            "residual_mean": 0.0,
+            "residual_q90": 1.084967858621925
+          },
+          "family_median": {
+            "predicted_s": 1.664288676957083e-05,
+            "residual_mean": 0.57832042658751,
+            "residual_q90": 0.5096160813478048
+          },
+          "nearest_shape": {
+            "predicted_s": 1.4851200580596924e-05,
+            "residual_mean": 0.4644182316517613,
+            "residual_q90": 0.15175930633555354
+          },
+          "shared_ridge": {
+            "predicted_s": 1.3257692862984072e-05,
+            "residual_mean": 0.3509154998785987,
+            "residual_q90": 0.47655457873656965
+          }
+        }
+      ]
+    },
+    {
+      "split_id": "sequence-short-to-1024",
+      "mode": "zero_shot",
+      "train_records": 84,
+      "hidden_records": 28,
+      "shared_seen_records": 0,
+      "protocol": {
+        "target": "log(measured_duration_s / analytic_estimate_s)",
+        "baselines": [
+          "analytic_only",
+          "family_median",
+          "nearest_shape",
+          "shared_ridge"
+        ],
+        "numeric_features": [
+          "batch",
+          "m",
+          "n",
+          "k",
+          "normalized_size",
+          "numel",
+          "flops",
+          "memory_bytes",
+          "arithmetic_intensity",
+          "compute_demand_s",
+          "memory_demand_s",
+          "launch_s"
+        ],
+        "categorical_features": [
+          "operator",
+          "implementation_id"
+        ],
+        "numeric_transform": "log1p_then_train_fold_standardize",
+        "ridge_alphas": [
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0
+        ],
+        "ridge_cv_folds": 5,
+        "family_uncertainty_min_samples": 5,
+        "uncertainty_interval_coverage": 0.9,
+        "model_selection_scope": "train_fold_only"
+      },
+      "methods": {
+        "analytic_only": {
+          "mape": 1.270077228386065,
+          "mdape": 0.8998948989102731,
+          "p90_ape": 3.0654750909471677,
+          "spearman": 0.5095250410462554,
+          "log_mae": 0.9852632273769057,
+          "interval_coverage": 0.6428571428571429,
+          "coverage_calibration_error": 0.2571428571428571,
+          "by_operator": {
+            "add": {
+              "records": 2,
+              "mape": 0.36350591542871746,
+              "mdape": 0.36350591542871746,
+              "p90_ape": 0.39756394790442584,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.30957159078406576,
+              "interval_coverage": 0.0,
+              "coverage_calibration_error": 0.9
+            },
+            "matmul": {
+              "records": 14,
+              "mape": 2.048194274552872,
+              "mdape": 1.7777038828405396,
+              "p90_ape": 3.84465340185596,
+              "spearman": 0.9405309159212693,
+              "log_mae": 1.0374901882549703,
+              "interval_coverage": 0.6428571428571429,
+              "coverage_calibration_error": 0.2571428571428571
+            },
+            "mul": {
+              "records": 2,
+              "mape": 0.17094654338891146,
+              "mdape": 0.17094654338891146,
+              "p90_ape": 0.24824037804549298,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.1543966664488283,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "rmsnorm": {
+              "records": 4,
+              "mape": 0.45010463121409505,
+              "mdape": 0.4581985788536481,
+              "p90_ape": 0.7321952829148123,
+              "spearman": 0.4472135954999579,
+              "log_mae": 0.7357157321352519,
+              "interval_coverage": 0.5,
+              "coverage_calibration_error": 0.4
+            },
+            "rope": {
+              "records": 3,
+              "mape": 0.9101811601156032,
+              "mdape": 0.9122974114311835,
+              "p90_ape": 0.9270624283072475,
+              "spearman": 1.0,
+              "log_mae": 2.429541186517785,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "silu": {
+              "records": 2,
+              "mape": 0.29711705604149563,
+              "mdape": 0.29711705604149563,
+              "p90_ape": 0.3678158654295739,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.36053207368428575,
+              "interval_coverage": 0.5,
+              "coverage_calibration_error": 0.4
+            },
+            "softmax": {
+              "records": 1,
+              "mape": 0.6933415161481814,
+              "mdape": 0.6933415161481814,
+              "p90_ape": 0.6933415161481814,
+              "spearman": 0.0,
+              "log_mae": 1.1820205810550568,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            }
+          }
+        },
+        "family_median": {
+          "mape": 0.6362440200072713,
+          "mdape": 0.4653819637937947,
+          "p90_ape": 1.5735278371149444,
+          "spearman": 0.9219607078059491,
+          "log_mae": 0.46772601615748605,
+          "interval_coverage": 0.5714285714285714,
+          "coverage_calibration_error": 0.3285714285714286,
+          "by_operator": {
+            "add": {
+              "records": 2,
+              "mape": 0.3716212713499192,
+              "mdape": 0.3716212713499192,
+              "p90_ape": 0.4058820114577607,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.31550577898220694,
+              "interval_coverage": 0.0,
+              "coverage_calibration_error": 0.9
+            },
+            "matmul": {
+              "records": 14,
+              "mape": 0.9713753647769622,
+              "mdape": 0.7583426551229837,
+              "p90_ape": 2.0667634438623965,
+              "spearman": 0.9405309159212693,
+              "log_mae": 0.6268906174541238,
+              "interval_coverage": 0.7857142857142857,
+              "coverage_calibration_error": 0.11428571428571432
+            },
+            "mul": {
+              "records": 2,
+              "mape": 0.08068967711212158,
+              "mdape": 0.08068967711212158,
+              "p90_ape": 0.0983593488305112,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.08270015303409495,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "rmsnorm": {
+              "records": 4,
+              "mape": 0.4502756085538926,
+              "mdape": 0.4642991532313262,
+              "p90_ape": 0.5737751465825283,
+              "spearman": 0.4472135954999579,
+              "log_mae": 0.5207877701319217,
+              "interval_coverage": 0.0,
+              "coverage_calibration_error": 0.9
+            },
+            "rope": {
+              "records": 3,
+              "mape": 0.3109377092742421,
+              "mdape": 0.28005027345937217,
+              "p90_ape": 0.5696807585439492,
+              "spearman": 1.0,
+              "log_mae": 0.25116203064411335,
+              "interval_coverage": 0.3333333333333333,
+              "coverage_calibration_error": 0.5666666666666667
+            },
+            "silu": {
+              "records": 2,
+              "mape": 0.27542128925886666,
+              "mdape": 0.27542128925886666,
+              "p90_ape": 0.3483023466207752,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.3301320450012999,
+              "interval_coverage": 0.5,
+              "coverage_calibration_error": 0.4
+            },
+            "softmax": {
+              "records": 1,
+              "mape": 0.026197415846015055,
+              "mdape": 0.026197415846015055,
+              "p90_ape": 0.026197415846015055,
+              "spearman": 0.0,
+              "log_mae": 0.026546681556645746,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            }
+          }
+        },
+        "nearest_shape": {
+          "mape": 0.1396130022944013,
+          "mdape": 0.0708736952501299,
+          "p90_ape": 0.35593431031314965,
+          "spearman": 0.9828931253944102,
+          "log_mae": 0.13327103314283104,
+          "interval_coverage": 0.8928571428571429,
+          "coverage_calibration_error": 0.0071428571428571175,
+          "by_operator": {
+            "add": {
+              "records": 2,
+              "mape": 0.03783150732600243,
+              "mdape": 0.03783150732600243,
+              "p90_ape": 0.06375475326198254,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.03664577629399823,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "matmul": {
+              "records": 14,
+              "mape": 0.19368616661919158,
+              "mdape": 0.18585728809221683,
+              "p90_ape": 0.3786287942876582,
+              "spearman": 0.9636969527904213,
+              "log_mae": 0.1802820358641292,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "mul": {
+              "records": 2,
+              "mape": 0.0533683161932858,
+              "mdape": 0.0533683161932858,
+              "p90_ape": 0.05571158066337265,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.05357629887863632,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "rmsnorm": {
+              "records": 4,
+              "mape": 0.13401089942042152,
+              "mdape": 0.11304223702441622,
+              "p90_ape": 0.2733347313142188,
+              "spearman": 1.0,
+              "log_mae": 0.1441043737079124,
+              "interval_coverage": 0.5,
+              "coverage_calibration_error": 0.4
+            },
+            "rope": {
+              "records": 3,
+              "mape": 0.1023365953804971,
+              "mdape": 0.008730322830605399,
+              "p90_ape": 0.2369706183710158,
+              "spearman": 1.0,
+              "log_mae": 0.09023137304445816,
+              "interval_coverage": 0.6666666666666666,
+              "coverage_calibration_error": 0.2333333333333334
+            },
+            "silu": {
+              "records": 2,
+              "mape": 0.07295364243339278,
+              "mdape": 0.07295364243339278,
+              "p90_ape": 0.10638904656463277,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.0767689900172607,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "softmax": {
+              "records": 1,
+              "mape": 0.026197415846015055,
+              "mdape": 0.026197415846015055,
+              "p90_ape": 0.026197415846015055,
+              "spearman": 0.0,
+              "log_mae": 0.026546681556645746,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            }
+          }
+        },
+        "shared_ridge": {
+          "mape": 0.23400931555817842,
+          "mdape": 0.17960129150311024,
+          "p90_ape": 0.45102748271651144,
+          "spearman": 0.9642808356347832,
+          "log_mae": 0.2696469424784185,
+          "interval_coverage": 0.6071428571428571,
+          "coverage_calibration_error": 0.2928571428571429,
+          "by_operator": {
+            "add": {
+              "records": 2,
+              "mape": 0.25823090498000945,
+              "mdape": 0.25823090498000945,
+              "p90_ape": 0.27854801224756504,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.2295029482360271,
+              "interval_coverage": 0.0,
+              "coverage_calibration_error": 0.9
+            },
+            "matmul": {
+              "records": 14,
+              "mape": 0.2379052567244255,
+              "mdape": 0.17959518469819463,
+              "p90_ape": 0.4360684160464195,
+              "spearman": 0.9328938538427826,
+              "log_mae": 0.290432462479977,
+              "interval_coverage": 0.7857142857142857,
+              "coverage_calibration_error": 0.11428571428571432
+            },
+            "mul": {
+              "records": 2,
+              "mape": 0.07035554313890006,
+              "mdape": 0.07035554313890006,
+              "p90_ape": 0.1259429744900635,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.07575377011233321,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            },
+            "rmsnorm": {
+              "records": 4,
+              "mape": 0.3444051115273769,
+              "mdape": 0.31845435710889536,
+              "p90_ape": 0.5025693102583554,
+              "spearman": 1.0,
+              "log_mae": 0.42034542691754695,
+              "interval_coverage": 0.25,
+              "coverage_calibration_error": 0.65
+            },
+            "rope": {
+              "records": 3,
+              "mape": 0.21670840077247475,
+              "mdape": 0.1668304624435301,
+              "p90_ape": 0.40107127775188045,
+              "spearman": 1.0,
+              "log_mae": 0.18547426339053144,
+              "interval_coverage": 0.3333333333333333,
+              "coverage_calibration_error": 0.5666666666666667
+            },
+            "silu": {
+              "records": 2,
+              "mape": 0.2592566219948282,
+              "mdape": 0.2592566219948282,
+              "p90_ape": 0.3366810056743986,
+              "spearman": 0.9999999999999999,
+              "log_mae": 0.30870984735259144,
+              "interval_coverage": 0.5,
+              "coverage_calibration_error": 0.4
+            },
+            "softmax": {
+              "records": 1,
+              "mape": 0.018155452832631924,
+              "mdape": 0.018155452832631924,
+              "p90_ape": 0.018155452832631924,
+              "spearman": 0.0,
+              "log_mae": 0.01832228543235459,
+              "interval_coverage": 1.0,
+              "coverage_calibration_error": 0.09999999999999998
+            }
+          },
+          "selected_alpha": 0.01,
+          "train_cv_mse": 0.039763161687907715
+        }
+      },
+      "predictions": [
+        {
+          "object_id": "sha256:03b0931d5bba4ec6f5f185249ab2539ea5b4bae7ac72cabcfffc69d81195e945",
+          "operator": "matmul",
+          "measured_s": 3.3910400867462155e-05,
+          "analytic_only": {
+            "predicted_s": 9.333849210044485e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 5.908515052268211e-05,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 4.541593626647493e-05,
+            "residual_mean": -0.7203695229385705,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 2.8854061423202847e-05,
+            "residual_mean": -1.1739818251984464,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:045a2e5ab4176bdd3384361d2b7a8407b95cbaaaa5caab78939c12d7d1d360fd",
+          "operator": "matmul",
+          "measured_s": 4.437439918518067e-05,
+          "analytic_only": {
+            "predicted_s": 0.00012437719927158318,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 7.873327900608002e-05,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 6.05185152235168e-05,
+            "residual_mean": -0.7203695229385705,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 3.874465936402803e-05,
+            "residual_mean": -1.1663259544708957,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:07bb4b93cb1ec3fd80ec133c60ec3dbcfa64fdb68e1c811eca6ca69efc034319",
+          "operator": "add",
+          "measured_s": 9.433599710464478e-06,
+          "analytic_only": {
+            "predicted_s": 1.2461156702377662e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 0.1917814237524788
+          },
+          "family_median": {
+            "predicted_s": 1.2535323393321475e-05,
+            "residual_mean": 0.005934188198141184,
+            "residual_q90": 0.25205120090201344
+          },
+          "nearest_shape": {
+            "predicted_s": 9.484800100326537e-06,
+            "residual_mean": -0.27292581449006753,
+            "residual_q90": 0.11175431605112487
+          },
+          "shared_ridge": {
+            "predicted_s": 1.1630067379371014e-05,
+            "residual_mean": -0.06902258221034854,
+            "residual_q90": 0.19672028509320383
+          }
+        },
+        {
+          "object_id": "sha256:08c0f9a83686b0e15c909e8166ce56c6cf4b20bda544b425bbca965274cf4096",
+          "operator": "matmul",
+          "measured_s": 5.3436779975891106e-05,
+          "analytic_only": {
+            "predicted_s": 6.481579648941832e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 4.1029708169096934e-05,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 3.4597298692089855e-05,
+            "residual_mean": -0.6277737401023619,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 2.0609283859120066e-05,
+            "residual_mean": -1.1458076995893922,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:29efb509b2a4afef84d20250a6d79742157a703f14a55d5c67c6fb790ade53dc",
+          "operator": "add",
+          "measured_s": 1.2198400497436524e-05,
+          "analytic_only": {
+            "predicted_s": 1.7151908137390048e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 0.1917814237524788
+          },
+          "family_median": {
+            "predicted_s": 1.725399338519692e-05,
+            "residual_mean": 0.005934188198141184,
+            "residual_q90": 0.25205120090201344
+          },
+          "nearest_shape": {
+            "predicted_s": 1.3055162045371592e-05,
+            "residual_mean": -0.27292581449006753,
+            "residual_q90": 0.11175431605112487
+          },
+          "shared_ridge": {
+            "predicted_s": 1.565819976144693e-05,
+            "residual_mean": -0.09111470288572879,
+            "residual_q90": 0.19672028509320383
+          }
+        },
+        {
+          "object_id": "sha256:3b0e4505250c3184c398ffbf4927f885e3abc6f7de9d61e77ab39cc1dc3e308d",
+          "operator": "rope",
+          "measured_s": 0.000123503999710083,
+          "analytic_only": {
+            "predicted_s": 8.552197173200675e-06,
+            "residual_mean": 0.0,
+            "residual_q90": 2.740656662017524
+          },
+          "family_median": {
+            "predicted_s": 0.0001248223400115967,
+            "residual_mean": 2.6807032171618985,
+            "residual_q90": 0.13640675939792762
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00012402873992919922,
+            "residual_mean": 2.6743250831153995,
+            "residual_q90": 0.06057749478887004
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00012058149266448683,
+            "residual_mean": 2.646137582766488,
+            "residual_q90": 0.07439707585245688
+          }
+        },
+        {
+          "object_id": "sha256:512a9b57a23981a34181a0d226e7bc334c2c720fb2d52504a0672c335e80b816",
+          "operator": "softmax",
+          "measured_s": 0.0003516608047485351,
+          "analytic_only": {
+            "predicted_s": 0.00010783976921429618,
+            "residual_mean": 0.0,
+            "residual_q90": 2.1582734675156265
+          },
+          "family_median": {
+            "predicted_s": 0.00034244820040979344,
+            "residual_mean": 1.155473899498411,
+            "residual_q90": 0.7850790567672377
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00034244820040979344,
+            "residual_mean": 1.155473899498411,
+            "residual_q90": 0.4208598881403517
+          },
+          "shared_ridge": {
+            "predicted_s": 0.0003452762435948377,
+            "residual_mean": 1.1636982956227022,
+            "residual_q90": 0.3336761883881567
+          }
+        },
+        {
+          "object_id": "sha256:518266649dbbe86fc03f3b329d22be1762e1c0fb790232771b8af069e96b76e1",
+          "operator": "matmul",
+          "measured_s": 6.271997928619385e-05,
+          "analytic_only": {
+            "predicted_s": 0.000305630814562385,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 0.00019347047800338736,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 8.686573742755952e-05,
+            "residual_mean": -1.2580142065393525,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 7.446025809190659e-05,
+            "residual_mean": -1.4121123505806636,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:55b16c48495a51c05ba1c061a15e85e7a8216e1641e9e9e29ab350bca11c49bb",
+          "operator": "matmul",
+          "measured_s": 2.596159934997559e-05,
+          "analytic_only": {
+            "predicted_s": 6.481579648941832e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 4.1029708169096934e-05,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 3.153757915069427e-05,
+            "residual_mean": -0.7203695229385705,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 2.244028462541199e-05,
+            "residual_mean": -1.0606915822193281,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:594606113caa1518c6a4e235fd55e1254eb7af78f3c471b4120269c1422ac0cd",
+          "operator": "silu",
+          "measured_s": 2.167680025100708e-05,
+          "analytic_only": {
+            "predicted_s": 1.7151908137390048e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 0.2837630836670251
+          },
+          "family_median": {
+            "predicted_s": 1.7681333132013134e-05,
+            "residual_mean": 0.030400028682985865,
+            "residual_q90": 0.31429858951321255
+          },
+          "nearest_shape": {
+            "predicted_s": 2.1001364437225763e-05,
+            "residual_mean": 0.20247797973575646,
+            "residual_q90": 0.19779184672224054
+          },
+          "shared_ridge": {
+            "predicted_s": 1.8154837366748565e-05,
+            "residual_mean": 0.056827617706008304,
+            "residual_q90": 0.3150569179797481
+          }
+        },
+        {
+          "object_id": "sha256:6004798cfd78ab4a84d11ae1b995d700228284927634a173676eafa94847f6a3",
+          "operator": "rmsnorm",
+          "measured_s": 1.5910400152206423e-05,
+          "analytic_only": {
+            "predicted_s": 1.4024740514048457e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 0.6509316958050729
+          },
+          "family_median": {
+            "predicted_s": 2.429921516011092e-05,
+            "residual_mean": 0.5496211023216133,
+            "residual_q90": 0.230005073870238
+          },
+          "nearest_shape": {
+            "predicted_s": 1.9108755901272732e-05,
+            "residual_mean": 0.3093237045932625,
+            "residual_q90": 0.1389027071621739
+          },
+          "shared_ridge": {
+            "predicted_s": 2.050265336157772e-05,
+            "residual_mean": 0.37973136047533484,
+            "residual_q90": 0.208643584214746
+          }
+        },
+        {
+          "object_id": "sha256:65615e92c3b88f498d7beb37e4d311828ddad6c8a9ca02604208bc3a6f519701",
+          "operator": "rmsnorm",
+          "measured_s": 3.1539180278778075e-05,
+          "analytic_only": {
+            "predicted_s": 1.0897572890706868e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 0.6509316958050729
+          },
+          "family_median": {
+            "predicted_s": 1.8881095741416952e-05,
+            "residual_mean": 0.5496211023216133,
+            "residual_q90": 0.230005073870238
+          },
+          "nearest_shape": {
+            "predicted_s": 3.232959985733032e-05,
+            "residual_mean": 1.0874431209753297,
+            "residual_q90": 0.1389027071621739
+          },
+          "shared_ridge": {
+            "predicted_s": 2.0554823341551316e-05,
+            "residual_mean": 0.6345555320228541,
+            "residual_q90": 0.208643584214746
+          }
+        },
+        {
+          "object_id": "sha256:6a17aa7679d30236930e64209ba0bb2f1b6e74417b27ee331d058852d93e9cbb",
+          "operator": "matmul",
+          "measured_s": 0.0011276641082763673,
+          "analytic_only": {
+            "predicted_s": 0.004239825366553426,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 0.002683895082675126,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 0.0009506923386504349,
+            "residual_mean": -1.4950868635521943,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 0.0006232147844727933,
+            "residual_mean": -1.917386142488931,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:7687585549f9e4a9d31cc6dd3be65a41d699b1a6d6ab1fd1d7ab28f9e0367080",
+          "operator": "rope",
+          "measured_s": 0.00012425600051879881,
+          "analytic_only": {
+            "predicted_s": 1.0897572890706868e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.740656662017524
+          },
+          "family_median": {
+            "predicted_s": 0.0001590539274430563,
+            "residual_mean": 2.6807032171618985,
+            "residual_q90": 0.13640675939792762
+          },
+          "nearest_shape": {
+            "predicted_s": 0.0001253407955169678,
+            "residual_mean": 2.4424962977856652,
+            "residual_q90": 0.06057749478887004
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00014498568654673353,
+            "residual_mean": 2.5880949302143033,
+            "residual_q90": 0.07439707585245688
+          }
+        },
+        {
+          "object_id": "sha256:7a942a4decefc5d98739f7f906bfbd1853403d4ddbe3fd14aa840262ce0fc5b2",
+          "operator": "matmul",
+          "measured_s": 0.0018119223022460937,
+          "analytic_only": {
+            "predicted_s": 0.008658536935455282,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 0.005481028744143809,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 0.0019414961742046143,
+            "residual_mean": -1.4950868635521943,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 0.0010694546583598333,
+            "residual_mean": -2.0913969097378198,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:82639b6ab8c31f0205083d86faab33d45205d1ade093c1095e62e685978d0cc9",
+          "operator": "matmul",
+          "measured_s": 2.7583980560302734e-05,
+          "analytic_only": {
+            "predicted_s": 6.607380226947423e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 4.182605123400331e-05,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 2.6899199485778808e-05,
+            "residual_mean": -0.898675806220518,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 2.5009709992780107e-05,
+            "residual_mean": -0.9715081843207636,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:8575de36a36083137b6041ce0b8c902ba774a0efff1aec0f12851f5b054604ae",
+          "operator": "matmul",
+          "measured_s": 6.18143606185913e-05,
+          "analytic_only": {
+            "predicted_s": 0.000305630814562385,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 0.00019347047800338736,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 8.686573742755952e-05,
+            "residual_mean": -1.2580142065393525,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 7.446025809190659e-05,
+            "residual_mean": -1.4121123505806636,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:8682e87f1211adfeccf3d667eab3991023393a52ad238c2359f9ba06bc7648b6",
+          "operator": "matmul",
+          "measured_s": 3.784960031509399e-05,
+          "analytic_only": {
+            "predicted_s": 9.335217212125186e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 5.909381025212863e-05,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 3.800445280989116e-05,
+            "residual_mean": -0.898675806220518,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 3.3240807147968336e-05,
+            "residual_mean": -1.032600886167331,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:96e077b29288d9864eb39565b278d1763c29f4a9dade463aaa87037344f254f3",
+          "operator": "rmsnorm",
+          "measured_s": 5.9808001518249516e-05,
+          "analytic_only": {
+            "predicted_s": 1.4024740514048457e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 0.6509316958050729
+          },
+          "family_median": {
+            "predicted_s": 2.429921516011092e-05,
+            "residual_mean": 0.5496211023216133,
+            "residual_q90": 0.230005073870238
+          },
+          "nearest_shape": {
+            "predicted_s": 4.160690214871003e-05,
+            "residual_mean": 1.0874431209753297,
+            "residual_q90": 0.1389027071621739
+          },
+          "shared_ridge": {
+            "predicted_s": 2.5795503348386724e-05,
+            "residual_mean": 0.6093772383498123,
+            "residual_q90": 0.208643584214746
+          }
+        },
+        {
+          "object_id": "sha256:a7a34945bf0057c4e2e778aee48e3c61ea4bb944f2ce663993fd3f7c6e190df2",
+          "operator": "mul",
+          "measured_s": 5.416959762573242e-05,
+          "analytic_only": {
+            "predicted_s": 5.819598319374842e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 0.3938700677785002
+          },
+          "family_median": {
+            "predicted_s": 4.8602221525063585e-05,
+            "residual_mean": -0.18014709481202862,
+            "residual_q90": 0.22146430131474076
+          },
+          "nearest_shape": {
+            "predicted_s": 5.111999029473517e-05,
+            "residual_mean": -0.12964071484938056,
+            "residual_q90": 0.21372297296647155
+          },
+          "shared_ridge": {
+            "predicted_s": 4.659453017648266e-05,
+            "residual_mean": -0.22233317901086913,
+            "residual_q90": 0.2793952108797313
+          }
+        },
+        {
+          "object_id": "sha256:aeca8cfc87290cac6dcadda559adaac7e5565b8fcb148234b48589e98fad1688",
+          "operator": "matmul",
+          "measured_s": 1.6902379989624024e-05,
+          "analytic_only": {
+            "predicted_s": 3.62931008783918e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 2.2974265815511774e-05,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 1.69760000705719e-05,
+            "residual_mean": -0.7598270787321184,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 1.526692129657923e-05,
+            "residual_mean": -0.8659391836327297,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:b2cfdb021481acc7f63aabcf9879f94a5b692c09327c0ae24f6237ce6e3da61f",
+          "operator": "silu",
+          "measured_s": 6.735040187835694e-05,
+          "analytic_only": {
+            "predicted_s": 4.1387457218287376e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 0.2837630836670251
+          },
+          "family_median": {
+            "predicted_s": 4.266495673261192e-05,
+            "residual_mean": 0.030400028682985865,
+            "residual_q90": 0.31429858951321255
+          },
+          "nearest_shape": {
+            "predicted_s": 5.962208486047262e-05,
+            "residual_mean": 0.36504818759829366,
+            "residual_q90": 0.19779184672224054
+          },
+          "shared_ridge": {
+            "predicted_s": 4.337116000237603e-05,
+            "residual_mean": 0.046816834957380316,
+            "residual_q90": 0.3150569179797481
+          }
+        },
+        {
+          "object_id": "sha256:ce28cd4dac85e18cfb2d558b912ad6b28f79f00166963820942281e3d76c5d45",
+          "operator": "matmul",
+          "measured_s": 0.00017753910064697266,
+          "analytic_only": {
+            "predicted_s": 0.0006345319230400366,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 0.0004016715220117512,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00022416667334337247,
+            "residual_mean": -1.0404977454162219,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 0.0001244131631593904,
+            "residual_mean": -1.629279610123028,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:d5ce5675903615774d661d581ede6a07155b19ed25dd94a2a5d9c6a18ca5df56",
+          "operator": "matmul",
+          "measured_s": 1.5055999755859376e-05,
+          "analytic_only": {
+            "predicted_s": 2.2346254517892516e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 1.4145630404945782e-05,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 1.4975980520248414e-05,
+            "residual_mean": -0.4002111049207905,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 1.2466296434164623e-05,
+            "residual_mean": -0.5836300064067983,
+            "residual_q90": 0.3909156976279356
+          }
+        },
+        {
+          "object_id": "sha256:dc572a348a3f7fc533fad4335c9cfd9f9b8aff3e5686562978d4c3b37c2c6778",
+          "operator": "rope",
+          "measured_s": 0.00012465592384338378,
+          "analytic_only": {
+            "predicted_s": 1.4024740514048457e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 2.740656662017524
+          },
+          "family_median": {
+            "predicted_s": 0.00020469604401833575,
+            "residual_mean": 2.6807032171618985,
+            "residual_q90": 0.13640675939792762
+          },
+          "nearest_shape": {
+            "predicted_s": 0.0001613085914248799,
+            "residual_mean": 2.4424962977856652,
+            "residual_q90": 0.06057749478887004
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00018195171080711328,
+            "residual_mean": 2.5629183770707087,
+            "residual_q90": 0.07439707585245688
+          }
+        },
+        {
+          "object_id": "sha256:eb57c01fcbf23a019550eeb091ceedf1c642787ebb986229a9573129c44d209f",
+          "operator": "mul",
+          "measured_s": 1.7231999635696412e-05,
+          "analytic_only": {
+            "predicted_s": 2.1842659572402434e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 0.3938700677785002
+          },
+          "family_median": {
+            "predicted_s": 1.8241839401529245e-05,
+            "residual_mean": -0.18014709481202862,
+            "residual_q90": 0.22146430131474076
+          },
+          "nearest_shape": {
+            "predicted_s": 1.8101168525278247e-05,
+            "residual_mean": -0.18788842316029783,
+            "residual_q90": 0.21372297296647155
+          },
+          "shared_ridge": {
+            "predicted_s": 1.7247013083444477e-05,
+            "residual_mean": -0.23622594485439263,
+            "residual_q90": 0.2793952108797313
+          }
+        },
+        {
+          "object_id": "sha256:ebc5a667ee532486e79dd47914bb3a36542bf14500ad486e08ef8140dfc1951d",
+          "operator": "rmsnorm",
+          "measured_s": 1.4764800071716307e-05,
+          "analytic_only": {
+            "predicted_s": 1.0897572890706868e-05,
+            "residual_mean": 0.0,
+            "residual_q90": 0.6509316958050729
+          },
+          "family_median": {
+            "predicted_s": 1.8881095741416952e-05,
+            "residual_mean": 0.5496211023216133,
+            "residual_q90": 0.230005073870238
+          },
+          "nearest_shape": {
+            "predicted_s": 1.4847979545593263e-05,
+            "residual_mean": 0.3093237045932625,
+            "residual_q90": 0.1389027071621739
+          },
+          "shared_ridge": {
+            "predicted_s": 1.7304595998993145e-05,
+            "residual_mean": 0.4624320370398325,
+            "residual_q90": 0.208643584214746
+          }
+        },
+        {
+          "object_id": "sha256:eef7e0c020a0ff2b10712899e862740db68f9bc2495cad4c469a9ce194803cc3",
+          "operator": "matmul",
+          "measured_s": 0.00020795190811157227,
+          "analytic_only": {
+            "predicted_s": 0.0006211064010535524,
+            "residual_mean": 0.0,
+            "residual_q90": 1.206508401703162
+          },
+          "family_median": {
+            "predicted_s": 0.0003931728954583744,
+            "residual_mean": -0.45725295282901957,
+            "residual_q90": 0.8995622303093225
+          },
+          "nearest_shape": {
+            "predicted_s": 0.00023316619469473438,
+            "residual_mean": -0.9797509242545641,
+            "residual_q90": 0.4490030094232817
+          },
+          "shared_ridge": {
+            "predicted_s": 0.00015122799636847994,
+            "residual_mean": -1.4127137977348292,
+            "residual_q90": 0.3909156976279356
+          }
+        }
+      ]
+    }
+  ]
+}

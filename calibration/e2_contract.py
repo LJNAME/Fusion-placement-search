@@ -14,6 +14,23 @@ from .e2_manifest import MANIFEST_FORMAT, content_id, validate_shape_manifest
 CONTRACT_FORMAT = "fusion-placement-search.e2-split-contract"
 CONTRACT_VERSION = "1.0"
 
+E2_NUMERIC_FEATURES = (
+    "batch",
+    "m",
+    "n",
+    "k",
+    "normalized_size",
+    "numel",
+    "flops",
+    "memory_bytes",
+    "arithmetic_intensity",
+    "compute_demand_s",
+    "memory_demand_s",
+    "launch_s",
+)
+E2_CATEGORICAL_FEATURES = ("operator", "implementation_id")
+E2_RIDGE_ALPHAS = (0.001, 0.01, 0.1, 1.0, 10.0, 100.0)
+
 
 def _enabled_objects(manifest: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
     return {
@@ -122,6 +139,23 @@ def build_split_contract(manifest: Mapping[str, Any]) -> dict[str, Any]:
             "predictor": "train labels plus explicitly revealed active-calibration labels",
             "sampler": "same visibility as predictor",
             "oracle_evaluator": "all labels; never available to candidate generation or sampling",
+        },
+        "prediction_protocol": {
+            "target": "log(measured_duration_s / analytic_estimate_s)",
+            "baselines": [
+                "analytic_only",
+                "family_median",
+                "nearest_shape",
+                "shared_ridge",
+            ],
+            "numeric_features": list(E2_NUMERIC_FEATURES),
+            "categorical_features": list(E2_CATEGORICAL_FEATURES),
+            "numeric_transform": "log1p_then_train_fold_standardize",
+            "ridge_alphas": list(E2_RIDGE_ALPHAS),
+            "ridge_cv_folds": 5,
+            "family_uncertainty_min_samples": 5,
+            "uncertainty_interval_coverage": 0.90,
+            "model_selection_scope": "train_fold_only",
         },
     }
     contract["contract_id"] = content_id("split-contract", contract)

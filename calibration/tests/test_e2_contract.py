@@ -42,6 +42,16 @@ class E2ContractTests(unittest.TestCase):
             & set(model_split["hidden_object_ids"])
         )
 
+    def test_prediction_protocol_is_frozen_in_contract(self) -> None:
+        protocol = self.contract["prediction_protocol"]
+        self.assertEqual(protocol["model_selection_scope"], "train_fold_only")
+        self.assertEqual(protocol["uncertainty_interval_coverage"], 0.90)
+        self.assertEqual(
+            protocol["baselines"],
+            ["analytic_only", "family_median", "nearest_shape", "shared_ridge"],
+        )
+        self.assertTrue(protocol["ridge_alphas"])
+
     def _registry_and_ids(self):
         split = self.contract["splits"][0]
         train_id = split["train_object_ids"][0]
