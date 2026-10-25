@@ -223,7 +223,9 @@ python -m calibration.verify_e2_measurements \
     --raw data/bw1000_e2/raw_measurements.jsonl \
     --expected-replicas 1 \
     --expect-complete \
-    --max-sample-cv 0.10
+    --max-robust-sample-cv 0.10
 ```
 
 `shard` 将 112 个对象分到两张同型号卡，每个对象只测一次；`replicate` 在每张卡上都测一遍，共 224 项。默认读取已有 JSONL 并跳过同一环境下成功的对象；失败项会写入错误记录，下次运行继续补测。单项记录包含原始样本、设备、环境指纹、源码提交和 profiling wall time。
+
+校验器同时报告普通 CV 和稳健 CV（`1.4826 × MAD / median`）。普通 CV 保留单次抢占或系统抖动的影响，只作诊断；正式验收使用稳健 CV，中位数仍作为该 Kernel Key 的标签。

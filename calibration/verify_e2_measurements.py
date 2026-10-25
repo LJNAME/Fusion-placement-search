@@ -17,6 +17,14 @@ from .e2_records import (
 )
 
 
+def _robust_sample_cv(samples: Sequence[float]) -> float:
+    median = float(statistics.median(samples))
+    if median <= 0.0:
+        return 0.0
+    mad = float(statistics.median(abs(float(value) - median) for value in samples))
+    return 1.4826 * mad / median
+
+
 def validate_measurement_set(
     manifest: Mapping[str, Any],
     environments: Mapping[str, Mapping[str, Any]],
@@ -67,6 +75,7 @@ def validate_measurement_set(
 
     by_operator: dict[str, list[float]] = defaultdict(list)
     sample_cv: list[tuple[float, str]] = []
+    robust_sample_cv: list[tuple[float, str]] = []
     for record in successful:
         object_id = record["object_id"]
         operator = objects[object_id]["kernel_key"]["operator"]
@@ -74,8 +83,10 @@ def validate_measurement_set(
         median = float(summary["median_s"])
         mean = float(summary["mean_s"])
         cv = float(summary["std_s"]) / mean if mean > 0.0 else 0.0
+        robust_cv = _robust_sample_cv(record["timing"]["samples"])
         by_operator[operator].append(median)
         sample_cv.append((cv, object_id))
+        robust_sample_cv.append((robust_cv, object_id))
 
     operator_summary = {
         operator: {
@@ -87,6 +98,9 @@ def validate_measurement_set(
         for operator, values in sorted(by_operator.items())
     }
     max_cv, max_cv_object_id = max(sample_cv, default=(0.0, None))
+    max_robust_cv, max_robust_cv_object_id = max(
+        robust_sample_cv, default=(0.0, None)
+    )
     return {
         "enabled_objects": len(objects),
         "records": len(records),
@@ -101,6 +115,8 @@ def validate_measurement_set(
         "over_replicated_object_ids": over_replicated,
         "max_sample_cv": max_cv,
         "max_sample_cv_object_id": max_cv_object_id,
+        "max_robust_sample_cv": max_robust_cv,
+        "max_robust_sample_cv_object_id": max_robust_cv_object_id,
         "operator_summary": operator_summary,
         "complete": not missing and not under_replicated,
     }
@@ -116,6 +132,7 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--expected-replicas", type=int, default=1)
     parser.add_argument("--expect-complete", action="store_true")
     parser.add_argument("--max-sample-cv", type=float)
+    parser.add_argument("--max-robust-sample-cv", type=float)
     return parser.parse_args(argv)
 
 
@@ -140,6 +157,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"under_replicated: {len(report['under_replicated_object_ids'])}")
     print(f"over_replicated: {len(report['over_replicated_object_ids'])}")
     print(f"max_sample_cv: {report['max_sample_cv']:.6f}")
+    print(f"max_robust_sample_cv: {report['max_robust_sample_cv']:.6f}")
     for operator, summary in report["operator_summary"].items():
         print(
             f"{operator}: records={summary['records']} "
@@ -152,6 +170,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         raise SystemExit(
             f"maximum sample CV {report['max_sample_cv']:.6f} exceeds "
             f"{args.max_sample_cv:.6f}"
+        )
+    if (
+        args.max_robust_sample_cv is not None
+        and report["max_robust_sample_cv"] > args.max_robust_sample_cv
+    ):
+        raise SystemExit(
+            f"maximum robust sample CV {report['max_robust_sample_cv']:.6f} exceeds "
+            f"{args.max_robust_sample_cv:.6f}"
         )
     print("Fusion E2 measurement validation: OK")
     return 0

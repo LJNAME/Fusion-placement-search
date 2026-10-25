@@ -91,6 +91,27 @@ class E2MeasurementValidationTests(unittest.TestCase):
         self.assertTrue(report["complete"])
         self.assertEqual(report["failed_records"], 1)
 
+    def test_single_outlier_changes_standard_but_not_robust_cv(self) -> None:
+        object_id = self.enabled[0]["object_id"]
+        record = build_raw_measurement_record(
+            object_id=object_id,
+            environment_id=self.environment["environment_id"],
+            physical_device_index=0,
+            samples_s=(1.0e-5, 1.01e-5, 0.99e-5, 1.0e-5, 1.0e-3),
+            warmup=2,
+            iterations_per_sample=5,
+            run_id="outlier-run",
+            measured_at="2026-10-25T12:00:00+08:00",
+            profiling_wall_time_s=0.01,
+        )
+        report = validate_measurement_set(
+            self.manifest,
+            {self.environment["environment_id"]: self.environment},
+            [record],
+        )
+        self.assertGreater(report["max_sample_cv"], 1.0)
+        self.assertLess(report["max_robust_sample_cv"], 0.02)
+
 
 if __name__ == "__main__":
     unittest.main()
