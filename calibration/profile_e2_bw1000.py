@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import gc
 import json
 import platform
 import socket
@@ -334,6 +333,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         started = time.perf_counter()
         measured_at = datetime.now().astimezone().isoformat()
         operation = None
+        failed = False
         try:
             free_bytes, _ = torch.cuda.mem_get_info(device)
             estimate = int(item["measurement"]["estimated_memory_bytes"])
@@ -369,6 +369,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 f"impl={key['implementation']['id']} median={median_us:.3f} us"
             )
         except Exception as exc:
+            failed = True
             failures += 1
             wall_time = time.perf_counter() - started
             failure = build_failed_measurement_record(
@@ -396,8 +397,12 @@ def main(argv: Sequence[str] | None = None) -> int:
                     torch.cuda.synchronize(device)
                 except Exception:
                     pass
-                gc.collect()
-                torch.cuda.empty_cache()
+                if failed:
+                    torch.cuda.empty_cache()
+
+    for device in args.devices:
+        torch.cuda.synchronize(device)
+    torch.cuda.empty_cache()
 
     print(f"raw_measurements={raw_path}")
     print(f"environments={environments_path}")

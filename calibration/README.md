@@ -198,6 +198,14 @@ python -m calibration.profile_e2_bw1000 \
     --devices 0,1 \
     --assignment shard \
     --quick
+
+python -m calibration.verify_e2_measurements \
+    --manifest data/bw1000_e2/shape_manifest.json \
+    --environments data/bw1000_e2/environments.quick.json \
+    --raw data/bw1000_e2/raw_measurements.quick.jsonl \
+    --expected-replicas 1 \
+    --expect-complete \
+    --max-sample-cv 0.20
 ```
 
 正式采集：
@@ -208,6 +216,14 @@ python -m calibration.profile_e2_bw1000 \
     --out-dir data/bw1000_e2 \
     --devices 0,1 \
     --assignment shard
+
+python -m calibration.verify_e2_measurements \
+    --manifest data/bw1000_e2/shape_manifest.json \
+    --environments data/bw1000_e2/environments.json \
+    --raw data/bw1000_e2/raw_measurements.jsonl \
+    --expected-replicas 1 \
+    --expect-complete \
+    --max-sample-cv 0.10
 ```
 
 `shard` 将 112 个对象分到两张同型号卡，每个对象只测一次；`replicate` 在每张卡上都测一遍，共 224 项。默认读取已有 JSONL 并跳过同一环境下成功的对象；失败项会写入错误记录，下次运行继续补测。单项记录包含原始样本、设备、环境指纹、源码提交和 profiling wall time。
