@@ -157,6 +157,30 @@ def build_split_contract(manifest: Mapping[str, Any]) -> dict[str, Any]:
             "uncertainty_interval_coverage": 0.90,
             "model_selection_scope": "train_fold_only",
         },
+        "active_profiling_protocol": {
+            "policies": [
+                "random",
+                "uncertainty_only",
+                "impact_only",
+                "srop_proxy",
+            ],
+            "predictor": "nearest_shape",
+            "impact_relative_delta": 0.20,
+            "srop_proxy_standard_normal_quantiles": [
+                -1.2815515655,
+                -0.6744897502,
+                0.0,
+                0.6744897502,
+                1.2815515655,
+            ],
+            "uncertainty_q90_normalizer": 1.6448536270,
+            "profiling_cost_proxy": "analytic_estimate_s * 360_repetitions",
+            "profiling_repetitions": 360,
+            "selection_score_normalization": "divide_by_profiling_cost_proxy",
+            "budgets": [0, 1, 2, 4, 8, 16],
+            "random_seeds": [0, 1, 7, 23],
+            "candidate_scope": "fixed_diagnostic_predicted_plus_oracle_union",
+        },
     }
     contract["contract_id"] = content_id("split-contract", contract)
     validate_split_contract(contract, manifest)

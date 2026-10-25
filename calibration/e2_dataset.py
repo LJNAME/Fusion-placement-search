@@ -220,6 +220,11 @@ def build_profiling_dataset(
         source_records = sorted(by_object[object_id], key=lambda record: record["record_id"])
         medians = [float(record["timing"]["summary"]["median_s"]) for record in source_records]
         measured_s = float(statistics.median(medians))
+        wall_times = [
+            float(record["provenance"]["profiling_wall_time_s"])
+            for record in source_records
+            if record["provenance"].get("profiling_wall_time_s") is not None
+        ]
         analytic = analytic_kernel_estimate(item, hw)
         estimate_s = float(analytic["estimate_s"])
         record = {
@@ -239,6 +244,9 @@ def build_profiling_dataset(
                 ),
                 "environment_ids": sorted({str(record["environment_id"]) for record in source_records}),
                 "raw_record_ids": [str(record["record_id"]) for record in source_records],
+                "profiling_wall_time_s": (
+                    float(statistics.median(wall_times)) if wall_times else None
+                ),
             },
             "target": {
                 "ratio": measured_s / estimate_s,

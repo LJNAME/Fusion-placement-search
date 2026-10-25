@@ -51,6 +51,11 @@ class E2ContractTests(unittest.TestCase):
             ["analytic_only", "family_median", "nearest_shape", "shared_ridge"],
         )
         self.assertTrue(protocol["ridge_alphas"])
+        active = self.contract["active_profiling_protocol"]
+        self.assertEqual(active["predictor"], "nearest_shape")
+        self.assertEqual(active["impact_relative_delta"], 0.20)
+        self.assertIn("srop_proxy", active["policies"])
+        self.assertIn("oracle_union", active["candidate_scope"])
 
     def _registry_and_ids(self):
         split = self.contract["splits"][0]
