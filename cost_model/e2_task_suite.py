@@ -3,11 +3,45 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 from pathlib import Path
 
 from calibration.e2_manifest import content_id
+from calibration.e2_contract import validate_split_contract
+
+
+def active_task_contract(task, contract, manifest):
+    """Build a task-local active-calibration view without changing zero-shot splits.
+
+    Here hidden means initially unmeasured, not necessarily an unseen Shape.
+    Withheld original training objects can be measured by the active policy.
+    """
+
+    validate_split_contract(contract, manifest)
+    original = next(split for split in contract["splits"]
+                    if split["split_id"] == task["split_id"])
+    train = set(task["train_object_ids"])
+    if len(train) != task["initial_train_count"] or not train <= set(original["train_object_ids"]):
+        raise ValueError("task training objects must be a unique subset of the original training split")
+    known = {item["object_id"] for item in manifest["objects"] if item["measurement"]["enabled"]}
+    result = copy.deepcopy(contract)
+    result.pop("contract_id", None)
+    split = copy.deepcopy(original)
+    split.update({
+        "kind": "active_initial_budget",
+        "train_object_ids": sorted(train),
+        "hidden_object_ids": sorted(known - train),
+        "shared_seen_object_ids": sorted(train & set(original["shared_seen_object_ids"])),
+        "original_unseen_object_ids": list(original["hidden_object_ids"]),
+        "withheld_original_train_object_ids": sorted(set(original["train_object_ids"]) - train),
+    })
+    result.update({"parent_contract_id": contract["contract_id"],
+                   "active_task_id": task["task_id"], "splits": [split]})
+    result["contract_id"] = content_id("split-contract", result)
+    validate_split_contract(result, manifest)
+    return result
 
 
 def build_task_suite(manifest, contract):
