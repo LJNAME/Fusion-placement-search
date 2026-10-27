@@ -1,5 +1,118 @@
 # Frozen E2 diagnostics
 
+## Shared-engine total-cost comparison (2026-10-27)
+
+```bash
+python -m cost_model.e2_total_cost_evaluation --workers 2 --repeats 2 \
+  --output data/bw1000_e2/e2c_total_cost.json
+python -m cost_model.verify_e2_total_cost \
+  --output data/bw1000_e2/e2c_total_cost_verification.json
+python cost_model/plot_e2_total_cost.py \
+  --report data/bw1000_e2/e2c_total_cost.json \
+  --out-dir data/bw1000_e2/total_cost_figures
+```
+
+Requires the frozen scoring report, distance-Proxy stopping report and their
+candidate/trajectory checkpoints. `--limit 1` with a separate output is a smoke
+test. Source, data, protocol and environment hashes namespace resumable runs.
+
+All samplers use the same nearest-shape mean, distance-floor intervals,
+analytic-times-360 denominator, fixed executable candidates and recorded
+measurement objects. Impact and target-only Proxy now use the same exact
+scenario batching engine as Refit. An untimed check on each task's initial
+public state compares all scalar/batched baseline candidate rankings and
+acquisition values. Full native-stop prefixes of Proxy and Refit must match
+their respective frozen controls. Full-pool replays must recover Oracle Top-1
+and strict Top-k ranking. These checks are outside timed selection runs.
+
+The clock adds serial CPU fitting/ranking/acquisition to recorded BW1000
+profiling wall costs. The shared candidate preparation fee is measured once
+per task. Each repeat also measures a common initial fit/rank fee using the
+initial-only control, charged identically to all samplers. Raw first-stage CPU
+timings remain in checkpoints; only shared initialization is aligned. Later
+CPU stages are freshly measured for each method. No oracle-evaluation CPU is
+charged, and graph/candidate discovery and existing training-label acquisition
+are outside this incremental calibration comparison.
+
+Before the first model decision is ready, hold the public singleton all-device-0
+plan. During acquisition, profiling and subsequent refitting, hold the previous
+published decision. A newly measured label is counted as completed when its
+profiling operation finishes, but its new decision is usable only after fitting
+and ranking finish. Do not delay publication by the *next* acquisition, and do
+not publish at profiling completion before refitting. Curves separately report
+completed labels and labels used by the last published decision.
+
+The primary comparison forces pool replay and evaluates the available decision
+at common absolute horizons 1, 2, 4, 8 and 16 seconds; 4 seconds is predeclared
+as the primary horizon. A measurement may straddle a budget: its future result
+is unavailable at that budget. This is offline deadline replay, not an online
+cancellation or latency guarantee. Integrate the right-continuous regret step
+curve, including initialization and holding the final decision after completion.
+
+A separate stopping mode truncates each score-based policy at its first
+nonpositive score; Random continues to pool exhaustion. These are prefix
+replays of the recorded full trajectories, not newly measured stop-only wall
+runs. No later observation determines the cutoff. An initial-only control fits
+and ranks once with visible training data and takes no new measurements; a
+reference-only control keeps the public reference at zero incremental cost.
+
+Random seeds 0/1/7/23 are retained, each strategy/seed has two fresh repeats,
+and rotated/reversed run order balances strategy timing. Average runs within
+each configuration before averaging the 84 correlated configurations. Report
+all, positive-initial-regret, zero-initial-regret, model and graph-scale groups.
+No workload is selected for favorable outcomes. Two local CPU workers share
+the host. This mixed-clock replay is neither measured end-to-end GPU wall time
+nor an Oracle-free search experiment or a blind holdout result.
+
+| Primary forced-replay 4s budget | Mean regret-time AUC / ms |
+|---|---:|
+| Random | 0.194089 |
+| Refit | 0.198836 |
+| Impact | 0.211325 |
+| Proxy | 0.219457 |
+| Uncertainty | 0.223453 |
+| Initial only | 0.297957 |
+| Reference only | 0.830214 |
+
+Refit is 2.45% worse than Random in the primary descriptive mean: 10 lower,
+13 higher and 61 tied configurations. The ten positive-initial-regret
+configurations have 0.320696 versus Random's 0.326301 ms (5 lower/5 higher);
+the other 74 have 0.182368 versus 0.176223 ms (5 lower/8 higher/61 tied).
+These are correlated development configurations and two CPU repeats; no
+statistically significant win or loss is claimed. Keep the primary horizon and
+all configurations rather than replacing them with the favorable subgroup.
+
+| Score-stop prefix replay | Completion cost / s | Final regret / ms | Nonzero-final configurations |
+|---|---:|---:|---:|
+| Random (pool exhaustion) | 1.971653 | 0 | 0 |
+| Refit | 1.104336 | 0 | 0 |
+| Proxy | 0.963113 | 0.093618 | 6 |
+| Initial only | 0.455813 | 0.153956 | 10 |
+
+Refit's stopping prefix uses 2.345 objects and 0.118799 s recorded profiling
+versus Random's exhausted pool of 12.952 objects and 0.823349 s. Its completion
+cost is 43.99% lower under these particular stop rules. This is distinct from
+winning a fixed cost budget: Random may obtain a good decision before pool
+exhaustion. The primary cost curve measures that decision availability.
+
+The verifier also reports diagnostic clock ablations. On the common 0..16
+measurement axis, Refit/Random AUCs remain 0.015125/0.031447 ms. Removing all
+CPU and normalizing by each task's full profiling-pool horizon gives
+0.007815/0.038140 ms; this axis is not numerically comparable to the 4s axis.
+Keeping the same initial fees and 4s horizon but setting only *later* CPU time
+to zero gives Refit/Random 0.178858/0.186418 ms. This counterfactual is a cost
+diagnostic, not an implementable speedup or a replacement primary experiment.
+It motivates cheaper exact evaluation and examination of avoidable measurements
+when the initial decision is already optimal. It does not establish that
+CPU reduction alone will generalize to new workloads.
+
+Verification rebuilds 18,920 raw trajectory points from 1,512 measured replays,
+with 17,408 observed-object prefixes; initial baseline batching compares 7,616
+complete rankings and 290,731 candidate cost/confidence entries. Frozen native
+Proxy/Refit prefixes match on every repeat. All non-control full-pool replays
+recover Oracle Top-1/strict Top-k. Regression tests: 206 total; resume preserves
+the report SHA256. Raw checkpoints retain the full clocks and label lineage.
+
 ## Exact hypothetical-scenario batching (2026-10-27)
 
 ```bash

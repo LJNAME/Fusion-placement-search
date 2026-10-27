@@ -432,6 +432,7 @@ def _run_policy_trajectory(
     exchange_permutations: Sequence[Sequence[int]],
     ranker=None,
     stop_on_recommendation: bool = False,
+    capture_decision_timing: bool = False,
 ) -> list[dict[str, Any]]:
     active_protocol = contract["active_profiling_protocol"]
     delta = float(active_protocol["impact_relative_delta"])
@@ -475,6 +476,7 @@ def _run_policy_trajectory(
             tie_tolerance_s=1e-12,
         )
         remaining = [object_id for object_id in measurement_pool if object_id not in revealed]
+        decision_ready_cpu_s = fit_elapsed + ranking_elapsed + selection_elapsed
         next_selection = None
         selection_score = None
         selected_uncertainty = None
@@ -497,7 +499,14 @@ def _run_policy_trajectory(
                 next_selection = next(item for item in random_order if item in remaining)
             else:
                 impacts: dict[str, float] = {}
-                if policy == "impact_only":
+                batch_counterfactual = (active_protocol.get("counterfactual_batch_scenarios", True)
+                                        and hasattr(ranker, "rank_many"))
+                batch_scores = None
+                if batch_counterfactual and policy in {"impact_only", "srop_proxy"}:
+                    from .e2_counterfactual_batch import counterfactual_scores
+                    batch_scores = counterfactual_scores(policy, profile, uncertainty, remaining,
+                        active_protocol, ranker, predicted_ranked)
+                if policy == "impact_only" and batch_scores is None:
                     impacts = {
                         object_id: _object_impact_ms_per_relative_error(
                             graph,
@@ -513,7 +522,12 @@ def _run_policy_trajectory(
                         for object_id in remaining
                     }
                 expected_regrets: dict[str, float] = {}
-                if policy == "srop_proxy":
+                if batch_scores is not None:
+                    if policy == "impact_only":
+                        impacts = batch_scores
+                    else:
+                        expected_regrets = batch_scores
+                if policy == "srop_proxy" and batch_scores is None:
                     expected_regrets = {
                         object_id: _expected_decision_regret_ms(
                             graph,
@@ -586,6 +600,8 @@ def _run_policy_trajectory(
                 **metrics,
             }
         )
+        if capture_decision_timing:
+            trajectory[-1]["decision_ready_algorithm_wall_time_s"] = decision_ready_cpu_s
         previous_top1 = predicted_ranked[0].plan_id
         if next_selection is None or (stop_on_recommendation and audit["stop_recommended"]):
             break
