@@ -133,6 +133,47 @@ and a CSV table at **every integer budget**. This exposes temporary regressions
 between the six requested reporting budgets. Keep the checkpoints or replay the
 full runner before regenerating figures.
 
+## Hypothetical-refit ablation
+
+```bash
+python -m cost_model.e2_refit_evaluation --workers 4 \
+  --output data/bw1000_e2/e2c_refit_evaluation.json
+python -m cost_model.audit_e2_refit_stops \
+  --report data/bw1000_e2/e2c_refit_evaluation.json \
+  --output data/bw1000_e2/e2c_refit_stop_audit.json
+python cost_model/plot_e2_budget_curves.py \
+  --report data/bw1000_e2/e2c_refit_evaluation.json \
+  --out-dir data/bw1000_e2/refit_figures
+```
+
+SROP-Refit keeps the frozen pools, all 84 configurations, nearest-shape mean
+predictor, public uncertainty, five quadrature points, analytic profiling-cost
+normalization and zero-score stopping. For each hypothetical query outcome,
+add its synthetic residual to the visible training rows, recompute the means
+of all unmeasured objects, and score the loss of retaining the current Top-1
+under those updated means. Average the five losses and divide by the unchanged
+cost proxy. Actual reveals use the original full predictor refit.
+
+The numeric standardization and nearest-neighbor identities after adding a
+query depend on features, not its hypothetical value. Compile those identities
+once per query and reuse them across the five outcomes. Tests compare this
+response with literal refitting and with actual revealed-label updates.
+Synthetic labels are never persisted or published to the active dataset.
+
+This is an update-aware decision-loss proxy. It does not construct a coherent
+joint Bayesian posterior, integrate remaining uncertainties jointly, or satisfy
+a Knowledge Gradient guarantee. It should not be described as SROP-Posterior.
+It isolates the effect of predictor updates before changing uncertainty or
+cost estimation. Baseline policy results and their CPU timings are retained
+exactly from the previous completed budget study; new CPU timings come from
+this separate replay run.
+
+The stop audit uses hidden outcomes only in the evaluator. It examines the
+four prior failures, evaluates helpful single measurements at their initial
+and new stopping states, checks the public uncertainty/sample envelope, and
+retains negative results. Those labels and post-hoc diagnoses never influence
+acquisition. The main evaluation still reports every frozen configuration.
+
 ## Labels and candidate scope
 
 - A task exposes only its frozen initial training IDs. All other labels remain

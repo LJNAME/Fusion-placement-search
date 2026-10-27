@@ -23,6 +23,7 @@ STYLES = (
     ("uncertainty_only", "Uncertainty", "#0072b2"),
     ("impact_only", "Impact", "#009e73"),
     ("srop_proxy", "SROP-Proxy", "#cc79a7"),
+    ("srop_refit", "SROP-Refit", "#d55e00"),
 )
 
 
@@ -33,6 +34,12 @@ def dense_plot_summary(report, checkpoint_dir):
     for task in report["tasks"]:
         with gzip.open(folder / (task["task_id"].split(":")[1] + ".json.gz"), "rt", encoding="utf-8") as handle:
             raw[task["task_id"]] = json.load(handle)["raw"]
+        if "baseline_experiment_id" in report["configuration"]:
+            baseline_folder = checkpoint_dir / report["configuration"]["baseline_experiment_id"].split(":")[1][:16]
+            with gzip.open(baseline_folder / (task["task_id"].split(":")[1] + ".json.gz"), "rt", encoding="utf-8") as handle:
+                previous = json.load(handle)["raw"]
+            previous["policies"].update(raw[task["task_id"]]["policies"])
+            raw[task["task_id"]] = previous
     for group in ("all_configs", "positive_initial_regret", "zero_initial_regret"):
         tasks = [task for task in report["tasks"] if group == "all_configs" or
                  ((task["initial_regret_ms"] > 1e-9) == (group == "positive_initial_regret"))]
@@ -64,8 +71,9 @@ def panel(drawing, summary, mode, metric, x, y, title, ylabel):
     plot = LinePlot()
     plot.x, plot.y, plot.width, plot.height = x + 53, y + 35, 343, 175
     policies = summary["modes"][mode]["policies"]
+    styles = [style for style in STYLES if style[0] in policies]
     plot.data = [[(point["requested_budget"], point[metric]) for point in policies[name]["curve"]]
-                 for name, _, _ in STYLES]
+                 for name, _, _ in styles]
     plot.joinedLines = 1
     plot.xValueAxis.valueMin, plot.xValueAxis.valueMax = 0, 16
     plot.xValueAxis.valueSteps = [0, 1, 2, 4, 8, 16]
@@ -77,7 +85,7 @@ def panel(drawing, summary, mode, metric, x, y, title, ylabel):
         axis.labels.fontName = "Helvetica"
         axis.labels.fontSize = 8
         axis.strokeColor = colors.HexColor("#9ca3af")
-    for index, (_, _, color) in enumerate(STYLES):
+    for index, (_, _, color) in enumerate(styles):
         plot.lines[index].strokeColor = colors.HexColor(color)
         plot.lines[index].strokeWidth = 2.0 if index == 3 else 1.3
         if index == 0:
@@ -93,8 +101,9 @@ def figure(report, *, costs):
     drawing.add(Rect(0, 0, 870, 590, fillColor=colors.white, strokeColor=None))
     drawing.add(String(28, 565, "E2 recorded-data replay: " + ("measurement and CPU costs" if costs else "regret vs profiling budget"),
                        fontName="Helvetica-Bold", fontSize=16))
-    for index, (_, label, color) in enumerate(STYLES):
-        x = 35 + index * 205
+    styles = [style for style in STYLES if style[0] in report["summary"]["all_configs"]["modes"]["forced"]["policies"]]
+    for index, (_, label, color) in enumerate(styles):
+        x = 35 + index * (810 / len(styles))
         drawing.add(Line(x, 539, x + 23, 539, strokeColor=colors.HexColor(color), strokeWidth=2))
         drawing.add(String(x + 29, 536, label, fontSize=10))
     all_configs = report["summary"]["all_configs"]

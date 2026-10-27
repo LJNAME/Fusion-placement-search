@@ -1,0 +1,524 @@
+{
+  "format": "fusion-placement-search.e2-refit-stop-audit",
+  "version": "1.0",
+  "experiment_id": "sha256:d096bff5f364cd5e2c05024961f890456c8c20a2193c76f60d4f2d49113dcfc1",
+  "scope": "evaluator-only post-hoc failure analysis; hidden outcomes do not enter acquisition",
+  "configs": 84,
+  "unchanged_baseline_policy_checks": 336,
+  "full_budget_recovery_trajectories": 84,
+  "new_wrong_stop_configs": 4,
+  "previous_wrong_stop_analysis": [
+    {
+      "task_id": "sha256:37bfce9f5d54df8324c5e3c5353e7997fd137332cf166215427df720a2082e7a",
+      "model_id": "qwen2.5-3b-s1024-b1",
+      "scale": "layer",
+      "initial_train_count": 16,
+      "subset_seed": 1,
+      "old_stop_budget": 0,
+      "old_stop_regret_ms": 0.06849254348860234,
+      "new_initial_selection_score": 0.0,
+      "new_first_object_id": "sha256:045a2e5ab4176bdd3384361d2b7a8407b95cbaaaa5caab78939c12d7d1d360fd",
+      "new_stop_budget": 0,
+      "new_stop_regret_ms": 0.06849254348860234,
+      "helpful_single_measurements": [
+        {
+          "object_id": "sha256:518266649dbbe86fc03f3b329d22be1762e1c0fb790232771b8af069e96b76e1",
+          "operator": "matmul",
+          "shape": {
+            "batch": 16,
+            "k": 128,
+            "m": 1024,
+            "n": 1024
+          },
+          "target_only_gain_ms": 0.0,
+          "retrained_gain_ms": 0.06849254348860234,
+          "other_predictions_changed": 3
+        }
+      ],
+      "helpful_measurement_analysis": [
+        {
+          "object_id": "sha256:518266649dbbe86fc03f3b329d22be1762e1c0fb790232771b8af069e96b76e1",
+          "operator": "matmul",
+          "shape": {
+            "batch": 16,
+            "k": 128,
+            "m": 1024,
+            "n": 1024
+          },
+          "predicted_duration_s": 0.00016313925236802185,
+          "measured_duration_s": 6.271997928619385e-05,
+          "actual_abs_log_error": 0.9559240993150876,
+          "uncertainty_q90_log": 0.25370503777873515,
+          "inside_q90_interval": false,
+          "target_only_gain_ms": 0.0,
+          "retrained_gain_ms": 0.06849254348860234,
+          "public_sample_envelope_contains_actual": false,
+          "hypothetical_refit_samples": [
+            {
+              "hypothetical_duration_s": 0.00013387887039946575,
+              "decision_loss_ms": 0.0
+            },
+            {
+              "hypothetical_duration_s": 0.0001470201558453561,
+              "decision_loss_ms": 0.0
+            },
+            {
+              "hypothetical_duration_s": 0.00016313925236802185,
+              "decision_loss_ms": 0.0
+            },
+            {
+              "hypothetical_duration_s": 0.00018102562543323398,
+              "decision_loss_ms": 0.0
+            },
+            {
+              "hypothetical_duration_s": 0.00019879474321665122,
+              "decision_loss_ms": 0.0
+            }
+          ],
+          "feature_only_control_regret_ms": 0.06849254348860229,
+          "indirectly_affected_object_ids": [
+            "sha256:08c0f9a83686b0e15c909e8166ce56c6cf4b20bda544b425bbca965274cf4096",
+            "sha256:15ec31fcf0bab3adba190c2e7034c6ebc3e09377d37c22f50c02c6696355a04f",
+            "sha256:3091a8fa7b2f7f043c92061bb81373060f0c570dec65ffaeaed50bae353ea9d9",
+            "sha256:6a17aa7679d30236930e64209ba0bb2f1b6e74417b27ee331d058852d93e9cbb",
+            "sha256:6ee1d3dcf78dd28f142f8e9ba7f02d69809a5c0d2b82c67d60f6d85663465323",
+            "sha256:7a942a4decefc5d98739f7f906bfbd1853403d4ddbe3fd14aa840262ce0fc5b2",
+            "sha256:7e53a3e0f37e976d456e8fd0f4a154c63ac1911fe91bb77e1845ca08f0e1a554",
+            "sha256:8575de36a36083137b6041ce0b8c902ba774a0efff1aec0f12851f5b054604ae",
+            "sha256:90b24e11005c7f01c0ba4fb001f2652212eb7754386b05a113f7cfde9ad9704f",
+            "sha256:b71dea42f767805d682c3bea0931f3613356db85af4f1a9811ad0c51c72f9da2",
+            "sha256:bd1a4c7be89f5feec5ea726dbc696f2716320d6bdf6677101ecd9708c84e0ffb",
+            "sha256:ce28cd4dac85e18cfb2d558b912ad6b28f79f00166963820942281e3d76c5d45",
+            "sha256:cf37438eb8cbbadd4a30cd3ac5a082bb5ed04963f123ca6b1c6e1aa37996f763",
+            "sha256:d3a88a9cd88abe84b16a223151951ceb0f185b1950c3807d1c6db1832de1419d",
+            "sha256:eef7e0c020a0ff2b10712899e862740db68f9bc2495cad4c469a9ce194803cc3"
+          ]
+        }
+      ],
+      "revealed_before_new_stop": [],
+      "original_helpful_key_state_at_new_stop": [
+        {
+          "object_id": "sha256:518266649dbbe86fc03f3b329d22be1762e1c0fb790232771b8af069e96b76e1",
+          "predicted_duration_s": 0.00016313925236802185,
+          "uncertainty_q90_log": 0.25370503777873515
+        }
+      ],
+      "improving_single_measurements_at_new_stop": [
+        {
+          "object_id": "sha256:518266649dbbe86fc03f3b329d22be1762e1c0fb790232771b8af069e96b76e1",
+          "operator": "matmul",
+          "regret_after_measurement_ms": 0.0,
+          "predicted_duration_s": 0.00016313925236802185,
+          "measured_duration_s": 6.271997928619385e-05,
+          "actual_abs_log_error": 0.9559240993150876,
+          "uncertainty_q90_log": 0.25370503777873515,
+          "inside_q90_interval": false,
+          "hypothetical_refit_losses_ms": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "next_two_forced_object_ids": [
+        "sha256:045a2e5ab4176bdd3384361d2b7a8407b95cbaaaa5caab78939c12d7d1d360fd",
+        "sha256:29efb509b2a4afef84d20250a6d79742157a703f14a55d5c67c6fb790ade53dc"
+      ],
+      "forced_regret_after_one_more_ms": 0.06849254348860234,
+      "forced_regret_after_two_more_ms": 0.0
+    },
+    {
+      "task_id": "sha256:f9297da8d7f27e5e964ad616761ce19a6aa91d3567065bc6b6ed900939d0c0e8",
+      "model_id": "qwen2.5-3b-s1024-b1",
+      "scale": "model",
+      "initial_train_count": 16,
+      "subset_seed": 1,
+      "old_stop_budget": 0,
+      "old_stop_regret_ms": 2.4657315655895644,
+      "new_initial_selection_score": 0.0,
+      "new_first_object_id": "sha256:045a2e5ab4176bdd3384361d2b7a8407b95cbaaaa5caab78939c12d7d1d360fd",
+      "new_stop_budget": 0,
+      "new_stop_regret_ms": 2.4657315655895644,
+      "helpful_single_measurements": [
+        {
+          "object_id": "sha256:518266649dbbe86fc03f3b329d22be1762e1c0fb790232771b8af069e96b76e1",
+          "operator": "matmul",
+          "shape": {
+            "batch": 16,
+            "k": 128,
+            "m": 1024,
+            "n": 1024
+          },
+          "target_only_gain_ms": 0.0,
+          "retrained_gain_ms": 2.4657315655895644,
+          "other_predictions_changed": 4
+        }
+      ],
+      "helpful_measurement_analysis": [
+        {
+          "object_id": "sha256:518266649dbbe86fc03f3b329d22be1762e1c0fb790232771b8af069e96b76e1",
+          "operator": "matmul",
+          "shape": {
+            "batch": 16,
+            "k": 128,
+            "m": 1024,
+            "n": 1024
+          },
+          "predicted_duration_s": 0.00016313925236802185,
+          "measured_duration_s": 6.271997928619385e-05,
+          "actual_abs_log_error": 0.9559240993150876,
+          "uncertainty_q90_log": 0.25370503777873515,
+          "inside_q90_interval": false,
+          "target_only_gain_ms": 0.0,
+          "retrained_gain_ms": 2.4657315655895644,
+          "public_sample_envelope_contains_actual": false,
+          "hypothetical_refit_samples": [
+            {
+              "hypothetical_duration_s": 0.00013387887039946575,
+              "decision_loss_ms": 0.0
+            },
+            {
+              "hypothetical_duration_s": 0.0001470201558453561,
+              "decision_loss_ms": 0.0
+            },
+            {
+              "hypothetical_duration_s": 0.00016313925236802185,
+              "decision_loss_ms": 0.0
+            },
+            {
+              "hypothetical_duration_s": 0.00018102562543323398,
+              "decision_loss_ms": 0.0
+            },
+            {
+              "hypothetical_duration_s": 0.00019879474321665122,
+              "decision_loss_ms": 0.0
+            }
+          ],
+          "feature_only_control_regret_ms": 2.465731565589567,
+          "indirectly_affected_object_ids": [
+            "sha256:08c0f9a83686b0e15c909e8166ce56c6cf4b20bda544b425bbca965274cf4096",
+            "sha256:15ec31fcf0bab3adba190c2e7034c6ebc3e09377d37c22f50c02c6696355a04f",
+            "sha256:3091a8fa7b2f7f043c92061bb81373060f0c570dec65ffaeaed50bae353ea9d9",
+            "sha256:6a17aa7679d30236930e64209ba0bb2f1b6e74417b27ee331d058852d93e9cbb",
+            "sha256:6ee1d3dcf78dd28f142f8e9ba7f02d69809a5c0d2b82c67d60f6d85663465323",
+            "sha256:7a942a4decefc5d98739f7f906bfbd1853403d4ddbe3fd14aa840262ce0fc5b2",
+            "sha256:7e53a3e0f37e976d456e8fd0f4a154c63ac1911fe91bb77e1845ca08f0e1a554",
+            "sha256:8575de36a36083137b6041ce0b8c902ba774a0efff1aec0f12851f5b054604ae",
+            "sha256:90b24e11005c7f01c0ba4fb001f2652212eb7754386b05a113f7cfde9ad9704f",
+            "sha256:b71dea42f767805d682c3bea0931f3613356db85af4f1a9811ad0c51c72f9da2",
+            "sha256:bd1a4c7be89f5feec5ea726dbc696f2716320d6bdf6677101ecd9708c84e0ffb",
+            "sha256:ce28cd4dac85e18cfb2d558b912ad6b28f79f00166963820942281e3d76c5d45",
+            "sha256:cf37438eb8cbbadd4a30cd3ac5a082bb5ed04963f123ca6b1c6e1aa37996f763",
+            "sha256:d3a88a9cd88abe84b16a223151951ceb0f185b1950c3807d1c6db1832de1419d",
+            "sha256:eef7e0c020a0ff2b10712899e862740db68f9bc2495cad4c469a9ce194803cc3"
+          ]
+        }
+      ],
+      "revealed_before_new_stop": [],
+      "original_helpful_key_state_at_new_stop": [
+        {
+          "object_id": "sha256:518266649dbbe86fc03f3b329d22be1762e1c0fb790232771b8af069e96b76e1",
+          "predicted_duration_s": 0.00016313925236802185,
+          "uncertainty_q90_log": 0.25370503777873515
+        }
+      ],
+      "improving_single_measurements_at_new_stop": [
+        {
+          "object_id": "sha256:518266649dbbe86fc03f3b329d22be1762e1c0fb790232771b8af069e96b76e1",
+          "operator": "matmul",
+          "regret_after_measurement_ms": 0.0,
+          "predicted_duration_s": 0.00016313925236802185,
+          "measured_duration_s": 6.271997928619385e-05,
+          "actual_abs_log_error": 0.9559240993150876,
+          "uncertainty_q90_log": 0.25370503777873515,
+          "inside_q90_interval": false,
+          "hypothetical_refit_losses_ms": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "next_two_forced_object_ids": [
+        "sha256:045a2e5ab4176bdd3384361d2b7a8407b95cbaaaa5caab78939c12d7d1d360fd",
+        "sha256:29efb509b2a4afef84d20250a6d79742157a703f14a55d5c67c6fb790ade53dc"
+      ],
+      "forced_regret_after_one_more_ms": 2.4657315655895644,
+      "forced_regret_after_two_more_ms": 0.0
+    },
+    {
+      "task_id": "sha256:7054c2424861c32f7910de2aea5e4e06e3586b6cbb3c437bbd755bb1e2841582",
+      "model_id": "qwen2.5-3b-s512-b1",
+      "scale": "layer",
+      "initial_train_count": 16,
+      "subset_seed": 1,
+      "old_stop_budget": 0,
+      "old_stop_regret_ms": 0.07555195917182222,
+      "new_initial_selection_score": 0.4351579039276527,
+      "new_first_object_id": "sha256:12d805f284d79c22905f3e3eb5225f676454df761f26ca8043873675465e5ccf",
+      "new_stop_budget": 2,
+      "new_stop_regret_ms": 0.07555195917182222,
+      "helpful_single_measurements": [
+        {
+          "object_id": "sha256:12d805f284d79c22905f3e3eb5225f676454df761f26ca8043873675465e5ccf",
+          "operator": "mul",
+          "shape": {
+            "input": [
+              1,
+              512,
+              11008
+            ],
+            "numel": 5636096
+          },
+          "target_only_gain_ms": 0.0,
+          "retrained_gain_ms": 0.07555195917182222,
+          "other_predictions_changed": 1
+        }
+      ],
+      "helpful_measurement_analysis": [
+        {
+          "object_id": "sha256:12d805f284d79c22905f3e3eb5225f676454df761f26ca8043873675465e5ccf",
+          "operator": "mul",
+          "shape": {
+            "input": [
+              1,
+              512,
+              11008
+            ],
+            "numel": 5636096
+          },
+          "predicted_duration_s": 3.2994833054661755e-05,
+          "measured_duration_s": 2.897279977798462e-05,
+          "actual_abs_log_error": 0.1299935239497594,
+          "uncertainty_q90_log": 0.5319535196318856,
+          "inside_q90_interval": true,
+          "target_only_gain_ms": 0.0,
+          "retrained_gain_ms": 0.07555195917182222,
+          "public_sample_envelope_contains_actual": true,
+          "hypothetical_refit_samples": [
+            {
+              "hypothetical_duration_s": 2.1799588151412094e-05,
+              "decision_loss_ms": 0.012567263538503523
+            },
+            {
+              "hypothetical_duration_s": 2.652845069416429e-05,
+              "decision_loss_ms": 0.009043335974586505
+            },
+            {
+              "hypothetical_duration_s": 3.2994833054661755e-05,
+              "decision_loss_ms": 0.004224616286083952
+            },
+            {
+              "hypothetical_duration_s": 4.103741378852864e-05,
+              "decision_loss_ms": 0.0
+            },
+            {
+              "hypothetical_duration_s": 4.9939430082053214e-05,
+              "decision_loss_ms": 0.0
+            }
+          ],
+          "feature_only_control_regret_ms": 0.07555195917182214,
+          "indirectly_affected_object_ids": [
+            "sha256:51948536a9c64b2814a89d1166fd11874757f871927359db6c0d8dd7e8d2fc3c",
+            "sha256:a7a34945bf0057c4e2e778aee48e3c61ea4bb944f2ce663993fd3f7c6e190df2",
+            "sha256:b2cfdb021481acc7f63aabcf9879f94a5b692c09327c0ae24f6237ce6e3da61f",
+            "sha256:ddb81ce83b340445182f4e1576d571e9f5a4532edf354d705bb5c8b65183642a",
+            "sha256:eb57c01fcbf23a019550eeb091ceedf1c642787ebb986229a9573129c44d209f"
+          ]
+        }
+      ],
+      "revealed_before_new_stop": [
+        "sha256:12d805f284d79c22905f3e3eb5225f676454df761f26ca8043873675465e5ccf",
+        "sha256:cd421e1fb29cb593b577ccb079fabef34087f32d6ab4ed6311c6791a22d86b5c"
+      ],
+      "original_helpful_key_state_at_new_stop": [
+        {
+          "object_id": "sha256:12d805f284d79c22905f3e3eb5225f676454df761f26ca8043873675465e5ccf",
+          "predicted_duration_s": 2.897279977798462e-05,
+          "uncertainty_q90_log": null
+        }
+      ],
+      "improving_single_measurements_at_new_stop": [
+        {
+          "object_id": "sha256:bd1a4c7be89f5feec5ea726dbc696f2716320d6bdf6677101ecd9708c84e0ffb",
+          "operator": "matmul",
+          "regret_after_measurement_ms": 0.0,
+          "predicted_duration_s": 0.00017654733849017522,
+          "measured_duration_s": 0.00011345589637756347,
+          "actual_abs_log_error": 0.44217486392140554,
+          "uncertainty_q90_log": 0.25370503777873515,
+          "inside_q90_interval": false,
+          "hypothetical_refit_losses_ms": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "object_id": "sha256:cf37438eb8cbbadd4a30cd3ac5a082bb5ed04963f123ca6b1c6e1aa37996f763",
+          "operator": "matmul",
+          "regret_after_measurement_ms": 0.0,
+          "predicted_duration_s": 0.000172857113388857,
+          "measured_duration_s": 0.0001180416202545166,
+          "actual_abs_log_error": 0.3814280427597479,
+          "uncertainty_q90_log": 0.25370503777873515,
+          "inside_q90_interval": false,
+          "hypothetical_refit_losses_ms": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "next_two_forced_object_ids": [
+        "sha256:2b55eaa9c13880918e29bfd64bac1ea461b10214a564717974eef98716f46911",
+        "sha256:2cce1df28d0c0dd7c1f382c583c72d223c8a95647c46dcf24156295f14b327a5"
+      ],
+      "forced_regret_after_one_more_ms": 0.07555195917182222,
+      "forced_regret_after_two_more_ms": 0.07555195917182222
+    },
+    {
+      "task_id": "sha256:ea5004435465acce5ec1f8470e8338a084f965250cca3e5d5a17044a67a34579",
+      "model_id": "qwen2.5-3b-s512-b1",
+      "scale": "model",
+      "initial_train_count": 16,
+      "subset_seed": 1,
+      "old_stop_budget": 0,
+      "old_stop_regret_ms": 2.719870530185588,
+      "new_initial_selection_score": 15.665684541398873,
+      "new_first_object_id": "sha256:12d805f284d79c22905f3e3eb5225f676454df761f26ca8043873675465e5ccf",
+      "new_stop_budget": 2,
+      "new_stop_regret_ms": 2.719870530185588,
+      "helpful_single_measurements": [
+        {
+          "object_id": "sha256:12d805f284d79c22905f3e3eb5225f676454df761f26ca8043873675465e5ccf",
+          "operator": "mul",
+          "shape": {
+            "input": [
+              1,
+              512,
+              11008
+            ],
+            "numel": 5636096
+          },
+          "target_only_gain_ms": 0.0,
+          "retrained_gain_ms": 2.719870530185588,
+          "other_predictions_changed": 1
+        }
+      ],
+      "helpful_measurement_analysis": [
+        {
+          "object_id": "sha256:12d805f284d79c22905f3e3eb5225f676454df761f26ca8043873675465e5ccf",
+          "operator": "mul",
+          "shape": {
+            "input": [
+              1,
+              512,
+              11008
+            ],
+            "numel": 5636096
+          },
+          "predicted_duration_s": 3.2994833054661755e-05,
+          "measured_duration_s": 2.897279977798462e-05,
+          "actual_abs_log_error": 0.1299935239497594,
+          "uncertainty_q90_log": 0.5319535196318856,
+          "inside_q90_interval": true,
+          "target_only_gain_ms": 0.0,
+          "retrained_gain_ms": 2.719870530185588,
+          "public_sample_envelope_contains_actual": true,
+          "hypothetical_refit_samples": [
+            {
+              "hypothetical_duration_s": 2.1799588151412094e-05,
+              "decision_loss_ms": 0.45242148738619536
+            },
+            {
+              "hypothetical_duration_s": 2.652845069416429e-05,
+              "decision_loss_ms": 0.3255600950851714
+            },
+            {
+              "hypothetical_duration_s": 3.2994833054661755e-05,
+              "decision_loss_ms": 0.15208618629909687
+            },
+            {
+              "hypothetical_duration_s": 4.103741378852864e-05,
+              "decision_loss_ms": 0.0
+            },
+            {
+              "hypothetical_duration_s": 4.9939430082053214e-05,
+              "decision_loss_ms": 0.0
+            }
+          ],
+          "feature_only_control_regret_ms": 2.719870530185589,
+          "indirectly_affected_object_ids": [
+            "sha256:51948536a9c64b2814a89d1166fd11874757f871927359db6c0d8dd7e8d2fc3c",
+            "sha256:a7a34945bf0057c4e2e778aee48e3c61ea4bb944f2ce663993fd3f7c6e190df2",
+            "sha256:b2cfdb021481acc7f63aabcf9879f94a5b692c09327c0ae24f6237ce6e3da61f",
+            "sha256:ddb81ce83b340445182f4e1576d571e9f5a4532edf354d705bb5c8b65183642a",
+            "sha256:eb57c01fcbf23a019550eeb091ceedf1c642787ebb986229a9573129c44d209f"
+          ]
+        }
+      ],
+      "revealed_before_new_stop": [
+        "sha256:12d805f284d79c22905f3e3eb5225f676454df761f26ca8043873675465e5ccf",
+        "sha256:cd421e1fb29cb593b577ccb079fabef34087f32d6ab4ed6311c6791a22d86b5c"
+      ],
+      "original_helpful_key_state_at_new_stop": [
+        {
+          "object_id": "sha256:12d805f284d79c22905f3e3eb5225f676454df761f26ca8043873675465e5ccf",
+          "predicted_duration_s": 2.897279977798462e-05,
+          "uncertainty_q90_log": null
+        }
+      ],
+      "improving_single_measurements_at_new_stop": [
+        {
+          "object_id": "sha256:cf37438eb8cbbadd4a30cd3ac5a082bb5ed04963f123ca6b1c6e1aa37996f763",
+          "operator": "matmul",
+          "regret_after_measurement_ms": 0.0,
+          "predicted_duration_s": 0.000172857113388857,
+          "measured_duration_s": 0.0001180416202545166,
+          "actual_abs_log_error": 0.3814280427597479,
+          "uncertainty_q90_log": 0.25370503777873515,
+          "inside_q90_interval": false,
+          "hypothetical_refit_losses_ms": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "object_id": "sha256:bd1a4c7be89f5feec5ea726dbc696f2716320d6bdf6677101ecd9708c84e0ffb",
+          "operator": "matmul",
+          "regret_after_measurement_ms": 0.0,
+          "predicted_duration_s": 0.00017654733849017522,
+          "measured_duration_s": 0.00011345589637756347,
+          "actual_abs_log_error": 0.44217486392140554,
+          "uncertainty_q90_log": 0.25370503777873515,
+          "inside_q90_interval": false,
+          "hypothetical_refit_losses_ms": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "next_two_forced_object_ids": [
+        "sha256:2b55eaa9c13880918e29bfd64bac1ea461b10214a564717974eef98716f46911",
+        "sha256:2cce1df28d0c0dd7c1f382c583c72d223c8a95647c46dcf24156295f14b327a5"
+      ],
+      "forced_regret_after_one_more_ms": 2.719870530185588,
+      "forced_regret_after_two_more_ms": 2.719870530185588
+    }
+  ]
+}

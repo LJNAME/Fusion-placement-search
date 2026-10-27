@@ -508,6 +508,12 @@ def _run_policy_trajectory(
                         )
                         for object_id in remaining
                     }
+                if policy == "srop_refit":
+                    from .e2_refit_acquisition import expected_refit_losses
+                    public = make_dataset_view(records, contract, split_id=split_id,
+                        mode="active_calibration", role="sampler", revealed_object_ids=revealed)
+                    expected_regrets = expected_refit_losses(profile, uncertainty, public, remaining,
+                        contract["prediction_protocol"], active_protocol, ranker, predicted_ranked)
                 scores: dict[str, float] = {}
                 for object_id in remaining:
                     cost_proxy = _profiling_cost_proxy_s(by_id[object_id], repetitions)
@@ -515,7 +521,7 @@ def _run_policy_trajectory(
                         numerator = math.expm1(uncertainty[object_id])
                     elif policy == "impact_only":
                         numerator = impacts[object_id]
-                    elif policy == "srop_proxy":
+                    elif policy in {"srop_proxy", "srop_refit"}:
                         numerator = expected_regrets[object_id]
                     else:
                         raise ValueError(f"unknown E2 active policy: {policy}")

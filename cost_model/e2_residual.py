@@ -149,10 +149,15 @@ class _NumericEncoder:
 
 
 class NearestShapePredictor:
-    def fit(self, records: Sequence[Mapping[str, Any]], protocol: Mapping[str, Any]) -> "NearestShapePredictor":
+    def fit_mean(self, records: Sequence[Mapping[str, Any]], protocol: Mapping[str, Any]) -> "NearestShapePredictor":
+        """Fit the mean response only; no uncertainty is constructed here."""
         self.records = list(records)
         self.encoder = _NumericEncoder(protocol["numeric_features"]).fit(records)
         self.matrix = self.encoder.transform(records)
+        return self
+
+    def fit(self, records: Sequence[Mapping[str, Any]], protocol: Mapping[str, Any]) -> "NearestShapePredictor":
+        self.fit_mean(records, protocol)
         loo_errors: list[tuple[str, float]] = []
         for index, record in enumerate(records):
             prediction = self._nearest(record, exclude_index=index)
@@ -164,7 +169,7 @@ class NearestShapePredictor:
         )
         return self
 
-    def _nearest(self, record: Mapping[str, Any], *, exclude_index: int | None = None) -> float:
+    def _nearest_index(self, record: Mapping[str, Any], *, exclude_index: int | None = None) -> int:
         vector = self.encoder.transform([record])[0]
         candidates = [
             index
@@ -175,8 +180,10 @@ class NearestShapePredictor:
             candidates = [index for index in range(len(self.records)) if index != exclude_index]
         if not candidates:
             raise ValueError("nearest-shape predictor requires at least two training records")
-        index = min(candidates, key=lambda item: (float(np.linalg.norm(self.matrix[item] - vector)), self.records[item]["object_id"]))
-        return _target(self.records[index])
+        return min(candidates, key=lambda item: (float(np.linalg.norm(self.matrix[item] - vector)), self.records[item]["object_id"]))
+
+    def _nearest(self, record: Mapping[str, Any], *, exclude_index: int | None = None) -> float:
+        return _target(self.records[self._nearest_index(record, exclude_index=exclude_index)])
 
     def predict(self, record: Mapping[str, Any]) -> ResidualPrediction:
         return ResidualPrediction(self._nearest(record), self.uncertainty.q90(record))
