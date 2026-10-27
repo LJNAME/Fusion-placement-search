@@ -225,6 +225,39 @@ x. The counterfactual profile now accepts the positive multiplier directly in
 that numerical range. The ordinary legacy arithmetic, interval widths and
 sampling policy are unchanged. A regression test covers this wide-interval case.
 
+## Frozen interval-by-update factorial
+
+```bash
+python -m cost_model.e2_factorial_evaluation --workers 4 \
+  --output data/bw1000_e2/e2c_factorial_evaluation.json
+python -m cost_model.verify_e2_factorial \
+  --report data/bw1000_e2/e2c_factorial_evaluation.json \
+  --output data/bw1000_e2/e2c_factorial_verification.json
+python cost_model/plot_e2_factorial.py \
+  --report data/bw1000_e2/e2c_factorial_evaluation.json \
+  --out-dir data/bw1000_e2/factorial_figures
+```
+
+The cells are legacy interval + Proxy, legacy interval + Refit, distance
+interval + Proxy, and distance interval + Refit. The first three are copied
+exactly from the completed reports. Only the fourth cell is newly executed,
+on every frozen configuration with genuine score-based stopping. The mean
+predictor, distance formula, five quantiles, analytic cost proxy, zero-score
+stop, candidate pools and measurement objects do not change. No minimum
+measurement count or correction based on the four known failures is added.
+
+The report includes all configurations, initial-regret strata and model groups.
+The interaction is (distance+Refit - distance+Proxy) - (legacy+Refit -
+legacy+Proxy), using paired regret-budget AUCs. It is a descriptive factorial
+contrast; repeated configurations do not establish statistical significance.
+Separate full-reveal profile checks recover all fixed candidates' Oracle
+costs. New timing is measured in this run; control timings are preserved from
+their original runs, so this is not a simultaneous CPU speed benchmark.
+
+Regeneration of the dense SVG/CSV figures requires the compressed checkpoints
+of all four source experiments. The default protocols remain unchanged while
+the experimental combination awaits cost validation and independent data.
+
 ## Labels and candidate scope
 
 - A task exposes only its frozen initial training IDs. All other labels remain
