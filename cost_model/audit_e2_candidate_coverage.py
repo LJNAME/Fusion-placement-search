@@ -20,10 +20,16 @@ def audit_coverage(report, checkpoint_directory):
         zero = task["zero"]
         varied_nodes = set()
         varied_layers = set()
+        graph_layers = set()
         last_group = -1
         maximum_minority = 0
         for plan in stored["candidate_plans"]:
             groups = plan["groups"]
+            for group in groups:
+                for node_id in group["node_ids"]:
+                    match = re.match(r"L(\d+)\.", node_id)
+                    if match:
+                        graph_layers.add(int(match.group(1)))
             majority_device = Counter(group["device"] for group in groups).most_common(1)[0][0]
             minority = [index for index, group in enumerate(groups) if group["device"] != majority_device]
             last_group = max(last_group, max(minority, default=-1))
@@ -41,6 +47,8 @@ def audit_coverage(report, checkpoint_directory):
             "nodes": zero["nodes"], "candidate_plans": len(stored["candidate_plans"]),
             "initial_top1_regret_ms": zero["top1_regret_ms"],
             "varied_nodes": sorted(varied_nodes), "varied_layer_ids": sorted(varied_layers),
+            "graph_layer_ids": sorted(graph_layers),
+            "varied_layer_fraction": len(varied_layers) / len(graph_layers) if graph_layers else None,
             "varied_node_count": len(varied_nodes),
             "varied_node_fraction": len(varied_nodes) / zero["nodes"],
             "maximum_minority_groups_in_any_plan": maximum_minority,
@@ -48,13 +56,14 @@ def audit_coverage(report, checkpoint_directory):
         })
     models = [row for row in rows if row["scale"] == "model"]
     return {
-        "format": "fusion-placement-search.e2-candidate-coverage", "version": "1.0",
+        "format": "fusion-placement-search.e2-candidate-coverage", "version": "1.1",
         "experiment_id": report["experiment_id"],
         "definition": "nodes placed away from each plan's majority device; invariant to global device exchange",
         "scope": "post-hoc diagnostic of existing pools; not a new search or task-selection rule",
         "summary": {
             "configs": len(rows), "model_configs": len(models),
             "model_configs_with_variations_after_first_layer": sum(any(layer > 0 for layer in row["varied_layer_ids"]) for row in models),
+            "model_configs_with_variations_in_all_layers": sum(row["varied_layer_fraction"] == 1.0 for row in models),
             "model_max_last_minority_group_index": max((row["last_minority_group_index"] for row in models), default=-1),
             "model_max_varied_nodes": max((row["varied_node_count"] for row in models), default=0),
         },

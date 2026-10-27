@@ -20,6 +20,54 @@ The default search configuration is 12 candidates per source, seeds 0/1/7/23,
 initial regret. The frozen 84 configurations include repeated subsets and
 overlapping graph workloads; they are not 84 independent workloads.
 
+## Graph-wide coverage control
+
+The original 32-iteration prefix MCTS pools varied only in the first five
+groups of complete models. Keep that report and its checkpoints as the
+control. Expand exactly those candidates without modifying the frozen tasks:
+
+```bash
+python -m cost_model.e2_coverage_diagnostics \
+  --phase all --workers 4 \
+  --output data/bw1000_e2/e2c_graph_wide_diagnostics.json
+python -m cost_model.audit_e2_candidate_coverage \
+  --report data/bw1000_e2/e2c_graph_wide_diagnostics.json \
+  --output data/bw1000_e2/e2c_graph_wide_coverage.json
+python -m cost_model.audit_e2_first_step \
+  --report data/bw1000_e2/e2c_graph_wide_diagnostics.json \
+  --output data/bw1000_e2/e2c_graph_wide_first_step_audit.json
+```
+
+The runner needs the original candidate checkpoints. A fresh clone must first
+run the original `e2_diagnostics` command above; checkpoints are Git-ignored.
+The suite, data, hardware, task IDs and original candidate IDs are checked
+before expansion. Original candidates remain in the pool, including those
+discovered by Oracle search. This remains a fixed-pool development diagnostic.
+
+`graph-wide-v1` adds topology-only probes to the executable reference plan:
+
+- Move one local operator motif to the other GPU at every layer.
+- Move each fork-to-join linear chain at every occurrence.
+- Move one chain at each of six evenly spaced layer anchors.
+- Split the graph at the quarter, half and three-quarter layer boundaries.
+
+All proposals are retained after device-exchange deduplication. There is no
+latency-based truncation. This tests depth coverage; it does not exhaust the
+placement space, search parallelism configurations, or modify MCTS itself.
+Candidates, measurement pools, ranking metrics, predictor updates and policy
+scoring are otherwise evaluated by the original diagnostic functions.
+
+`--phase zero` runs screening only. `--phase all` completes every zero-budget
+task before evaluating each possible first measurement. Both support resume;
+independent configurations can run in worker processes. The source hash and
+parent report identity isolate new checkpoints from the original experiment.
+
+The one-step diagnostic forcibly reveals every object, even if all policy
+scores are zero. Those counterfactual gains are not realized policy gains.
+The first-step audit reports both forced measurements and outcomes under the
+predefined maximum-score <= 0 stopping rule. Always use the latter when
+describing what a policy would actually achieve.
+
 ## Labels and candidate scope
 
 - A task exposes only its frozen initial training IDs. All other labels remain

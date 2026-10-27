@@ -15,6 +15,7 @@ from cost_model.e2_diagnostics import (
 )
 from cost_model.e2_srop_proxy import _active_profile, build_workload_graph, object_map_for_workload
 from cost_model.e2_task_suite import active_task_contract
+from cost_model.placement_probes import graph_wide_candidates
 from cost_model.search_sensitivity import device_exchange_permutations
 from simulator import make_reference_plan
 from simulator.hardware import load_hardware
@@ -75,18 +76,27 @@ class E2DiagnosticsTests(unittest.TestCase):
                 row["measurement"]["duration_s"] *= 100
                 row["target"]["log_residual"] += 10
         outputs = []
+        expanded, _ = graph_wide_candidates(self.graph, self.plans, ("model:bw", "model:bw"))
         for records in (self.records, altered):
             profile, uncertainty = _active_profile(records, runtime, self.hardware, mapping,
                 split_id=self.task["split_id"], revealed_object_ids=())
             exchange = device_exchange_permutations(profile.device_classes)
-            ranker = PreparedCandidateRanker(self.graph, self.plans, 2, exchange)
+            ranker = PreparedCandidateRanker(self.graph, expanded, 2, exchange)
             public = make_dataset_view(records, runtime, split_id=self.task["split_id"],
                 mode="active_calibration", role="sampler")
-            scores = acquisition_scores(self.graph, self.plans, profile, uncertainty, public,
+            scores = acquisition_scores(self.graph, expanded, profile, uncertainty, public,
                 pool, ranker, exchange, runtime["active_profiling_protocol"])
             outputs.append({key: {name: value for name, value in row.items() if name != "acquisition_wall_time_s"}
                             for key, row in scores.items()})
         self.assertEqual(outputs[0], outputs[1])
+
+    def test_expanded_pool_full_budget_recovers_oracle(self):
+        plans, _ = graph_wide_candidates(self.graph, self.plans, ("model:bw", "model:bw"))
+        result = evaluate_zero_budget(self.task, plans, self.records, self.manifest,
+                                      self.contract, self.hardware, graph=self.graph)
+        self.assertTrue(result["full_budget_recovers_oracle"])
+        self.assertEqual(result["full_budget_max_cost_error_s"], 0.0)
+        self.assertGreater(result["candidate_plans"], len(self.plans))
 
     def test_one_step_covers_pool_without_using_outcomes_for_selection(self):
         result = evaluate_one_step(self.task, self.plans, self.records, self.manifest,
