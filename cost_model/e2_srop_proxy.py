@@ -441,6 +441,7 @@ def _run_policy_trajectory(
     )
     q90_normalizer = float(active_protocol["uncertainty_q90_normalizer"])
     repetitions = int(active_protocol["profiling_repetitions"])
+    cost_variant = active_protocol.get("profiling_cost_variant", "analytic_repetitions")
     by_id = {str(record["object_id"]): record for record in records}
     revealed: list[str] = []
     if policy == "random":
@@ -482,6 +483,15 @@ def _run_policy_trajectory(
         selected_cost_proxy = None
         scores: dict[str, float] = {}
         selection_started = time.perf_counter()
+        if cost_variant == "analytic_repetitions":
+            costs = {key: _profiling_cost_proxy_s(by_id[key], repetitions) for key in remaining}
+        else:
+            from .e2_profiling_cost import ProfilingCostPredictor
+            public_cost = make_dataset_view(records, contract, split_id=split_id,
+                mode="active_calibration", role="sampler", revealed_object_ids=revealed)
+            cost_predictor = ProfilingCostPredictor().fit(public_cost, repetitions=repetitions)
+            costs = {row["object_id"]: cost_predictor.predict(row, cost_variant)
+                     for row in public_cost if row["object_id"] in remaining}
         if remaining:
             if policy == "random":
                 next_selection = next(item for item in random_order if item in remaining)
@@ -528,7 +538,7 @@ def _run_policy_trajectory(
                         contract["prediction_protocol"], active_protocol, ranker, predicted_ranked)
                 scores: dict[str, float] = {}
                 for object_id in remaining:
-                    cost_proxy = _profiling_cost_proxy_s(by_id[object_id], repetitions)
+                    cost_proxy = costs[object_id]
                     if policy == "uncertainty_only":
                         numerator = math.expm1(uncertainty[object_id])
                     elif policy == "impact_only":
@@ -548,9 +558,7 @@ def _run_policy_trajectory(
                     if next_selection in uncertainty
                     else None
                 )
-                selected_cost_proxy = _profiling_cost_proxy_s(
-                    by_id[next_selection], repetitions
-                )
+                selected_cost_proxy = costs[next_selection]
         selection_elapsed += time.perf_counter() - selection_started
         audit = selection_diagnostics(scores, remaining)
         trajectory.append(

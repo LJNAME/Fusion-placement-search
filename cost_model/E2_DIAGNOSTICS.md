@@ -1,5 +1,65 @@
 # Frozen E2 diagnostics
 
+## Profiling wall-cost normalization (2026-10-27)
+
+```bash
+python -m cost_model.e2_cost_normalization --workers 4 \
+  --output data/bw1000_e2/e2c_cost_normalization.json
+python -m cost_model.verify_e2_cost_normalization \
+  --output data/bw1000_e2/e2c_cost_verification.json
+python cost_model/plot_e2_cost_normalization.py \
+  --report data/bw1000_e2/e2c_cost_normalization.json \
+  --out-dir data/bw1000_e2/cost_figures
+```
+
+Requires the completed factorial report and its compressed trajectories, plus
+the original frozen candidate checkpoints. `--limit 1` with a separate output
+path is a smoke test. Resume uses data, controls, protocol and source hashes.
+
+The predeclared cost predictor uses the median visible profiling wall time per
+operator family, falling back to the visible global median or, with no wall
+labels, analytic time times repetitions. Global median is also evaluated as a
+prediction baseline. Wall labels are separate from GPU-duration residuals.
+Each active round fits only the masked sampler view: initial training labels
+plus legally revealed objects. The actual hidden costs enter evaluation only.
+Input preparation, warmup and synchronization are inside the recorded wall
+timer; this model is specific to the recorded BW1000 environment and recipe.
+
+The experiment holds distance uncertainty, Refit acquisition numerator, five
+hypothetical observations, candidates and zero-score stopping fixed. Both
+the denominator and reported next cost use the same public-only prediction.
+The analytic denominator remains the default.
+
+| All 84 configurations | Analytic x 360 | Family wall median |
+|---|---:|---:|
+| Count-budget AUC / ms | 0.015125 | 0.016148 |
+| Actual-cost-budget step AUC / ms | 0.007815 | 0.008926 |
+| Wrong stops | 0 | 0 |
+| Mean measurements | 2.345 | 2.071 |
+| Recorded profiling wall time / s | 0.118799 | 0.115698 |
+
+For each paired task the common time horizon is the sum of all its pool wall
+costs, independent of policy order. Regret stays at the prior decision during
+a measurement, changes only at completion, and is held after an early stop.
+Integrate this step curve and divide by that common horizon. This differs
+from the older trapezoidal count AUC; compare variants only within one axis.
+
+Forty selection prefixes change. Actual-cost AUC has 4 improvements, 7
+regressions and 73 ties: mean AUC worsens 14.21%, despite 11.68% fewer
+measurements and 2.61% lower final profiling cost. On the 544 deduplicated
+initial training-state/object pairs, wall-cost MAPE changes 100.28% to 92.19%,
+but mean absolute log error worsens 1.00582 to 1.02425 and over-2x
+underestimates increase 126 to 213. This does not justify changing defaults.
+Keep this negative ablation; do not tune it on the exposed evaluation labels.
+
+The audit checks 84 unchanged controls, 258 public-only score denominators
+and 539 actual-cost prefixes; each newly executed task also separately checks
+full-reveal recovery of all fixed Oracle candidate costs. Regression tests:
+200 total. CPU costs are reported separately (new mean 7.738 s; old mean
+6.823 s from its earlier run), not a simultaneous benchmark or proof of
+end-to-end speedup. Fixed pools still contain Oracle search candidates, and
+the 84 correlated development configurations are not independent blind tasks.
+
 Run from the repository root with the existing Python environment. These
 experiments use recorded BW1000 measurements and run on CPU; no GPU is needed.
 
