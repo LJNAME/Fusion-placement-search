@@ -68,6 +68,71 @@ The first-step audit reports both forced measurements and outcomes under the
 predefined maximum-score <= 0 stopping rule. Always use the latter when
 describing what a policy would actually achieve.
 
+## Full budget trajectories
+
+```bash
+python -m cost_model.e2_budget_curves --workers 4 \
+  --output data/bw1000_e2/e2c_graph_wide_budget_curves.json
+python -m cost_model.verify_e2_budget_curves \
+  --report data/bw1000_e2/e2c_graph_wide_budget_curves.json \
+  --output data/bw1000_e2/e2c_budget_verification.json
+```
+
+This keeps every graph-wide candidate and all 84 tasks unchanged. It uses the
+original predictor, acquisition scores and tie-breaking. Every actual reveal
+refits the predictor. The three deterministic policies must reproduce their
+frozen first selection and first-measurement regret exactly. Random uses
+seeds 0/1/7/23; average those runs inside each configuration before averaging
+configurations. It is no longer the exact one-step uniform expectation.
+
+The raw run continues to pool exhaustion for an Oracle-recovery check.
+Published curves show requested budgets 0/1/2/4/8/16 in two modes:
+
+- `forced`: continue measurements even when the acquisition score is zero.
+- `stopping`: retain the decision at the first maximum score <= 0. No future
+  label or outcome determines the stop. Random stops only at pool exhaustion.
+
+If a pool is smaller than the requested budget, retain its final decision and
+report the actual number of measurements. Normalized regret-budget AUC uses
+every integer prefix on a **common 0..16 horizon**, holding decisions constant
+after stopping or pool exhaustion. Smaller AUC is better. Do not compare AUCs
+normalized over different pool lengths or different profiling-time ranges.
+
+The summary keeps all configurations, initially nonzero-regret configurations,
+initially zero-regret configurations, and model groups separately. These are
+descriptive groupings, not independent statistical samples. Intermediate harm
+is retained, even if a later measurement fixes the decision.
+
+Per-prefix costs include recorded profiling wall time, predictor fitting,
+ranking and acquisition calculation. Algorithm time includes computing the
+next selection at each prefix to evaluate the stopping rule. Original candidate
+generation, Oracle scoring and structure preparation are outside that figure;
+preparation is recorded separately. Wall times come from concurrent CPU replay
+workers and are not end-to-end GPU execution speedups. Full trajectories are
+saved in compressed ignored checkpoints; published JSON contains curves and
+complete selection traces. The command resumes completed configurations.
+
+The budget runner uses a NumPy batch of the same makespan recurrence when all
+candidates share a fusion partition and interference is zero. It retains
+directional/shared link contention and send blocking. Mixed partitions and
+nonzero interference fall back to the original scheduler. This internal path
+does not compute memory/detail/critical-path outputs used elsewhere; it is
+limited to fixed-pool ranking. Tests compare exact costs, sorting, and complete
+policy trajectories with the original scheduler.
+
+Optional figure export (Python environment with ReportLab):
+
+```bash
+python cost_model/plot_e2_budget_curves.py \
+  --report data/bw1000_e2/e2c_graph_wide_budget_curves.json \
+  --out-dir data/bw1000_e2/budget_figures
+```
+
+The export reads the compressed trajectory checkpoints and contains SVG figures
+and a CSV table at **every integer budget**. This exposes temporary regressions
+between the six requested reporting budgets. Keep the checkpoints or replay the
+full runner before regenerating figures.
+
 ## Labels and candidate scope
 
 - A task exposes only its frozen initial training IDs. All other labels remain

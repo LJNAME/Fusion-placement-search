@@ -659,6 +659,7 @@ def evaluate_fixed_candidate_srop(
     *,
     random_seeds: Sequence[int] | None = None,
     use_prepared: bool = True,
+    ranker_factory=PreparedCandidateRanker,
 ) -> dict[str, Any]:
     evaluation_started = time.perf_counter()
     registry = default_fusion_registry()
@@ -679,7 +680,7 @@ def evaluate_fixed_candidate_srop(
     candidates = list(unique.values())
     if len(candidates) < 2:
         raise ValueError("E2c requires at least two canonical candidate plans")
-    ranker = PreparedCandidateRanker(graph, candidates, hardware.n_devs, exchange, registry) if use_prepared else None
+    ranker = ranker_factory(graph, candidates, hardware.n_devs, exchange, registry) if use_prepared else None
     oracle_ranked = _rank(graph, candidates, oracle, registry, exchange, ranker)
     active_protocol = contract["active_profiling_protocol"]
     seeds = tuple(
