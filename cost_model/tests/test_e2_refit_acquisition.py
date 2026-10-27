@@ -98,6 +98,16 @@ class RefitAcquisitionTests(unittest.TestCase):
         self.assertEqual(expected_refit_losses(*common, self.public, *tail),
                          expected_refit_losses(*common, public, *tail))
 
+    def test_scenario_batching_preserves_every_acquisition_score(self):
+        plans, _ = graph_wide_candidates(self.graph, [make_reference_plan(self.graph)], self.profile.device_classes)
+        ranker = BatchedPlacementRanker(self.graph, plans, 2, ((0, 1), (1, 0)))
+        baseline = ranker.rank(self.profile)
+        common = (self.profile, self.uncertainty, self.public, self.pool, self.runtime["prediction_protocol"])
+        protocol = self.runtime["active_profiling_protocol"]
+        scalar = expected_refit_losses(*common, {**protocol, "refit_batch_scenarios": False}, ranker, baseline)
+        batched = expected_refit_losses(*common, {**protocol, "refit_batch_scenarios": True}, ranker, baseline)
+        self.assertEqual(scalar, batched)
+
     def test_unrevealed_labels_cannot_change_multistep_refit_selection(self):
         runtime = copy.deepcopy(self.runtime)
         runtime["active_profiling_protocol"]["policies"] = ["srop_refit"]

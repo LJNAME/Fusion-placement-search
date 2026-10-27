@@ -68,14 +68,29 @@ def expected_refit_losses(profile, uncertainty, public_records, remaining,
                          prediction_protocol, active_protocol, ranker, baseline_ranked):
     current_top1 = baseline_ranked[0].plan_id
     values = {}
+    batched = active_protocol.get("refit_batch_scenarios", True) and hasattr(ranker, "rank_many")
+    scenarios = []
+    scenario_keys = []
     for key in remaining:
         response = NearestRefitResponse(public_records, prediction_protocol, key)
         sigma = max(float(uncertainty[key]), 0.0) / float(active_protocol["uncertainty_q90_normalizer"])
         losses = []
         for quantile in active_protocol["srop_proxy_standard_normal_quantiles"]:
             hypothetical_s = profile.durations_s[key] * math.exp(float(quantile) * sigma)
-            ranked = ranker.rank(response.profile(profile, hypothetical_s))
+            hypothetical = response.profile(profile, hypothetical_s)
+            if batched:
+                scenarios.append(hypothetical)
+                scenario_keys.append(key)
+                continue
+            ranked = ranker.rank(hypothetical)
             current_cost = next(item.makespan for item in ranked if item.plan_id == current_top1)
             losses.append(max(0.0, current_cost - ranked[0].makespan) * 1e3)
-        values[key] = statistics.fmean(losses)
+        if not batched:
+            values[key] = statistics.fmean(losses)
+    if batched:
+        grouped = {key: [] for key in remaining}
+        for key, ranked in zip(scenario_keys, ranker.rank_many(scenarios)):
+            current_cost = next(item.makespan for item in ranked if item.plan_id == current_top1)
+            grouped[key].append(max(0.0, current_cost - ranked[0].makespan) * 1e3)
+        values = {key: statistics.fmean(losses) for key, losses in grouped.items()}
     return values

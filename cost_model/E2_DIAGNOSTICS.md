@@ -1,5 +1,83 @@
 # Frozen E2 diagnostics
 
+## Exact hypothetical-scenario batching (2026-10-27)
+
+```bash
+python -m cost_model.e2_scoring_benchmark --workers 2 --repeats 2 \
+  --output data/bw1000_e2/e2c_scoring_benchmark.json
+python -m cost_model.verify_e2_scoring_benchmark \
+  --output data/bw1000_e2/e2c_scoring_verification.json
+python cost_model/plot_e2_scoring_benchmark.py \
+  --report data/bw1000_e2/e2c_scoring_benchmark.json \
+  --out-dir data/bw1000_e2/scoring_figures
+```
+
+Requires the frozen factorial report, its compressed stopped trajectories and
+the original candidate checkpoints. Use `--limit 1` with a separate output for
+a smoke test. Source, environment, protocol and data hashes namespace resumable
+checkpoints. Changing worker count or repeat count starts a separate experiment.
+
+`BatchedPlacementRanker.rank_many` computes the same scheduler recurrence over
+independent hypothetical profiles and placement candidates together. Group
+order, addition/max operations, per-device availability, directional/shared
+link contention, send blocking and confidence propagation are preserved.
+The scenario dimension is chunked to at most 32; group matrices target at most
+two million cells each. Only identical partitions, zero interference and
+identical transfer durations, confidences, link keys and overlap behavior share
+the fast path. Other cases retain scalar ranking. Memory and critical-path
+outputs remain outside fixed-pool makespan ranking, as in the original batch
+ranker.
+
+Refit still builds the same public-feature nearest-neighbor response for each
+query and samples the original five labels. Only independent scenario scoring
+is batched. `refit_batch_scenarios=False` explicitly selects the original loop;
+the default uses batching when the ranker supports it. The analytic cost
+denominator, mean predictor, distance uncertainty and zero-score stop stay
+fixed. This is an execution optimization, not a new acquisition function.
+Rank-call counters still count logical scenarios, not NumPy batches; the
+number of evaluated hypothetical observations and candidates is unchanged.
+
+For every frozen configuration, an untimed scalar pass is compared to the old
+factorial trajectory, and an untimed batched pass compares every ordered
+candidate ID, makespan and confidence exactly, including all hypothetical
+observations. Every non-CPU-timing trajectory field must match: measurement
+costs, scores, tie diagnostics, choices, metrics and stopping. A separate
+full-reveal check recovers all Oracle candidate costs.
+
+Then run fresh scalar and batched trajectories twice each, alternating AB/BA
+order. Untimed audits are excluded from these measurements. Summaries take
+the median of repeats per configuration and then the mean across configurations;
+also report paired speedup medians and every model/graph-scale group. The two
+worker processes share a CPU; these timings are a counterbalanced local CPU
+replay benchmark, not an isolated-core or end-to-end GPU training result.
+The algorithm counter sums predictor fitting, ordinary candidate ranking and
+acquisition. Fixed candidate preparation is outside it and recorded separately;
+graph/candidate discovery and GPU execution are outside this replay benchmark.
+The replay also evaluates fixed Oracle candidates. All 84 configurations remain
+correlated development tasks; no blind-test or Oracle-free search claim follows.
+
+| Paired local CPU replay | Scalar scenarios / s | Scenario batch / s | Ratio of means |
+|---|---:|---:|---:|
+| All 84: fitting + ranking + acquisition | 6.422553 | 0.965615 | 6.65x |
+| Layer, 42 configurations | 0.761877 | 0.454469 | 1.68x |
+| Full graph, 42 configurations | 12.083228 | 1.476760 | 8.18x |
+| All 84: acquisition only | 6.165020 | 0.709259 | 8.69x |
+
+All 84 paired configurations are faster; minimum paired speedup is 1.23x.
+The separate fixed candidate preparation averages about 0.614/0.617 s.
+Including that preparation and the full replay timer gives 7.037/1.583 s,
+about 4.44x; graph/candidate discovery and GPU execution remain excluded.
+This does not establish overall SROP efficiency relative to other sampling
+strategies: that requires a fresh shared-engine CPU-plus-profiling comparison.
+
+Untimed validation checks 16,061 full ranking lists and 613,385 candidate
+cost/confidence entries. All 281 stopped-trajectory points match the frozen
+factorial experiment, including scores and stop decisions; 336 clean paired
+timed replays match those same semantics. Count-budget AUC remains
+0.015124928 ms, and wrong stops remain zero. Regression tests: 202 total.
+The original analytic cost denominator is retained; the negative wall-cost
+normalization ablation is unchanged.
+
 ## Profiling wall-cost normalization (2026-10-27)
 
 ```bash
