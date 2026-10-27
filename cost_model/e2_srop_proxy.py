@@ -201,11 +201,12 @@ class DatasetLatencyProfile:
 
 class ObjectCounterfactualProfile:
     def __init__(
-        self, base: DatasetLatencyProfile, target_object_id: str, relative_delta: float
+        self, base: DatasetLatencyProfile, target_object_id: str, relative_delta: float,
+        *, multiplier: float | None = None,
     ) -> None:
         self.base = base
         self.target_object_id = str(target_object_id)
-        self.multiplier = 1.0 + float(relative_delta)
+        self.multiplier = 1.0 + float(relative_delta) if multiplier is None else float(multiplier)
         if self.multiplier <= 0.0:
             raise ValueError("counterfactual multiplier must be positive")
         self.device_classes = base.device_classes
@@ -282,6 +283,11 @@ def _active_profile(
     )
     visible = [record for record in view if "target" in record]
     predictor = NearestShapePredictor().fit(visible, contract["prediction_protocol"])
+    uncertainty_variant = contract["active_profiling_protocol"].get("uncertainty_variant", "legacy")
+    calibrated = None
+    if uncertainty_variant != "legacy":
+        from .e2_uncertainty import TrainingDistanceUncertainty
+        calibrated = TrainingDistanceUncertainty().fit(visible, contract["prediction_protocol"])
     durations: dict[str, float] = {}
     sources: dict[str, str] = {}
     uncertainty: dict[str, float] = {}
@@ -296,7 +302,7 @@ def _active_profile(
             prediction.mean
         )
         sources[object_id] = "nearest_shape_predicted"
-        uncertainty[object_id] = prediction.q90
+        uncertainty[object_id] = prediction.q90 if calibrated is None else calibrated.q90(record, uncertainty_variant)
     return DatasetLatencyProfile(hardware, object_map, durations, sources), uncertainty
 
 
@@ -358,11 +364,16 @@ def _expected_decision_regret_ms(
     sigma = max(float(uncertainty_q90_log), 0.0) / float(q90_normalizer)
     regrets = []
     for quantile in standard_normal_quantiles:
-        relative_delta = math.exp(float(quantile) * sigma) - 1.0
+        multiplier = math.exp(float(quantile) * sigma)
+        relative_delta = multiplier - 1.0
+        # Preserve legacy arithmetic in its original range. A very small
+        # positive multiplier otherwise rounds to zero through (m - 1) + 1.
+        sampled_profile = ObjectCounterfactualProfile(profile, object_id, relative_delta,
+            multiplier=multiplier if 1.0 + relative_delta <= 0.0 else None)
         sampled = _rank(
             graph,
             plans,
-            ObjectCounterfactualProfile(profile, object_id, relative_delta),
+            sampled_profile,
             registry,
             exchange_permutations,
             ranker,
@@ -420,6 +431,7 @@ def _run_policy_trajectory(
     registry,
     exchange_permutations: Sequence[Sequence[int]],
     ranker=None,
+    stop_on_recommendation: bool = False,
 ) -> list[dict[str, Any]]:
     active_protocol = contract["active_profiling_protocol"]
     delta = float(active_protocol["impact_relative_delta"])
@@ -567,7 +579,7 @@ def _run_policy_trajectory(
             }
         )
         previous_top1 = predicted_ranked[0].plan_id
-        if next_selection is None:
+        if next_selection is None or (stop_on_recommendation and audit["stop_recommended"]):
             break
         revealed.append(next_selection)
     return trajectory

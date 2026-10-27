@@ -174,6 +174,57 @@ and new stopping states, checks the public uncertainty/sample envelope, and
 retains negative results. Those labels and post-hoc diagnoses never influence
 acquisition. The main evaluation still reports every frozen configuration.
 
+## Training-only uncertainty and actual stopping
+
+```bash
+python -m cost_model.e2_uncertainty_coverage \
+  --output data/bw1000_e2/e2c_uncertainty_coverage.json
+python -m cost_model.e2_uncertainty_stopping --workers 4 \
+  --output data/bw1000_e2/e2c_uncertainty_stopping.json
+python -m cost_model.audit_e2_uncertainty_stops \
+  --report data/bw1000_e2/e2c_uncertainty_stopping.json \
+  --output data/bw1000_e2/e2c_uncertainty_stop_audit.json
+python cost_model/plot_e2_uncertainty.py \
+  --coverage data/bw1000_e2/e2c_uncertainty_coverage.json \
+  --stopping data/bw1000_e2/e2c_uncertainty_stopping.json \
+  --out-dir data/bw1000_e2/uncertainty_figures
+```
+
+At the same public training state, all mean predictions stay identical.
+Candidate pools and acquisition formulas stay fixed. Actual reveals still
+update means through the original NN fitter.
+Compare the legacy family interval, a strict family interval, and a distance
+interval with the strict family interval as a floor. Each strict calibration
+fold excludes the complete object and refits feature normalization and the NN
+mean on the remaining **visible training labels**. No held-out error tunes the
+formula. This is empirical calibration, not a conformal guarantee.
+
+For each family with sufficient calibration folds (otherwise global fallback),
+let r be the median positive nearest-neighbor distance in those folds, using
+1.0 only if every distance is zero. Define scale(d) = 1 + d/r. The distance
+interval is max(family q90, q90(abs_error/scale(d)) * scale(query_distance)).
+Nominal coverage and the minimum family support follow the original protocol.
+
+The coverage report separates strict zero-shot model/sequence holdouts from
+active initial states. Active coverage deduplicates identical training-ID-set
+and object-ID pairs across layers/models; these pairs are still not independent
+hardware measurements. Report coverage, width, distance bins, unseen families,
+and the central-90% log interval score: 2*q + 20*max(0, abs_log_error-q).
+Widening intervals without limit therefore incurs a visible penalty.
+
+The stopping runner uses **the original SROP-Proxy**, not SROP-Refit, to isolate
+uncertainty. Only its q90 changes. Five samples, analytic cost normalization,
+tie-breaking and maximum-score <= 0 stopping stay unchanged. New trajectories
+really stop at the recommendation; their final decisions are held to budget
+16 for the common-horizon AUC. There is no forced-budget curve for these new
+runs. Separate full-reveal profile checks recover every candidate's Oracle
+cost/ranking; these are checks, not claims that a stopped run revealed labels.
+
+Wide intervals exposed subtraction cancellation in exp(x)-1 for very negative
+x. The counterfactual profile now accepts the positive multiplier directly in
+that numerical range. The ordinary legacy arithmetic, interval widths and
+sampling policy are unchanged. A regression test covers this wide-interval case.
+
 ## Labels and candidate scope
 
 - A task exposes only its frozen initial training IDs. All other labels remain
