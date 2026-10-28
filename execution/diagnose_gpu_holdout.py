@@ -22,6 +22,7 @@ from cost_model.e2_srop_proxy import DatasetLatencyProfile, E2Workload, object_m
 from cost_model.structural import StructuralCostModel
 from execution.audit_gpu_holdout import timing_statistics, write_json
 from execution.gpu_holdout import CanonicalReferenceExecutor, compare_outputs, measure_candidate
+from execution.light_gpu_trace import assess_trace_timing, capture_light_trace
 from simulator import PlacedOpGraph
 from simulator.dataset import graph_from_dict, plan_from_dict
 from simulator.hardware import hardware_from_dict
@@ -174,6 +175,7 @@ def main(argv=None):
     parser.add_argument("--bundle", type=Path, default=DEFAULT_BUNDLE)
     parser.add_argument("--audit", type=Path, default=DEFAULT_AUDIT)
     parser.add_argument("--out-dir", type=Path, required=True)
+    parser.add_argument("--trace-mode", choices=("detailed", "light"), default="detailed")
     args = parser.parse_args(argv)
     freeze, manifest = load_freeze(args.bundle)
     _validate_runtime(manifest, (0, 1))
@@ -209,21 +211,25 @@ def main(argv=None):
         del output, reference_executor
     gc.collect()
     records = []
+
+    def collect_baseline(item, repeat, phase):
+        row = {"freeze_id": freeze["freeze_id"], "model_id": workload["model_id"],
+            "environment_id": environment_id, "phase": phase,
+            "role": item["role"], "plan_id": item["plan_id"], "repeat": repeat}
+        row.update(measure_candidate(placed[item["role"]], devices, parameters, templates, reference))
+        row["record_id"] = content_id("gpu-three-plan-diagnostic-baseline", row)
+        append_jsonl_record(args.out_dir / "baseline_samples.jsonl", row)
+        print(f"baseline phase={phase} repeat={repeat} role={item['role']} ms={row['median_s']*1000:.6f}", flush=True)
+        if not row["correctness"]["pass"]:
+            raise RuntimeError("diagnostic baseline output mismatch; keep recorded samples")
+        gc.collect()
+        return row
+
     for repeat in range(3):
         # Three cyclic orders give each role one early, middle and late block.
         order = chosen[repeat:] + chosen[:repeat]
         for item in order:
-            row = {"freeze_id": freeze["freeze_id"], "model_id": workload["model_id"],
-                "environment_id": environment_id,
-                "role": item["role"], "plan_id": item["plan_id"], "repeat": repeat}
-            row.update(measure_candidate(placed[item["role"]], devices, parameters, templates, reference))
-            row["record_id"] = content_id("gpu-three-plan-diagnostic-baseline", row)
-            append_jsonl_record(args.out_dir / "baseline_samples.jsonl", row)
-            records.append(row)
-            print(f"baseline repeat={repeat} role={item['role']} ms={row['median_s']*1000:.6f}", flush=True)
-            if not row["correctness"]["pass"]:
-                raise RuntimeError("diagnostic baseline output mismatch; keep recorded samples")
-            gc.collect()
+            records.append(collect_baseline(item, repeat, "before_trace"))
     baselines = [{"role": item["role"], "plan_id": item["plan_id"], "old_measured_ms": item["old_measured_ms"],
         "pooled": timing_statistics([sample for row in records if row["role"] == item["role"] for sample in row["samples_s"]]),
         "rounds": [{"repeat": row["repeat"], **timing_statistics(row["samples_s"])} for row in records if row["role"] == item["role"]]}
@@ -231,6 +237,7 @@ def main(argv=None):
     report = {"format": "fusion-placement-search.gpu-three-plan-diagnosis", "freeze_id": freeze["freeze_id"],
         "model_id": selection["model_id"], "selection": selection, "environment": environment,
         "environment_id": environment_id,
+        "trace_mode": args.trace_mode,
         "scope": "Post-hoc development diagnosis, no model or scheduler modification and no independent validation claim.",
         "baseline_protocol": {"repeats": 3, "warmup": parameters["warmup"], "iterations": parameters["iterations"], "order": "cyclic rotation"},
         "predictions": predictions, "baselines": baselines, "traces": [], "status": "baselines_complete"}
@@ -238,14 +245,42 @@ def main(argv=None):
     for item in chosen:
         role = item["role"]
         try:
-            trace = capture_trace(placed[role], devices, parameters, templates, reference, args.out_dir / f"{role}.trace.json")
+            capture = capture_light_trace if args.trace_mode == "light" else capture_trace
+            trace = capture(placed[role], devices, parameters, templates, reference, args.out_dir / f"{role}.trace.json")
             trace.update(role=role, plan_id=item["plan_id"])
         except Exception as exc:
             trace = {"role": role, "plan_id": item["plan_id"], "error_type": type(exc).__name__, "error": str(exc), "gpu_timeline_available": False}
         report["traces"].append(trace)
         write_json(args.out_dir / "diagnostic_report.json", report)
         print(f"trace role={role} gpu_timeline_available={trace['gpu_timeline_available']}", flush=True)
+    if args.trace_mode == "light":
+        report["post_trace_baselines"] = []
+        for item in reversed(chosen):
+            row = collect_baseline(item, 3, "after_trace")
+            report["post_trace_baselines"].append({"role": item["role"], "plan_id": item["plan_id"],
+                **timing_statistics(row["samples_s"])})
+            write_json(args.out_dir / "diagnostic_report.json", report)
+        before = {row["role"]: row["pooled"]["median_ms"] for row in report["baselines"]}
+        after = {row["role"]: row["median_ms"] for row in report["post_trace_baselines"]}
+        for trace in report["traces"]:
+            trace["timing_comparison"] = assess_trace_timing(trace, before[trace["role"]], after[trace["role"]])
+            transfers = expected_transfers(placed[trace["role"]])
+            frames = trace.get("frames", [])
+            trace["activity_checks"] = {
+                "three_forward_frames": len(frames) == 3,
+                "gpu_event_attribution_complete": trace.get("gpu_event_attribution_complete", False),
+                "branch_nodes_visible": bool(frames) and all(
+                    all(pair["available"] for pair in frame["branch_overlap"].values()) for frame in frames),
+                "copy_count_and_bytes_match": bool(frames) and all(
+                    frame["gpu_memcpy_events"] == len(transfers) and frame["gpu_memcpy_bytes"] == sum(row["payload_bytes"] for row in transfers)
+                    for frame in frames)}
+        report["all_light_timing_targets_pass"] = all(trace["timing_comparison"]["timing_target_pass"] for trace in report["traces"])
+        report["all_light_activity_checks_pass"] = all(all(trace["activity_checks"].values()) for trace in report["traces"])
     report["status"] = "complete" if all(row["gpu_timeline_available"] for row in report["traces"]) else "baselines_complete_traces_partial"
+    if args.trace_mode == "light" and not report["all_light_activity_checks_pass"]:
+        report["status"] = "baselines_complete_traces_partial"
+    if args.trace_mode == "light" and report["status"] == "complete" and not report["all_light_timing_targets_pass"]:
+        report["status"] = "complete_light_trace_perturbed"
     write_json(args.out_dir / "diagnostic_report.json", report)
     if any(not row.get("correctness", {}).get("pass", False) for row in report["traces"]):
         raise SystemExit("a diagnostic trace failed or produced incorrect output; baselines were retained")
