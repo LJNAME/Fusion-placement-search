@@ -1,5 +1,7 @@
 # Reference主机提交校准
 
+当前复测入口见 [无Event的主机提交校准](REFERENCE_HOST_CPU.md)。下文保留首版带Event探针的采集协议与命令。
+
 在已有训练任务上采CPU提交步长和reference算子body的GPU stream窗口，不采seq768/1280独立任务标签。
 
 ## 服务器执行
