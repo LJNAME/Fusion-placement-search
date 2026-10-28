@@ -1,0 +1,144 @@
+{
+  "format": "fusion-placement-search.gpu-holdout-feature-audit",
+  "freeze_id": "sha256:59a32c2eb827b95a395bc95f31e057716b52bfd44f025f913ef60c7c897829b2",
+  "rule": "exact equality on frozen predictor numeric features plus operator and implementation id; public features only, not a physical-kernel equivalence claim",
+  "numeric_features": [
+    "batch",
+    "m",
+    "n",
+    "k",
+    "normalized_size",
+    "numel",
+    "flops",
+    "memory_bytes",
+    "arithmetic_intensity",
+    "compute_demand_s",
+    "memory_demand_s",
+    "launch_s"
+  ],
+  "feature_identical_to_training": [
+    {
+      "object_id": "sha256:32aad5582f6424db0dcf80923119def5e13beefd7443e1686dc5d47b0797b5a5",
+      "operator": "rope",
+      "shape": {
+        "input": [
+          1,
+          2048,
+          2,
+          128
+        ],
+        "numel": 524288
+      },
+      "training_object_ids": [
+        "sha256:d4da59441486b5fd638a8c6a06067f1e56d56f8a572b4b441e9d1b4e133e5af7",
+        "sha256:fd2fe246bbf21eaca72e2684ef18c9b1603b0977dd0232ab1fdc6bbbb6128683"
+      ]
+    },
+    {
+      "object_id": "sha256:729d334c7f77b00483e4fb02c2d9618ab566fe6b8ddaef365f904072593a8dff",
+      "operator": "add",
+      "shape": {
+        "input": [
+          1,
+          2048,
+          1024
+        ],
+        "numel": 2097152
+      },
+      "training_object_ids": [
+        "sha256:29efb509b2a4afef84d20250a6d79742157a703f14a55d5c67c6fb790ade53dc"
+      ]
+    },
+    {
+      "object_id": "sha256:a3e5b8b2c0cf1ba691d42d5b0fca9520e369c0bd9a90f30db3583d3e8d1ce435",
+      "operator": "rope",
+      "shape": {
+        "input": [
+          1,
+          2048,
+          8,
+          128
+        ],
+        "numel": 2097152
+      },
+      "training_object_ids": [
+        "sha256:dc572a348a3f7fc533fad4335c9cfd9f9b8aff3e5686562978d4c3b37c2c6778"
+      ]
+    },
+    {
+      "object_id": "sha256:def8d4be5917403dfc6a40039df37a847bb9d9e9cb54a0ee30055444fea068c8",
+      "operator": "rmsnorm",
+      "shape": {
+        "input": [
+          1,
+          2048,
+          8,
+          128
+        ],
+        "normalized_size": 128
+      },
+      "training_object_ids": [
+        "sha256:96e077b29288d9864eb39565b278d1763c29f4a9dade463aaa87037344f254f3"
+      ]
+    }
+  ],
+  "feature_distinct_object_ids": [
+    "sha256:00280ed145ec6235a61deefc36bcd38da1bf3618a001b4f04eaf26ebd31f2ec9",
+    "sha256:00ad7b90bd236319d3d86dbaf2544652bc0b82221cf637728f3e2434ff7d3e4e",
+    "sha256:0a58ec52f47f3fcabeae1351286ff5465bad05bcbaea382d0c6d511338b47188",
+    "sha256:0bd2e229adbe4a04999484843a62e6f9b544a67768a8849e5850e784acf38b88",
+    "sha256:0f2a576a825cce58b12e01b6914ba7ab36b5efa6395f3353f8f23cc3b67224b1",
+    "sha256:157f3316f224d6e4b4d664f81be972f935dd40a38577f9b4ac3446862abc02f9",
+    "sha256:1dfc8a6e599b30af43f5370703e211003ffd5c986b571888dcf01661af1e1d76",
+    "sha256:201d4ea593f101e3e15cbf92949d762e083af5f1e00f4daff2f93b420d92f45f",
+    "sha256:2465568422dc1321dbbb340f02f4be2836779cc8fb08a1eef2da0c609fc9aeff",
+    "sha256:269c1cd0fc69814458a551bce88331949cdf61fb4f34ab3c9708d7fa03f35b82",
+    "sha256:2d8fc6599c226002423a05c4b686a5a71a902eb61c4e211fcd81c5e8261d442c",
+    "sha256:2de198d3aea5579d9be2fe1c4d1c2ff832f036c195f9b98a9eb23bc70f8211b6",
+    "sha256:30b5a5a5b53287c93cde919713c010e28c4a7a823994f791f0b293256cac42f6",
+    "sha256:32e141c2a4b6f3a0b6a7a0c7b3324b9ad2fb17ed36abbffb460dac5129b0c9fc",
+    "sha256:32e24c310d3af4ab25d90dff0708339d8c5d7476063bc0c020ac9b6e952d1b39",
+    "sha256:33e4fc6b25c746d54a0d0c805f88bade3fb062712f42aa83dd449a21738db88a",
+    "sha256:379bde3de812a2a5c42daf259ce2443f565a19c5624e2fa02eca719d8a5055c8",
+    "sha256:3a696ba7e460db97fc517730f2171cb44da97536e518de6683dea6800d90395b",
+    "sha256:3c8911dfe0c644af6db4f4847dea4e9a9e8fd5243e0dcf7b374d1740aa8e72f5",
+    "sha256:42170b646377bf2efa55e86ce8a3b4bd46e9c29981bcd5855d760d5c4ba8a99d",
+    "sha256:47a6b061e2b174c12ed6fbbf7a737c01647e573274b5655c851de53c7957e06a",
+    "sha256:4a5e77f645629e44048c68a0be4be1a80ffb2eaac2291f7beb62d5275864b5a7",
+    "sha256:4ff0a9added1da055ee5c5fa39c4fa06e73e9d084d015d26501882d2cba9464c",
+    "sha256:5034e56bcc50f705e951c72e5a9cc585038d823af7d10d697fae58e2f92895e7",
+    "sha256:58fcd58bcc3531394b4dcc6796ce3f53267b7ea2973660e7eef61a99de3f18f8",
+    "sha256:5c05400c612a0618ff505a4df804974891beb920b13e749481c6894f1c913dd2",
+    "sha256:6033e2e658774884f3faf8c2d855c56671068f89cfa4e24a7bc0cffb52ea604f",
+    "sha256:670b94b6ea238426be966ca915d5348b9df688d99d4bfa1b42a0b8e664aefff5",
+    "sha256:6b9a100c5c5125730d92761197f4dab135b089b37adc7dc4310d2ee6e8963b0e",
+    "sha256:783047c94272bdb8081dc68be4cd195fd99975d36c46672301072b8500c9c9d7",
+    "sha256:7db1c8cb7498bb8b4dfb47d282a9705680bef202dbdb4d2d2e366dcbd35f55ad",
+    "sha256:83a00c16ed8006ebcbb933ce6adcdc70b3b3c7fceb142b0b9180f1fcac44a696",
+    "sha256:8c567723ecffcff6c5bfe7a86663b574afac47a0084e3542f2ec2ab0d04ee9b0",
+    "sha256:8de48ae42ae69f2b962572ddbb49aace33ca2a83f847aa509fb50053653cde30",
+    "sha256:90976c0a82f8a57a5f45ba36fb1862fece6ec8a9dd3723d5acbef2c474d06403",
+    "sha256:957b097990e6fb77864f9f726047222bc337ad2b99f1195dad5218f96a8984a5",
+    "sha256:9d88551667a40b61ec6b77e9e742f5d0fdc2deb3fe1f7083996079882f51efba",
+    "sha256:9f4a062a60b8a231d549619eaca18906c6d4ede0b0b96a7c7c8228608df700c5",
+    "sha256:a52b08e736b5d19d8c27a899a8e76736e8a720f078bd9269f6ca85c05a4f8dea",
+    "sha256:af7435e61100458994d49bcc545225b16edf1e93941abda2b3dc7e7d1aa09912",
+    "sha256:b491b3ef7f1b74b259d145db15fef34efc08db8450919194b96d8edebae3cffd",
+    "sha256:bc0d29bcb151d5b77962eec2134ac50e2914ac6bb7b6a55482e7c12cb77cb161",
+    "sha256:be148275f119b555ffdf7365af5111267e634f830ee0f12fa181310579e52dd0",
+    "sha256:c3f50b98ee36a5bcf26f42ab1dd311d38b0747c967316f850709c3b1f447e4b9",
+    "sha256:c74ffadcae026dfe0ece67a698368a8f1d54c08238ce39563752c45758276b1d",
+    "sha256:cc9fa378f1e8351d2367fe87f70c3893553f2d37f81a2d120cc367f3065a6ca7",
+    "sha256:d7cd0dbdf81368dbf874be51c9290e8e3c4e049f43ddede72fad9dcfe730742b",
+    "sha256:daa5b3e1c10548e98078b54a06ba9e223bb5510acf3cabb04de46f7fac1946d3",
+    "sha256:df98aba21a1e2f3d83399a70102178de3a42ac27ab8824acbb0323ae4a05b407",
+    "sha256:e604a98ca366e71602f9f7985b343290009272581bbe00cc736fcab802a9f5c9",
+    "sha256:ec7c1d459916d89e7a0d76324e3b8fe8fbab95f096b39fabaa40a5fb1e4202ed",
+    "sha256:ee69440fbd9e02c6221e3158b1bc3de1b3b9074b28a840a1fd0da6ae3615762f"
+  ],
+  "all_objects": 56,
+  "feature_identical_count": 4,
+  "feature_distinct_count": 52,
+  "reporting": "retain all 56 objects; diagnose the 4 feature aliases separately; no labels or candidate/predictor changes",
+  "audit_id": "sha256:50207e9b5f7b303c016735139baf8662315231af50f60a23cd8c577d2a455a55"
+}
