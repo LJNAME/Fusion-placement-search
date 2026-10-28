@@ -2,12 +2,14 @@ import copy
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
 import torch
 
 from calibration.e2_records import load_jsonl_records
+from calibration.e2_manifest import content_id
 from calibration.gpu_holdout import DEFAULT_BUNDLE, load_freeze
 from execution.audit_gpu_holdout import audit_execution, representative_plans, timing_statistics
 from execution.diagnose_gpu_holdout import CopyRecorder, capture_trace, main, prediction_breakdown
@@ -95,6 +97,41 @@ class GPUExecutionDiagnosisTests(unittest.TestCase):
         with TemporaryDirectory() as temp, patch("execution.diagnose_gpu_holdout.load_freeze", return_value=({}, {})), patch("torch.cuda.is_available", return_value=False):
             with self.assertRaisesRegex(RuntimeError, "no HIP/CUDA"):
                 main(["--out-dir", temp])
+
+    def test_command_persists_all_nine_blocks_with_real_jsonl_writer(self):
+        # Mock only GPU work. Exercise real command orchestration, hashes,
+        # JSONL append, summary generation and report output together.
+        measurement = {"samples_s": [.004] * 20, "median_s": .004,
+            "correctness": {"pass": True, "max_abs_error": 0.0}, "peak_memory_bytes": [1, 1]}
+        with TemporaryDirectory() as temp, \
+                patch("execution.diagnose_gpu_holdout._validate_runtime"), \
+                patch("torch.cuda.get_device_properties", return_value=SimpleNamespace(name="BW", total_memory=1024)), \
+                patch("torch.cuda.can_device_access_peer", return_value=True), \
+                patch("execution.diagnose_gpu_holdout.CanonicalReferenceExecutor") as executor, \
+                patch("execution.diagnose_gpu_holdout.measure_candidate", return_value=measurement), \
+                patch("execution.diagnose_gpu_holdout.capture_trace", side_effect=lambda *args:
+                    {"trace_file": args[-1].name, "gpu_timeline_available": False, "correctness": {"pass": True}}):
+            executor.return_value.run_once.return_value = (torch.ones(1), [], [], .001)
+            output = Path(temp) / "diagnosis"
+            main(["--out-dir", str(output)])
+            rows = load_jsonl_records(output / "baseline_samples.jsonl")
+            report = json.loads((output / "diagnostic_report.json").read_text())
+            environment = json.loads((output / "diagnostic_environment.json").read_text())
+            self.assertEqual(len(rows), 9)
+            self.assertEqual(len({row["record_id"] for row in rows}), 9)
+            self.assertEqual({(row["role"], row["repeat"]) for row in rows},
+                {(role, repeat) for role in ("single_gpu_reference", "predicted_top1", "intermediate") for repeat in range(3)})
+            expected_environment_id = content_id("gpu-three-plan-diagnostic-environment", environment)
+            for row in rows:
+                self.assertEqual(row["freeze_id"], self.freeze["freeze_id"])
+                self.assertEqual(row["environment_id"], expected_environment_id)
+                self.assertEqual(row["record_id"], content_id("gpu-three-plan-diagnostic-baseline",
+                    {key: value for key, value in row.items() if key != "record_id"}))
+            self.assertEqual(sum(len(row["samples_s"]) for row in rows), 180)
+            self.assertEqual(report["environment_id"], expected_environment_id)
+            self.assertEqual(report["status"], "baselines_complete_traces_partial")
+            self.assertEqual(len(report["traces"]), 3)
+            self.assertTrue(all(row["pooled"]["samples"] == 60 for row in report["baselines"]))
 
 
 if __name__ == "__main__":

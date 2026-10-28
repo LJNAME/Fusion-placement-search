@@ -14,6 +14,7 @@ import time
 import torch
 from torch.utils._python_dispatch import TorchDispatchMode
 
+from calibration.e2_manifest import content_id
 from calibration.e2_records import append_jsonl_record
 from calibration.gpu_holdout import DEFAULT_BUNDLE, load_freeze
 from calibration.profile_e2_bw1000 import _validate_runtime
@@ -199,6 +200,7 @@ def main(argv=None):
         "devices": [{"index": index, "name": torch.cuda.get_device_properties(index).name,
             "total_memory": torch.cuda.get_device_properties(index).total_memory} for index in (0, 1)],
         "peer_access": {f"{a}->{b}": torch.cuda.can_device_access_peer(a, b) for a, b in ((0, 1), (1, 0))}}
+    environment_id = content_id("gpu-three-plan-diagnostic-environment", environment)
     write_json(args.out_dir / "diagnostic_environment.json", environment)
     with torch.no_grad():
         reference_executor = CanonicalReferenceExecutor(placed["single_gpu_reference"], devices, parameters["seed"], templates)
@@ -211,8 +213,11 @@ def main(argv=None):
         # Three cyclic orders give each role one early, middle and late block.
         order = chosen[repeat:] + chosen[:repeat]
         for item in order:
-            row = {"role": item["role"], "plan_id": item["plan_id"], "repeat": repeat}
+            row = {"freeze_id": freeze["freeze_id"], "model_id": workload["model_id"],
+                "environment_id": environment_id,
+                "role": item["role"], "plan_id": item["plan_id"], "repeat": repeat}
             row.update(measure_candidate(placed[item["role"]], devices, parameters, templates, reference))
+            row["record_id"] = content_id("gpu-three-plan-diagnostic-baseline", row)
             append_jsonl_record(args.out_dir / "baseline_samples.jsonl", row)
             records.append(row)
             print(f"baseline repeat={repeat} role={item['role']} ms={row['median_s']*1000:.6f}", flush=True)
@@ -225,6 +230,7 @@ def main(argv=None):
         for item in chosen]
     report = {"format": "fusion-placement-search.gpu-three-plan-diagnosis", "freeze_id": freeze["freeze_id"],
         "model_id": selection["model_id"], "selection": selection, "environment": environment,
+        "environment_id": environment_id,
         "scope": "Post-hoc development diagnosis, no model or scheduler modification and no independent validation claim.",
         "baseline_protocol": {"repeats": 3, "warmup": parameters["warmup"], "iterations": parameters["iterations"], "order": "cyclic rotation"},
         "predictions": predictions, "baselines": baselines, "traces": [], "status": "baselines_complete"}

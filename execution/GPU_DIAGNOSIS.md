@@ -41,8 +41,10 @@ Top1中，GPU0→1传8MiB，GPU1→0传43MiB。原模型已经计入通信耗时
 ```bash
 git pull
 python -m execution.diagnose_gpu_holdout \
-  --out-dir data/bw1000_gpu_holdout_v1/diagnostics_3b_s2048
+  --out-dir data/bw1000_gpu_holdout_v1/diagnostics_3b_s2048_v2
 ```
+
+c60b2b1版本首次保存基准时漏传record_id，已修复并增加命令级写入测试。若此前报JSONL record requires record_id，保留原目录，使用上面的_v2新目录重跑三方案诊断；不重跑原56对象校准。
 
 输出目录应为空；已有结果时换一个新目录。原冻结数据和报告不会覆盖。该入口硬要求GPU，不会回退到CPU。
 
@@ -60,8 +62,8 @@ python -m execution.diagnose_gpu_holdout \
 回传整个诊断目录：
 
 ```bash
-tar -czf data/bw1000_gpu_holdout_v1/diagnostics_3b_s2048.tar.gz \
-  -C data/bw1000_gpu_holdout_v1 diagnostics_3b_s2048
+tar -czf data/bw1000_gpu_holdout_v1/diagnostics_3b_s2048_v2.tar.gz \
+  -C data/bw1000_gpu_holdout_v1 diagnostics_3b_s2048_v2
 ```
 
 包含 `diagnostic_report.json`、`diagnostic_environment.json`、`prediction_breakdown.json`、`baseline_samples.jsonl`和3份 `*.trace.json`。若trace报错，仍回传已产生的文件和终端错误；不必重跑原56对象的算子校准。
