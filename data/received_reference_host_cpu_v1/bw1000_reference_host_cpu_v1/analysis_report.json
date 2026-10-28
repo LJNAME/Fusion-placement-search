@@ -1,0 +1,5412 @@
+{
+  "audit": {
+    "checks": {
+      "sources_training_protocol_and_environment": true,
+      "journal_hashes_and_slots": true,
+      "no_device_windows": true,
+      "summary_and_host_exports": true
+    },
+    "records": 144,
+    "measured_forwards": 2880,
+    "case_round_targets_pass": 47,
+    "case_targets_pass": 15,
+    "profile_accepted": false,
+    "scope": "Collection integrity and observer checks only; no independent performance or SROP validation."
+  },
+  "input_sha256": {
+    "protocol.json": "a476d5f25c92e932c3ec9f277fea210f6aac424692389d3830c31056bd0664a8",
+    "environment.json": "5b9c7da490a4dbf8d31d9143f1df891428317d4c21289bfdbba82b3fdfa8f821",
+    "blocks.jsonl": "3e50e67cb6c3195ed3a962feaded5561dba8f64c01e29d538aa1437fb61c2b54",
+    "host_submission_profile.json": "96b91b8d840773b109d7452eeb09046e60913242c52c8210cb0129d1588269e1",
+    "calibration_report.json": "792feed7a8d15facdf7f1e9ed6483846ab0ebc638940196efec1e5b46f90a0ef"
+  },
+  "all_correctness_blocks_pass": true,
+  "cpu_deviation_only_pass": 48,
+  "baseline_drift_pass": 47,
+  "cpu_probe_ratio_range": [
+    0.9325589627837608,
+    1.14988758820049
+  ],
+  "max_across_round_baseline_range_pct": 6.988094935498079,
+  "samples_above_twice_block_median": 24,
+  "training_reconstruction_summary": {
+    "training_workloads": 4,
+    "rounds": 3,
+    "independent_validation": false,
+    "zero_host_ms": {
+      "regret_pct_range": [
+        12.827107491874301,
+        29.153018975364553
+      ],
+      "mape_pct_range": [
+        21.19155939361106,
+        61.43850016305308
+      ]
+    },
+    "rejected_host_candidate_ms": {
+      "regret_pct_range": [
+        0.0,
+        1.0705223104244377
+      ],
+      "mape_pct_range": [
+        1.745542103379727,
+        9.86285333563644
+      ]
+    }
+  },
+  "failed_case_rounds": [
+    {
+      "case_id": "sha256:a383344bd720d213e38937b410a1b99b9d92a14e91e9b27f14e2d321d2a1100b",
+      "model_id": "qwen3-0.6b-s1024-b1",
+      "plan_name": "mlp_up",
+      "repeat": 2,
+      "probe_over_before_ratio": 1.0278131670806288,
+      "probe_over_after_ratio": 1.14988758820049,
+      "baseline_shift_fraction": -0.10616204781451799,
+      "target_pass": false,
+      "block_statistics": {
+        "baseline_before": {
+          "samples": 20,
+          "median_ms": 1.8406929448246956,
+          "mean_ms": 1.8491883296519518,
+          "min_ms": 1.8084333278238773,
+          "max_ms": 1.9042231142520905,
+          "p90_ms": 1.87400309368968,
+          "p95_ms": 1.8883302342146635,
+          "standard_cv": 0.011515196797667264,
+          "robust_cv": 0.00743427024193634,
+          "samples_above_twice_median": 0
+        },
+        "cpu_probe": {
+          "samples": 20,
+          "median_ms": 1.8918884452432394,
+          "mean_ms": 1.919074566103518,
+          "min_ms": 1.868892926722765,
+          "max_ms": 2.2214576601982117,
+          "p90_ms": 1.9683181773871186,
+          "p95_ms": 2.0297358045354486,
+          "standard_cv": 0.040468006560379514,
+          "robust_cv": 0.010622479253529491,
+          "samples_above_twice_median": 0
+        },
+        "baseline_after": {
+          "samples": 20,
+          "median_ms": 1.6452812124043703,
+          "mean_ms": 1.6557735158130527,
+          "min_ms": 1.631499733775854,
+          "max_ms": 1.7632520757615566,
+          "p90_ms": 1.6915957909077408,
+          "p95_ms": 1.7096721101552248,
+          "standard_cv": 0.01884074678475102,
+          "robust_cv": 0.009020315890812742,
+          "samples_above_twice_median": 0
+        }
+      }
+    }
+  ],
+  "failed_case_all_rounds": [
+    {
+      "case_id": "sha256:a383344bd720d213e38937b410a1b99b9d92a14e91e9b27f14e2d321d2a1100b",
+      "model_id": "qwen3-0.6b-s1024-b1",
+      "plan_name": "mlp_up",
+      "repeat": 0,
+      "probe_over_before_ratio": 1.0096458145417568,
+      "probe_over_after_ratio": 1.01393114885279,
+      "baseline_shift_fraction": -0.004226454938169866,
+      "target_pass": true,
+      "block_statistics": {
+        "baseline_before": {
+          "samples": 20,
+          "median_ms": 1.7023563850671053,
+          "mean_ms": 1.6999738058075309,
+          "min_ms": 1.6652406193315983,
+          "max_ms": 1.7393417656421661,
+          "p90_ms": 1.7369800247251987,
+          "p95_ms": 1.7381062032654881,
+          "standard_cv": 0.01576665203280733,
+          "robust_cv": 0.022474325045322034,
+          "samples_above_twice_median": 0
+        },
+        "cpu_probe": {
+          "samples": 20,
+          "median_ms": 1.718776999041438,
+          "mean_ms": 5.1589422626420856,
+          "min_ms": 1.5936298295855522,
+          "max_ms": 70.59793686494231,
+          "p90_ms": 1.7552382312715054,
+          "p95_ms": 5.208112602122177,
+          "standard_cv": 2.9100509679162947,
+          "robust_cv": 0.011209739760726329,
+          "samples_above_twice_median": 1
+        },
+        "baseline_after": {
+          "samples": 20,
+          "median_ms": 1.6951614525169134,
+          "mean_ms": 1.6966628143563867,
+          "min_ms": 1.669260673224926,
+          "max_ms": 1.7319722101092339,
+          "p90_ms": 1.719451742246747,
+          "p95_ms": 1.7264898167923093,
+          "standard_cv": 0.009932951590985102,
+          "robust_cv": 0.01153207071938366,
+          "samples_above_twice_median": 0
+        }
+      },
+      "cpu_dispatch_median_ms": 1.6734313685446978,
+      "busy_final_sync_median_ms": 0.04593562334775925,
+      "operations": [
+        {
+          "key": "node:L000.input",
+          "catalog": {
+            "body_id": "sha256:e16b3f95245b741e87ab5e2e3d9ebd287340ddbcf127ec7e0c2d8ea51ad9c230",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [],
+              "local_name": "input",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 0.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 0.0,
+                "layer": 0,
+                "local_name": "input",
+                "module_path": "decoder.layers.0",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": false,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "input",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "input",
+            "node_id": "L000.input",
+            "operator": "input"
+          },
+          "api_call_us": 5.444977432489395,
+          "dispatch_step_us": 9.944895282387733,
+          "bookkeeping_after_us": 4.505272954702377
+        },
+        {
+          "key": "node:L000.input_norm",
+          "catalog": {
+            "body_id": "sha256:baffb2bb563e9b171d1e7452d276db1699788700a7e3e5f9a9cb413fdafe71b8",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "input_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 10485760.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 5242880.0,
+                "layer": 0,
+                "local_name": "input_norm",
+                "module_path": "decoder.layers.0.input_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "input_norm",
+            "node_id": "L000.input_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 36.254990845918655,
+          "dispatch_step_us": 41.35561175644398,
+          "bookkeeping_after_us": 5.055451765656471
+        },
+        {
+          "key": "node:L000.self_attention.k_proj",
+          "catalog": {
+            "body_id": "sha256:2403ca557b52e9fb70d144c84cd677d0d181c0011ae9ba9ca9ea06b1bd4da060",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.k_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 4294967296.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 2147483648.0,
+                "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+                "layer": 0,
+                "local_name": "self_attention.k_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_qkv.k",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "semantic_slice": "k",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.k_proj",
+            "node_id": "L000.self_attention.k_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 50.055794417858124,
+          "dispatch_step_us": 55.241165682673454,
+          "bookkeeping_after_us": 5.100155249238014
+        },
+        {
+          "key": "node:L000.self_attention.k_norm",
+          "catalog": {
+            "body_id": "sha256:3bc5c275a4016d99d8a9b9c98531c528622341ebbdf7af298a7e50ae1cace1a9",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.k_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 10485760.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 5242880.0,
+                "layer": 0,
+                "local_name": "self_attention.k_norm",
+                "module_path": "decoder.layers.0.self_attention.k_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.k_norm",
+            "node_id": "L000.self_attention.k_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 28.605107218027115,
+          "dispatch_step_us": 36.19492053985596,
+          "bookkeeping_after_us": 7.634982466697693
+        },
+        {
+          "key": "node:L000.self_attention.k_rope",
+          "catalog": {
+            "body_id": "sha256:11a1ba9675ae15fbaeed4b9faf829c7ae42907730d973bbe6950516b9606d3e5",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.k_rope",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8388608.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4194304.0,
+                "layer": 0,
+                "local_name": "self_attention.k_rope",
+                "module_path": "decoder.layers.0.self_attention.rotary_pos_emb.k",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rope",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.k_rope",
+            "node_id": "L000.self_attention.k_rope",
+            "operator": "rope"
+          },
+          "api_call_us": 158.62192958593369,
+          "dispatch_step_us": 167.23200678825378,
+          "bookkeeping_after_us": 8.685048669576645
+        },
+        {
+          "key": "node:L000.self_attention.q_proj",
+          "catalog": {
+            "body_id": "sha256:0f4a7ecd7adaca6199ef78c53d90c97266b029c1af3a4cda6429fddfadc03327",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.q_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+                "layer": 0,
+                "local_name": "self_attention.q_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_qkv.q",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "semantic_slice": "q",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 2048
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.q_proj",
+            "node_id": "L000.self_attention.q_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 52.215298637747765,
+          "dispatch_step_us": 57.81534127891064,
+          "bookkeeping_after_us": 5.590030923485756
+        },
+        {
+          "key": "node:L000.self_attention.q_norm",
+          "catalog": {
+            "body_id": "sha256:ebbc417d84ccbc4d19485d7f59d98d105595e176019dc7b9021e7ca234e9cf8c",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    2048,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.q_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 20971520.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 10485760.0,
+                "layer": 0,
+                "local_name": "self_attention.q_norm",
+                "module_path": "decoder.layers.0.self_attention.q_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "shape": {
+                  "n": 2097152
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.q_norm",
+            "node_id": "L000.self_attention.q_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 31.61514177918434,
+          "dispatch_step_us": 39.38586451113224,
+          "bookkeeping_after_us": 7.88993202149868
+        },
+        {
+          "key": "node:L000.self_attention.q_rope",
+          "catalog": {
+            "body_id": "sha256:7a1b289b478f1bfd95e8db4f6c4cb0327d66b5311bc0a3ef80bf73639233e530",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    2048,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.q_rope",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 16777216.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 8388608.0,
+                "layer": 0,
+                "local_name": "self_attention.q_rope",
+                "module_path": "decoder.layers.0.self_attention.rotary_pos_emb.q",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "shape": {
+                  "n": 2097152
+                }
+              },
+              "operator": "rope",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.q_rope",
+            "node_id": "L000.self_attention.q_rope",
+            "operator": "rope"
+          },
+          "api_call_us": 153.37718650698662,
+          "dispatch_step_us": 162.8019381314516,
+          "bookkeeping_after_us": 9.289942681789398
+        },
+        {
+          "key": "node:L000.self_attention.qk_matmul",
+          "catalog": {
+            "body_id": "sha256:ac4437128a89dfb4f8ff69fa75a18a43c6b04f3cfcbba39412536354e0b8881a",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    2048,
+                    128,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.qk_matmul",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "compute_dtype": "bf16",
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "gqa_repeat_factor": 2,
+                "layer": 0,
+                "local_name": "self_attention.qk_matmul",
+                "module_path": "decoder.layers.0.self_attention.core_attention.qk",
+                "output_shape": [
+                  1,
+                  16,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 33554432.0,
+                "shape": {
+                  "k": 128,
+                  "m": 16384,
+                  "n": 1024
+                }
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                16,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.qk_matmul",
+            "node_id": "L000.self_attention.qk_matmul",
+            "operator": "matmul"
+          },
+          "api_call_us": 109.52143929898739,
+          "dispatch_step_us": 121.38159945607185,
+          "bookkeeping_after_us": 11.959811672568321
+        },
+        {
+          "key": "node:L000.self_attention.softmax",
+          "catalog": {
+            "body_id": "sha256:bcd7af6250e47e8446ebacf0cea5ebaab81d02fb52aa647ae4f0158403e5b3a8",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    16,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    16777216,
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.softmax",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 167772160.0,
+                "collective": null,
+                "compute_dtype": "fp32",
+                "dtype": "bf16",
+                "fwd_flops": 83886080.0,
+                "layer": 0,
+                "local_name": "self_attention.softmax",
+                "module_path": "decoder.layers.0.self_attention.core_attention.softmax",
+                "output_shape": [
+                  1,
+                  16,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 33554432.0,
+                "shape": {
+                  "n": 16777216
+                }
+              },
+              "operator": "softmax",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                16,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.softmax",
+            "node_id": "L000.self_attention.softmax",
+            "operator": "softmax"
+          },
+          "api_call_us": 65.43612107634544,
+          "dispatch_step_us": 72.14606739580631,
+          "bookkeeping_after_us": 6.800051778554916
+        },
+        {
+          "key": "node:L000.self_attention.v_proj",
+          "catalog": {
+            "body_id": "sha256:3bd0aa79a69d8f2346356ecb4dfaa956b4fa08ec9a440f9816898bfa699f0ad3",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.v_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 4294967296.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 2147483648.0,
+                "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+                "layer": 0,
+                "local_name": "self_attention.v_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_qkv.v",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "semantic_slice": "v",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.v_proj",
+            "node_id": "L000.self_attention.v_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 52.170827984809875,
+          "dispatch_step_us": 59.935497120022774,
+          "bookkeeping_after_us": 7.7302101999521255
+        },
+        {
+          "key": "node:L000.self_attention.av_matmul",
+          "catalog": {
+            "body_id": "sha256:b27dedbf6dfd48e5c35aa3d03da374424f7dd4258b1b3a5c5f7681961a70fc4d",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    16,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    16777216,
+                    1048576,
+                    1024,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.av_matmul",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "layer": 0,
+                "local_name": "self_attention.av_matmul",
+                "module_path": "decoder.layers.0.self_attention.core_attention.av",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "shape": {
+                  "k": 1024,
+                  "m": 16384,
+                  "n": 128
+                }
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.av_matmul",
+            "node_id": "L000.self_attention.av_matmul",
+            "operator": "matmul"
+          },
+          "api_call_us": 104.19590398669243,
+          "dispatch_step_us": 114.36105705797672,
+          "bookkeeping_after_us": 9.974930435419083
+        },
+        {
+          "key": "node:L000.self_attention.out_proj",
+          "catalog": {
+            "body_id": "sha256:86baeea34244cbfa0e88e45a9ec087a8e282b7af02cfe2f5daf905bd6f872237",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    128,
+                    131072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.out_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "layer": 0,
+                "local_name": "self_attention.out_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_proj",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "k": 2048,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "row"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.out_proj",
+            "node_id": "L000.self_attention.out_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 69.01100277900696,
+          "dispatch_step_us": 77.8308603912592,
+          "bookkeeping_after_us": 8.960021659731865
+        },
+        {
+          "key": "node:L000.residual_add_1",
+          "catalog": {
+            "body_id": "sha256:0fdf0e1e561e6a0075f312a77fe7a5eda17d247a8647722eb8cf6795c38a813b",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "residual_add_1",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 1048576.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1048576.0,
+                "layer": 0,
+                "local_name": "residual_add_1",
+                "module_path": "decoder.layers.0.self_attention_residual",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "add",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "residual_add_1",
+            "node_id": "L000.residual_add_1",
+            "operator": "add"
+          },
+          "api_call_us": 20.175008103251457,
+          "dispatch_step_us": 26.945024728775024,
+          "bookkeeping_after_us": 6.72508031129837
+        },
+        {
+          "key": "node:L000.pre_mlp_norm",
+          "catalog": {
+            "body_id": "sha256:38f31f6205c6b9cbd9afbc3ad16acef4a4fb8eb62129a28a14c284175f7e024b",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "pre_mlp_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 10485760.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 5242880.0,
+                "layer": 0,
+                "local_name": "pre_mlp_norm",
+                "module_path": "decoder.layers.0.pre_mlp_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "pre_mlp_norm",
+            "node_id": "L000.pre_mlp_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 31.325500458478928,
+          "dispatch_step_us": 35.95510497689247,
+          "bookkeeping_after_us": 4.664761945605278
+        },
+        {
+          "key": "node:L000.mlp.gate_proj",
+          "catalog": {
+            "body_id": "sha256:4614e82e04dc20bd34a796d4540ccad7135822bd2593006bd97c25e455b0ea9e",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.gate_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 12884901888.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 6442450944.0,
+                "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+                "layer": 0,
+                "local_name": "mlp.gate_proj",
+                "module_path": "decoder.layers.0.mlp.linear_fc1.gate",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "semantic_slice": "gate",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 3072
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.gate_proj",
+            "node_id": "L000.mlp.gate_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 42.56586544215679,
+          "dispatch_step_us": 47.35100083053112,
+          "bookkeeping_after_us": 4.819827154278755
+        },
+        {
+          "key": "node:L000.mlp.silu",
+          "catalog": {
+            "body_id": "sha256:2f64d3ca2b7a49fea1e3baef4c880720c6f7ca14c589eacfa4bd39b8b3f03059",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.silu",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 25165824.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 12582912.0,
+                "layer": 0,
+                "local_name": "mlp.silu",
+                "module_path": "decoder.layers.0.mlp.activation",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "shape": {
+                  "n": 3145728
+                }
+              },
+              "operator": "silu",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.silu",
+            "node_id": "L000.mlp.silu",
+            "operator": "silu"
+          },
+          "api_call_us": 20.110514014959335,
+          "dispatch_step_us": 29.955292120575905,
+          "bookkeeping_after_us": 9.905081242322922
+        },
+        {
+          "key": "copy:L000.pre_mlp_norm->L000.mlp.up_proj:0",
+          "catalog": {
+            "destination": "cuda:1",
+            "kind": "copy",
+            "node_id": "L000.mlp.up_proj",
+            "payload_bytes": 2097152,
+            "source": "cuda:0",
+            "source_node": "L000.pre_mlp_norm"
+          },
+          "api_call_us": 138.78662139177322,
+          "dispatch_step_us": 140.50654135644436,
+          "bookkeeping_after_us": 1.775100827217102
+        },
+        {
+          "key": "node:L000.mlp.up_proj",
+          "catalog": {
+            "body_id": "sha256:eb066ab13ac00aab5cf729f84d3c372c6bd7973e0bf5099b73893c87c37be7a3",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.up_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 12884901888.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 6442450944.0,
+                "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+                "layer": 0,
+                "local_name": "mlp.up_proj",
+                "module_path": "decoder.layers.0.mlp.linear_fc1.up",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "semantic_slice": "up",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 3072
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.up_proj",
+            "node_id": "L000.mlp.up_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 60.59044972062111,
+          "dispatch_step_us": 71.32603786885738,
+          "bookkeeping_after_us": 10.944902896881104
+        },
+        {
+          "key": "copy:L000.mlp.up_proj->L000.mlp.gated_mul:1",
+          "catalog": {
+            "destination": "cuda:0",
+            "kind": "copy",
+            "node_id": "L000.mlp.gated_mul",
+            "payload_bytes": 6291456,
+            "source": "cuda:1",
+            "source_node": "L000.mlp.up_proj"
+          },
+          "api_call_us": 175.27793534100056,
+          "dispatch_step_us": 177.1780662238598,
+          "bookkeeping_after_us": 1.7299316823482513
+        },
+        {
+          "key": "node:L000.mlp.gated_mul",
+          "catalog": {
+            "body_id": "sha256:b1e3ff5de6dcc4e31007c20355d9fd2734910726f23f656c26c1418e3e9d72c4",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.gated_mul",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 6291456.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 3145728.0,
+                "layer": 0,
+                "local_name": "mlp.gated_mul",
+                "module_path": "decoder.layers.0.mlp.gated_linear_unit",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "shape": {
+                  "n": 3145728
+                }
+              },
+              "operator": "mul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.gated_mul",
+            "node_id": "L000.mlp.gated_mul",
+            "operator": "mul"
+          },
+          "api_call_us": 24.98575486242771,
+          "dispatch_step_us": 35.25568172335625,
+          "bookkeeping_after_us": 10.260380804538727
+        },
+        {
+          "key": "node:L000.mlp.down_proj",
+          "catalog": {
+            "body_id": "sha256:ee24b7e5d44005030fbb9cef51f5919f6c9488d4ff448ef7c0aff1886dffc27c",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.down_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 12884901888.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 6442450944.0,
+                "layer": 0,
+                "local_name": "mlp.down_proj",
+                "module_path": "decoder.layers.0.mlp.linear_fc2",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "k": 3072,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "row"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.down_proj",
+            "node_id": "L000.mlp.down_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 53.04533988237381,
+          "dispatch_step_us": 61.47078238427639,
+          "bookkeeping_after_us": 8.37002880871296
+        },
+        {
+          "key": "node:L000.residual_add_2",
+          "catalog": {
+            "body_id": "sha256:c19b2ea3666d65c8fc37ca5fa4cacbd425eb24a1b449d9d8b2d3dd710d01463b",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "residual_add_2",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 1048576.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1048576.0,
+                "layer": 0,
+                "local_name": "residual_add_2",
+                "module_path": "decoder.layers.0.mlp_residual",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "add",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "residual_add_2",
+            "node_id": "L000.residual_add_2",
+            "operator": "add"
+          },
+          "api_call_us": 19.27511766552925,
+          "dispatch_step_us": 20.44043503701687,
+          "bookkeeping_after_us": 1.1450611054897308
+        }
+      ]
+    },
+    {
+      "case_id": "sha256:a383344bd720d213e38937b410a1b99b9d92a14e91e9b27f14e2d321d2a1100b",
+      "model_id": "qwen3-0.6b-s1024-b1",
+      "plan_name": "mlp_up",
+      "repeat": 1,
+      "probe_over_before_ratio": 1.0237816945541185,
+      "probe_over_after_ratio": 1.0762545697213382,
+      "baseline_shift_fraction": -0.048755077695796345,
+      "target_pass": true,
+      "block_statistics": {
+        "baseline_before": {
+          "samples": 20,
+          "median_ms": 1.7212869133800268,
+          "mean_ms": 5.376051994971931,
+          "min_ms": 1.6616098582744598,
+          "max_ms": 74.84951103106141,
+          "p90_ms": 1.7660328652709723,
+          "p95_ms": 5.44962815474724,
+          "standard_cv": 2.964691018390378,
+          "robust_cv": 0.015469605624120858,
+          "samples_above_twice_median": 1
+        },
+        "cpu_probe": {
+          "samples": 20,
+          "median_ms": 1.762222032994032,
+          "mean_ms": 1.7668486339971423,
+          "min_ms": 1.743231900036335,
+          "max_ms": 1.8299929797649384,
+          "p90_ms": 1.7902671359479427,
+          "p95_ms": 1.8078581430017948,
+          "standard_cv": 0.011882910926093447,
+          "robust_cv": 0.010268542597750785,
+          "samples_above_twice_median": 0
+        },
+        "baseline_after": {
+          "samples": 20,
+          "median_ms": 1.637365436181426,
+          "mean_ms": 1.6365404473617673,
+          "min_ms": 1.5850500203669071,
+          "max_ms": 1.7833728343248367,
+          "p90_ms": 1.6712801530957222,
+          "p95_ms": 1.6802960541099312,
+          "standard_cv": 0.026946357399097558,
+          "robust_cv": 0.024008763200093965,
+          "samples_above_twice_median": 0
+        }
+      },
+      "cpu_dispatch_median_ms": 1.7142915166914463,
+      "busy_final_sync_median_ms": 0.04631560295820236,
+      "operations": [
+        {
+          "key": "node:L000.input",
+          "catalog": {
+            "body_id": "sha256:e16b3f95245b741e87ab5e2e3d9ebd287340ddbcf127ec7e0c2d8ea51ad9c230",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [],
+              "local_name": "input",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 0.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 0.0,
+                "layer": 0,
+                "local_name": "input",
+                "module_path": "decoder.layers.0",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": false,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "input",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "input",
+            "node_id": "L000.input",
+            "operator": "input"
+          },
+          "api_call_us": 5.479902029037476,
+          "dispatch_step_us": 10.110437870025635,
+          "bookkeeping_after_us": 4.650326445698738
+        },
+        {
+          "key": "node:L000.input_norm",
+          "catalog": {
+            "body_id": "sha256:baffb2bb563e9b171d1e7452d276db1699788700a7e3e5f9a9cb413fdafe71b8",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "input_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 10485760.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 5242880.0,
+                "layer": 0,
+                "local_name": "input_norm",
+                "module_path": "decoder.layers.0.input_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "input_norm",
+            "node_id": "L000.input_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 37.77048550546169,
+          "dispatch_step_us": 43.02617162466049,
+          "bookkeeping_after_us": 5.16488216817379
+        },
+        {
+          "key": "node:L000.self_attention.k_proj",
+          "catalog": {
+            "body_id": "sha256:2403ca557b52e9fb70d144c84cd677d0d181c0011ae9ba9ca9ea06b1bd4da060",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.k_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 4294967296.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 2147483648.0,
+                "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+                "layer": 0,
+                "local_name": "self_attention.k_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_qkv.k",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "semantic_slice": "k",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.k_proj",
+            "node_id": "L000.self_attention.k_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 50.47000013291836,
+          "dispatch_step_us": 55.68540655076504,
+          "bookkeeping_after_us": 5.210051313042641
+        },
+        {
+          "key": "node:L000.self_attention.k_norm",
+          "catalog": {
+            "body_id": "sha256:3bc5c275a4016d99d8a9b9c98531c528622341ebbdf7af298a7e50ae1cace1a9",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.k_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 10485760.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 5242880.0,
+                "layer": 0,
+                "local_name": "self_attention.k_norm",
+                "module_path": "decoder.layers.0.self_attention.k_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.k_norm",
+            "node_id": "L000.self_attention.k_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 29.64562736451626,
+          "dispatch_step_us": 37.20540553331375,
+          "bookkeeping_after_us": 7.6999422162771225
+        },
+        {
+          "key": "node:L000.self_attention.k_rope",
+          "catalog": {
+            "body_id": "sha256:11a1ba9675ae15fbaeed4b9faf829c7ae42907730d973bbe6950516b9606d3e5",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.k_rope",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8388608.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4194304.0,
+                "layer": 0,
+                "local_name": "self_attention.k_rope",
+                "module_path": "decoder.layers.0.self_attention.rotary_pos_emb.k",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rope",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.k_rope",
+            "node_id": "L000.self_attention.k_rope",
+            "operator": "rope"
+          },
+          "api_call_us": 161.42218373715878,
+          "dispatch_step_us": 170.6019975244999,
+          "bookkeeping_after_us": 9.009847417473793
+        },
+        {
+          "key": "node:L000.self_attention.q_proj",
+          "catalog": {
+            "body_id": "sha256:0f4a7ecd7adaca6199ef78c53d90c97266b029c1af3a4cda6429fddfadc03327",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.q_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+                "layer": 0,
+                "local_name": "self_attention.q_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_qkv.q",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "semantic_slice": "q",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 2048
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.q_proj",
+            "node_id": "L000.self_attention.q_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 53.32590080797672,
+          "dispatch_step_us": 59.05074067413807,
+          "bookkeeping_after_us": 5.719950422644615
+        },
+        {
+          "key": "node:L000.self_attention.q_norm",
+          "catalog": {
+            "body_id": "sha256:ebbc417d84ccbc4d19485d7f59d98d105595e176019dc7b9021e7ca234e9cf8c",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    2048,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.q_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 20971520.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 10485760.0,
+                "layer": 0,
+                "local_name": "self_attention.q_norm",
+                "module_path": "decoder.layers.0.self_attention.q_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "shape": {
+                  "n": 2097152
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.q_norm",
+            "node_id": "L000.self_attention.q_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 32.49547444283962,
+          "dispatch_step_us": 40.59053026139736,
+          "bookkeeping_after_us": 8.020084351301193
+        },
+        {
+          "key": "node:L000.self_attention.q_rope",
+          "catalog": {
+            "body_id": "sha256:7a1b289b478f1bfd95e8db4f6c4cb0327d66b5311bc0a3ef80bf73639233e530",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    2048,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.q_rope",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 16777216.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 8388608.0,
+                "layer": 0,
+                "local_name": "self_attention.q_rope",
+                "module_path": "decoder.layers.0.self_attention.rotary_pos_emb.q",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "shape": {
+                  "n": 2097152
+                }
+              },
+              "operator": "rope",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.q_rope",
+            "node_id": "L000.self_attention.q_rope",
+            "operator": "rope"
+          },
+          "api_call_us": 153.99721451103687,
+          "dispatch_step_us": 163.5272055864334,
+          "bookkeeping_after_us": 9.449897333979607
+        },
+        {
+          "key": "node:L000.self_attention.qk_matmul",
+          "catalog": {
+            "body_id": "sha256:ac4437128a89dfb4f8ff69fa75a18a43c6b04f3cfcbba39412536354e0b8881a",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    2048,
+                    128,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.qk_matmul",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "compute_dtype": "bf16",
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "gqa_repeat_factor": 2,
+                "layer": 0,
+                "local_name": "self_attention.qk_matmul",
+                "module_path": "decoder.layers.0.self_attention.core_attention.qk",
+                "output_shape": [
+                  1,
+                  16,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 33554432.0,
+                "shape": {
+                  "k": 128,
+                  "m": 16384,
+                  "n": 1024
+                }
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                16,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.qk_matmul",
+            "node_id": "L000.self_attention.qk_matmul",
+            "operator": "matmul"
+          },
+          "api_call_us": 111.48699559271336,
+          "dispatch_step_us": 124.0165438503027,
+          "bookkeeping_after_us": 12.465054169297218
+        },
+        {
+          "key": "node:L000.self_attention.softmax",
+          "catalog": {
+            "body_id": "sha256:bcd7af6250e47e8446ebacf0cea5ebaab81d02fb52aa647ae4f0158403e5b3a8",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    16,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    16777216,
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.softmax",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 167772160.0,
+                "collective": null,
+                "compute_dtype": "fp32",
+                "dtype": "bf16",
+                "fwd_flops": 83886080.0,
+                "layer": 0,
+                "local_name": "self_attention.softmax",
+                "module_path": "decoder.layers.0.self_attention.core_attention.softmax",
+                "output_shape": [
+                  1,
+                  16,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 33554432.0,
+                "shape": {
+                  "n": 16777216
+                }
+              },
+              "operator": "softmax",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                16,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.softmax",
+            "node_id": "L000.self_attention.softmax",
+            "operator": "softmax"
+          },
+          "api_call_us": 67.72112101316452,
+          "dispatch_step_us": 74.76098835468292,
+          "bookkeeping_after_us": 7.050111889839172
+        },
+        {
+          "key": "node:L000.self_attention.v_proj",
+          "catalog": {
+            "body_id": "sha256:3bd0aa79a69d8f2346356ecb4dfaa956b4fa08ec9a440f9816898bfa699f0ad3",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.v_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 4294967296.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 2147483648.0,
+                "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+                "layer": 0,
+                "local_name": "self_attention.v_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_qkv.v",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "semantic_slice": "v",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.v_proj",
+            "node_id": "L000.self_attention.v_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 53.670722991228104,
+          "dispatch_step_us": 61.605824157595634,
+          "bookkeeping_after_us": 7.880153134465218
+        },
+        {
+          "key": "node:L000.self_attention.av_matmul",
+          "catalog": {
+            "body_id": "sha256:b27dedbf6dfd48e5c35aa3d03da374424f7dd4258b1b3a5c5f7681961a70fc4d",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    16,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    16777216,
+                    1048576,
+                    1024,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.av_matmul",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "layer": 0,
+                "local_name": "self_attention.av_matmul",
+                "module_path": "decoder.layers.0.self_attention.core_attention.av",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "shape": {
+                  "k": 1024,
+                  "m": 16384,
+                  "n": 128
+                }
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.av_matmul",
+            "node_id": "L000.self_attention.av_matmul",
+            "operator": "matmul"
+          },
+          "api_call_us": 106.9260761141777,
+          "dispatch_step_us": 117.02091433107853,
+          "bookkeeping_after_us": 10.12999564409256
+        },
+        {
+          "key": "node:L000.self_attention.out_proj",
+          "catalog": {
+            "body_id": "sha256:86baeea34244cbfa0e88e45a9ec087a8e282b7af02cfe2f5daf905bd6f872237",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    128,
+                    131072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.out_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "layer": 0,
+                "local_name": "self_attention.out_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_proj",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "k": 2048,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "row"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.out_proj",
+            "node_id": "L000.self_attention.out_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 70.7309227436781,
+          "dispatch_step_us": 79.77616041898727,
+          "bookkeeping_after_us": 8.994946256279945
+        },
+        {
+          "key": "node:L000.residual_add_1",
+          "catalog": {
+            "body_id": "sha256:0fdf0e1e561e6a0075f312a77fe7a5eda17d247a8647722eb8cf6795c38a813b",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "residual_add_1",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 1048576.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1048576.0,
+                "layer": 0,
+                "local_name": "residual_add_1",
+                "module_path": "decoder.layers.0.self_attention_residual",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "add",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "residual_add_1",
+            "node_id": "L000.residual_add_1",
+            "operator": "add"
+          },
+          "api_call_us": 20.449981093406677,
+          "dispatch_step_us": 27.280300855636597,
+          "bookkeeping_after_us": 6.745336577296257
+        },
+        {
+          "key": "node:L000.pre_mlp_norm",
+          "catalog": {
+            "body_id": "sha256:38f31f6205c6b9cbd9afbc3ad16acef4a4fb8eb62129a28a14c284175f7e024b",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "pre_mlp_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 10485760.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 5242880.0,
+                "layer": 0,
+                "local_name": "pre_mlp_norm",
+                "module_path": "decoder.layers.0.pre_mlp_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "pre_mlp_norm",
+            "node_id": "L000.pre_mlp_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 32.115960493683815,
+          "dispatch_step_us": 36.93043254315853,
+          "bookkeeping_after_us": 4.795147106051445
+        },
+        {
+          "key": "node:L000.mlp.gate_proj",
+          "catalog": {
+            "body_id": "sha256:4614e82e04dc20bd34a796d4540ccad7135822bd2593006bd97c25e455b0ea9e",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.gate_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 12884901888.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 6442450944.0,
+                "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+                "layer": 0,
+                "local_name": "mlp.gate_proj",
+                "module_path": "decoder.layers.0.mlp.linear_fc1.gate",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "semantic_slice": "gate",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 3072
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.gate_proj",
+            "node_id": "L000.mlp.gate_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 43.35562698543072,
+          "dispatch_step_us": 48.421090468764305,
+          "bookkeeping_after_us": 4.9050431698560715
+        },
+        {
+          "key": "node:L000.mlp.silu",
+          "catalog": {
+            "body_id": "sha256:2f64d3ca2b7a49fea1e3baef4c880720c6f7ca14c589eacfa4bd39b8b3f03059",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.silu",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 25165824.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 12582912.0,
+                "layer": 0,
+                "local_name": "mlp.silu",
+                "module_path": "decoder.layers.0.mlp.activation",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "shape": {
+                  "n": 3145728
+                }
+              },
+              "operator": "silu",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.silu",
+            "node_id": "L000.mlp.silu",
+            "operator": "silu"
+          },
+          "api_call_us": 20.500505343079567,
+          "dispatch_step_us": 30.64516931772232,
+          "bookkeeping_after_us": 10.144896805286407
+        },
+        {
+          "key": "copy:L000.pre_mlp_norm->L000.mlp.up_proj:0",
+          "catalog": {
+            "destination": "cuda:1",
+            "kind": "copy",
+            "node_id": "L000.mlp.up_proj",
+            "payload_bytes": 2097152,
+            "source": "cuda:0",
+            "source_node": "L000.pre_mlp_norm"
+          },
+          "api_call_us": 141.57663099467754,
+          "dispatch_step_us": 143.49143020808697,
+          "bookkeeping_after_us": 1.8149148672819138
+        },
+        {
+          "key": "node:L000.mlp.up_proj",
+          "catalog": {
+            "body_id": "sha256:eb066ab13ac00aab5cf729f84d3c372c6bd7973e0bf5099b73893c87c37be7a3",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.up_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 12884901888.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 6442450944.0,
+                "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+                "layer": 0,
+                "local_name": "mlp.up_proj",
+                "module_path": "decoder.layers.0.mlp.linear_fc1.up",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "semantic_slice": "up",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 3072
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.up_proj",
+            "node_id": "L000.mlp.up_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 67.52042099833488,
+          "dispatch_step_us": 78.78616452217102,
+          "bookkeeping_after_us": 11.165160685777664
+        },
+        {
+          "key": "copy:L000.mlp.up_proj->L000.mlp.gated_mul:1",
+          "catalog": {
+            "destination": "cuda:0",
+            "kind": "copy",
+            "node_id": "L000.mlp.gated_mul",
+            "payload_bytes": 6291456,
+            "source": "cuda:1",
+            "source_node": "L000.mlp.up_proj"
+          },
+          "api_call_us": 180.65678887069225,
+          "dispatch_step_us": 182.401854544878,
+          "bookkeeping_after_us": 1.8300488591194153
+        },
+        {
+          "key": "node:L000.mlp.gated_mul",
+          "catalog": {
+            "body_id": "sha256:b1e3ff5de6dcc4e31007c20355d9fd2734910726f23f656c26c1418e3e9d72c4",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.gated_mul",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 6291456.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 3145728.0,
+                "layer": 0,
+                "local_name": "mlp.gated_mul",
+                "module_path": "decoder.layers.0.mlp.gated_linear_unit",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "shape": {
+                  "n": 3145728
+                }
+              },
+              "operator": "mul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.gated_mul",
+            "node_id": "L000.mlp.gated_mul",
+            "operator": "mul"
+          },
+          "api_call_us": 25.36526881158352,
+          "dispatch_step_us": 35.58979369699955,
+          "bookkeeping_after_us": 10.319985449314117
+        },
+        {
+          "key": "node:L000.mlp.down_proj",
+          "catalog": {
+            "body_id": "sha256:ee24b7e5d44005030fbb9cef51f5919f6c9488d4ff448ef7c0aff1886dffc27c",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.down_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 12884901888.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 6442450944.0,
+                "layer": 0,
+                "local_name": "mlp.down_proj",
+                "module_path": "decoder.layers.0.mlp.linear_fc2",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "k": 3072,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "row"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.down_proj",
+            "node_id": "L000.mlp.down_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 52.66559310257435,
+          "dispatch_step_us": 61.27101369202137,
+          "bookkeeping_after_us": 8.505070582032204
+        },
+        {
+          "key": "node:L000.residual_add_2",
+          "catalog": {
+            "body_id": "sha256:c19b2ea3666d65c8fc37ca5fa4cacbd425eb24a1b449d9d8b2d3dd710d01463b",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "residual_add_2",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 1048576.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1048576.0,
+                "layer": 0,
+                "local_name": "residual_add_2",
+                "module_path": "decoder.layers.0.mlp_residual",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "add",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "residual_add_2",
+            "node_id": "L000.residual_add_2",
+            "operator": "add"
+          },
+          "api_call_us": 19.80992965400219,
+          "dispatch_step_us": 20.92495560646057,
+          "bookkeeping_after_us": 1.1450611054897308
+        }
+      ]
+    },
+    {
+      "case_id": "sha256:a383344bd720d213e38937b410a1b99b9d92a14e91e9b27f14e2d321d2a1100b",
+      "model_id": "qwen3-0.6b-s1024-b1",
+      "plan_name": "mlp_up",
+      "repeat": 2,
+      "probe_over_before_ratio": 1.0278131670806288,
+      "probe_over_after_ratio": 1.14988758820049,
+      "baseline_shift_fraction": -0.10616204781451799,
+      "target_pass": false,
+      "block_statistics": {
+        "baseline_before": {
+          "samples": 20,
+          "median_ms": 1.8406929448246956,
+          "mean_ms": 1.8491883296519518,
+          "min_ms": 1.8084333278238773,
+          "max_ms": 1.9042231142520905,
+          "p90_ms": 1.87400309368968,
+          "p95_ms": 1.8883302342146635,
+          "standard_cv": 0.011515196797667264,
+          "robust_cv": 0.00743427024193634,
+          "samples_above_twice_median": 0
+        },
+        "cpu_probe": {
+          "samples": 20,
+          "median_ms": 1.8918884452432394,
+          "mean_ms": 1.919074566103518,
+          "min_ms": 1.868892926722765,
+          "max_ms": 2.2214576601982117,
+          "p90_ms": 1.9683181773871186,
+          "p95_ms": 2.0297358045354486,
+          "standard_cv": 0.040468006560379514,
+          "robust_cv": 0.010622479253529491,
+          "samples_above_twice_median": 0
+        },
+        "baseline_after": {
+          "samples": 20,
+          "median_ms": 1.6452812124043703,
+          "mean_ms": 1.6557735158130527,
+          "min_ms": 1.631499733775854,
+          "max_ms": 1.7632520757615566,
+          "p90_ms": 1.6915957909077408,
+          "p95_ms": 1.7096721101552248,
+          "standard_cv": 0.01884074678475102,
+          "robust_cv": 0.009020315890812742,
+          "samples_above_twice_median": 0
+        }
+      },
+      "cpu_dispatch_median_ms": 1.8354281783103943,
+      "busy_final_sync_median_ms": 0.055665383115410805,
+      "operations": [
+        {
+          "key": "node:L000.input",
+          "catalog": {
+            "body_id": "sha256:e16b3f95245b741e87ab5e2e3d9ebd287340ddbcf127ec7e0c2d8ea51ad9c230",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [],
+              "local_name": "input",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 0.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 0.0,
+                "layer": 0,
+                "local_name": "input",
+                "module_path": "decoder.layers.0",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": false,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "input",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "input",
+            "node_id": "L000.input",
+            "operator": "input"
+          },
+          "api_call_us": 5.540205165743828,
+          "dispatch_step_us": 10.05060039460659,
+          "bookkeeping_after_us": 4.5299530029296875
+        },
+        {
+          "key": "node:L000.input_norm",
+          "catalog": {
+            "body_id": "sha256:baffb2bb563e9b171d1e7452d276db1699788700a7e3e5f9a9cb413fdafe71b8",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "input_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 10485760.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 5242880.0,
+                "layer": 0,
+                "local_name": "input_norm",
+                "module_path": "decoder.layers.0.input_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "input_norm",
+            "node_id": "L000.input_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 39.26013596355915,
+          "dispatch_step_us": 44.32047717273235,
+          "bookkeeping_after_us": 5.159992724657059
+        },
+        {
+          "key": "node:L000.self_attention.k_proj",
+          "catalog": {
+            "body_id": "sha256:2403ca557b52e9fb70d144c84cd677d0d181c0011ae9ba9ca9ea06b1bd4da060",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.k_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 4294967296.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 2147483648.0,
+                "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+                "layer": 0,
+                "local_name": "self_attention.k_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_qkv.k",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "semantic_slice": "k",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.k_proj",
+            "node_id": "L000.self_attention.k_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 67.88084283471107,
+          "dispatch_step_us": 73.51604290306568,
+          "bookkeeping_after_us": 5.340203642845154
+        },
+        {
+          "key": "node:L000.self_attention.k_norm",
+          "catalog": {
+            "body_id": "sha256:3bc5c275a4016d99d8a9b9c98531c528622341ebbdf7af298a7e50ae1cace1a9",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.k_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 10485760.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 5242880.0,
+                "layer": 0,
+                "local_name": "self_attention.k_norm",
+                "module_path": "decoder.layers.0.self_attention.k_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.k_norm",
+            "node_id": "L000.self_attention.k_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 30.199764296412468,
+          "dispatch_step_us": 37.964899092912674,
+          "bookkeeping_after_us": 7.990049198269844
+        },
+        {
+          "key": "node:L000.self_attention.k_rope",
+          "catalog": {
+            "body_id": "sha256:11a1ba9675ae15fbaeed4b9faf829c7ae42907730d973bbe6950516b9606d3e5",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.k_rope",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8388608.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4194304.0,
+                "layer": 0,
+                "local_name": "self_attention.k_rope",
+                "module_path": "decoder.layers.0.self_attention.rotary_pos_emb.k",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rope",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.k_rope",
+            "node_id": "L000.self_attention.k_rope",
+            "operator": "rope"
+          },
+          "api_call_us": 175.59295520186424,
+          "dispatch_step_us": 184.42305736243725,
+          "bookkeeping_after_us": 9.085284546017647
+        },
+        {
+          "key": "node:L000.self_attention.q_proj",
+          "catalog": {
+            "body_id": "sha256:0f4a7ecd7adaca6199ef78c53d90c97266b029c1af3a4cda6429fddfadc03327",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.q_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+                "layer": 0,
+                "local_name": "self_attention.q_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_qkv.q",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "semantic_slice": "q",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 2048
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.q_proj",
+            "node_id": "L000.self_attention.q_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 55.12614734470844,
+          "dispatch_step_us": 60.94109266996384,
+          "bookkeeping_after_us": 5.739973857998848
+        },
+        {
+          "key": "node:L000.self_attention.q_norm",
+          "catalog": {
+            "body_id": "sha256:ebbc417d84ccbc4d19485d7f59d98d105595e176019dc7b9021e7ca234e9cf8c",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    2048,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.q_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 20971520.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 10485760.0,
+                "layer": 0,
+                "local_name": "self_attention.q_norm",
+                "module_path": "decoder.layers.0.self_attention.q_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "shape": {
+                  "n": 2097152
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.q_norm",
+            "node_id": "L000.self_attention.q_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 33.70549529790878,
+          "dispatch_step_us": 41.75049252808094,
+          "bookkeeping_after_us": 8.059665560722351
+        },
+        {
+          "key": "node:L000.self_attention.q_rope",
+          "catalog": {
+            "body_id": "sha256:7a1b289b478f1bfd95e8db4f6c4cb0327d66b5311bc0a3ef80bf73639233e530",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    2048,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.q_rope",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 16777216.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 8388608.0,
+                "layer": 0,
+                "local_name": "self_attention.q_rope",
+                "module_path": "decoder.layers.0.self_attention.rotary_pos_emb.q",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "shape": {
+                  "n": 2097152
+                }
+              },
+              "operator": "rope",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.q_rope",
+            "node_id": "L000.self_attention.q_rope",
+            "operator": "rope"
+          },
+          "api_call_us": 164.4620206207037,
+          "dispatch_step_us": 174.0320585668087,
+          "bookkeeping_after_us": 9.594717994332314
+        },
+        {
+          "key": "node:L000.self_attention.qk_matmul",
+          "catalog": {
+            "body_id": "sha256:ac4437128a89dfb4f8ff69fa75a18a43c6b04f3cfcbba39412536354e0b8881a",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    2048,
+                    128,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.qk_matmul",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "compute_dtype": "bf16",
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "gqa_repeat_factor": 2,
+                "layer": 0,
+                "local_name": "self_attention.qk_matmul",
+                "module_path": "decoder.layers.0.self_attention.core_attention.qk",
+                "output_shape": [
+                  1,
+                  16,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 33554432.0,
+                "shape": {
+                  "k": 128,
+                  "m": 16384,
+                  "n": 1024
+                }
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                16,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.qk_matmul",
+            "node_id": "L000.self_attention.qk_matmul",
+            "operator": "matmul"
+          },
+          "api_call_us": 117.72685684263706,
+          "dispatch_step_us": 130.58679178357124,
+          "bookkeeping_after_us": 12.489967048168182
+        },
+        {
+          "key": "node:L000.self_attention.softmax",
+          "catalog": {
+            "body_id": "sha256:bcd7af6250e47e8446ebacf0cea5ebaab81d02fb52aa647ae4f0158403e5b3a8",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    16,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    16777216,
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.softmax",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 167772160.0,
+                "collective": null,
+                "compute_dtype": "fp32",
+                "dtype": "bf16",
+                "fwd_flops": 83886080.0,
+                "layer": 0,
+                "local_name": "self_attention.softmax",
+                "module_path": "decoder.layers.0.self_attention.core_attention.softmax",
+                "output_shape": [
+                  1,
+                  16,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 33554432.0,
+                "shape": {
+                  "n": 16777216
+                }
+              },
+              "operator": "softmax",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                16,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.softmax",
+            "node_id": "L000.self_attention.softmax",
+            "operator": "softmax"
+          },
+          "api_call_us": 73.25084879994392,
+          "dispatch_step_us": 81.34590461850166,
+          "bookkeeping_after_us": 7.115071639418602
+        },
+        {
+          "key": "node:L000.self_attention.v_proj",
+          "catalog": {
+            "body_id": "sha256:3bd0aa79a69d8f2346356ecb4dfaa956b4fa08ec9a440f9816898bfa699f0ad3",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.v_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 4294967296.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 2147483648.0,
+                "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+                "layer": 0,
+                "local_name": "self_attention.v_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_qkv.v",
+                "output_shape": [
+                  1,
+                  1024,
+                  8,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "semantic_slice": "v",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                8,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.v_proj",
+            "node_id": "L000.self_attention.v_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 55.14989607036114,
+          "dispatch_step_us": 63.18092346191406,
+          "bookkeeping_after_us": 8.030561730265617
+        },
+        {
+          "key": "node:L000.self_attention.av_matmul",
+          "catalog": {
+            "body_id": "sha256:b27dedbf6dfd48e5c35aa3d03da374424f7dd4258b1b3a5c5f7681961a70fc4d",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    16,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    16777216,
+                    1048576,
+                    1024,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    8,
+                    128
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    128,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.av_matmul",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "layer": 0,
+                "local_name": "self_attention.av_matmul",
+                "module_path": "decoder.layers.0.self_attention.core_attention.av",
+                "output_shape": [
+                  1,
+                  1024,
+                  16,
+                  128
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 4194304.0,
+                "shape": {
+                  "k": 1024,
+                  "m": 16384,
+                  "n": 128
+                }
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                16,
+                128
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.av_matmul",
+            "node_id": "L000.self_attention.av_matmul",
+            "operator": "matmul"
+          },
+          "api_call_us": 110.76638475060463,
+          "dispatch_step_us": 121.16646394133568,
+          "bookkeeping_after_us": 10.329997166991234
+        },
+        {
+          "key": "node:L000.self_attention.out_proj",
+          "catalog": {
+            "body_id": "sha256:86baeea34244cbfa0e88e45a9ec087a8e282b7af02cfe2f5daf905bd6f872237",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    16,
+                    128
+                  ],
+                  "stride": [
+                    2097152,
+                    128,
+                    131072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "self_attention.out_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 8589934592.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 4294967296.0,
+                "layer": 0,
+                "local_name": "self_attention.out_proj",
+                "module_path": "decoder.layers.0.self_attention.linear_proj",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "k": 2048,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "row"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "self_attention.out_proj",
+            "node_id": "L000.self_attention.out_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 73.45597259700298,
+          "dispatch_step_us": 82.4308954179287,
+          "bookkeeping_after_us": 9.100185707211494
+        },
+        {
+          "key": "node:L000.residual_add_1",
+          "catalog": {
+            "body_id": "sha256:0fdf0e1e561e6a0075f312a77fe7a5eda17d247a8647722eb8cf6795c38a813b",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "residual_add_1",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 1048576.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1048576.0,
+                "layer": 0,
+                "local_name": "residual_add_1",
+                "module_path": "decoder.layers.0.self_attention_residual",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "add",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "residual_add_1",
+            "node_id": "L000.residual_add_1",
+            "operator": "add"
+          },
+          "api_call_us": 21.7510387301445,
+          "dispatch_step_us": 28.65539863705635,
+          "bookkeeping_after_us": 6.910413503646851
+        },
+        {
+          "key": "node:L000.pre_mlp_norm",
+          "catalog": {
+            "body_id": "sha256:38f31f6205c6b9cbd9afbc3ad16acef4a4fb8eb62129a28a14c284175f7e024b",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "pre_mlp_norm",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 10485760.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 5242880.0,
+                "layer": 0,
+                "local_name": "pre_mlp_norm",
+                "module_path": "decoder.layers.0.pre_mlp_layernorm",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "rmsnorm",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "pre_mlp_norm",
+            "node_id": "L000.pre_mlp_norm",
+            "operator": "rmsnorm"
+          },
+          "api_call_us": 33.060088753700256,
+          "dispatch_step_us": 37.885503843426704,
+          "bookkeeping_after_us": 4.780245944857597
+        },
+        {
+          "key": "node:L000.mlp.gate_proj",
+          "catalog": {
+            "body_id": "sha256:4614e82e04dc20bd34a796d4540ccad7135822bd2593006bd97c25e455b0ea9e",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.gate_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 12884901888.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 6442450944.0,
+                "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+                "layer": 0,
+                "local_name": "mlp.gate_proj",
+                "module_path": "decoder.layers.0.mlp.linear_fc1.gate",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "semantic_slice": "gate",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 3072
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.gate_proj",
+            "node_id": "L000.mlp.gate_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 45.17054185271263,
+          "dispatch_step_us": 50.23111589252949,
+          "bookkeeping_after_us": 5.034729838371277
+        },
+        {
+          "key": "node:L000.mlp.silu",
+          "catalog": {
+            "body_id": "sha256:2f64d3ca2b7a49fea1e3baef4c880720c6f7ca14c589eacfa4bd39b8b3f03059",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.silu",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 25165824.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 12582912.0,
+                "layer": 0,
+                "local_name": "mlp.silu",
+                "module_path": "decoder.layers.0.mlp.activation",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "shape": {
+                  "n": 3145728
+                }
+              },
+              "operator": "silu",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.silu",
+            "node_id": "L000.mlp.silu",
+            "operator": "silu"
+          },
+          "api_call_us": 22.154999896883965,
+          "dispatch_step_us": 32.28033892810345,
+          "bookkeeping_after_us": 10.069925338029861
+        },
+        {
+          "key": "copy:L000.pre_mlp_norm->L000.mlp.up_proj:0",
+          "catalog": {
+            "destination": "cuda:1",
+            "kind": "copy",
+            "node_id": "L000.mlp.up_proj",
+            "payload_bytes": 2097152,
+            "source": "cuda:0",
+            "source_node": "L000.pre_mlp_norm"
+          },
+          "api_call_us": 158.38677063584328,
+          "dispatch_step_us": 160.2419652044773,
+          "bookkeeping_after_us": 1.8703285604715347
+        },
+        {
+          "key": "node:L000.mlp.up_proj",
+          "catalog": {
+            "body_id": "sha256:eb066ab13ac00aab5cf729f84d3c372c6bd7973e0bf5099b73893c87c37be7a3",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.up_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 12884901888.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 6442450944.0,
+                "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+                "layer": 0,
+                "local_name": "mlp.up_proj",
+                "module_path": "decoder.layers.0.mlp.linear_fc1.up",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "semantic_slice": "up",
+                "shape": {
+                  "k": 1024,
+                  "m": 1024,
+                  "n": 3072
+                },
+                "sharding_rule": "column"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.up_proj",
+            "node_id": "L000.mlp.up_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 76.35122165083885,
+          "dispatch_step_us": 87.65608072280884,
+          "bookkeeping_after_us": 11.499971151351929
+        },
+        {
+          "key": "copy:L000.mlp.up_proj->L000.mlp.gated_mul:1",
+          "catalog": {
+            "destination": "cuda:0",
+            "kind": "copy",
+            "node_id": "L000.mlp.gated_mul",
+            "payload_bytes": 6291456,
+            "source": "cuda:1",
+            "source_node": "L000.mlp.up_proj"
+          },
+          "api_call_us": 195.28251141309738,
+          "dispatch_step_us": 197.01779820024967,
+          "bookkeeping_after_us": 1.7951242625713348
+        },
+        {
+          "key": "node:L000.mlp.gated_mul",
+          "catalog": {
+            "body_id": "sha256:b1e3ff5de6dcc4e31007c20355d9fd2734910726f23f656c26c1418e3e9d72c4",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.gated_mul",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 6291456.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 3145728.0,
+                "layer": 0,
+                "local_name": "mlp.gated_mul",
+                "module_path": "decoder.layers.0.mlp.gated_linear_unit",
+                "output_shape": [
+                  1,
+                  1024,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 6291456.0,
+                "shape": {
+                  "n": 3145728
+                }
+              },
+              "operator": "mul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                3072
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.gated_mul",
+            "node_id": "L000.mlp.gated_mul",
+            "operator": "mul"
+          },
+          "api_call_us": 28.714770451188087,
+          "dispatch_step_us": 39.560021832585335,
+          "bookkeeping_after_us": 10.510208085179329
+        },
+        {
+          "key": "node:L000.mlp.down_proj",
+          "catalog": {
+            "body_id": "sha256:ee24b7e5d44005030fbb9cef51f5919f6c9488d4ff448ef7c0aff1886dffc27c",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    3072
+                  ],
+                  "stride": [
+                    3145728,
+                    3072,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "mlp.down_proj",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 12884901888.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 6442450944.0,
+                "layer": 0,
+                "local_name": "mlp.down_proj",
+                "module_path": "decoder.layers.0.mlp.linear_fc2",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "k": 3072,
+                  "m": 1024,
+                  "n": 1024
+                },
+                "sharding_rule": "row"
+              },
+              "operator": "matmul",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "mlp.down_proj",
+            "node_id": "L000.mlp.down_proj",
+            "operator": "matmul"
+          },
+          "api_call_us": 54.19575609266758,
+          "dispatch_step_us": 63.14041092991829,
+          "bookkeeping_after_us": 8.870149031281471
+        },
+        {
+          "key": "node:L000.residual_add_2",
+          "catalog": {
+            "body_id": "sha256:c19b2ea3666d65c8fc37ca5fa4cacbd425eb24a1b449d9d8b2d3dd710d01463b",
+            "body_key": {
+              "environment_id": "sha256:0408ddc82c9dc5f8d6546ca46c87fadf797339cf2fb4c2503ff79203909f9d5b",
+              "executor_source_sha256": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+              "hip": "6.3.26093",
+              "inputs": [
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                },
+                {
+                  "dtype": "torch.bfloat16",
+                  "shape": [
+                    1,
+                    1024,
+                    1024
+                  ],
+                  "stride": [
+                    1048576,
+                    1024,
+                    1
+                  ]
+                }
+              ],
+              "local_name": "residual_add_2",
+              "measurement_kind": "reference_body_stream_window_v1",
+              "node_metadata": {
+                "bwd_flops": 1048576.0,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1048576.0,
+                "layer": 0,
+                "local_name": "residual_add_2",
+                "module_path": "decoder.layers.0.mlp_residual",
+                "output_shape": [
+                  1,
+                  1024,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 2097152.0,
+                "shape": {
+                  "n": 1048576
+                }
+              },
+              "operator": "add",
+              "output_dtype": "torch.bfloat16",
+              "output_shape": [
+                1,
+                1024,
+                1024
+              ],
+              "torch": "2.9.0"
+            },
+            "kind": "node",
+            "local_name": "residual_add_2",
+            "node_id": "L000.residual_add_2",
+            "operator": "add"
+          },
+          "api_call_us": 21.295389160513878,
+          "dispatch_step_us": 22.464897483587265,
+          "bookkeeping_after_us": 1.244712620973587
+        }
+      ]
+    }
+  ],
+  "round_parameter_ranges_us": {
+    "start_s": {
+      "by_round": [
+        3.0100345611572266,
+        3.057415597140789,
+        3.0527589842677116
+      ],
+      "max_over_min_change_pct": 1.5741027227722748
+    },
+    "finish_s": {
+      "by_round": [
+        13.392884284257889,
+        13.432581909000874,
+        13.399869203567505
+      ],
+      "max_over_min_change_pct": 0.2964083307256393
+    },
+    "local:input": {
+      "by_round": [
+        9.952695108950138,
+        10.045478120446205,
+        9.92300920188427
+      ],
+      "max_over_min_change_pct": 1.234191323118794
+    },
+    "local:input_norm": {
+      "by_round": [
+        41.640596464276314,
+        42.94561222195625,
+        42.54549276083708
+      ],
+      "max_over_min_change_pct": 3.1339987139701986
+    },
+    "local:self_attention.k_proj": {
+      "by_round": [
+        55.09331822395325,
+        55.60321733355522,
+        56.00543227046728
+      ],
+      "max_over_min_change_pct": 1.6555801609304144
+    },
+    "local:self_attention.k_norm": {
+      "by_round": [
+        35.46546213328838,
+        35.593402571976185,
+        35.790144465863705
+      ],
+      "max_over_min_change_pct": 0.9154887968330527
+    },
+    "local:self_attention.k_rope": {
+      "by_round": [
+        167.20208805054426,
+        167.0648343861103,
+        169.74704340100288
+      ],
+      "max_over_min_change_pct": 1.6054898834626075
+    },
+    "local:self_attention.q_proj": {
+      "by_round": [
+        57.810451835393906,
+        58.44293627887964,
+        58.290897868573666
+      ],
+      "max_over_min_change_pct": 1.094065905740771
+    },
+    "local:self_attention.q_norm": {
+      "by_round": [
+        39.25291821360588,
+        39.18027505278587,
+        39.41066097468138
+      ],
+      "max_over_min_change_pct": 0.5880150703003295
+    },
+    "local:self_attention.q_rope": {
+      "by_round": [
+        160.85710376501083,
+        160.68702097982168,
+        161.62206884473562
+      ],
+      "max_over_min_change_pct": 0.5819062791831531
+    },
+    "local:self_attention.qk_matmul": {
+      "by_round": [
+        120.98147999495268,
+        120.76913844794035,
+        121.73422146588564
+      ],
+      "max_over_min_change_pct": 0.799113937838758
+    },
+    "local:self_attention.softmax": {
+      "by_round": [
+        72.02348206192255,
+        72.9784369468689,
+        73.49834777414799
+      ],
+      "max_over_min_change_pct": 2.0477567454422863
+    },
+    "local:self_attention.v_proj": {
+      "by_round": [
+        60.400692746043205,
+        61.23329512774944,
+        61.33550778031349
+      ],
+      "max_over_min_change_pct": 1.5476892594605607
+    },
+    "local:self_attention.av_matmul": {
+      "by_round": [
+        114.56140782684088,
+        115.28132017701864,
+        115.93860108405352
+      ],
+      "max_over_min_change_pct": 1.2021441455173587
+    },
+    "local:self_attention.out_proj": {
+      "by_round": [
+        77.56357081234455,
+        78.5008305683732,
+        78.28581146895885
+      ],
+      "max_over_min_change_pct": 1.2083762341167148
+    },
+    "local:residual_add_1": {
+      "by_round": [
+        27.340371161699295,
+        27.46062818914652,
+        27.637346647679806
+      ],
+      "max_over_min_change_pct": 1.0862159998637377
+    },
+    "local:pre_mlp_norm": {
+      "by_round": [
+        36.37827467173338,
+        36.6381136700511,
+        36.49026621133089
+      ],
+      "max_over_min_change_pct": 0.7142697136200971
+    },
+    "local:mlp.gate_proj": {
+      "by_round": [
+        53.29039413481951,
+        53.590512834489346,
+        54.503558203577995
+      ],
+      "max_over_min_change_pct": 2.276515474232177
+    },
+    "local:mlp.silu": {
+      "by_round": [
+        28.067966923117638,
+        28.272741474211216,
+        28.668553568422794
+      ],
+      "max_over_min_change_pct": 2.1397582765800394
+    },
+    "local:mlp.up_proj": {
+      "by_round": [
+        55.35059608519077,
+        55.41113205254078,
+        55.8382598683238
+      ],
+      "max_over_min_change_pct": 0.8810452237631994
+    },
+    "local:mlp.gated_mul": {
+      "by_round": [
+        27.940375730395317,
+        28.354930691421032,
+        28.420123271644115
+      ],
+      "max_over_min_change_pct": 1.717040407323145
+    },
+    "local:mlp.down_proj": {
+      "by_round": [
+        56.480523198843,
+        56.845834478735924,
+        56.83349445462227
+      ],
+      "max_over_min_change_pct": 0.6467916003660701
+    },
+    "local:residual_add_2": {
+      "by_round": [
+        20.000501535832882,
+        20.122970454394817,
+        20.15288919210434
+      ],
+      "max_over_min_change_pct": 0.7619191748688969
+    },
+    "copy_submit_s": {
+      "by_round": [
+        128.9844512939453,
+        127.6613911613822,
+        118.87401342391968
+      ],
+      "max_over_min_change_pct": 8.50517079285491
+    }
+  },
+  "training_reconstruction": [
+    {
+      "model_id": "qwen3-0.6b-s256-b1",
+      "repeat": 0,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 17.058404982226172,
+          "mape_pct": 61.282569859526944
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 0.0,
+          "mape_pct": 2.463947684446577
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.2912307865917683,
+          "zero_host_ms": 0.5330366450548173,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.338582020252943,
+          "zero_host_ms": 0.5330366450548173,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 1.5114941634237766,
+          "zero_host_ms": 0.49401490434533624,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 1.5926396008580923,
+          "zero_host_ms": 0.6543131515281865,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        }
+      ]
+    },
+    {
+      "model_id": "qwen3-0.6b-s256-b1",
+      "repeat": 1,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 16.750783076320186,
+          "mape_pct": 61.13432935169423
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 0.0,
+          "mape_pct": 2.87171326854736
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.2863159645348787,
+          "zero_host_ms": 0.5330366450548173,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.3363163452595472,
+          "zero_host_ms": 0.5330366450548173,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 1.501783961430192,
+          "zero_host_ms": 0.49401490434533624,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 1.586599973961711,
+          "zero_host_ms": 0.6543131515281865,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        }
+      ]
+    },
+    {
+      "model_id": "qwen3-0.6b-s256-b1",
+      "repeat": 2,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 16.668933890443082,
+          "mape_pct": 61.43850016305308
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 0.0,
+          "mape_pct": 2.644512971364421
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.2990811374038458,
+          "zero_host_ms": 0.5330366450548173,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.3289866037666798,
+          "zero_host_ms": 0.5330366450548173,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 1.515624113380909,
+          "zero_host_ms": 0.49401490434533624,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 1.6151550225913525,
+          "zero_host_ms": 0.6543131515281865,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        }
+      ]
+    },
+    {
+      "model_id": "qwen3-0.6b-s1024-b1",
+      "repeat": 0,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 23.22018497085083,
+          "mape_pct": 29.30406037685509
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 0.0,
+          "mape_pct": 7.615215552580396
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.4359229244291782,
+          "zero_host_ms": 1.0874973928928375,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.4596735127270222,
+          "zero_host_ms": 1.0874973928928375,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 1.769346883520484,
+          "zero_host_ms": 1.0478601527002602,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 1.6967759002000093,
+          "zero_host_ms": 1.2441253417299702,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        }
+      ]
+    },
+    {
+      "model_id": "qwen3-0.6b-s1024-b1",
+      "repeat": 1,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 19.543497135502406,
+          "mape_pct": 29.276870786994134
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 1.0705223104244377,
+          "mape_pct": 7.5005567509060125
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.4714589342474937,
+          "zero_host_ms": 1.0874973928928375,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.4558734837919474,
+          "zero_host_ms": 1.0874973928928375,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 1.7404020763933659,
+          "zero_host_ms": 1.0478601527002602,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 1.6794060356914997,
+          "zero_host_ms": 1.2441253417299702,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        }
+      ]
+    },
+    {
+      "model_id": "qwen3-0.6b-s1024-b1",
+      "repeat": 2,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 29.153018975364553,
+          "mape_pct": 30.91606213457727
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 0.0,
+          "mape_pct": 9.86285333563644
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.4417185448110104,
+          "zero_host_ms": 1.0874973928928375,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.4506976585835218,
+          "zero_host_ms": 1.0874973928928375,
+          "rejected_host_candidate_ms": 1.3407123042270541
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 1.862023025751114,
+          "zero_host_ms": 1.0478601527002602,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 1.785842701792717,
+          "zero_host_ms": 1.2441253417299702,
+          "rejected_host_candidate_ms": 1.5964858466759324
+        }
+      ]
+    },
+    {
+      "model_id": "qwen2.5-3b-s256-b1",
+      "repeat": 0,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 13.4206798043911,
+          "mape_pct": 50.495318439271045
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 0.0,
+          "mape_pct": 3.1254927024633505
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.3024115469306707,
+          "zero_host_ms": 0.6731358861923217,
+          "rejected_host_candidate_ms": 1.282877526693046
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.3268720358610153,
+          "zero_host_ms": 0.6731358861923217,
+          "rejected_host_candidate_ms": 1.282877526693046
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 1.477204030379653,
+          "zero_host_ms": 0.6526009733734758,
+          "rejected_host_candidate_ms": 1.5386510691419244
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 1.594899920746684,
+          "zero_host_ms": 0.8201894860559351,
+          "rejected_host_candidate_ms": 1.5386510691419244
+        }
+      ]
+    },
+    {
+      "model_id": "qwen2.5-3b-s256-b1",
+      "repeat": 1,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 17.191679101763157,
+          "mape_pct": 51.35648937293249
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 0.0,
+          "mape_pct": 2.900584210135973
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.3122172094881535,
+          "zero_host_ms": 0.6731358861923217,
+          "rejected_host_candidate_ms": 1.282877526693046
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.3249965850263834,
+          "zero_host_ms": 0.6731358861923217,
+          "rejected_host_candidate_ms": 1.282877526693046
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 1.537809381261468,
+          "zero_host_ms": 0.6526009733734758,
+          "rejected_host_candidate_ms": 1.5386510691419244
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 1.6391805838793516,
+          "zero_host_ms": 0.8201894860559351,
+          "rejected_host_candidate_ms": 1.5386510691419244
+        }
+      ]
+    },
+    {
+      "model_id": "qwen2.5-3b-s256-b1",
+      "repeat": 2,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 16.85014102381168,
+          "mape_pct": 50.57557005185404
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 0.0,
+          "mape_pct": 1.745542103379727
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.3070160057395697,
+          "zero_host_ms": 0.6731358861923217,
+          "rejected_host_candidate_ms": 1.282877526693046
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.3281959109008312,
+          "zero_host_ms": 0.6731358861923217,
+          "rejected_host_candidate_ms": 1.282877526693046
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 1.5272500459104776,
+          "zero_host_ms": 0.6526009733734758,
+          "rejected_host_candidate_ms": 1.5386510691419244
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 1.5538288280367851,
+          "zero_host_ms": 0.8201894860559351,
+          "rejected_host_candidate_ms": 1.5386510691419244
+        }
+      ]
+    },
+    {
+      "model_id": "qwen2.5-3b-s1024-b1",
+      "repeat": 0,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 13.82818444581051,
+          "mape_pct": 21.215329965353114
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 0.0,
+          "mape_pct": 6.4499993746502255
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.9464099314063787,
+          "zero_host_ms": 1.57560599565506,
+          "rejected_host_candidate_ms": 1.8217187465354803
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.9724993035197258,
+          "zero_host_ms": 1.57560599565506,
+          "rejected_host_candidate_ms": 1.8217187465354803
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 2.2155630867928267,
+          "zero_host_ms": 1.5730522703140548,
+          "rejected_host_candidate_ms": 2.0774922889843586
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 2.2030125837773085,
+          "zero_host_ms": 1.8353423180531694,
+          "rejected_host_candidate_ms": 2.0814550689335896
+        }
+      ]
+    },
+    {
+      "model_id": "qwen2.5-3b-s1024-b1",
+      "repeat": 1,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 13.843548168986185,
+          "mape_pct": 21.19155939361106
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 0.0,
+          "mape_pct": 6.440210713266723
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.955915242433548,
+          "zero_host_ms": 1.57560599565506,
+          "rejected_host_candidate_ms": 1.8217187465354803
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.965624513104558,
+          "zero_host_ms": 1.57560599565506,
+          "rejected_host_candidate_ms": 1.8217187465354803
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 2.226683311164379,
+          "zero_host_ms": 1.5730522703140548,
+          "rejected_host_candidate_ms": 2.0774922889843586
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 2.1882071159780025,
+          "zero_host_ms": 1.8353423180531694,
+          "rejected_host_candidate_ms": 2.0814550689335896
+        }
+      ]
+    },
+    {
+      "model_id": "qwen2.5-3b-s1024-b1",
+      "repeat": 2,
+      "metrics": {
+        "zero_host_ms": {
+          "selected": "key_branch",
+          "regret_pct": 12.827107491874301,
+          "mape_pct": 21.549366570413447
+        },
+        "rejected_host_candidate_ms": {
+          "selected": "uniform0",
+          "regret_pct": 0.0,
+          "mape_pct": 6.867612262863279
+        }
+      },
+      "plans": [
+        {
+          "plan_name": "uniform0",
+          "baseline_pooled_ms": 1.980750123038888,
+          "zero_host_ms": 1.57560599565506,
+          "rejected_host_candidate_ms": 1.8217187465354803
+        },
+        {
+          "plan_name": "uniform1",
+          "baseline_pooled_ms": 1.9836700521409512,
+          "zero_host_ms": 1.57560599565506,
+          "rejected_host_candidate_ms": 1.8217187465354803
+        },
+        {
+          "plan_name": "key_branch",
+          "baseline_pooled_ms": 2.2348230704665184,
+          "zero_host_ms": 1.5730522703140548,
+          "rejected_host_candidate_ms": 2.0774922889843586
+        },
+        {
+          "plan_name": "mlp_up",
+          "baseline_pooled_ms": 2.1735576447099447,
+          "zero_host_ms": 1.8353423180531694,
+          "rejected_host_candidate_ms": 2.0814550689335896
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Parameters use all training cases and rounds including the failure; acceptance remains false.",
+    "Reconstruction reuses these calibration tasks and is not independent validation or SROP evidence.",
+    "Uninstrumented baseline has no per-operation times; current records cannot locate its drift in a specific API or GPU kernel.",
+    "CPU call times can include driver waits and GPU overlap; event-free does not establish zero observer effect.",
+    "Parameter ranges and three-round comparisons are descriptive, not significance or new acceptance tests."
+  ]
+}
