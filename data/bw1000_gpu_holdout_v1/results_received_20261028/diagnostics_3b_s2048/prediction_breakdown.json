@@ -1,0 +1,1163 @@
+{
+  "freeze_id": "sha256:59a32c2eb827b95a395bc95f31e057716b52bfd44f025f913ef60c7c897829b2",
+  "model_id": "qwen2.5-3b-s2048-b1",
+  "plans": [
+    {
+      "role": "single_gpu_reference",
+      "plan_id": "sha256:7a64b20c0d5e646eabbb218522082dc1e16763a239b0765c226c4cdcdcb684ca",
+      "old_measured_ms": 3.793061012402177,
+      "frozen_prediction": {
+        "makespan": 0.0037408321477903645,
+        "peak_memory": [
+          439361536.0,
+          0.0
+        ],
+        "critical_path": [
+          "fg0000",
+          "fg0001",
+          "fg0002",
+          "fg0003",
+          "fg0004",
+          "fg0005",
+          "fg0006",
+          "fg0007",
+          "fg0008",
+          "fg0009",
+          "fg0010",
+          "fg0011",
+          "fg0012",
+          "fg0013",
+          "fg0014",
+          "fg0015",
+          "fg0016",
+          "fg0017",
+          "fg0018"
+        ],
+        "communication_time": 0.0,
+        "computation_time": 0.0037408321477903645,
+        "per_device_time": [
+          0.0037408321477903645,
+          0.0
+        ],
+        "cross_device_bytes": 0.0,
+        "confidence": 0.55,
+        "out_of_distribution": true,
+        "ood_reasons": [
+          "e2:sha256:2d8fc6599c226002423a05c4b686a5a71a902eb61c4e211fcd81c5e8261d442c:predicted",
+          "e2:sha256:30b5a5a5b53287c93cde919713c010e28c4a7a823994f791f0b293256cac42f6:predicted",
+          "e2:sha256:32aad5582f6424db0dcf80923119def5e13beefd7443e1686dc5d47b0797b5a5:predicted",
+          "e2:sha256:32e141c2a4b6f3a0b6a7a0c7b3324b9ad2fb17ed36abbffb460dac5129b0c9fc:predicted",
+          "e2:sha256:670b94b6ea238426be966ca915d5348b9df688d99d4bfa1b42a0b8e664aefff5:predicted",
+          "e2:sha256:6b9a100c5c5125730d92761197f4dab135b089b37adc7dc4310d2ee6e8963b0e:predicted",
+          "e2:sha256:7db1c8cb7498bb8b4dfb47d282a9705680bef202dbdb4d2d2e366dcbd35f55ad:predicted",
+          "e2:sha256:90976c0a82f8a57a5f45ba36fb1862fece6ec8a9dd3723d5acbef2c474d06403:predicted",
+          "e2:sha256:af7435e61100458994d49bcc545225b16edf1e93941abda2b3dc7e7d1aa09912:predicted",
+          "e2:sha256:c3f50b98ee36a5bcf26f42ab1dd311d38b0747c967316f850709c3b1f447e4b9:predicted",
+          "e2:sha256:c74ffadcae026dfe0ece67a698368a8f1d54c08238ce39563752c45758276b1d:predicted",
+          "e2:sha256:cc9fa378f1e8351d2367fe87f70c3893553f2d37f81a2d120cc367f3065a6ca7:predicted",
+          "e2:sha256:d7cd0dbdf81368dbf874be51c9290e8e3c4e049f43ddede72fad9dcfe730742b:predicted"
+        ],
+        "model_name": "structural-v1",
+        "details": {
+          "structure_version": "plan-structure-v1",
+          "overflow_devices": [],
+          "groups": [
+            {
+              "group_id": "fg0000",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0,
+              "end": 1.4024740870809183e-05,
+              "duration": 1.4024740870809183e-05,
+              "compute_time": 0.0,
+              "memory_time": 6.254335603443906e-06,
+              "launch_time": 7.770405267365277e-06,
+              "source": "symmetric_mean:analytic_roofline",
+              "node_ids": [
+                "L000.input"
+              ]
+            },
+            {
+              "group_id": "fg0001",
+              "device": 0,
+              "pattern_id": "rmsnorm_reference",
+              "start": 1.4024740870809183e-05,
+              "end": 3.7030386483072484e-05,
+              "duration": 2.30056456122633e-05,
+              "compute_time": 2.30056456122633e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.input_norm"
+              ]
+            },
+            {
+              "group_id": "fg0002",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 3.7030386483072484e-05,
+              "end": 6.190700215385692e-05,
+              "duration": 2.487661567078443e-05,
+              "compute_time": 2.4876615670784435e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.k_proj"
+              ]
+            },
+            {
+              "group_id": "fg0003",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 6.190700215385692e-05,
+              "end": 0.00018533740681694286,
+              "duration": 0.00012343040466308595,
+              "compute_time": 0.00012343040466308595,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.k_rope"
+              ]
+            },
+            {
+              "group_id": "fg0004",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.00018533740681694286,
+              "end": 0.00027131393609631274,
+              "duration": 8.597652927936988e-05,
+              "compute_time": 8.597652927936988e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.q_proj"
+              ]
+            },
+            {
+              "group_id": "fg0005",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.00027131393609631274,
+              "end": 0.0004515601888602616,
+              "duration": 0.00018024625276394889,
+              "compute_time": 0.00018024625276394889,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.q_rope"
+              ]
+            },
+            {
+              "group_id": "fg0006",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0004515601888602616,
+              "end": 0.0006976562985400179,
+              "duration": 0.0002460961096797562,
+              "compute_time": 0.00024609610967975617,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.qk_matmul"
+              ]
+            },
+            {
+              "group_id": "fg0007",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0006976562985400179,
+              "end": 0.0020282826550319616,
+              "duration": 0.0013306263564919437,
+              "compute_time": 0.0013306263564919437,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.softmax"
+              ]
+            },
+            {
+              "group_id": "fg0008",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0020282826550319616,
+              "end": 0.002053159270702746,
+              "duration": 2.4876615670784384e-05,
+              "compute_time": 2.4876615670784435e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.v_proj"
+              ]
+            },
+            {
+              "group_id": "fg0009",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.002053159270702746,
+              "end": 0.0022518362803803627,
+              "duration": 0.00019867700967761675,
+              "compute_time": 0.00019867700967761683,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.av_matmul"
+              ]
+            },
+            {
+              "group_id": "fg0010",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0022518362803803627,
+              "end": 0.0023378128096597324,
+              "duration": 8.597652927936966e-05,
+              "compute_time": 8.597652927936988e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.out_proj"
+              ]
+            },
+            {
+              "group_id": "fg0011",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0023378128096597324,
+              "end": 0.0023566833149958684,
+              "duration": 1.8870505336136042e-05,
+              "compute_time": 1.887050533613619e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.residual_add_1"
+              ]
+            },
+            {
+              "group_id": "fg0012",
+              "device": 0,
+              "pattern_id": "rmsnorm_reference",
+              "start": 0.0023566833149958684,
+              "end": 0.0023796889606081317,
+              "duration": 2.300564561226329e-05,
+              "compute_time": 2.30056456122633e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.pre_mlp_norm"
+              ]
+            },
+            {
+              "group_id": "fg0013",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0023796889606081317,
+              "end": 0.0027325930384060975,
+              "duration": 0.0003529040777979658,
+              "compute_time": 0.00035290407779796563,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.gate_proj"
+              ]
+            },
+            {
+              "group_id": "fg0014",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0027325930384060975,
+              "end": 0.002854648950384258,
+              "duration": 0.00012205591197816034,
+              "compute_time": 0.00012205591197816048,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.silu"
+              ]
+            },
+            {
+              "group_id": "fg0015",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.002854648950384258,
+              "end": 0.0032075530281822236,
+              "duration": 0.0003529040777979658,
+              "compute_time": 0.00035290407779796563,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.up_proj"
+              ]
+            },
+            {
+              "group_id": "fg0016",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0032075530281822236,
+              "end": 0.00330865942653565,
+              "duration": 0.00010110639835342631,
+              "compute_time": 0.00010110639835342627,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.gated_mul"
+              ]
+            },
+            {
+              "group_id": "fg0017",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.00330865942653565,
+              "end": 0.0037219616424542285,
+              "duration": 0.00041330221591857853,
+              "compute_time": 0.00041330221591857853,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.down_proj"
+              ]
+            },
+            {
+              "group_id": "fg0018",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0037219616424542285,
+              "end": 0.0037408321477903645,
+              "duration": 1.8870505336136042e-05,
+              "compute_time": 1.887050533613619e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.residual_add_2"
+              ]
+            }
+          ],
+          "transfers": []
+        }
+      },
+      "reference_loop_expected_transfers": []
+    },
+    {
+      "role": "predicted_top1",
+      "plan_id": "sha256:fa12b9fe3a3a1ea9fa59f69fc074ddff1fbba723e28e44dcd59310c7c7b65dc4",
+      "old_measured_ms": 4.182706121355295,
+      "frozen_prediction": {
+        "makespan": 0.003675852110458343,
+        "peak_memory": [
+          394272768.0,
+          98566144.0
+        ],
+        "critical_path": [
+          "fg0000",
+          "fg0001",
+          "fg0002",
+          "fg0003",
+          "fg0004",
+          "fg0005",
+          "fg0006",
+          "fg0007",
+          "fg0008",
+          "fg0009",
+          "fg0010",
+          "fg0011",
+          "fg0012",
+          "fg0015",
+          "fg0016",
+          "fg0017",
+          "fg0018"
+        ],
+        "communication_time": 0.00040997995244410415,
+        "computation_time": 0.0037408321477903645,
+        "per_device_time": [
+          0.0033879280699923987,
+          0.00035290407779796563
+        ],
+        "cross_device_bytes": 53477376.0,
+        "confidence": 0.55,
+        "out_of_distribution": true,
+        "ood_reasons": [
+          "e2:sha256:2d8fc6599c226002423a05c4b686a5a71a902eb61c4e211fcd81c5e8261d442c:predicted",
+          "e2:sha256:30b5a5a5b53287c93cde919713c010e28c4a7a823994f791f0b293256cac42f6:predicted",
+          "e2:sha256:32aad5582f6424db0dcf80923119def5e13beefd7443e1686dc5d47b0797b5a5:predicted",
+          "e2:sha256:32e141c2a4b6f3a0b6a7a0c7b3324b9ad2fb17ed36abbffb460dac5129b0c9fc:predicted",
+          "e2:sha256:670b94b6ea238426be966ca915d5348b9df688d99d4bfa1b42a0b8e664aefff5:predicted",
+          "e2:sha256:6b9a100c5c5125730d92761197f4dab135b089b37adc7dc4310d2ee6e8963b0e:predicted",
+          "e2:sha256:7db1c8cb7498bb8b4dfb47d282a9705680bef202dbdb4d2d2e366dcbd35f55ad:predicted",
+          "e2:sha256:90976c0a82f8a57a5f45ba36fb1862fece6ec8a9dd3723d5acbef2c474d06403:predicted",
+          "e2:sha256:af7435e61100458994d49bcc545225b16edf1e93941abda2b3dc7e7d1aa09912:predicted",
+          "e2:sha256:c3f50b98ee36a5bcf26f42ab1dd311d38b0747c967316f850709c3b1f447e4b9:predicted",
+          "e2:sha256:c74ffadcae026dfe0ece67a698368a8f1d54c08238ce39563752c45758276b1d:predicted",
+          "e2:sha256:cc9fa378f1e8351d2367fe87f70c3893553f2d37f81a2d120cc367f3065a6ca7:predicted",
+          "e2:sha256:d7cd0dbdf81368dbf874be51c9290e8e3c4e049f43ddede72fad9dcfe730742b:predicted"
+        ],
+        "model_name": "structural-v1",
+        "details": {
+          "structure_version": "plan-structure-v1",
+          "overflow_devices": [],
+          "groups": [
+            {
+              "group_id": "fg0000",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0,
+              "end": 1.4024740870809183e-05,
+              "duration": 1.4024740870809183e-05,
+              "compute_time": 0.0,
+              "memory_time": 6.254335603443906e-06,
+              "launch_time": 7.770405267365277e-06,
+              "source": "symmetric_mean:analytic_roofline",
+              "node_ids": [
+                "L000.input"
+              ]
+            },
+            {
+              "group_id": "fg0001",
+              "device": 0,
+              "pattern_id": "rmsnorm_reference",
+              "start": 1.4024740870809183e-05,
+              "end": 3.7030386483072484e-05,
+              "duration": 2.30056456122633e-05,
+              "compute_time": 2.30056456122633e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.input_norm"
+              ]
+            },
+            {
+              "group_id": "fg0002",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 3.7030386483072484e-05,
+              "end": 6.190700215385692e-05,
+              "duration": 2.487661567078443e-05,
+              "compute_time": 2.4876615670784435e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.k_proj"
+              ]
+            },
+            {
+              "group_id": "fg0003",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 6.190700215385692e-05,
+              "end": 0.00018533740681694286,
+              "duration": 0.00012343040466308595,
+              "compute_time": 0.00012343040466308595,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.k_rope"
+              ]
+            },
+            {
+              "group_id": "fg0004",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.00018533740681694286,
+              "end": 0.00027131393609631274,
+              "duration": 8.597652927936988e-05,
+              "compute_time": 8.597652927936988e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.q_proj"
+              ]
+            },
+            {
+              "group_id": "fg0005",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.00027131393609631274,
+              "end": 0.0004515601888602616,
+              "duration": 0.00018024625276394889,
+              "compute_time": 0.00018024625276394889,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.q_rope"
+              ]
+            },
+            {
+              "group_id": "fg0006",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0004515601888602616,
+              "end": 0.0006976562985400179,
+              "duration": 0.0002460961096797562,
+              "compute_time": 0.00024609610967975617,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.qk_matmul"
+              ]
+            },
+            {
+              "group_id": "fg0007",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0006976562985400179,
+              "end": 0.0020282826550319616,
+              "duration": 0.0013306263564919437,
+              "compute_time": 0.0013306263564919437,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.softmax"
+              ]
+            },
+            {
+              "group_id": "fg0008",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0020282826550319616,
+              "end": 0.002053159270702746,
+              "duration": 2.4876615670784384e-05,
+              "compute_time": 2.4876615670784435e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.v_proj"
+              ]
+            },
+            {
+              "group_id": "fg0009",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.002053159270702746,
+              "end": 0.0022518362803803627,
+              "duration": 0.00019867700967761675,
+              "compute_time": 0.00019867700967761683,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.av_matmul"
+              ]
+            },
+            {
+              "group_id": "fg0010",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0022518362803803627,
+              "end": 0.0023378128096597324,
+              "duration": 8.597652927936966e-05,
+              "compute_time": 8.597652927936988e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.out_proj"
+              ]
+            },
+            {
+              "group_id": "fg0011",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0023378128096597324,
+              "end": 0.0023566833149958684,
+              "duration": 1.8870505336136042e-05,
+              "compute_time": 1.887050533613619e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.residual_add_1"
+              ]
+            },
+            {
+              "group_id": "fg0012",
+              "device": 0,
+              "pattern_id": "rmsnorm_reference",
+              "start": 0.0023566833149958684,
+              "end": 0.0023796889606081317,
+              "duration": 2.300564561226329e-05,
+              "compute_time": 2.30056456122633e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.pre_mlp_norm"
+              ]
+            },
+            {
+              "group_id": "fg0013",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.002481570563269207,
+              "end": 0.002834474641067173,
+              "duration": 0.0003529040777979658,
+              "compute_time": 0.00035290407779796563,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.gate_proj"
+              ]
+            },
+            {
+              "group_id": "fg0014",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.002834474641067173,
+              "end": 0.0029565305530453332,
+              "duration": 0.00012205591197816034,
+              "compute_time": 0.00012205591197816048,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.silu"
+              ]
+            },
+            {
+              "group_id": "fg0015",
+              "device": 1,
+              "pattern_id": "unfused",
+              "start": 0.002481570563269207,
+              "end": 0.002834474641067173,
+              "duration": 0.0003529040777979658,
+              "compute_time": 0.00035290407779796563,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.up_proj"
+              ]
+            },
+            {
+              "group_id": "fg0016",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.003142572990850202,
+              "end": 0.0032436793892036283,
+              "duration": 0.00010110639835342631,
+              "compute_time": 0.00010110639835342627,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.gated_mul"
+              ]
+            },
+            {
+              "group_id": "fg0017",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0032436793892036283,
+              "end": 0.003656981605122207,
+              "duration": 0.00041330221591857853,
+              "compute_time": 0.00041330221591857853,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.down_proj"
+              ]
+            },
+            {
+              "group_id": "fg0018",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.003656981605122207,
+              "end": 0.003675852110458343,
+              "duration": 1.8870505336136042e-05,
+              "compute_time": 1.887050533613619e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.residual_add_2"
+              ]
+            }
+          ],
+          "transfers": [
+            {
+              "dependency_index": 16,
+              "src_group": "fg0012",
+              "dst_group": "fg0015",
+              "src_device": 0,
+              "dst_device": 1,
+              "bytes": 8388608.0,
+              "start": 0.0023796889606081317,
+              "end": 0.002481570563269207,
+              "duration": 0.00010188160266107531,
+              "source": "symmetric_mean:analytic_link"
+            },
+            {
+              "dependency_index": 19,
+              "src_group": "fg0015",
+              "dst_group": "fg0016",
+              "src_device": 1,
+              "dst_device": 0,
+              "bytes": 45088768.0,
+              "start": 0.002834474641067173,
+              "end": 0.003142572990850202,
+              "duration": 0.00030809834978302885,
+              "source": "symmetric_mean:analytic_link"
+            }
+          ]
+        }
+      },
+      "reference_loop_expected_transfers": [
+        {
+          "source_node": "L000.pre_mlp_norm",
+          "destination_node": "L000.mlp.up_proj",
+          "source": "cuda:0",
+          "destination": "cuda:1",
+          "payload_bytes": 8388608,
+          "shape": [
+            1,
+            2048,
+            2048
+          ],
+          "logical_output_bytes": 8388608.0
+        },
+        {
+          "source_node": "L000.mlp.up_proj",
+          "destination_node": "L000.mlp.gated_mul",
+          "source": "cuda:1",
+          "destination": "cuda:0",
+          "payload_bytes": 45088768,
+          "shape": [
+            1,
+            2048,
+            11008
+          ],
+          "logical_output_bytes": 45088768.0
+        }
+      ]
+    },
+    {
+      "role": "intermediate",
+      "plan_id": "sha256:d99e0148d41e2380ab09484f135e2cf6e14ebd5d6c8847d695aa31cab3edd2d5",
+      "old_measured_ms": 3.9753608871251345,
+      "frozen_prediction": {
+        "makespan": 0.0036780399963639637,
+        "peak_memory": [
+          439361536.0,
+          2097152.0
+        ],
+        "critical_path": [
+          "fg0000",
+          "fg0001",
+          "fg0002",
+          "fg0004",
+          "fg0005",
+          "fg0006",
+          "fg0007",
+          "fg0008",
+          "fg0009",
+          "fg0010",
+          "fg0011",
+          "fg0012",
+          "fg0013",
+          "fg0014",
+          "fg0015",
+          "fg0016",
+          "fg0017",
+          "fg0018"
+        ],
+        "communication_time": 0.00012127650647336918,
+        "computation_time": 0.0037408321477903645,
+        "per_device_time": [
+          0.0036174017431272786,
+          0.00012343040466308595
+        ],
+        "cross_device_bytes": 2097152.0,
+        "confidence": 0.55,
+        "out_of_distribution": true,
+        "ood_reasons": [
+          "e2:sha256:2d8fc6599c226002423a05c4b686a5a71a902eb61c4e211fcd81c5e8261d442c:predicted",
+          "e2:sha256:30b5a5a5b53287c93cde919713c010e28c4a7a823994f791f0b293256cac42f6:predicted",
+          "e2:sha256:32aad5582f6424db0dcf80923119def5e13beefd7443e1686dc5d47b0797b5a5:predicted",
+          "e2:sha256:32e141c2a4b6f3a0b6a7a0c7b3324b9ad2fb17ed36abbffb460dac5129b0c9fc:predicted",
+          "e2:sha256:670b94b6ea238426be966ca915d5348b9df688d99d4bfa1b42a0b8e664aefff5:predicted",
+          "e2:sha256:6b9a100c5c5125730d92761197f4dab135b089b37adc7dc4310d2ee6e8963b0e:predicted",
+          "e2:sha256:7db1c8cb7498bb8b4dfb47d282a9705680bef202dbdb4d2d2e366dcbd35f55ad:predicted",
+          "e2:sha256:90976c0a82f8a57a5f45ba36fb1862fece6ec8a9dd3723d5acbef2c474d06403:predicted",
+          "e2:sha256:af7435e61100458994d49bcc545225b16edf1e93941abda2b3dc7e7d1aa09912:predicted",
+          "e2:sha256:c3f50b98ee36a5bcf26f42ab1dd311d38b0747c967316f850709c3b1f447e4b9:predicted",
+          "e2:sha256:c74ffadcae026dfe0ece67a698368a8f1d54c08238ce39563752c45758276b1d:predicted",
+          "e2:sha256:cc9fa378f1e8351d2367fe87f70c3893553f2d37f81a2d120cc367f3065a6ca7:predicted",
+          "e2:sha256:d7cd0dbdf81368dbf874be51c9290e8e3c4e049f43ddede72fad9dcfe730742b:predicted"
+        ],
+        "model_name": "structural-v1",
+        "details": {
+          "structure_version": "plan-structure-v1",
+          "overflow_devices": [],
+          "groups": [
+            {
+              "group_id": "fg0000",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0,
+              "end": 1.4024740870809183e-05,
+              "duration": 1.4024740870809183e-05,
+              "compute_time": 0.0,
+              "memory_time": 6.254335603443906e-06,
+              "launch_time": 7.770405267365277e-06,
+              "source": "symmetric_mean:analytic_roofline",
+              "node_ids": [
+                "L000.input"
+              ]
+            },
+            {
+              "group_id": "fg0001",
+              "device": 0,
+              "pattern_id": "rmsnorm_reference",
+              "start": 1.4024740870809183e-05,
+              "end": 3.7030386483072484e-05,
+              "duration": 2.30056456122633e-05,
+              "compute_time": 2.30056456122633e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.input_norm"
+              ]
+            },
+            {
+              "group_id": "fg0002",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 3.7030386483072484e-05,
+              "end": 6.190700215385692e-05,
+              "duration": 2.487661567078443e-05,
+              "compute_time": 2.4876615670784435e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.k_proj"
+              ]
+            },
+            {
+              "group_id": "fg0003",
+              "device": 1,
+              "pattern_id": "unfused",
+              "start": 0.0001225452553905415,
+              "end": 0.0002459756600536275,
+              "duration": 0.00012343040466308597,
+              "compute_time": 0.00012343040466308595,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.k_rope"
+              ]
+            },
+            {
+              "group_id": "fg0004",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0001225452553905415,
+              "end": 0.00020852178466991138,
+              "duration": 8.597652927936988e-05,
+              "compute_time": 8.597652927936988e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.q_proj"
+              ]
+            },
+            {
+              "group_id": "fg0005",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.00020852178466991138,
+              "end": 0.00038876803743386027,
+              "duration": 0.00018024625276394889,
+              "compute_time": 0.00018024625276394889,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.q_rope"
+              ]
+            },
+            {
+              "group_id": "fg0006",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.00038876803743386027,
+              "end": 0.0006348641471136164,
+              "duration": 0.0002460961096797561,
+              "compute_time": 0.00024609610967975617,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.qk_matmul"
+              ]
+            },
+            {
+              "group_id": "fg0007",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0006348641471136164,
+              "end": 0.0019654905036055603,
+              "duration": 0.001330626356491944,
+              "compute_time": 0.0013306263564919437,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.softmax"
+              ]
+            },
+            {
+              "group_id": "fg0008",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0019654905036055603,
+              "end": 0.0019903671192763447,
+              "duration": 2.4876615670784384e-05,
+              "compute_time": 2.4876615670784435e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.v_proj"
+              ]
+            },
+            {
+              "group_id": "fg0009",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0019903671192763447,
+              "end": 0.0021890441289539615,
+              "duration": 0.00019867700967761675,
+              "compute_time": 0.00019867700967761683,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.av_matmul"
+              ]
+            },
+            {
+              "group_id": "fg0010",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0021890441289539615,
+              "end": 0.0022750206582333315,
+              "duration": 8.597652927937009e-05,
+              "compute_time": 8.597652927936988e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.self_attention.out_proj"
+              ]
+            },
+            {
+              "group_id": "fg0011",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0022750206582333315,
+              "end": 0.0022938911635694676,
+              "duration": 1.8870505336136042e-05,
+              "compute_time": 1.887050533613619e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.residual_add_1"
+              ]
+            },
+            {
+              "group_id": "fg0012",
+              "device": 0,
+              "pattern_id": "rmsnorm_reference",
+              "start": 0.0022938911635694676,
+              "end": 0.002316896809181731,
+              "duration": 2.300564561226329e-05,
+              "compute_time": 2.30056456122633e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.pre_mlp_norm"
+              ]
+            },
+            {
+              "group_id": "fg0013",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.002316896809181731,
+              "end": 0.0026698008869796967,
+              "duration": 0.0003529040777979658,
+              "compute_time": 0.00035290407779796563,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.gate_proj"
+              ]
+            },
+            {
+              "group_id": "fg0014",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0026698008869796967,
+              "end": 0.002791856798957857,
+              "duration": 0.00012205591197816034,
+              "compute_time": 0.00012205591197816048,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.silu"
+              ]
+            },
+            {
+              "group_id": "fg0015",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.002791856798957857,
+              "end": 0.003144760876755823,
+              "duration": 0.0003529040777979658,
+              "compute_time": 0.00035290407779796563,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.up_proj"
+              ]
+            },
+            {
+              "group_id": "fg0016",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.003144760876755823,
+              "end": 0.003245867275109249,
+              "duration": 0.00010110639835342631,
+              "compute_time": 0.00010110639835342627,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.gated_mul"
+              ]
+            },
+            {
+              "group_id": "fg0017",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.003245867275109249,
+              "end": 0.0036591694910278276,
+              "duration": 0.00041330221591857853,
+              "compute_time": 0.00041330221591857853,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.mlp.down_proj"
+              ]
+            },
+            {
+              "group_id": "fg0018",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0036591694910278276,
+              "end": 0.0036780399963639637,
+              "duration": 1.8870505336136042e-05,
+              "compute_time": 1.887050533613619e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "frozen_zero_shot",
+              "node_ids": [
+                "L000.residual_add_2"
+              ]
+            }
+          ],
+          "transfers": [
+            {
+              "dependency_index": 5,
+              "src_group": "fg0002",
+              "dst_group": "fg0003",
+              "src_device": 0,
+              "dst_device": 1,
+              "bytes": 1048576.0,
+              "start": 6.190700215385692e-05,
+              "end": 0.0001225452553905415,
+              "duration": 6.063825323668459e-05,
+              "source": "symmetric_mean:analytic_link"
+            },
+            {
+              "dependency_index": 7,
+              "src_group": "fg0003",
+              "dst_group": "fg0006",
+              "src_device": 1,
+              "dst_device": 0,
+              "bytes": 1048576.0,
+              "start": 0.0002459756600536275,
+              "end": 0.00030661391329031204,
+              "duration": 6.063825323668459e-05,
+              "source": "symmetric_mean:analytic_link"
+            }
+          ]
+        }
+      },
+      "reference_loop_expected_transfers": [
+        {
+          "source_node": "L000.self_attention.k_proj",
+          "destination_node": "L000.self_attention.k_rope",
+          "source": "cuda:0",
+          "destination": "cuda:1",
+          "payload_bytes": 1048576,
+          "shape": [
+            1,
+            2048,
+            2,
+            128
+          ],
+          "logical_output_bytes": 1048576.0
+        },
+        {
+          "source_node": "L000.self_attention.k_rope",
+          "destination_node": "L000.self_attention.qk_matmul",
+          "source": "cuda:1",
+          "destination": "cuda:0",
+          "payload_bytes": 1048576,
+          "shape": [
+            1,
+            2048,
+            2,
+            128
+          ],
+          "logical_output_bytes": 1048576.0
+        }
+      ]
+    }
+  ],
+  "scope": "Original frozen costs and scheduler, reproduced without new labels; selected workloads/plans are post-hoc diagnostics. Scheduled intervals are predictions, not observed GPU activity."
+}
