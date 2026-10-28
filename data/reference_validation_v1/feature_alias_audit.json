@@ -1,0 +1,80 @@
+{
+  "fresh_objects": 52,
+  "feature_novel_objects": 49,
+  "aliases": [
+    {
+      "object_id": "sha256:8cee6d979186370cc571d099b867e9b4063a82e6434209459ba252ee5f14339f",
+      "known_feature_alias_ids": [
+        "sha256:5c05400c612a0618ff505a4df804974891beb920b13e749481c6894f1c913dd2"
+      ],
+      "new_usages": [
+        {
+          "model_id": "qwen3-0.6b-s768-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 768,
+          "micro_batch_size": 1,
+          "local_name": "self_attention.q_norm",
+          "occurrence_count": 1,
+          "example_node_id": "L000.self_attention.q_norm"
+        }
+      ],
+      "feature_fingerprint": "sha256:14241db7d0d26f99f76d1cd94487e367d18ab2d33d11a95ac70ec7e05e80e7ff"
+    },
+    {
+      "object_id": "sha256:d2bb5046f6343f3d0d4769f526ab5d1486dac30c8dd2971b12aa2879ba27a2f0",
+      "known_feature_alias_ids": [
+        "sha256:b491b3ef7f1b74b259d145db15fef34efc08db8450919194b96d8edebae3cffd"
+      ],
+      "new_usages": [
+        {
+          "model_id": "qwen2.5-3b-s768-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 768,
+          "micro_batch_size": 1,
+          "local_name": "self_attention.q_rope",
+          "occurrence_count": 1,
+          "example_node_id": "L000.self_attention.q_rope"
+        },
+        {
+          "model_id": "qwen3-0.6b-s768-b1",
+          "model_family": "qwen3-0.6b",
+          "sequence_length": 768,
+          "micro_batch_size": 1,
+          "local_name": "self_attention.q_rope",
+          "occurrence_count": 1,
+          "example_node_id": "L000.self_attention.q_rope"
+        }
+      ],
+      "feature_fingerprint": "sha256:c8ecff212741a7e683c0a9afdaf3ebf968631fcae3d859521b3c27d799be2645"
+    },
+    {
+      "object_id": "sha256:d4b58358bf917014e1cb6a37afe07089e9522a82a3f843f04a976afd95940a59",
+      "known_feature_alias_ids": [
+        "sha256:0a58ec52f47f3fcabeae1351286ff5465bad05bcbaea382d0c6d511338b47188"
+      ],
+      "new_usages": [
+        {
+          "model_id": "qwen2.5-3b-s768-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 768,
+          "micro_batch_size": 1,
+          "local_name": "residual_add_1",
+          "occurrence_count": 1,
+          "example_node_id": "L000.residual_add_1"
+        },
+        {
+          "model_id": "qwen2.5-3b-s768-b1",
+          "model_family": "qwen2.5-3b",
+          "sequence_length": 768,
+          "micro_batch_size": 1,
+          "local_name": "residual_add_2",
+          "occurrence_count": 1,
+          "example_node_id": "L000.residual_add_2"
+        }
+      ],
+      "feature_fingerprint": "sha256:8112ae1854408fe2ad5601bf2491aae28d1b424c41d34704530c9cbbf0f5d5ff"
+    }
+  ],
+  "rule": "Compare exactly the nearest predictor numeric/categorical input columns, not JSON record IDs or unused fields.",
+  "interpretation": "Full-key novelty and predictor-feature novelty are separate; retain and report alias objects."
+}
