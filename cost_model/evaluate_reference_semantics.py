@@ -85,7 +85,7 @@ def evaluate(bundle=DEFAULT_BUNDLE, host=None):
         "reference_examples": examples,
         "scope": "Exposed development data: four original workloads plus repeated measurements of one of them, no independent task validation. No new search or fitting and no changes to original predictions.",
         "limitations": ["reference_eager uses current-stream copy barriers based on upstream PyTorch v2.9.0; vendor parity is a hypothesis to validate.",
-            "Zero host costs are uncalibrated; kernel-body coverage, GQA/layout and eager temporaries remain unverified.",
+            "Host-profile environment compatibility with historical GPU-run hosts is not verified; kernel-body/GQA/layout coverage remains unverified.",
             "Cached reference inputs have zero GPU service; the original DAG score retains its old input cost. The common offset is reported separately.",
             "Serial-work summation is a diagnostic only, not an execution model or a latency bound.",
             "This report does not establish milestone-A independent generalization, SROP benefit or training throughput gains."]}

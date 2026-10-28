@@ -1,4 +1,5 @@
 import math
+import json
 import unittest
 
 from cost_model.hardware_profile import GroupCost, TransferCost
@@ -110,6 +111,24 @@ class ReferenceSemanticsTests(unittest.TestCase):
         plan.groups[0].node_ids.append("a")
         with self.assertRaisesRegex(ValueError, "singleton"):
             ReferenceEagerCostModel().predict(graph, plan, FixedProfile())
+
+    def test_local_body_cost_overrides_operator_fallback_and_boundaries_are_separate(self):
+        graph, plan = fixture()
+        host = HostSubmissionProfile(start_s=2, finish_s=3,
+            operator_submit_s={"matmul": 100, "local:b": 0}, calibrated=True)
+        estimate = ReferenceEagerCostModel(host).predict(graph, plan, FixedProfile())
+        self.assertEqual(estimate.makespan, 22)
+        self.assertEqual(estimate.details["host_profile"]["start_s"], 2)
+
+    def test_default_zero_host_scores_match_archived_development_comparison(self):
+        from calibration.gpu_holdout import DEFAULT_BUNDLE
+        from cost_model.evaluate_reference_semantics import evaluate
+        archived = json.loads((DEFAULT_BUNDLE / "reference_semantics_evaluation.json").read_text())
+        current = evaluate()
+        for old, new in zip(archived["comparisons"], current["comparisons"]):
+            self.assertEqual(old["model_id"], new["model_id"])
+            for first, second in zip(old["rows"], new["rows"]):
+                self.assertAlmostEqual(first["reference_eager_ms"], second["reference_eager_ms"], places=12)
 
 
 if __name__ == "__main__":

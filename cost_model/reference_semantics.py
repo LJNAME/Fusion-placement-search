@@ -21,16 +21,19 @@ class HostSubmissionProfile:
     node_submit_s: float = 0.0
     copy_submit_s: float = 0.0
     finish_s: float = 0.0
+    start_s: float = 0.0
     operator_submit_s: Mapping[str, float] = field(default_factory=dict)
     calibrated: bool = False
     source: str = "unmeasured_zero_host_cost"
 
     def __post_init__(self):
-        values = [self.node_submit_s, self.copy_submit_s, self.finish_s, *self.operator_submit_s.values()]
+        values = [self.node_submit_s, self.copy_submit_s, self.finish_s, self.start_s, *self.operator_submit_s.values()]
         if any(not math.isfinite(value) or value < 0 for value in values):
             raise ValueError("host submission costs must be finite and non-negative")
 
-    def node_cost(self, operator):
+    def node_cost(self, operator, local_name=None):
+        if local_name is not None and f"local:{local_name}" in self.operator_submit_s:
+            return self.operator_submit_s[f"local:{local_name}"]
         return self.operator_submit_s.get(operator, self.node_submit_s)
 
 
@@ -90,6 +93,7 @@ class ReferenceEagerCostModel:
                 "duration": duration, "dependencies": deps, "cause": cause, **metadata})
             return result
 
+        host_last = event("host_start", self.host.start_s)
         confidence, reasons = [], set()
         if not self.host.calibrated:
             reasons.add("reference:host_submission_uncalibrated")
@@ -128,7 +132,7 @@ class ReferenceEagerCostModel:
             confidence.append(cost.confidence)
             reasons.update(cost.ood_reasons)
             release = event("host_release", 0.0, [host_last], consumer=group.group_id)
-            host_last = event("host_submit", self.host.node_cost(node.op_type), [release],
+            host_last = event("host_submit", self.host.node_cost(node.op_type, str(node.extra.get("local_name", node.id))), [release],
                 operation=node.op_type, consumer=group.group_id)
             dependencies = [release, stream_last[group.device]]
             dependencies.extend(group_events[structure.dependencies[index].src_group]
@@ -160,7 +164,8 @@ class ReferenceEagerCostModel:
             ood_reasons=tuple(sorted(reasons)), model_name="reference-eager-streams-v1",
             details={"execution_semantics": "consumer-copy-two-sided-current-streams",
                 "host_profile": {"node_submit_s": self.host.node_submit_s, "copy_submit_s": self.host.copy_submit_s,
-                    "finish_s": self.host.finish_s, "operator_submit_s": dict(self.host.operator_submit_s),
+                    "finish_s": self.host.finish_s, "start_s": self.host.start_s,
+                    "operator_submit_s": dict(self.host.operator_submit_s),
                     "calibrated": self.host.calibrated, "source": self.host.source},
                 "events": events, "critical_events": critical,
                 "groups": [events[group_events[index]] for index in range(len(structure.groups))],

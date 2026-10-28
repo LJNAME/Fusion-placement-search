@@ -15,7 +15,7 @@
 
 跨设备copy的current stream和双向barrier依据[PyTorch v2.9.0 Copy.cu:220–278](https://github.com/pytorch/pytorch/blob/v2.9.0/aten/src/ATen/native/cuda/Copy.cu#L220-L278)。这是上游实现；BW1000 vendor源码是否逐项一致尚未核实，已有HIP事件仅提供行为证据。新模式是待验证的执行契约，不是vendor运行时的精确模拟器。
 
-HostSubmissionProfile将node_submit_s、copy_submit_s、finish_s及分算子operator_submit_s与GPU服务成本分开。默认全部为0、calibrated=false；未用已暴露候选的实际耗时反向拟合。复制/算子GPU服务窗口从主机提交开始时释放，不能把一次完整CPU算子调用耗时和GPU事件窗口简单首尾相加。后续校准需要明确CPU调用、设备等待和服务窗口口径。
+HostSubmissionProfile将start_s、node_submit_s、copy_submit_s、finish_s及分算子operator_submit_s与GPU服务成本分开；local:body覆盖优先于算子族fallback。默认全部为0、calibrated=false；未用已暴露候选的实际耗时反向拟合。复制/算子GPU服务窗口从主机提交开始时释放，不能把一次完整CPU算子调用耗时和GPU事件窗口简单首尾相加。后续校准需要明确CPU调用、设备等待和服务窗口口径。
 
 主机成本未校准、GQA/布局等算子body覆盖未确认时，输出带OOD原因与较低confidence。显存仍是图级生命周期估计，不包含全部eager临时张量/工作区。
 
@@ -47,4 +47,4 @@ python -m cost_model.evaluate_reference_semantics \
 
 规划保存在reference_semantics_validation_plan.json，标记planning_only_do_not_collect_before_predictor_freeze。先完成训练侧校准及实现，再冻结预测、候选和标签访问规则，之后才采这些新任务。候选只从公开模型/结构探针产生，保留单卡对照，不使用Oracle搜索候选。
 
-本轮不需要新开卡或重复采集旧轨迹。主机校准和独立任务采集脚本尚未包含在本次实现中。
+训练侧主机校准入口现为calibration.calibrate_reference_host，操作见calibration/REFERENCE_HOST_CALIBRATION.md，需要两张BW1000。独立任务采集尚未启动，不重跑旧诊断轨迹。校准结果不可无条件用于旧宿主的性能验收。
