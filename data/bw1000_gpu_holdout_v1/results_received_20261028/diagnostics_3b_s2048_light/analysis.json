@@ -1,0 +1,1432 @@
+{
+  "freeze_id": "sha256:59a32c2eb827b95a395bc95f31e057716b52bfd44f025f913ef60c7c897829b2",
+  "checks_pass": true,
+  "baseline_records": 12,
+  "before_samples": 180,
+  "after_samples": 60,
+  "captured_forwards": 9,
+  "role_order_same_in_all_four_uninstrumented_blocks": true,
+  "all_predeclared_timing_targets_pass": true,
+  "all_activity_checks_pass": true,
+  "baseline_samples_above_twice_candidate_phase_median": 1,
+  "baselines": [
+    {
+      "role": "single_gpu_reference",
+      "before": {
+        "samples": 60,
+        "median_ms": 3.8104888517409563,
+        "mean_ms": 3.9347924447307987,
+        "min_ms": 3.763219341635704,
+        "max_ms": 9.967150632292032,
+        "p90_ms": 3.8457170594483614,
+        "p95_ms": 3.8812488084658967,
+        "standard_cv": 0.20205109953596959,
+        "robust_cv": 0.006369520121838514,
+        "samples_above_twice_median": 1
+      },
+      "after": {
+        "role": "single_gpu_reference",
+        "plan_id": "sha256:7a64b20c0d5e646eabbb218522082dc1e16763a239b0765c226c4cdcdcb684ca",
+        "samples": 20,
+        "median_ms": 3.7850032094866037,
+        "mean_ms": 3.7857878487557173,
+        "min_ms": 3.7748590111732483,
+        "max_ms": 3.8081686943769455,
+        "p90_ms": 3.796879993751645,
+        "p95_ms": 3.799171163700521,
+        "standard_cv": 0.002270359073760517,
+        "robust_cv": 0.002185805720985466,
+        "samples_above_twice_median": 0
+      },
+      "before_relative_to_single_gpu_pct": 0.0,
+      "after_relative_to_single_gpu_pct": 0.0
+    },
+    {
+      "role": "predicted_top1",
+      "before": {
+        "samples": 60,
+        "median_ms": 4.2264084331691265,
+        "mean_ms": 4.228402200775842,
+        "min_ms": 4.205052740871906,
+        "max_ms": 4.284382797777653,
+        "p90_ms": 4.244592925533652,
+        "p95_ms": 4.254786437377334,
+        "standard_cv": 0.003245998869645668,
+        "robust_cv": 0.0020625555260643203,
+        "samples_above_twice_median": 0
+      },
+      "after": {
+        "role": "predicted_top1",
+        "plan_id": "sha256:fa12b9fe3a3a1ea9fa59f69fc074ddff1fbba723e28e44dcd59310c7c7b65dc4",
+        "samples": 20,
+        "median_ms": 4.190236795693636,
+        "mean_ms": 4.189680749550462,
+        "min_ms": 4.17106319218874,
+        "max_ms": 4.210523329675198,
+        "p90_ms": 4.2005708906799555,
+        "p95_ms": 4.202419403009117,
+        "standard_cv": 0.0021672689834861827,
+        "robust_cv": 0.0022236203174652563,
+        "samples_above_twice_median": 0
+      },
+      "before_relative_to_single_gpu_pct": 10.915123954191408,
+      "after_relative_to_single_gpu_pct": 10.706294388109594
+    },
+    {
+      "role": "intermediate",
+      "before": {
+        "samples": 60,
+        "median_ms": 4.160837270319462,
+        "mean_ms": 4.153824574314058,
+        "min_ms": 4.1070920415222645,
+        "max_ms": 4.217203240841627,
+        "p90_ms": 4.18489039875567,
+        "p95_ms": 4.1962659219279885,
+        "standard_cv": 0.006759556034360607,
+        "robust_cv": 0.006885912439719629,
+        "samples_above_twice_median": 0
+      },
+      "after": {
+        "role": "intermediate",
+        "plan_id": "sha256:d99e0148d41e2380ab09484f135e2cf6e14ebd5d6c8847d695aa31cab3edd2d5",
+        "samples": 20,
+        "median_ms": 4.092736402526498,
+        "mean_ms": 4.197879228740931,
+        "min_ms": 4.069701302796602,
+        "max_ms": 4.5837960205972195,
+        "p90_ms": 4.573148721829057,
+        "p95_ms": 4.579948214814067,
+        "standard_cv": 0.045840199972490094,
+        "robust_cv": 0.003258348648257961,
+        "samples_above_twice_median": 0
+      },
+      "before_relative_to_single_gpu_pct": 9.19431685040717,
+      "after_relative_to_single_gpu_pct": 8.130328457016955
+    }
+  ],
+  "traces": [
+    {
+      "role": "single_gpu_reference",
+      "timing_comparison": {
+        "available": true,
+        "trace_over_before_ratio": 1.127950787993957,
+        "trace_over_after_ratio": 1.1355456429180637,
+        "after_over_before_change_fraction": -0.0066882867910001975,
+        "trace_deviation_target": 0.15,
+        "baseline_shift_target": 0.1,
+        "timing_target_pass": true,
+        "interpretation": "Predeclared engineering check of profiling perturbation, not proof of causal fidelity or independent validation. Keep every trace even when the target fails."
+      },
+      "traced_samples_ms": [
+        4.3250941671431065,
+        4.2980439029634,
+        4.25970321521163
+      ],
+      "frames": [
+        {
+          "label": "fusion_light_forward::0",
+          "physical_kernels": 37,
+          "copy_calls": 0,
+          "copy_bytes": 0,
+          "gpu_dma_duration_sum_ms": 0,
+          "gpu0_gpu1_kernel_overlap_ms": 0,
+          "relevant_pair": "gate_up",
+          "branch_overlap": {
+            "available": true,
+            "cross_device": false,
+            "overlap_ms": 0.0
+          },
+          "first_branch_end_ms": 3.48141409765625,
+          "second_branch_start_ms": 3.61229541015625,
+          "second_starts_after_first": true,
+          "silu_end_ms": 3.6122940390625002,
+          "node_gpu_intervals": {
+            "L000.mlp.gate_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.17597509765625,
+              "end_ms": 3.48141409765625,
+              "active_intervals_ms": [
+                [
+                  3.17597509765625,
+                  3.48141409765625
+                ]
+              ]
+            },
+            "L000.mlp.silu": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.4814150390625,
+              "end_ms": 3.6122940390625002,
+              "active_intervals_ms": [
+                [
+                  3.4814150390625,
+                  3.6122940390625002
+                ]
+              ]
+            },
+            "L000.mlp.up_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.61229541015625,
+              "end_ms": 3.90989441015625,
+              "active_intervals_ms": [
+                [
+                  3.61229541015625,
+                  3.90989441015625
+                ]
+              ]
+            },
+            "L000.self_attention.k_rope": {
+              "kernels": 8,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.38429736328125,
+              "end_ms": 0.5513360898437499,
+              "active_intervals_ms": [
+                [
+                  0.38429736328125,
+                  0.39837636328125003
+                ],
+                [
+                  0.398376953125,
+                  0.408295953125
+                ],
+                [
+                  0.41821728515625,
+                  0.42189628515625
+                ],
+                [
+                  0.4377373046875,
+                  0.4478163046875
+                ],
+                [
+                  0.45293701171875,
+                  0.46269601171875
+                ],
+                [
+                  0.47005712890625,
+                  0.47309612890625
+                ],
+                [
+                  0.53133740234375,
+                  0.54301640234375
+                ],
+                [
+                  0.54301708984375,
+                  0.5513360898437499
+                ]
+              ]
+            },
+            "L000.self_attention.q_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.70285595703125,
+              "end_ms": 0.76749495703125,
+              "active_intervals_ms": [
+                [
+                  0.70285595703125,
+                  0.76749495703125
+                ]
+              ]
+            }
+          },
+          "dma_events": []
+        },
+        {
+          "label": "fusion_light_forward::1",
+          "physical_kernels": 37,
+          "copy_calls": 0,
+          "copy_bytes": 0,
+          "gpu_dma_duration_sum_ms": 0,
+          "gpu0_gpu1_kernel_overlap_ms": 0,
+          "relevant_pair": "gate_up",
+          "branch_overlap": {
+            "available": true,
+            "cross_device": false,
+            "overlap_ms": 0.0
+          },
+          "first_branch_end_ms": 3.4400670664062503,
+          "second_branch_start_ms": 3.571908203125,
+          "second_starts_after_first": true,
+          "silu_end_ms": 3.571907359375,
+          "node_gpu_intervals": {
+            "L000.mlp.gate_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.13526806640625,
+              "end_ms": 3.4400670664062503,
+              "active_intervals_ms": [
+                [
+                  3.13526806640625,
+                  3.4400670664062503
+                ]
+              ]
+            },
+            "L000.mlp.silu": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.440068359375,
+              "end_ms": 3.571907359375,
+              "active_intervals_ms": [
+                [
+                  3.440068359375,
+                  3.571907359375
+                ]
+              ]
+            },
+            "L000.mlp.up_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.571908203125,
+              "end_ms": 3.872227203125,
+              "active_intervals_ms": [
+                [
+                  3.571908203125,
+                  3.872227203125
+                ]
+              ]
+            },
+            "L000.self_attention.k_rope": {
+              "kernels": 8,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.317669921875,
+              "end_ms": 0.4805493125,
+              "active_intervals_ms": [
+                [
+                  0.317669921875,
+                  0.331748921875
+                ],
+                [
+                  0.33175,
+                  0.341349
+                ],
+                [
+                  0.35031005859375,
+                  0.35414905859374995
+                ],
+                [
+                  0.37031005859375,
+                  0.38038905859375
+                ],
+                [
+                  0.38518994140625,
+                  0.39510894140625
+                ],
+                [
+                  0.40151025390625,
+                  0.40470925390625
+                ],
+                [
+                  0.4608701171875,
+                  0.4720691171875
+                ],
+                [
+                  0.4720703125,
+                  0.4805493125
+                ]
+              ]
+            },
+            "L000.self_attention.q_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.6296689453125,
+              "end_ms": 0.6955879453124999,
+              "active_intervals_ms": [
+                [
+                  0.6296689453125,
+                  0.6955879453124999
+                ]
+              ]
+            }
+          },
+          "dma_events": []
+        },
+        {
+          "label": "fusion_light_forward::2",
+          "physical_kernels": 37,
+          "copy_calls": 0,
+          "copy_bytes": 0,
+          "gpu_dma_duration_sum_ms": 0,
+          "gpu0_gpu1_kernel_overlap_ms": 0,
+          "relevant_pair": "gate_up",
+          "branch_overlap": {
+            "available": true,
+            "cross_device": false,
+            "overlap_ms": 0.0
+          },
+          "first_branch_end_ms": 3.4100803281250003,
+          "second_branch_start_ms": 3.54048095703125,
+          "second_starts_after_first": true,
+          "silu_end_ms": 3.5404800546875,
+          "node_gpu_intervals": {
+            "L000.mlp.gate_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.107361328125,
+              "end_ms": 3.4100803281250003,
+              "active_intervals_ms": [
+                [
+                  3.107361328125,
+                  3.4100803281250003
+                ]
+              ]
+            },
+            "L000.mlp.silu": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.4100810546875,
+              "end_ms": 3.5404800546875,
+              "active_intervals_ms": [
+                [
+                  3.4100810546875,
+                  3.5404800546875
+                ]
+              ]
+            },
+            "L000.mlp.up_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.54048095703125,
+              "end_ms": 3.83967995703125,
+              "active_intervals_ms": [
+                [
+                  3.54048095703125,
+                  3.83967995703125
+                ]
+              ]
+            },
+            "L000.self_attention.k_rope": {
+              "kernels": 8,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.3163232421875,
+              "end_ms": 0.47904101171875,
+              "active_intervals_ms": [
+                [
+                  0.3163232421875,
+                  0.33040224218750003
+                ],
+                [
+                  0.3304033203125,
+                  0.34016232031250004
+                ],
+                [
+                  0.349283203125,
+                  0.352962203125
+                ],
+                [
+                  0.36880322265625,
+                  0.37872222265625
+                ],
+                [
+                  0.38384326171875,
+                  0.39360226171875
+                ],
+                [
+                  0.4000029296875,
+                  0.4032019296875
+                ],
+                [
+                  0.4592021484375,
+                  0.4705611484375
+                ],
+                [
+                  0.47056201171875,
+                  0.47904101171875
+                ]
+              ]
+            },
+            "L000.self_attention.q_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.63840234375,
+              "end_ms": 0.7032013437500001,
+              "active_intervals_ms": [
+                [
+                  0.63840234375,
+                  0.7032013437500001
+                ]
+              ]
+            }
+          },
+          "dma_events": []
+        }
+      ]
+    },
+    {
+      "role": "predicted_top1",
+      "timing_comparison": {
+        "available": true,
+        "trace_over_before_ratio": 1.1114441453820196,
+        "trace_over_after_ratio": 1.1210385326830743,
+        "after_over_before_change_fraction": -0.008558481284395847,
+        "trace_deviation_target": 0.15,
+        "baseline_shift_target": 0.1,
+        "timing_target_pass": true,
+        "interpretation": "Predeclared engineering check of profiling perturbation, not proof of causal fidelity or independent validation. Keep every trace even when the target fails."
+      },
+      "traced_samples_ms": [
+        5.062270909547806,
+        4.6974169090390205,
+        4.6920171007514
+      ],
+      "frames": [
+        {
+          "label": "fusion_light_forward::0",
+          "physical_kernels": 37,
+          "copy_calls": 2,
+          "copy_bytes": 53477376,
+          "gpu_dma_duration_sum_ms": 0.335198,
+          "gpu0_gpu1_kernel_overlap_ms": 0.0,
+          "relevant_pair": "gate_up",
+          "branch_overlap": {
+            "available": true,
+            "cross_device": true,
+            "overlap_ms": 0.0
+          },
+          "first_branch_end_ms": 3.9343149765625,
+          "second_branch_start_ms": 4.148087890625,
+          "second_starts_after_first": true,
+          "silu_end_ms": 4.06423491796875,
+          "node_gpu_intervals": {
+            "L000.mlp.gate_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.6288759765625,
+              "end_ms": 3.9343149765625,
+              "active_intervals_ms": [
+                [
+                  3.6288759765625,
+                  3.9343149765625
+                ]
+              ]
+            },
+            "L000.mlp.silu": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.93431591796875,
+              "end_ms": 4.06423491796875,
+              "active_intervals_ms": [
+                [
+                  3.93431591796875,
+                  4.06423491796875
+                ]
+              ]
+            },
+            "L000.mlp.up_proj": {
+              "kernels": 1,
+              "devices": [
+                1
+              ],
+              "start_ms": 4.148087890625,
+              "end_ms": 4.444405890625,
+              "active_intervals_ms": [
+                [
+                  4.148087890625,
+                  4.444405890625
+                ]
+              ]
+            },
+            "L000.self_attention.k_rope": {
+              "kernels": 8,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.66215771484375,
+              "end_ms": 0.895916734375,
+              "active_intervals_ms": [
+                [
+                  0.66215771484375,
+                  0.67287671484375
+                ],
+                [
+                  0.68231787109375,
+                  0.68983687109375
+                ],
+                [
+                  0.7186376953125,
+                  0.7213566953125
+                ],
+                [
+                  0.73815771484375,
+                  0.74583671484375
+                ],
+                [
+                  0.75447802734375,
+                  0.7619970273437501
+                ],
+                [
+                  0.77815771484375,
+                  0.7807167148437499
+                ],
+                [
+                  0.8749580078125,
+                  0.8832770078125
+                ],
+                [
+                  0.889677734375,
+                  0.895916734375
+                ]
+              ]
+            },
+            "L000.self_attention.q_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 1.07447802734375,
+              "end_ms": 1.13895702734375,
+              "active_intervals_ms": [
+                [
+                  1.07447802734375,
+                  1.13895702734375
+                ]
+              ]
+            }
+          },
+          "dma_events": [
+            {
+              "raw_event_index": 926,
+              "kind": "gpu_memcpy",
+              "device": 0,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 4.0725556640625,
+              "end_ms": 4.1359146640625,
+              "duration_ms": 0.063359,
+              "bytes": 8388608
+            },
+            {
+              "raw_event_index": 930,
+              "kind": "gpu_memcpy",
+              "device": 1,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 4.45464697265625,
+              "end_ms": 4.72648597265625,
+              "duration_ms": 0.271839,
+              "bytes": 45088768
+            }
+          ]
+        },
+        {
+          "label": "fusion_light_forward::1",
+          "physical_kernels": 37,
+          "copy_calls": 2,
+          "copy_bytes": 53477376,
+          "gpu_dma_duration_sum_ms": 0.33631799999999995,
+          "gpu0_gpu1_kernel_overlap_ms": 0.0,
+          "relevant_pair": "gate_up",
+          "branch_overlap": {
+            "available": true,
+            "cross_device": true,
+            "overlap_ms": 0.0
+          },
+          "first_branch_end_ms": 3.5369291171875,
+          "second_branch_start_ms": 3.751341796875,
+          "second_starts_after_first": true,
+          "silu_end_ms": 3.66716917578125,
+          "node_gpu_intervals": {
+            "L000.mlp.gate_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.2343701171875,
+              "end_ms": 3.5369291171875,
+              "active_intervals_ms": [
+                [
+                  3.2343701171875,
+                  3.5369291171875
+                ]
+              ]
+            },
+            "L000.mlp.silu": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.53693017578125,
+              "end_ms": 3.66716917578125,
+              "active_intervals_ms": [
+                [
+                  3.53693017578125,
+                  3.66716917578125
+                ]
+              ]
+            },
+            "L000.mlp.up_proj": {
+              "kernels": 1,
+              "devices": [
+                1
+              ],
+              "start_ms": 3.751341796875,
+              "end_ms": 4.047179796875,
+              "active_intervals_ms": [
+                [
+                  3.751341796875,
+                  4.047179796875
+                ]
+              ]
+            },
+            "L000.self_attention.k_rope": {
+              "kernels": 8,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.37997216796875,
+              "end_ms": 0.57581077734375,
+              "active_intervals_ms": [
+                [
+                  0.37997216796875,
+                  0.39133116796875
+                ],
+                [
+                  0.39869189453125,
+                  0.40637089453124997
+                ],
+                [
+                  0.4222119140625,
+                  0.42509091406250005
+                ],
+                [
+                  0.44973193359375,
+                  0.45725093359375
+                ],
+                [
+                  0.465251953125,
+                  0.472770953125
+                ],
+                [
+                  0.4844521484375,
+                  0.4870111484375
+                ],
+                [
+                  0.553091796875,
+                  0.5617307968749999
+                ],
+                [
+                  0.56957177734375,
+                  0.57581077734375
+                ]
+              ]
+            },
+            "L000.self_attention.q_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.7262119140625,
+              "end_ms": 0.7900509140624999,
+              "active_intervals_ms": [
+                [
+                  0.7262119140625,
+                  0.7900509140624999
+                ]
+              ]
+            }
+          },
+          "dma_events": [
+            {
+              "raw_event_index": 1004,
+              "kind": "gpu_memcpy",
+              "device": 0,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 3.675330078125,
+              "end_ms": 3.739169078125,
+              "duration_ms": 0.06383899999999999,
+              "bytes": 8388608
+            },
+            {
+              "raw_event_index": 1008,
+              "kind": "gpu_memcpy",
+              "device": 1,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 4.0574208984375,
+              "end_ms": 4.3298998984375,
+              "duration_ms": 0.27247899999999997,
+              "bytes": 45088768
+            }
+          ]
+        },
+        {
+          "label": "fusion_light_forward::2",
+          "physical_kernels": 37,
+          "copy_calls": 2,
+          "copy_bytes": 53477376,
+          "gpu_dma_duration_sum_ms": 0.33919800000000006,
+          "gpu0_gpu1_kernel_overlap_ms": 0.0,
+          "relevant_pair": "gate_up",
+          "branch_overlap": {
+            "available": true,
+            "cross_device": true,
+            "overlap_ms": 0.0
+          },
+          "first_branch_end_ms": 3.53618796484375,
+          "second_branch_start_ms": 3.751240234375,
+          "second_starts_after_first": true,
+          "silu_end_ms": 3.66610796484375,
+          "node_gpu_intervals": {
+            "L000.mlp.gate_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.23218896484375,
+              "end_ms": 3.53618796484375,
+              "active_intervals_ms": [
+                [
+                  3.23218896484375,
+                  3.53618796484375
+                ]
+              ]
+            },
+            "L000.mlp.silu": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.53618896484375,
+              "end_ms": 3.66610796484375,
+              "active_intervals_ms": [
+                [
+                  3.53618896484375,
+                  3.66610796484375
+                ]
+              ]
+            },
+            "L000.mlp.up_proj": {
+              "kernels": 1,
+              "devices": [
+                1
+              ],
+              "start_ms": 3.751240234375,
+              "end_ms": 4.046118234375,
+              "active_intervals_ms": [
+                [
+                  3.751240234375,
+                  4.046118234375
+                ]
+              ]
+            },
+            "L000.self_attention.k_rope": {
+              "kernels": 8,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.3757099609375,
+              "end_ms": 0.56674925390625,
+              "active_intervals_ms": [
+                [
+                  0.3757099609375,
+                  0.3869089609375
+                ],
+                [
+                  0.39443017578125,
+                  0.40226917578125
+                ],
+                [
+                  0.4176298828125,
+                  0.42050888281250004
+                ],
+                [
+                  0.44435009765625,
+                  0.45186909765625
+                ],
+                [
+                  0.45875,
+                  0.466109
+                ],
+                [
+                  0.47922998046875,
+                  0.48162898046874997
+                ],
+                [
+                  0.5457900390625,
+                  0.5550690390625
+                ],
+                [
+                  0.56051025390625,
+                  0.56674925390625
+                ]
+              ]
+            },
+            "L000.self_attention.q_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.72322998046875,
+              "end_ms": 0.78898898046875,
+              "active_intervals_ms": [
+                [
+                  0.72322998046875,
+                  0.78898898046875
+                ]
+              ]
+            }
+          },
+          "dma_events": [
+            {
+              "raw_event_index": 1082,
+              "kind": "gpu_memcpy",
+              "device": 0,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 3.6749091796875,
+              "end_ms": 3.7395481796875,
+              "duration_ms": 0.064639,
+              "bytes": 8388608
+            },
+            {
+              "raw_event_index": 1086,
+              "kind": "gpu_memcpy",
+              "device": 1,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 4.05667919921875,
+              "end_ms": 4.33123819921875,
+              "duration_ms": 0.27455900000000005,
+              "bytes": 45088768
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "intermediate",
+      "timing_comparison": {
+        "available": true,
+        "trace_over_before_ratio": 1.121333627297481,
+        "trace_over_after_ratio": 1.1399919980289188,
+        "after_over_before_change_fraction": -0.016367106754870853,
+        "trace_deviation_target": 0.15,
+        "baseline_shift_target": 0.1,
+        "timing_target_pass": true,
+        "interpretation": "Predeclared engineering check of profiling perturbation, not proof of causal fidelity or independent validation. Keep every trace even when the target fails."
+      },
+      "traced_samples_ms": [
+        4.654416814446449,
+        4.706867970526218,
+        4.665686748921871
+      ],
+      "frames": [
+        {
+          "label": "fusion_light_forward::0",
+          "physical_kernels": 37,
+          "copy_calls": 2,
+          "copy_bytes": 2097152,
+          "gpu_dma_duration_sum_ms": 0.006878,
+          "gpu0_gpu1_kernel_overlap_ms": 0.0,
+          "relevant_pair": "k_rope_q_proj",
+          "branch_overlap": {
+            "available": true,
+            "cross_device": true,
+            "overlap_ms": 0.0
+          },
+          "first_branch_end_ms": 0.7075088632812501,
+          "second_branch_start_ms": 0.87150927734375,
+          "second_starts_after_first": true,
+          "silu_end_ms": 3.97246509375,
+          "node_gpu_intervals": {
+            "L000.mlp.gate_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.5385458984375,
+              "end_ms": 3.8417448984374998,
+              "active_intervals_ms": [
+                [
+                  3.5385458984375,
+                  3.8417448984374998
+                ]
+              ]
+            },
+            "L000.mlp.silu": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.84174609375,
+              "end_ms": 3.97246509375,
+              "active_intervals_ms": [
+                [
+                  3.84174609375,
+                  3.97246509375
+                ]
+              ]
+            },
+            "L000.mlp.up_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.97246630859375,
+              "end_ms": 4.27326530859375,
+              "active_intervals_ms": [
+                [
+                  3.97246630859375,
+                  4.27326530859375
+                ]
+              ]
+            },
+            "L000.self_attention.k_rope": {
+              "kernels": 8,
+              "devices": [
+                1
+              ],
+              "start_ms": 0.5279912109375,
+              "end_ms": 0.7075088632812501,
+              "active_intervals_ms": [
+                [
+                  0.5279912109375,
+                  0.5369502109375001
+                ],
+                [
+                  0.54639111328125,
+                  0.55439011328125
+                ],
+                [
+                  0.56911083984375,
+                  0.57198983984375
+                ],
+                [
+                  0.5918310546875,
+                  0.5999900546875
+                ],
+                [
+                  0.60847119140625,
+                  0.6164701914062499
+                ],
+                [
+                  0.6276708984375,
+                  0.6303898984375
+                ],
+                [
+                  0.68735009765625,
+                  0.69422909765625
+                ],
+                [
+                  0.70110986328125,
+                  0.7075088632812501
+                ]
+              ]
+            },
+            "L000.self_attention.q_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.87150927734375,
+              "end_ms": 0.9343882773437501,
+              "active_intervals_ms": [
+                [
+                  0.87150927734375,
+                  0.9343882773437501
+                ]
+              ]
+            }
+          },
+          "dma_events": [
+            {
+              "raw_event_index": 864,
+              "kind": "gpu_memcpy",
+              "device": 0,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 0.34660693359375,
+              "end_ms": 0.35012593359375,
+              "duration_ms": 0.003519,
+              "bytes": 1048576
+            },
+            {
+              "raw_event_index": 900,
+              "kind": "gpu_memcpy",
+              "device": 1,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 1.2802802734375,
+              "end_ms": 1.2836392734375,
+              "duration_ms": 0.003359,
+              "bytes": 1048576
+            }
+          ]
+        },
+        {
+          "label": "fusion_light_forward::1",
+          "physical_kernels": 37,
+          "copy_calls": 2,
+          "copy_bytes": 2097152,
+          "gpu_dma_duration_sum_ms": 0.006718,
+          "gpu0_gpu1_kernel_overlap_ms": 0.0,
+          "relevant_pair": "k_rope_q_proj",
+          "branch_overlap": {
+            "available": true,
+            "cross_device": true,
+            "overlap_ms": 0.0
+          },
+          "first_branch_end_ms": 0.69587702734375,
+          "second_branch_start_ms": 0.86502685546875,
+          "second_starts_after_first": true,
+          "silu_end_ms": 4.02054499609375,
+          "node_gpu_intervals": {
+            "L000.mlp.gate_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.5882255859375,
+              "end_ms": 3.8901445859374997,
+              "active_intervals_ms": [
+                [
+                  3.5882255859375,
+                  3.8901445859374997
+                ]
+              ]
+            },
+            "L000.mlp.silu": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.89014599609375,
+              "end_ms": 4.02054499609375,
+              "active_intervals_ms": [
+                [
+                  3.89014599609375,
+                  4.02054499609375
+                ]
+              ]
+            },
+            "L000.mlp.up_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 4.0205458984375,
+              "end_ms": 4.3199038984375,
+              "active_intervals_ms": [
+                [
+                  4.0205458984375,
+                  4.3199038984375
+                ]
+              ]
+            },
+            "L000.self_attention.k_rope": {
+              "kernels": 8,
+              "devices": [
+                1
+              ],
+              "start_ms": 0.4897978515625,
+              "end_ms": 0.69587702734375,
+              "active_intervals_ms": [
+                [
+                  0.4897978515625,
+                  0.4989168515625
+                ],
+                [
+                  0.51059765625,
+                  0.5189166562499999
+                ],
+                [
+                  0.53507763671875,
+                  0.53811663671875
+                ],
+                [
+                  0.56323779296875,
+                  0.57139679296875
+                ],
+                [
+                  0.5787578125,
+                  0.5869168125
+                ],
+                [
+                  0.59923779296875,
+                  0.60179679296875
+                ],
+                [
+                  0.6736376953125,
+                  0.6803566953125
+                ],
+                [
+                  0.68947802734375,
+                  0.69587702734375
+                ]
+              ]
+            },
+            "L000.self_attention.q_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.86502685546875,
+              "end_ms": 0.92790585546875,
+              "active_intervals_ms": [
+                [
+                  0.86502685546875,
+                  0.92790585546875
+                ]
+              ]
+            }
+          },
+          "dma_events": [
+            {
+              "raw_event_index": 942,
+              "kind": "gpu_memcpy",
+              "device": 0,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 0.327587890625,
+              "end_ms": 0.330946890625,
+              "duration_ms": 0.003359,
+              "bytes": 1048576
+            },
+            {
+              "raw_event_index": 978,
+              "kind": "gpu_memcpy",
+              "device": 1,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 1.29091796875,
+              "end_ms": 1.29427696875,
+              "duration_ms": 0.003359,
+              "bytes": 1048576
+            }
+          ]
+        },
+        {
+          "label": "fusion_light_forward::2",
+          "physical_kernels": 37,
+          "copy_calls": 2,
+          "copy_bytes": 2097152,
+          "gpu_dma_duration_sum_ms": 0.0071979999999999995,
+          "gpu0_gpu1_kernel_overlap_ms": 0.0,
+          "relevant_pair": "k_rope_q_proj",
+          "branch_overlap": {
+            "available": true,
+            "cross_device": true,
+            "overlap_ms": 0.0
+          },
+          "first_branch_end_ms": 0.693984625,
+          "second_branch_start_ms": 0.85673583984375,
+          "second_starts_after_first": true,
+          "silu_end_ms": 3.98137265234375,
+          "node_gpu_intervals": {
+            "L000.mlp.gate_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.5444140625,
+              "end_ms": 3.8504930625,
+              "active_intervals_ms": [
+                [
+                  3.5444140625,
+                  3.8504930625
+                ]
+              ]
+            },
+            "L000.mlp.silu": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.85049365234375,
+              "end_ms": 3.98137265234375,
+              "active_intervals_ms": [
+                [
+                  3.85049365234375,
+                  3.98137265234375
+                ]
+              ]
+            },
+            "L000.mlp.up_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 3.9813740234375,
+              "end_ms": 4.279933023437501,
+              "active_intervals_ms": [
+                [
+                  3.9813740234375,
+                  4.279933023437501
+                ]
+              ]
+            },
+            "L000.self_attention.k_rope": {
+              "kernels": 8,
+              "devices": [
+                1
+              ],
+              "start_ms": 0.49686572265625,
+              "end_ms": 0.693984625,
+              "active_intervals_ms": [
+                [
+                  0.49686572265625,
+                  0.50566472265625
+                ],
+                [
+                  0.5165458984375,
+                  0.5247048984375
+                ],
+                [
+                  0.5403857421875,
+                  0.5434247421875
+                ],
+                [
+                  0.5685458984375,
+                  0.5765448984375
+                ],
+                [
+                  0.5847060546875,
+                  0.5927050546875
+                ],
+                [
+                  0.60518603515625,
+                  0.60790503515625
+                ],
+                [
+                  0.67174560546875,
+                  0.67846460546875
+                ],
+                [
+                  0.687265625,
+                  0.693984625
+                ]
+              ]
+            },
+            "L000.self_attention.q_proj": {
+              "kernels": 1,
+              "devices": [
+                0
+              ],
+              "start_ms": 0.85673583984375,
+              "end_ms": 0.9200948398437501,
+              "active_intervals_ms": [
+                [
+                  0.85673583984375,
+                  0.9200948398437501
+                ]
+              ]
+            }
+          },
+          "dma_events": [
+            {
+              "raw_event_index": 1020,
+              "kind": "gpu_memcpy",
+              "device": 0,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 0.3391357421875,
+              "end_ms": 0.34265474218749997,
+              "duration_ms": 0.003519,
+              "bytes": 1048576
+            },
+            {
+              "raw_event_index": 1056,
+              "kind": "gpu_memcpy",
+              "device": 1,
+              "stream": 0,
+              "node_id": null,
+              "start_ms": 1.26982568359375,
+              "end_ms": 1.27350468359375,
+              "duration_ms": 0.003679,
+              "bytes": 1048576
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "serial_work_sum_diagnostic": {
+    "rows": [
+      {
+        "role": "single_gpu_reference",
+        "original_dag_ms": 3.7408321477903645,
+        "serial_work_sum_ms": 3.7408321477903645,
+        "measured_before_ms": 3.8104888517409563,
+        "original_dag_ape": 0.018280253967615373,
+        "serial_work_sum_ape": 0.018280253967615373
+      },
+      {
+        "role": "predicted_top1",
+        "original_dag_ms": 3.675852110458343,
+        "serial_work_sum_ms": 4.150812100234469,
+        "measured_before_ms": 4.2264084331691265,
+        "original_dag_ape": 0.1302657638078663,
+        "serial_work_sum_ape": 0.017886660536963892
+      },
+      {
+        "role": "intermediate",
+        "original_dag_ms": 3.678039996363964,
+        "serial_work_sum_ms": 3.862108654263734,
+        "measured_before_ms": 4.160837270319462,
+        "original_dag_ape": 0.11603368326837489,
+        "serial_work_sum_ape": 0.07179531345449422
+      }
+    ],
+    "original_dag_order": [
+      "predicted_top1",
+      "intermediate",
+      "single_gpu_reference"
+    ],
+    "serial_work_sum_order": [
+      "single_gpu_reference",
+      "intermediate",
+      "predicted_top1"
+    ],
+    "scope": "Post-hoc arithmetic ablation only: sum the original computation and transfer service costs, no fitting. Not a new validated execution model or a bound on actual latency; host overhead, stream dependencies and partial overlap are not modeled."
+  },
+  "source_sha256": {
+    "baseline_samples.jsonl": "ef685136e289583f2b8f602cb1003e8ff8ffb1f084a4b1bdefeba743455cb0ca",
+    "diagnostic_environment.json": "0caaf061ae8478f5987f267955c4f8e01fd18a94aef5d87afc78d64c23bbcfcf",
+    "diagnostic_report.json": "5bffc95eda658f85a66cf809441b76ba3782478171224a240d5577719cf77271",
+    "intermediate.trace.json": "53c0520b5215bc5188c3c6a458a1dc7083497a1a59ef0bd62be1667d5577e899",
+    "predicted_top1.trace.json": "17897daa70e678b5832f1e98350746a0041d86125117bc42b7041d92221bbfff",
+    "prediction_breakdown.json": "326521aa661dc162a6887841830b7810d385a036f50fdae60dfd4b76076bbcb8",
+    "single_gpu_reference.trace.json": "2fa8843a3d0b0e596f12a1ba8dd62392cda30c40a81ff5ea4f6e9ed49b50fc41"
+  },
+  "limitations": [
+    "One already-exposed workload, three post-hoc selected plans; not independent milestone-A validation or SROP benefit.",
+    "15% median perturbation and 10% baseline-shift checks were frozen before collection; passing them does not prove zero observer effect. The first Top1 trace sample exceeds 15% and is retained.",
+    "ROCtracer duplicate-flow warning persists. Raw physical events are matched without flow arrows or GPU annotation spans; causal fidelity and completeness cannot be guaranteed merely by status=complete.",
+    "No exact causal decomposition of baseline latency is inferred by adding nested scopes or subtracting instrumented times."
+  ]
+}
