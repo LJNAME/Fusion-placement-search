@@ -1,0 +1,366 @@
+{
+  "audit": {
+    "sources_and_training_scope": true,
+    "record_hashes_and_order": true,
+    "cache_lifetime_and_no_events": true,
+    "summary_reproduced": true,
+    "records": 108,
+    "measured_forwards": 2160,
+    "calibration_promoted": false
+  },
+  "input_sha256": {
+    "protocol.json": "36b3153dbd68d6309292b8cf6c4bd7d08f924534ffba5cfe417955e127d5aaaa",
+    "environment.json": "e71d2b6144d460ce93cc1148e9fe4e269dde880f951fdfadb10eb609d01021cf",
+    "blocks.jsonl": "2658adf49dc453229fdf63696a832a223c09753c346827c99fb0f496dcf9df7d",
+    "diagnostic_report.json": "9506d7fd02b7416cb77919f14523251da9635081a70d6fcd054916af37686332",
+    "collection_status.json": "ea202842d1049dc165b984f0708b515ee4f011823aa68f69df39c80130b411bc"
+  },
+  "environment": {
+    "environment_id": "sha256:66253596806348a87494844225680083caace7f7718392294c321daf79eb5a79",
+    "host": "crdnotebook-2106728119406280705-abc12335-68186",
+    "platform": "Linux-5.15.0-25-generic-x86_64-with-glibc2.35",
+    "python": "3.11.9 (main, Apr  5 2026, 19:32:29) [GCC 11.4.0]",
+    "torch": "2.9.0",
+    "hip": "6.3.26093",
+    "logical_cpus": 128,
+    "affinity_cpus": 128,
+    "torch_threads": 128,
+    "torch_interop_threads": 128,
+    "devices": [
+      {
+        "device": "cuda:0",
+        "name": "BW"
+      },
+      {
+        "device": "cuda:1",
+        "name": "BW"
+      }
+    ],
+    "peer_access": {
+      "0->1": true,
+      "1->0": true
+    }
+  },
+  "summary": {
+    "correctness_blocks_pass": 108,
+    "triplets": 36,
+    "endpoint_reference_10pct_pass": 36,
+    "middle_reference_15pct_pass": 36,
+    "samples_above_twice_block_median": 4,
+    "no_earlier_calibration_promoted": true
+  },
+  "cells": [
+    {
+      "plan_name": "uniform0",
+      "lifecycle": "rebuild_block",
+      "middle_kind": "cpu_probe",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        0.39263532382691757,
+        -0.5966316766368274,
+        0.6685046942082495
+      ],
+      "max_absolute_endpoint_change_pct": 0.6685046942082495,
+      "max_absolute_middle_change_pct": 0.6445778648718536,
+      "all_endpoints_within_reference_10pct": true
+    },
+    {
+      "plan_name": "uniform0",
+      "lifecycle": "rebuild_block",
+      "middle_kind": "baseline_only",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        -0.14480174110016453,
+        0.6288223670032345,
+        1.1521211461083203
+      ],
+      "max_absolute_endpoint_change_pct": 1.1521211461083203,
+      "max_absolute_middle_change_pct": 2.5722655494849977,
+      "all_endpoints_within_reference_10pct": true
+    },
+    {
+      "plan_name": "uniform0",
+      "lifecycle": "reuse_triplet",
+      "middle_kind": "cpu_probe",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        -2.0464035653879997,
+        -0.015325702392099405,
+        -2.6305288188183895
+      ],
+      "max_absolute_endpoint_change_pct": 2.6305288188183895,
+      "max_absolute_middle_change_pct": 3.1469122425902607,
+      "all_endpoints_within_reference_10pct": true
+    },
+    {
+      "plan_name": "uniform0",
+      "lifecycle": "reuse_triplet",
+      "middle_kind": "baseline_only",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        0.2840982980709228,
+        2.6881174993985013,
+        2.7085502320097543
+      ],
+      "max_absolute_endpoint_change_pct": 2.7085502320097543,
+      "max_absolute_middle_change_pct": 2.592807452260748,
+      "all_endpoints_within_reference_10pct": true
+    },
+    {
+      "plan_name": "uniform1",
+      "lifecycle": "rebuild_block",
+      "middle_kind": "cpu_probe",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        0.6905527534470268,
+        0.29147842394119383,
+        2.1728139652307243
+      ],
+      "max_absolute_endpoint_change_pct": 2.1728139652307243,
+      "max_absolute_middle_change_pct": 1.7001241584583493,
+      "all_endpoints_within_reference_10pct": true
+    },
+    {
+      "plan_name": "uniform1",
+      "lifecycle": "rebuild_block",
+      "middle_kind": "baseline_only",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        0.07140974219006502,
+        -0.20823315606701698,
+        -0.36697501529808774
+      ],
+      "max_absolute_endpoint_change_pct": 0.36697501529808774,
+      "max_absolute_middle_change_pct": 2.6163251766404994,
+      "all_endpoints_within_reference_10pct": true
+    },
+    {
+      "plan_name": "uniform1",
+      "lifecycle": "reuse_triplet",
+      "middle_kind": "cpu_probe",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        -0.20086614899529343,
+        -0.07195724018685956,
+        -2.1440507135112474
+      ],
+      "max_absolute_endpoint_change_pct": 2.1440507135112474,
+      "max_absolute_middle_change_pct": 1.5229338953213434,
+      "all_endpoints_within_reference_10pct": true
+    },
+    {
+      "plan_name": "uniform1",
+      "lifecycle": "reuse_triplet",
+      "middle_kind": "baseline_only",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        -0.0006850137263647582,
+        -0.6136047210836049,
+        -0.2762949505060175
+      ],
+      "max_absolute_endpoint_change_pct": 0.6136047210836049,
+      "max_absolute_middle_change_pct": 9.59687392042512,
+      "all_endpoints_within_reference_10pct": true
+    },
+    {
+      "plan_name": "mlp_up",
+      "lifecycle": "rebuild_block",
+      "middle_kind": "cpu_probe",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        3.26398334872684,
+        2.0145847473638234,
+        -2.1986498921218622
+      ],
+      "max_absolute_endpoint_change_pct": 3.26398334872684,
+      "max_absolute_middle_change_pct": 4.1080192910855295,
+      "all_endpoints_within_reference_10pct": true
+    },
+    {
+      "plan_name": "mlp_up",
+      "lifecycle": "rebuild_block",
+      "middle_kind": "baseline_only",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        -0.004513314066245666,
+        -3.061905296413314,
+        0.7625592319039809
+      ],
+      "max_absolute_endpoint_change_pct": 3.061905296413314,
+      "max_absolute_middle_change_pct": 3.264865460370059,
+      "all_endpoints_within_reference_10pct": true
+    },
+    {
+      "plan_name": "mlp_up",
+      "lifecycle": "reuse_triplet",
+      "middle_kind": "cpu_probe",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        0.24688848125848928,
+        -8.37136084389184,
+        0.0313146452321611
+      ],
+      "max_absolute_endpoint_change_pct": 8.37136084389184,
+      "max_absolute_middle_change_pct": 9.926017584713254,
+      "all_endpoints_within_reference_10pct": true
+    },
+    {
+      "plan_name": "mlp_up",
+      "lifecycle": "reuse_triplet",
+      "middle_kind": "baseline_only",
+      "rounds": 3,
+      "endpoint_change_pct_by_round": [
+        -0.6586479512740162,
+        -1.809833676699668,
+        -0.2109942646111307
+      ],
+      "max_absolute_endpoint_change_pct": 1.809833676699668,
+      "max_absolute_middle_change_pct": 7.82899532834469,
+      "all_endpoints_within_reference_10pct": true
+    }
+  ],
+  "largest_endpoint_change": {
+    "case_id": "sha256:a383344bd720d213e38937b410a1b99b9d92a14e91e9b27f14e2d321d2a1100b",
+    "lifecycle": "reuse_triplet",
+    "middle_kind": "cpu_probe",
+    "repeat": 1,
+    "plan_name": "mlp_up",
+    "statistics": {
+      "before": {
+        "samples": 20,
+        "median_ms": 1.7997135873883963,
+        "mean_ms": 1.8039375077933073,
+        "min_ms": 1.7819581553339958,
+        "max_ms": 1.8356391228735447,
+        "p90_ms": 1.8201969098299742,
+        "p95_ms": 1.832674746401608,
+        "standard_cv": 0.007482026110753485,
+        "robust_cv": 0.0047698156890988545,
+        "samples_above_twice_median": 0
+      },
+      "middle": {
+        "samples": 20,
+        "median_ms": 1.8127383664250374,
+        "mean_ms": 1.851063221693039,
+        "min_ms": 1.772318035364151,
+        "max_ms": 2.6060519739985466,
+        "p90_ms": 1.8537451047450304,
+        "p95_ms": 1.8982614157721405,
+        "standard_cv": 0.09468370682408273,
+        "robust_cv": 0.01899149622921754,
+        "samples_above_twice_median": 0
+      },
+      "after": {
+        "samples": 20,
+        "median_ms": 1.649053068831563,
+        "mean_ms": 1.6704002628102899,
+        "min_ms": 1.6249674372375011,
+        "max_ms": 1.9322987645864487,
+        "p90_ms": 1.7127838917076588,
+        "p95_ms": 1.7593788681551814,
+        "standard_cv": 0.04050281452958601,
+        "robust_cv": 0.013873073459022067,
+        "samples_above_twice_median": 0
+      }
+    },
+    "after_over_before_change_pct": -8.37136084389184,
+    "middle_over_before_change_pct": 0.7237139913769175,
+    "middle_over_after_change_pct": 9.926017584713254,
+    "middle_within_reference_15pct": true,
+    "baseline_within_reference_10pct": true,
+    "executor_instances": [
+      37,
+      37,
+      37
+    ]
+  },
+  "largest_sham_middle_change": {
+    "case_id": "sha256:c0233226df5d41bf578de2b83f9785c3a7ed3b2667b3aa3de1d4876e5e803bae",
+    "lifecycle": "reuse_triplet",
+    "middle_kind": "baseline_only",
+    "repeat": 2,
+    "plan_name": "uniform1",
+    "statistics": {
+      "before": {
+        "samples": 20,
+        "median_ms": 1.422627130523324,
+        "mean_ms": 1.434829575009644,
+        "min_ms": 1.417716033756733,
+        "max_ms": 1.4793770387768745,
+        "p90_ms": 1.4599051792174578,
+        "p95_ms": 1.4713876880705357,
+        "standard_cv": 0.013474683626882984,
+        "robust_cv": 0.003684578758217696,
+        "samples_above_twice_median": 0
+      },
+      "middle": {
+        "samples": 20,
+        "median_ms": 1.5548469964414835,
+        "mean_ms": 1.5216646483168006,
+        "min_ms": 1.423147041350603,
+        "max_ms": 1.6019768081605434,
+        "p90_ms": 1.5904839150607586,
+        "p95_ms": 1.5996591886505485,
+        "standard_cv": 0.04236178977866222,
+        "robust_cv": 0.03781774838249139,
+        "samples_above_twice_median": 0
+      },
+      "after": {
+        "samples": 20,
+        "median_ms": 1.4186964835971594,
+        "mean_ms": 1.4211576897650957,
+        "min_ms": 1.4145071618258953,
+        "max_ms": 1.4407471753656864,
+        "p90_ms": 1.4339917805045843,
+        "p95_ms": 1.4364233706146479,
+        "standard_cv": 0.005045750602865491,
+        "robust_cv": 0.002519073598593855,
+        "samples_above_twice_median": 0
+      }
+    },
+    "after_over_before_change_pct": -0.2762949505060175,
+    "middle_over_before_change_pct": 9.294063291870547,
+    "middle_over_after_change_pct": 9.59687392042512,
+    "middle_within_reference_15pct": true,
+    "baseline_within_reference_10pct": true,
+    "executor_instances": [
+      66,
+      66,
+      66
+    ]
+  },
+  "pooled_before_after_medians_ms": {
+    "uniform0": 1.5368768945336342,
+    "uniform1": 1.4299366157501936,
+    "mlp_up": 1.660503214225173
+  },
+  "gpu0_over_gpu1_baseline_pct": 7.478672663217045,
+  "state_observations": {
+    "load_average_1m_range": [
+      4.97802734375,
+      17.19140625
+    ],
+    "allocator_retry_values": [
+      0
+    ],
+    "reserved_bytes_by_device": {
+      "cuda:0": [
+        283115520,
+        316669952
+      ],
+      "cuda:1": [
+        0,
+        316669952
+      ]
+    }
+  },
+  "limitations": [
+    "A new host and diagnostic protocol: passing reference targets cannot retroactively accept earlier calibrations.",
+    "The larger endpoint change occurred with reused tensors; this does not establish rebuilding as the earlier drift cause.",
+    "Three rounds of one training workload are not independent tasks, a significance test or a model generalization result.",
+    "Sham middle blocks also vary, but all stay within reference bounds; that does not reproduce the earlier >10% endpoint failure.",
+    "Pooled GPU0/GPU1 differences describe this runtime state, not intrinsic chip-speed differences or a calibrated hardware asymmetry.",
+    "No allocation retries does not rule out allocator/cache effects. Host load does not identify a causal CPU-frequency/driver mechanism.",
+    "No new cost fitting, host-profile export, default-search change, SROP benefit or independent labels."
+  ]
+}
