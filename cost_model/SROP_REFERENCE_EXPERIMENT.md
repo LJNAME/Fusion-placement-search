@@ -234,3 +234,47 @@ python -m execution.analyze_decoder_competition --results data/received_a3_decod
 ```
 
 新分析只读，audit_report.json包含原件hash、逐任务差距/初始选择/MAPE/窗口检查；真实数据复算和compileall通过，三份既有freeze保持不变，未新采GPU或重复无关套件。
+
+## 12. A3 离线代价模型消融
+
+入口cost_model.decoder_cost_ablation；结果data/a3_cost_model_ablation.v1.json。A3同类场景扩展结束，复用原120候选、原GPU真值、原kernel/link/host参数，不再采GPU、不按标签调参、不修改默认模型。此对照为事后开发集分析，含host Reference的120个评分逐项复现A3封存初始值。
+
+四种主方法：原DAG、含host串行加和、零host Reference、含host Reference。另报无host串行作为配套消融，避免只因某个基线拿不到host参数而夸大复杂模型收益。
+
+串行主基线 `T=W+C+H`：W为所有非input单节点服务时间之和，C按每条跨卡边复制完整源tensor，H为同一份host.start/finish、每节点submit与每次copy_submit之和；host与GPU不重叠。根缓存与层间alias input的GPU服务均0。Reference允许host/GPU重叠并遵循消费者复制/双端stream依赖。原DAG保持原实现，包括其input服务回退；这部分偏移与调度假设都可能影响绝对误差。
+
+下表为四任务等权平均。评分耗时为本地Windows/Python3.11.9、16逻辑CPU，1轮完整池预热后测5轮，方法顺序轮转/反转；逐轮原值保留。
+
+| 模型 | 方案MAPE | Spearman | 平均regret | 主1%通过 | 当前接口每候选ms |
+|---|---:|---:|---:|---:|---:|
+| 原DAG | 55.6203% | 0.8602 | 7.0255% | 0/4 | 1.0190 |
+| 串行加和+host | 41.3701% | 0.9508 | 0.0554% | 4/4 | 0.6606 |
+| Reference零host | 55.0154% | 0.9248 | 0.0554% | 4/4 | 2.3410 |
+| Reference含host | 3.7336% | 0.9275 | 0.0554% | 4/4 | 2.2243 |
+| 串行零host（配套） | 54.8822% | 0.9508 | 0.0554% | 4/4 | 0.6486 |
+
+串行与Reference四任务选择完全相同，regret依次0/0/0/0.2215%。Reference含host相对串行+host的评分接口耗时约3.367倍，绝对时间误差更低；排序相关性未优于串行。不能将原DAG→Reference的决策改善全部归因于复杂Reference机制，也不能据此证明其对当前搜索选点不可替代。
+
+耗时包含各实现当前scalar API的结构/合法性检查；DAG/Reference还计算显存/轨迹等附加信息，串行只返回时长。共享图/profile构造不计时、latency lookup已预热。数字不是抽象算法复杂度、最优实现速度、服务器CPU开销或GPU时间，不对这些本地5轮作显著性判断。
+
+4项针对性回归通过：cached input不计GPU服务/完整复制/host求和；相同算子服务+正复制成本下的小图所有放置均不优于单卡；相同regret可对应不同MAPE；物理预测并列不可事后换快卡。真实A3报告复算、compileall及新旧freeze完整性通过，未重复无关套件。
+
+```bash
+python -m cost_model.decoder_cost_ablation
+python -m unittest cost_model.tests.test_decoder_cost_ablation -v
+```
+
+重跑会产生本机新的CPU计时，预测和GPU标签保持不变。当前证据支持Reference作为较准的绝对时长预测器；没有证明相对简单串行模型的额外决策收益。SROP真机补测暂缓，不为寻找双卡获胜增加同类任务。
+
+## 13. 理论边界与相关工作初核
+
+强串行、固定算子/融合划分、单卡可行且某设备逐算子不慢于其他设备时，还须满足H(P)≥H(单卡)、C(P)≥0，才能由 `T(P)-T(单卡)=Σ[ti(di)-ti(d*)]+C(P)+H(P)-H(单卡)≥0` 得到单卡最优。仅H(P)非负不够；同型号也不证明逐算子支配。当前Reference的host按顺序提交不等于所有GPU强串行，此条件证明不直接覆盖当前执行器、改变融合划分的联合搜索或流水吞吐。
+
+| 一手资料 | 已有机制及与本项目的关系 |
+|---|---|
+| [Daydream，ATC2020，§4.2](https://www.cs.utoronto.ca/~pekhimenko/Papers/Daydream-ATC_20.pdf) | CPU任务/非CUDA gap、GPU stream顺序、API→kernel和同步依赖已有建模。泛称“host/执行语义感知”不足以区分。 |
+| [dPRO，MLSys2022](https://proceedings.mlsys.org/paper_files/paper/2022/file/b422680f3db0986ddd7f8f126baaf0fa-Paper.pdf) | 细粒度通信/全局DFG重放、关键路径与部分重放搜索已有先例。泛称“更真实通信图”不足以区分。 |
+| [Proteus，§VI](https://arxiv.org/html/2306.02267v1) | 执行图、多队列、计算通信重叠及带宽共享已有建模。运行时模拟本身不是新概念。 |
+| [PipeWeave v2，§IV/V-D](https://arxiv.org/html/2601.14910v2) | 核内pipeline解析+ML；端到端采用核序列时长累加。建模层次不同不自动等于本项目更优或更新。 |
+
+核对日期2026-10-29。以上是初步机制对照，未运行论文基线，论文数据集/硬件/目标与本项目不同，不横比误差数值，不声称完成领域穷尽检索。BW运行时适配、输入透传修复和现有参数下的准确率改善目前属于工程及实验证据；要作为独立论文贡献，仍需明确新机制并在简单基线不足的真实需求中验证，而不是给已有机制换名称。
