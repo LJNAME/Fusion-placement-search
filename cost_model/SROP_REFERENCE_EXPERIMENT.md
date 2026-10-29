@@ -278,3 +278,25 @@ python -m unittest cost_model.tests.test_decoder_cost_ablation -v
 | [PipeWeave v2，§IV/V-D](https://arxiv.org/html/2601.14910v2) | 核内pipeline解析+ML；端到端采用核序列时长累加。建模层次不同不自动等于本项目更优或更新。 |
 
 核对日期2026-10-29。以上是初步机制对照，未运行论文基线，论文数据集/硬件/目标与本项目不同，不横比误差数值，不声称完成领域穷尽检索。BW运行时适配、输入透传修复和现有参数下的准确率改善目前属于工程及实验证据；要作为独立论文贡献，仍需明确新机制并在简单基线不足的真实需求中验证，而不是给已有机制换名称。
+## 14. 固定底座的 Reference SROP 接口
+
+创新范围只保留选点策略。原模型不补测、Random、Uncertainty-only、Impact-only、SROP-Proxy、SROP-Refit 使用同一解析先验、nearest residual、distance_floor 区间、实测查表和 Reference 聚合；真实揭示后都走原有拟合流程。假设观测的处理仍是各选点方法自身的一部分，未增加预测器结构或停止公式。
+
+新增入口 `cost_model.reference_srop`，不改旧冻结源码。候选由单卡及四分位前缀切分规则生成，不读取预测或 Oracle 标签；默认双卡 8 个物理候选，保留 GPU0/GPU1 方向。只支持已有 Reference 能执行的 singleton 组，不包含真实融合证据。kernel 时长与链路仍沿用原 pooled/symmetric profile，保留方向不表示已有逐卡 kernel 预测。
+
+报告保存候选、初始 split、模型协议、固定 host/硬件、初始可见数据 ID 和核心源码哈希；主机参数仍未验收，算子 body 覆盖仍未核实。`rank_many` 是兼容现有选点接口的逐场景标量调用，不宣称批量提速。
+
+评价有两种口径：默认用全 kernel 标签经同一 Reference 模型聚合的结果，`metric_reference` 明确标注非 GPU 方案真值；Python API 的 `measured_plan_times` 可传入完整物理候选实测耗时，仅供评价，不参与候选生成、拟合或选点。全算子揭示不保证真实 GPU regret 归零。外部方案标签的采集血缘须另行审计。
+
+本轮跑满测量池，仅记录、不采用停止建议。成本使用本机一次 CPU 回放加已有 profiling wall，包含准备、拟合、选点、固定候选重评分；未做候选重新发现，不计成真实重搜实验。初始拟合/评分费用由 initial-only 统一，各方法原始计时保留。当前用于接口及开发诊断，不作同成本收益结论。
+
+```bash
+python -m unittest cost_model.tests.test_reference_srop -v
+python -m cost_model.reference_srop \
+  --host-profile data/received_reference_host_cpu_v1/bw1000_reference_host_cpu_v1/host_submission_profile.json \
+  --output data/reference_srop_layer_replay.v1.json
+```
+
+默认 Qwen2.5-3B 单层开发回放：8 候选、10 个隐藏可测 Key、6 条轨迹（initial-only 1 点，5 种补测方法各 11 点）。初始模型内 regret=0，五方法满池后也为0；Proxy/Refit 首次选点分数均为0。此处只核对接口，不能据此声称真实 GPU 收益或安全停止。
+
+针对性回归覆盖物理方向保留、候选及 host 快照、拒绝多节点融合、共享初态、隐藏标签隔离、GPU 标签仅作评价、缺失标签/Key 拒绝。测试中的两隐藏 Key 按当前图实际使用集合选取，避免零测量池导致空验证。
