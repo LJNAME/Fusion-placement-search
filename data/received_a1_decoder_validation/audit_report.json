@@ -1,0 +1,55 @@
+{
+  "format": "fusion-placement-search.a1-received-report-audit",
+  "report_sha256": "e0291114e69a6eae0ec2f4a78c4b41abcb17ebd511075f00349bf8714298cffc",
+  "checks": {
+    "complete_unique_32_case_grid": true,
+    "seven_source_hashes_match": true,
+    "devices_cuda_0_1": true,
+    "expected_tolerances": true,
+    "finite_correct_shapes": true,
+    "root_cache_one_all_cases": true,
+    "input_perturbation_propagates_all_cases": true,
+    "legacy_layer_reset_rejected_all_cases": true
+  },
+  "devices": [
+    "cuda:0",
+    "cuda:1"
+  ],
+  "fixture_dimensions": {
+    "batch": 2,
+    "sequence": 5,
+    "hidden": 16,
+    "ffn": 32,
+    "attention_heads": 4,
+    "query_groups": 2,
+    "head_dim": 4
+  },
+  "environment": {
+    "torch": "2.9.0",
+    "hip": "6.3.26093"
+  },
+  "source_sha256": {
+    "execution/verify_decoder_stack.py": "ad41c94ff45478c12b3b55493b2f2bf13ad701e8b15ebee51a3dea72fc331ac9",
+    "execution/decoder_reference.py": "609f094014ccaca6ed1b5beac25d157f835392633ff5718aaa19f6c9840418da",
+    "simulator/model_graphs/decoder_stack.py": "cf7d5e7aafe89ace62a9e35a770997591be38f7f9d5c3b39578193140999c8df",
+    "execution/reference.py": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+    "execution/gpu_holdout.py": "78a20aecfd5545711e642949868ca67bd42880c2c9d450444583b3b1228857b1",
+    "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead",
+    "simulator/model_graphs/spec.py": "6382c1be9e674d788113ee50daf03a5f6ebeb4faedbc3da6ed5be7dac3e95ec2"
+  },
+  "summary": {
+    "fp32": {
+      "cases": 16,
+      "max_abs_error": 1.210719347000122e-08,
+      "perturbed_max_abs_error": 2.2351741790771484e-08,
+      "all_reported_errors_within_absolute_tolerance": true
+    },
+    "bf16": {
+      "cases": 16,
+      "max_abs_error": 0.0,
+      "perturbed_max_abs_error": 0.0,
+      "all_reported_errors_within_absolute_tolerance": true
+    }
+  },
+  "scope": "Consistency and source provenance audit of the received summaries; GPU execution was performed by the user, raw output tensors are not included. No performance or 912-candidate validation claim."
+}

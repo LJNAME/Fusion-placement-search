@@ -67,7 +67,7 @@
 
 ## 7. A1 连续 decoder 数值验证
 
-2026-10-29：CPU 数值验收完成，GPU 跨设备复制待验证。新入口 `execution.decoder_reference.ContinuousDecoderExecutor`，子图由 `simulator.model_graphs.decoder_stack.build_decoder_stack` 构造。仅含连续 decoder body，不含 embedding、最终 norm 和 LM head。
+2026-10-29：CPU与双卡GPU数值验收完成；GPU报告已回传并核对，见§9。新入口 `execution.decoder_reference.ContinuousDecoderExecutor`，子图由 `simulator.model_graphs.decoder_stack.build_decoder_stack` 构造。仅含连续 decoder body，不含 embedding、最终 norm 和 LM head。
 
 `execution/reference.py` 与 `execution/gpu_holdout.py` 都被旧实验源码 hash 引用，保持原样。A1 必须使用新入口；旧 `execution.run_reference` / `CanonicalReferenceExecutor` 不会自动获得层间透传修复，不能用于新的连续多层计算。新入口继承既有逐组提交/消费者复制，不新增流水调度或 TP/PP 搜索。
 
@@ -122,4 +122,17 @@ python -m cost_model.decoder_candidate_coverage --output data/a2_decoder_validat
 python -m unittest cost_model.tests.test_decoder_candidate_coverage -v
 ```
 
-下一步A3需预先确定开发集诊断协议，先完成A1真实跨卡数值检查，再判断这些结构是否存在真实性能竞争。新增候选没有GPU标签；不能把旧66个已测结果外推到912个新候选。A2补齐不证明多卡更快或SROP有效，B1/B2尚未开始。
+A1双卡数值已回传通过（§9）；下一步A3需预先确定开发集诊断协议，再判断这些结构是否存在真实性能竞争。新增候选没有GPU标签；不能把旧66个已测结果外推到912个新候选。A2补齐不证明多卡更快或SROP有效，B1/B2尚未开始。
+
+## 9. A1 双卡数值结果回传
+
+用户宿主40106终端为 `A1 cases=32 all_pass=True gpu_copy_validated=True`。原报告 `data/received_a1_decoder_validation/gpu_report.json`，一致性核对 `audit_report.json`。报告cuda:0/1、torch2.9.0/HIP6.3.26093；7项源码hash与本地一致，32个唯一用例覆盖2/4层×FP32/BF16×有无QK Norm×四放置。
+
+| dtype | 用例 | 原始输出最大绝对误差 | 输入扰动后最大绝对误差 |
+|---|---:|---:|---:|
+| FP32 | 16 | 1.210719347e-8 | 2.235174179e-8 |
+| BF16 | 16 | 0 | 0 |
+
+所有报告误差小于各自绝对容差；32/32数值/有限性/形状/扰动传播/旧重置拒绝通过，根输入缓存均1项。核对依据为收到的汇总和源码hash，不包含原始输出张量，也没有本地重复GPU执行。
+
+A1通过范围仍为batch2、seq5、hidden16、FFN32的小尺寸synthetic decoder body及四种放置；验证实际跨卡传递路径，不代表912候选全体、实际模型维度或性能已验证。下一步A3先固定开发任务/候选、重复与计时规则，再进行真实性能竞争诊断；B1/B2未开始，旧host未验收和SROP未证实状态不变。
