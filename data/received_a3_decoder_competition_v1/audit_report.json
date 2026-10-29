@@ -1,0 +1,244 @@
+{
+  "format": "fusion-placement-search.a3-received-analysis",
+  "freeze_id": "sha256:376f1c3644bc2dd7162cbab469c6f68caf90a2e9d3184b4fd9661a903f995714",
+  "input_sha256": {
+    "competition_report.json": "687a34fc9f4599d9f60b81f11b0da6cadfd99c4feaa6b34b64bde9f54ccbd640",
+    "environment.json": "ca3a112a2e4704b728bbb4b0325c1b3908c56b8bda6e89efc7f7de30b1f5066b",
+    "execution_samples.jsonl": "609cda61576f38ad5b66deadb64e244768b942b43d8d8a644a3687e722993fee"
+  },
+  "analysis_source_sha256": "bbd4896d656e3c51824347e357e732b8cbfbc17c87f9d3a8758619d595e2b689",
+  "checks": {
+    "sealed_sources_and_inputs": true,
+    "raw_record_and_environment_hashes": true,
+    "exact_expected_slots": true,
+    "formal_sample_counts_and_medians": true,
+    "original_report_reproduced": true,
+    "shape_tolerance_and_numerical_summaries": true,
+    "block_wall_and_peak_memory": true
+  },
+  "report_float_roundoff": [],
+  "report_exactly_reproduced": true,
+  "environment": {
+    "host": "crdnotebook-2106728119406280705-abc12335-29890",
+    "platform": "Linux-5.15.0-25-generic-x86_64-with-glibc2.35",
+    "torch": "2.9.0",
+    "hip": "6.3.26093",
+    "devices": [
+      {
+        "index": 0,
+        "name": "BW",
+        "memory": 68702699520,
+        "uuid": "30303134-6330-3532-3264-653431386131"
+      },
+      {
+        "index": 1,
+        "name": "BW",
+        "memory": 68702699520,
+        "uuid": "30303134-6331-6162-3563-313833313231"
+      }
+    ],
+    "visibility": {
+      "CUDA_VISIBLE_DEVICES": null,
+      "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+      "ROCR_VISIBLE_DEVICES": null
+    },
+    "peer_access": {
+      "0->1": true,
+      "1->0": true
+    }
+  },
+  "summary": {
+    "tasks": 4,
+    "physical_candidates": 120,
+    "records": 384,
+    "formal_forward_samples": 7680,
+    "correctness_pass_blocks": 384,
+    "max_output_absolute_error": 0.0,
+    "quality_windows": 12,
+    "collection_processes": 1,
+    "max_absolute_anchor_drift": 0.03166011523119905,
+    "samples_above_twice_block_median": 4,
+    "initial_epsilon_success_counts": {
+      "0.001": 3,
+      "0.005": 4,
+      "0.01": 4
+    },
+    "initial_windows_within_primary_epsilon": 11,
+    "initial_window_count": 12,
+    "max_initial_window_regret": 0.015394128015226993,
+    "fixed_gpu0_tasks_within_primary_epsilon": 4,
+    "fixed_gpu1_tasks_within_primary_epsilon": 4,
+    "tasks_with_repeat_consistent_cross_gpu_advantage": 0
+  },
+  "workloads": [
+    {
+      "task_id": "qwen3-0.6b-decoder2-s256-b1",
+      "physical_candidates": 28,
+      "best_measured_ms": 2.704248996451497,
+      "fixed_single_gpu_ms": [
+        2.704248996451497,
+        2.705305814743042
+      ],
+      "best_measured_is_single_gpu": true,
+      "best_cross_gpu_plan_id": "sha256:6aec09ec15afae591246386974fab82e2dfacc0bfcb527df0456cd8f0a0e356f",
+      "best_cross_gpu_ms": 2.8662525583058596,
+      "best_cross_gpu_selection_reasons": [
+        "layer-boundary:1"
+      ],
+      "best_cross_gpu_relative_regret": 0.05990704334805819,
+      "best_cross_gpu_relative_to_window_single": [
+        0.04590638463363428,
+        0.06303335069357607,
+        0.06013363470084454
+      ],
+      "initial_selected_id": "sha256:50c8fe011aa78f94b7736473d60983bab4d324bdb74ed2e1129fdd1dd60ae4af",
+      "initial_relative_regret": 0.0,
+      "initial_relative_regret_by_window": [
+        0.0,
+        0.0,
+        0.0007897312291573755
+      ],
+      "fixed_single_gpu_regrets": {
+        "0": 0.0,
+        "1": 0.00039079918044970796
+      },
+      "quality_windows": 3,
+      "max_absolute_anchor_drift": 0.020209791126709398,
+      "cross_gpu_candidates": 26,
+      "repeat_consistent_cross_gpu_advantages": 0,
+      "repeat_consistent_slower_cross_gpu_candidates": 25,
+      "initial_model_plan_mape": 0.023508524139941662,
+      "initial_model_plan_spearman": 0.9428154290016912,
+      "kernel_profiling_value": "not assessed"
+    },
+    {
+      "task_id": "qwen3-0.6b-decoder4-s256-b1",
+      "physical_candidates": 32,
+      "best_measured_ms": 5.484877969138324,
+      "fixed_single_gpu_ms": [
+        5.484877969138324,
+        5.493990494869649
+      ],
+      "best_measured_is_single_gpu": true,
+      "best_cross_gpu_plan_id": "sha256:e10dace4ebd48cdaf58b5df6f7b52ec6bbf19194006220f6ac700c4b610e47b3",
+      "best_cross_gpu_ms": 5.582049023360014,
+      "best_cross_gpu_selection_reasons": [
+        "layer-boundary:2"
+      ],
+      "best_cross_gpu_relative_regret": 0.01771617431936323,
+      "best_cross_gpu_relative_to_window_single": [
+        0.023724758952166303,
+        0.011240154700620897,
+        0.02660874855221307
+      ],
+      "initial_selected_id": "sha256:0b2c0c72abc6c82f7ba36ad69af580207377613d959950ba0eaab4f87094d5e1",
+      "initial_relative_regret": 0.0,
+      "initial_relative_regret_by_window": [
+        0.004292859501105362,
+        0.0,
+        0.0
+      ],
+      "fixed_single_gpu_regrets": {
+        "0": 0.0,
+        "1": 0.0016613907880171919
+      },
+      "quality_windows": 3,
+      "max_absolute_anchor_drift": 0.018816829994713125,
+      "cross_gpu_candidates": 30,
+      "repeat_consistent_cross_gpu_advantages": 0,
+      "repeat_consistent_slower_cross_gpu_candidates": 26,
+      "initial_model_plan_mape": 0.037410329120025954,
+      "initial_model_plan_spearman": 0.9069626381592082,
+      "kernel_profiling_value": "not assessed"
+    },
+    {
+      "task_id": "qwen2.5-3b-decoder2-s256-b1",
+      "physical_candidates": 28,
+      "best_measured_ms": 2.635810640640557,
+      "fixed_single_gpu_ms": [
+        2.6514631463214755,
+        2.635810640640557
+      ],
+      "best_measured_is_single_gpu": true,
+      "best_cross_gpu_plan_id": "sha256:db0e8be1a712073795c10e41df53eaeaf4f97e3f793d8ebfaca372b2f0475f2e",
+      "best_cross_gpu_ms": 2.7391358744353056,
+      "best_cross_gpu_selection_reasons": [
+        "layer-boundary:1"
+      ],
+      "best_cross_gpu_relative_regret": 0.03920055265033695,
+      "best_cross_gpu_relative_to_window_single": [
+        0.03920752921796988,
+        0.08445288442550991,
+        0.031701587682419374
+      ],
+      "initial_selected_id": "sha256:1bd0c74d2197133267d97518ec7c0c9d273c72183b41389911c9546b9bed6be1",
+      "initial_relative_regret": 0.0,
+      "initial_relative_regret_by_window": [
+        0.0,
+        0.0,
+        0.015394128015226993
+      ],
+      "fixed_single_gpu_regrets": {
+        "0": 0.005938402948822974,
+        "1": 0.0
+      },
+      "quality_windows": 3,
+      "max_absolute_anchor_drift": 0.03166011523119905,
+      "cross_gpu_candidates": 26,
+      "repeat_consistent_cross_gpu_advantages": 0,
+      "repeat_consistent_slower_cross_gpu_candidates": 25,
+      "initial_model_plan_mape": 0.03740784920798038,
+      "initial_model_plan_spearman": 0.9138947103206576,
+      "kernel_profiling_value": "not assessed"
+    },
+    {
+      "task_id": "qwen2.5-3b-decoder4-s256-b1",
+      "physical_candidates": 32,
+      "best_measured_ms": 5.305388825945556,
+      "fixed_single_gpu_ms": [
+        5.305388825945556,
+        5.317139090038836
+      ],
+      "best_measured_is_single_gpu": true,
+      "best_cross_gpu_plan_id": "sha256:a63aac37801bf47198d38db3cf69eff16657faa00053820e38bd5e877fb4421f",
+      "best_cross_gpu_ms": 5.3764269687235355,
+      "best_cross_gpu_selection_reasons": [
+        "layer-boundary:2"
+      ],
+      "best_cross_gpu_relative_regret": 0.013389808948700122,
+      "best_cross_gpu_relative_to_window_single": [
+        0.029517419771481146,
+        0.014775339928304598,
+        0.01511084195733936
+      ],
+      "initial_selected_id": "sha256:586bc9e74d40d255647e4fa9f1ae87f30165ebd0a46a2b4264649c6c562247a9",
+      "initial_relative_regret": 0.0022147790630944186,
+      "initial_relative_regret_by_window": [
+        0.0,
+        0.0,
+        0.005196032027481756
+      ],
+      "fixed_single_gpu_regrets": {
+        "0": 0.0,
+        "1": 0.0022147790630944186
+      },
+      "quality_windows": 3,
+      "max_absolute_anchor_drift": 0.02981090572758549,
+      "cross_gpu_candidates": 30,
+      "repeat_consistent_cross_gpu_advantages": 0,
+      "repeat_consistent_slower_cross_gpu_candidates": 24,
+      "initial_model_plan_mape": 0.05101806061124565,
+      "initial_model_plan_spearman": 0.9462465539415457,
+      "kernel_profiling_value": "not assessed"
+    }
+  ],
+  "limitations": [
+    "All raw timings retained, including tails. Repeat-consistency and drift flags are descriptive, not confidence intervals.",
+    "Only four development tasks and 120 measured A2 members, not all 912 candidates or global placement optimum.",
+    "Seq256 operator Keys were already in original112 training; this is not unseen-shape validation.",
+    "No candidate latency from this collection was used to adjust the sealed selection, initial scores, epsilon or order.",
+    "No new kernel labels, active profiling, refit/re-search or SROP total-cost benefit was evaluated.",
+    "Synthetic forward decoder bodies on homogeneous BW cards, without real fused kernels, backward or downstream pipeline scheduling.",
+    "Unaccepted host profile and operator-body/layout coverage limitations remain unchanged."
+  ]
+}

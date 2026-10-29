@@ -139,7 +139,7 @@ A1通过范围仍为batch2、seq5、hidden16、FFN32的小尺寸synthetic decode
 
 ## 10. A3 真实方案竞争协议（v1，采集前冻结）
 
-工件 `data/a3_decoder_competition_v1/freeze.json`；freeze_id=`sha256:376f1c3644bc2dd7162cbab469c6f68caf90a2e9d3184b4fd9661a903f995714`。43项源码、6项输入hash受保护。尚未采新方案耗时；此协议为开发诊断，不是独立SROP收益实验。
+工件 `data/a3_decoder_competition_v1/freeze.json`；freeze_id=`sha256:376f1c3644bc2dd7162cbab469c6f68caf90a2e9d3184b4fd9661a903f995714`。43项源码、6项输入hash受保护。冻结时尚未采新方案耗时，回传结果见§11；此协议为开发诊断，不是独立SROP收益实验。
 
 ### 任务与候选
 
@@ -205,3 +205,32 @@ python -m execution.decoder_competition evaluate --out-dir data/a3_decoder_compe
 ```
 
 9项本地协议回归及compileall通过；包括固定慢物理并列不事后换卡、漂移保留、窗口反转、跨进程窗口、失败/重复/hash篡改、来源锁定、抽样和调度、GPU入口拒绝CPU回退。CPU数据只为schema测试，不作为GPU性能证据。原两份freeze保持不变。
+
+## 11. A3 GPU回传与原始记录复算
+
+原件在 `data/received_a3_decoder_competition_v1/`，宿主29890，两个BW设备、torch2.9/HIP6.3.26093、双向peer_access=True。freeze376f1c...的43源码/6输入一致；384个预期slot、7680次正式前向齐全，记录/环境hash、块中位数、输出Shape/容差、block_wall及显存字段核对通过。由原始记录复算的报告与原competition_report.json完全一致，无浮点差异。
+
+384块数值全部通过、最大绝对误差0；单采集进程，12/12窗口满足预设质量规则，最大锚点变化3.1660%。4个>2倍各块中位数长尾保留，未删样本或窗口。
+
+| 任务 | 已测单卡最优ms | 最佳跨卡ms | 最佳跨卡慢于最优 | 初始regret | 初始模型方案MAPE |
+|---|---:|---:|---:|---:|---:|
+| Qwen3 2层 | 2.704249 | 2.866253 | 5.9907% | 0% | 2.3509% |
+| Qwen3 4层 | 5.484878 | 5.582049 | 1.7716% | 0% | 3.7410% |
+| Qwen2.5 2层 | 2.635811 | 2.739136 | 3.9201% | 0% | 3.7408% |
+| Qwen2.5 4层 | 5.305389 | 5.376427 | 1.3390% | 0.2215% | 5.1018% |
+
+各任务已测最快均单卡，最佳跨卡均为中间整层边界（2层cut1、4层cut2）。112个跨卡候选中100个满足“重复一致且超过预设噪声参照”的更慢差异，12个未满足该描述性条件；没有重复一致的跨卡优势。此参照不作为置信区间或因果分解证据。
+
+初始合并ε=1%/0.5%均4/4，0.1%为3/4；固定GPU0、固定GPU1也分别4/4满足主1%。初始逐窗口1%为11/12，Qwen2.5 2层第三窗口1.5394%，不能宣称逐次稳定保证。初始模型方案Spearman0.907～0.946；本轮算子Shape来自已有训练，方案级新数据为开发集，不称新Shape独立泛化。
+
+本轮给出可测性能差异，但没有超过主ε的合并初始决策损失。当前条件下不立即投入B1/B2或继续增加SROP公式/重复同类采集；保留负向结果，转向用现有数据离线做代价模型基线与执行语义消融，尤其比较原DAG、串行加和、无host Reference和含host Reference。该下一步尚未完成。
+
+kernel_profiling_value仍为not assessed：未测新kernel、未Refit/重新搜索，不能证明普遍无补测价值。结果仅限4个同构BW、seq256、2/4层synthetic前向任务及120个入选候选，不覆盖全部912/全空间、真实融合、反向或下游流水训练。host未验收和body/layout限制保留。不要修改本冻结的阈值/候选后再声称前瞻验证。
+
+复算入口：
+
+```bash
+python -m execution.analyze_decoder_competition --results data/received_a3_decoder_competition_v1
+```
+
+新分析只读，audit_report.json包含原件hash、逐任务差距/初始选择/MAPE/窗口检查；真实数据复算和compileall通过，三份既有freeze保持不变，未新采GPU或重复无关套件。
