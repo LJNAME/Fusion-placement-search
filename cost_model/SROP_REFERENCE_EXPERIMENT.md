@@ -64,3 +64,31 @@
 当前不将 SROP 分数为零或预测 Top2 接近作为安全停止。先比较固定预算曲线；原启发式停止只作标明的消融。N 次后续执行的净收益停止是单独扩展，尚未实现。
 
 执行入口变更前，先补 Reference 排序器对旧 policy/Refit 路径的接口测试，验证单卡/跨卡、完整覆盖、同 Key 多处传播和标签隔离，再冻结新的任务/候选/源码。现有冻结 59a32c2e... 与 92193b... 均保持不变。
+
+## 7. A1 连续 decoder 数值验证
+
+2026-10-29：CPU 数值验收完成，GPU 跨设备复制待验证。新入口 `execution.decoder_reference.ContinuousDecoderExecutor`，子图由 `simulator.model_graphs.decoder_stack.build_decoder_stack` 构造。仅含连续 decoder body，不含 embedding、最终 norm 和 LM head。
+
+`execution/reference.py` 与 `execution/gpu_holdout.py` 都被旧实验源码 hash 引用，保持原样。A1 必须使用新入口；旧 `execution.run_reference` / `CanonicalReferenceExecutor` 不会自动获得层间透传修复，不能用于新的连续多层计算。新入口继承既有逐组提交/消费者复制，不新增流水调度或 TP/PP 搜索。
+
+根输入仍按原 seed 生成；后续 input 节点只接收一个前驱、透传已路由到目标设备的张量，不创建新的随机输入。检查 Shape、dtype、目标设备及根/非根输入依赖数量。未改变旧冻结候选、代价模型或 profile。
+
+小尺寸合成数据 batch2、seq5、hidden16、FFN32、4个Q头/2个KV组、head_dim4；2/4 层 × FP32/BF16 × 有/无 QK Norm × 单卡0/单卡1/交替层/输入边界分离，共32个CPU数值用例；与独立连续层公式的最大绝对误差0。首层输入加0.1后的32个对照也全部一致，旧逐层重置行为32/32被拒绝，根输入缓存始终只有1项。CPU上的两个逻辑设备均映射为cpu，不作为实际跨GPU复制验证。
+
+新增6项回归通过：32用例、首层输出扰动传到第2/4层最终输出、单层与旧入口逐位一致、Q投影宽度不等于隐藏宽度、输入别名/Shape/dtype/设备、层间输入断连/多前驱拒绝。既有10项相关回归、compileall及两个freeze完整性检查通过。独立公式不遍历图、不调用执行器算子实现；遵循现有逻辑图的无mask/无attention scale计算，不是预训练Qwen全模型正确性认证。
+
+CPU复验（无卡可跑）：
+
+```bash
+git pull
+python -m execution.verify_decoder_stack --output data/a1_decoder_validation/cpu_report.json
+python -m unittest execution.tests.test_decoder_reference -v
+```
+
+以后有两卡时可做数值检查，拒绝CPU回退，不采性能结果：
+
+```bash
+python -m execution.verify_decoder_stack --devices 0,1 --output data/a1_decoder_validation/gpu_report.json
+```
+
+本轮报告 `data/a1_decoder_correctness.cpu.json`。下一步 A2 离线审计候选覆盖；A3 真实性能竞争、B1 Reference SROP 主循环、B2 同总成本收益尚未完成。不因A1通过就认定存在多卡性能竞争。
