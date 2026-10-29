@@ -1,0 +1,722 @@
+{
+  "format": "fusion-placement-search.reference-validation-audit",
+  "freeze_id": "sha256:92193b748c7440a4528f249e207dd77b3fadcf9e0d25f0be118900997ec4e9fb",
+  "input_sha256": {
+    "environments.json": "721f8b6e093624566fcc2204673a777d6b09e2d4aa0f5958a898b4b53718bf8e",
+    "execution_samples.jsonl": "d2583c0a08802529dc15e8febce2013fc12f0a3f99c3038750081e3bd5dd0b9b",
+    "raw_measurements.jsonl": "5d2716781e956953aa47245ebe0f2bb42e7fab5024d6062cecb43be4fe1e18b7",
+    "zero_shot_report.json": "4515cfd5bcbe56bdfe6df38d7d45b80491176633485148473f138b04d0eb09f2",
+    "execution_environment.json": "d015991fe437b8b0bb495b22b3c59f38cec7c6fa14efb8440309f4eaee6c6009",
+    "epsilon_report.json": "2df8d7c2bd4e1f6feafb2563b9ca004a4f6dcd7437b1c4d89c769bc4e7800578",
+    "execution_report.json": "56b384c757f2f420da8aa76b2a0c6fa925dae33ed154e3756fb8b593afac0d80"
+  },
+  "checks": {
+    "record_hashes": true,
+    "environment_hash": true,
+    "artifact_ids": true,
+    "exact_expected_slots": true,
+    "original_report_reproduced": true,
+    "frozen_sources_and_inputs": true,
+    "kernel_raw_lineage_and_coverage": true,
+    "kernel_report_reproduced_with_roundoff": true,
+    "epsilon_report_reproduced_with_roundoff": true,
+    "execution_block_lengths": true
+  },
+  "report_float_tolerance": {
+    "relative": 1e-12,
+    "absolute": 1e-15
+  },
+  "kernel_report_float_roundoff": [
+    {
+      "path": "/by_family/mul/nearest/log_mae",
+      "recomputed": 0.0536995084120293,
+      "stored": 0.05369950841202929,
+      "absolute_delta": 6.938893903907228e-18
+    }
+  ],
+  "epsilon_report_float_roundoff": [],
+  "kernel_records": 104,
+  "kernel_quality": {
+    "enabled_objects": 52,
+    "records": 104,
+    "successful_records": 104,
+    "failed_records": 0,
+    "unique_successful_objects": 52,
+    "device_records": {
+      "0": 52,
+      "1": 52
+    },
+    "missing_object_ids": [],
+    "under_replicated_object_ids": [],
+    "over_replicated_object_ids": [],
+    "max_sample_cv": 0.9850534281314731,
+    "max_sample_cv_object_id": "sha256:9395a905042c9fcbe379634e0a67b6e3d64c9f57b73a4a872f27c0e2cf063d3d",
+    "max_robust_sample_cv": 0.03332151696662098,
+    "max_robust_sample_cv_object_id": "sha256:9395a905042c9fcbe379634e0a67b6e3d64c9f57b73a4a872f27c0e2cf063d3d",
+    "operator_summary": {
+      "add": {
+        "records": 8,
+        "min_s": 9.904000163078307e-06,
+        "median_s": 1.0027199983596802e-05,
+        "max_s": 1.582398056983948e-05
+      },
+      "matmul": {
+        "records": 48,
+        "min_s": 1.4969600439071656e-05,
+        "median_s": 3.713117003440857e-05,
+        "max_s": 0.0002107518768310547
+      },
+      "mul": {
+        "records": 8,
+        "min_s": 1.3344000577926636e-05,
+        "median_s": 3.1118378639221196e-05,
+        "max_s": 6.759997844696044e-05
+      },
+      "rmsnorm": {
+        "records": 16,
+        "min_s": 1.5068800449371338e-05,
+        "median_s": 2.2275199890136716e-05,
+        "max_s": 7.302077770233155e-05
+      },
+      "rope": {
+        "records": 12,
+        "min_s": 0.00012669755935668944,
+        "median_s": 0.00012814873695373536,
+        "max_s": 0.00012971830368041992
+      },
+      "silu": {
+        "records": 8,
+        "min_s": 1.711359977722168e-05,
+        "median_s": 3.886718988418579e-05,
+        "max_s": 8.330236434936524e-05
+      },
+      "softmax": {
+        "records": 4,
+        "min_s": 0.0002161790657043457,
+        "median_s": 0.00040012792587280276,
+        "max_s": 0.0005827996826171875
+      }
+    },
+    "complete": true
+  },
+  "kernel_quality_target_pass": true,
+  "kernel_groups": {
+    "all": {
+      "analytic": {
+        "objects": 52,
+        "mape": 1.1506527001258176,
+        "median_ape": 0.8321513987377873,
+        "p90_ape": 2.9110770727590767,
+        "log_mae": 0.9611938969428105,
+        "spearman": 0.3496327616402507
+      },
+      "nearest": {
+        "objects": 52,
+        "mape": 0.10723068927682733,
+        "median_ape": 0.10010994972804767,
+        "p90_ape": 0.22004286164033462,
+        "log_mae": 0.10725948952824772,
+        "spearman": 0.9860405558611208,
+        "q90_coverage": 0.8269230769230769
+      }
+    },
+    "feature_novel": {
+      "analytic": {
+        "objects": 49,
+        "mape": 1.1777614656480895,
+        "median_ape": 0.877780753368476,
+        "p90_ape": 3.0257704103180387,
+        "log_mae": 0.9377291933183031,
+        "spearman": 0.4077070606233408
+      },
+      "nearest": {
+        "objects": 49,
+        "mape": 0.10677512457263875,
+        "median_ape": 0.09859982522839525,
+        "p90_ape": 0.22217642980665833,
+        "log_mae": 0.10686563076274033,
+        "spearman": 0.9841318447424197,
+        "q90_coverage": 0.8775510204081632
+      }
+    },
+    "feature_alias_object_ids": [
+      "sha256:8cee6d979186370cc571d099b867e9b4063a82e6434209459ba252ee5f14339f",
+      "sha256:d2bb5046f6343f3d0d4769f526ab5d1486dac30c8dd2971b12aa2879ba27a2f0",
+      "sha256:d4b58358bf917014e1cb6a37afe07089e9522a82a3f843f04a976afd95940a59"
+    ]
+  },
+  "max_kernel_replica_ratio": 1.0316761478346836,
+  "execution_records": 132,
+  "execution_timing_samples": 2640,
+  "correctness_pass": true,
+  "max_output_absolute_error": 0.0,
+  "execution_samples_above_twice_candidate_median": 10,
+  "aggregate": {
+    "reference_host": {
+      "pooled_tasks_within_1pct": 4,
+      "task_count": 4,
+      "rounds_within_1pct": 7,
+      "round_count": 8,
+      "max_round_relative_regret": 0.017552120460594622,
+      "pooled_success_counts": {
+        "0.001": 3,
+        "0.005": 3,
+        "0.01": 4
+      }
+    },
+    "structural_dag": {
+      "pooled_tasks_within_1pct": 0,
+      "task_count": 4,
+      "rounds_within_1pct": 0,
+      "round_count": 8,
+      "max_round_relative_regret": 0.23654477969088017,
+      "pooled_success_counts": {
+        "0.001": 0,
+        "0.005": 0,
+        "0.01": 0
+      }
+    },
+    "reference_zero_host": {
+      "pooled_tasks_within_1pct": 0,
+      "task_count": 4,
+      "rounds_within_1pct": 0,
+      "round_count": 8,
+      "max_round_relative_regret": 0.23654477969088017,
+      "pooled_success_counts": {
+        "0.001": 0,
+        "0.005": 0,
+        "0.01": 0
+      }
+    }
+  },
+  "fixed_single_gpu_reference": {
+    "physical_device": 0,
+    "relative_regrets": [
+      0.0,
+      0.0019146161252043825,
+      0.004515506299434202,
+      0.0
+    ],
+    "pooled_tasks_within_1pct": 4
+  },
+  "workloads": [
+    {
+      "model_id": "qwen2.5-3b-s1280-b1",
+      "measured_candidates": 16,
+      "best_measured_ms": 2.3217136040329933,
+      "best_measured_plan_is_single_gpu": true,
+      "best_cross_gpu_regret": 0.031869040374725044,
+      "single_gpu_controls": [
+        {
+          "plan_id": "sha256:17d7d7745fb102cb758b9a8fffd3289987b9262ba1bb8e43a882d39ec4b929b1",
+          "physical_devices": [
+            1
+          ],
+          "measured_ms": 2.339303493499756,
+          "relative_regret": 0.007576252917761872,
+          "is_frozen_reference": false
+        },
+        {
+          "plan_id": "sha256:7a64b20c0d5e646eabbb218522082dc1e16763a239b0765c226c4cdcdcb684ca",
+          "physical_devices": [
+            0
+          ],
+          "measured_ms": 2.3217136040329933,
+          "relative_regret": 0.0,
+          "is_frozen_reference": true
+        }
+      ],
+      "methods": {
+        "reference_host": {
+          "preselected_physical_id": "sha256:17d7d7745fb102cb758b9a8fffd3289987b9262ba1bb8e43a882d39ec4b929b1",
+          "measured_ms": 2.339303493499756,
+          "relative_regret": 0.007576252917761872,
+          "epsilon_success": {
+            "0.001": false,
+            "0.005": false,
+            "0.01": true
+          },
+          "relative_regret_by_round": [
+            0.017552120460594622,
+            0.002119258369211563
+          ],
+          "predicted_tie_ids": [
+            "sha256:17d7d7745fb102cb758b9a8fffd3289987b9262ba1bb8e43a882d39ec4b929b1",
+            "sha256:7a64b20c0d5e646eabbb218522082dc1e16763a239b0765c226c4cdcdcb684ca"
+          ],
+          "tie_regret_range": [
+            0.0,
+            0.007576252917761872
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.0,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            1
+          ],
+          "predicted_ms": 2.214524206125077,
+          "selected_absolute_relative_error": 0.05334035866718634,
+          "measured_subset_mape": 0.04208534652534074,
+          "measured_subset_spearman": 0.9137552287135857
+        },
+        "structural_dag": {
+          "preselected_physical_id": "sha256:12042c6551099aeb5560755c3aeb9d0ec056db31644199645c4897e011fd0af6",
+          "measured_ms": 2.635646378621459,
+          "relative_regret": 0.13521597756206472,
+          "epsilon_success": {
+            "0.001": false,
+            "0.005": false,
+            "0.01": false
+          },
+          "relative_regret_by_round": [
+            0.1324431820372387,
+            0.13621074171551095
+          ],
+          "predicted_tie_ids": [
+            "sha256:12042c6551099aeb5560755c3aeb9d0ec056db31644199645c4897e011fd0af6",
+            "sha256:d99e0148d41e2380ab09484f135e2cf6e14ebd5d6c8847d695aa31cab3edd2d5"
+          ],
+          "tie_regret_range": [
+            0.10929096830585494,
+            0.13521597756206472
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.10929096830585494,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            0,
+            1
+          ],
+          "predicted_ms": 1.9779257131892674,
+          "selected_absolute_relative_error": 0.24954814529261848,
+          "measured_subset_mape": 0.1573796225903118,
+          "measured_subset_spearman": -0.07100716024967263
+        },
+        "reference_zero_host": {
+          "preselected_physical_id": "sha256:12042c6551099aeb5560755c3aeb9d0ec056db31644199645c4897e011fd0af6",
+          "measured_ms": 2.635646378621459,
+          "relative_regret": 0.13521597756206472,
+          "epsilon_success": {
+            "0.001": false,
+            "0.005": false,
+            "0.01": false
+          },
+          "relative_regret_by_round": [
+            0.1324431820372387,
+            0.13621074171551095
+          ],
+          "predicted_tie_ids": [
+            "sha256:12042c6551099aeb5560755c3aeb9d0ec056db31644199645c4897e011fd0af6",
+            "sha256:d99e0148d41e2380ab09484f135e2cf6e14ebd5d6c8847d695aa31cab3edd2d5"
+          ],
+          "tie_regret_range": [
+            0.10929096830585494,
+            0.13521597756206472
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.10929096830585494,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            0,
+            1
+          ],
+          "predicted_ms": 2.024675136258699,
+          "selected_absolute_relative_error": 0.2318107798218061,
+          "measured_subset_mape": 0.1382363719087538,
+          "measured_subset_spearman": 0.18935242733246035
+        }
+      },
+      "max_absolute_candidate_round_change_pct": 3.7900931143838967,
+      "long_tail_samples_above_twice_candidate_median": 6
+    },
+    {
+      "model_id": "qwen2.5-3b-s768-b1",
+      "measured_candidates": 16,
+      "best_measured_ms": 1.6638264060020447,
+      "best_measured_plan_is_single_gpu": true,
+      "best_cross_gpu_regret": 0.05974870138593458,
+      "single_gpu_controls": [
+        {
+          "plan_id": "sha256:17d7d7745fb102cb758b9a8fffd3289987b9262ba1bb8e43a882d39ec4b929b1",
+          "physical_devices": [
+            1
+          ],
+          "measured_ms": 1.6638264060020447,
+          "relative_regret": 0.0,
+          "is_frozen_reference": false
+        },
+        {
+          "plan_id": "sha256:7a64b20c0d5e646eabbb218522082dc1e16763a239b0765c226c4cdcdcb684ca",
+          "physical_devices": [
+            0
+          ],
+          "measured_ms": 1.667011994868517,
+          "relative_regret": 0.0019146161252043825,
+          "is_frozen_reference": true
+        }
+      ],
+      "methods": {
+        "reference_host": {
+          "preselected_physical_id": "sha256:17d7d7745fb102cb758b9a8fffd3289987b9262ba1bb8e43a882d39ec4b929b1",
+          "measured_ms": 1.6638264060020447,
+          "relative_regret": 0.0,
+          "epsilon_success": {
+            "0.001": true,
+            "0.005": true,
+            "0.01": true
+          },
+          "relative_regret_by_round": [
+            0.0,
+            0.002959698212726236
+          ],
+          "predicted_tie_ids": [
+            "sha256:17d7d7745fb102cb758b9a8fffd3289987b9262ba1bb8e43a882d39ec4b929b1",
+            "sha256:7a64b20c0d5e646eabbb218522082dc1e16763a239b0765c226c4cdcdcb684ca"
+          ],
+          "tie_regret_range": [
+            0.0,
+            0.0019146161252043825
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.0,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            1
+          ],
+          "predicted_ms": 1.5538783530401474,
+          "selected_absolute_relative_error": 0.06608144489429524,
+          "measured_subset_mape": 0.09044101723006619,
+          "measured_subset_spearman": 0.9580157188935153
+        },
+        "structural_dag": {
+          "preselected_physical_id": "sha256:12042c6551099aeb5560755c3aeb9d0ec056db31644199645c4897e011fd0af6",
+          "measured_ms": 1.956194406375289,
+          "relative_regret": 0.17572025502093447,
+          "epsilon_success": {
+            "0.001": false,
+            "0.005": false,
+            "0.01": false
+          },
+          "relative_regret_by_round": [
+            0.0999709940709963,
+            0.20860955267253067
+          ],
+          "predicted_tie_ids": [
+            "sha256:12042c6551099aeb5560755c3aeb9d0ec056db31644199645c4897e011fd0af6",
+            "sha256:d99e0148d41e2380ab09484f135e2cf6e14ebd5d6c8847d695aa31cab3edd2d5"
+          ],
+          "tie_regret_range": [
+            0.17572025502093447,
+            0.21697490092470284
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.17572025502093447,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            0,
+            1
+          ],
+          "predicted_ms": 1.161249513050562,
+          "selected_absolute_relative_error": 0.40637315531318396,
+          "measured_subset_mape": 0.3505814004257633,
+          "measured_subset_spearman": 0.041420843478975705
+        },
+        "reference_zero_host": {
+          "preselected_physical_id": "sha256:12042c6551099aeb5560755c3aeb9d0ec056db31644199645c4897e011fd0af6",
+          "measured_ms": 1.956194406375289,
+          "relative_regret": 0.17572025502093447,
+          "epsilon_success": {
+            "0.001": false,
+            "0.005": false,
+            "0.01": false
+          },
+          "relative_regret_by_round": [
+            0.0999709940709963,
+            0.20860955267253067
+          ],
+          "predicted_tie_ids": [
+            "sha256:12042c6551099aeb5560755c3aeb9d0ec056db31644199645c4897e011fd0af6",
+            "sha256:d99e0148d41e2380ab09484f135e2cf6e14ebd5d6c8847d695aa31cab3edd2d5"
+          ],
+          "tie_regret_range": [
+            0.17572025502093447,
+            0.21697490092470284
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.17572025502093447,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            0,
+            1
+          ],
+          "predicted_ms": 1.1746716959926555,
+          "selected_absolute_relative_error": 0.39951178054473024,
+          "measured_subset_mape": 0.3334742264102156,
+          "measured_subset_spearman": 0.15976611056176343
+        }
+      },
+      "max_absolute_candidate_round_change_pct": 11.914125000432874,
+      "long_tail_samples_above_twice_candidate_median": 2
+    },
+    {
+      "model_id": "qwen3-0.6b-s1280-b1",
+      "measured_candidates": 18,
+      "best_measured_ms": 1.7874129116535187,
+      "best_measured_plan_is_single_gpu": true,
+      "best_cross_gpu_regret": 0.014135299757193076,
+      "single_gpu_controls": [
+        {
+          "plan_id": "sha256:88551aa81152f9e211506b628cdc48b257578e9b9395d62bd3498a67f5fd926d",
+          "physical_devices": [
+            1
+          ],
+          "measured_ms": 1.7874129116535187,
+          "relative_regret": 0.0,
+          "is_frozen_reference": false
+        },
+        {
+          "plan_id": "sha256:9e2d5b109200b8bac8ed521829b9253ef3aea28796b0914de88a9ac02a47ea44",
+          "physical_devices": [
+            0
+          ],
+          "measured_ms": 1.79548398591578,
+          "relative_regret": 0.004515506299434202,
+          "is_frozen_reference": true
+        }
+      ],
+      "methods": {
+        "reference_host": {
+          "preselected_physical_id": "sha256:88551aa81152f9e211506b628cdc48b257578e9b9395d62bd3498a67f5fd926d",
+          "measured_ms": 1.7874129116535187,
+          "relative_regret": 0.0,
+          "epsilon_success": {
+            "0.001": true,
+            "0.005": true,
+            "0.01": true
+          },
+          "relative_regret_by_round": [
+            0.002455437964352436,
+            0.0
+          ],
+          "predicted_tie_ids": [
+            "sha256:88551aa81152f9e211506b628cdc48b257578e9b9395d62bd3498a67f5fd926d",
+            "sha256:9e2d5b109200b8bac8ed521829b9253ef3aea28796b0914de88a9ac02a47ea44"
+          ],
+          "tie_regret_range": [
+            0.0,
+            0.004515506299434202
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.0,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            1
+          ],
+          "predicted_ms": 1.587747496765923,
+          "selected_absolute_relative_error": 0.11170637382432635,
+          "measured_subset_mape": 0.09793125252740789,
+          "measured_subset_spearman": 0.9486289057506067
+        },
+        "structural_dag": {
+          "preselected_physical_id": "sha256:0bb81bb82c6c25e5a75299336cc2ffad22ee4e845c71706968e3ab7ac2409bec",
+          "measured_ms": 2.186467172577977,
+          "relative_regret": 0.22325801627744601,
+          "epsilon_success": {
+            "0.001": false,
+            "0.005": false,
+            "0.01": false
+          },
+          "relative_regret_by_round": [
+            0.21931550765574492,
+            0.23454652734391468
+          ],
+          "predicted_tie_ids": [
+            "sha256:0bb81bb82c6c25e5a75299336cc2ffad22ee4e845c71706968e3ab7ac2409bec",
+            "sha256:3416e67dadc4ce3ac6cef92923696440b95cb0a05180709c72d78193ec277c54"
+          ],
+          "tie_regret_range": [
+            0.16827291816467116,
+            0.22325801627744601
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.16827291816467116,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            0,
+            1
+          ],
+          "predicted_ms": 1.3292024517504286,
+          "selected_absolute_relative_error": 0.3920775631022997,
+          "measured_subset_mape": 0.25454006954658254,
+          "measured_subset_spearman": -0.2156581274438238
+        },
+        "reference_zero_host": {
+          "preselected_physical_id": "sha256:0bb81bb82c6c25e5a75299336cc2ffad22ee4e845c71706968e3ab7ac2409bec",
+          "measured_ms": 2.186467172577977,
+          "relative_regret": 0.22325801627744601,
+          "epsilon_success": {
+            "0.001": false,
+            "0.005": false,
+            "0.01": false
+          },
+          "relative_regret_by_round": [
+            0.21931550765574492,
+            0.23454652734391468
+          ],
+          "predicted_tie_ids": [
+            "sha256:0bb81bb82c6c25e5a75299336cc2ffad22ee4e845c71706968e3ab7ac2409bec",
+            "sha256:3416e67dadc4ce3ac6cef92923696440b95cb0a05180709c72d78193ec277c54"
+          ],
+          "tie_regret_range": [
+            0.16827291816467116,
+            0.22325801627744601
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.16827291816467116,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            0,
+            1
+          ],
+          "predicted_ms": 1.3689856259364535,
+          "selected_absolute_relative_error": 0.37388237833804916,
+          "measured_subset_mape": 0.2331900973219549,
+          "measured_subset_spearman": 0.09578719696653022
+        }
+      },
+      "max_absolute_candidate_round_change_pct": 5.704450297783881,
+      "long_tail_samples_above_twice_candidate_median": 1
+    },
+    {
+      "model_id": "qwen3-0.6b-s768-b1",
+      "measured_candidates": 16,
+      "best_measured_ms": 1.335623674094677,
+      "best_measured_plan_is_single_gpu": true,
+      "best_cross_gpu_regret": 0.22119094354357904,
+      "single_gpu_controls": [
+        {
+          "plan_id": "sha256:88551aa81152f9e211506b628cdc48b257578e9b9395d62bd3498a67f5fd926d",
+          "physical_devices": [
+            1
+          ],
+          "measured_ms": 1.3368281070142984,
+          "relative_regret": 0.0009017756595530724,
+          "is_frozen_reference": false
+        },
+        {
+          "plan_id": "sha256:9e2d5b109200b8bac8ed521829b9253ef3aea28796b0914de88a9ac02a47ea44",
+          "physical_devices": [
+            0
+          ],
+          "measured_ms": 1.335623674094677,
+          "relative_regret": 0.0,
+          "is_frozen_reference": true
+        }
+      ],
+      "methods": {
+        "reference_host": {
+          "preselected_physical_id": "sha256:88551aa81152f9e211506b628cdc48b257578e9b9395d62bd3498a67f5fd926d",
+          "measured_ms": 1.3368281070142984,
+          "relative_regret": 0.0009017756595530724,
+          "epsilon_success": {
+            "0.001": true,
+            "0.005": true,
+            "0.01": true
+          },
+          "relative_regret_by_round": [
+            0.0,
+            0.0
+          ],
+          "predicted_tie_ids": [
+            "sha256:88551aa81152f9e211506b628cdc48b257578e9b9395d62bd3498a67f5fd926d",
+            "sha256:9e2d5b109200b8bac8ed521829b9253ef3aea28796b0914de88a9ac02a47ea44"
+          ],
+          "tie_regret_range": [
+            0.0,
+            0.0009017756595530724
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.0,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            1
+          ],
+          "predicted_ms": 1.3407123042270541,
+          "selected_absolute_relative_error": 0.0029055322762705504,
+          "measured_subset_mape": 0.04025897730228475,
+          "measured_subset_spearman": 0.7592566023652966
+        },
+        "structural_dag": {
+          "preselected_physical_id": "sha256:0bb81bb82c6c25e5a75299336cc2ffad22ee4e845c71706968e3ab7ac2409bec",
+          "measured_ms": 1.6367663629353046,
+          "relative_regret": 0.22546971477182787,
+          "epsilon_success": {
+            "0.001": false,
+            "0.005": false,
+            "0.01": false
+          },
+          "relative_regret_by_round": [
+            0.21869412199160476,
+            0.23654477969088017
+          ],
+          "predicted_tie_ids": [
+            "sha256:0bb81bb82c6c25e5a75299336cc2ffad22ee4e845c71706968e3ab7ac2409bec",
+            "sha256:18030b0a4e85c7a0efec4ca3703e149a790c2ef103a9a2cad05ca52dcd9ca8c9",
+            "sha256:3416e67dadc4ce3ac6cef92923696440b95cb0a05180709c72d78193ec277c54",
+            "sha256:f09144f0f3b49e307d1af330d8b38c02fa79f3586b19f98ca29eec8a8f05840a"
+          ],
+          "tie_regret_range": [
+            0.22546971477182787,
+            0.30928150810778776
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.22546971477182787,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            0,
+            1
+          ],
+          "predicted_ms": 0.7814192676643269,
+          "selected_absolute_relative_error": 0.522583500394666,
+          "measured_subset_mape": 0.4621382909017413,
+          "measured_subset_spearman": 0.07738643630799098
+        },
+        "reference_zero_host": {
+          "preselected_physical_id": "sha256:0bb81bb82c6c25e5a75299336cc2ffad22ee4e845c71706968e3ab7ac2409bec",
+          "measured_ms": 1.6367663629353046,
+          "relative_regret": 0.22546971477182787,
+          "epsilon_success": {
+            "0.001": false,
+            "0.005": false,
+            "0.01": false
+          },
+          "relative_regret_by_round": [
+            0.21869412199160476,
+            0.23654477969088017
+          ],
+          "predicted_tie_ids": [
+            "sha256:0bb81bb82c6c25e5a75299336cc2ffad22ee4e845c71706968e3ab7ac2409bec",
+            "sha256:3416e67dadc4ce3ac6cef92923696440b95cb0a05180709c72d78193ec277c54"
+          ],
+          "tie_regret_range": [
+            0.22546971477182787,
+            0.2741631598581704
+          ],
+          "selected_class_best_member_regret_diagnostic": 0.22546971477182787,
+          "class_diagnostic_is_not_deployed_selection": true,
+          "selected_devices": [
+            0,
+            1
+          ],
+          "predicted_ms": 0.8027731461409129,
+          "selected_absolute_relative_error": 0.5095371188461774,
+          "measured_subset_mape": 0.4448330578513751,
+          "measured_subset_spearman": 0.3964566447273389
+        }
+      },
+      "max_absolute_candidate_round_change_pct": 10.38865741131223,
+      "long_tail_samples_above_twice_candidate_median": 1
+    }
+  ],
+  "limitations": [
+    "Best is limited to measured sealed candidates, not global placement optimum.",
+    "All physical choices were fixed before target labels; tie best/worst and class-best values are diagnostics, never label-based selection.",
+    "No host-profile acceptance promotion, active-calibration or SROP cost-benefit/stopping claim.",
+    "Experimental unaccepted host profile and unverified operator-body coverage are frozen limitations.",
+    "New sequence lengths within two familiar model families; not unseen architecture or cross-GPU generalization.",
+    "Pooled epsilon success is descriptive, not a per-round or statistical regret bound; only two blocks per candidate.",
+    "Fixed single-GPU reference is reported separately; beating structural DAG is not evidence of superiority over that simple baseline.",
+    "Common candidates came from structural search and public probes, not a new reference-model-guided search.",
+    "These labels are now exposed and cannot be reused as a fresh blind test after tuning.",
+    "All samples retained, including long tails; no post-label fitting, candidate selection or threshold changes."
+  ]
+}

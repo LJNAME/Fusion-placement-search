@@ -1,0 +1,279 @@
+root@crdnotebook-2106728119406280705-abc12335-40891:~/private_data/LJ/Fusion-placement-search# bash tools/run_reference_validation.sh
+freeze_id: sha256:92193b748c7440a4528f249e207dd77b3fadcf9e0d25f0be118900997ec4e9fb
+layer objects: 56 enabled: 52 feature aliases: 3
+tasks: 4 physical execution candidates: 66
+No target labels collected by prepare/check; primary epsilon=1%; experimental host remains unaccepted.
+manifest_id=sha256:b3b209b1adce118943752a6ebfe0460a593d55864790e0d0509c60d4ba566ef4
+source_revision=e1e35a9767626ad744066601ba7576597fced5bc
+devices=[0, 1] assignment=replicate quick=False
+scheduled=104 existing_records=0
+[1/104] device=0 op=matmul impl=torch.mm.reference median=14.982 us
+[2/104] device=1 op=matmul impl=torch.mm.reference median=14.970 us
+[3/104] device=0 op=silu impl=torch.silu.reference median=25.862 us
+[4/104] device=1 op=silu impl=torch.silu.reference median=26.682 us
+[5/104] device=0 op=rmsnorm impl=torch.rms_norm.reference median=38.541 us
+[6/104] device=1 op=rmsnorm impl=torch.rms_norm.reference median=38.554 us
+[7/104] device=0 op=matmul impl=torch.mm.reference median=15.050 us
+[8/104] device=1 op=matmul impl=torch.mm.reference median=15.043 us
+[9/104] device=0 op=softmax impl=torch.softmax.fp32_internal.reference median=216.179 us
+[10/104] device=1 op=softmax impl=torch.softmax.fp32_internal.reference median=217.827 us
+[11/104] device=0 op=matmul impl=torch.bmm.reference median=38.486 us
+[12/104] device=1 op=matmul impl=torch.bmm.reference median=38.445 us
+[13/104] device=0 op=matmul impl=torch.bmm.reference median=34.336 us
+[14/104] device=1 op=matmul impl=torch.bmm.reference median=34.368 us
+[15/104] device=0 op=rmsnorm impl=torch.rms_norm.reference median=19.027 us
+[16/104] device=1 op=rmsnorm impl=torch.rms_norm.reference median=18.992 us
+[17/104] device=0 op=rope impl=fusion.rope.reference median=128.451 us
+[18/104] device=1 op=rope impl=fusion.rope.reference median=127.331 us
+[19/104] device=0 op=matmul impl=torch.mm.reference median=26.874 us
+[20/104] device=1 op=matmul impl=torch.mm.reference median=26.298 us
+[21/104] device=0 op=matmul impl=torch.mm.reference median=24.989 us
+[22/104] device=1 op=matmul impl=torch.mm.reference median=25.101 us
+[23/104] device=0 op=matmul impl=torch.mm.reference median=28.986 us
+[24/104] device=1 op=matmul impl=torch.mm.reference median=28.950 us
+[25/104] device=0 op=mul impl=torch.mul.reference median=13.347 us
+[26/104] device=1 op=mul impl=torch.mul.reference median=13.344 us
+[27/104] device=0 op=matmul impl=torch.mm.reference median=18.179 us
+[28/104] device=1 op=matmul impl=torch.mm.reference median=18.182 us
+[29/104] device=0 op=matmul impl=torch.mm.reference median=47.955 us
+[30/104] device=1 op=matmul impl=torch.mm.reference median=47.907 us
+[31/104] device=0 op=silu impl=torch.silu.reference median=17.114 us
+[32/104] device=1 op=silu impl=torch.silu.reference median=17.126 us
+[33/104] device=0 op=matmul impl=torch.bmm.reference median=85.296 us
+[34/104] device=1 op=matmul impl=torch.bmm.reference median=85.290 us
+[35/104] device=0 op=add impl=torch.add.reference median=10.038 us
+[36/104] device=1 op=add impl=torch.add.reference median=10.150 us
+[37/104] device=0 op=matmul impl=torch.mm.reference median=34.138 us
+[38/104] device=1 op=matmul impl=torch.mm.reference median=34.118 us
+[39/104] device=0 op=matmul impl=torch.mm.reference median=208.742 us
+[40/104] device=1 op=matmul impl=torch.mm.reference median=208.659 us
+[41/104] device=0 op=rmsnorm impl=torch.rms_norm.reference median=15.334 us
+[42/104] device=1 op=rmsnorm impl=torch.rms_norm.reference median=15.069 us
+[43/104] device=0 op=silu impl=torch.silu.reference median=83.302 us
+[44/104] device=1 op=silu impl=torch.silu.reference median=83.261 us
+[45/104] device=0 op=add impl=torch.add.reference median=15.824 us
+[46/104] device=1 op=add impl=torch.add.reference median=15.610 us
+[47/104] device=0 op=matmul impl=torch.mm.reference median=121.418 us
+[48/104] device=1 op=matmul impl=torch.mm.reference median=121.312 us
+[49/104] device=0 op=matmul impl=torch.mm.reference median=43.955 us
+[50/104] device=1 op=matmul impl=torch.mm.reference median=43.914 us
+[51/104] device=0 op=matmul impl=torch.mm.reference median=42.390 us
+[52/104] device=1 op=matmul impl=torch.mm.reference median=42.307 us
+[53/104] device=0 op=rmsnorm impl=torch.rms_norm.reference median=46.109 us
+[54/104] device=1 op=rmsnorm impl=torch.rms_norm.reference median=46.122 us
+[55/104] device=0 op=matmul impl=torch.mm.reference median=36.883 us
+[56/104] device=1 op=matmul impl=torch.mm.reference median=36.816 us
+[57/104] device=0 op=matmul impl=torch.bmm.reference median=69.600 us
+[58/104] device=1 op=matmul impl=torch.bmm.reference median=69.155 us
+[59/104] device=0 op=matmul impl=torch.mm.reference median=16.515 us
+[60/104] device=1 op=matmul impl=torch.mm.reference median=16.189 us
+[61/104] device=0 op=softmax impl=torch.softmax.fp32_internal.reference median=582.800 us
+[62/104] device=1 op=softmax impl=torch.softmax.fp32_internal.reference median=582.429 us
+[63/104] device=0 op=rope impl=fusion.rope.reference median=129.718 us
+[64/104] device=1 op=rope impl=fusion.rope.reference median=128.134 us
+[65/104] device=0 op=rope impl=fusion.rope.reference median=128.301 us
+[66/104] device=1 op=rope impl=fusion.rope.reference median=126.787 us
+[67/104] device=0 op=rmsnorm impl=torch.rms_norm.reference median=73.021 us
+[68/104] device=1 op=rmsnorm impl=torch.rms_norm.reference median=73.021 us
+[69/104] device=0 op=matmul impl=torch.mm.reference median=210.752 us
+[70/104] device=1 op=matmul impl=torch.mm.reference median=210.637 us
+[71/104] device=0 op=mul impl=torch.mul.reference median=41.331 us
+[72/104] device=1 op=mul impl=torch.mul.reference median=41.360 us
+[73/104] device=0 op=rmsnorm impl=torch.rms_norm.reference median=25.565 us
+[74/104] device=1 op=rmsnorm impl=torch.rms_norm.reference median=25.523 us
+[75/104] device=0 op=rmsnorm impl=torch.rms_norm.reference median=15.443 us
+[76/104] device=1 op=rmsnorm impl=torch.rms_norm.reference median=15.187 us
+[77/104] device=0 op=mul impl=torch.mul.reference median=20.838 us
+[78/104] device=1 op=mul impl=torch.mul.reference median=20.906 us
+[79/104] device=0 op=rope impl=fusion.rope.reference median=128.986 us
+[80/104] device=1 op=rope impl=fusion.rope.reference median=127.562 us
+[81/104] device=0 op=matmul impl=torch.mm.reference median=180.685 us
+[82/104] device=1 op=matmul impl=torch.mm.reference median=180.611 us
+[83/104] device=0 op=rope impl=fusion.rope.reference median=128.816 us
+[84/104] device=1 op=rope impl=fusion.rope.reference median=127.008 us
+[85/104] device=0 op=rmsnorm impl=torch.rms_norm.reference median=15.402 us
+[86/104] device=1 op=rmsnorm impl=torch.rms_norm.reference median=15.210 us
+[87/104] device=0 op=rope impl=fusion.rope.reference median=128.163 us
+[88/104] device=1 op=rope impl=fusion.rope.reference median=126.698 us
+[89/104] device=0 op=add impl=torch.add.reference median=10.016 us
+[90/104] device=1 op=add impl=torch.add.reference median=9.904 us
+[91/104] device=0 op=add impl=torch.add.reference median=9.917 us
+[92/104] device=1 op=add impl=torch.add.reference median=9.936 us
+[93/104] device=0 op=matmul impl=torch.bmm.reference median=85.136 us
+[94/104] device=1 op=matmul impl=torch.bmm.reference median=85.200 us
+[95/104] device=0 op=silu impl=torch.silu.reference median=51.053 us
+[96/104] device=1 op=silu impl=torch.silu.reference median=51.062 us
+[97/104] device=0 op=mul impl=torch.mul.reference median=66.509 us
+[98/104] device=1 op=mul impl=torch.mul.reference median=67.600 us
+[99/104] device=0 op=matmul impl=torch.mm.reference median=28.109 us
+[100/104] device=1 op=matmul impl=torch.mm.reference median=28.096 us
+[101/104] device=0 op=matmul impl=torch.mm.reference median=28.586 us
+[102/104] device=1 op=matmul impl=torch.mm.reference median=28.563 us
+[103/104] device=0 op=matmul impl=torch.bmm.reference median=37.379 us
+[104/104] device=1 op=matmul impl=torch.bmm.reference median=38.234 us
+raw_measurements=data/reference_validation_v1_results/raw_measurements.jsonl
+environments=data/reference_validation_v1_results/environments.json
+completed=104 failures=0
+Fusion E2a BW1000 profiling: OK
+quality_target_pass: True
+{
+  "analytic": {
+    "objects": 52,
+    "mape": 1.1506527001258176,
+    "median_ape": 0.8321513987377873,
+    "p90_ape": 2.9110770727590767,
+    "log_mae": 0.9611938969428105,
+    "spearman": 0.3496327616402507
+  },
+  "nearest": {
+    "objects": 52,
+    "mape": 0.10723068927682733,
+    "median_ape": 0.10010994972804767,
+    "p90_ape": 0.22004286164033462,
+    "log_mae": 0.10725948952824772,
+    "spearman": 0.9860405558611208,
+    "q90_coverage": 0.8269230769230769
+  }
+}
+report: data/reference_validation_v1_results/zero_shot_report.json
+qwen2.5-3b-s1280-b1 repeat=0 plan=e011fd0af6 median_ms=2.5988 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=9ec4b929b1 median_ms=2.3351 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=b1b7074c2f median_ms=2.5476 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=5d44f319ab median_ms=2.4050 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=d671bfbb32 median_ms=2.5587 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=c8892aaa3c median_ms=2.7778 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=aa04a64e6a median_ms=2.6010 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=e3b8591157 median_ms=2.4292 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=8bbd69f354 median_ms=2.4463 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=dcdcb684ca median_ms=2.2948 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=c4f13ef512 median_ms=2.4043 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=1354db0a9d median_ms=2.7315 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=cab3edd2d5 median_ms=2.5782 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=903ad567f3 median_ms=2.3877 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=562911c99d median_ms=2.4680 correctness=True
+qwen2.5-3b-s1280-b1 repeat=0 plan=c7c7b65dc4 median_ms=2.5564 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=c7c7b65dc4 median_ms=2.5454 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=562911c99d median_ms=2.4876 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=903ad567f3 median_ms=2.4040 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=cab3edd2d5 median_ms=2.5659 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=1354db0a9d median_ms=2.7869 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=c4f13ef512 median_ms=2.4223 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=dcdcb684ca median_ms=2.3359 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=8bbd69f354 median_ms=2.5253 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=e3b8591157 median_ms=2.3875 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=aa04a64e6a median_ms=2.6817 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=c8892aaa3c median_ms=2.8040 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=d671bfbb32 median_ms=2.6556 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=5d44f319ab median_ms=2.4604 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=b1b7074c2f median_ms=2.5914 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=9ec4b929b1 median_ms=2.3409 correctness=True
+qwen2.5-3b-s1280-b1 repeat=1 plan=e011fd0af6 median_ms=2.6541 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=9ec4b929b1 median_ms=1.6504 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=b1b7074c2f median_ms=2.0217 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=5d44f319ab median_ms=1.9633 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=d671bfbb32 median_ms=1.8976 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=c8892aaa3c median_ms=2.2589 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=aa04a64e6a median_ms=2.0585 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=8bbd69f354 median_ms=1.8690 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=dcdcb684ca median_ms=1.6584 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=a98c7666bf median_ms=2.0896 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=c6f9d2526d median_ms=2.1058 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=1354db0a9d median_ms=2.2356 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=cab3edd2d5 median_ms=2.0819 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=903ad567f3 median_ms=1.8692 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=562911c99d median_ms=1.8614 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=c7c7b65dc4 median_ms=1.9492 correctness=True
+qwen2.5-3b-s768-b1 repeat=0 plan=e011fd0af6 median_ms=1.8153 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=e011fd0af6 median_ms=2.0316 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=c7c7b65dc4 median_ms=1.8708 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=562911c99d median_ms=1.7484 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=903ad567f3 median_ms=1.8755 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=cab3edd2d5 median_ms=1.9641 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=1354db0a9d median_ms=2.2351 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=c6f9d2526d median_ms=2.0916 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=a98c7666bf median_ms=2.0970 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=dcdcb684ca median_ms=1.6810 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=8bbd69f354 median_ms=1.7879 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=aa04a64e6a median_ms=1.9296 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=c8892aaa3c median_ms=2.0746 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=d671bfbb32 median_ms=1.9590 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=5d44f319ab median_ms=1.8931 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=b1b7074c2f median_ms=1.8637 correctness=True
+qwen2.5-3b-s768-b1 repeat=1 plan=9ec4b929b1 median_ms=1.6859 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=e143cba320 median_ms=2.0590 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=2dcd9ca8c9 median_ms=2.0772 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=cd941a8dbd median_ms=2.1484 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=93ec277c54 median_ms=2.0906 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=6c2b9d1e1d median_ms=2.2596 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=397b311ee6 median_ms=2.0661 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=09947651a9 median_ms=1.8652 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=1d3cf44b3e median_ms=1.8427 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=bc156226d5 median_ms=2.0562 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=67f5fd926d median_ms=1.8023 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=33681fe895 median_ms=1.8814 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=c02a47ea44 median_ms=1.7979 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=a0ab61a271 median_ms=1.8627 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=8a8f05840a median_ms=2.0868 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=6c9da764d0 median_ms=1.8153 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=c0cc98d618 median_ms=2.0760 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=7ac2409bec median_ms=2.1922 correctness=True
+qwen3-0.6b-s1280-b1 repeat=0 plan=4ad9e2e149 median_ms=1.8122 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=4ad9e2e149 median_ms=1.8129 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=7ac2409bec median_ms=2.1688 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=c0cc98d618 median_ms=2.1030 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=6c9da764d0 median_ms=1.8142 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=8a8f05840a median_ms=2.1277 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=a0ab61a271 median_ms=1.8716 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=c02a47ea44 median_ms=1.7934 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=33681fe895 median_ms=1.8614 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=67f5fd926d median_ms=1.7568 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=bc156226d5 median_ms=2.1724 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=1d3cf44b3e median_ms=1.8995 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=09947651a9 median_ms=1.8576 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=397b311ee6 median_ms=2.0809 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=6c2b9d1e1d median_ms=2.1964 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=93ec277c54 median_ms=2.0868 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=cd941a8dbd median_ms=2.2001 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=2dcd9ca8c9 median_ms=2.1957 correctness=True
+qwen3-0.6b-s1280-b1 repeat=1 plan=e143cba320 median_ms=2.0594 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=e143cba320 median_ms=1.6203 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=2dcd9ca8c9 median_ms=1.6563 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=cd941a8dbd median_ms=1.8142 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=93ec277c54 median_ms=1.6689 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=6c2b9d1e1d median_ms=1.7989 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=397b311ee6 median_ms=1.6399 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=e7ece4bcf8 median_ms=1.6287 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=bc156226d5 median_ms=1.6616 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=67f5fd926d median_ms=1.3410 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=c02a47ea44 median_ms=1.3431 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=8a8f05840a median_ms=1.6507 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=6c9da764d0 median_ms=1.6490 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=c0cc98d618 median_ms=1.6290 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=7ac2409bec median_ms=1.6343 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=4ad9e2e149 median_ms=1.6438 correctness=True
+qwen3-0.6b-s768-b1 repeat=0 plan=b6faa9a1c0 median_ms=1.6208 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=b6faa9a1c0 median_ms=1.6523 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=4ad9e2e149 median_ms=1.6708 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=7ac2409bec median_ms=1.6399 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=c0cc98d618 median_ms=1.7081 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=6c9da764d0 median_ms=1.6417 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=8a8f05840a median_ms=1.7094 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=c02a47ea44 median_ms=1.3326 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=67f5fd926d median_ms=1.3262 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=bc156226d5 median_ms=1.6467 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=e7ece4bcf8 median_ms=1.6545 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=397b311ee6 median_ms=1.7567 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=6c2b9d1e1d median_ms=1.7630 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=93ec277c54 median_ms=1.7121 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=cd941a8dbd median_ms=1.8209 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=2dcd9ca8c9 median_ms=1.8284 correctness=True
+qwen3-0.6b-s768-b1 repeat=1 plan=e143cba320 median_ms=1.7285 correctness=True
+correctness_pass: True; all_top1_within_5pct: True
+report: data/reference_validation_v1_results/execution_report.json
+qwen2.5-3b-s1280-b1 {'reference_host': 0.007576252917761872, 'structural_dag': 0.13521597756206472, 'reference_zero_host': 0.13521597756206472}
+qwen2.5-3b-s768-b1 {'reference_host': 0.0, 'structural_dag': 0.17572025502093447, 'reference_zero_host': 0.17572025502093447}
+qwen3-0.6b-s1280-b1 {'reference_host': 0.0, 'structural_dag': 0.22325801627744601, 'reference_zero_host': 0.22325801627744601}
+qwen3-0.6b-s768-b1 {'reference_host': 0.0009017756595530724, 'structural_dag': 0.22546971477182787, 'reference_zero_host': 0.22546971477182787}
+all_primary_within_1pct: True
+root@crdnotebook-2106728119406280705-abc12335-40891:~/private_data/LJ/Fusion-placement-search# tar -czf data/reference_validation_v1_results.tar.gz \
+  -C data reference_validation_v1_results
