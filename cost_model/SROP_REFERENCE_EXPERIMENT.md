@@ -136,3 +136,72 @@ A1双卡数值已回传通过（§9）；下一步A3需预先确定开发集诊�
 所有报告误差小于各自绝对容差；32/32数值/有限性/形状/扰动传播/旧重置拒绝通过，根输入缓存均1项。核对依据为收到的汇总和源码hash，不包含原始输出张量，也没有本地重复GPU执行。
 
 A1通过范围仍为batch2、seq5、hidden16、FFN32的小尺寸synthetic decoder body及四种放置；验证实际跨卡传递路径，不代表912候选全体、实际模型维度或性能已验证。下一步A3先固定开发任务/候选、重复与计时规则，再进行真实性能竞争诊断；B1/B2未开始，旧host未验收和SROP未证实状态不变。
+
+## 10. A3 真实方案竞争协议（v1，采集前冻结）
+
+工件 `data/a3_decoder_competition_v1/freeze.json`；freeze_id=`sha256:376f1c3644bc2dd7162cbab469c6f68caf90a2e9d3184b4fd9661a903f995714`。43项源码、6项输入hash受保护。尚未采新方案耗时；此协议为开发诊断，不是独立SROP收益实验。
+
+### 任务与候选
+
+| task_id | 层数 | Shape/dtype | 物理候选 |
+|---|---:|---|---:|
+| qwen3-0.6b-decoder2-s256-b1 | 2 | seq256/batch1/BF16 | 28 |
+| qwen3-0.6b-decoder4-s256-b1 | 4 | seq256/batch1/BF16 | 32 |
+| qwen2.5-3b-decoder2-s256-b1 | 2 | seq256/batch1/BF16 | 28 |
+| qwen2.5-3b-decoder4-s256-b1 | 4 | seq256/batch1/BF16 | 32 |
+
+沿用A2的实际模型维度，仅decoder body，无embedding/head。120物理候选全都属于原912结构候选；按结构选择，不按预测或真实耗时筛选，不扩展执行器和候选空间。
+
+每任务包括GPU0/GPU1单卡；首层与末层的QKV相对背景位模式100/110/111，gate-up位模式01/10/11；全部整层边界切分。每个跨卡结构保留两种物理方向。只在首末层抽局部分支，不声称完整保留A2所有局部组合和拓扑前缀覆盖。
+
+所有候选ID、完整图/方案和selection_reasons、初始预测/并列集合/预选物理ID、逐块schedule均封存在freeze.json。逻辑0/1固定映射到进程可见cuda:0/1，不根据实测选择方向。预选为初始预测并列集合的最小ID，评估时完整并列集合最好/最坏另报。
+
+初始评分：原112训练数据拟合的nearest、原硬件链路、未验收host的ReferenceEager模型。seq256测量Key已在原训练集中出现；按local_name在各层复用对应预测，不称未见Shape或零样本泛化。新候选的方案级执行时间仍未采。host/body/GQA/布局未验收限制不因冻结解除。
+
+### 运行与计时
+
+两张BW设备，torch2.9.0/HIP6.3.26093；不允许CPU回退。输入/权重seed1234，canonical CPU模板在每任务内共享，保证候选和物理方向不改变张量值。每块重建executor、5次预热、20次正式前向；不在块间empty_cache，不加入逐组Event或profiler。
+
+每块先检查实际维度输出与GPU0单卡参考的数值一致性，rtol=.01/atol=.001并要求finite。该参考使用相同连续执行器；独立公式证据来自A1小尺寸，不能把它写成实际模型维度的独立实现对照。
+
+每任务3个窗口。窗口开始、结束均测GPU0和GPU1单卡锚点；前后锚点顺序相反，不同窗口交换起始方向。中间测除单卡外的全部入选物理候选，按固定seed20261029+100×任务序号+窗口号打乱，完整顺序已封存。
+
+合计384块、7680次正式前向，另含每块1次数值检查和5次预热、每任务1次参考生成。正式延迟为run_once(False)同步前向墙钟，含逐算子Python提交/复制及末端同步；构造、缓存首次生成、数值检查和预热不计入稳态前向延迟。另记录block_wall_s，不能据此声称SROP总成本收益。
+
+### 漂移、噪声和失败
+
+- 主结果不删除任何样本或窗口，不重跑直到通过。
+- 各单卡锚点abs(after/before−1)>10%标记窗口漂移；任一锚点越线，该窗口不满足质量参照，原数据仍参加主汇总。
+- 断点续跑跳过已落盘slot，不覆盖原块；一个窗口跨越不同采集进程也标记不满足质量参照。环境变化拒绝合并。
+- 每块保留20个原始墙钟值、正确性和峰值显存；按record hash、环境hash、固定slot核对。失败块保存后停止，不将候选从池里删除；初始化失败另保存setup_failure文件。缺块或有失败时不生成regret结论。
+- 参考差异采用预设描述性规则：每窗口中，候选与该窗口较快单卡的差值绝对值大于max(0.1%×较小延迟，3×两者稳健MAD噪声尺度之和)，且3窗口差值同号、3窗口质量均过线，才标记“重复一致且超过噪声参照”。这不是显著性检验或置信区间。
+
+### 汇总与三个问题
+
+每块取20次中位数；单卡在每窗口取before/after两个块中位数的中位数，其余候选为本窗口唯一块中位数；再对3窗口中位数取中位数，作为主延迟。原始样本分布及各窗口regret另报。
+
+性能层：报告候选延迟、原始分布、锚点漂移、逐窗口相对单卡差距、重复一致差异及跨卡优势。存在慢方案也会产生性能差异，不能直接称补测机会。
+
+决策层：用封存初始物理选择，报告距已测120候选中各自任务子集最优的真实regret，主ε=1%、敏感性0.1%/0.5%；固定GPU0、固定GPU1分别保留。初始已经达到ε的任务照常报告，不按事后分层删任务。
+
+补测层：本轮不采新kernel标签、不进行Proxy/Refit/重新搜索，因此报告kernel_profiling_value=not assessed。即使发生初始错误或跨卡更快，也不直接算SROP收益；后续才验证部分测量/更新能否改善、且收益是否超过成本。
+
+### 服务器运行
+
+只git pull，不重新prepare、不打部署包。两卡模式直接运行：
+
+```bash
+git pull
+python -m calibration.decoder_competition check
+python -m execution.decoder_competition run --out-dir data/a3_decoder_competition_v1_results
+```
+
+check应显示freeze376f1c...、4 tasks / 120 physical_candidates / 384 blocks / 7680 formal_forwards。采集完成末尾应显示complete=True blocks=384/384；各任务regret/质量窗口/跨卡优势如实打印，无预设成功值。
+
+回传competition_report.json、execution_samples.jsonl和environment.json；失败时连同setup_failure文件和终端输出保留。可无卡复算已有日志：
+
+```bash
+python -m execution.decoder_competition evaluate --out-dir data/a3_decoder_competition_v1_results
+```
+
+9项本地协议回归及compileall通过；包括固定慢物理并列不事后换卡、漂移保留、窗口反转、跨进程窗口、失败/重复/hash篡改、来源锁定、抽样和调度、GPU入口拒绝CPU回退。CPU数据只为schema测试，不作为GPU性能证据。原两份freeze保持不变。
