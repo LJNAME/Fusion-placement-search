@@ -92,3 +92,34 @@ python -m execution.verify_decoder_stack --devices 0,1 --output data/a1_decoder_
 ```
 
 本轮报告 `data/a1_decoder_correctness.cpu.json`。下一步 A2 离线审计候选覆盖；A3 真实性能竞争、B1 Reference SROP 主循环、B2 同总成本收益尚未完成。不因A1通过就认定存在多卡性能竞争。
+
+## 8. A2 候选结构覆盖
+
+2026-10-29：离线结构审计完成。入口 `python -m cost_model.decoder_candidate_coverage`，产物 `data/a2_decoder_candidate_coverage.v1.json`。5项回归、真实图离线审计、compileall及两个freeze完整性通过。
+
+对92193b...四个旧任务分别检查完整提案池和已测子集：完整提案252个物理候选，已测66个。完整提案覆盖Q/K/V所有物理位模式及分支链同卡位模式，但每任务都缺4个局部QKV组合、1个局部gate/up组合。已测子集中两个3B任务还各缺2种QKV物理位模式。两种物理方向齐全；此结果不能解释成搜索空间不支持这些结构，只能说明这些有限提案/测量集合没有覆盖。
+
+局部分支见证要求：只改变当前层对应分支链，所有其他节点固定在同一背景设备。Q分支含q_proj/q_norm/q_rope（按图实际存在），K同理，V为v_proj；gate分支含gate_proj/silu，up为up_proj。全局交换后用相对背景的位模式审计，不能仅凭每层都出现过变化就认定局部组合齐全。
+
+新结构候选仅用于2/4层decoder body，seq256、batch1、BF16，采用现有Qwen3-0.6B/Qwen2.5-3B维度。基池为graph-wide-v1探针和singleton参考，未新跑MCTS；增加每层全部QKV/gate-up位组合、全部确定性拓扑前缀切分和全部整层边界切分，再展开两种物理方向。没有读取耗时、预测分数或目标标签，也没有改主机/链路成本；未改冻结提案和已测子集。
+
+| 图 | 物理候选：基池→补齐 | 局部分支缺项：基池→补齐 | 拓扑前缀缺项：基池→补齐 |
+|---|---:|---:|---:|
+| Qwen3 2层 | 56→174 | 19→0 | 40→0 |
+| Qwen3 4层 | 64→298 | 37→0 | 80→0 |
+| Qwen2.5 2层 | 52→162 | 19→0 | 36→0 |
+| Qwen2.5 4层 | 60→278 | 37→0 | 72→0 |
+
+合计232→912物理候选，局部分支缺项112→0、拓扑前缀缺项228→0，交换方向缺项0，全部基池候选保留。所有新增候选通过合法性、registry executable与ContinuousDecoderExecutor构造检查；是静态可执行资格，不是912个GPU数值验证，更不是完整2^N放置空间覆盖。
+
+审计分别报告搜索合法性、registry可执行性和Reference静态资格；当前Reference只有singleton组。planned多节点融合在回归中可搜索合法，但不计入Reference证据。报告另列每候选的分设备FLOPs/参数字节、整张量复制数量/字节、主机算子/复制提交次数。两端stream屏障数只是Reference模型假设，没有观测GPU同步，也未估算执行时长、峰值显存可行性或吞吐。
+
+复验（无卡）：
+
+```bash
+git pull
+python -m cost_model.decoder_candidate_coverage --output data/a2_decoder_validation/coverage.json
+python -m unittest cost_model.tests.test_decoder_candidate_coverage -v
+```
+
+下一步A3需预先确定开发集诊断协议，先完成A1真实跨卡数值检查，再判断这些结构是否存在真实性能竞争。新增候选没有GPU标签；不能把旧66个已测结果外推到912个新候选。A2补齐不证明多卡更快或SROP有效，B1/B2尚未开始。
