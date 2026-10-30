@@ -1,0 +1,74 @@
+{
+  "format": "fusion-placement-search.scnet-group-key-readiness",
+  "version": "1.0",
+  "created_utc": "2026-10-30T07:47:15.683367+00:00",
+  "target": "SCNet user-operated BW1000 multi-card allocation",
+  "device_policy": "current development draft uses visible logical HIP GPUs 0 and 1 only",
+  "draft_id": "sha256:685a5c166b0557593bf8688c2f34273ffb8b747494878f1d21191ce75af5b4e8",
+  "capability_id": "sha256:225560cdfed78c2d93e8b9e1262f3ebcd9f490ba199c436d91b714f44472df3f",
+  "slots": 12,
+  "finalized_GPU_Kernel_keys": 0,
+  "GPU_collection_performed": false,
+  "tests": {
+    "passed": 95,
+    "protocol": 17,
+    "workflow": 3,
+    "existing_regressions": 75
+  },
+  "bash_syntax_check": "PASS",
+  "compileall": "PASS",
+  "source_and_capability_check": "PASS",
+  "historical_freeze_checks": "three PASS after LF normalization",
+  "actual_local_launcher": {
+    "path": "data/group_key_scnet_local_preflight_v2",
+    "summary": {
+      "format": "fusion-placement-search.group-key-workflow",
+      "version": "1.0",
+      "complete": false,
+      "exit_code": 1,
+      "steps": [
+        {
+          "name": "check",
+          "exit_code": 0,
+          "subprocess_wall_s": 2.294643700006418
+        },
+        {
+          "name": "smoke_collect",
+          "exit_code": 1,
+          "subprocess_wall_s": 2.338840700002038
+        }
+      ],
+      "workflow_wall_s": 4.6350881999969715,
+      "wall_scope": "parent workflow entry through child completion; includes every child process startup, check, collection, verification and log IO; excludes parent startup and final summary write",
+      "nested_timer_policy": "child collection/setup/block timers are components; do not add them again",
+      "automatic_profile_writeback": false
+    },
+    "no_GPU_failure": {
+      "status": "failed_or_not_run",
+      "error": "RuntimeError: no GPU available; group-Key collection was not run",
+      "validation_launch_attempts": 0,
+      "collection_wall_s": 0.0004822999908355996,
+      "latency_labels_promoted": false
+    },
+    "formal_launched": false
+  },
+  "source_sha256": {
+    "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+    "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+    "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+    "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b",
+    "calibration/run_group_key_remeasurement.py": "a569d4a5c94b4bd1ec6b1f0b1d7b1650285d53462c38584ffeb75a3d00143bff",
+    "tools/run_group_key_remeasurement.sh": "50879310b9c4a06b369ee8079c55ca310afa22bfbcbc5b638227a10701b9617b",
+    "calibration/tests/test_group_key_remeasurement.py": "684a3aa6c5062c1868ea0d868b08c8a82a0d617e11c424890c587ec9fd04904e",
+    "calibration/tests/test_run_group_key_remeasurement.py": "750c2daf7f9dbe91097910406bc82582178714a478d3b61962333f69c089de70",
+    "calibration/GROUP_KEY_REMEASUREMENT.md": "d1e0899fbc05190a1f59c0f5d165161dae5ee1762d8a12ec376a3655246c4841"
+  },
+  "input_sha256": {
+    "data/group_key_remeasurement_draft_v1/manifest.json": "349266458a48f0fc53e2e22657fb45bf5ea855b8c1aada6d70fe2a120683d7e8",
+    "data/kerv_silu_mul_proxy_v1/capability.json": "74bfa16c961107844a50f44fdf5a9aaf7439ea471a7be1a7cdb6f2fc82ee1ba6"
+  },
+  "online_SROP_implemented": false,
+  "SROP_benefit_assessed": false,
+  "full_graph_execution_performed": false,
+  "LF_normalization_verified_utc": "2026-10-30T07:50:43.068380+00:00"
+}

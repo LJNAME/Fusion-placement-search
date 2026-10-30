@@ -1,0 +1,91 @@
+{
+  "format": "fusion-placement-search.group-key-workflow",
+  "version": "1.0",
+  "created_utc": "2026-10-30T07:49:55.449470+00:00",
+  "scope": "development_Kernel_microbenchmarks_not_full_graph_execution",
+  "working_directory": "E:\\Chatgpt_work\\Fusion-placement-search",
+  "order_seed": 0,
+  "device_policy": "existing two-device draft; visible HIP logical devices 0 and 1",
+  "steps": [
+    {
+      "name": "check",
+      "argv": [
+        "C:\\Users\\LJ\\miniconda3\\envs\\fusion-dev\\python.exe",
+        "-m",
+        "calibration.group_key_remeasurement",
+        "check",
+        "--flagscale-root",
+        "E:\\Chatgpt_work\\FlagScale-main\\FlagScale-main"
+      ],
+      "log": "check.log"
+    },
+    {
+      "name": "smoke_collect",
+      "argv": [
+        "C:\\Users\\LJ\\miniconda3\\envs\\fusion-dev\\python.exe",
+        "-m",
+        "calibration.group_key_remeasurement",
+        "collect",
+        "--flagscale-root",
+        "E:\\Chatgpt_work\\FlagScale-main\\FlagScale-main",
+        "--mode",
+        "smoke",
+        "--order-seed",
+        "0",
+        "--out-dir",
+        "E:\\Chatgpt_work\\Fusion-placement-search\\data\\group_key_scnet_local_preflight_v2\\smoke"
+      ],
+      "log": "smoke_collect.log"
+    },
+    {
+      "name": "smoke_verify",
+      "argv": [
+        "C:\\Users\\LJ\\miniconda3\\envs\\fusion-dev\\python.exe",
+        "-m",
+        "calibration.group_key_remeasurement",
+        "verify",
+        "--bundle",
+        "E:\\Chatgpt_work\\Fusion-placement-search\\data\\group_key_scnet_local_preflight_v2\\smoke"
+      ],
+      "log": "smoke_verify.log"
+    },
+    {
+      "name": "formal_collect",
+      "argv": [
+        "C:\\Users\\LJ\\miniconda3\\envs\\fusion-dev\\python.exe",
+        "-m",
+        "calibration.group_key_remeasurement",
+        "collect",
+        "--flagscale-root",
+        "E:\\Chatgpt_work\\FlagScale-main\\FlagScale-main",
+        "--mode",
+        "formal",
+        "--order-seed",
+        "0",
+        "--out-dir",
+        "E:\\Chatgpt_work\\Fusion-placement-search\\data\\group_key_scnet_local_preflight_v2\\formal"
+      ],
+      "log": "formal_collect.log"
+    },
+    {
+      "name": "formal_verify",
+      "argv": [
+        "C:\\Users\\LJ\\miniconda3\\envs\\fusion-dev\\python.exe",
+        "-m",
+        "calibration.group_key_remeasurement",
+        "verify",
+        "--bundle",
+        "E:\\Chatgpt_work\\Fusion-placement-search\\data\\group_key_scnet_local_preflight_v2\\formal",
+        "--out",
+        "E:\\Chatgpt_work\\Fusion-placement-search\\data\\group_key_scnet_local_preflight_v2\\formal\\verified_profile.json"
+      ],
+      "log": "formal_verify.log"
+    }
+  ],
+  "source_sha256": {
+    "calibration/run_group_key_remeasurement.py": "a569d4a5c94b4bd1ec6b1f0b1d7b1650285d53462c38584ffeb75a3d00143bff",
+    "tools/run_group_key_remeasurement.sh": "50879310b9c4a06b369ee8079c55ca310afa22bfbcbc5b638227a10701b9617b"
+  },
+  "automatic_retries": false,
+  "automatic_profile_writeback": false
+}

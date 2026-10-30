@@ -1,0 +1,57 @@
+{
+  "format": "fusion-placement-search.group-key-local-validation",
+  "version": "1.0",
+  "created_utc": "2026-10-30T07:11:42.412074+00:00",
+  "scope": "CPU protocol and regression validation; no GPU measurements",
+  "base_revision": "5345f4d8d696ac1aa5f979b427bdced229b0d9fd",
+  "runtime": {
+    "python": "3.11.9",
+    "torch": "2.9.0+cpu",
+    "gpu_available": false
+  },
+  "draft_id": "sha256:685a5c166b0557593bf8688c2f34273ffb8b747494878f1d21191ce75af5b4e8",
+  "draft_slots": 12,
+  "finalized_kernel_keys": 0,
+  "tests": {
+    "passed": 92,
+    "new_protocol_tests": 17,
+    "existing_regressions": 75,
+    "command": "python -m pytest calibration/tests/test_group_key_remeasurement.py calibration/tests/test_profile_e2_bw1000.py cost_model/tests/test_kerv_capability.py cost_model/tests/test_srop_e0.py cost_model/tests/test_legal_search.py cost_model/tests/test_exact_search.py cost_model/tests/test_structural_cost.py cost_model/tests/test_measured_profile.py simulator/tests/test_placement_artifacts.py -q",
+    "GPU_protocol_simulation": "temporary unit fixtures only; not GPU validation or dataset labels",
+    "final_protocol_recheck_passed": 17
+  },
+  "historical_freezes": {
+    "gpu_holdout": "PASS",
+    "reference_validation": "PASS",
+    "decoder_competition": "PASS"
+  },
+  "compileall": "PASS",
+  "source_and_capability_check": "PASS",
+  "actual_CLI_no_GPU_preflight": {
+    "path": "data/group_key_remeasurement_local_preflight_v1/failure.json",
+    "failure": {
+      "status": "failed_or_not_run",
+      "error": "RuntimeError: no GPU available; group-Key collection was not run",
+      "validation_launch_attempts": 0,
+      "collection_wall_s": 0.00035749998642131686,
+      "latency_labels_promoted": false
+    },
+    "sha256": "483cd3cd8143a240adb7582fc194fe2f1d5679d40300cd5f8f60e42bf63b2d99"
+  },
+  "source_sha256": {
+    "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+    "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+    "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+    "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b",
+    "calibration/tests/test_group_key_remeasurement.py": "684a3aa6c5062c1868ea0d868b08c8a82a0d617e11c424890c587ec9fd04904e",
+    "calibration/GROUP_KEY_REMEASUREMENT.md": "d1e0899fbc05190a1f59c0f5d165161dae5ee1762d8a12ec376a3655246c4841"
+  },
+  "draft_sha256": "349266458a48f0fc53e2e22657fb45bf5ea855b8c1aada6d70fe2a120683d7e8",
+  "GPU_collection_performed": false,
+  "SROP_benefit_assessed": false,
+  "predictor_updated": false,
+  "full_graph_execution_performed": false,
+  "committed_or_pushed": false,
+  "documentation_updated_utc": "2026-10-30T07:47:15.683367+00:00",
+  "LF_normalization_verified_utc": "2026-10-30T07:49:28.045939+00:00"
+}

@@ -1,0 +1,286 @@
+{
+  "format": "fusion-placement-search.placed-op-graph",
+  "version": "1.0",
+  "graph_hash": "sha256:d9315272f0c6e19fe69182b73ed2552e2e750a1d62c1645c0db80f167bacf071",
+  "hardware_hash": "sha256:8f21b6afa83559a2c7366847d60543e4d175031a5d65bd930ec736569d034c8f",
+  "candidate_id": "sha256:452f54389072a1fcdf91b8ded5a3f427141d1bed6c081fe5833c947b3ec758d7",
+  "rank": null,
+  "predicted_makespan": 0.004200000128,
+  "predicted_peak_memory": [
+    128.0,
+    192.0
+  ],
+  "hardware": {
+    "name": "synthetic-E0-not-GPU",
+    "comm_bw": 1000000000000.0,
+    "comm_latency": 0.0001,
+    "launch_overhead": 0.0,
+    "fusion_overhead": 0.0,
+    "interference": 0.0,
+    "overlap_send": true,
+    "devices": [
+      {
+        "name": "synthetic-0",
+        "max_mem": 1000000000.0,
+        "flops": 1000000000000.0,
+        "mem_bw": 1000000000000.0,
+        "class": "synthetic",
+        "physical_index": 0,
+        "source": "controlled-E0-fixture-v1"
+      },
+      {
+        "name": "synthetic-1",
+        "max_mem": 1000000000.0,
+        "flops": 1000000000000.0,
+        "mem_bw": 1000000000000.0,
+        "class": "synthetic",
+        "physical_index": 1,
+        "source": "controlled-E0-fixture-v1"
+      }
+    ]
+  },
+  "graph": {
+    "name": "synthetic-device-dependent-fusion",
+    "extra": {},
+    "nodes": [
+      {
+        "id": "gate",
+        "op_type": "matmul",
+        "flops": 64.0,
+        "out_bytes": 64.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "output_shape": [
+            4,
+            8
+          ],
+          "dtype": "bf16",
+          "compute_dtype": "fp32",
+          "layout": {
+            "contiguity": "contiguous",
+            "order": "row_major"
+          },
+          "phase": "forward",
+          "layer": 0,
+          "shape": {
+            "m": 4,
+            "n": 8,
+            "k": 8
+          }
+        },
+        "fusion_group_id": "fg0000",
+        "device_id": 0
+      },
+      {
+        "id": "up",
+        "op_type": "matmul",
+        "flops": 64.0,
+        "out_bytes": 64.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "output_shape": [
+            4,
+            8
+          ],
+          "dtype": "bf16",
+          "compute_dtype": "fp32",
+          "layout": {
+            "contiguity": "contiguous",
+            "order": "row_major"
+          },
+          "phase": "forward",
+          "layer": 0,
+          "shape": {
+            "m": 4,
+            "n": 8,
+            "k": 8
+          }
+        },
+        "fusion_group_id": "fg0001",
+        "device_id": 0
+      },
+      {
+        "id": "silu",
+        "op_type": "silu",
+        "flops": 64.0,
+        "out_bytes": 64.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "output_shape": [
+            4,
+            8
+          ],
+          "dtype": "bf16",
+          "compute_dtype": "fp32",
+          "layout": {
+            "contiguity": "contiguous",
+            "order": "row_major"
+          },
+          "phase": "forward",
+          "layer": 0
+        },
+        "fusion_group_id": "fg0002",
+        "device_id": 1
+      },
+      {
+        "id": "mul",
+        "op_type": "mul",
+        "flops": 64.0,
+        "out_bytes": 64.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "output_shape": [
+            4,
+            8
+          ],
+          "dtype": "bf16",
+          "compute_dtype": "fp32",
+          "layout": {
+            "contiguity": "contiguous",
+            "order": "row_major"
+          },
+          "phase": "forward",
+          "layer": 0
+        },
+        "fusion_group_id": "fg0002",
+        "device_id": 1
+      },
+      {
+        "id": "out",
+        "op_type": "matmul",
+        "flops": 64.0,
+        "out_bytes": 64.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "output_shape": [
+            4,
+            8
+          ],
+          "dtype": "bf16",
+          "compute_dtype": "fp32",
+          "layout": {
+            "contiguity": "contiguous",
+            "order": "row_major"
+          },
+          "phase": "forward",
+          "layer": 0,
+          "shape": {
+            "m": 4,
+            "n": 8,
+            "k": 8
+          }
+        },
+        "fusion_group_id": "fg0003",
+        "device_id": 0
+      }
+    ],
+    "edges": [
+      {
+        "src": "gate",
+        "dst": "silu",
+        "bytes": 64.0,
+        "extra": {}
+      },
+      {
+        "src": "up",
+        "dst": "mul",
+        "bytes": 64.0,
+        "extra": {}
+      },
+      {
+        "src": "silu",
+        "dst": "mul",
+        "bytes": 64.0,
+        "extra": {}
+      },
+      {
+        "src": "mul",
+        "dst": "out",
+        "bytes": 64.0,
+        "extra": {}
+      }
+    ]
+  },
+  "fusion_groups": [
+    {
+      "fusion_group_id": "fg0000",
+      "node_ids": [
+        "gate"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0001",
+      "node_ids": [
+        "up"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0002",
+      "node_ids": [
+        "silu",
+        "mul"
+      ],
+      "device_id": 1,
+      "pattern_id": "silu_mul",
+      "backend": "template",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "silu_mul",
+        "backend": "template",
+        "implementation_status": "planned"
+      }
+    },
+    {
+      "fusion_group_id": "fg0003",
+      "node_ids": [
+        "out"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    }
+  ],
+  "plan": {
+    "name": "legal-exact-rank-1",
+    "extra": {
+      "search_space": "legal_fusion_v1",
+      "require_executable": false,
+      "allowed_devices": [
+        0,
+        1
+      ],
+      "search_method": "exact",
+      "search_space_size": 48,
+      "rank": 1
+    }
+  },
+  "extra": {
+    "scope": "E0_search_validation",
+    "deployable": false,
+    "latency_scope": "synthetic_coupling_fixture"
+  }
+}
