@@ -58,7 +58,17 @@ def rewrite_records(path, rows):
 class GroupRemeasurementTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.draft = remeasure.load_draft()
+        # Build a current-source unit-test fixture in a temporary directory.
+        # The on-disk v1 GPU preregistration and its pinned hashes stay unchanged.
+        draft = json.loads(remeasure.DEFAULT_DRAFT.read_text(encoding="utf-8"))
+        draft["source_sha256"] = {name: remeasure.file_hash(remeasure.ROOT / name)
+                                  for name in draft["source_sha256"]}
+        draft["unit_test_only"] = True
+        draft = remeasure.sealed({k: v for k, v in draft.items() if k != "draft_id"}, "draft_id")
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "unit-test-draft.json"
+            remeasure.write_json(path, draft)
+            cls.draft = remeasure.load_draft(path)
 
     def manifest(self, **kwargs):
         return remeasure.bind_manifest(self.draft, environment(), **kwargs)

@@ -461,6 +461,9 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--mcts-iterations", type=int, default=64)
     parser.add_argument("--top-k", type=int, default=4)
     parser.add_argument("--quick", action="store_true")
+    parser.add_argument("--measurement-contract-id")
+    parser.add_argument("--allow-unbound", action="store_true",
+                        help="diagnostic only: permit inadmissible labels with warnings and low confidence")
     parser.add_argument(
         "--model-beam",
         action="store_true",
@@ -476,7 +479,8 @@ def main() -> None:
     unknown = sorted(set(scales) - {"small", "layer", "model", "model_3b"})
     if not scales or unknown:
         raise ValueError(f"invalid --scales value; unknown={unknown}")
-    profile = MeasuredHardwareProfile.from_files(args.hardware, args.raw)
+    profile = MeasuredHardwareProfile.from_files(args.hardware, args.raw,
+        measurement_contract_id=args.measurement_contract_id, allow_unbound=args.allow_unbound)
     beam = min(args.beam, 2) if args.quick else args.beam
     rollouts = 1 if args.quick else args.rollouts
     mcts_iterations = min(args.mcts_iterations, 16) if args.quick else args.mcts_iterations

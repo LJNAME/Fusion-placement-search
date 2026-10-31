@@ -8,7 +8,7 @@ operator shapes and message-size curves for ranking placed graphs.
 from __future__ import annotations
 
 from bisect import bisect_left
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import json
 import math
 from pathlib import Path
@@ -18,6 +18,8 @@ from simulator.hardware import HardwareSpec, load_hardware
 from simulator.schema import OpGraph
 
 from .hardware_profile import AnalyticHardwareProfile, GroupCost, TransferCost
+from .measurement_labels import MeasurementLabel, MeasurementLabelLookup
+from calibration.e2_manifest import content_id
 from .structure import GroupStructure
 
 
@@ -32,6 +34,9 @@ class _KernelMeasurement:
     m: int | None = None
     n: int | None = None
     k: int | None = None
+    label: MeasurementLabel | None = None
+    contract_diagnostic: bool = False
+    contract_reasons: tuple[str, ...] = ()
 
     @property
     def is_matmul(self) -> bool:
@@ -115,6 +120,19 @@ def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, in
         "residual_add": "add",
     }
     measurements = []
+    def add(measurement, item):
+        # Old shape tables have no canonical group Key. This is only an internal
+        # lookup address; preserve any pre-existing record identity verbatim.
+        identifier = item.get("key_id") or item.get("object_id") or item.get("kernel_id")
+        if not identifier:
+            identifier = content_id("legacy-shape-record", {
+                "source_id": raw["source_id"], "device": measurement.device,
+                "record_position": len(measurements),
+                "op_type": measurement.op_type, "dtype": measurement.dtype,
+                "output_numel": measurement.output_numel, "inner_size": measurement.inner_size,
+                "m": measurement.m, "n": measurement.n, "k": measurement.k})
+        label = MeasurementLabel.from_duration(identifier, measurement.duration, item)
+        measurements.append(replace(measurement, label=label))
     for device in raw.get("devices") or []:
         physical = int(device["index"])
         if physical not in physical_to_logical:
@@ -122,7 +140,7 @@ def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, in
         logical = int(physical_to_logical[physical])
         for item in device.get("matmul") or []:
             m, n, k = _normalize_raw_matmul_shape(item)
-            measurements.append(
+            add(
                 _KernelMeasurement(
                     device=logical,
                     op_type="matmul",
@@ -131,7 +149,7 @@ def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, in
                     m=m,
                     n=n,
                     k=k,
-                )
+                ), item
             )
         for item in device.get("reference_ops") or []:
             name = str(item.get("name", ""))
@@ -142,7 +160,7 @@ def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, in
             output_numel = int(item.get("output_numel", fallback_numel))
             raw_inner = item.get("inner_size", fallback_inner)
             inner_size = int(raw_inner) if raw_inner is not None else None
-            measurements.append(
+            add(
                 _KernelMeasurement(
                     device=logical,
                     op_type=op_name_to_type[name],
@@ -150,7 +168,7 @@ def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, in
                     duration=float(item["duration_s"]["median"]),
                     output_numel=output_numel,
                     inner_size=inner_size,
-                )
+                ), item
             )
         for item in device.get("supplemental_ops") or []:
             status = str(item.get("implementation_status", ""))
@@ -160,7 +178,7 @@ def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, in
             item_dtype = str(item.get("dtype", default_dtype)).lower()
             if op_type in {"matmul", "batched_matmul"}:
                 m, n, k = _normalize_raw_matmul_shape(item)
-                measurements.append(
+                add(
                     _KernelMeasurement(
                         device=logical,
                         op_type="matmul",
@@ -169,7 +187,7 @@ def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, in
                         m=m,
                         n=n,
                         k=k,
-                    )
+                    ), item
                 )
                 continue
             if op_type not in {"rmsnorm", "rope", "softmax", "silu", "mul", "add"}:
@@ -177,7 +195,7 @@ def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, in
             output_numel = int(item["output_numel"])
             raw_inner = item.get("inner_size")
             inner_size = int(raw_inner) if raw_inner is not None else None
-            measurements.append(
+            add(
                 _KernelMeasurement(
                     device=logical,
                     op_type=op_type,
@@ -185,7 +203,7 @@ def _load_kernel_measurements(raw: Mapping, physical_to_logical: Mapping[int, in
                     duration=float(item["duration_s"]["median"]),
                     output_numel=output_numel,
                     inner_size=inner_size,
-                )
+                ), item
             )
     return tuple(measurements)
 
@@ -265,6 +283,8 @@ class MeasuredHardwareProfile:
         raw: Mapping,
         *,
         interpolation_radius: float = 1.0,
+        measurement_contract_id: str | None = None,
+        allow_unbound: bool = False,
     ) -> None:
         if str(raw.get("format")) != "fusion-placement-search.bw1000-calibration":
             raise ValueError("unsupported measured calibration format")
@@ -290,6 +310,14 @@ class MeasuredHardwareProfile:
         self.interpolation_radius = float(interpolation_radius)
         self._analytic = AnalyticHardwareProfile(hardware)
         self._kernels = _load_kernel_measurements(raw, physical_to_logical)
+        self.measurement_contract_id = measurement_contract_id
+        self.allow_unbound = allow_unbound
+        labels = {}
+        for item in self._kernels:
+            if item.label.key_id in labels and labels[item.label.key_id] != item.label:
+                raise ValueError("conflicting measurement labels for " + item.label.key_id)
+            labels[item.label.key_id] = item.label
+        self.measurement_labels = MeasurementLabelLookup(labels)
         self._links = {
             (table.src_device, table.dst_device): table
             for table in _load_link_tables(raw, physical_to_logical)
@@ -306,11 +334,14 @@ class MeasuredHardwareProfile:
         raw_path: str | Path,
         *,
         interpolation_radius: float = 1.0,
+        measurement_contract_id: str | None = None,
+        allow_unbound: bool = False,
     ) -> "MeasuredHardwareProfile":
         hardware = load_hardware(hardware_path)
         with open(raw_path, "r", encoding="utf-8") as stream:
             raw = json.load(stream)
-        return cls(hardware, raw, interpolation_radius=interpolation_radius)
+        return cls(hardware, raw, interpolation_radius=interpolation_radius,
+                   measurement_contract_id=measurement_contract_id, allow_unbound=allow_unbound)
 
     @property
     def n_devs(self) -> int:
@@ -327,6 +358,11 @@ class MeasuredHardwareProfile:
     def max_memory(self, device: int) -> float:
         return float(self.hardware.devices[device].max_mem)
 
+    def _admit_kernel(self, item):
+        match = self.measurement_labels.lookup(item.label.key_id, self.measurement_contract_id,
+                                               allow_unbound=self.allow_unbound)
+        return replace(item, contract_diagnostic=match.diagnostic, contract_reasons=match.reasons)
+
     def _exact_kernel(self, device: int, node) -> _KernelMeasurement | None:
         dtype = _node_dtype(node)
         if node.op_type == "matmul":
@@ -340,7 +376,7 @@ class MeasuredHardwareProfile:
                     and item.dtype == dtype
                     and (item.m, item.n, item.k) == shape
                 ):
-                    return item
+                    return self._admit_kernel(item)
             return None
         output_numel = _node_output_numel(node)
         output_shape = (node.extra or {}).get("output_shape") or ()
@@ -353,10 +389,10 @@ class MeasuredHardwareProfile:
                 and item.output_numel == output_numel
                 and (node.op_type != "rmsnorm" or item.inner_size == inner_size)
             ):
-                return item
+                return self._admit_kernel(item)
         return None
 
-    def _interpolated_matmul(self, device: int, node) -> tuple[float, float] | None:
+    def _interpolated_matmul(self, device: int, node):
         shape = _node_matmul_shape(node)
         if shape is None:
             return None
@@ -372,11 +408,12 @@ class MeasuredHardwareProfile:
         distance = _shape_distance(nearest, shape)
         if distance > self.interpolation_radius:
             return None
+        nearest = self._admit_kernel(nearest)
         assert nearest.m is not None and nearest.n is not None and nearest.k is not None
         measured_flops = 2.0 * nearest.m * nearest.n * nearest.k
         throughput = measured_flops / nearest.duration
         requested_flops = 2.0 * shape[0] * shape[1] * shape[2]
-        return requested_flops / throughput, distance
+        return requested_flops / throughput, distance, nearest
 
     def estimate_group(self, graph: OpGraph, group: GroupStructure) -> GroupCost:
         if len(group.node_ids) == 1:
@@ -386,29 +423,40 @@ class MeasuredHardwareProfile:
             exact = self._exact_kernel(group.device, node)
             if exact is not None:
                 launch = min(float(self.hardware.launch_overhead), exact.duration)
+                confidence = .95
+                source = "measured_exact_shape"
+                if exact.contract_diagnostic:
+                    confidence = min(self._analytic.estimate_group(graph, group).confidence, .25)
+                    source += "_diagnostic_unbound"
                 return GroupCost(
                     duration=exact.duration,
                     compute_time=max(0.0, exact.duration - launch),
                     memory_time=0.0,
                     launch_time=launch,
-                    confidence=0.95,
-                    source="measured_exact_shape",
+                    confidence=confidence,
+                    source=source,
+                    ood_reasons=exact.contract_reasons,
                 )
             if node.op_type == "matmul":
                 interpolated = self._interpolated_matmul(group.device, node)
                 if interpolated is not None:
-                    duration, distance = interpolated
+                    duration, distance, nearest = interpolated
                     launch = min(float(self.hardware.launch_overhead), duration)
+                    confidence = .65
+                    source = "measured_nearest_shape"
+                    if nearest.contract_diagnostic:
+                        confidence = min(self._analytic.estimate_group(graph, group).confidence, .25)
+                        source += "_diagnostic_unbound"
                     return GroupCost(
                         duration=duration,
                         compute_time=max(0.0, duration - launch),
                         memory_time=0.0,
                         launch_time=launch,
-                        confidence=0.65,
-                        source="measured_nearest_shape",
+                        confidence=confidence,
+                        source=source,
                         ood_reasons=(
                             f"kernel:{group.device}:{node.id}:shape_interpolated:{distance:.3f}",
-                        ),
+                        ) + nearest.contract_reasons,
                     )
 
         fallback = self._analytic.estimate_group(graph, group)

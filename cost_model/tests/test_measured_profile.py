@@ -20,10 +20,25 @@ from simulator import (
     make_reference_plan,
 )
 from simulator.model_graphs import TransformerModelSpec, build_decoder_layer
+from cost_model.measurement_labels import measurement_contract_id
 
 
 SOURCE = "unit-test-source"
 ROOT = Path(__file__).resolve().parents[2]
+TEST_CONTRACT = measurement_contract_id({
+    "executor": "unit_test_fixture", "submission_included": True,
+    "allocation_included": True, "granularity": "per_call", "unit": "latency",
+    "environment": {"torch": "test", "hip": None, "triton": None, "device_model": "test"}})
+
+
+def _accepted_test_profile(hardware, raw):
+    # Only synthetic unit-test tables are explicitly admitted here.
+    raw = copy.deepcopy(raw)
+    for device in raw["devices"]:
+        for category in ("matmul", "reference_ops", "supplemental_ops"):
+            for item in device.get(category, []):
+                item.update(measurement_contract_id=TEST_CONTRACT, admission="accepted")
+    return MeasuredHardwareProfile(hardware, raw, measurement_contract_id=TEST_CONTRACT)
 
 
 def _timing(value: float) -> dict:
@@ -158,7 +173,7 @@ def _group(graph: OpGraph, node_id: str, device: int = 0):
 
 class TestMeasuredHardwareProfile(unittest.TestCase):
     def setUp(self):
-        self.profile = MeasuredHardwareProfile(_hardware(), _raw())
+        self.profile = _accepted_test_profile(_hardware(), _raw())
 
     def test_exact_full_shape_distinguishes_same_k(self):
         graph = OpGraph(name="same-k")
@@ -298,7 +313,7 @@ class TestMeasuredHardwareProfile(unittest.TestCase):
                     "implementation_status": "reference",
                 },
             ]
-        profile = MeasuredHardwareProfile(_hardware(), raw)
+        profile = _accepted_test_profile(_hardware(), raw)
         graph = OpGraph(name="supplemental")
         graph.add_node(_matmul("qk", m=4096, n=256, k=128, dtype="fp32"))
         for node_id, op_type, shape, dtype in (
@@ -413,17 +428,17 @@ class TestMeasuredHardwareProfile(unittest.TestCase):
         plan = make_reference_plan(graph)
         for index, group in enumerate(plan.groups):
             group.device = index & 1
-        profile = MeasuredHardwareProfile(load_hardware(hardware_path), raw)
+        profile = MeasuredHardwareProfile(load_hardware(hardware_path), raw, allow_unbound=True)
         structure = analyze_plan_structure(graph, plan, profile.n_devs)
         sources = Counter(
             profile.estimate_group(graph, group).source for group in structure.groups
         )
-        self.assertEqual(sources["measured_exact_shape"], 20)
+        self.assertEqual(sources["measured_exact_shape_diagnostic_unbound"], 20)
         self.assertEqual(sources["logical_input"], 1)
         self.assertEqual(sources["analytic_fallback"], 0)
         estimate = StructuralCostModel().predict(graph, plan, profile)
-        self.assertEqual(estimate.confidence, 0.95)
-        self.assertFalse(estimate.out_of_distribution)
+        self.assertLessEqual(estimate.confidence, 0.25)
+        self.assertTrue(estimate.out_of_distribution)
 
 
 if __name__ == "__main__":

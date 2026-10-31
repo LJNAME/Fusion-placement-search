@@ -7,7 +7,7 @@ from cost_model.verify_search_stability import verify_search_stability
 
 class TestSearchStability(unittest.TestCase):
     def test_repeated_search_report(self) -> None:
-        result = verify_search_stability()
+        result = verify_search_stability(allow_unbound=True)
         self.assertEqual(result["records"], 12)
         self.assertEqual(result["aggregates"], 6)
 

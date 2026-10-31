@@ -11,10 +11,11 @@ from .search_stability import evaluate_stability
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def verify_search_stability() -> dict[str, object]:
+def verify_search_stability(*, allow_unbound=False) -> dict[str, object]:
     profile = MeasuredHardwareProfile.from_files(
         ROOT / "data" / "bw1000_2card" / "bw1000_2card.calibrated.json",
         ROOT / "data" / "bw1000_2card" / "raw_measurements.json",
+        allow_unbound=allow_unbound,
     )
     report = evaluate_stability(
         profile,

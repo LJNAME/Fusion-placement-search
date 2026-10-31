@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\search_evaluation.py", line 520, in <module>
+    main()
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\search_evaluation.py", line 488, in main
+    report = evaluate_searches(
+             ^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\search_evaluation.py", line 431, in evaluate_searches
+    "scales": [evaluate_scale(scale, profile, **kwargs) for scale in scales],
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\search_evaluation.py", line 431, in <listcomp>
+    "scales": [evaluate_scale(scale, profile, **kwargs) for scale in scales],
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\search_evaluation.py", line 316, in evaluate_scale
+    "baseline": _candidate_summary(
+                ^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\search_evaluation.py", line 206, in _candidate_summary
+    estimate = scorer.estimate(plan)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\search_evaluation.py", line 183, in estimate
+    return self.model.predict(self.graph, plan, self.profile)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\structural.py", line 142, in predict
+    return self.predict_prepared(self.prepare(graph, plan, profile.n_devs), profile)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\structural.py", line 212, in predict_prepared
+    cost = profile.estimate_group(graph, group)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\measured_profile.py", line 423, in estimate_group
+    exact = self._exact_kernel(group.device, node)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\measured_profile.py", line 379, in _exact_kernel
+    return self._admit_kernel(item)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\measured_profile.py", line 362, in _admit_kernel
+    match = self.measurement_labels.lookup(item.label.key_id, self.measurement_contract_id,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\measurement_labels.py", line 75, in lookup
+    raise MeasurementContractError(message)
+cost_model.measurement_labels.MeasurementContractError: measurement contract rejected key=sha256:545463eeca57bca7da73470ec13807174e3b7cc1a0becc6a90a55db66ee13a8e; expected=None; actual=None; admission=legacy_unbound

@@ -18,7 +18,8 @@ from typing import Mapping
 from simulator import enumerate_fusion_candidates
 from simulator.schema import group_boundary_io
 
-from .hardware_profile import GroupCost
+from .hardware_profile import AnalyticHardwareProfile, GroupCost
+from .measurement_labels import MeasurementContractError, MeasurementLabel, MeasurementLabelLookup
 from .structure import GroupStructure
 
 
@@ -133,12 +134,20 @@ class KernelLatency:
     duration_s: float
     kind: str
     provenance: str
+    measurement_contract_id: str | None = None
+    statistics: Mapping | None = None
+    admission: str = "legacy_unbound"
 
     def __post_init__(self):
         if not math.isfinite(self.duration_s) or self.duration_s <= 0:
             raise ValueError("Kernel latency must be finite and positive")
         if self.kind not in {"measured", "synthetic"} or not self.provenance:
             raise ValueError("Kernel latency needs a measured/synthetic kind and provenance")
+
+    def label(self, identifier):
+        return MeasurementLabel.from_duration(identifier, self.duration_s, {
+            "measurement_contract_id": self.measurement_contract_id,
+            "statistics": self.statistics, "admission": self.admission})
 
 
 class KeyedKernelProfile:
@@ -148,11 +157,17 @@ class KeyedKernelProfile:
     satisfy measured-coverage acceptance. This is a cost adapter, not an executor.
     """
 
-    def __init__(self, keys, latencies: Mapping[str, KernelLatency], base, *, strict=True):
+    def __init__(self, keys, latencies: Mapping[str, KernelLatency], base, *, strict=True,
+                 measurement_contract_id=None, allow_unbound=False):
         self.keys = keys
         self.latencies = dict(latencies)
         self.base = base
         self.strict = strict
+        self.measurement_contract_id = measurement_contract_id
+        self.allow_unbound = allow_unbound
+        self.measurement_labels = MeasurementLabelLookup({
+            identifier: entry.label(identifier)
+            for identifier, entry in self.latencies.items() if entry.kind == "measured"})
 
     @property
     def n_devs(self):
@@ -190,9 +205,21 @@ class KeyedKernelProfile:
         if entry.kind == "measured" and gaps:
             raise ValueError("incomplete measured Kernel identity: " + ",".join(gaps))
         reasons = () if entry.kind == "measured" else ("synthetic_kernel:" + identifier,)
+        confidence = .95 if entry.kind == "measured" else 0.
+        source = entry.kind + "_group_kernel"
+        if entry.kind == "measured":
+            # SROP may replace an entry between searches: check its current
+            # contract rather than cached metadata from profile construction.
+            self.measurement_labels.labels[identifier] = entry.label(identifier)
+            match = self.measurement_labels.lookup(identifier, self.measurement_contract_id,
+                                                   allow_unbound=self.allow_unbound)
+            if match.diagnostic:
+                fallback = AnalyticHardwareProfile(self.keys.hardware).estimate_group(graph, group)
+                confidence = min(fallback.confidence, .15 if len(group.node_ids) > 1 else .25)
+                reasons += match.reasons
+                source += "_diagnostic_unbound"
         return GroupCost(entry.duration_s, entry.duration_s, 0., 0.,
-                         .95 if entry.kind == "measured" else 0.,
-                         entry.kind + "_group_kernel", reasons)
+                         confidence, source, reasons)
 
 
 def candidate_structure(graph, candidate, device):
@@ -206,7 +233,8 @@ def candidate_structure(graph, candidate, device):
     )
 
 
-def inventory(keys, registry, *, latencies=None, legacy_profile=None, require_executable=False):
+def inventory(keys, registry, *, latencies=None, legacy_profile=None, require_executable=False,
+              measurement_contract_id=None):
     """Enumerate local legal candidates x devices, not complete placed plans.
 
     Legacy lookup sources are diagnostic only: a shape-table hit does not prove
@@ -227,6 +255,14 @@ def inventory(keys, registry, *, latencies=None, legacy_profile=None, require_ex
             identifier = key_id(key)
             entry = latencies.get(identifier)
             if identifier not in rows:
+                covered = False
+                if entry and entry.kind == "measured" and not gaps:
+                    label = entry.label(identifier)
+                    try:
+                        MeasurementLabelLookup({identifier: label}).lookup(identifier, measurement_contract_id)
+                        covered = True
+                    except MeasurementContractError:
+                        pass  # Inventory reports missing admission; it is not a model lookup.
                 rows[identifier] = {
                     "kernel_id": identifier, "kernel_key": key,
                     "identity_complete": not gaps, "identity_gaps": list(gaps),
@@ -234,7 +270,9 @@ def inventory(keys, registry, *, latencies=None, legacy_profile=None, require_ex
                     "latency_kind": entry.kind if entry else "missing",
                     "duration_s": entry.duration_s if entry else None,
                     "provenance": entry.provenance if entry else None,
-                    "measured_covered": bool(entry and entry.kind == "measured" and not gaps),
+                    "measurement_contract_id": entry.measurement_contract_id if entry else None,
+                    "admission": entry.admission if entry else None,
+                    "measured_covered": covered,
                     "usages": [], "legacy_sources": [],
                 }
             row = rows[identifier]
