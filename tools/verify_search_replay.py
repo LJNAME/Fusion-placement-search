@@ -33,7 +33,7 @@ def verify(first, second):
     checked_candidates, checked_artifacts = 0, 0
     summaries = []
     for path, report in zip(paths, reports):
-        require(report["version"] == "1.2", "expected four-mode report version 1.2")
+        require(report["version"] in ("1.2", "1.3"), "expected four-mode report version 1.2 or 1.3")
         for scale in report["scales"]:
             config = scale["configuration"]
             require(all(k in config for k in ("seed", "beam", "rollouts", "mcts_iterations", "top_k")),
@@ -56,10 +56,20 @@ def verify(first, second):
                     nodes = [n for g in plan.groups for n in g.node_ids]
                     require(len(nodes) == len(set(nodes)) == scale["nodes"], "duplicate or missing node")
                     require(candidate["deployable"] is False, "development result marked deployable")
+                    if report["version"] == "1.3":
+                        require(candidate["feasible"] and all(p <= c for p, c in
+                            zip(candidate["peak_memory_bytes"], candidate["capacity_bytes"])),
+                            "infeasible output candidate")
                     if frozen is not None:
                         actual = [dict(pattern_id=g.extra["pattern_id"],node_ids=list(g.node_ids)) for g in plan.groups]
                         require(actual == frozen, "placement changed frozen fusion partition")
                     checked_candidates += 1
+                if not search["candidates"]:
+                    expected = "no_feasible_in_space" if search["method"] == "exact" else "evaluated_no_feasible"
+                    require(report["version"] == "1.3" and search["plan"] is None and
+                            search["best_placed_op_graph"] is None and search["reason"] == expected,
+                            "invalid no-plan outcome")
+                    continue
                 best = search["candidates"][0]
                 actual_placeholders=sum(default_fusion_registry().get(g["extra"]["pattern_id"]).implementation_status
                                         == "planned" for g in best["plan"]["groups"])
@@ -84,7 +94,8 @@ def verify(first, second):
             if path == paths[0]:
                 summaries.append(dict(scale=scale["scale"],nodes=scale["nodes"],searches=len(scale["searches"]),
                     cost_model_evaluations=scale["cost_model_evaluations"],fusion_observations=[
-                        dict(mode=s["mode"],method=s["method"],fused_groups=s["candidates"][0]["fused_groups"])
+                        dict(mode=s["mode"],method=s["method"],fused_groups=(
+                            s["candidates"][0]["fused_groups"] if s["candidates"] else None))
                         for s in scale["searches"]]))
     return {"pass": True, "replay_equal_except": ["elapsed_s"], "reports": list(map(str,paths)),
         "checked_candidates_in_both_runs": checked_candidates, "checked_artifacts_in_both_runs": checked_artifacts,

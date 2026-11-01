@@ -1,0 +1,185 @@
+{
+  "tasks": [
+    {
+      "task_id": "serial_tail_actual_capacity",
+      "family": "serial_tail",
+      "nodes": 10,
+      "graph": "inputs/serial_tail_actual_capacity.graph.json",
+      "hardware": "inputs/serial_tail_actual_capacity.hardware.json",
+      "graph_sha256": "c3b8805b2f2e42eb44fa6431d4da88734a50515cc4eda14a39f39c63de8db98d",
+      "hardware_sha256": "bb168939f8bf47fd5f02b7af060b995f42dcab7905ec4c8eedbed9827d09a063",
+      "capacity_kind": "actual_snapshot",
+      "capacity_rule": null,
+      "max_memory_bytes": [
+        68702699520.0,
+        68702699520.0
+      ],
+      "parameter_sum_bytes": 4196352.0,
+      "structural_counts": {
+        "placement_only": 1024,
+        "fusion_only": 1,
+        "sequential": 1,
+        "joint": 1024
+      },
+      "sequential_count_scope": "fusion stage only; placement count depends on frozen partition"
+    },
+    {
+      "task_id": "attention_fork_actual_capacity",
+      "family": "attention_fork",
+      "nodes": 9,
+      "graph": "inputs/attention_fork_actual_capacity.graph.json",
+      "hardware": "inputs/attention_fork_actual_capacity.hardware.json",
+      "graph_sha256": "5075da601a8d4ae94596b6419929bf3708e800a4f3818a839ef97962a8881d9f",
+      "hardware_sha256": "bb168939f8bf47fd5f02b7af060b995f42dcab7905ec4c8eedbed9827d09a063",
+      "capacity_kind": "actual_snapshot",
+      "capacity_rule": null,
+      "max_memory_bytes": [
+        68702699520.0,
+        68702699520.0
+      ],
+      "parameter_sum_bytes": 6291968.0,
+      "structural_counts": {
+        "placement_only": 512,
+        "fusion_only": 1,
+        "sequential": 1,
+        "joint": 512
+      },
+      "sequential_count_scope": "fusion stage only; placement count depends on frozen partition"
+    },
+    {
+      "task_id": "mlp_actual_capacity",
+      "family": "mlp",
+      "nodes": 8,
+      "graph": "inputs/mlp_actual_capacity.graph.json",
+      "hardware": "inputs/mlp_actual_capacity.hardware.json",
+      "graph_sha256": "998f7a79f47dba12528bc7f5032e94f632b2bb9c6309a357a81139289ae69e88",
+      "hardware_sha256": "bb168939f8bf47fd5f02b7af060b995f42dcab7905ec4c8eedbed9827d09a063",
+      "capacity_kind": "actual_snapshot",
+      "capacity_rule": null,
+      "max_memory_bytes": [
+        68702699520.0,
+        68702699520.0
+      ],
+      "parameter_sum_bytes": 18876416.0,
+      "structural_counts": {
+        "placement_only": 256,
+        "fusion_only": 2,
+        "sequential": 2,
+        "joint": 384
+      },
+      "sequential_count_scope": "fusion stage only; placement count depends on frozen partition"
+    },
+    {
+      "task_id": "mlp_parameter_cap_75",
+      "family": "mlp",
+      "nodes": 8,
+      "graph": "inputs/mlp_parameter_cap_75.graph.json",
+      "hardware": "inputs/mlp_parameter_cap_75.hardware.json",
+      "graph_sha256": "998f7a79f47dba12528bc7f5032e94f632b2bb9c6309a357a81139289ae69e88",
+      "hardware_sha256": "137b61a15484a74cec2f5297c0caa74b66d3e343a001fc5bd509bd2b5f9c27e8",
+      "capacity_kind": "synthetic_mechanism_only",
+      "capacity_rule": {
+        "fraction_of_parameter_sum": 0.75
+      },
+      "max_memory_bytes": [
+        14157312.0,
+        14157312.0
+      ],
+      "parameter_sum_bytes": 18876416.0,
+      "structural_counts": {
+        "placement_only": 256,
+        "fusion_only": 2,
+        "sequential": 2,
+        "joint": 384
+      },
+      "sequential_count_scope": "fusion stage only; placement count depends on frozen partition"
+    },
+    {
+      "task_id": "mlp_parameter_cap_90",
+      "family": "mlp",
+      "nodes": 8,
+      "graph": "inputs/mlp_parameter_cap_90.graph.json",
+      "hardware": "inputs/mlp_parameter_cap_90.hardware.json",
+      "graph_sha256": "998f7a79f47dba12528bc7f5032e94f632b2bb9c6309a357a81139289ae69e88",
+      "hardware_sha256": "4338c710ac468637300c755d8e36874b26480f83f6f505c484d83c6258117da9",
+      "capacity_kind": "synthetic_mechanism_only",
+      "capacity_rule": {
+        "fraction_of_parameter_sum": 0.9
+      },
+      "max_memory_bytes": [
+        16988774.400000002,
+        16988774.400000002
+      ],
+      "parameter_sum_bytes": 18876416.0,
+      "structural_counts": {
+        "placement_only": 256,
+        "fusion_only": 2,
+        "sequential": 2,
+        "joint": 384
+      },
+      "sequential_count_scope": "fusion stage only; placement count depends on frozen partition"
+    }
+  ],
+  "seeds": [
+    0,
+    7,
+    23
+  ],
+  "budgets": [
+    16,
+    64,
+    256
+  ],
+  "rollouts": 3,
+  "top_k": 4,
+  "expected_exact_runs": 20,
+  "expected_mcts_runs": 180,
+  "phase_order": [
+    "all_exact",
+    "freeze_references",
+    "all_mcts"
+  ],
+  "source_sha256": {
+    "tools/evaluate_mcts_mainline.py": "587ced154b816b972b9a60d4c64350999b24abb51f45dbd2b569dcc4e93db79e",
+    "cost_model/search_evaluation.py": "92c4450f53c37ebc099990e449a5e26643f1a389decf68f9a949a175950746e7",
+    "cost_model/legal_search.py": "d95af5faf6bbf2dab8df09b736cfa87ee4772a542c269134168ba0164ac448b2",
+    "cost_model/exact_search.py": "0198b102fd71b5fa6064204bf37404f3beb086e94506d0cca2bfd52cc53b16a1",
+    "cost_model/hardware_profile.py": "33731499225327a9ed216cd591d08ca004bd99d02da7e84779cc30f6f8b95c52",
+    "cost_model/structural.py": "7aca09f1b0b20fb009e6013c060bf4a6486ecc237f289f268de6f098191b5112",
+    "cost_model/structure.py": "a7abdd1ea2700384b4bd957a4c23cdbdfab509d24534b35fc39ec2a169bf728e",
+    "simulator/fusion_rules.py": "5af6359be8fb16220fedab0a9b8d311a8d6ed410ff1c1a8855efdbf9a2d6298b",
+    "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead",
+    "simulator/shape_model.py": "d80fe667316d740fd58b7fc28241d97162fd9e9a500e6d5342f7a92d08145b73",
+    "simulator/hardware.py": "fd34d7b8cfeb341c7a6b680fd91dab237a348366a3f68f9f2d51fd7120c2cc62",
+    "tools/evaluate_mcts_medium.py": "be9e2a94c8bb8b17eb64b603ee65dea54164bd1d43cbb824dddf48631fd5f307",
+    "simulator/schema.py": "b3bd894e7565eb0a96f230fe4103c5b697ba84cc266edd96735ad226284ab325",
+    "simulator/dataset.py": "b0b5b8fcbde9feabee09384268cbbca9fef60e57c10df6594a94e3bebe06d09f",
+    "simulator/placement_artifacts.py": "065544af3559e8d6afebef9ebd6f4efb490166e3aeb4660010a126a7e8c10a63"
+  },
+  "hardware_source": {
+    "path": "E:\\Chatgpt_work\\Fusion-placement-search\\data\\bw1000_2card\\bw1000_2card.calibrated.json",
+    "sha256": "261c9a53afebcc1abc25032a8a7124a599f6b0873187cb020d6ad2dc67d5776e"
+  },
+  "policy": "all predefined tasks retained, including infeasible/no-improvement cases",
+  "scorer": "finite makespan + penalty for over-capacity; strict feasible final selection",
+  "capacity_source": "explicit task capacity tuple, not profile.max_memory",
+  "infeasible_penalty_s": 1000000.0,
+  "reference": "feasible minimum of Exact scored candidates; Sequential final stage only, not global optimum",
+  "initialization": "first scoring request in final stage; Sequential fusion stage excluded",
+  "observation": "complete scored candidates, not tree node visits",
+  "scope": "analytic development model, no GPU/SROP/Beam; no downstream execution claim",
+  "algorithm_changed": "capacity penalty and final admission only; tree/rollout parameters unchanged",
+  "profile_timing_changed": false,
+  "capacity_changes": "only two explicitly synthetic MLP variants; no timing constant changes",
+  "regression_baseline": {
+    "source_commit": "ee2c9bf",
+    "path": "E:\\Chatgpt_work\\Fusion-placement-search\\data\\mcts_medium_v1",
+    "sha256": {
+      "plan.json": "17d510e4e9bcf41d12038c5804670e7ce2509090335650e3ea5b60da79361afc",
+      "runs.jsonl": "22c31f7603cc4d338e81e0139adadd96675a4b18a6dd6cfed33b0ee772dae36c",
+      "references.json": "c0804517fbd37aa72aac91d38636265d23d2e611ea768c43702b51e4a76a15a6",
+      "candidates.csv.gz": "b25d69aff5a226d1c026dff4d2907c76278059fdb9570bf76b878811ab3ff376",
+      "requests.csv.gz": "f4af808dd3eb5f134bebc4a8d40027c40e9bacada9b60b4b62118eab037afe4f"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # 主系统四模式开发评价
 
-search_evaluation报告v1.2包含placement_only、fusion_only、sequential、joint。SROP验证保持冻结；本入口不导入srop_e0，不调用主动校准。默认标签准入闸门保留；--allow-unbound只用于明确声明的旧数据开发诊断。
+search_evaluation报告v1.3包含placement_only、fusion_only、sequential、joint。SROP验证保持冻结；本入口不导入srop_e0，不调用主动校准。默认标签准入闸门保留；--allow-unbound只用于明确声明的旧数据开发诊断。
 
 ## 固定Profile模式
 
@@ -56,3 +56,10 @@ small 三个 seed 均达到对应参考；Sequential 仍只称两阶段参考。
 入口 tools/evaluate_mcts_medium.py 分 prepare/run/verify 三阶段；data/mcts_medium_v1/README.md 给出 5 个预定义任务、20 次 Exact 和 180 次 MCTS。容量机制档单列，未改计时 Profile、MCTS 或评分；可行参考从完整 Exact 评分表中计算，不把超容量返回值计入质量差距。
 
 当前主评分器只返回 makespan，StructuralCostModel 的 overflow_devices 未进入主搜索选优。MLP 90% 人工容量下，27 次 Placement-only/Sequential/Joint 已评分可行候选但最终仍返回超容量方案；Fusion-only 无可行候选。下一项是统一搜索可行性与无可行候选的结果语义，再重跑同一任务，暂不调探索/奖励/rollout。
+## 显存可行性入口（v1.3）
+
+_CachedScorer显式接收capacity元组；正式调用从硬件快照传入。逐设备比较CostEstimate.peak_memory；超容评分加有限1e6秒，缓存仍保存原始makespan。最终只在已评分可行方案中按物理成本选优，不依赖罚分足够大的假设，不返回inf。
+
+Sequential第一阶段只提出融合划分，不绑定单卡容量；冻结后放置阶段绑定。报告stage.capacity_bound标明二者，feasibility_scope区分mode_space与frozen_partition。Exact空结果reason=no_feasible_in_space；MCTS/Beam空结果reason=evaluated_no_feasible。均输出plan=null、candidates=[]、best_placed_op_graph=null，无工件。若未融合单卡基线不可行，speedup_vs_unfused和improvement_percent留空。
+
+当前重跑data/mcts_medium_capacity_v2：20Exact/180MCTS，原始容量108次的最佳方案/成本/有序评分请求逐项不变；90%人工容量的27次Placement/Seq/Joint全部返回可行方案；75%容量下MCTS的未找到与Exact的无解证明分开。60项CPU测试通过。旧ee2c9bf与data/mcts_medium_v1仅作修复前基线，不再作为当前搜索质量引用。此前layer原容量已评分候选没有超容，容量约束未成为有效限制，旧四模式表仍是该冻结版本的有效解析记录。

@@ -6,6 +6,7 @@ import argparse
 import copy
 import hashlib
 import json
+import math
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -41,7 +42,8 @@ from .structure import analyze_plan_structure
 
 
 REPORT_FORMAT = "fusion-placement-search.search-evaluation"
-REPORT_VERSION = "1.2"
+REPORT_VERSION = "1.3"
+INFEASIBLE_PENALTY_S = 1e6
 
 
 def qwen3_spec(num_layers: int) -> TransformerModelSpec:
@@ -191,9 +193,17 @@ def _contract_partition(graph, template, registry, n_devs):
 
 
 class _CachedScorer:
-    def __init__(self, graph: OpGraph, profile: MeasuredHardwareProfile) -> None:
+    def __init__(self, graph: OpGraph, profile: MeasuredHardwareProfile, *, capacity=None) -> None:
         self.graph = graph
         self.profile = profile
+        self.capacity = tuple(float(x) for x in (capacity if capacity is not None else
+                              (d.max_mem for d in profile.hardware.devices)))
+        if len(self.capacity) != profile.n_devs or any(not math.isfinite(x) or x <= 0 for x in self.capacity):
+            raise ValueError("capacity must contain one finite positive byte limit per device")
+        self.bind_capacity = True
+        self.feasibility_cache: dict[tuple, bool] = {}
+        self.last_makespan = 0.
+        self.last_feasible = False
         self.model = StructuralCostModel()
         self.score_cache: dict[tuple, float] = {}
         self.cache_enabled = len(graph.nodes) <= 100
@@ -217,6 +227,18 @@ class _CachedScorer:
     def estimate(self, plan: Plan):
         return self.model.predict(self.graph, plan, self.profile)
 
+    def is_feasible(self, estimate) -> bool:
+        if len(estimate.peak_memory) != len(self.capacity):
+            raise ValueError("peak-memory and capacity dimensions differ")
+        return all(peak <= limit for peak, limit in zip(estimate.peak_memory, self.capacity))
+
+    def _score(self, makespan, feasible):
+        self.last_makespan, self.last_feasible = float(makespan), bool(feasible)
+        score = float(makespan) + (INFEASIBLE_PENALTY_S if self.bind_capacity and not feasible else 0.)
+        if not math.isfinite(score):
+            raise ValueError("search score must remain finite")
+        return score
+
     def __call__(self, plan: Plan) -> float:
         key = _plan_key(plan)
         self.run_requests += 1
@@ -224,12 +246,15 @@ class _CachedScorer:
         if not self.cache_enabled:
             self.calls += 1
             self.run_model_evaluations += 1
-            return float(self.estimate(plan).makespan)
+            estimate = self.estimate(plan)
+            return self._score(estimate.makespan, self.is_feasible(estimate))
         if key not in self.score_cache:
-            self.score_cache[key] = float(self.estimate(plan).makespan)
+            estimate = self.estimate(plan)
+            self.score_cache[key] = float(estimate.makespan)
+            self.feasibility_cache[key] = self.is_feasible(estimate)
             self.calls += 1
             self.run_model_evaluations += 1
-        return self.score_cache[key]
+        return self._score(self.score_cache[key], self.feasibility_cache[key])
 
 
 def _candidate_summary(
@@ -250,6 +275,8 @@ def _candidate_summary(
         "rank": rank,
         "makespan_s": estimate.makespan,
         "peak_memory_bytes": list(estimate.peak_memory),
+        "capacity_bytes": list(scorer.capacity),
+        "feasible": scorer.is_feasible(estimate),
         "communication_time_s": estimate.communication_time,
         "cross_device_bytes": estimate.cross_device_bytes,
         "confidence": estimate.confidence,
@@ -288,43 +315,74 @@ def _run_search(
     started = time.perf_counter()
     stages = []
 
-    def stage(name, search_graph, rules, devices, iterations, count, expand=lambda p: p):
+    def stage(name, search_graph, rules, devices, iterations, count, expand=lambda p: p,
+              enforce_capacity=True):
         before = scorer.run_metrics()
-        requested = set()
+        requested = {}
+        feasible_keys = set()
+        retained = {}
         def score(plan):
             original = expand(plan)
-            requested.add(_plan_key(original))
-            return scorer(original)
+            key = _plan_key(original)
+            value = scorer(original)
+            requested[key] = scorer.last_makespan
+            if scorer.last_feasible:
+                feasible_keys.add(key)
+            if not enforce_capacity or scorer.last_feasible:
+                if key not in retained:
+                    retained[key] = (scorer.last_makespan, original)
+                    if len(retained) > count:
+                        # Stable ties retain first observations, matching MCTS.
+                        worst = max(reversed(retained), key=lambda k: retained[k][0])
+                        del retained[worst]
+            return value
         common = dict(graph=search_graph, scorer=score, n_devs=scorer.profile.n_devs,
                       registry=rules, require_executable=mode.require_executable,
                       allowed_devices=devices)
         stage_started = time.perf_counter()
-        details = {"stage": name, "seed": seed, "allowed_devices": list(devices)}
-        if method == "exact":
-            exact = exact_legal_search(**common, top_k=count)
-            plans = list(exact.plans)
-            details.update(search_space_size=exact.search_space_size, evaluated_plans=exact.evaluated_plans)
-        elif method == "beam":
-            plans = legal_beam_search(**common, beam=beam, rollouts=rollouts,
-                                     fusion_probability=.7, seed=seed)[:count]
-            details.update(beam=beam, rollouts=rollouts,
-                reference_policy="best_finite_uniform_singleton_on_allowed_cards_in_this_stage_space",
-                reference_candidates=len(devices))
-        else:
-            plans = legal_mcts_search(**common, iterations=iterations, rollouts=rollouts,
-                                     fusion_probability=.7, seed=seed, n_best=count)
-            details.update(iterations=iterations, rollouts=rollouts)
+        details = {"stage": name, "seed": seed, "allowed_devices": list(devices),
+                   "capacity_bound": enforce_capacity}
+        previous_binding = scorer.bind_capacity
+        scorer.bind_capacity = enforce_capacity
+        try:
+            if method == "exact":
+                exact = exact_legal_search(**common, top_k=count)
+                plans = list(exact.plans)
+                details.update(search_space_size=exact.search_space_size, evaluated_plans=exact.evaluated_plans)
+            elif method == "beam":
+                plans = legal_beam_search(**common, beam=beam, rollouts=rollouts,
+                                         fusion_probability=.7, seed=seed)[:count]
+                details.update(beam=beam, rollouts=rollouts,
+                    reference_policy="best_finite_uniform_singleton_on_allowed_cards_in_this_stage_space",
+                    reference_candidates=len(devices))
+            else:
+                plans = legal_mcts_search(**common, iterations=iterations, rollouts=rollouts,
+                                         fusion_probability=.7, seed=seed, n_best=count)
+                details.update(iterations=iterations, rollouts=rollouts)
+        finally:
+            scorer.bind_capacity = previous_binding
+        # A finite search penalty guides exploration; final admission is strict.
+        # Include feasible rollouts even if the engine returned only invalid plans.
+        expanded = [expand(p) for p in plans]
+        selected = { _plan_key(p): p for p in expanded
+                     if not enforce_capacity or _plan_key(p) in feasible_keys }
+        selected.update({k: p for k, (_, p) in retained.items() if k not in selected})
+        plans = sorted(selected.values(), key=lambda p: requested[_plan_key(p)])[:count]
         after = scorer.run_metrics()
         details.update(elapsed_s=time.perf_counter()-stage_started,
             scorer_requests=after["scorer_requests"]-before["scorer_requests"],
             unique_requested_plans=len(requested),
+            unique_feasible_plans=len(feasible_keys),
             cost_model_evaluations=after["cost_model_evaluations"]-before["cost_model_evaluations"])
+        details["reason"] = None if plans else (
+            "no_feasible_in_space" if method == "exact" else "evaluated_no_feasible")
         stages.append(details)
-        return [expand(plan) for plan in plans]
+        return plans
 
     if mode.name == "sequential":
         first = mcts_iterations // 2
-        template = stage("fusion", graph, mode.registry, (0,), first, 1)[0]
+        # This is a partition proposal, not the final single-device placement.
+        template = stage("fusion", graph, mode.registry, (0,), first, 1, enforce_capacity=False)[0]
         macro, expand = _contract_partition(graph, template, mode.registry, scorer.profile.n_devs)
         plans = stage("placement", macro, _singleton_registry(), mode.allowed_devices,
                       mcts_iterations-first, top_k, expand)
@@ -333,7 +391,10 @@ def _run_search(
     else:
         plans = stage(mode.name, graph, mode.registry, mode.allowed_devices, mcts_iterations, top_k)
     elapsed = time.perf_counter() - started
-    budget = {"stages": stages, **scorer.run_metrics()}
+    budget = {"stages": stages, **scorer.run_metrics(), "capacity_bytes": list(scorer.capacity),
+              "infeasible_penalty_s": INFEASIBLE_PENALTY_S,
+              "reason": stages[-1]["reason"],
+              "feasibility_scope": "frozen_partition" if mode.name == "sequential" else "mode_space"}
     if method == "mcts":
         budget.update(iterations=mcts_iterations, rollouts=rollouts)
     elif method == "beam":
@@ -363,7 +424,8 @@ def evaluate_scale(
     if mcts_iterations < 2:
         raise ValueError("four-mode evaluation needs at least two MCTS iterations")
     is_large_model = scale in {"model", "model_3b"}
-    scorer = _CachedScorer(graph, profile)
+    capacity = tuple(d.max_mem for d in profile.hardware.devices)
+    scorer = _CachedScorer(graph, profile, capacity=capacity)
     reference_registry = default_fusion_registry()
     baseline = make_reference_plan(graph, device=0, registry=reference_registry)
     result: dict[str, object] = {
@@ -384,6 +446,7 @@ def evaluate_scale(
             "rollouts": rollouts,
             "mcts_iterations": mcts_iterations,
             "top_k": top_k,
+            "capacity_bytes": list(capacity),
             "include_exact": include_exact,
             "include_model_beam": include_model_beam,
             "fusion_probability": .7,
@@ -413,7 +476,7 @@ def evaluate_scale(
                 "exact", graph, scorer, mode, seed=seed, beam=beam, rollouts=rollouts,
                 mcts_iterations=mcts_iterations, top_k=top_k,
             )
-            exact_score = min(scorer(plan) for plan in exact_plans)
+            exact_score = min((scorer(plan) for plan in exact_plans), default=None)
             result["searches"].append(
                 {
                     "mode": mode.name,
@@ -422,10 +485,12 @@ def evaluate_scale(
                     "search_space_size": (None if mode.name == "sequential"
                                           else exact_budget["stages"][0]["search_space_size"]),
                     "budget": exact_budget,
-                    "optimality_gap": None if mode.name == "sequential" else 0.,
+                    "optimality_gap": None if mode.name == "sequential" or not exact_plans else 0.,
                     "reference_kind": ("two_stage_exact_not_global_optimum" if mode.name == "sequential"
                                        else "restricted_space_exact_optimum"),
-                    "reference_gap": 0.,
+                    "reference_gap": 0. if exact_plans else None,
+                    "plan": plan_to_dict(exact_plans[0]) if exact_plans else None,
+                    "reason": exact_budget["reason"],
                     "candidates": [
                         _candidate_summary(plan, scorer, mode.registry, rank)
                         for rank, plan in enumerate(exact_plans, start=1)
@@ -450,12 +515,12 @@ def evaluate_scale(
                 mcts_iterations=mcts_iterations,
                 top_k=top_k,
             )
-            best_score = min(scorer(plan) for plan in plans)
+            best_score = min((scorer(plan) for plan in plans), default=None)
             gap = None
             reference_gap = None
-            if exact_score is not None:
+            if exact_score is not None and best_score is not None:
                 reference_gap = (best_score-exact_score)/max(abs(exact_score), 1e-12)
-            if exact_score is not None and mode.name != "sequential":
+            if exact_score is not None and best_score is not None and mode.name != "sequential":
                 gap = max(best_score - exact_score, 0.0) / max(abs(exact_score), 1e-12)
             result["searches"].append(
                 {
@@ -464,6 +529,8 @@ def evaluate_scale(
                     "elapsed_s": elapsed,
                     "search_space_size": None,
                     "budget": budget,
+                    "plan": plan_to_dict(plans[0]) if plans else None,
+                    "reason": budget["reason"],
                     "optimality_gap": gap,
                     "reference_gap": reference_gap,
                     "reference_kind": (None if exact_score is None else
@@ -480,8 +547,8 @@ def evaluate_scale(
     assert isinstance(baseline_summary, dict)
     assert isinstance(searches, list)
     baseline_makespan = float(baseline_summary["makespan_s"])
-    baseline_summary["speedup_vs_unfused"] = 1.0
-    baseline_summary["improvement_percent"] = 0.0
+    baseline_summary["speedup_vs_unfused"] = 1.0 if baseline_summary["feasible"] else None
+    baseline_summary["improvement_percent"] = 0.0 if baseline_summary["feasible"] else None
     for search in searches:
         assert isinstance(search, dict)
         candidates = search["candidates"]
@@ -489,10 +556,10 @@ def evaluate_scale(
         for candidate in candidates:
             assert isinstance(candidate, dict)
             makespan = float(candidate["makespan_s"])
-            candidate["speedup_vs_unfused"] = baseline_makespan / makespan
+            candidate["speedup_vs_unfused"] = baseline_makespan / makespan if baseline_summary["feasible"] else None
             candidate["improvement_percent"] = (
                 (baseline_makespan - makespan) / baseline_makespan * 100.0
-            )
+            ) if baseline_summary["feasible"] else None
     result["cost_model_evaluations"] = scorer.calls
     return result
 
@@ -530,6 +597,9 @@ def save_evaluation(path: str | Path, report: dict[str, object]) -> None:
     for scale in report["scales"]:
         graph = build_evaluation_graph(scale["scale"])
         for search in scale["searches"]:
+            if not search["candidates"]:
+                search["best_placed_op_graph"] = None
+                continue
             best = search["candidates"][0]
             relative = Path(output.stem + ".artifacts") / scale["scale"] / (search["mode"] + "_" + search["method"] + ".json")
             placed = PlacedOpGraph(graph, hardware, plan_from_dict(best["plan"]), rank=1,

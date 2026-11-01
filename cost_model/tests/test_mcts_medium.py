@@ -55,7 +55,9 @@ class TestMCTSMedium(unittest.TestCase):
         result, _, _ = run_one(graph, AnalyticHardwareProfile(hw), mode, "mcts", 2, 0)
         self.assertFalse(result["metrics"]["selected_feasible"])
         self.assertIsNone(result["metrics"]["best_feasible_scored_cost_s"])
-        self.assertGreater(result["metrics"]["selected_cost_s"], 0.)
+        self.assertIsNone(result["metrics"]["selected_cost_s"])
+        self.assertIsNone(result["selected_plan"])
+        self.assertEqual(result["reason"], "evaluated_no_feasible")
         self.assertEqual(final_requests({"stages": [{"scorer_requests": 2}, {"scorer_requests": 3}]},
                                         [0, 1, 2, 3, 4]), [2, 3, 4])
 

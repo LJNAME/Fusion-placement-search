@@ -1,0 +1,381 @@
+{
+  "name": "qwen3-medium-mlp",
+  "extra": {
+    "selected_original_nodes": [
+      "L000.mlp.down_proj",
+      "L000.mlp.gate_proj",
+      "L000.mlp.gated_mul",
+      "L000.mlp.silu",
+      "L000.mlp.up_proj",
+      "L000.pre_mlp_norm",
+      "L000.residual_add_2"
+    ],
+    "boundary_input_nodes": [
+      "L000.residual_add_1"
+    ],
+    "external_consumers": [],
+    "scope": "forward subgraph; boundary tensors initially available at freely searched locations",
+    "boundary_output_lifetime": "terminal outputs retained to subgraph end; no external schedule"
+  },
+  "nodes": [
+    {
+      "id": "L000.residual_add_1",
+      "op_type": "input",
+      "flops": 0.0,
+      "out_bytes": 524288.0,
+      "param_bytes": 0.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "residual_add_1",
+        "module_path": "decoder.layers.0.self_attention_residual",
+        "output_shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 262144.0,
+        "bwd_flops": 262144.0,
+        "saved_activation_bytes": 524288.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "n": 262144
+        },
+        "boundary_source": "L000.residual_add_1",
+        "boundary_stub": true
+      }
+    },
+    {
+      "id": "L000.pre_mlp_norm",
+      "op_type": "rmsnorm",
+      "flops": 1310720.0,
+      "out_bytes": 524288.0,
+      "param_bytes": 2048.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "pre_mlp_norm",
+        "module_path": "decoder.layers.0.pre_mlp_layernorm",
+        "output_shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 1310720.0,
+        "bwd_flops": 2621440.0,
+        "saved_activation_bytes": 524288.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "n": 262144
+        }
+      }
+    },
+    {
+      "id": "L000.mlp.gate_proj",
+      "op_type": "matmul",
+      "flops": 1610612736.0,
+      "out_bytes": 1572864.0,
+      "param_bytes": 6291456.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "mlp.gate_proj",
+        "module_path": "decoder.layers.0.mlp.linear_fc1.gate",
+        "output_shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 1610612736.0,
+        "bwd_flops": 3221225472.0,
+        "saved_activation_bytes": 1572864.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "m": 256,
+          "n": 3072,
+          "k": 1024
+        },
+        "sharding_rule": "column",
+        "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+        "semantic_slice": "gate"
+      }
+    },
+    {
+      "id": "L000.mlp.silu",
+      "op_type": "silu",
+      "flops": 3145728.0,
+      "out_bytes": 1572864.0,
+      "param_bytes": 0.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "mlp.silu",
+        "module_path": "decoder.layers.0.mlp.activation",
+        "output_shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 3145728.0,
+        "bwd_flops": 6291456.0,
+        "saved_activation_bytes": 1572864.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "n": 786432
+        }
+      }
+    },
+    {
+      "id": "L000.mlp.up_proj",
+      "op_type": "matmul",
+      "flops": 1610612736.0,
+      "out_bytes": 1572864.0,
+      "param_bytes": 6291456.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "mlp.up_proj",
+        "module_path": "decoder.layers.0.mlp.linear_fc1.up",
+        "output_shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 1610612736.0,
+        "bwd_flops": 3221225472.0,
+        "saved_activation_bytes": 1572864.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "m": 256,
+          "n": 3072,
+          "k": 1024
+        },
+        "sharding_rule": "column",
+        "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+        "semantic_slice": "up"
+      }
+    },
+    {
+      "id": "L000.mlp.gated_mul",
+      "op_type": "mul",
+      "flops": 786432.0,
+      "out_bytes": 1572864.0,
+      "param_bytes": 0.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "mlp.gated_mul",
+        "module_path": "decoder.layers.0.mlp.gated_linear_unit",
+        "output_shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 786432.0,
+        "bwd_flops": 1572864.0,
+        "saved_activation_bytes": 1572864.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "n": 786432
+        }
+      }
+    },
+    {
+      "id": "L000.mlp.down_proj",
+      "op_type": "matmul",
+      "flops": 1610612736.0,
+      "out_bytes": 524288.0,
+      "param_bytes": 6291456.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "mlp.down_proj",
+        "module_path": "decoder.layers.0.mlp.linear_fc2",
+        "output_shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 1610612736.0,
+        "bwd_flops": 3221225472.0,
+        "saved_activation_bytes": 524288.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "m": 256,
+          "n": 1024,
+          "k": 3072
+        },
+        "sharding_rule": "row"
+      }
+    },
+    {
+      "id": "L000.residual_add_2",
+      "op_type": "add",
+      "flops": 262144.0,
+      "out_bytes": 524288.0,
+      "param_bytes": 0.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "residual_add_2",
+        "module_path": "decoder.layers.0.mlp_residual",
+        "output_shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 262144.0,
+        "bwd_flops": 262144.0,
+        "saved_activation_bytes": 524288.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "n": 262144
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "L000.residual_add_1",
+      "dst": "L000.pre_mlp_norm",
+      "bytes": 524288.0,
+      "extra": {
+        "tensor_id": "L000.residual_add_1:output",
+        "shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.pre_mlp_norm",
+      "dst": "L000.mlp.gate_proj",
+      "bytes": 524288.0,
+      "extra": {
+        "tensor_id": "L000.pre_mlp_norm:output",
+        "shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.pre_mlp_norm",
+      "dst": "L000.mlp.up_proj",
+      "bytes": 524288.0,
+      "extra": {
+        "tensor_id": "L000.pre_mlp_norm:output",
+        "shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.mlp.gate_proj",
+      "dst": "L000.mlp.silu",
+      "bytes": 1572864.0,
+      "extra": {
+        "tensor_id": "L000.mlp.gate_proj:output",
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.mlp.silu",
+      "dst": "L000.mlp.gated_mul",
+      "bytes": 1572864.0,
+      "extra": {
+        "tensor_id": "L000.mlp.silu:output",
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.mlp.up_proj",
+      "dst": "L000.mlp.gated_mul",
+      "bytes": 1572864.0,
+      "extra": {
+        "tensor_id": "L000.mlp.up_proj:output",
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.mlp.gated_mul",
+      "dst": "L000.mlp.down_proj",
+      "bytes": 1572864.0,
+      "extra": {
+        "tensor_id": "L000.mlp.gated_mul:output",
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.mlp.down_proj",
+      "dst": "L000.residual_add_2",
+      "bytes": 524288.0,
+      "extra": {
+        "tensor_id": "L000.mlp.down_proj:output",
+        "shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.residual_add_1",
+      "dst": "L000.residual_add_2",
+      "bytes": 524288.0,
+      "extra": {
+        "tensor_id": "L000.residual_add_1:output",
+        "shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16"
+      }
+    }
+  ]
+}

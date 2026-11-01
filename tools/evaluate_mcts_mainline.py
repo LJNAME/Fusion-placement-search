@@ -46,8 +46,8 @@ def gap(value,reference):
 
 class ObservedScorer(_CachedScorer):
     """Observe the existing scorer without changing any value or search policy."""
-    def __init__(self,graph,profile):
-        super().__init__(graph,profile)
+    def __init__(self,graph,profile,*,capacity=None):
+        super().__init__(graph,profile,capacity=capacity)
         self.observing=True
         self.observed={}
         self.requests=[]
@@ -64,7 +64,7 @@ class ObservedScorer(_CachedScorer):
                 fused_groups=sum(len(g.node_ids)>1 for g in plan.groups),
                 used_devices=",".join(map(str,sorted(set(devices.values())))),
                 cross_device_bytes=result.cross_device_bytes,makespan_s=result.makespan,
-                memory_feasible=not bool(result.details["overflow_devices"]))
+                memory_feasible=self.is_feasible(result))
         return result
 
     def __call__(self,plan):

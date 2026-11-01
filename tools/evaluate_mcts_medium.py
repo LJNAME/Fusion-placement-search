@@ -15,7 +15,9 @@ from calibration.probe_kerv_graph import save
 from cost_model.exact_search import count_exact_search_space
 from cost_model.hardware_profile import AnalyticHardwareProfile
 from cost_model.legal_search import LegalFusionSearchSpace
-from cost_model.search_evaluation import _modes, _partition_key, _plan_key, _run_search, build_evaluation_graph
+from cost_model.search_evaluation import (
+    INFEASIBLE_PENALTY_S, _modes, _partition_key, _plan_key, _run_search, build_evaluation_graph,
+)
 from simulator import validate_fusion_plan
 from simulator.dataset import graph_from_dict, graph_to_dict, plan_to_dict
 from simulator.hardware import hardware_from_dict, hardware_to_dict, load_hardware
@@ -119,20 +121,28 @@ def prepare(output):
         source_sha256={p: file_sha(ROOT / p) for p in sources},
         hardware_source=dict(path=str(HARDWARE), sha256=file_sha(HARDWARE)),
         policy="all predefined tasks retained, including infeasible/no-improvement cases",
-        scorer="unchanged mainline makespan-only; memory overflow recorded, not filtered",
+        scorer="finite makespan + penalty for over-capacity; strict feasible final selection",
+        capacity_source="explicit task capacity tuple, not profile.max_memory",
+        infeasible_penalty_s=INFEASIBLE_PENALTY_S,
         reference="feasible minimum of Exact scored candidates; Sequential final stage only, not global optimum",
         initialization="first scoring request in final stage; Sequential fusion stage excluded",
         observation="complete scored candidates, not tree node visits",
         scope="analytic development model, no GPU/SROP/Beam; no downstream execution claim",
-        algorithm_changed=False, profile_timing_changed=False,
+        algorithm_changed="capacity penalty and final admission only; tree/rollout parameters unchanged",
+        profile_timing_changed=False,
         capacity_changes="only two explicitly synthetic MLP variants; no timing constant changes")
+    baseline = ROOT / "data/mcts_medium_v1"
+    if (baseline / "plan.json").exists():
+        plan["regression_baseline"] = dict(source_commit="ee2c9bf", path=str(baseline),
+            sha256={name: file_sha(baseline / name) for name in (
+                "plan.json", "runs.jsonl", "references.json", "candidates.csv.gz", "requests.csv.gz")})
     save(output / "plan.json", plan)
     return plan
 
 
 class MediumScorer(ObservedScorer):
-    def __init__(self, graph, profile):
-        super().__init__(graph, profile)
+    def __init__(self, graph, profile, *, capacity=None):
+        super().__init__(graph, profile, capacity=capacity)
         self.plans = {}
 
     def estimate(self, plan):
@@ -152,7 +162,7 @@ def final_requests(budget, requests):
 
 def metrics(rows, requests, eligible, selected_signature):
     by_id = {int(r["row_id"]): r for r in rows}
-    selected = next(r for r in rows if r["plan_signature"] == selected_signature)
+    selected = next((r for r in rows if r["plan_signature"] == selected_signature), None)
     feasible = [by_id[i] for i in sorted(set(eligible)) if by_id[i]["memory_feasible"]]
     best = min(feasible, key=lambda r: (r["makespan_s"], r["plan_signature"])) if feasible else None
     first = by_id[eligible[0]]
@@ -161,8 +171,9 @@ def metrics(rows, requests, eligible, selected_signature):
         improved = first["makespan_s"] - best["makespan_s"]
     return dict(score_requests=len(requests), unique_scored_plans=len(rows),
         eligible_unique_plans=len(set(eligible)), eligible_feasible_plans=len(feasible),
-        selected_cost_s=selected["makespan_s"], selected_feasible=selected["memory_feasible"],
-        selected_peak_memory_bytes=selected["peak_memory_bytes"],
+        selected_cost_s=selected["makespan_s"] if selected else None,
+        selected_feasible=selected["memory_feasible"] if selected else False,
+        selected_peak_memory_bytes=selected["peak_memory_bytes"] if selected else None,
         first_final_stage_cost_s=first["makespan_s"], first_final_stage_feasible=first["memory_feasible"],
         best_feasible_scored_cost_s=best["makespan_s"] if best else None,
         best_feasible_scored_signature=best["plan_signature"] if best else None,
@@ -174,8 +185,9 @@ def metrics(rows, requests, eligible, selected_signature):
         unique_device_assignments=len({by_id[i]["device_assignment"] for i in set(eligible)}))
 
 
-def run_one(graph, profile, mode, method, iterations, seed):
-    scorer = MediumScorer(graph, profile)
+def run_one(graph, profile, mode, method, iterations, seed, *, capacity=None):
+    capacity = tuple(capacity) if capacity is not None else tuple(d.max_mem for d in profile.hardware.devices)
+    scorer = MediumScorer(graph, profile, capacity=capacity)
     plans, elapsed, budget = _run_search(method, graph, scorer, mode, seed=seed,
         beam=8, rollouts=3, mcts_iterations=iterations, top_k=4)
     rows = list(scorer.observed.values())
@@ -193,11 +205,12 @@ def run_one(graph, profile, mode, method, iterations, seed):
             raise ValueError("returned Sequential plan changed partition")
         if len({rows[i]["partition_signature"] for i in set(eligible)}) != 1:
             raise ValueError("Sequential placement changed partition")
-    selected_signature = digest(_plan_key(plans[0]))
+    selected_signature = digest(_plan_key(plans[0])) if plans else None
     result = dict(mode=mode.name, method=method, seed=seed,
         iterations=iterations if method == "mcts" else None,
         observed_search_wall_s=elapsed, budget=budget, selected_signature=selected_signature,
-        selected_plan=plan_to_dict(plans[0]), metrics=metrics(rows, requests, eligible, selected_signature))
+        selected_plan=plan_to_dict(plans[0]) if plans else None, reason=budget["reason"],
+        metrics=metrics(rows, requests, eligible, selected_signature))
     return result, scorer, eligible
 
 
@@ -211,6 +224,10 @@ def check_inputs(output, plan):
         for field in ("graph", "hardware"):
             if file_sha(output / task[field]) != task[field + "_sha256"]:
                 raise ValueError("frozen input changed")
+    baseline = plan.get("regression_baseline")
+    if baseline and any(file_sha(Path(baseline["path"]) / name) != value
+                        for name, value in baseline["sha256"].items()):
+        raise ValueError("regression baseline changed")
 
 
 def gap(cost, reference):
@@ -236,7 +253,8 @@ def run(output):
         def perform(task, mode, method, iterations, seed):
             task_id = task["task_id"]
             graph, profile = loaded[task_id]
-            result, scorer, eligible = run_one(graph, profile, mode, method, iterations, seed)
+            result, scorer, eligible = run_one(graph, profile, mode, method, iterations, seed,
+                                             capacity=tuple(task["max_memory_bytes"]))
             result.update(run_id=len(runs), task_id=task_id)
             rows = list(scorer.observed.values())
             if method == "mcts":
@@ -294,6 +312,7 @@ def run(output):
         selected = mm["selected_cost_s"] if mm["selected_feasible"] else None
         results.append(dict(run_id=r["run_id"], task_id=r["task_id"], mode=r["mode"],
             iterations=r["iterations"], seed=r["seed"], selected_feasible=mm["selected_feasible"],
+            reason=r["reason"],
             selected_cost_s=mm["selected_cost_s"],
             selected_mode_reference_gap=gap(selected, ref), selected_joint_exact_gap=gap(selected, joint),
             best_feasible_scored_cost_s=mm["best_feasible_scored_cost_s"],
@@ -315,9 +334,48 @@ def run(output):
         infeasible_selected_despite_feasible_scored=sum(not r["selected_feasible"] and
             r["best_feasible_scored_cost_s"] is not None for r in results),
         scored_table_matches_exact=True, references_frozen_before_mcts=True,
-        algorithm_changed=False, profile_timing_changed=False, gpu=False, beam=False, srop=False)
+        capacity_admission_fixed=True, profile_timing_changed=False, gpu=False, beam=False, srop=False)
     save(output / "report.json", report)
     return report
+
+
+def verify_regression(plan, runs, observed, queries):
+    if plan["expected_mcts_runs"] != 180 or "regression_baseline" not in plan:
+        return dict(performed=False)
+    baseline = Path(plan["regression_baseline"]["path"])
+    old_plan = json.loads((baseline / "plan.json").read_text())
+    old_tasks = {t["task_id"]: t for t in old_plan["tasks"]}
+    for task in plan["tasks"]:
+        if any(task[k] != old_tasks[task["task_id"]][k] for k in ("graph_sha256", "hardware_sha256")):
+            raise ValueError("regression task input changed")
+    old_runs = [json.loads(s) for s in (baseline / "runs.jsonl").read_text().splitlines()]
+    key = lambda r: (r["task_id"], r["method"], r["mode"], r["iterations"], r["seed"])
+    old_by_key = {key(r): r for r in old_runs}
+    old_rows, old_queries = {}, {}
+    with gzip.open(baseline / "candidates.csv.gz", "rt", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            old_rows[(int(row["run_id"]), int(row["row_id"]))] = row["plan_signature"]
+    with gzip.open(baseline / "requests.csv.gz", "rt", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            run_id = int(row["run_id"])
+            old_queries.setdefault(run_id, []).append(old_rows[(run_id, int(row["row_id"]))])
+    checked = 0
+    for r in runs:
+        if r["method"] != "mcts" or not r["task_id"].endswith("actual_capacity"):
+            continue
+        old = old_by_key[key(r)]
+        if r["selected_signature"] != old["selected_signature"] or \
+           r["metrics"]["selected_cost_s"] != old["metrics"]["selected_cost_s"]:
+            raise ValueError("original-capacity winner changed")
+        by_id = {x["row_id"]: x["plan_signature"] for x in observed[r["run_id"]]}
+        if [by_id[i] for i in queries[r["run_id"]]] != old_queries[old["run_id"]]:
+            raise ValueError("original-capacity score request trace changed")
+        checked += 1
+    if checked != 108:
+        raise ValueError("missing original-capacity regression run")
+    return dict(performed=True, matched_original_capacity_runs=checked,
+                winner_and_cost_identical=True, ordered_score_requests_identical=True,
+                frozen_input_files_identical=2*len(plan["tasks"]))
 
 
 def verify(output):
@@ -348,6 +406,7 @@ def verify(output):
                 raise ValueError("request order changed")
             qq.append(int(x["row_id"]))
     tables = {}
+    tasks = {t["task_id"]: t for t in plan["tasks"]}
     for r in runs:
         rr, qq = rows[r["run_id"]], requests[r["run_id"]]
         if r["method"] == "exact" and r["mode"] == "joint":
@@ -355,6 +414,17 @@ def verify(output):
         recomputed = metrics(rr, qq, final_requests(r["budget"], qq), r["selected_signature"])
         if recomputed != r["metrics"]:
             raise ValueError("observation metrics mismatch")
+        for x in rr:
+            feasible = all(p <= c for p, c in zip(x["peak_memory_bytes"], tasks[r["task_id"]]["max_memory_bytes"]))
+            if feasible != x["memory_feasible"]:
+                raise ValueError("explicit capacity mismatch")
+        mm = r["metrics"]
+        if r["selected_signature"] is None:
+            expected = "no_feasible_in_space" if r["method"] == "exact" else "evaluated_no_feasible"
+            if r["selected_plan"] is not None or r["reason"] != expected or mm["eligible_feasible_plans"]:
+                raise ValueError("invalid no-plan reason")
+        elif not mm["selected_feasible"] or mm["selected_cost_s"] != mm["best_feasible_scored_cost_s"] or r["reason"]:
+            raise ValueError("did not return best scored feasible candidate")
         if len(rr) != r["budget"]["cost_model_evaluations"] or len(qq) != r["budget"]["scorer_requests"]:
             raise ValueError("budget mismatch")
     refs = json.loads((output / "references.json").read_text())
@@ -392,7 +462,8 @@ def verify(output):
     result = dict(pass_checks=True, runs=len(runs), exact_runs=report["exact_runs"],
         mcts_runs=report["mcts_runs"], scored_unique_rows=sum(map(len, rows.values())),
         score_requests=sum(map(len, requests.values())), artifacts=len(artifacts),
-        memory_feasibility_kept_separate=True, source_and_inputs_unchanged=True)
+        memory_feasibility_kept_separate=True, source_and_inputs_unchanged=True,
+        original_capacity_regression=verify_regression(plan, runs, rows, requests))
     save(output / "verification.json", result)
     return result
 
