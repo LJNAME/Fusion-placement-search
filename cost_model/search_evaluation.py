@@ -1,4 +1,4 @@
-"""Evaluate unfused, fusion-only, placement-only, and joint legal search."""
+"""Evaluate placement-only, fusion-only, sequential, and joint legal search."""
 
 from __future__ import annotations
 
@@ -24,15 +24,22 @@ from simulator.model_graphs import (
     build_decoder_layer,
     build_model_graph,
 )
+from simulator.dataset import plan_from_dict, plan_to_dict
+from simulator.hardware import hardware_from_dict, hardware_to_dict
+from simulator.schema import OpNode, TensorEdge
+from simulator.placement_artifacts import (
+    PlacedOpGraph, graph_fingerprint, save_placed_op_graph,
+)
 
 from .exact_search import exact_legal_search
 from .legal_search import legal_beam_search, legal_mcts_search
 from .measured_profile import MeasuredHardwareProfile
 from .structural import StructuralCostModel
+from .structure import analyze_plan_structure
 
 
 REPORT_FORMAT = "fusion-placement-search.search-evaluation"
-REPORT_VERSION = "1.1"
+REPORT_VERSION = "1.2"
 
 
 def qwen3_spec(num_layers: int) -> TransformerModelSpec:
@@ -140,6 +147,7 @@ def _modes(n_devs: int) -> tuple[_Mode, ...]:
     return (
         _Mode("placement_only", _singleton_registry(), True, all_devices),
         _Mode("fusion_only", default_fusion_registry(), False, (0,)),
+        _Mode("sequential", default_fusion_registry(), False, all_devices),
         _Mode("joint", default_fusion_registry(), False, all_devices),
     )
 
@@ -153,6 +161,31 @@ def _plan_key(plan: Plan) -> tuple:
         )
         for group in plan.groups
     )
+
+
+def _partition_key(plan: Plan) -> tuple:
+    return tuple((group.extra["pattern_id"], tuple(group.node_ids)) for group in plan.groups)
+
+
+def _contract_partition(graph, template, registry, n_devs):
+    """Restrict stage two to device choices; score only expanded original plans."""
+    structure = analyze_plan_structure(graph, template, n_devs, registry=registry)
+    macro = OpGraph(name=graph.name + ":fixed-partition")
+    for group in structure.groups:
+        macro.add_node(OpNode(str(group.index), "fixed_partition", group.flops,
+                              group.output_bytes, group.parameter_bytes))
+    for dep in structure.dependencies:
+        macro.add_edge(TensorEdge(str(dep.src_group), str(dep.dst_group), dep.bytes))
+
+    def expand(placement):
+        devices = {int(g.node_ids[0]): g.device for g in placement.groups}
+        result = copy.deepcopy(template)
+        result.name = "sequential-fixed-partition"
+        for index, group in enumerate(result.groups):
+            group.device = devices[index]
+        return result
+
+    return macro, expand
 
 
 class _CachedScorer:
@@ -227,6 +260,9 @@ def _candidate_summary(
         "patterns": [str(group.extra["pattern_id"]) for group in fused],
         "plan_signature": "sha256:"
         + hashlib.sha256(signature_payload.encode("utf-8")).hexdigest(),
+        "plan": plan_to_dict(plan),
+        "covered_nodes": sum(len(group.node_ids) for group in plan.groups),
+        "deployable": False,
     }
 
 
@@ -242,39 +278,68 @@ def _run_search(
     mcts_iterations: int,
     top_k: int,
 ) -> tuple[list[Plan], float, dict[str, object]]:
+    if method not in {"exact", "beam", "mcts"}:
+        raise ValueError(f"unknown search method: {method}")
+    if method == "mcts" and mode.name == "sequential" and mcts_iterations < 2:
+        raise ValueError("sequential MCTS needs at least two total iterations")
     scorer.start_run()
     started = time.perf_counter()
-    common = {
-        "graph": graph,
-        "scorer": scorer,
-        "n_devs": scorer.profile.n_devs,
-        "registry": mode.registry,
-        "require_executable": mode.require_executable,
-        "allowed_devices": mode.allowed_devices,
-    }
-    if method == "beam":
-        plans = legal_beam_search(
-            **common,
-            beam=beam,
-            rollouts=rollouts,
-            fusion_probability=0.7,
-            seed=seed,
-        )[:top_k]
-        budget = {"beam": beam, "rollouts": rollouts}
-    elif method == "mcts":
-        plans = legal_mcts_search(
-            **common,
-            iterations=mcts_iterations,
-            rollouts=rollouts,
-            fusion_probability=0.7,
-            seed=seed,
-            n_best=top_k,
-        )
-        budget = {"iterations": mcts_iterations, "rollouts": rollouts}
+    stages = []
+
+    def stage(name, search_graph, rules, devices, iterations, count, expand=lambda p: p):
+        before = scorer.run_metrics()
+        requested = set()
+        def score(plan):
+            original = expand(plan)
+            requested.add(_plan_key(original))
+            return scorer(original)
+        common = dict(graph=search_graph, scorer=score, n_devs=scorer.profile.n_devs,
+                      registry=rules, require_executable=mode.require_executable,
+                      allowed_devices=devices)
+        stage_started = time.perf_counter()
+        details = {"stage": name, "seed": seed, "allowed_devices": list(devices)}
+        if method == "exact":
+            exact = exact_legal_search(**common, top_k=count)
+            plans = list(exact.plans)
+            details.update(search_space_size=exact.search_space_size, evaluated_plans=exact.evaluated_plans)
+        elif method == "beam":
+            plans = legal_beam_search(**common, beam=beam, rollouts=rollouts,
+                                     fusion_probability=.7, seed=seed)[:count]
+            details.update(beam=beam, rollouts=rollouts)
+        else:
+            plans = legal_mcts_search(**common, iterations=iterations, rollouts=rollouts,
+                                     fusion_probability=.7, seed=seed, n_best=count)
+            details.update(iterations=iterations, rollouts=rollouts)
+        after = scorer.run_metrics()
+        details.update(elapsed_s=time.perf_counter()-stage_started,
+            scorer_requests=after["scorer_requests"]-before["scorer_requests"],
+            unique_requested_plans=len(requested),
+            cost_model_evaluations=after["cost_model_evaluations"]-before["cost_model_evaluations"])
+        stages.append(details)
+        return [expand(plan) for plan in plans]
+
+    if mode.name == "sequential":
+        first = mcts_iterations // 2
+        template = stage("fusion", graph, mode.registry, (0,), first, 1)[0]
+        macro, expand = _contract_partition(graph, template, mode.registry, scorer.profile.n_devs)
+        plans = stage("placement", macro, _singleton_registry(), mode.allowed_devices,
+                      mcts_iterations-first, top_k, expand)
+        if any(_partition_key(plan) != _partition_key(template) for plan in plans):
+            raise AssertionError("sequential placement changed the frozen fusion partition")
     else:
-        raise ValueError(f"unknown search method: {method}")
+        plans = stage(mode.name, graph, mode.registry, mode.allowed_devices, mcts_iterations, top_k)
     elapsed = time.perf_counter() - started
-    budget.update(scorer.run_metrics())
+    budget = {"stages": stages, **scorer.run_metrics()}
+    if method == "mcts":
+        budget.update(iterations=mcts_iterations, rollouts=rollouts)
+    elif method == "beam":
+        budget.update(beam=beam, rollouts=rollouts,
+            budget_semantics="beam width per stage; not a fixed additive work budget")
+    else:
+        budget["evaluated_plans"] = sum(s["evaluated_plans"] for s in stages)
+    if mode.name == "sequential":
+        budget["frozen_partition"] = [dict(pattern_id=p, node_ids=list(nodes))
+                                       for p,nodes in _partition_key(template)]
     return plans, elapsed, budget
 
 
@@ -291,6 +356,8 @@ def evaluate_scale(
     include_model_beam: bool = False,
 ) -> dict[str, object]:
     graph = build_evaluation_graph(scale)
+    if mcts_iterations < 2:
+        raise ValueError("four-mode evaluation needs at least two MCTS iterations")
     is_large_model = scale in {"model", "model_3b"}
     scorer = _CachedScorer(graph, profile)
     reference_registry = default_fusion_registry()
@@ -298,6 +365,7 @@ def evaluate_scale(
     result: dict[str, object] = {
         "scale": scale,
         "graph_name": graph.name,
+        "graph_hash": graph_fingerprint(graph),
         "nodes": len(graph.nodes),
         "edges": len(graph.edges),
         "parameter_elements": int(
@@ -312,6 +380,11 @@ def evaluate_scale(
             "rollouts": rollouts,
             "mcts_iterations": mcts_iterations,
             "top_k": top_k,
+            "include_exact": include_exact,
+            "include_model_beam": include_model_beam,
+            "fusion_probability": .7,
+            "sequential_fusion_device": 0,
+            "sequential_iteration_split": [mcts_iterations//2, mcts_iterations-mcts_iterations//2],
         },
         "baseline": _candidate_summary(
             baseline, scorer, reference_registry, rank=1
@@ -332,27 +405,26 @@ def evaluate_scale(
     for mode in _modes(profile.n_devs):
         exact_score = None
         if include_exact and scale == "small":
-            exact = exact_legal_search(
-                graph,
-                scorer,
-                n_devs=profile.n_devs,
-                top_k=top_k,
-                registry=mode.registry,
-                require_executable=mode.require_executable,
-                allowed_devices=mode.allowed_devices,
+            exact_plans, exact_elapsed, exact_budget = _run_search(
+                "exact", graph, scorer, mode, seed=seed, beam=beam, rollouts=rollouts,
+                mcts_iterations=mcts_iterations, top_k=top_k,
             )
-            exact_score = exact.optimal_score
+            exact_score = min(scorer(plan) for plan in exact_plans)
             result["searches"].append(
                 {
                     "mode": mode.name,
                     "method": "exact",
-                    "elapsed_s": exact.elapsed_seconds,
-                    "search_space_size": exact.search_space_size,
-                    "budget": {"evaluated_plans": exact.evaluated_plans},
-                    "optimality_gap": 0.0,
+                    "elapsed_s": exact_elapsed,
+                    "search_space_size": (None if mode.name == "sequential"
+                                          else exact_budget["stages"][0]["search_space_size"]),
+                    "budget": exact_budget,
+                    "optimality_gap": None if mode.name == "sequential" else 0.,
+                    "reference_kind": ("two_stage_exact_not_global_optimum" if mode.name == "sequential"
+                                       else "restricted_space_exact_optimum"),
+                    "reference_gap": 0.,
                     "candidates": [
                         _candidate_summary(plan, scorer, mode.registry, rank)
-                        for rank, plan in enumerate(exact.plans, start=1)
+                        for rank, plan in enumerate(exact_plans, start=1)
                     ],
                 }
             )
@@ -376,7 +448,10 @@ def evaluate_scale(
             )
             best_score = min(scorer(plan) for plan in plans)
             gap = None
+            reference_gap = None
             if exact_score is not None:
+                reference_gap = (best_score-exact_score)/max(abs(exact_score), 1e-12)
+            if exact_score is not None and mode.name != "sequential":
                 gap = max(best_score - exact_score, 0.0) / max(abs(exact_score), 1e-12)
             result["searches"].append(
                 {
@@ -386,6 +461,10 @@ def evaluate_scale(
                     "search_space_size": None,
                     "budget": budget,
                     "optimality_gap": gap,
+                    "reference_gap": reference_gap,
+                    "reference_kind": (None if exact_score is None else
+                        "two_stage_exact_not_global_optimum" if mode.name == "sequential"
+                        else "restricted_space_exact_optimum"),
                     "candidates": [
                         _candidate_summary(plan, scorer, mode.registry, rank)
                         for rank, plan in enumerate(plans, start=1)
@@ -424,8 +503,11 @@ def evaluate_searches(
         "version": REPORT_VERSION,
         "hardware_hash": hardware_fingerprint(profile.hardware),
         "hardware_name": profile.hardware.name,
+        "hardware_snapshot": hardware_to_dict(profile.hardware),
+        "profile_policy": {"measurement_contract_id": profile.measurement_contract_id,
+                           "allow_unbound": profile.allow_unbound},
         "placeholder_policy": (
-            "fusion_only and joint include built-in planned patterns for search "
+            "fusion_only, sequential and joint include built-in planned patterns for search "
             "evaluation; results are not deployable"
         ),
         "scales": [evaluate_scale(scale, profile, **kwargs) for scale in scales],
@@ -435,6 +517,18 @@ def evaluate_searches(
 def save_evaluation(path: str | Path, report: dict[str, object]) -> None:
     output = Path(path)
     output.parent.mkdir(parents=True, exist_ok=True)
+    hardware = hardware_from_dict(report["hardware_snapshot"])
+    for scale in report["scales"]:
+        graph = build_evaluation_graph(scale["scale"])
+        for search in scale["searches"]:
+            best = search["candidates"][0]
+            relative = Path(output.stem + ".artifacts") / scale["scale"] / (search["mode"] + "_" + search["method"] + ".json")
+            placed = PlacedOpGraph(graph, hardware, plan_from_dict(best["plan"]), rank=1,
+                predicted_makespan=best["makespan_s"], predicted_peak_memory=tuple(best["peak_memory_bytes"]),
+                extra={"deployable": False, "scope": "fixed_profile_development_search_evaluation",
+                       "profile_policy": report["profile_policy"], "configuration": scale["configuration"]})
+            save_placed_op_graph(output.parent / relative, placed)
+            search["best_placed_op_graph"] = relative.as_posix()
     output.write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -495,6 +589,10 @@ def main() -> None:
         top_k=top_k,
         include_model_beam=args.model_beam,
     )
+    report["inputs"] = {name: {"path": str(path.resolve()),
+        "sha256": hashlib.sha256(path.read_bytes()).hexdigest()} for name,path in
+        (("hardware", args.hardware), ("raw", args.raw))}
+    report["source_sha256"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     save_evaluation(args.output, report)
     for scale in report["scales"]:
         print(

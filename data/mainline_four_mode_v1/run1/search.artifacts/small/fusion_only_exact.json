@@ -1,0 +1,418 @@
+{
+  "format": "fusion-placement-search.placed-op-graph",
+  "version": "1.0",
+  "graph_hash": "sha256:4b573875891a2f919c4c1b9a3541d80cbfd8f12fc3b78458da9331f4492f6e9f",
+  "hardware_hash": "sha256:ff225a9f374bfa7a0782ede295a5753053a7460e8e07a87fa95ef48d2df61777",
+  "candidate_id": "sha256:7bb5f429d95538b74f0fa39e398d8587252f57a412ff6ca30ede5334a49bf042",
+  "rank": 1,
+  "predicted_makespan": 6.672001364131574e-05,
+  "predicted_peak_memory": [
+    23592960.0,
+    0.0
+  ],
+  "hardware": {
+    "name": "bw1000-2card-calibrated",
+    "comm_bw": 177732732469.61005,
+    "comm_latency": 5.474634617605735e-05,
+    "launch_overhead": 7.770405267365277e-06,
+    "fusion_overhead": 0.0,
+    "interference": 0.0,
+    "overlap_send": false,
+    "link_matrix": [
+      [
+        null,
+        177732732469.61005
+      ],
+      [
+        178205621633.49326,
+        null
+      ]
+    ],
+    "devices": [
+      {
+        "name": "BW",
+        "max_mem": 68702699520.0,
+        "flops": 94504138186548.42,
+        "mem_bw": 1341567274866.83,
+        "class": "BW1000",
+        "dtype": "bf16",
+        "calibrated": true,
+        "source": "crdnotebook-2106728119406280705-abc12335-23081:2026-10-19 18:33:50 +0800:torch-2.9.0:hip-6.3.26093:bf16",
+        "physical_index": 0
+      },
+      {
+        "name": "BW",
+        "max_mem": 68702699520.0,
+        "flops": 94439834912094.28,
+        "mem_bw": 1340926601504.3394,
+        "class": "BW1000",
+        "dtype": "bf16",
+        "calibrated": true,
+        "source": "crdnotebook-2106728119406280705-abc12335-23081:2026-10-19 18:33:50 +0800:torch-2.9.0:hip-6.3.26093:bf16",
+        "physical_index": 1
+      }
+    ],
+    "calibrated": true,
+    "calibration_scope": {
+      "device_compute": true,
+      "device_memory": true,
+      "launch": true,
+      "point_to_point_links": true,
+      "real_fused_kernels": false,
+      "compute_communication_interference": false,
+      "downstream_parallelism": false
+    },
+    "shape_model": {
+      "matmul": {
+        "compute": {
+          "curve": "table",
+          "points": [
+            [
+              128,
+              0.1526314505279237
+            ],
+            [
+              256,
+              0.15718368933336785
+            ],
+            [
+              1024,
+              0.7969594975442034
+            ],
+            [
+              2048,
+              0.7797635929154423
+            ],
+            [
+              3072,
+              0.796832105660283
+            ]
+          ]
+        }
+      }
+    },
+    "operator_latency_source": "raw_measurements.json",
+    "source": "crdnotebook-2106728119406280705-abc12335-23081:2026-10-19 18:33:50 +0800:torch-2.9.0:hip-6.3.26093:bf16"
+  },
+  "graph": {
+    "name": "qwen3-mlp-search-evaluation",
+    "extra": {},
+    "nodes": [
+      {
+        "id": "L000.mlp.gate_proj",
+        "op_type": "matmul",
+        "flops": 1610612736.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 6291456.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.gate_proj",
+          "module_path": "decoder.layers.0.mlp.linear_fc1.gate",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1610612736.0,
+          "bwd_flops": 3221225472.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 3072,
+            "k": 1024
+          },
+          "sharding_rule": "column",
+          "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+          "semantic_slice": "gate"
+        },
+        "fusion_group_id": "fg0000",
+        "device_id": 0
+      },
+      {
+        "id": "L000.mlp.silu",
+        "op_type": "silu",
+        "flops": 3145728.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.silu",
+          "module_path": "decoder.layers.0.mlp.activation",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 3145728.0,
+          "bwd_flops": 6291456.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 786432
+          }
+        },
+        "fusion_group_id": "fg0002",
+        "device_id": 0
+      },
+      {
+        "id": "L000.mlp.up_proj",
+        "op_type": "matmul",
+        "flops": 1610612736.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 6291456.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.up_proj",
+          "module_path": "decoder.layers.0.mlp.linear_fc1.up",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1610612736.0,
+          "bwd_flops": 3221225472.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 3072,
+            "k": 1024
+          },
+          "sharding_rule": "column",
+          "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+          "semantic_slice": "up"
+        },
+        "fusion_group_id": "fg0001",
+        "device_id": 0
+      },
+      {
+        "id": "L000.mlp.gated_mul",
+        "op_type": "mul",
+        "flops": 786432.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.gated_mul",
+          "module_path": "decoder.layers.0.mlp.gated_linear_unit",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 786432.0,
+          "bwd_flops": 1572864.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 786432
+          }
+        },
+        "fusion_group_id": "fg0002",
+        "device_id": 0
+      },
+      {
+        "id": "L000.mlp.down_proj",
+        "op_type": "matmul",
+        "flops": 1610612736.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 6291456.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.down_proj",
+          "module_path": "decoder.layers.0.mlp.linear_fc2",
+          "output_shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1610612736.0,
+          "bwd_flops": 3221225472.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 1024,
+            "k": 3072
+          },
+          "sharding_rule": "row"
+        },
+        "fusion_group_id": "fg0003",
+        "device_id": 0
+      }
+    ],
+    "edges": [
+      {
+        "src": "L000.mlp.gate_proj",
+        "dst": "L000.mlp.silu",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.gate_proj:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.silu",
+        "dst": "L000.mlp.gated_mul",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.silu:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.up_proj",
+        "dst": "L000.mlp.gated_mul",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.up_proj:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.gated_mul",
+        "dst": "L000.mlp.down_proj",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.gated_mul:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      }
+    ]
+  },
+  "fusion_groups": [
+    {
+      "fusion_group_id": "fg0000",
+      "node_ids": [
+        "L000.mlp.gate_proj"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0001",
+      "node_ids": [
+        "L000.mlp.up_proj"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0002",
+      "node_ids": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "device_id": 0,
+      "pattern_id": "silu_mul",
+      "backend": "template",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "silu_mul",
+        "backend": "template",
+        "implementation_status": "planned"
+      }
+    },
+    {
+      "fusion_group_id": "fg0003",
+      "node_ids": [
+        "L000.mlp.down_proj"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    }
+  ],
+  "plan": {
+    "name": "legal-exact-rank-1",
+    "extra": {
+      "search_space": "legal_fusion_v1",
+      "require_executable": false,
+      "allowed_devices": [
+        0
+      ],
+      "search_method": "exact",
+      "search_space_size": 2,
+      "rank": 1
+    }
+  },
+  "extra": {
+    "deployable": false,
+    "scope": "fixed_profile_development_search_evaluation",
+    "profile_policy": {
+      "measurement_contract_id": null,
+      "allow_unbound": true
+    },
+    "configuration": {
+      "seed": 23,
+      "beam": 8,
+      "rollouts": 3,
+      "mcts_iterations": 16,
+      "top_k": 4,
+      "include_exact": true,
+      "include_model_beam": false,
+      "fusion_probability": 0.7,
+      "sequential_fusion_device": 0,
+      "sequential_iteration_split": [
+        8,
+        8
+      ]
+    }
+  }
+}

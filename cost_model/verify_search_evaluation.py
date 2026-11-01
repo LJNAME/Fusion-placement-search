@@ -30,13 +30,15 @@ def verify_search_evaluation(*, allow_unbound=False) -> dict[str, object]:
     searches = {
         (item["mode"], item["method"]): item for item in scale["searches"]
     }
-    if len(searches) != 9:
-        raise AssertionError(f"expected nine mode/method results, got {len(searches)}")
-    for mode in ("placement_only", "fusion_only", "joint"):
+    if len(searches) != 12:
+        raise AssertionError(f"expected twelve mode/method results, got {len(searches)}")
+    modes = ("placement_only", "fusion_only", "sequential", "joint")
+    for mode in modes:
         exact = searches[(mode, "exact")]
-        if searches[(mode, "beam")]["optimality_gap"] != 0.0:
+        gap_field = "reference_gap" if mode == "sequential" else "optimality_gap"
+        if searches[(mode, "beam")][gap_field] != 0.0:
             raise AssertionError(f"beam did not close exact gap for {mode}")
-        if searches[(mode, "mcts")]["optimality_gap"] != 0.0:
+        if searches[(mode, "mcts")][gap_field] != 0.0:
             raise AssertionError(f"MCTS did not close exact gap for {mode}")
         if exact["candidates"][0]["makespan_s"] <= 0.0:
             raise AssertionError(f"invalid exact score for {mode}")
@@ -58,12 +60,12 @@ def verify_search_evaluation(*, allow_unbound=False) -> dict[str, object]:
         "fusion_space": searches[("fusion_only", "exact")]["search_space_size"],
         "joint_space": searches[("joint", "exact")]["search_space_size"],
         "beam_gaps": ",".join(
-            f"{searches[(mode, 'beam')]['optimality_gap']:.6f}"
-            for mode in ("placement_only", "fusion_only", "joint")
+            f"{searches[(mode, 'beam')]['reference_gap']:.6f}"
+            for mode in modes
         ),
         "mcts_gaps": ",".join(
-            f"{searches[(mode, 'mcts')]['optimality_gap']:.6f}"
-            for mode in ("placement_only", "fusion_only", "joint")
+            f"{searches[(mode, 'mcts')]['reference_gap']:.6f}"
+            for mode in modes
         ),
         "telemetry": "requests,unique_requested_plans,cost_model_evaluations",
     }
