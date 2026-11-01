@@ -1,0 +1,62 @@
+{
+  "scope": "already_exposed_development_audit_not_preregistered_test_or_SROP_benchmark",
+  "raw_sha256": {
+    "environment.json": "7be216ec4e56036434c935cfc2341fd675f914797af27d82c8e06c9e22145e27",
+    "gpu0_seq1\\partial.json": "f3bf6b2edc8eb09baf269db1fda643928572b398e1aa1be46292066305e16693",
+    "gpu0_seq1\\result.json": "488008e28e748c2c7cae7b7330a7e39aea6d5eb86a77e73c9ba612e51cbe834d",
+    "gpu0_seq256\\partial.json": "f8fdabbc71b4685dfb1049894db21966e162b8b09b5f34a82c5eba8e2bd6d58b",
+    "gpu0_seq256\\result.json": "66b973e65e9cc4ab1aa5fd2bb340384185f8bfcfb33329dd77a295b2d36a7f35",
+    "gpu1_seq1\\partial.json": "780a64048e0c7b848b82c7384e134226db4233ed99018117ea7bcaa757d2a2e4",
+    "gpu1_seq1\\result.json": "6e0dc7196f4c80a236e1f675ded65e7963fd108a1a12ed66e1c8365f1461a32c",
+    "gpu1_seq256\\partial.json": "a5929ea1e5e31b0cdf5296060798ebf3d8f7dbba7094fbf9e3b03342c30c5f32",
+    "gpu1_seq256\\result.json": "886bec3596b579c08b45b80269d4d4366087dc3fd89ed80a93333dc27d64fd22",
+    "plan.json": "15d012a0ba9cf11dc85de5c9d59f3b255eb8a3284c4c5604c260c63eb137dcc4"
+  },
+  "hardware_sha256": "261c9a53afebcc1abc25032a8a7124a599f6b0873187cb020d6ad2dc67d5776e",
+  "mask_bits": [
+    "silu",
+    "mul",
+    "fused"
+  ],
+  "bit_meaning": "1=visible",
+  "update": "exact queried-key replacement; no refit or MCTS",
+  "reference": "fixed per-case medians of fused and chain; chain never a query key",
+  "primary_aggregation": "singleton additive; ties choose fused",
+  "B_status": "pending_independent_calibration",
+  "scenarios": [
+    [
+      "A_transfer",
+      null,
+      1.0
+    ],
+    [
+      "C_hypothesis_minus50",
+      3.2,
+      0.5
+    ],
+    [
+      "C_hypothesis_center",
+      3.2,
+      1.0
+    ],
+    [
+      "C_hypothesis_plus50",
+      3.2,
+      1.5
+    ]
+  ],
+  "round_sensitivity": "8 within-case label replicates evaluated by unchanged median reference; not independent tasks",
+  "context_branch": "post hoc hidden-reference local-offset diagnostic only; no fit or main-branch reuse",
+  "source_sha256": {
+    "cost_model/srop_local_opportunity.py": "4d49e740a9546b475780d18907d735599b3faa092e191ce470bf7b19b7a446c9",
+    "cost_model/hardware_profile.py": "02bda1a6b9692376559529bd6d0b973bc074c5adcde530751adfd5037b8bfd91",
+    "cost_model/structure.py": "a7abdd1ea2700384b4bd957a4c23cdbdfab509d24534b35fc39ec2a169bf728e",
+    "cost_model/search_evaluation.py": "bbc336f7fed03817a72cbc01f98432ade7ee2649e4e24db1ae61a8157fd308f9",
+    "simulator/hardware.py": "fd34d7b8cfeb341c7a6b680fd91dab237a348366a3f68f9f2d51fd7120c2cc62",
+    "simulator/shape_model.py": "d80fe667316d740fd58b7fc28241d97162fd9e9a500e6d5342f7a92d08145b73",
+    "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead",
+    "simulator/model_graphs/spec.py": "6382c1be9e674d788113ee50daf03a5f6ebeb4faedbc3da6ed5be7dac3e95ec2"
+  },
+  "automatic_model_writeback": false,
+  "audit_id": "sha256:d88b038bc428582a3a9ec1ec208b6eaaf2cb9c3a769f25393563ce2e33fb90a0"
+}
