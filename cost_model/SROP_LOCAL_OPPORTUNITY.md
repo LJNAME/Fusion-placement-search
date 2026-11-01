@@ -14,4 +14,4 @@ python -m cost_model.srop_local_opportunity \
 
 输出plan/report/verification.json，128行主状态、192条动作、1024逐轮状态、1536逐轮动作、32行B待建立、128行oracle旁表。计数来自4case×A和3个C情景；不是独立测试样本数。plan注明事后开发审计，源/输入hash保留；输出必须为新目录。
 
-首次运行结果摘要与主CSV见data/srop_local_opportunity_v1；完整本地工件在工作区transfer/srop-local-opportunity-20261101-v2，含逐轮CSV和独立重算脚本。新7项测试覆盖隐藏参考隔离、全掩码、纠错/有害动作、单有效多可选动作、旧先验复现、B空结果和固定参考。
+首次运行结果摘要与主CSV见data/srop_local_opportunity_v1；完整本地工件在工作区transfer/srop-local-opportunity-20261101-v3，含逐轮CSV和独立重算脚本。新7项测试覆盖隐藏参考隔离、全掩码、纠错/有害动作、单有效多可选动作、旧先验复现、B空结果和固定参考。

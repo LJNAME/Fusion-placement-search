@@ -158,7 +158,7 @@ def flatten(cases, kind):
 
 def write_csv(path, rows):
     with path.open("w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0]))
+        w = csv.DictWriter(f, fieldnames=list(rows[0]), lineterminator="\n")
         w.writeheader()
         for row in rows:
             w.writerow({k: json.dumps(v) if isinstance(v, (list, dict)) else v for k,v in row.items()})

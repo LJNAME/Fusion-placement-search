@@ -1,6 +1,6 @@
 # 四臂八掩码机会审计（2026-11-01）
 
-本目录保存摘要、主CSV、B待建立表、oracle旁表与独立检查结果。完整report.json、逐轮CSV及independent_check.py在E:/Chatgpt_work/transfer/srop-local-opportunity-20261101-v2/；使用cost_model.srop_local_opportunity可从四臂原数据重建全部输出。
+本目录保存摘要、主CSV、B待建立表、oracle旁表与独立检查结果。完整report.json、逐轮CSV及independent_check.py在E:/Chatgpt_work/transfer/srop-local-opportunity-20261101-v3/；使用cost_model.srop_local_opportunity可从四臂原数据重建全部输出。
 
 中位数主表：A迁移先验32/32状态选择融合，48条揭示边无决策改善或恶化；三个C假设情景96/96状态同样选融合、144条边无改善或恶化。B契约一致先验仍待独立校准，32行保留空结果。当前主表没有可用于比较SROP策略的非零决策收益；不推广为任意先验或任意标签下都无机会。
 
@@ -64,4 +64,4 @@ states.csv有128行，actions.csv192行；round_states.csv1024行、round_action
 
 当前未跑策略对比、未补GPU、未改代价模型或Key/标签。现有四臂用作低敏感开发对照；B仍悬置。后续若扩对象，先明确目标执行契约、先验来源和可选测量动作，再登记工作负载；不能根据隐藏收益挑任务。
 
-重放入口cost_model.srop_local_opportunity，--bundle指四臂原目录，--out-dir必须为新目录。此目录为最终v2运行；同日前一v1为增加CSV输出前的保留开发产物，不作为本报告依据。
+重放入口cost_model.srop_local_opportunity，--bundle指四臂原目录，--out-dir必须为新目录。此目录为最终v3运行；同日前v1/v2为增加CSV及统一LF前的保留开发产物，不作为本报告依据。
