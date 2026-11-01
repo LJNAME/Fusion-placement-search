@@ -1,0 +1,53 @@
+{
+  "source_sha256": {
+    "plan.json": "15d012a0ba9cf11dc85de5c9d59f3b255eb8a3284c4c5604c260c63eb137dcc4",
+    "environment.json": "7be216ec4e56036434c935cfc2341fd675f914797af27d82c8e06c9e22145e27",
+    "gpu0_seq256/result.json": "66b973e65e9cc4ab1aa5fd2bb340384185f8bfcfb33329dd77a295b2d36a7f35",
+    "gpu0_seq256/partial.json": "f8fdabbc71b4685dfb1049894db21966e162b8b09b5f34a82c5eba8e2bd6d58b",
+    "gpu0_seq1/result.json": "488008e28e748c2c7cae7b7330a7e39aea6d5eb86a77e73c9ba612e51cbe834d",
+    "gpu0_seq1/partial.json": "f3bf6b2edc8eb09baf269db1fda643928572b398e1aa1be46292066305e16693",
+    "gpu1_seq1/result.json": "6e0dc7196f4c80a236e1f675ded65e7963fd108a1a12ed66e1c8365f1461a32c",
+    "gpu1_seq1/partial.json": "780a64048e0c7b848b82c7384e134226db4233ed99018117ea7bcaa757d2a2e4",
+    "gpu1_seq256/result.json": "886bec3596b579c08b45b80269d4d4366087dc3fd89ed80a93333dc27d64fd22",
+    "gpu1_seq256/partial.json": "a5929ea1e5e31b0cdf5296060798ebf3d8f7dbba7094fbf9e3b03342c30c5f32"
+  },
+  "code_sha256": {
+    "calibration/fusion_cost_validation.py": "1108017dd348c3e52fe2126454dbbef4384edff7e8612a2c46d3032dc8f8f3f1",
+    "cost_model/search_evaluation.py": "92c4450f53c37ebc099990e449a5e26643f1a389decf68f9a949a175950746e7",
+    "cost_model/legal_search.py": "d95af5faf6bbf2dab8df09b736cfa87ee4772a542c269134168ba0164ac448b2",
+    "cost_model/hardware_profile.py": "33731499225327a9ed216cd591d08ca004bd99d02da7e84779cc30f6f8b95c52",
+    "cost_model/structural.py": "7aca09f1b0b20fb009e6013c060bf4a6486ecc237f289f268de6f098191b5112",
+    "cost_model/structure.py": "a7abdd1ea2700384b4bd957a4c23cdbdfab509d24534b35fc39ec2a169bf728e",
+    "cost_model/measurement_labels.py": "45f7da5636c6677df65c6b32fe73eb333076f7fe103f0e3571da2d322aae9340",
+    "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+    "simulator/shape_model.py": "d80fe667316d740fd58b7fc28241d97162fd9e9a500e6d5342f7a92d08145b73"
+  },
+  "hardware_sha256": "261c9a53afebcc1abc25032a8a7124a599f6b0873187cb020d6ad2dc67d5776e",
+  "case_order": [
+    "gpu0_seq256",
+    "gpu0_seq1",
+    "gpu1_seq1",
+    "gpu1_seq256"
+  ],
+  "profiles": [
+    "legacy_analytic_prior",
+    "conditional_graph_additive"
+  ],
+  "methods": [
+    "exact",
+    "mcts"
+  ],
+  "seed": 23,
+  "mcts_iterations": 16,
+  "rollouts": 3,
+  "fixed_device_per_case": true,
+  "allow_conditional_dev": true,
+  "admission": "conditional_dev",
+  "deployable": false,
+  "downstream_contract_confirmed": false,
+  "analytic_launch_contract_aligned": false,
+  "preference_rule": "all 8 paired signs agree and absolute median relative difference >= 1%; otherwise inconclusive",
+  "reference": "same-batch fused vs joint chain; chain label never supplied to search",
+  "identity": "diagnostic fixture arm IDs only; no canonical Kernel Key relabeling or accepted export",
+  "synthetic_slow_fusion": "unit test only, not empirical data"
+}

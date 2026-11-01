@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "E:\Chatgpt_work\Fusion-placement-search\calibration\fusion_cost_validation.py", line 245, in <module>
+    main()
+  File "E:\Chatgpt_work\Fusion-placement-search\calibration\fusion_cost_validation.py", line 241, in main
+    print(json.dumps(run(args.source_dir,args.output,allow_conditional_dev=args.allow_conditional_dev),indent=2))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\calibration\fusion_cost_validation.py", line 154, in run
+    profile = ConditionalGraphProfile(hardware, graph, case,
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\calibration\fusion_cost_validation.py", line 107, in __init__
+    self.matches = {arm: lookup.lookup(label.key_id, expected_contract_id, allow_unbound=allow_conditional_dev)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\calibration\fusion_cost_validation.py", line 107, in <dictcomp>
+    self.matches = {arm: lookup.lookup(label.key_id, expected_contract_id, allow_unbound=allow_conditional_dev)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Chatgpt_work\Fusion-placement-search\cost_model\measurement_labels.py", line 75, in lookup
+    raise MeasurementContractError(message)
+cost_model.measurement_labels.MeasurementContractError: measurement contract rejected key=diagnostic_arm:gpu0_seq256:silu; expected=sha256:b0b0cd8a76c3bbe3d4924d718cc4d84807043c2c7643fdc12a7324a501f49c48; actual=sha256:b0b0cd8a76c3bbe3d4924d718cc4d84807043c2c7643fdc12a7324a501f49c48; admission=conditional_dev
