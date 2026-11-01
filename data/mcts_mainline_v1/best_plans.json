@@ -1,0 +1,626 @@
+{
+  "sha256:4f6457e5c9dc2621e1bba9ef1582929739d9855e299dadb3008c6bce213a657e": {
+    "scale": "small",
+    "plan": {
+      "name": "legal-exact-rank-1",
+      "extra": {
+        "search_space": "legal_fusion_v1",
+        "require_executable": true,
+        "allowed_devices": [
+          0,
+          1
+        ],
+        "search_method": "exact",
+        "search_space_size": 32,
+        "rank": 1
+      },
+      "groups": [
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.gate_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.silu"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.up_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.gated_mul"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.down_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        }
+      ]
+    },
+    "artifact": "best_plans/4f6457e5c9dc2621e1bba9ef1582929739d9855e299dadb3008c6bce213a657e.json"
+  },
+  "sha256:cbaf9df3afa8b637aec6cc72df2cf08131a614e6d14a06246b08841495b5ab5b": {
+    "scale": "small",
+    "plan": {
+      "name": "legal-exact-rank-1",
+      "extra": {
+        "search_space": "legal_fusion_v1",
+        "require_executable": false,
+        "allowed_devices": [
+          0
+        ],
+        "search_method": "exact",
+        "search_space_size": 2,
+        "rank": 1
+      },
+      "groups": [
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.gate_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.up_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.silu",
+            "L000.mlp.gated_mul"
+          ],
+          "extra": {
+            "pattern_id": "silu_mul",
+            "backend": "template",
+            "implementation_status": "planned"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.down_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        }
+      ]
+    },
+    "artifact": "best_plans/cbaf9df3afa8b637aec6cc72df2cf08131a614e6d14a06246b08841495b5ab5b.json"
+  },
+  "sha256:9e2d5b109200b8bac8ed521829b9253ef3aea28796b0914de88a9ac02a47ea44": {
+    "scale": "layer",
+    "plan": {
+      "name": "legal-guided-rollout",
+      "extra": {
+        "search_space": "legal_fusion_v1",
+        "require_executable": true,
+        "allowed_devices": [
+          0,
+          1
+        ]
+      },
+      "groups": [
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.input"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.input_norm"
+          ],
+          "extra": {
+            "pattern_id": "rmsnorm_reference",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.k_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.k_norm"
+          ],
+          "extra": {
+            "pattern_id": "rmsnorm_reference",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.k_rope"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.q_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.q_norm"
+          ],
+          "extra": {
+            "pattern_id": "rmsnorm_reference",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.q_rope"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.qk_matmul"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.softmax"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.v_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.av_matmul"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.out_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.residual_add_1"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.pre_mlp_norm"
+          ],
+          "extra": {
+            "pattern_id": "rmsnorm_reference",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.gate_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.silu"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.up_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.gated_mul"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.down_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.residual_add_2"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        }
+      ]
+    },
+    "artifact": "best_plans/9e2d5b109200b8bac8ed521829b9253ef3aea28796b0914de88a9ac02a47ea44.json"
+  },
+  "sha256:ec2537ee8deb6720bf2a3debee212691408202f393fe93d55bb8e36655c4428b": {
+    "scale": "layer",
+    "plan": {
+      "name": "legal-guided-rollout",
+      "extra": {
+        "search_space": "legal_fusion_v1",
+        "require_executable": false,
+        "allowed_devices": [
+          0
+        ]
+      },
+      "groups": [
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.input"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.input_norm"
+          ],
+          "extra": {
+            "pattern_id": "rmsnorm_reference",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.k_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.k_norm"
+          ],
+          "extra": {
+            "pattern_id": "rmsnorm_reference",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.k_rope"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.q_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.q_norm"
+          ],
+          "extra": {
+            "pattern_id": "rmsnorm_reference",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.q_rope"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.qk_matmul"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.softmax"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.v_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.av_matmul"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.self_attention.out_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.residual_add_1"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.pre_mlp_norm"
+          ],
+          "extra": {
+            "pattern_id": "rmsnorm_reference",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.gate_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.up_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.silu",
+            "L000.mlp.gated_mul"
+          ],
+          "extra": {
+            "pattern_id": "silu_mul",
+            "backend": "template",
+            "implementation_status": "planned"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.mlp.down_proj"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        },
+        {
+          "device": 0,
+          "node_ids": [
+            "L000.residual_add_2"
+          ],
+          "extra": {
+            "pattern_id": "unfused",
+            "backend": "reference",
+            "implementation_status": "reference"
+          }
+        }
+      ]
+    },
+    "artifact": "best_plans/ec2537ee8deb6720bf2a3debee212691408202f393fe93d55bb8e36655c4428b.json"
+  }
+}

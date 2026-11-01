@@ -1,0 +1,54 @@
+{
+  "scope": "exposed_fixed_analytic_profile_development; no GPU or SROP",
+  "seeds": [
+    0,
+    7,
+    23
+  ],
+  "budgets": [
+    16,
+    64,
+    256
+  ],
+  "reference_iterations": 1024,
+  "small_iterations": 16,
+  "modes": [
+    "placement_only",
+    "fusion_only",
+    "sequential",
+    "joint"
+  ],
+  "rollouts": 3,
+  "fusion_probability": 0.7,
+  "top_k": 4,
+  "guided_rollout": true,
+  "value_mix": 0.0,
+  "cache": "fresh per run; reuse only within a run",
+  "phase_order": [
+    "small_exact",
+    "small_mcts",
+    "layer_high_reference",
+    "layer_grid"
+  ],
+  "observation_scope": "scored complete candidates including guided/random completions; not tree-state visitation",
+  "wall_scope": "search including observer overhead; postchecks and file I/O excluded",
+  "source_sha256": {
+    "tools/evaluate_mcts_mainline.py": "e205214e77fb8053324ed2499f802267edbe0072c70d0379d1fc26775c95d37e",
+    "cost_model/search_evaluation.py": "5cf70b4cb67f996313ca058666832090feb7781346e2e0512485af6b51029132",
+    "cost_model/legal_search.py": "d95af5faf6bbf2dab8df09b736cfa87ee4772a542c269134168ba0164ac448b2",
+    "cost_model/exact_search.py": "0198b102fd71b5fa6064204bf37404f3beb086e94506d0cca2bfd52cc53b16a1",
+    "cost_model/hardware_profile.py": "33731499225327a9ed216cd591d08ca004bd99d02da7e84779cc30f6f8b95c52",
+    "cost_model/structural.py": "7aca09f1b0b20fb009e6013c060bf4a6486ecc237f289f268de6f098191b5112",
+    "cost_model/structure.py": "a7abdd1ea2700384b4bd957a4c23cdbdfab509d24534b35fc39ec2a169bf728e",
+    "simulator/fusion_rules.py": "5af6359be8fb16220fedab0a9b8d311a8d6ed410ff1c1a8855efdbf9a2d6298b",
+    "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead",
+    "simulator/shape_model.py": "d80fe667316d740fd58b7fc28241d97162fd9e9a500e6d5342f7a92d08145b73",
+    "simulator/hardware.py": "fd34d7b8cfeb341c7a6b680fd91dab237a348366a3f68f9f2d51fd7120c2cc62"
+  },
+  "hardware": {
+    "path": "E:\\Chatgpt_work\\Fusion-placement-search\\data\\bw1000_2card\\bw1000_2card.calibrated.json",
+    "sha256": "261c9a53afebcc1abc25032a8a7124a599f6b0873187cb020d6ad2dc67d5776e"
+  },
+  "no_algorithm_or_profile_changes": true,
+  "statistical_significance_claim": false
+}

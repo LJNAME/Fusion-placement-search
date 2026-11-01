@@ -1,0 +1,1462 @@
+{
+  "format": "fusion-placement-search.placed-op-graph",
+  "version": "1.0",
+  "graph_hash": "sha256:e11492f00c0413cd3cfa761a79fc31829ca3cbe746963d6e9a6e3c11078e1b7a",
+  "hardware_hash": "sha256:ff225a9f374bfa7a0782ede295a5753053a7460e8e07a87fa95ef48d2df61777",
+  "candidate_id": "sha256:d21c8aff8c8ef27934eb1575996cf1ee07d2503635fc1387fdb43e8c340d6b1b",
+  "rank": null,
+  "predicted_makespan": 0.0003169201069558956,
+  "predicted_peak_memory": [
+    36704768.0,
+    0.0
+  ],
+  "hardware": {
+    "name": "bw1000-2card-calibrated",
+    "comm_bw": 177732732469.61005,
+    "comm_latency": 5.474634617605735e-05,
+    "launch_overhead": 7.770405267365277e-06,
+    "fusion_overhead": 0.0,
+    "interference": 0.0,
+    "overlap_send": false,
+    "link_matrix": [
+      [
+        null,
+        177732732469.61005
+      ],
+      [
+        178205621633.49326,
+        null
+      ]
+    ],
+    "devices": [
+      {
+        "name": "BW",
+        "max_mem": 68702699520.0,
+        "flops": 94504138186548.42,
+        "mem_bw": 1341567274866.83,
+        "class": "BW1000",
+        "dtype": "bf16",
+        "calibrated": true,
+        "source": "crdnotebook-2106728119406280705-abc12335-23081:2026-10-19 18:33:50 +0800:torch-2.9.0:hip-6.3.26093:bf16",
+        "physical_index": 0
+      },
+      {
+        "name": "BW",
+        "max_mem": 68702699520.0,
+        "flops": 94439834912094.28,
+        "mem_bw": 1340926601504.3394,
+        "class": "BW1000",
+        "dtype": "bf16",
+        "calibrated": true,
+        "source": "crdnotebook-2106728119406280705-abc12335-23081:2026-10-19 18:33:50 +0800:torch-2.9.0:hip-6.3.26093:bf16",
+        "physical_index": 1
+      }
+    ],
+    "calibrated": true,
+    "calibration_scope": {
+      "device_compute": true,
+      "device_memory": true,
+      "launch": true,
+      "point_to_point_links": true,
+      "real_fused_kernels": false,
+      "compute_communication_interference": false,
+      "downstream_parallelism": false
+    },
+    "shape_model": {
+      "matmul": {
+        "compute": {
+          "curve": "table",
+          "points": [
+            [
+              128,
+              0.1526314505279237
+            ],
+            [
+              256,
+              0.15718368933336785
+            ],
+            [
+              1024,
+              0.7969594975442034
+            ],
+            [
+              2048,
+              0.7797635929154423
+            ],
+            [
+              3072,
+              0.796832105660283
+            ]
+          ]
+        }
+      }
+    },
+    "operator_latency_source": "raw_measurements.json",
+    "source": "crdnotebook-2106728119406280705-abc12335-23081:2026-10-19 18:33:50 +0800:torch-2.9.0:hip-6.3.26093:bf16"
+  },
+  "graph": {
+    "name": "qwen3-dense-layer-0",
+    "extra": {
+      "kind": "logical",
+      "layer_start": 0,
+      "layer_end": 1,
+      "input_node": "L000.input",
+      "output_node": "L000.residual_add_2",
+      "dtype": "bf16",
+      "model_type": "qwen3"
+    },
+    "nodes": [
+      {
+        "id": "L000.input",
+        "op_type": "input",
+        "flops": 0.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "input",
+          "module_path": "decoder.layers.0",
+          "output_shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 0.0,
+          "bwd_flops": 0.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": false,
+          "collective": null,
+          "shape": {
+            "n": 262144
+          }
+        },
+        "fusion_group_id": "fg0000",
+        "device_id": 0
+      },
+      {
+        "id": "L000.input_norm",
+        "op_type": "rmsnorm",
+        "flops": 1310720.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 2048.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "input_norm",
+          "module_path": "decoder.layers.0.input_layernorm",
+          "output_shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1310720.0,
+          "bwd_flops": 2621440.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 262144
+          }
+        },
+        "fusion_group_id": "fg0001",
+        "device_id": 0
+      },
+      {
+        "id": "L000.self_attention.q_proj",
+        "op_type": "matmul",
+        "flops": 1073741824.0,
+        "out_bytes": 1048576.0,
+        "param_bytes": 4194304.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "self_attention.q_proj",
+          "module_path": "decoder.layers.0.self_attention.linear_qkv.q",
+          "output_shape": [
+            1,
+            256,
+            16,
+            128
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1073741824.0,
+          "bwd_flops": 2147483648.0,
+          "saved_activation_bytes": 1048576.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 2048,
+            "k": 1024
+          },
+          "sharding_rule": "column",
+          "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+          "semantic_slice": "q"
+        },
+        "fusion_group_id": "fg0005",
+        "device_id": 0
+      },
+      {
+        "id": "L000.self_attention.k_proj",
+        "op_type": "matmul",
+        "flops": 536870912.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 2097152.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "self_attention.k_proj",
+          "module_path": "decoder.layers.0.self_attention.linear_qkv.k",
+          "output_shape": [
+            1,
+            256,
+            8,
+            128
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 536870912.0,
+          "bwd_flops": 1073741824.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 1024,
+            "k": 1024
+          },
+          "sharding_rule": "column",
+          "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+          "semantic_slice": "k"
+        },
+        "fusion_group_id": "fg0002",
+        "device_id": 0
+      },
+      {
+        "id": "L000.self_attention.v_proj",
+        "op_type": "matmul",
+        "flops": 536870912.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 2097152.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "self_attention.v_proj",
+          "module_path": "decoder.layers.0.self_attention.linear_qkv.v",
+          "output_shape": [
+            1,
+            256,
+            8,
+            128
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 536870912.0,
+          "bwd_flops": 1073741824.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 1024,
+            "k": 1024
+          },
+          "sharding_rule": "column",
+          "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+          "semantic_slice": "v"
+        },
+        "fusion_group_id": "fg0010",
+        "device_id": 0
+      },
+      {
+        "id": "L000.self_attention.q_norm",
+        "op_type": "rmsnorm",
+        "flops": 2621440.0,
+        "out_bytes": 1048576.0,
+        "param_bytes": 256.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "self_attention.q_norm",
+          "module_path": "decoder.layers.0.self_attention.q_layernorm",
+          "output_shape": [
+            1,
+            256,
+            16,
+            128
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 2621440.0,
+          "bwd_flops": 5242880.0,
+          "saved_activation_bytes": 1048576.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 524288
+          }
+        },
+        "fusion_group_id": "fg0006",
+        "device_id": 0
+      },
+      {
+        "id": "L000.self_attention.k_norm",
+        "op_type": "rmsnorm",
+        "flops": 1310720.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 256.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "self_attention.k_norm",
+          "module_path": "decoder.layers.0.self_attention.k_layernorm",
+          "output_shape": [
+            1,
+            256,
+            8,
+            128
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1310720.0,
+          "bwd_flops": 2621440.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 262144
+          }
+        },
+        "fusion_group_id": "fg0003",
+        "device_id": 0
+      },
+      {
+        "id": "L000.self_attention.q_rope",
+        "op_type": "rope",
+        "flops": 2097152.0,
+        "out_bytes": 1048576.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "self_attention.q_rope",
+          "module_path": "decoder.layers.0.self_attention.rotary_pos_emb.q",
+          "output_shape": [
+            1,
+            256,
+            16,
+            128
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 2097152.0,
+          "bwd_flops": 4194304.0,
+          "saved_activation_bytes": 1048576.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 524288
+          }
+        },
+        "fusion_group_id": "fg0007",
+        "device_id": 0
+      },
+      {
+        "id": "L000.self_attention.k_rope",
+        "op_type": "rope",
+        "flops": 1048576.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "self_attention.k_rope",
+          "module_path": "decoder.layers.0.self_attention.rotary_pos_emb.k",
+          "output_shape": [
+            1,
+            256,
+            8,
+            128
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1048576.0,
+          "bwd_flops": 2097152.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 262144
+          }
+        },
+        "fusion_group_id": "fg0004",
+        "device_id": 0
+      },
+      {
+        "id": "L000.self_attention.qk_matmul",
+        "op_type": "matmul",
+        "flops": 268435456.0,
+        "out_bytes": 2097152.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "self_attention.qk_matmul",
+          "module_path": "decoder.layers.0.self_attention.core_attention.qk",
+          "output_shape": [
+            1,
+            16,
+            256,
+            256
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 268435456.0,
+          "bwd_flops": 536870912.0,
+          "saved_activation_bytes": 2097152.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 4096,
+            "n": 256,
+            "k": 128
+          },
+          "gqa_repeat_factor": 2,
+          "compute_dtype": "bf16"
+        },
+        "fusion_group_id": "fg0008",
+        "device_id": 0
+      },
+      {
+        "id": "L000.self_attention.softmax",
+        "op_type": "softmax",
+        "flops": 5242880.0,
+        "out_bytes": 2097152.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "self_attention.softmax",
+          "module_path": "decoder.layers.0.self_attention.core_attention.softmax",
+          "output_shape": [
+            1,
+            16,
+            256,
+            256
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 5242880.0,
+          "bwd_flops": 10485760.0,
+          "saved_activation_bytes": 2097152.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 1048576
+          },
+          "compute_dtype": "fp32"
+        },
+        "fusion_group_id": "fg0009",
+        "device_id": 0
+      },
+      {
+        "id": "L000.self_attention.av_matmul",
+        "op_type": "matmul",
+        "flops": 268435456.0,
+        "out_bytes": 1048576.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "self_attention.av_matmul",
+          "module_path": "decoder.layers.0.self_attention.core_attention.av",
+          "output_shape": [
+            1,
+            256,
+            16,
+            128
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 268435456.0,
+          "bwd_flops": 536870912.0,
+          "saved_activation_bytes": 1048576.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 4096,
+            "n": 128,
+            "k": 256
+          }
+        },
+        "fusion_group_id": "fg0011",
+        "device_id": 0
+      },
+      {
+        "id": "L000.self_attention.out_proj",
+        "op_type": "matmul",
+        "flops": 1073741824.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 4194304.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "self_attention.out_proj",
+          "module_path": "decoder.layers.0.self_attention.linear_proj",
+          "output_shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1073741824.0,
+          "bwd_flops": 2147483648.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 1024,
+            "k": 2048
+          },
+          "sharding_rule": "row"
+        },
+        "fusion_group_id": "fg0012",
+        "device_id": 0
+      },
+      {
+        "id": "L000.residual_add_1",
+        "op_type": "add",
+        "flops": 262144.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "residual_add_1",
+          "module_path": "decoder.layers.0.self_attention_residual",
+          "output_shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 262144.0,
+          "bwd_flops": 262144.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 262144
+          }
+        },
+        "fusion_group_id": "fg0013",
+        "device_id": 0
+      },
+      {
+        "id": "L000.pre_mlp_norm",
+        "op_type": "rmsnorm",
+        "flops": 1310720.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 2048.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "pre_mlp_norm",
+          "module_path": "decoder.layers.0.pre_mlp_layernorm",
+          "output_shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1310720.0,
+          "bwd_flops": 2621440.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 262144
+          }
+        },
+        "fusion_group_id": "fg0014",
+        "device_id": 0
+      },
+      {
+        "id": "L000.mlp.gate_proj",
+        "op_type": "matmul",
+        "flops": 1610612736.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 6291456.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.gate_proj",
+          "module_path": "decoder.layers.0.mlp.linear_fc1.gate",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1610612736.0,
+          "bwd_flops": 3221225472.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 3072,
+            "k": 1024
+          },
+          "sharding_rule": "column",
+          "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+          "semantic_slice": "gate"
+        },
+        "fusion_group_id": "fg0015",
+        "device_id": 0
+      },
+      {
+        "id": "L000.mlp.up_proj",
+        "op_type": "matmul",
+        "flops": 1610612736.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 6291456.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.up_proj",
+          "module_path": "decoder.layers.0.mlp.linear_fc1.up",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1610612736.0,
+          "bwd_flops": 3221225472.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 3072,
+            "k": 1024
+          },
+          "sharding_rule": "column",
+          "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+          "semantic_slice": "up"
+        },
+        "fusion_group_id": "fg0017",
+        "device_id": 0
+      },
+      {
+        "id": "L000.mlp.silu",
+        "op_type": "silu",
+        "flops": 3145728.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.silu",
+          "module_path": "decoder.layers.0.mlp.activation",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 3145728.0,
+          "bwd_flops": 6291456.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 786432
+          }
+        },
+        "fusion_group_id": "fg0016",
+        "device_id": 0
+      },
+      {
+        "id": "L000.mlp.gated_mul",
+        "op_type": "mul",
+        "flops": 786432.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.gated_mul",
+          "module_path": "decoder.layers.0.mlp.gated_linear_unit",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 786432.0,
+          "bwd_flops": 1572864.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 786432
+          }
+        },
+        "fusion_group_id": "fg0018",
+        "device_id": 0
+      },
+      {
+        "id": "L000.mlp.down_proj",
+        "op_type": "matmul",
+        "flops": 1610612736.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 6291456.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.down_proj",
+          "module_path": "decoder.layers.0.mlp.linear_fc2",
+          "output_shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1610612736.0,
+          "bwd_flops": 3221225472.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 1024,
+            "k": 3072
+          },
+          "sharding_rule": "row"
+        },
+        "fusion_group_id": "fg0019",
+        "device_id": 0
+      },
+      {
+        "id": "L000.residual_add_2",
+        "op_type": "add",
+        "flops": 262144.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "residual_add_2",
+          "module_path": "decoder.layers.0.mlp_residual",
+          "output_shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 262144.0,
+          "bwd_flops": 262144.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 262144
+          }
+        },
+        "fusion_group_id": "fg0020",
+        "device_id": 0
+      }
+    ],
+    "edges": [
+      {
+        "src": "L000.input",
+        "dst": "L000.input_norm",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.input:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.input_norm",
+        "dst": "L000.self_attention.q_proj",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.input_norm:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.input_norm",
+        "dst": "L000.self_attention.k_proj",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.input_norm:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.input_norm",
+        "dst": "L000.self_attention.v_proj",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.input_norm:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.self_attention.q_proj",
+        "dst": "L000.self_attention.q_norm",
+        "bytes": 1048576.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.q_proj:output",
+          "shape": [
+            1,
+            256,
+            16,
+            128
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.self_attention.k_proj",
+        "dst": "L000.self_attention.k_norm",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.k_proj:output",
+          "shape": [
+            1,
+            256,
+            8,
+            128
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.self_attention.q_norm",
+        "dst": "L000.self_attention.q_rope",
+        "bytes": 1048576.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.q_norm:output",
+          "shape": [
+            1,
+            256,
+            16,
+            128
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.self_attention.k_norm",
+        "dst": "L000.self_attention.k_rope",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.k_norm:output",
+          "shape": [
+            1,
+            256,
+            8,
+            128
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.self_attention.q_rope",
+        "dst": "L000.self_attention.qk_matmul",
+        "bytes": 1048576.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.q_rope:output",
+          "shape": [
+            1,
+            256,
+            16,
+            128
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.self_attention.k_rope",
+        "dst": "L000.self_attention.qk_matmul",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.k_rope:output",
+          "shape": [
+            1,
+            256,
+            8,
+            128
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.self_attention.qk_matmul",
+        "dst": "L000.self_attention.softmax",
+        "bytes": 2097152.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.qk_matmul:output",
+          "shape": [
+            1,
+            16,
+            256,
+            256
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.self_attention.softmax",
+        "dst": "L000.self_attention.av_matmul",
+        "bytes": 2097152.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.softmax:output",
+          "shape": [
+            1,
+            16,
+            256,
+            256
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.self_attention.v_proj",
+        "dst": "L000.self_attention.av_matmul",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.v_proj:output",
+          "shape": [
+            1,
+            256,
+            8,
+            128
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.self_attention.av_matmul",
+        "dst": "L000.self_attention.out_proj",
+        "bytes": 1048576.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.av_matmul:output",
+          "shape": [
+            1,
+            256,
+            16,
+            128
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.self_attention.out_proj",
+        "dst": "L000.residual_add_1",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.out_proj:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.input",
+        "dst": "L000.residual_add_1",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.input:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.residual_add_1",
+        "dst": "L000.pre_mlp_norm",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.residual_add_1:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.pre_mlp_norm",
+        "dst": "L000.mlp.gate_proj",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.pre_mlp_norm:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.pre_mlp_norm",
+        "dst": "L000.mlp.up_proj",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.pre_mlp_norm:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.gate_proj",
+        "dst": "L000.mlp.silu",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.gate_proj:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.silu",
+        "dst": "L000.mlp.gated_mul",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.silu:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.up_proj",
+        "dst": "L000.mlp.gated_mul",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.up_proj:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.gated_mul",
+        "dst": "L000.mlp.down_proj",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.gated_mul:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.down_proj",
+        "dst": "L000.residual_add_2",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.mlp.down_proj:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.residual_add_1",
+        "dst": "L000.residual_add_2",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.residual_add_1:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      }
+    ]
+  },
+  "fusion_groups": [
+    {
+      "fusion_group_id": "fg0000",
+      "node_ids": [
+        "L000.input"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0001",
+      "node_ids": [
+        "L000.input_norm"
+      ],
+      "device_id": 0,
+      "pattern_id": "rmsnorm_reference",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0002",
+      "node_ids": [
+        "L000.self_attention.k_proj"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0003",
+      "node_ids": [
+        "L000.self_attention.k_norm"
+      ],
+      "device_id": 0,
+      "pattern_id": "rmsnorm_reference",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0004",
+      "node_ids": [
+        "L000.self_attention.k_rope"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0005",
+      "node_ids": [
+        "L000.self_attention.q_proj"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0006",
+      "node_ids": [
+        "L000.self_attention.q_norm"
+      ],
+      "device_id": 0,
+      "pattern_id": "rmsnorm_reference",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0007",
+      "node_ids": [
+        "L000.self_attention.q_rope"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0008",
+      "node_ids": [
+        "L000.self_attention.qk_matmul"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0009",
+      "node_ids": [
+        "L000.self_attention.softmax"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0010",
+      "node_ids": [
+        "L000.self_attention.v_proj"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0011",
+      "node_ids": [
+        "L000.self_attention.av_matmul"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0012",
+      "node_ids": [
+        "L000.self_attention.out_proj"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0013",
+      "node_ids": [
+        "L000.residual_add_1"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0014",
+      "node_ids": [
+        "L000.pre_mlp_norm"
+      ],
+      "device_id": 0,
+      "pattern_id": "rmsnorm_reference",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0015",
+      "node_ids": [
+        "L000.mlp.gate_proj"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0016",
+      "node_ids": [
+        "L000.mlp.silu"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0017",
+      "node_ids": [
+        "L000.mlp.up_proj"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0018",
+      "node_ids": [
+        "L000.mlp.gated_mul"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0019",
+      "node_ids": [
+        "L000.mlp.down_proj"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "fusion_group_id": "fg0020",
+      "node_ids": [
+        "L000.residual_add_2"
+      ],
+      "device_id": 0,
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "workspace_bytes": 0.0,
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    }
+  ],
+  "plan": {
+    "name": "legal-guided-rollout",
+    "extra": {
+      "search_space": "legal_fusion_v1",
+      "require_executable": true,
+      "allowed_devices": [
+        0,
+        1
+      ]
+    }
+  },
+  "extra": {
+    "deployable": false,
+    "scope": "exposed_fixed_analytic_profile_development; no GPU or SROP"
+  }
+}

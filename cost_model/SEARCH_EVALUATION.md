@@ -46,3 +46,8 @@ python tools/verify_search_replay.py \
 Beam将每个允许设备上的合法singleton完整方案预存completed，只保留有限参考评分；在固定确定性scorer下，结果不劣于其中最好者。Sequential第二阶段在macro空间构造参考，展开后保持冻结划分。未改变原rollout均值排名或添加逐状态贪心槽位，活动beam宽度不变。额外参考评分计入阶段请求/评估/墙钟。
 
 基线data/mainline_beam_floor_v1说明实际边界：layer Sequential Beam回到.306805ms，Joint Beam仅回到.316920ms，后者仍未找到Fusion-only方案。当前MCTS融合三模式返回同一device0计划，尚无联合收益证据。报告新增搜索实现源码hash，旧数据不回写。
+## MCTS 预算与参考审计
+
+主线工具 tools/evaluate_mcts_mainline.py 只运行 MCTS/小图 Exact，固定解析 Profile，不运行 Beam 或 SROP。data/mcts_mainline_v1/README.md 保存协议、60 次 MCTS 和 4 次 Exact 的结果；tools/verify_mcts_mainline.py 从压缩评分记录重新核对计数、参考差距和输出工件。记录对象是已评分完整候选，包含 rollout 补全，不是树节点访问。
+
+small 三个 seed 均达到对应参考；Sequential 仍只称两阶段参考。layer 的 16/64/256/1024 次结果相同，融合三模式返回同一 device0 计划；60/60 次运行首个评分已经达到本次最终最佳。高预算结果先于网格冻结，事后最佳另存，两者都不是 layer 最优性证明。当前不追加同图预算，不据此宣称联合搜索优势。
