@@ -1,0 +1,127 @@
+{
+  "nodes": 591,
+  "edges": 730,
+  "decoder_layers": 28,
+  "development_candidates": 619,
+  "multi_node_candidates": 28,
+  "cross_layer_candidates": 0,
+  "candidates_by_pattern": {
+    "unfused": 478,
+    "rmsnorm_reference": 113,
+    "silu_mul": 28
+  },
+  "registry_executable_candidates": 591,
+  "registry_executable_multi_node": 0,
+  "all_multinode_rules_require_same_layer": true,
+  "registry": [
+    {
+      "pattern_id": "silu_mul",
+      "backend": "template",
+      "implementation_status": "planned",
+      "op_types": [
+        "silu",
+        "mul"
+      ],
+      "allowed_op_types": [],
+      "min_nodes": 2,
+      "max_nodes": 2,
+      "supported_dtypes": [
+        "bf16",
+        "fp16",
+        "fp32"
+      ],
+      "require_same_shape": true,
+      "require_same_layer": true,
+      "require_linear_chain": true,
+      "fallback": false,
+      "priority": 30
+    },
+    {
+      "pattern_id": "elementwise_chain",
+      "backend": "template",
+      "implementation_status": "planned",
+      "op_types": [],
+      "allowed_op_types": [
+        "add",
+        "silu",
+        "mul"
+      ],
+      "min_nodes": 2,
+      "max_nodes": 4,
+      "supported_dtypes": [
+        "bf16",
+        "fp16",
+        "fp32"
+      ],
+      "require_same_shape": true,
+      "require_same_layer": true,
+      "require_linear_chain": true,
+      "fallback": false,
+      "priority": 20
+    },
+    {
+      "pattern_id": "rmsnorm_reference",
+      "backend": "reference",
+      "implementation_status": "reference",
+      "op_types": [
+        "rmsnorm"
+      ],
+      "allowed_op_types": [],
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "supported_dtypes": [
+        "bf16",
+        "fp16",
+        "fp32"
+      ],
+      "require_same_shape": false,
+      "require_same_layer": true,
+      "require_linear_chain": true,
+      "fallback": false,
+      "priority": 10
+    },
+    {
+      "pattern_id": "unfused",
+      "backend": "reference",
+      "implementation_status": "reference",
+      "op_types": [],
+      "allowed_op_types": [],
+      "min_nodes": 1,
+      "max_nodes": 1,
+      "supported_dtypes": [],
+      "require_same_shape": false,
+      "require_same_layer": false,
+      "require_linear_chain": true,
+      "fallback": true,
+      "priority": -100
+    }
+  ],
+  "graph_layer_metadata_complete": true,
+  "formal_scope": {
+    "authority": "user_confirmation_2026-11-01",
+    "allowed_boundary": "intra_layer_only",
+    "capability_file_received": false,
+    "execution_contract_confirmed": false
+  },
+  "kerv_add_rms_norm": {
+    "source_exists": true,
+    "default_registry_registered": false,
+    "pinned_revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326",
+    "two_source_hashes_match_surrogate_manifest": true,
+    "inspected_files": {
+      "flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/kerv_ops.py": "05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60",
+      "flagscale/models/kerv/ops/KERVRuntimeOptimization/adaptive_linear_fusion.py": "e1c4b8664bce0e9bc3466de606e75a93d7c50a50af51a121401ea16c0714fa05"
+    },
+    "admission": "source_presence_only; no new capability or measurement admission"
+  },
+  "source_sha256": {
+    "simulator/fusion_rules.py": "5af6359be8fb16220fedab0a9b8d311a8d6ed410ff1c1a8855efdbf9a2d6298b",
+    "simulator/model_graphs/transformer.py": "7ba8ab0bd06839ee3611911b61ca2a6b2993622b18c623fd450919184ca0d85b",
+    "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead",
+    "simulator/model_graphs/spec.py": "6382c1be9e674d788113ee50daf03a5f6ebeb4faedbc3da6ed5be7dac3e95ec2",
+    "cost_model/search_evaluation.py": "92c4450f53c37ebc099990e449a5e26643f1a389decf68f9a949a175950746e7"
+  },
+  "new_search_runs": 0,
+  "new_gpu_measurements": 0,
+  "conclusion": "no atomicity violations from complete-layer cuts under confirmed intra-layer-only scope and complete layer metadata"
+}
