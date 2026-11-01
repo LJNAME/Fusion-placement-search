@@ -4,6 +4,20 @@
 
 plan.json 在新运行前保存设置、输入和源码hash。Sequential继续按总迭代对半，第一阶段不绑定容量；每次运行独立scorer/cache。所有原始物理成本和可行性与冻结Joint Exact表逐项匹配。
 
+## 按实际模型评估次数比较
+
+绘图数据主列改为cost_model_evaluations，完整21点见data/mcts_capacity_coupling_v1/quality_vs_evaluations.csv；迭代数只保留为配置。没有新增搜索。
+
+| seed | 模型评估次数 | 模式配置 | 相对Joint Exact gap |
+|---|---:|---|---:|
+| 0 | 35 | Sequential32（16+16） | 0.007556% |
+| 0 | 37 | Joint16 | 0.007556% |
+| 7 | 24 | Sequential32（16+16） | 0 |
+| 7 | 32 | Joint16 | 0 |
+| 23 | 27 | Sequential32（16+16） | 0 |
+| 23 | 39 | Joint16 | 3.727291% |
+
+90%任务容量已绑定，不能归入容量不绑定的对照。固定图/候选/Profile的全部26个等容量断点下，Joint和冻结划分的Exact最优均相同；证书见data/mcts_capacity_coupling_v1。该结论不推广为同构设备的一般可分离定理。
 ## 三个 seed 的实际输出差距
 
 单位为相对各自参考的百分比。P=Placement-only，F=Fusion-only，S=Sequential，J=Joint。Joint全空间参考与本例冻结划分参考的成本恰好相同，都是271.964004μs；参考空间本身不同。
