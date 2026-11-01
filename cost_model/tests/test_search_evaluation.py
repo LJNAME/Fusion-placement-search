@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import tempfile
 from unittest.mock import patch
+from types import SimpleNamespace
 
 from simulator.model_graphs import validate_model_graph
 from simulator.dataset import plan_from_dict
@@ -16,6 +17,9 @@ from cost_model.search_evaluation import (
     build_evaluation_graph, evaluate_searches, qwen25_3b_spec, save_evaluation,
 )
 from cost_model.measured_profile import MeasuredHardwareProfile
+from cost_model.hardware_profile import AnalyticHardwareProfile
+from simulator.hardware import load_hardware
+from simulator import make_reference_plan
 from cost_model.verify_search_evaluation import verify_search_evaluation
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -144,6 +148,38 @@ class TestSearchEvaluation(unittest.TestCase):
         row = next(s for s in report["searches"] if s["mode"]=="sequential" and s["method"]=="mcts")
         self.assertIsNone(row["optimality_gap"])
         self.assertLess(row["reference_gap"], 0.)
+
+    def test_analytic_profile_keeps_logical_input_free(self):
+        graph = build_evaluation_graph("layer")
+        p = AnalyticHardwareProfile(load_hardware(ROOT/"data/bw1000_2card/bw1000_2card.calibrated.json"))
+        scorer = _CachedScorer(graph, p)
+        plan = make_reference_plan(graph, device=0)
+        prepared = scorer.model.prepare(graph, plan, p.n_devs)
+        inputs = [g for g in prepared.structure.groups if graph.nodes[g.node_ids[0]].op_type=="input"]
+        self.assertTrue(inputs)
+        for group in inputs:
+            cost = p.estimate_group(graph, group)
+            self.assertEqual((cost.duration,cost.compute_time,cost.memory_time,cost.launch_time), (0.,0.,0.,0.))
+            self.assertEqual(cost.source,"logical_input")
+
+    def test_analytic_cli_does_not_load_raw_labels_or_allow_unbound(self):
+        from cost_model.search_evaluation import main
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)/"search.json"
+            args = SimpleNamespace(profile="analytic",scales="small",hardware=ROOT/"data/bw1000_2card/bw1000_2card.calibrated.json",
+                raw=Path(directory)/"missing-raw.json",seed=23,beam=4,rollouts=2,mcts_iterations=16,top_k=1,
+                quick=False,model_beam=False,measurement_contract_id=None,allow_unbound=False,output=output)
+            with patch("cost_model.search_evaluation._parse_args",return_value=args), patch.object(
+                    MeasuredHardwareProfile,"from_files",side_effect=AssertionError("raw labels loaded")):
+                main()
+            report = json.loads(output.read_text())
+            self.assertEqual(set(report["inputs"]),{"hardware"})
+            self.assertEqual(report["profile_policy"]["kind"],"analytic")
+            self.assertFalse(report["profile_policy"]["allow_unbound"])
+            args.allow_unbound = True
+            with patch("cost_model.search_evaluation._parse_args",return_value=args):
+                with self.assertRaisesRegex(ValueError,"omit measurement admission"):
+                    main()
 
 
 if __name__ == "__main__":

@@ -26,6 +26,7 @@ from simulator.model_graphs import (
 )
 from simulator.dataset import plan_from_dict, plan_to_dict
 from simulator.hardware import hardware_from_dict, hardware_to_dict
+from simulator.hardware import load_hardware
 from simulator.schema import OpNode, TensorEdge
 from simulator.placement_artifacts import (
     PlacedOpGraph, graph_fingerprint, save_placed_op_graph,
@@ -34,6 +35,7 @@ from simulator.placement_artifacts import (
 from .exact_search import exact_legal_search
 from .legal_search import legal_beam_search, legal_mcts_search
 from .measured_profile import MeasuredHardwareProfile
+from .hardware_profile import AnalyticHardwareProfile
 from .structural import StructuralCostModel
 from .structure import analyze_plan_structure
 
@@ -504,8 +506,9 @@ def evaluate_searches(
         "hardware_hash": hardware_fingerprint(profile.hardware),
         "hardware_name": profile.hardware.name,
         "hardware_snapshot": hardware_to_dict(profile.hardware),
-        "profile_policy": {"measurement_contract_id": profile.measurement_contract_id,
-                           "allow_unbound": profile.allow_unbound},
+        "profile_policy": {"kind": "analytic" if isinstance(profile, AnalyticHardwareProfile) else "measured",
+                           "measurement_contract_id": getattr(profile, "measurement_contract_id", None),
+                           "allow_unbound": getattr(profile, "allow_unbound", False)},
         "placeholder_policy": (
             "fusion_only, sequential and joint include built-in planned patterns for search "
             "evaluation; results are not deployable"
@@ -549,6 +552,8 @@ def _parse_args() -> argparse.Namespace:
         default=root / "data" / "bw1000_2card" / "raw_measurements.json",
     )
     parser.add_argument("--scales", default="small,layer,model")
+    parser.add_argument("--profile", choices=("measured", "analytic"), default="measured",
+                        help="analytic uses only hardware snapshot; measured retains strict label admission")
     parser.add_argument("--seed", type=int, default=23)
     parser.add_argument("--beam", type=int, default=8)
     parser.add_argument("--rollouts", type=int, default=3)
@@ -573,8 +578,13 @@ def main() -> None:
     unknown = sorted(set(scales) - {"small", "layer", "model", "model_3b"})
     if not scales or unknown:
         raise ValueError(f"invalid --scales value; unknown={unknown}")
-    profile = MeasuredHardwareProfile.from_files(args.hardware, args.raw,
-        measurement_contract_id=args.measurement_contract_id, allow_unbound=args.allow_unbound)
+    if args.profile == "analytic":
+        if args.allow_unbound or args.measurement_contract_id:
+            raise ValueError("analytic profile has no measured labels; omit measurement admission flags")
+        profile = AnalyticHardwareProfile(load_hardware(args.hardware))
+    else:
+        profile = MeasuredHardwareProfile.from_files(args.hardware, args.raw,
+            measurement_contract_id=args.measurement_contract_id, allow_unbound=args.allow_unbound)
     beam = min(args.beam, 2) if args.quick else args.beam
     rollouts = 1 if args.quick else args.rollouts
     mcts_iterations = min(args.mcts_iterations, 16) if args.quick else args.mcts_iterations
@@ -589,9 +599,12 @@ def main() -> None:
         top_k=top_k,
         include_model_beam=args.model_beam,
     )
+    used_inputs = [("hardware", args.hardware)]
+    if args.profile == "measured":
+        used_inputs.append(("raw", args.raw))
     report["inputs"] = {name: {"path": str(path.resolve()),
         "sha256": hashlib.sha256(path.read_bytes()).hexdigest()} for name,path in
-        (("hardware", args.hardware), ("raw", args.raw))}
+        used_inputs}
     report["source_sha256"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     save_evaluation(args.output, report)
     for scale in report["scales"]:

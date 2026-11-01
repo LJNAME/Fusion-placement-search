@@ -97,6 +97,8 @@ class AnalyticHardwareProfile:
         graph: OpGraph,
         group: GroupStructure,
     ) -> GroupCost:
+        if len(group.node_ids) == 1 and graph.nodes[group.node_ids[0]].op_type == "input":
+            return GroupCost(0., 0., 0., 0., 1., "logical_input")
         device = self.hardware.devices[group.device]
         compute_time = group_compute_time(
             graph,

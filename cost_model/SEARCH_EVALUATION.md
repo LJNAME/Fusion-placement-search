@@ -2,6 +2,14 @@
 
 search_evaluation报告v1.2包含placement_only、fusion_only、sequential、joint。SROP验证保持冻结；本入口不导入srop_e0，不调用主动校准。默认标签准入闸门保留；--allow-unbound只用于明确声明的旧数据开发诊断。
 
+## 固定Profile模式
+
+--profile analytic只读硬件快照，不读raw标签，不需要allow-unbound；逻辑input按零时间处理。--profile measured仍为默认，保持accepted+契约一致的严格准入。--allow-unbound只用于显式旧标签诊断，解析模式会拒绝该参数。计费表、候选覆盖及链路/embedding边界见FIXED_PROFILE_SEMANTICS.md。
+
+```bash
+python -m cost_model.search_evaluation --profile analytic --scales small,layer \
+  --mcts-iterations 16 --seed 23 --output data/analytic_run/search.json
+```
 ## Sequential
 
 第一阶段在device0固定放置下搜索融合，只取排名第一的划分；第二阶段把该划分收缩成macro图，仅搜索每个组的设备。所有评分都展开回原图，使用同一个StructuralCostModel；不能用macro图的估计代替原图代价。

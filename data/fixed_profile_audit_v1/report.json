@@ -1,0 +1,574 @@
+{
+  "scope": "read_only_local_candidate_coverage_and_baseline_billing_not_full_search_exhaustion",
+  "inputs": {
+    "hardware": {
+      "path": "E:\\Chatgpt_work\\Fusion-placement-search\\data\\bw1000_2card\\bw1000_2card.calibrated.json",
+      "sha256": "261c9a53afebcc1abc25032a8a7124a599f6b0873187cb020d6ad2dc67d5776e"
+    },
+    "raw": {
+      "path": "E:\\Chatgpt_work\\Fusion-placement-search\\data\\bw1000_2card\\raw_measurements.json",
+      "sha256": "1f772418437bc941332bddd4d0a12e138ee34ae472312b0d18c5e6e3009b7ec9"
+    },
+    "baseline": {
+      "path": "E:\\Chatgpt_work\\Fusion-placement-search\\data\\mainline_four_mode_v1\\run1\\search.json",
+      "sha256": "524e3ffd9b41fbbe0ceb051fce5a372b730f9f7393f2a6cc2f8ac18c3481857b"
+    }
+  },
+  "source_sha256": {
+    "tools/audit_fixed_profile.py": "f5b0c1e1d4f8c26e3185e1b0767f5538bf4abcc2653bba2260d0592cf1f01a94",
+    "cost_model/hardware_profile.py": "33731499225327a9ed216cd591d08ca004bd99d02da7e84779cc30f6f8b95c52",
+    "cost_model/measured_profile.py": "4d91ed071ec30f25a9feb1f116f5bcce7c70ab527b5e4720472aa0be364b690e",
+    "cost_model/structural.py": "7aca09f1b0b20fb009e6013c060bf4a6486ecc237f289f268de6f098191b5112",
+    "cost_model/structure.py": "a7abdd1ea2700384b4bd957a4c23cdbdfab509d24534b35fc39ec2a169bf728e",
+    "cost_model/measurement_labels.py": "45f7da5636c6677df65c6b32fe73eb333076f7fe103f0e3571da2d322aae9340",
+    "cost_model/fusion_kernel_profile.py": "57ca2641ca595d162521a496dcb5ccc2b5c831390be2b8172bf5202691ec0db5",
+    "cost_model/search_evaluation.py": "067b3f3147e5cf325ebb714424a84a426dcaf851de4ea899a399419e9e554588",
+    "simulator/fusion_rules.py": "5af6359be8fb16220fedab0a9b8d311a8d6ed410ff1c1a8855efdbf9a2d6298b"
+  },
+  "inputs_unchanged": true,
+  "kernel_records": 36,
+  "record_admissions": {
+    "legacy_unbound": 36
+  },
+  "expected_kernel_contract_id": null,
+  "hardware_parameters": {
+    "launch_us": 7.770405267365277,
+    "fusion_us": 0.0,
+    "comm_latency_us": 54.74634617605735,
+    "interference": 0.0,
+    "overlap_send": false
+  },
+  "link_tables": [
+    {
+      "src": 0,
+      "dst": 1,
+      "points": 6,
+      "min_bytes": 4096.0,
+      "max_bytes": 268435456.0,
+      "kernel_label_contract_gate_applied": false
+    },
+    {
+      "src": 1,
+      "dst": 0,
+      "points": 6,
+      "min_bytes": 4096.0,
+      "max_bytes": 268435456.0,
+      "kernel_label_contract_gate_applied": false
+    }
+  ],
+  "scales": [
+    {
+      "scale": "small",
+      "nodes": 5,
+      "graph_hash": "sha256:4b573875891a2f919c4c1b9a3541d80cbfd8f12fc3b78458da9331f4492f6e9f",
+      "local_candidates": 6,
+      "multi_node_candidates": 1,
+      "executable_candidates": 5,
+      "candidate_device_usages": 12,
+      "cost_sources": {
+        "measured_exact_shape_diagnostic_unbound": 10,
+        "analytic_fallback": 2
+      },
+      "strict_queries": {
+        "blocked_by_label_contract": 10,
+        "allowed_analytic_fallback": 2
+      },
+      "distinct_unbound_templates": 12,
+      "complete_template_usages": 0,
+      "identity_gaps_by_usage": {
+        "implementation.id": 12,
+        "implementation.version": 12,
+        "runtime.accelerator": 12,
+        "runtime.accelerator_version": 12,
+        "runtime.framework": 12,
+        "runtime.framework_version": 12,
+        "tensor.layout_or_strides": 12
+      },
+      "identity_exempt_nonzero_cost_usages": 0,
+      "link_size_direction_queries": 2,
+      "link_extrapolated_queries": 0
+    },
+    {
+      "scale": "layer",
+      "nodes": 21,
+      "graph_hash": "sha256:e11492f00c0413cd3cfa761a79fc31829ca3cbe746963d6e9a6e3c11078e1b7a",
+      "local_candidates": 22,
+      "multi_node_candidates": 1,
+      "executable_candidates": 21,
+      "candidate_device_usages": 44,
+      "cost_sources": {
+        "logical_input": 2,
+        "measured_exact_shape_diagnostic_unbound": 40,
+        "analytic_fallback": 2
+      },
+      "strict_queries": {
+        "allowed_logical_input": 2,
+        "blocked_by_label_contract": 40,
+        "allowed_analytic_fallback": 2
+      },
+      "distinct_unbound_templates": 38,
+      "complete_template_usages": 0,
+      "identity_gaps_by_usage": {
+        "implementation.id": 42,
+        "implementation.version": 42,
+        "runtime.accelerator": 42,
+        "runtime.accelerator_version": 42,
+        "runtime.framework": 42,
+        "runtime.framework_version": 42,
+        "tensor.layout_or_strides": 42
+      },
+      "identity_exempt_nonzero_cost_usages": 0,
+      "link_size_direction_queries": 8,
+      "link_extrapolated_queries": 0
+    },
+    {
+      "scale": "model",
+      "nodes": 591,
+      "graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+      "local_candidates": 619,
+      "multi_node_candidates": 28,
+      "executable_candidates": 591,
+      "candidate_device_usages": 1238,
+      "cost_sources": {
+        "analytic_fallback": 60,
+        "logical_input": 56,
+        "measured_exact_shape_diagnostic_unbound": 1122
+      },
+      "strict_queries": {
+        "allowed_analytic_fallback": 60,
+        "allowed_logical_input": 56,
+        "blocked_by_label_contract": 1122
+      },
+      "distinct_unbound_templates": 40,
+      "complete_template_usages": 0,
+      "identity_gaps_by_usage": {
+        "implementation.id": 1180,
+        "implementation.version": 1180,
+        "runtime.accelerator": 1180,
+        "runtime.accelerator_version": 1180,
+        "runtime.framework": 1180,
+        "runtime.framework_version": 1180,
+        "tensor.layout_or_strides": 1180
+      },
+      "identity_exempt_nonzero_cost_usages": 2,
+      "link_size_direction_queries": 8,
+      "link_extrapolated_queries": 0
+    },
+    {
+      "scale": "model_3b",
+      "nodes": 687,
+      "graph_hash": "sha256:e8e90ec0105365c35e17698b3742ff263a5ea2f3a67d48190dee553590b251fc",
+      "local_candidates": 723,
+      "multi_node_candidates": 36,
+      "executable_candidates": 687,
+      "candidate_device_usages": 1446,
+      "cost_sources": {
+        "analytic_fallback": 942,
+        "logical_input": 72,
+        "measured_nearest_shape_diagnostic_unbound": 144,
+        "measured_exact_shape_diagnostic_unbound": 288
+      },
+      "strict_queries": {
+        "allowed_analytic_fallback": 942,
+        "allowed_logical_input": 72,
+        "blocked_by_label_contract": 432
+      },
+      "distinct_unbound_templates": 36,
+      "complete_template_usages": 0,
+      "identity_gaps_by_usage": {
+        "implementation.id": 1372,
+        "implementation.version": 1372,
+        "runtime.accelerator": 1372,
+        "runtime.accelerator_version": 1372,
+        "runtime.framework": 1372,
+        "runtime.framework_version": 1372,
+        "tensor.layout_or_strides": 1372
+      },
+      "identity_exempt_nonzero_cost_usages": 2,
+      "link_size_direction_queries": 8,
+      "link_extrapolated_queries": 0
+    }
+  ],
+  "selected_plans": [
+    {
+      "scale": "small",
+      "mode": "placement_only",
+      "method": "exact",
+      "makespan_s": 7.377158850431442e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 5
+      },
+      "transfer_sources": {},
+      "computation_time_s": 7.377158850431442e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 7.377158850431442e-05,
+      "confidence": 0.25,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "small",
+      "mode": "placement_only",
+      "method": "beam",
+      "makespan_s": 7.377158850431442e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 5
+      },
+      "transfer_sources": {},
+      "computation_time_s": 7.377158850431442e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 7.377158850431442e-05,
+      "confidence": 0.25,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "small",
+      "mode": "placement_only",
+      "method": "mcts",
+      "makespan_s": 7.377158850431442e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 5
+      },
+      "transfer_sources": {},
+      "computation_time_s": 7.377158850431442e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 7.377158850431442e-05,
+      "confidence": 0.25,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "small",
+      "mode": "fusion_only",
+      "method": "exact",
+      "makespan_s": 6.672001364131574e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 3,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 6.672001364131574e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 6.672001364131574e-05,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "small",
+      "mode": "fusion_only",
+      "method": "beam",
+      "makespan_s": 6.672001364131574e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 3,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 6.672001364131574e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 6.672001364131574e-05,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "small",
+      "mode": "fusion_only",
+      "method": "mcts",
+      "makespan_s": 6.672001364131574e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 3,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 6.672001364131574e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 6.672001364131574e-05,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "small",
+      "mode": "sequential",
+      "method": "exact",
+      "makespan_s": 6.672001364131574e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 3,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 6.672001364131574e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 6.672001364131574e-05,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "small",
+      "mode": "sequential",
+      "method": "beam",
+      "makespan_s": 6.672001364131574e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 3,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 6.672001364131574e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 6.672001364131574e-05,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "small",
+      "mode": "sequential",
+      "method": "mcts",
+      "makespan_s": 6.672001364131574e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 3,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 6.672001364131574e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 6.672001364131574e-05,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "small",
+      "mode": "joint",
+      "method": "exact",
+      "makespan_s": 6.672001364131574e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 3,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 6.672001364131574e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 6.672001364131574e-05,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "small",
+      "mode": "joint",
+      "method": "beam",
+      "makespan_s": 6.672001364131574e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 3,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 6.672001364131574e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 6.672001364131574e-05,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "small",
+      "mode": "joint",
+      "method": "mcts",
+      "makespan_s": 6.672001364131574e-05,
+      "group_sources": {
+        "measured_exact_shape_diagnostic_unbound": 3,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 6.672001364131574e-05,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 6.672001364131574e-05,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "layer",
+      "mode": "placement_only",
+      "method": "beam",
+      "makespan_s": 0.0005408030573744328,
+      "group_sources": {
+        "logical_input": 1,
+        "measured_exact_shape_diagnostic_unbound": 20
+      },
+      "transfer_sources": {
+        "measured_link_table": 4
+      },
+      "computation_time_s": 0.0005305255576968193,
+      "communication_time_s": 0.00028966934070922434,
+      "timeline_group_duration_sum_s": 0.0005305255576968193,
+      "confidence": 0.25,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "layer",
+      "mode": "placement_only",
+      "method": "mcts",
+      "makespan_s": 0.0005276165530085563,
+      "group_sources": {
+        "logical_input": 1,
+        "measured_exact_shape_diagnostic_unbound": 20
+      },
+      "transfer_sources": {},
+      "computation_time_s": 0.0005276165530085563,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 0.0005276165530085563,
+      "confidence": 0.25,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "layer",
+      "mode": "fusion_only",
+      "method": "beam",
+      "makespan_s": 0.0005205649781455577,
+      "group_sources": {
+        "logical_input": 1,
+        "measured_exact_shape_diagnostic_unbound": 18,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 0.0005205649781455577,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 0.0005205649781455577,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "layer",
+      "mode": "fusion_only",
+      "method": "mcts",
+      "makespan_s": 0.0005205649781455577,
+      "group_sources": {
+        "logical_input": 1,
+        "measured_exact_shape_diagnostic_unbound": 18,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 0.0005205649781455577,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 0.0005205649781455577,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "layer",
+      "mode": "sequential",
+      "method": "beam",
+      "makespan_s": 0.0005262442222228855,
+      "group_sources": {
+        "logical_input": 1,
+        "measured_exact_shape_diagnostic_unbound": 18,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {
+        "measured_link_table": 4
+      },
+      "computation_time_s": 0.0005226159035591991,
+      "communication_time_s": 0.00028629318112507465,
+      "timeline_group_duration_sum_s": 0.000522615903559199,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "layer",
+      "mode": "sequential",
+      "method": "mcts",
+      "makespan_s": 0.0005205649781455577,
+      "group_sources": {
+        "logical_input": 1,
+        "measured_exact_shape_diagnostic_unbound": 18,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 0.0005205649781455577,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 0.0005205649781455577,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "layer",
+      "mode": "joint",
+      "method": "beam",
+      "makespan_s": 0.0005154556877860159,
+      "group_sources": {
+        "logical_input": 1,
+        "measured_exact_shape_diagnostic_unbound": 18,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {
+        "measured_link_table": 2
+      },
+      "computation_time_s": 0.0005212930023153603,
+      "communication_time_s": 0.00014673332800157368,
+      "timeline_group_duration_sum_s": 0.0005212930023153604,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    },
+    {
+      "scale": "layer",
+      "mode": "joint",
+      "method": "mcts",
+      "makespan_s": 0.0005205649781455577,
+      "group_sources": {
+        "logical_input": 1,
+        "measured_exact_shape_diagnostic_unbound": 18,
+        "analytic_fallback": 1
+      },
+      "transfer_sources": {},
+      "computation_time_s": 0.0005205649781455577,
+      "communication_time_s": 0.0,
+      "timeline_group_duration_sum_s": 0.0005205649781455577,
+      "confidence": 0.15,
+      "out_of_distribution": true
+    }
+  ],
+  "selected_group_sources": {
+    "measured_exact_shape_diagnostic_unbound": 190,
+    "analytic_fallback": 15,
+    "logical_input": 8
+  },
+  "selected_transfer_sources": {
+    "measured_link_table": 10
+  },
+  "diagnostic_warning_counts": {
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:545463eeca57bca7da73470ec13807174e3b7cc1a0becc6a90a55db66ee13a8e; expected=None; actual=None; admission=legacy_unbound": 96,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:c59e95f64746b53de97c553a056c44bb3a0472c013ec02e3addc10b903055a41; expected=None; actual=None; admission=legacy_unbound": 64,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:09c937f2ea06fa2e8a9ff63ed1ee2292efb2ef4fa7fc59706aef851bc6c5d047; expected=None; actual=None; admission=legacy_unbound": 34,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:7403620d27db78fffc475fb6692508079c3d37782f1ca30bf806c071c69c3df3; expected=None; actual=None; admission=legacy_unbound": 31,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:82125769b6d2face430bc35a2dd676c7fa9d43de8295667e7f3964f53a79d00c; expected=None; actual=None; admission=legacy_unbound": 34,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:ecef834d46da2b13efadf48bb4a2ca28d0da97b0042e89f30cdb357421e0b4a7; expected=None; actual=None; admission=legacy_unbound": 31,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:751ca0cf5dd10c201a4762df955833f83e4890879044843a22330522457f7248; expected=None; actual=None; admission=legacy_unbound": 48,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:325779ce4cc9265bc67b6702f890d735835291be5de2a9287288744e5171d8f7; expected=None; actual=None; admission=legacy_unbound": 32,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:a3d20df1f7a61a80a23a7e7f0cb4f13385233dc8af4e5bbeb502e9c867f0e284; expected=None; actual=None; admission=legacy_unbound": 71,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:9b0e2b3e3d2aa30206e92bfecf6227aeac76bb28dc221a539a8fb0f52ce22258; expected=None; actual=None; admission=legacy_unbound": 63,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:8f228b6bc93f5f0a0c386e24041eb6b572345801fabfadceaa127ca1bcd8d036; expected=None; actual=None; admission=legacy_unbound": 73,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:d2d321b6cc3fd407b7994c099b98902bacbcc80b91ace214b31753e7b2fd0985; expected=None; actual=None; admission=legacy_unbound": 59,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:f867034049c2033dd6eb8120c8218c80814dabb2d76a357811f67f56c2a9617f; expected=None; actual=None; admission=legacy_unbound": 36,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:eec9a46a626601c8ec9c60c00f2bf55a89c71adc6103d0c2f2b630ae44258180; expected=None; actual=None; admission=legacy_unbound": 30,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:ef8746a0b6acdc00f166a1c29e8fa440be8bc489a935f870a30e61d5ca5057b9; expected=None; actual=None; admission=legacy_unbound": 36,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:ef36586a88e25717ed8f7a7d58403e8e5217b9dcfaa16d11161d873b8b1958e5; expected=None; actual=None; admission=legacy_unbound": 30,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:550a3ae90639abce98e2a93789f4baf93980cad30be203327ca0ee2b05a88ada; expected=None; actual=None; admission=legacy_unbound": 107,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:3f07c8e235da476f4545bfa5d1a18b8a26d7801e5d4aeb12bc0bafc77cf5ff48; expected=None; actual=None; admission=legacy_unbound": 103,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:1cbf8a8f0b8f6629905f847db71369bc7c27b3555602aafcaa6a56077086879c; expected=None; actual=None; admission=legacy_unbound": 35,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:fa8a2b3f3e2d1fa2eee0ed9971e7a324b0e278f0ae8f851c7e3f3a2771800a04; expected=None; actual=None; admission=legacy_unbound": 31,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:8e8f62785f8c4bc8e1ef4314d4ee8a69a8df7b0c15d6498cd4dbb3527334cf3e; expected=None; actual=None; admission=legacy_unbound": 71,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:932e8c6c795180809353cb676b8ee4426cdf8bacdab9ec9a30f3f225ed525526; expected=None; actual=None; admission=legacy_unbound": 67,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:d07be1d7e94f5b95d9632a1a64f2b4642c3b936fd7e6811c8e793100d37fa3fd; expected=None; actual=None; admission=legacy_unbound": 71,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:61ff13be2dbb870fb49b329e3295e33b8b6faa3034eeea729bb9d9dc85153ea2; expected=None; actual=None; admission=legacy_unbound": 67,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:6b16e572ca13f7f6d169fb1e8b3dee31901b3ed60cddce8c24d01c530b6f5800; expected=None; actual=None; admission=legacy_unbound": 71,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:0c982148a51949ce74b0d19ef0b10dde7d729dd8be83646f302c9943154a83c3; expected=None; actual=None; admission=legacy_unbound": 67,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:751c344f90cd61a9b73424aa15841d19ac3ad8c142ee6d601348b3f90555602f; expected=None; actual=None; admission=legacy_unbound": 71,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:b69e5efdbbd07d6905d7eb3b12e534b5a25e56d146c055f05fd1e2f646232e26; expected=None; actual=None; admission=legacy_unbound": 67,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:e6bbb0bf12c1fb209ef770e22c23d8a71eccc1e9748772d9324d92e5455eb3eb; expected=None; actual=None; admission=legacy_unbound": 35,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:42ddef5fbcbca554886e1e144a5d7844cd48806cdc46867fa621498f8ffe018f; expected=None; actual=None; admission=legacy_unbound": 31,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:b7b8f486b93d1d0441db84676a6ef461041e2ae5212b55606f78585aa75873b0; expected=None; actual=None; admission=legacy_unbound": 70,
+    "diagnostic allow_unbound: measurement contract rejected key=sha256:80e088cb1a71c1ab9935a4492ccb8f3cd3b47b9a20de55f54eaa5453009718f9; expected=None; actual=None; admission=legacy_unbound": 62
+  },
+  "limitations": [
+    "shape hits do not bind canonical group identity or runtime/layout",
+    "strict group fallback availability is not measured coverage or deployability",
+    "links are not admitted by the Kernel measurement-contract gate",
+    "host cost is not a separate scheduler component; unbound labels may contain harness overhead",
+    "embedding is identity-exempt in GroupKernelKeys but receives nonzero analytic cost here"
+  ],
+  "automatic_model_writeback": false,
+  "new_gpu_measurements": false
+}
