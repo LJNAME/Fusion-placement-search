@@ -1,0 +1,208 @@
+{
+  "format": "fusion-placement-search.sequence-composition",
+  "version": "1.0",
+  "case_id": "gpu0_seq256",
+  "shape": [
+    1,
+    256,
+    3072
+  ],
+  "dtype": "bf16",
+  "seed": 1234,
+  "arms": [
+    "silu",
+    "mul",
+    "add",
+    "silu_mul",
+    "mul_add",
+    "silu_mul_add"
+  ],
+  "batches": [
+    50,
+    100
+  ],
+  "input_buffers": 50,
+  "round_orders": [
+    [
+      "silu",
+      "mul",
+      "silu_mul_add",
+      "add",
+      "mul_add",
+      "silu_mul"
+    ],
+    [
+      "mul",
+      "add",
+      "silu",
+      "silu_mul",
+      "silu_mul_add",
+      "mul_add"
+    ],
+    [
+      "add",
+      "silu_mul",
+      "mul",
+      "mul_add",
+      "silu",
+      "silu_mul_add"
+    ],
+    [
+      "silu_mul",
+      "mul_add",
+      "add",
+      "silu_mul_add",
+      "mul",
+      "silu"
+    ],
+    [
+      "mul_add",
+      "silu_mul_add",
+      "silu_mul",
+      "silu",
+      "add",
+      "mul"
+    ],
+    [
+      "silu_mul_add",
+      "silu",
+      "mul_add",
+      "mul",
+      "silu_mul",
+      "add"
+    ],
+    [
+      "silu",
+      "mul",
+      "silu_mul_add",
+      "add",
+      "mul_add",
+      "silu_mul"
+    ],
+    [
+      "mul",
+      "add",
+      "silu",
+      "silu_mul",
+      "silu_mul_add",
+      "mul_add"
+    ],
+    [
+      "add",
+      "silu_mul",
+      "mul",
+      "mul_add",
+      "silu",
+      "silu_mul_add"
+    ],
+    [
+      "silu_mul",
+      "mul_add",
+      "add",
+      "silu_mul_add",
+      "mul",
+      "silu"
+    ],
+    [
+      "mul_add",
+      "silu_mul_add",
+      "silu_mul",
+      "silu",
+      "add",
+      "mul"
+    ],
+    [
+      "silu_mul_add",
+      "silu",
+      "mul_add",
+      "mul",
+      "silu_mul",
+      "add"
+    ]
+  ],
+  "batch_order": "50,100 on even rounds; 100,50 on odd rounds",
+  "capture_order": [
+    [
+      50,
+      "silu"
+    ],
+    [
+      50,
+      "mul"
+    ],
+    [
+      50,
+      "add"
+    ],
+    [
+      50,
+      "silu_mul"
+    ],
+    [
+      50,
+      "mul_add"
+    ],
+    [
+      50,
+      "silu_mul_add"
+    ],
+    [
+      100,
+      "silu"
+    ],
+    [
+      100,
+      "mul"
+    ],
+    [
+      100,
+      "add"
+    ],
+    [
+      100,
+      "silu_mul"
+    ],
+    [
+      100,
+      "mul_add"
+    ],
+    [
+      100,
+      "silu_mul_add"
+    ]
+  ],
+  "warmup_replays_per_capture": 10,
+  "side_stream_warmup": "one full body batch before capture",
+  "timed_body_calls": 10800,
+  "timed_event_intervals": 144,
+  "input_contract": "50 contiguous views; N100 rereads them twice; shared up and add operand; restore outside Event",
+  "intermediate_contract": "Mul/MA input GPU SiLU(original); Add input GPU SiLU(original)*up; prepared outside timing",
+  "implementation": "out-of-place eager ATen bodies captured into single-stream graph; no KERV/custom op",
+  "output_lifetime": "last final output retained per capture; all 12 graphs stay alive",
+  "numeric_tolerance": {
+    "rtol": 0.01,
+    "atol": 0.001
+  },
+  "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged",
+  "attempted_pool_config": {
+    "selection": "per_arm_default_private_pool",
+    "pool_argument": null,
+    "shared_between_arms": false
+  },
+  "metric": "graph_batch_amortized_per_call_us",
+  "admission": "conditional_dev",
+  "serial_plan_only": true,
+  "source_sha256": {
+    "calibration/probe_sequence_composition.py": "abcd0e77601cf0801524cab89242a649eb8297baf1bdfb749a4b9b3a2016400b",
+    "calibration/probe_kerv_additivity.py": "574e52ecdca7a1ca7a119fc46d21f6203c5b4f900b66d23db8abd5ae10b5643a",
+    "calibration/probe_kerv_graph.py": "3bcca44e1d58d22a419403efac9ccdbb21fa16dc8308989912b58ba99becf73b",
+    "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+    "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+    "calibration/e2_manifest.py": "11764191531a30fe89b0db2cff5e6ffaf2eedcd21af522f5fd9feedc5046d1b4",
+    "cost_model/measurement_labels.py": "45f7da5636c6677df65c6b32fe73eb333076f7fe103f0e3571da2d322aae9340"
+  },
+  "no_outlier_trimming_or_automatic_rerun": true,
+  "automatic_model_writeback": false,
+  "interpretation": "N scaling is diagnostic, not causal identification or an adjacency fit",
+  "protocol_id": "sha256:93051dd76d273202c2c5164cde3887468d8f0b16931d62984414004132b9fedd"
+}
