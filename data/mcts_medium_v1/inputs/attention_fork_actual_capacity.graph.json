@@ -1,0 +1,442 @@
+{
+  "name": "qwen3-medium-attention_fork",
+  "extra": {
+    "selected_original_nodes": [
+      "L000.self_attention.k_norm",
+      "L000.self_attention.k_proj",
+      "L000.self_attention.k_rope",
+      "L000.self_attention.q_norm",
+      "L000.self_attention.q_proj",
+      "L000.self_attention.q_rope",
+      "L000.self_attention.qk_matmul",
+      "L000.self_attention.softmax"
+    ],
+    "boundary_input_nodes": [
+      "L000.input_norm"
+    ],
+    "external_consumers": [
+      {
+        "src": "L000.self_attention.softmax",
+        "dst": "L000.self_attention.av_matmul",
+        "bytes": 2097152.0,
+        "extra": {
+          "tensor_id": "L000.self_attention.softmax:output",
+          "shape": [
+            1,
+            16,
+            256,
+            256
+          ],
+          "dtype": "bf16"
+        }
+      }
+    ],
+    "scope": "forward subgraph; boundary tensors initially available at freely searched locations",
+    "boundary_output_lifetime": "terminal outputs retained to subgraph end; no external schedule"
+  },
+  "nodes": [
+    {
+      "id": "L000.input_norm",
+      "op_type": "input",
+      "flops": 0.0,
+      "out_bytes": 524288.0,
+      "param_bytes": 0.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "input_norm",
+        "module_path": "decoder.layers.0.input_layernorm",
+        "output_shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 1310720.0,
+        "bwd_flops": 2621440.0,
+        "saved_activation_bytes": 524288.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "n": 262144
+        },
+        "boundary_source": "L000.input_norm",
+        "boundary_stub": true
+      }
+    },
+    {
+      "id": "L000.self_attention.k_proj",
+      "op_type": "matmul",
+      "flops": 536870912.0,
+      "out_bytes": 524288.0,
+      "param_bytes": 2097152.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "self_attention.k_proj",
+        "module_path": "decoder.layers.0.self_attention.linear_qkv.k",
+        "output_shape": [
+          1,
+          256,
+          8,
+          128
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 536870912.0,
+        "bwd_flops": 1073741824.0,
+        "saved_activation_bytes": 524288.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "m": 256,
+          "n": 1024,
+          "k": 1024
+        },
+        "sharding_rule": "column",
+        "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+        "semantic_slice": "k"
+      }
+    },
+    {
+      "id": "L000.self_attention.k_norm",
+      "op_type": "rmsnorm",
+      "flops": 1310720.0,
+      "out_bytes": 524288.0,
+      "param_bytes": 256.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "self_attention.k_norm",
+        "module_path": "decoder.layers.0.self_attention.k_layernorm",
+        "output_shape": [
+          1,
+          256,
+          8,
+          128
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 1310720.0,
+        "bwd_flops": 2621440.0,
+        "saved_activation_bytes": 524288.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "n": 262144
+        }
+      }
+    },
+    {
+      "id": "L000.self_attention.k_rope",
+      "op_type": "rope",
+      "flops": 1048576.0,
+      "out_bytes": 524288.0,
+      "param_bytes": 0.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "self_attention.k_rope",
+        "module_path": "decoder.layers.0.self_attention.rotary_pos_emb.k",
+        "output_shape": [
+          1,
+          256,
+          8,
+          128
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 1048576.0,
+        "bwd_flops": 2097152.0,
+        "saved_activation_bytes": 524288.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "n": 262144
+        }
+      }
+    },
+    {
+      "id": "L000.self_attention.q_proj",
+      "op_type": "matmul",
+      "flops": 1073741824.0,
+      "out_bytes": 1048576.0,
+      "param_bytes": 4194304.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "self_attention.q_proj",
+        "module_path": "decoder.layers.0.self_attention.linear_qkv.q",
+        "output_shape": [
+          1,
+          256,
+          16,
+          128
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 1073741824.0,
+        "bwd_flops": 2147483648.0,
+        "saved_activation_bytes": 1048576.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "m": 256,
+          "n": 2048,
+          "k": 1024
+        },
+        "sharding_rule": "column",
+        "implementation_group": "decoder.layers.0.self_attention.linear_qkv",
+        "semantic_slice": "q"
+      }
+    },
+    {
+      "id": "L000.self_attention.q_norm",
+      "op_type": "rmsnorm",
+      "flops": 2621440.0,
+      "out_bytes": 1048576.0,
+      "param_bytes": 256.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "self_attention.q_norm",
+        "module_path": "decoder.layers.0.self_attention.q_layernorm",
+        "output_shape": [
+          1,
+          256,
+          16,
+          128
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 2621440.0,
+        "bwd_flops": 5242880.0,
+        "saved_activation_bytes": 1048576.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "n": 524288
+        }
+      }
+    },
+    {
+      "id": "L000.self_attention.q_rope",
+      "op_type": "rope",
+      "flops": 2097152.0,
+      "out_bytes": 1048576.0,
+      "param_bytes": 0.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "self_attention.q_rope",
+        "module_path": "decoder.layers.0.self_attention.rotary_pos_emb.q",
+        "output_shape": [
+          1,
+          256,
+          16,
+          128
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 2097152.0,
+        "bwd_flops": 4194304.0,
+        "saved_activation_bytes": 1048576.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "n": 524288
+        }
+      }
+    },
+    {
+      "id": "L000.self_attention.qk_matmul",
+      "op_type": "matmul",
+      "flops": 268435456.0,
+      "out_bytes": 2097152.0,
+      "param_bytes": 0.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "self_attention.qk_matmul",
+        "module_path": "decoder.layers.0.self_attention.core_attention.qk",
+        "output_shape": [
+          1,
+          16,
+          256,
+          256
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 268435456.0,
+        "bwd_flops": 536870912.0,
+        "saved_activation_bytes": 2097152.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "m": 4096,
+          "n": 256,
+          "k": 128
+        },
+        "gqa_repeat_factor": 2,
+        "compute_dtype": "bf16"
+      }
+    },
+    {
+      "id": "L000.self_attention.softmax",
+      "op_type": "softmax",
+      "flops": 5242880.0,
+      "out_bytes": 2097152.0,
+      "param_bytes": 0.0,
+      "extra": {
+        "layer": 0,
+        "local_name": "self_attention.softmax",
+        "module_path": "decoder.layers.0.self_attention.core_attention.softmax",
+        "output_shape": [
+          1,
+          16,
+          256,
+          256
+        ],
+        "dtype": "bf16",
+        "phase": "forward",
+        "fwd_flops": 5242880.0,
+        "bwd_flops": 10485760.0,
+        "saved_activation_bytes": 2097152.0,
+        "recompute_eligible": true,
+        "collective": null,
+        "shape": {
+          "n": 1048576
+        },
+        "compute_dtype": "fp32"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "L000.input_norm",
+      "dst": "L000.self_attention.q_proj",
+      "bytes": 524288.0,
+      "extra": {
+        "tensor_id": "L000.input_norm:output",
+        "shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.input_norm",
+      "dst": "L000.self_attention.k_proj",
+      "bytes": 524288.0,
+      "extra": {
+        "tensor_id": "L000.input_norm:output",
+        "shape": [
+          1,
+          256,
+          1024
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.self_attention.q_proj",
+      "dst": "L000.self_attention.q_norm",
+      "bytes": 1048576.0,
+      "extra": {
+        "tensor_id": "L000.self_attention.q_proj:output",
+        "shape": [
+          1,
+          256,
+          16,
+          128
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.self_attention.k_proj",
+      "dst": "L000.self_attention.k_norm",
+      "bytes": 524288.0,
+      "extra": {
+        "tensor_id": "L000.self_attention.k_proj:output",
+        "shape": [
+          1,
+          256,
+          8,
+          128
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.self_attention.q_norm",
+      "dst": "L000.self_attention.q_rope",
+      "bytes": 1048576.0,
+      "extra": {
+        "tensor_id": "L000.self_attention.q_norm:output",
+        "shape": [
+          1,
+          256,
+          16,
+          128
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.self_attention.k_norm",
+      "dst": "L000.self_attention.k_rope",
+      "bytes": 524288.0,
+      "extra": {
+        "tensor_id": "L000.self_attention.k_norm:output",
+        "shape": [
+          1,
+          256,
+          8,
+          128
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.self_attention.q_rope",
+      "dst": "L000.self_attention.qk_matmul",
+      "bytes": 1048576.0,
+      "extra": {
+        "tensor_id": "L000.self_attention.q_rope:output",
+        "shape": [
+          1,
+          256,
+          16,
+          128
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.self_attention.k_rope",
+      "dst": "L000.self_attention.qk_matmul",
+      "bytes": 524288.0,
+      "extra": {
+        "tensor_id": "L000.self_attention.k_rope:output",
+        "shape": [
+          1,
+          256,
+          8,
+          128
+        ],
+        "dtype": "bf16"
+      }
+    },
+    {
+      "src": "L000.self_attention.qk_matmul",
+      "dst": "L000.self_attention.softmax",
+      "bytes": 2097152.0,
+      "extra": {
+        "tensor_id": "L000.self_attention.qk_matmul:output",
+        "shape": [
+          1,
+          16,
+          256,
+          256
+        ],
+        "dtype": "bf16"
+      }
+    }
+  ]
+}

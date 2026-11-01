@@ -51,3 +51,8 @@ Beam将每个允许设备上的合法singleton完整方案预存completed，只�
 主线工具 tools/evaluate_mcts_mainline.py 只运行 MCTS/小图 Exact，固定解析 Profile，不运行 Beam 或 SROP。data/mcts_mainline_v1/README.md 保存协议、60 次 MCTS 和 4 次 Exact 的结果；tools/verify_mcts_mainline.py 从压缩评分记录重新核对计数、参考差距和输出工件。记录对象是已评分完整候选，包含 rollout 补全，不是树节点访问。
 
 small 三个 seed 均达到对应参考；Sequential 仍只称两阶段参考。layer 的 16/64/256/1024 次结果相同，融合三模式返回同一 device0 计划；60/60 次运行首个评分已经达到本次最终最佳。高预算结果先于网格冻结，事后最佳另存，两者都不是 layer 最优性证明。当前不追加同图预算，不据此宣称联合搜索优势。
+## 中等子图与显存约束诊断
+
+入口 tools/evaluate_mcts_medium.py 分 prepare/run/verify 三阶段；data/mcts_medium_v1/README.md 给出 5 个预定义任务、20 次 Exact 和 180 次 MCTS。容量机制档单列，未改计时 Profile、MCTS 或评分；可行参考从完整 Exact 评分表中计算，不把超容量返回值计入质量差距。
+
+当前主评分器只返回 makespan，StructuralCostModel 的 overflow_devices 未进入主搜索选优。MLP 90% 人工容量下，27 次 Placement-only/Sequential/Joint 已评分可行候选但最终仍返回超容量方案；Fusion-only 无可行候选。下一项是统一搜索可行性与无可行候选的结果语义，再重跑同一任务，暂不调探索/奖励/rollout。
