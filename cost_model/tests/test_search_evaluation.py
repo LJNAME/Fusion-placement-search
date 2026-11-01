@@ -181,6 +181,29 @@ class TestSearchEvaluation(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,"omit measurement admission"):
                     main()
 
+    def test_all_beam_modes_respect_their_own_reference_space(self):
+        graph=build_evaluation_graph("layer")
+        p=AnalyticHardwareProfile(load_hardware(ROOT/"data/bw1000_2card/bw1000_2card.calibrated.json"))
+        for mode in _modes(p.n_devs):
+            scorer=_CachedScorer(graph,p)
+            plans,_,budget=_run_search("beam",graph,scorer,mode,seed=23,
+                beam=1,rollouts=1,mcts_iterations=16,top_k=1)
+            if mode.name=="sequential":
+                # A macro singleton is an already-fused original group. Reusing
+                # original-graph singleton references would violate this mode.
+                references=[]
+                for device in mode.allowed_devices:
+                    ref=copy.deepcopy(plans[0])
+                    for group in ref.groups:
+                        group.device=device
+                    references.append(ref)
+                expected=tuple((r["pattern_id"],tuple(r["node_ids"])) for r in budget["frozen_partition"])
+                self.assertEqual(_partition_key(plans[0]),expected)
+            else:
+                references=[make_reference_plan(graph,device=d,registry=mode.registry) for d in mode.allowed_devices]
+            self.assertLessEqual(scorer.estimate(plans[0]).makespan,
+                                 min(scorer.estimate(ref).makespan for ref in references))
+
 
 if __name__ == "__main__":
     unittest.main()

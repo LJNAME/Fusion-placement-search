@@ -10,6 +10,7 @@ if str(ROOT) not in sys.path:
 
 from simulator.dataset import plan_from_dict
 from simulator.placement_artifacts import load_placed_op_graph, plan_fingerprint
+from simulator.fusion_rules import default_fusion_registry
 
 
 def without_elapsed(value):
@@ -60,8 +61,11 @@ def verify(first, second):
                         require(actual == frozen, "placement changed frozen fusion partition")
                     checked_candidates += 1
                 best = search["candidates"][0]
-                require(best["placeholder_groups"] == 0 if search["mode"] == "placement_only"
-                        else best["placeholder_groups"] >= 1, "current fixture's fusion mechanism not observed")
+                actual_placeholders=sum(default_fusion_registry().get(g["extra"]["pattern_id"]).implementation_status
+                                        == "planned" for g in best["plan"]["groups"])
+                require(best["placeholder_groups"] == actual_placeholders, "placeholder annotation mismatch")
+                if search["mode"] == "placement_only":
+                    require(actual_placeholders == 0, "placement-only selected a fusion placeholder")
                 artifact_path = path.parent / search["best_placed_op_graph"]
                 placed = load_placed_op_graph(artifact_path)
                 require(all(set(n for g in c["plan"]["groups"] for n in g["node_ids"]) == set(placed.graph.nodes)
@@ -79,7 +83,9 @@ def verify(first, second):
                     require(json.loads(artifact_path.read_text(encoding="utf-8")) == other, "artifact replay differs")
             if path == paths[0]:
                 summaries.append(dict(scale=scale["scale"],nodes=scale["nodes"],searches=len(scale["searches"]),
-                    cost_model_evaluations=scale["cost_model_evaluations"]))
+                    cost_model_evaluations=scale["cost_model_evaluations"],fusion_observations=[
+                        dict(mode=s["mode"],method=s["method"],fused_groups=s["candidates"][0]["fused_groups"])
+                        for s in scale["searches"]]))
     return {"pass": True, "replay_equal_except": ["elapsed_s"], "reports": list(map(str,paths)),
         "checked_candidates_in_both_runs": checked_candidates, "checked_artifacts_in_both_runs": checked_artifacts,
         "scales": summaries, "scope": "CPU diagnostic baseline; no GPU performance or downstream deployment claim"}

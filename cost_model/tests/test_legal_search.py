@@ -9,7 +9,7 @@ from cost_model.legal_search import (
     legal_beam_search,
     legal_mcts_search,
 )
-from simulator import OpGraph, OpNode, TensorEdge, validate_fusion_plan
+from simulator import OpGraph, OpNode, TensorEdge, validate_fusion_plan, make_reference_plan
 from simulator.model_graphs import TransformerModelSpec, build_decoder_layer
 
 
@@ -286,6 +286,38 @@ class TestLegalBeamAndMCTS(unittest.TestCase):
                     n_devs=2,
                     require_executable=True,
                 )
+
+    def test_beam_keeps_best_reference_even_when_rollouts_misrank_prefixes(self):
+        # Mixed placements are costly. A narrow stochastic beam may prune both
+        # uniform paths; reference retention must not depend on surviving them.
+        def score(plan):
+            devices=[g.device for g in plan.groups]
+            return float(len(plan.groups)+25*sum(a!=b for a,b in zip(devices,devices[1:]))+.2*sum(devices))
+        for allowed in ((0,1),(1,),(1,0)):
+            reference=min(score(make_reference_plan(self.graph,device=d)) for d in allowed)
+            for seed in (0,1,7,23):
+                plans=legal_beam_search(self.graph,score,2,beam=1,rollouts=1,seed=seed,
+                    require_executable=False,allowed_devices=allowed)
+                self.assertLessEqual(score(plans[0]),reference)
+                for plan in plans:
+                    self.assertTrue(all(g.device in allowed for g in plan.groups))
+                    validate_fusion_plan(self.graph,plan,2)
+
+    def test_beam_reference_on_nonzero_card_is_retained(self):
+        def score(plan):
+            devices={g.device for g in plan.groups}
+            return 1. if devices=={1} else 2. if devices=={0} else 100.
+        plans=legal_beam_search(self.graph,score,2,beam=1,rollouts=1,seed=7)
+        self.assertEqual(score(plans[0]),1.)
+        self.assertEqual({g.device for g in plans[0].groups},{1})
+
+    def test_infinite_reference_is_not_a_finite_feasibility_guarantee(self):
+        def score(plan):
+            devices={g.device for g in plan.groups}
+            return float("inf") if devices=={0} else 3. if devices=={1} else 100.
+        plans=legal_beam_search(self.graph,score,2,beam=1,rollouts=1,seed=23)
+        self.assertEqual(score(plans[0]),3.)
+        self.assertEqual({g.device for g in plans[0].groups},{1})
 
 
 if __name__ == "__main__":

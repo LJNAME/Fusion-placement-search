@@ -307,7 +307,9 @@ def _run_search(
         elif method == "beam":
             plans = legal_beam_search(**common, beam=beam, rollouts=rollouts,
                                      fusion_probability=.7, seed=seed)[:count]
-            details.update(beam=beam, rollouts=rollouts)
+            details.update(beam=beam, rollouts=rollouts,
+                reference_policy="best_finite_uniform_singleton_on_allowed_cards_in_this_stage_space",
+                reference_candidates=len(devices))
         else:
             plans = legal_mcts_search(**common, iterations=iterations, rollouts=rollouts,
                                      fusion_probability=.7, seed=seed, n_best=count)
@@ -509,6 +511,10 @@ def evaluate_searches(
         "profile_policy": {"kind": "analytic" if isinstance(profile, AnalyticHardwareProfile) else "measured",
                            "measurement_contract_id": getattr(profile, "measurement_contract_id", None),
                            "allow_unbound": getattr(profile, "allow_unbound", False)},
+        "search_implementation_sha256": {name: hashlib.sha256(
+            (Path(__file__).resolve().parents[1]/name).read_bytes()).hexdigest() for name in (
+                "cost_model/legal_search.py", "cost_model/exact_search.py", "cost_model/structural.py",
+                "cost_model/structure.py", "cost_model/hardware_profile.py", "simulator/fusion_rules.py")},
         "placeholder_policy": (
             "fusion_only, sequential and joint include built-in planned patterns for search "
             "evaluation; results are not deployable"

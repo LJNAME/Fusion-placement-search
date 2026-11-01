@@ -38,6 +38,11 @@ python tools/verify_search_replay.py \
   --output data/replay_verification.json
 ```
 
-两个报告使用相同文件名search.json、分别放在不同目录，保证相对工件路径相同。验证器仅排除elapsed_s，其他报告字段全部一致；加载两次的所有最佳工件，检查图hash、候选标识、节点集合、预测值、冻结划分与非部署标记。此工具针对当前small/layer开发夹具，要求融合模式最佳方案确实包含planned融合，不是任意图的通用性能验收器。
+两个报告使用相同文件名search.json、分别放在不同目录，保证相对工件路径相同。验证器仅排除elapsed_s，其他报告字段全部一致；加载两次的所有最佳工件，检查图hash、候选标识、节点集合、预测值、冻结划分与非部署标记。工具分别验证合法性和记录是否选融合：校对placeholder注释与计划一致，Placement-only仍不允许融合；不强制Joint等模式最佳结果必须融合。fusion_observations保存逐模式实际选择，不把选到未融合参考当成非法结果。
 
 现有快照data/mainline_four_mode_v1保存两次真实CPU CLI报告、日志及40个最佳工件；replay_verification.json记录140个候选检查通过。64项相关CPU回归通过，其中主评价器6项（含新增冻结划分、奇数次数、重放/工件和有符号参考差测试）。未采GPU、未放宽正式标签准入、未修改冻结SROP文件。
+## Beam参考保底
+
+Beam将每个允许设备上的合法singleton完整方案预存completed，只保留有限参考评分；在固定确定性scorer下，结果不劣于其中最好者。Sequential第二阶段在macro空间构造参考，展开后保持冻结划分。未改变原rollout均值排名或添加逐状态贪心槽位，活动beam宽度不变。额外参考评分计入阶段请求/评估/墙钟。
+
+基线data/mainline_beam_floor_v1说明实际边界：layer Sequential Beam回到.306805ms，Joint Beam仅回到.316920ms，后者仍未找到Fusion-only方案。当前MCTS融合三模式返回同一device0计划，尚无联合收益证据。报告新增搜索实现源码hash，旧数据不回写。

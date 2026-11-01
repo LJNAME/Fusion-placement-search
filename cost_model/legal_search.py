@@ -299,6 +299,16 @@ def _plan_key(plan: Plan) -> tuple:
     )
 
 
+def _uniform_singleton_plan(space: LegalFusionSearchSpace, device: int) -> Plan:
+    """Construct a reference inside this space's registry/device constraints."""
+    state = space.initial_state()
+    while not space.is_terminal(state):
+        action = next(action for action in space.actions(state)
+                      if len(action.candidate.node_ids) == 1 and action.device == device)
+        state = space.apply(state, action)
+    return space.to_plan(state, name="legal-beam-single-card-reference")
+
+
 def legal_beam_search(
     graph: OpGraph,
     scorer: Callable[[Plan], float],
@@ -311,7 +321,12 @@ def legal_beam_search(
     require_executable: bool = True,
     allowed_devices: Optional[Sequence[int]] = None,
 ) -> List[Plan]:
-    """Beam search over legal candidate covers; lower scorer values are better."""
+    """Beam search with finite single-card singleton references retained.
+
+    For a fixed deterministic scorer, the best result cannot be worse than the
+    best finite reference on an allowed device. In a contracted search space,
+    singleton macro nodes preserve the caller's frozen fusion partition.
+    """
 
     if beam <= 0 or rollouts <= 0:
         raise ValueError("beam and rollouts must be positive")
@@ -328,6 +343,13 @@ def legal_beam_search(
     )
     states = [space.initial_state()]
     completed: Dict[tuple, Tuple[float, Plan]] = {}
+    # These references do not consume random draws or reserve Beam slots.
+    # Keep each allowed card, including the only card in fusion-only mode.
+    for device in space.allowed_devices:
+        plan = _uniform_singleton_plan(space, device)
+        score = float(scorer(plan))
+        if math.isfinite(score):
+            completed[_plan_key(plan)] = (score, plan)
 
     for _ in range(len(space.order)):
         ranked_states: List[Tuple[float, tuple, LegalPartialState]] = []
