@@ -1,0 +1,101 @@
+{
+  "format": "fusion-placement-search.graph-additivity",
+  "version": "1.0",
+  "case_order": [
+    "gpu0_seq256",
+    "gpu0_seq1",
+    "gpu1_seq1",
+    "gpu1_seq256"
+  ],
+  "arms": [
+    "silu",
+    "mul",
+    "chain",
+    "fused"
+  ],
+  "capture_order": [
+    "silu",
+    "mul",
+    "chain",
+    "fused"
+  ],
+  "round_orders": [
+    [
+      "silu",
+      "mul",
+      "fused",
+      "chain"
+    ],
+    [
+      "mul",
+      "chain",
+      "silu",
+      "fused"
+    ],
+    [
+      "chain",
+      "fused",
+      "mul",
+      "silu"
+    ],
+    [
+      "fused",
+      "silu",
+      "chain",
+      "mul"
+    ],
+    [
+      "silu",
+      "mul",
+      "fused",
+      "chain"
+    ],
+    [
+      "mul",
+      "chain",
+      "silu",
+      "fused"
+    ],
+    [
+      "chain",
+      "fused",
+      "mul",
+      "silu"
+    ],
+    [
+      "fused",
+      "silu",
+      "chain",
+      "mul"
+    ]
+  ],
+  "calls_per_graph": 50,
+  "warmup_replays_per_arm": 10,
+  "timed_body_calls": 6400,
+  "timed_event_intervals": 128,
+  "source_sha256": {
+    "calibration/probe_kerv_additivity.py": "574e52ecdca7a1ca7a119fc46d21f6203c5b4f900b66d23db8abd5ae10b5643a",
+    "calibration/probe_kerv_graph.py": "3bcca44e1d58d22a419403efac9ccdbb21fa16dc8308989912b58ba99becf73b",
+    "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+    "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+    "cost_model/measurement_labels.py": "45f7da5636c6677df65c6b32fe73eb333076f7fe103f0e3571da2d322aae9340",
+    "calibration/e2_manifest.py": "11764191531a30fe89b0db2cff5e6ffaf2eedcd21af522f5fd9feedc5046d1b4"
+  },
+  "attempted_pool_config": {
+    "selection": "per_arm_default_private_pool",
+    "pool_argument": null,
+    "shared_between_arms": false
+  },
+  "admission": "conditional_dev",
+  "input_contract": "50 independent contiguous gate views, same shared up; restore outside each replay Event",
+  "mul_input_contract": "GPU F.silu(original), prepared outside capture/replay timing",
+  "output_lifetime": "last final output retained per arm; intermediates not accumulated",
+  "metric": "graph_batch_amortized_per_call_us",
+  "serial_plan_only": true,
+  "scope": "single-stream diagnostic bodies only; no model plan-domain gate or downstream-runtime claim",
+  "residual": "silu + mul - chain; positive overstates unfused cost and fusion savings",
+  "uncertainty": "all eight quadruples; median/range/inclusive IQR/unscaled MAD; no significance claim",
+  "no_outlier_trimming_or_automatic_rerun": true,
+  "automatic_model_writeback": false,
+  "protocol_id": "sha256:e3912517e50cee816cfc1d3a2829fee71e3fe7179db8a481a870dfe971030437"
+}
