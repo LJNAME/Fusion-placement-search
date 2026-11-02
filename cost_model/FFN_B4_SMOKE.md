@@ -52,9 +52,13 @@ Profiler不能暴露完整Graph子事件时保留原Trace或诊断错误，不�
 
 ## 一次GPU作业内的运行
 
-服务器工作目录为~/private_data/LJ/Fusion-placement-search；在当前终端显式export FLAGSCALE_ROOT="$HOME/private_data/LJ/FlagScale-main"，沿用已验收的FUSION_PYTHON，不升级FlagScale。B4将--flagscale-root同步用于B1～B3冻结校验和实际Adapter；旧B1没有路径参数，仅在同步校验期间临时设置其目录查找值，正常或异常退出均恢复，不修改冻结源码/产物。输出目录必须不存在；没有超时上限，失败目录同样保留。
+服务器工作目录为~/private_data/LJ/Fusion-placement-search；在当前终端显式export FLAGSCALE_ROOT="$HOME/private_data/LJ/FlagScale-main"，显式export FUSION_PYTHON="$HOME/private_data/LJ/dcu-kernel310-20261031/run_python.sh"，不升级FlagScale。脚本要求两项环境变量均显式设置，不默认调用系统python；系统3.11的Triton在读取gfx936属性时已有UnicodeDecodeError记录，不能替代已验收私有3.10栈。B4将--flagscale-root同步用于B1～B3冻结校验和实际Adapter；旧B1没有路径参数，仅在同步校验期间临时设置其目录查找值，正常或异常退出均恢复，不修改冻结源码/产物。输出目录必须不存在；没有超时上限，失败目录同样保留。
 
 ```bash
+cd ~/private_data/LJ/Fusion-placement-search
+export FLAGSCALE_ROOT="$HOME/private_data/LJ/FlagScale-main"
+export FUSION_PYTHON="$HOME/private_data/LJ/dcu-kernel310-20261031/run_python.sh"
+
 # 只检查最小管道，不开始正式计时
 bash tools/run_ffn_b4.sh /fresh/output/ffn_b4_smoke smoke
 

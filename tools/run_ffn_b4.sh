@@ -5,7 +5,8 @@ if [[ $# -lt 1 || $# -gt 2 ]]; then
     exit 2
 fi
 : "${FLAGSCALE_ROOT:?Set FLAGSCALE_ROOT to the pinned FlagScale checkout}"
-task_python="${FUSION_PYTHON:-python}"
+: "${FUSION_PYTHON:?Set FUSION_PYTHON to the validated dcu-kernel310-20261031/run_python.sh launcher}"
+task_python="$FUSION_PYTHON"
 task_output="$1"
 task_phase="${2:-smoke}"
 if [[ "$task_phase" != smoke && "$task_phase" != run ]]; then
