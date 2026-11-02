@@ -30,10 +30,19 @@ def save(path, value):
         stream.write(json.dumps(value, indent=2, allow_nan=False) + "\n")
 
 
-def plan():
+def plan(flagscale_root=DEFAULT_FLAGSCALE):
     bundle = {name: json.loads((B3/name).read_text(encoding="utf-8")) for name in NAMES}
     saved = json.loads((B3/"verification.json").read_text(encoding="utf-8"))
-    if key_id(verify_b3(bundle)) != key_id(saved):
+    # Frozen B1 predates the root argument. Supply its lookup root only during
+    # this synchronous legacy verification; keep source and receipt hashes intact.
+    from cost_model import ffn_placement_b1 as legacy_b1
+    previous_root = legacy_b1.DEFAULT_FLAGSCALE
+    try:
+        legacy_b1.DEFAULT_FLAGSCALE = Path(flagscale_root)
+        verified = verify_b3(bundle)
+    finally:
+        legacy_b1.DEFAULT_FLAGSCALE = previous_root
+    if key_id(verified) != key_id(saved):
         raise ValueError("B3 frozen evidence/source identity changed")
     superseded = [{**r, "superseded_by": "c4fc415", "supersession_scope": "new B3/B4 recipe only; historical accepted admission unchanged"}
                   for r in bundle["reuse_audit.json"]["records"]]
@@ -293,7 +302,7 @@ def main():
     runtime = None
     formal_started = False
     try:
-        frozen = plan()
+        frozen = plan(args.flagscale_root)
         save(args.output/"plan.json", frozen)
         save(args.output/"superseded_profiles.json", {"records": frozen["superseded_profiles"], "original_sources_unchanged": True})
         if args.phase == "plan":

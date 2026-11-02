@@ -21,6 +21,29 @@ def report(row_id, value=1.0):
 
 
 class TestFfnB4Policy(unittest.TestCase):
+    def test_cli_plan_uses_explicit_root_when_legacy_default_is_missing(self):
+        from calibration.ffn_b4 import main
+        from calibration.kerv_silu_mul import DEFAULT_FLAGSCALE
+        from cost_model import ffn_placement_b1 as legacy_b1
+        with tempfile.TemporaryDirectory() as directory:
+            missing = Path(directory)/"missing-legacy-default"
+            output = Path(directory)/"plan"
+            with patch.object(legacy_b1, "DEFAULT_FLAGSCALE", missing), patch(
+                "sys.argv", ["ffn_b4", "plan", "--flagscale-root", str(DEFAULT_FLAGSCALE), "--output", str(output)]
+            ), patch("calibration.ffn_b4.Runtime") as runtime:
+                main()
+                self.assertEqual(legacy_b1.DEFAULT_FLAGSCALE, missing)
+                runtime.assert_not_called()
+            self.assertFalse(json.loads((output/"verification.json").read_text())["gpu_smoke_executed"])
+
+    def test_bad_explicit_root_is_rejected_and_legacy_default_restored(self):
+        from cost_model import ffn_placement_b1 as legacy_b1
+        previous = legacy_b1.DEFAULT_FLAGSCALE
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(FileNotFoundError, "KERV sources missing"):
+                plan(Path(directory)/"missing-explicit-root")
+        self.assertEqual(legacy_b1.DEFAULT_FLAGSCALE, previous)
+
     def test_smoke_is_boolean_only_even_for_slow_or_unavailable_timing(self):
         for value in (1e12, -1., float("nan"), float("inf")):
             result = report("fixture", value)

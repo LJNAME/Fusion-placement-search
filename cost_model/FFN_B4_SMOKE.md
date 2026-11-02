@@ -52,7 +52,7 @@ Profiler不能暴露完整Graph子事件时保留原Trace或诊断错误，不�
 
 ## 一次GPU作业内的运行
 
-沿用已固定的FLAGSCALE_ROOT和FUSION_PYTHON，不升级FlagScale。输出目录必须不存在；没有超时上限，失败目录同样保留。
+服务器工作目录为~/private_data/LJ/Fusion-placement-search；在当前终端显式export FLAGSCALE_ROOT="$HOME/private_data/LJ/FlagScale-main"，沿用已验收的FUSION_PYTHON，不升级FlagScale。B4将--flagscale-root同步用于B1～B3冻结校验和实际Adapter；旧B1没有路径参数，仅在同步校验期间临时设置其目录查找值，正常或异常退出均恢复，不修改冻结源码/产物。输出目录必须不存在；没有超时上限，失败目录同样保留。
 
 ```bash
 # 只检查最小管道，不开始正式计时
@@ -72,4 +72,4 @@ bash tools/run_ffn_b4.sh /fresh/output/ffn_b4_run run
 
 `data/ffn_b4_preflight/verification.json` 是CPU计划检查，不是GPU冒烟报告。本机没有GPU执行结果；脚本及多设备Graph/捕获行为仍需实际HIP环境验证。Smoke通过只证明最小四类管道，不代表19项全部可测、数据质量合格或已准入。
 
-CPU验证：46项相关测试通过（B4 13项，B1～B3 33项）；Bash语法检查与计划/审计重放通过。GPU未执行。
+CPU验证：48项相关测试通过（B4 15项，B1～B3 33项，含默认路径缺失时显式路径贯穿CLI校验、错误路径拒绝及异常后恢复）；Bash语法检查与计划/审计重放通过。GPU未执行。
