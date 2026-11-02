@@ -62,7 +62,7 @@ class TestFfnB4Policy(unittest.TestCase):
     def test_actual_smoke_replay_still_runs_when_diagnostic_event_api_fails(self):
         calls = []
         case = GraphCase.__new__(GraphCase)
-        case.device, case.devices, case.stream = None, (), "fixture_stream"
+        case.device, case.devices, case.stream = None, (), SimpleNamespace(cuda_stream=0)
         case.reset = lambda _: calls.append("reset")
         case.graph = SimpleNamespace(replay=lambda: calls.append("graph_replay"))
         case.outputs = []

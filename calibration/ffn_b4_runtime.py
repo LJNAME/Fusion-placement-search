@@ -47,25 +47,39 @@ class GraphCase:
         self.body, self.reset, self.check, self.identity = body, reset, check, identity
         self.stream = stream or torch.cuda.Stream(device=device)
         self.graph, self.outputs = None, None
+        self.progress = None
+
+    def mark(self, stage, **details):
+        callback = getattr(self, "progress", None)
+        if callback:
+            callback(stage, row_id=self.row_id, **details)
 
     def capture(self):
+        self.mark("capture_reset")
         self.reset(0)
         sync(self.devices)
         current = torch.cuda.current_stream(self.device)
         self.stream.wait_stream(current)
+        self.mark("uncaptured_initialization_begin")
         with torch.cuda.device(self.device), torch.cuda.stream(self.stream):
             self.body()  # Compile/library initialization before capture.
         sync(self.devices)
+        self.mark("uncaptured_initialization_complete")
         self.reset(0)
         self.graph = torch.cuda.CUDAGraph()
+        self.mark("capture_begin")
         with torch.cuda.device(self.device), torch.cuda.graph(self.graph, stream=self.stream, pool=None):
             self.outputs = self.body()
+            self.mark("capture_body_returned")
+        self.mark("capture_end_returned")
         current.wait_stream(self.stream)
         sync(self.devices)
         self.reset(0)
         self.identity["output_layouts"] = [tensor_meta(value) for value in self.outputs]
+        self.mark("capture_complete")
 
     def replay(self, index, *, diagnostic=False):
+        self.mark("replay_reset", input_index=index, diagnostic=diagnostic)
         self.reset(index)
         sync(self.devices)
         timing_error, elapsed = None, None
@@ -91,9 +105,17 @@ class GraphCase:
         invariants = self.check(self.outputs, index)
         if not all(v is True for v in invariants.values()):
             raise AssertionError("graph invariant failed: " + repr(invariants))
-        return diagnostic_time(elapsed, timing_error), invariants
+        timing = diagnostic_time(elapsed, timing_error)
+        timing["event_boundary"] = {"device": str(self.device),
+                                    "stream": int(self.stream.cuda_stream),
+                                    "start_device": str(getattr(start, "device", None)),
+                                    "end_device": str(getattr(end, "device", None)),
+                                    "calls_per_replay": 50}
+        self.mark("replay_complete", input_index=index)
+        return timing, invariants
 
     def trace(self, output):
+        self.mark("path_trace_begin")
         self.reset(0)
         sync(self.devices)
         with torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA]) as profile:
@@ -101,6 +123,7 @@ class GraphCase:
                 self.graph.replay()
             sync(self.devices)
         profile.export_chrome_trace(str(output))
+        self.mark("path_trace_written")
         trace = json.loads(Path(output).read_text(encoding="utf-8"))
         kernels = [e.get("name", "") for e in trace["traceEvents"] if e.get("cat") == "kernel"]
         host_staging = [e.get("name", "") for e in trace["traceEvents"] if any(
@@ -183,6 +206,12 @@ class Runtime:
             sync((0, 1))
             torch.cuda.empty_cache()
             self.active_group = group
+
+    def checkpoint(self, stage, **details):
+        self.context.update(stage=stage, **details)
+        self.output.mkdir(parents=True, exist_ok=True)
+        (self.output/"last_stage.json").write_text(
+            json.dumps(self.context, indent=2, allow_nan=False) + "\n", encoding="utf-8")
 
     def activation(self, gpu):
         token = f"activation{gpu}"
@@ -346,13 +375,16 @@ class Runtime:
                           "inputs": [tensor_meta(t) for t in v.unbind(0)], "weights": [tensor_meta(wd), tensor_meta(wg)]}, cstream)
 
     def make(self, row_id):
-        self.context.update(row_id=row_id, stage="prepare_case")
-        if row_id.startswith("copy/"): return self.copy(row_id)
-        if row_id.startswith("diagnostic/"): return self.chain(row_id)
-        gpu = int(row_id.rsplit("gpu", 1)[-1])
-        if row_id.startswith(("silu@", "gated_mul@", "silu_mul/")):
-            return self.activation(gpu)[row_id]
-        return self.gemm(row_id)
+        self.checkpoint("prepare_case", row_id=row_id)
+        if row_id.startswith("copy/"):
+            case = self.copy(row_id)
+        elif row_id.startswith("diagnostic/"):
+            case = self.chain(row_id)
+        else:
+            gpu = int(row_id.rsplit("gpu", 1)[-1])
+            case = self.activation(gpu)[row_id] if row_id.startswith(("silu@", "gated_mul@", "silu_mul/")) else self.gemm(row_id)
+        case.progress = self.checkpoint
+        return case
 
     def anchor(self, gpu):
         source = self.tensor("anchor", E, gpu)
@@ -361,8 +393,10 @@ class Runtime:
         def check(outputs, _):
             for value in outputs: torch.testing.assert_close(value, expected, rtol=.01, atol=.001)
             return {"all_50_outputs": len(outputs) == 50}
-        return GraphCase(f"anchor@gpu{gpu}", torch.device(f"cuda:{gpu}"), (gpu,), body, lambda _: None, check,
+        case = GraphCase(f"anchor@gpu{gpu}", torch.device(f"cuda:{gpu}"), (gpu,), body, lambda _: None, check,
                          self.identity((gpu,), {"operator": "F.silu", "role": "anchor_not_profile"}))
+        case.progress = self.checkpoint
+        return case
 
     def snapshots(self):
         return {str(g): memory_snapshot(torch, g) for g in (0, 1)}

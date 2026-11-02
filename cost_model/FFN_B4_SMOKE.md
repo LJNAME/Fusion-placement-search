@@ -1,6 +1,6 @@
 # FFN B4 · Smoke 与正式网格
 
-GPU入口已准备；本机只做CPU控制流验证，没有BW1000 Smoke或正式数据。旧B3产物保留，当前执行策略通过独立policy_id和active_recipe_id覆盖其失败处理规则。
+run03回传已核验：最小Smoke 4/4通过；正式8格完成，跨卡诊断链Capture边界发生native段错误，批次不完整，未新增准入。见data/ffn_b4_run03_review/report.json。当前v2按轮组隔离进程，只有CPU验证，尚无v2 GPU结果；旧B3和run03原始证据保留。
 
 ## Smoke：布尔验收
 
@@ -40,7 +40,9 @@ Profiler不能暴露完整Graph子事件时保留原Trace或诊断错误，不�
 
 用户确认：正式固定 **7次尝试×50调用**，不再执行旧B3允许的额外2轮。任一作废轮使该格无法满足7有效轮，标quality_failed；IQR不合格同样标记。锚点仍按前后变化>10%作废，inclusive IQR/Median>10%判质量失败，融合快慢不参与准入。
 
-全批保留19个格的状态，即使个别Capture失败也不丢掉后续格。配对格缺少可信对照时不能准入，链中缺某个组件时不能拼残差。原始轮组/顺序保持可追溯，当前数据不自动升格accepted。
+正式v2使用10个轮组子进程，顺序不变，每组只启动一次；同组各臂及锚点保持在同一子进程。父进程完成Smoke后保留其GPU驻留状态但不再执行GPU工作。某个子进程native崩溃或缺失结果时，该轮组全部标quality_failed，保留已有原始文件，继续后续轮组，绝不重启该组。每组结束即落盘progress.json，结束后生成19格grid.json。进程边界写入新policy/Recipe，不与run03拼接或替换旧样本。配对格缺少可信对照时不能准入，链中缺某个组件时不能拼残差。原始轮组/顺序保持可追溯，当前数据不自动升格accepted。
+
+脚本和子进程均启用faulthandler；worker.log记录Python故障栈，last_stage.json在库初始化、capture体返回、capture结束及Replay边界落盘。该文件只能证明最后持久化阶段，不等于底层根因。原生崩溃无法保证取得异常后的显存快照，保留已有capture前快照，不伪造Python traceback。正式样本增加原始elapsed_ms及Event设备/流；preparation.json保留原有10次预热计时，便于比较Profiler前后变化，不额外执行或作为主样本。计时异常仍待定位，不自动修正或准入。
 
 每格Capture前有1次未捕获的编译/库初始化体，10次预热Replay之后另有1次路径Trace Replay；二者单列写入active Recipe和contract，不伪装为只有10次总执行。全部在正式7轮计时外。
 
@@ -62,11 +64,11 @@ export FUSION_PYTHON="$HOME/private_data/LJ/dcu-kernel310-20261031/run_python.sh
 # 只检查最小管道，不开始正式计时
 bash tools/run_ffn_b4.sh /fresh/output/ffn_b4_smoke smoke
 
-# 同一进程先Smoke，成功后处理19格；Smoke失败直接停止
+# 同一GPU作业先Smoke，成功后逐轮组子进程处理19格；Smoke失败直接停止
 bash tools/run_ffn_b4.sh /fresh/output/ffn_b4_run run
 ```
 
-返回整个目录：plan.json、superseded_profiles.json、runtime_identity.json、placed_gpu0/1、smoke/、formal/（若已启动）以及failure.json（若有）。正式formal/grid.json包含完整19格；每格目录保存身份、样本、Trace或失败资料。不要只返回一张成功截图或中位数。
+返回整个目录：plan.json、superseded_profiles.json、runtime_identity.json、placed_gpu0/1、smoke/、formal/（若已启动）以及failure.json（若有）。正式formal/grid.json包含完整19格；formal/groups/<轮组>/保存worker.log、last_stage.json、worker_status.json，组内formal/保存身份、预热、样本、Trace或失败资料。不要只返回一张成功截图或中位数。
 
 只做CPU计划：
 
@@ -74,6 +76,6 @@ bash tools/run_ffn_b4.sh /fresh/output/ffn_b4_run run
 & 'C:/Users/LJ/miniconda3/envs/fusion-dev/python.exe' -m calibration.ffn_b4 plan --output /fresh/output/ffn_b4_plan
 ```
 
-`data/ffn_b4_preflight/verification.json` 是CPU计划检查，不是GPU冒烟报告。本机没有GPU执行结果；脚本及多设备Graph/捕获行为仍需实际HIP环境验证。Smoke通过只证明最小四类管道，不代表19项全部可测、数据质量合格或已准入。
+`data/ffn_b4_preflight/verification.json` 是CPU计划检查，不是GPU冒烟报告。run03证明最小管道通过；当前v2的进程隔离、故障定位和实际HIP行为仍待GPU验证。Smoke通过只证明最小四类管道，不代表19项全部可测、数据质量合格或已准入。
 
-CPU验证：48项相关测试通过（B4 15项，B1～B3 33项，含默认路径缺失时显式路径贯穿CLI校验、错误路径拒绝及异常后恢复）；Bash语法检查与计划/审计重放通过。GPU未执行。
+CPU验证：51项相关测试通过（B4 18项，B1～B3 33项），含真实子进程直接退出后继续全部网格、缺失结果、worker入口传参及旧路径回归；Bash语法、CPU计划/审计重放通过。v2 GPU未执行。

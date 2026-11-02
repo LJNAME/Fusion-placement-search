@@ -21,4 +21,4 @@ if [[ -e "$task_output" ]]; then
 fi
 trap 'printf "Return the complete output, including failures: %s\n" "$task_output"' EXIT
 cd "$task_root"
-"$task_python" -m calibration.ffn_b4 "$task_phase" --flagscale-root "$FLAGSCALE_ROOT" --output "$task_output"
+"$task_python" -X faulthandler -m calibration.ffn_b4 "$task_phase" --flagscale-root "$FLAGSCALE_ROOT" --output "$task_output"

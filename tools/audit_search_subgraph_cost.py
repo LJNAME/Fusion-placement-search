@@ -150,6 +150,9 @@ def audit():
     b4_plan = read(b4_root / "plan.json")
     b4_verification = read(b4_root / "verification.json")
     b4_superseded = read(b4_root / "superseded_profiles.json")
+    b4_returned = read(ROOT / "data/ffn_b4_run03_review/report.json")
+    assert b4_returned["smoke_passed_cells"] == 4 and b4_returned["formal_completed_cells"] == 8
+    assert b4_returned["new_accepted_profiles"] == 0 and not b4_returned["grid_written"]
     assert key_id(b4_plan) == b4_verification["plan_id"] and not b4_verification["gpu_smoke_executed"]
     assert all(digest(ROOT / name) == sha for name, sha in b4_plan["source_sha256"].items())
     edge_rows = [{"src": e.src, "dst": e.dst, "bytes": e.bytes,
@@ -189,6 +192,11 @@ def audit():
                                  "smoke_minimum_cells": 4, "formal_cells": 19, "formal_attempts": 7,
                                  "extra_attempts": 0, "gpu_smoke_executed": False, "automatic_admission": False},
             "superseded_fused_profiles": b4_superseded["records"],
+            "ffn_b4_returned_run03": {"review": "data/ffn_b4_run03_review/report.json",
+                                     "review_sha256": digest(ROOT / "data/ffn_b4_run03_review/report.json"),
+                                     "smoke_passed_cells": 4, "formal_completed_cells": 8, "formal_expected_cells": 19,
+                                     "formal_batch_complete": False, "new_accepted_profiles": 0,
+                                     "timing_boundary_review_required": True},
             "chain_cost_queries": [{"device": device, "arm": arm, "scope": "full_ffn_fork_join",
                                     "canonical_key": None, "measurement_contract_id": None,
                                     "accepted": False, "evidence": "no matching FFN chain in current P2 bundle"}
@@ -211,7 +219,7 @@ def audit():
                               "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
                               "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
                               "B3": "CPU 18+1 matrix and quality recipe frozen; old Fused profiles ineligible for new recipe reuse",
-                              "B4": "CPU-tested smoke/run entry ready; minimum smoke is timing-independent and fail-fast; formal grid fixed seven attempts and continues failed cells; no GPU execution yet",
+                              "B4": "run03 minimum smoke passed 4/4; 8/19 formal cells completed before native crash near diagnostic capture; timing review pending; v2 isolated groups CPU-tested, GPU pending; no new admission",
                               "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
                               "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
                               "C": "whole-graph mixed-coverage validation deferred",

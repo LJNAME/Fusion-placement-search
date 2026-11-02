@@ -7,12 +7,14 @@ import traceback
 from cost_model.fusion_kernel_profile import key_id
 
 POLICY = {
-    "version": "ffn-b4.execution.v1", "superseded_fused_by": "c4fc415",
+    "version": "ffn-b4.execution.v2", "superseded_fused_by": "c4fc415",
     "smoke": {"minimum_rows": ["down_proj@gpu0", "silu_mul/native@gpu0", "silu_mul/fused@gpu0", "copy/524288/0->1"],
               "calls": 50, "replays": 3, "failure": "fail_fast", "timing_is_pass_criterion": False,
               "required_booleans": ["capture_ok", "numeric_ok", "invariants_ok", "identity_written", "contract_written"]},
     "formal": {"attempts": 7, "calls": 50, "warmup": 10, "extra_attempts": 0,
                "replacement": False, "failure": "mark_cell_quality_failed_and_continue_grid",
+               "process_scope": "one fresh subprocess per round group; no worker retry",
+               "parent_gpu_state": "minimum-smoke runtime retained, idle during workers",
                "preserve_all_attempts": True, "automatic_admission": False},
 }
 

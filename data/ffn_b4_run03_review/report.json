@@ -1,0 +1,382 @@
+{
+  "scope": "returned run03 audit; separate profiler replay is not the same timing sample",
+  "archive_sha256": "dd40bfda44d5bf5668e24ff1cda703d93ca5e85cf5b4749f8cff7db2f88b28b9",
+  "source_ref": "86f56ba",
+  "source_checks": {
+    "calibration/ffn_b4.py": true,
+    "calibration/ffn_b4_runtime.py": true,
+    "calibration/ffn_b4_policy.py": true,
+    "execution/ffn_transfer.py": true,
+    "integration/flagscale/kerv_execution.py": true
+  },
+  "smoke_status": "passed",
+  "smoke_passed_cells": 4,
+  "smoke": [
+    {
+      "row_id": "down_proj@gpu0",
+      "passed": true,
+      "invariants": [
+        {
+          "all_50_outputs": true,
+          "inputs_preserved": true
+        },
+        {
+          "all_50_outputs": true,
+          "inputs_preserved": true
+        },
+        {
+          "all_50_outputs": true,
+          "inputs_preserved": true
+        }
+      ],
+      "profiled_kernel_count": 50,
+      "copy_trace_observed": false
+    },
+    {
+      "row_id": "silu_mul/native@gpu0",
+      "passed": true,
+      "invariants": [
+        {
+          "all_50_outputs": true,
+          "up_bytes_unchanged": true,
+          "gate_restore_exact": true,
+          "gate_output_alias": true
+        },
+        {
+          "all_50_outputs": true,
+          "up_bytes_unchanged": true,
+          "gate_restore_exact": true,
+          "gate_output_alias": true
+        },
+        {
+          "all_50_outputs": true,
+          "up_bytes_unchanged": true,
+          "gate_restore_exact": true,
+          "gate_output_alias": true
+        }
+      ],
+      "profiled_kernel_count": 100,
+      "copy_trace_observed": false
+    },
+    {
+      "row_id": "silu_mul/fused@gpu0",
+      "passed": true,
+      "invariants": [
+        {
+          "all_50_outputs": true,
+          "up_bytes_unchanged": true,
+          "gate_restore_exact": true,
+          "gate_output_alias": true
+        },
+        {
+          "all_50_outputs": true,
+          "up_bytes_unchanged": true,
+          "gate_restore_exact": true,
+          "gate_output_alias": true
+        },
+        {
+          "all_50_outputs": true,
+          "up_bytes_unchanged": true,
+          "gate_restore_exact": true,
+          "gate_output_alias": true
+        }
+      ],
+      "profiled_kernel_count": 50,
+      "copy_trace_observed": false
+    },
+    {
+      "row_id": "copy/524288/0->1",
+      "passed": true,
+      "invariants": [
+        {
+          "all_50_outputs": true,
+          "source_preserved": true,
+          "stale_output_excluded": true
+        },
+        {
+          "all_50_outputs": true,
+          "source_preserved": true,
+          "stale_output_excluded": true
+        },
+        {
+          "all_50_outputs": true,
+          "source_preserved": true,
+          "stale_output_excluded": true
+        }
+      ],
+      "profiled_kernel_count": 0,
+      "copy_trace_observed": true
+    }
+  ],
+  "formal_expected_cells": 19,
+  "formal_completed_cells": 8,
+  "formal_prepared_without_samples": 4,
+  "formal_unstarted_cells": 7,
+  "grid_written": false,
+  "formal_rows": [
+    {
+      "row_id": "gate_proj@gpu0",
+      "identity_written": false,
+      "result_written": false,
+      "attempts": 0,
+      "admitted": false
+    },
+    {
+      "row_id": "up_proj@gpu0",
+      "identity_written": false,
+      "result_written": false,
+      "attempts": 0,
+      "admitted": false
+    },
+    {
+      "row_id": "silu@gpu0",
+      "identity_written": true,
+      "result_written": true,
+      "attempts": 7,
+      "admitted": false,
+      "recorded_status": "quality_passed",
+      "quality_recomputed": true,
+      "median_event_us_per_call": 0.2687999978661537,
+      "separate_profiled_replay_kernel_count": 50,
+      "separate_profiled_replay_span_us": 334.87890625,
+      "event_median_batch_us": 13.439999893307686,
+      "trace_span_over_event_batch": 24.91658548425656,
+      "timing_boundary_review_required": true
+    },
+    {
+      "row_id": "gated_mul@gpu0",
+      "identity_written": true,
+      "result_written": true,
+      "attempts": 7,
+      "admitted": false,
+      "recorded_status": "quality_passed",
+      "quality_recomputed": true,
+      "median_event_us_per_call": 0.19519999623298645,
+      "separate_profiled_replay_kernel_count": 50,
+      "separate_profiled_replay_span_us": 235.9990234375,
+      "event_median_batch_us": 9.759999811649323,
+      "trace_span_over_event_batch": 24.180228277854752,
+      "timing_boundary_review_required": true
+    },
+    {
+      "row_id": "down_proj@gpu0",
+      "identity_written": true,
+      "result_written": false,
+      "attempts": 0,
+      "admitted": false
+    },
+    {
+      "row_id": "silu_mul/native@gpu0",
+      "identity_written": true,
+      "result_written": true,
+      "attempts": 7,
+      "admitted": false,
+      "recorded_status": "quality_passed",
+      "quality_recomputed": true,
+      "median_event_us_per_call": 0.23360000923275948,
+      "separate_profiled_replay_kernel_count": 100,
+      "separate_profiled_replay_span_us": 571.51904296875,
+      "event_median_batch_us": 11.680000461637974,
+      "trace_span_over_event_batch": 48.93142297775231,
+      "timing_boundary_review_required": true
+    },
+    {
+      "row_id": "silu_mul/fused@gpu0",
+      "identity_written": true,
+      "result_written": true,
+      "attempts": 7,
+      "admitted": false,
+      "recorded_status": "quality_passed",
+      "quality_recomputed": true,
+      "median_event_us_per_call": 0.2751999907195568,
+      "separate_profiled_replay_kernel_count": 50,
+      "separate_profiled_replay_span_us": 348.318359375,
+      "event_median_batch_us": 13.75999953597784,
+      "trace_span_over_event_batch": 25.313835110550905,
+      "timing_boundary_review_required": true
+    },
+    {
+      "row_id": "gate_proj@gpu1",
+      "identity_written": true,
+      "result_written": false,
+      "attempts": 0,
+      "admitted": false
+    },
+    {
+      "row_id": "up_proj@gpu1",
+      "identity_written": false,
+      "result_written": false,
+      "attempts": 0,
+      "admitted": false
+    },
+    {
+      "row_id": "silu@gpu1",
+      "identity_written": true,
+      "result_written": true,
+      "attempts": 7,
+      "admitted": false,
+      "recorded_status": "quality_passed",
+      "quality_recomputed": true,
+      "median_event_us_per_call": 0.2687999978661537,
+      "separate_profiled_replay_kernel_count": 50,
+      "separate_profiled_replay_span_us": 335.5185546875,
+      "event_median_batch_us": 13.439999893307686,
+      "trace_span_over_event_batch": 24.96417837432931,
+      "timing_boundary_review_required": true
+    },
+    {
+      "row_id": "gated_mul@gpu1",
+      "identity_written": true,
+      "result_written": true,
+      "attempts": 7,
+      "admitted": false,
+      "recorded_status": "quality_passed",
+      "quality_recomputed": true,
+      "median_event_us_per_call": 0.20160000771284103,
+      "separate_profiled_replay_kernel_count": 50,
+      "separate_profiled_replay_span_us": 241.11865234375,
+      "event_median_batch_us": 10.080000385642052,
+      "trace_span_over_event_batch": 23.920500309424522,
+      "timing_boundary_review_required": true
+    },
+    {
+      "row_id": "down_proj@gpu1",
+      "identity_written": false,
+      "result_written": false,
+      "attempts": 0,
+      "admitted": false
+    },
+    {
+      "row_id": "silu_mul/native@gpu1",
+      "identity_written": true,
+      "result_written": true,
+      "attempts": 7,
+      "admitted": false,
+      "recorded_status": "quality_passed",
+      "quality_recomputed": true,
+      "median_event_us_per_call": 0.23679999634623528,
+      "separate_profiled_replay_kernel_count": 100,
+      "separate_profiled_replay_span_us": 580.958984375,
+      "event_median_batch_us": 11.839999817311764,
+      "trace_span_over_event_batch": 49.06748254552803,
+      "timing_boundary_review_required": true
+    },
+    {
+      "row_id": "silu_mul/fused@gpu1",
+      "identity_written": true,
+      "result_written": true,
+      "attempts": 7,
+      "admitted": false,
+      "recorded_status": "quality_passed",
+      "quality_recomputed": true,
+      "median_event_us_per_call": 0.2783999964594841,
+      "separate_profiled_replay_kernel_count": 50,
+      "separate_profiled_replay_span_us": 349.4384765625,
+      "event_median_batch_us": 13.919999822974205,
+      "trace_span_over_event_batch": 25.103339152761393,
+      "timing_boundary_review_required": true
+    },
+    {
+      "row_id": "copy/524288/0->1",
+      "identity_written": true,
+      "result_written": false,
+      "attempts": 0,
+      "admitted": false
+    },
+    {
+      "row_id": "copy/524288/1->0",
+      "identity_written": false,
+      "result_written": false,
+      "attempts": 0,
+      "admitted": false
+    },
+    {
+      "row_id": "copy/1572864/0->1",
+      "identity_written": false,
+      "result_written": false,
+      "attempts": 0,
+      "admitted": false
+    },
+    {
+      "row_id": "copy/1572864/1->0",
+      "identity_written": false,
+      "result_written": false,
+      "attempts": 0,
+      "admitted": false
+    },
+    {
+      "row_id": "diagnostic/down0-copy524288-gate1",
+      "identity_written": true,
+      "result_written": false,
+      "attempts": 0,
+      "admitted": false
+    }
+  ],
+  "last_published_case": "diagnostic/down0-copy524288-gate1",
+  "crash_localization": "last identity precedes capture; no completed capture identity or trace; native stack unavailable",
+  "timing_interpretation": "large event/trace discrepancy requires investigation; profiler overhead and boundary cause unverified",
+  "new_accepted_profiles": 0,
+  "search_cost_items_added": 0,
+  "raw_file_sha256": {
+    "formal/copy_524288_0-to1/identity.json": "8c6d5bd37bcb11bd49ba020d1cef8bdf6f5ecc164fd37c662db0cbec547371f7",
+    "formal/copy_524288_0-to1/replay_trace.json": "f69701a83bf509388d19f640ae306cf88fe12ef3b6c11b0a44ffad7504ec692f",
+    "formal/diagnostic_down0-copy524288-gate1/identity.json": "d0202ac62567a51991c2c60e410500712b420c4b112ffaff6ec644b7cbfb3a18",
+    "formal/down_proj@gpu0/identity.json": "3b59cc59660d62a667404abe4cb87252fac4eddfd09b7066eb0d78daadc16064",
+    "formal/down_proj@gpu0/replay_trace.json": "5dd9183e3f40bc6798979c16246dac59f2adeee68ed40957d49b9544c240cca2",
+    "formal/gate_proj@gpu1/identity.json": "cd81dc26830880d73195719515261e4498ac063755b735da6bfce826f0a07fe1",
+    "formal/gate_proj@gpu1/replay_trace.json": "350ff4dc60dd7cdf6bc97d5749bee75e9a243b2b225148172166c13c159e4b62",
+    "formal/gated_mul@gpu0/identity.json": "8a82797fb92c84090a9f9524b0f801965c2857f19ea6684adc4573a5ade449b5",
+    "formal/gated_mul@gpu0/replay_trace.json": "2d61cf9643836a60868a8b23331f9f0c69a19dc0cfc6e4b54fd235497d98f67e",
+    "formal/gated_mul@gpu0/result.json": "9e4fac6f7c21b3fe7d979eca3a5719301d9bf45e1c176670c1deee9cecb9b86d",
+    "formal/gated_mul@gpu0/samples.json": "6e32df8d52a8a04133272fdceb49b82c94b16a6cc95a7a62818fa3bdbeb07ab2",
+    "formal/gated_mul@gpu1/identity.json": "a61c7ef0334276efee56fb4bfb5abbd482474a398240d021fd74faed8bb27631",
+    "formal/gated_mul@gpu1/replay_trace.json": "e1206f8e0392af367b858fadf46e3b228dd3b1f7e1157680dbb5e1e8970cb6d5",
+    "formal/gated_mul@gpu1/result.json": "104933eaca9db2d51fea573943eb5364d3c409d47e24d3cf619bb1bc1dec8ede",
+    "formal/gated_mul@gpu1/samples.json": "aa2d965202550bc3482245a29fe092a671ecf9429bcaac2b6c89a4ed77d489db",
+    "formal/silu@gpu0/identity.json": "1202d3dd70fdca0ebdfe56d2478650ec4530b176e97a97249f93a92f93a00e5a",
+    "formal/silu@gpu0/replay_trace.json": "4dca53fb342303618a5f3fb06a3ce1cf548c988833481987c3d4f547f8785a79",
+    "formal/silu@gpu0/result.json": "6020002b9544d62b039e855057c0eabbdf9e43834b7232705d4b3051a457ce76",
+    "formal/silu@gpu0/samples.json": "8f6c397110230e10523af8a3db312eda4b2f6f1455814a2c6d6527bc021f28f2",
+    "formal/silu@gpu1/identity.json": "9730bf560f42254c50a02b439154e6de3a117fe59d9392d1274621f9e82e1d4e",
+    "formal/silu@gpu1/replay_trace.json": "0c1f2946dc5589a7641d453d37fdf6b406b0a9be48ce348c1da76192d13a9fa9",
+    "formal/silu@gpu1/result.json": "7dd52fe61c22c618fac81aba8fbf7b38ad61980c8689d6fe9ef9c8d6984324b7",
+    "formal/silu@gpu1/samples.json": "e2afca6601c67e418a2e77a2e19d639f5e5107395115dc0ce69fe61bac5b2874",
+    "formal/silu_mul_fused@gpu0/identity.json": "967b13f0691810bb123e1f64d54c20585c68a5d683700328af78022cab625046",
+    "formal/silu_mul_fused@gpu0/replay_trace.json": "3741ff14b0c64cb037edd56c514e55d312e6ac9289d5d0e619c431218fe88d86",
+    "formal/silu_mul_fused@gpu0/result.json": "c95f74def088c2d0b41a8d8f06f8e7cd3afbffa4a6633bd7f2f9e0c50d28f661",
+    "formal/silu_mul_fused@gpu0/samples.json": "f9ca15c3b02a15b90dc99b3593e4e4d0826a48eab2fc12753181c627dc8ac62f",
+    "formal/silu_mul_fused@gpu1/identity.json": "2d5ce8e56847d386ada9ddf192862ec963d9d67d679019ffdc4698d0dfdc7cdd",
+    "formal/silu_mul_fused@gpu1/replay_trace.json": "26a77af06441c75e6f1b6b98d7cb12a92815648846a70f42d86a07e4808f6be8",
+    "formal/silu_mul_fused@gpu1/result.json": "81433f7710102da032e1f4db0fd057c75724cca27fd4230c981ea9fc9a301af8",
+    "formal/silu_mul_fused@gpu1/samples.json": "4a81054ce1f2154155bef22edfae7e733a353d0f09fc4e95a8c97381e2231c35",
+    "formal/silu_mul_native@gpu0/identity.json": "8fb52f803d45c99500a556175bfa3eb3f6273d4cc955f44b5be7296477b2a832",
+    "formal/silu_mul_native@gpu0/replay_trace.json": "854ba8799ed5e61127bbaf7f299cab50531676608b85c642685a7ae2f47fe3ff",
+    "formal/silu_mul_native@gpu0/result.json": "3f9b8a1599e5869d0e03ca45eaf19f8c6f50900517ad3c964161411b0adad9f8",
+    "formal/silu_mul_native@gpu0/samples.json": "07043ee9c3dd5f403a302d97286c7fb0c101da34628d3c150ee71a0ba967f8b3",
+    "formal/silu_mul_native@gpu1/identity.json": "b9c113c85c0590eccdeb4152d3511183a461075b856d5bf5f3f8baf64c7f9977",
+    "formal/silu_mul_native@gpu1/replay_trace.json": "9da17768c5c8b1f29876c7ad48632bbd43e1287d5ec1aef634dd49e1b9cc99a2",
+    "formal/silu_mul_native@gpu1/result.json": "2b58eb9f8194763a0e52ede2cc3aaa59def882edd02a1aa548264cdd9abcbed0",
+    "formal/silu_mul_native@gpu1/samples.json": "79c77e6b47478d4aa7738f38acd2545792ad329327bb0e5a919d283227b401a3",
+    "placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+    "placed_gpu0/prepare.json": "e1a7ef2da2c4b48781a2a44bafefd73e54d7e041eb7c8c35998a47b2cb58ae52",
+    "placed_gpu1/placed.json": "555207b81191a31855bf531f042a74e537672d23138b012c854aaf0f344f4418",
+    "placed_gpu1/prepare.json": "b051f945f67443fdb91e03dc8cf4886bff9339d049dcf759b83c49d921ca7ade",
+    "plan.json": "fd8efdbdce71326f069f5d0afe90fb3c27c44017abacd3cef27d96f8b17fc65e",
+    "runtime_identity.json": "e52a5c1ec556c3f7fbd7389c9a66de2c0da54add7d4feeef2b4e704e82a16101",
+    "smoke/copy_524288_0-to1/identity.json": "aa280ccbb277738c3727713a6cb2f20e1c80d2b45a950642b3801c6a46e48afa",
+    "smoke/copy_524288_0-to1/replay_trace.json": "e9aea1601029b75f3e02c6bd33ed082cf8686f363548fe6247cb55e2ce3bcde5",
+    "smoke/copy_524288_0-to1/result.json": "d8e9dc5b0565b7af29dfdf0539a0d8c98188328ec72880d29f6837228deca1f1",
+    "smoke/down_proj@gpu0/identity.json": "3a1e003161e828bea2b50f99546db2b50fd71d04b0448eef1f402455ca6f97b9",
+    "smoke/down_proj@gpu0/replay_trace.json": "7ef121cbfaefe0affb5a291dc62a6898a1f925e4839308081fd161f6acfaf02d",
+    "smoke/down_proj@gpu0/result.json": "957e2e4e3af6cc30efa4550916cf4646d8fae113c28d86e7a6a0e132d41b7842",
+    "smoke/partial.json": "d2bb4e560748875aca139d4da66c5b8312a175ec4763bda549580fad42643b0b",
+    "smoke/result.json": "ec133754ab8cf9e4adcf5b86caa1131a131e5716898a580c2fa74c70f969acf6",
+    "smoke/silu_mul_fused@gpu0/identity.json": "7f1fa3218d154d4204fceff43a1290c647e0c7b1f16003e11c4557a00896a4af",
+    "smoke/silu_mul_fused@gpu0/replay_trace.json": "670ffa4937fc8d78add87b2f124acf5f361a9b86373dd45009a0d2482d7a2e2e",
+    "smoke/silu_mul_fused@gpu0/result.json": "2a6316185a1b03d98e7a1874ef347308396583783e2c0751573ded6f55677fce",
+    "smoke/silu_mul_native@gpu0/identity.json": "554604470c553e814fbcc920b921fb4d07a91f5f2d5d54fb6a847cbbcf3f4ce5",
+    "smoke/silu_mul_native@gpu0/replay_trace.json": "1ebb3908596cf1337cfe2e0395aebaaee8b6324a59ba10f1fc5ff20c5cab0d29",
+    "smoke/silu_mul_native@gpu0/result.json": "f142963acfc2d53c6e05766e10c6836751e9fe7225fb29834c50a10f9190a494",
+    "superseded_profiles.json": "68298cb67c09a6ce47c1f283c0b040a09db73796e6fc13a7bebbd07bad37f74d"
+  }
+}

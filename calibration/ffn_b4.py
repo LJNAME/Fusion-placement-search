@@ -60,6 +60,7 @@ def plan(flagscale_root=DEFAULT_FLAGSCALE):
             "b3_source_sha256": {name: digest(B3/name) for name in (*NAMES, "verification.json")},
             "source_sha256": {name: digest(ROOT/name) for name in (
                 "calibration/ffn_b4.py", "calibration/ffn_b4_runtime.py", "calibration/ffn_b4_policy.py",
+                "calibration/ffn_b4_supervisor.py",
                 "execution/ffn_transfer.py", "integration/flagscale/kerv_execution.py")},
             "matrix": matrix, "superseded_profiles": superseded,
             "gpu_validated": False, "smoke_minimum_is_not_full_matrix_certification": True,
@@ -181,8 +182,12 @@ def execute_smoke(runtime, frozen, output):
     return run_smoke(POLICY["smoke"]["minimum_rows"], run_cell, output)
 
 
-def execute_formal(runtime, frozen, output):
+def execute_formal(runtime, frozen, output, group_id=None):
     rows = {r["row_id"]: r for r in frozen["matrix"]["core_rows"] + frozen["matrix"]["diagnostics"]}
+    groups = [g for g in frozen["matrix"]["round_groups"] if group_id is None or g["group_id"] == group_id]
+    if not groups:
+        raise ValueError("unknown round group")
+    rows = {r: rows[r] for group in groups for r in group["members"]}
     records, anchors = {}, {}
     anchor_error = None
     try:
@@ -192,7 +197,7 @@ def execute_formal(runtime, frozen, output):
             for _ in range(10): anchors[f"gpu{gpu}"].replay(0)
     except Exception as error:
         anchor_error = failure(error, runtime, stage="anchor_setup")
-    for group in frozen["matrix"]["round_groups"]:
+    for group in groups:
         members = group["members"]
         cases, samples = {}, {row_id: [] for row_id in members}
         try:
@@ -226,7 +231,14 @@ def execute_formal(runtime, frozen, output):
                 case.capture()
                 record.update(identity=case.identity, identity_hash=key_id(case.identity))
                 save(directory/"identity.json", record)
-                for _ in range(10): case.replay(0)
+                # Preserve timing diagnostics before profiling without adding
+                # invocations or using warmups as formal samples.
+                record["warmup_diagnostic_timings"] = []
+                for warmup in range(10):
+                    runtime.checkpoint("formal_warmup", warmup_index=warmup)
+                    warmup_timing, _ = case.replay(0)
+                    record["warmup_diagnostic_timings"].append(warmup_timing)
+                save(directory/"preparation.json", record)
                 try:
                     record["path_evidence"] = case.trace(directory/"replay_trace.json")
                     record["path_verified"] = not row_id.startswith(("copy/", "diagnostic/")) or record["path_evidence"]["device_copy_trace_observed"]
@@ -254,7 +266,8 @@ def execute_formal(runtime, frozen, output):
                     continue
                 try:
                     timing, checks = cases[row_id].replay(0)
-                    pending[row_id] = {"duration_us": finite_us(timing), "numeric_ok": True, "capture_ok": True,
+                    pending[row_id] = {"duration_us": finite_us(timing), "raw_timing": timing,
+                                       "numeric_ok": True, "capture_ok": True,
                                        "path_ok": records[row_id].get("path_verified", False), "invariants": checks}
                 except Exception as error:
                     pending[row_id] = {"numeric_ok": False, "capture_ok": True, "path_ok": False,
@@ -284,7 +297,7 @@ def execute_formal(runtime, frozen, output):
             save(Path(output)/row_id.replace("/", "_").replace(">", "to")/"result.json", records[row_id])
     # A final fixed grid is mandatory even when preparation failed mid-run.
     grid = collect_grid(rows, lambda row_id: records[row_id])
-    result = {"phase": "formal", "cells": grid, "expected_cells": 19, "recorded_cells": len(grid),
+    result = {"phase": "formal", "cells": grid, "expected_cells": len(rows), "recorded_cells": len(grid),
               "quality_failed": sum(r["status"] == "quality_failed" for r in grid.values()),
               "attempts_per_prepared_cell": 7, "retries": 0, "automatic_admission": False,
               "scope": "raw evidence pending exact Kernel-Key export, route review, pair/chain consistency and admission"}
@@ -316,7 +329,8 @@ def main():
             execute_smoke(runtime, frozen, args.output/"smoke")
             if args.phase == "run":
                 formal_started = True
-                execute_formal(runtime, frozen, args.output/"formal")
+                from calibration.ffn_b4_supervisor import supervise
+                supervise(frozen, args.output/"formal", args.flagscale_root)
     except Exception as error:
         save(args.output/"failure.json", failure(error, runtime, phase=args.phase, formal_started=formal_started))
         raise

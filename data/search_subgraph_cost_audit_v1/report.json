@@ -3,7 +3,7 @@
   "version": "1.2",
   "execution_protocol": {
     "path": "cost_model/STAGE_B_PROTOCOL.md",
-    "sha256": "0bf10deb59bdabad12246104fad53503fa732bfcf8c10533f94ffee4ae61747a"
+    "sha256": "ba3827c54c95402092f1fce46941e42afc798f40b7654d27f7dee10e7b500dde"
   },
   "scope": "reference-builder FFN layer 0; accepted coverage under current P2 decision",
   "graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
@@ -1536,7 +1536,7 @@
   },
   "ffn_b4_preflight": {
     "path": "data/ffn_b4_preflight",
-    "policy_id": "sha256:bf724c5f502f6bb4e62bb285bc2f4bd8d88febbdf9731654631ecf55f1a95f64",
+    "policy_id": "sha256:1c297985d72f5c03af0db778c28214b9b135c7db4541b883ff5f4daa54285a7e",
     "smoke_minimum_cells": 4,
     "formal_cells": 19,
     "formal_attempts": 7,
@@ -1588,6 +1588,16 @@
       "supersession_scope": "new B3/B4 recipe only; historical accepted admission unchanged"
     }
   ],
+  "ffn_b4_returned_run03": {
+    "review": "data/ffn_b4_run03_review/report.json",
+    "review_sha256": "40577b03b6b9d28344dee574a7ebbc49f9c64c303af648cf46bf6e0f204f3564",
+    "smoke_passed_cells": 4,
+    "formal_completed_cells": 8,
+    "formal_expected_cells": 19,
+    "formal_batch_complete": false,
+    "new_accepted_profiles": 0,
+    "timing_boundary_review_required": true
+  },
   "chain_cost_queries": [
     {
       "device": 0,
@@ -1718,7 +1728,7 @@
     "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
     "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
     "B3": "CPU 18+1 matrix and quality recipe frozen; old Fused profiles ineligible for new recipe reuse",
-    "B4": "CPU-tested smoke/run entry ready; minimum smoke is timing-independent and fail-fast; formal grid fixed seven attempts and continues failed cells; no GPU execution yet",
+    "B4": "run03 minimum smoke passed 4/4; 8/19 formal cells completed before native crash near diagnostic capture; timing review pending; v2 isolated groups CPU-tested, GPU pending; no new admission",
     "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
     "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
     "C": "whole-graph mixed-coverage validation deferred",
@@ -1763,9 +1773,10 @@
     "data/ffn_measurement_b3/reuse_audit.json": "fde7964b7f028bfb7c18cf90f4f4bf9aaa0c0eef72e0dc51637586d3a412d891",
     "data/ffn_measurement_b3/buffer_audit.json": "ab64942e4097348e1fe42247f6f902531469aa8bc5a1ca919158483c326fc666",
     "data/ffn_measurement_b3/freeze_checklist.json": "3b172d2d09cfbbf1462b1d39ed021d2cbe1eda1f8acef2c7ebd689dc123ead61",
-    "data/ffn_b4_preflight/plan.json": "fd8efdbdce71326f069f5d0afe90fb3c27c44017abacd3cef27d96f8b17fc65e",
-    "data/ffn_b4_preflight/verification.json": "ccf367b5ad0d394e41d61d8bcad43a3cbd8b28c7babb1f4a11d2f5878830676e",
-    "data/ffn_b4_preflight/superseded_profiles.json": "68298cb67c09a6ce47c1f283c0b040a09db73796e6fc13a7bebbd07bad37f74d"
+    "data/ffn_b4_preflight/plan.json": "b267d0738c035b1814045657579718a918efdbf69a13ff6f310e13b9a730fd50",
+    "data/ffn_b4_preflight/verification.json": "ef2778ff13b12553a6fecd1f255f4476b6a227aeb487fea194aad342922a2741",
+    "data/ffn_b4_preflight/superseded_profiles.json": "68298cb67c09a6ce47c1f283c0b040a09db73796e6fc13a7bebbd07bad37f74d",
+    "data/ffn_b4_run03_review/report.json": "40577b03b6b9d28344dee574a7ebbc49f9c64c303af648cf46bf6e0f204f3564"
   },
   "new_gpu_measurements": 0,
   "exact_runs": 0,
