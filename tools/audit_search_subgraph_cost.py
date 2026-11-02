@@ -154,6 +154,10 @@ def audit():
     b4_run04 = read(ROOT / "data/ffn_b4_run04_review/report.json")
     b4_diagnostics = read(ROOT / "data/ffn_b4_diagnostics01_review/report.json")
     b4_run05 = read(ROOT / "data/ffn_b4_run05_review/report.json")
+    anchor_audit = read(ROOT / "data/ffn_b4_anchor_audit_run05/report.json")
+    assert anchor_audit["counts"]["group_windows"] == 70 and anchor_audit["counts"]["rejected_group_windows"] == 6
+    assert anchor_audit["counts"]["device_window_pairs"] == 98 and anchor_audit["counts"]["rejected_device_window_pairs"] == 8
+    assert all(digest(ROOT/name) == sha for name,sha in anchor_audit["source_sha256"].items())
     assert b4_run05["worker_crashes"] == 0 and b4_run05["formal_completed_cells"] == 18
     assert b4_run05["grid_quality_passed"] == 9 and b4_run05["anchor_failed_cells"] == 9 and b4_run05["blocked_cells"] == 1
     assert b4_run05["new_accepted_profiles"] == 0
@@ -176,6 +180,7 @@ def audit():
                       for size in sorted({e.bytes for e in edges}) for a, b in ((0, 1), (1, 0))]
     assert len(singleton) == 10 and len(fused) == 2 and len(native) == 2 and len(potential_links) == 4
     return {"format": "fusion-placement-search.search-subgraph-cost-audit", "version": "1.2",
+        "plan_pricing_status": anchor_audit["pricing"],
             "execution_protocol": {"path": "cost_model/STAGE_B_PROTOCOL.md",
                                    "sha256": digest(ROOT / "cost_model/STAGE_B_PROTOCOL.md")},
             "scope": "reference-builder FFN layer 0; accepted coverage under current P2 decision",
@@ -225,6 +230,11 @@ def audit():
                                      "new_accepted_profiles": 0, "cpu_admission_candidates": b4_run05["cpu_admission_candidates"],
                                      "hypothetical_quality_only_complete_plans": 0,
                                      "strict_search_cost_query_open": False},
+            "ffn_b4_anchor_attribution_run05": {"review": "data/ffn_b4_anchor_audit_run05/report.json",
+                                               "review_sha256": digest(ROOT / "data/ffn_b4_anchor_audit_run05/report.json"),
+                                               "rejected_group_windows": 6, "total_group_windows": 70,
+                                               "rejected_device_pairs": 8, "total_device_pairs": 98,
+                                               "cause_identified": False, "admission_reclassified": False},
             "chain_cost_queries": [{"device": device, "arm": arm, "scope": "full_ffn_fork_join",
                                     "canonical_key": None, "measurement_contract_id": None,
                                     "accepted": False, "evidence": "no matching FFN chain in current P2 bundle"}
@@ -247,7 +257,7 @@ def audit():
                               "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
                               "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
                               "B3": "CPU 18+1 matrix and quality recipe frozen; old Fused profiles ineligible for new recipe reuse",
-                              "B4": "run05 v3 execution/timing verified: 18 core cells sampled seven times, zero worker crashes; 9 quality_passed/9 anchor_failed plus 1 blocked chain. CPU Canonical Key export and scoped admission remain; no immediate GPU rerun, threshold changes, sample replacement or new admission",
+                              "B4": "run05 anchor CPU attribution complete: 6/70 shared windows and 8/98 device pairs reject 9 cells; all rejected windows in attempts 0-2, median-ratio is not pointwise stability, pure protocol/environment cause unidentifiable. Priceable plans 0/48; no GPU rerun or retrospective admission change",
                               "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
                               "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
                               "C": "whole-graph mixed-coverage validation deferred",

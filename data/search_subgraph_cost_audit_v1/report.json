@@ -1,9 +1,27 @@
 {
   "format": "fusion-placement-search.search-subgraph-cost-audit",
   "version": "1.2",
+  "plan_pricing_status": {
+    "priceable_plans": 0,
+    "legal_plans": 48,
+    "basis": "quality-only hypothetical availability, not admitted or end-to-end validated cost",
+    "strict_priceable_plans": 0,
+    "missing_for_all_plans": [
+      "down_proj@gpu0",
+      "down_proj@gpu1"
+    ],
+    "missing_for_all_plans_semantics": "every plan lacks its chosen Down Projection; each uses one device alternative, not both",
+    "exact_missing_term_intersection": [],
+    "chosen_down_alternative_missing_plan_counts": {
+      "down_proj@gpu0": 24,
+      "down_proj@gpu1": 24
+    },
+    "counterfactual_only_both_down_available": 0,
+    "counterfactual_does_not_change_any_status": true
+  },
   "execution_protocol": {
     "path": "cost_model/STAGE_B_PROTOCOL.md",
-    "sha256": "d2b2d6d857fd208de9143257b9dcdd0f058164e673fd54a4645e5152608d3d0c"
+    "sha256": "b690e1498b659d34ef5f61da8720b4492bbc6c32cec3ec20016f739e3b0e5526"
   },
   "scope": "reference-builder FFN layer 0; accepted coverage under current P2 decision",
   "graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
@@ -1730,6 +1748,16 @@
     "hypothetical_quality_only_complete_plans": 0,
     "strict_search_cost_query_open": false
   },
+  "ffn_b4_anchor_attribution_run05": {
+    "review": "data/ffn_b4_anchor_audit_run05/report.json",
+    "review_sha256": "3e4c22d923eb073abb762cd6e32e76d84b8f1c89b16c9649dc44386d1df50309",
+    "rejected_group_windows": 6,
+    "total_group_windows": 70,
+    "rejected_device_pairs": 8,
+    "total_device_pairs": 98,
+    "cause_identified": false,
+    "admission_reclassified": false
+  },
   "chain_cost_queries": [
     {
       "device": 0,
@@ -1860,7 +1888,7 @@
     "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
     "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
     "B3": "CPU 18+1 matrix and quality recipe frozen; old Fused profiles ineligible for new recipe reuse",
-    "B4": "run05 v3 execution/timing verified: 18 core cells sampled seven times, zero worker crashes; 9 quality_passed/9 anchor_failed plus 1 blocked chain. CPU Canonical Key export and scoped admission remain; no immediate GPU rerun, threshold changes, sample replacement or new admission",
+    "B4": "run05 anchor CPU attribution complete: 6/70 shared windows and 8/98 device pairs reject 9 cells; all rejected windows in attempts 0-2, median-ratio is not pointwise stability, pure protocol/environment cause unidentifiable. Priceable plans 0/48; no GPU rerun or retrospective admission change",
     "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
     "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
     "C": "whole-graph mixed-coverage validation deferred",
@@ -1911,7 +1939,8 @@
     "data/ffn_b4_run03_review/report.json": "40577b03b6b9d28344dee574a7ebbc49f9c64c303af648cf46bf6e0f204f3564",
     "data/ffn_b4_run04_review/report.json": "98ae376958d88dbd7bd24ca2e65694a91c6770a79ecf80594b23ee9c2d3fbea5",
     "data/ffn_b4_diagnostics01_review/report.json": "f47825aec75b347408dc9483c8f6ad723a2bac274c316939bfb285260b6be333",
-    "data/ffn_b4_run05_review/report.json": "0967049a35f3354056cf9ade7c8c301611bcbd86733aed574d51ef612afc0856"
+    "data/ffn_b4_run05_review/report.json": "0967049a35f3354056cf9ade7c8c301611bcbd86733aed574d51ef612afc0856",
+    "data/ffn_b4_anchor_audit_run05/report.json": "3e4c22d923eb073abb762cd6e32e76d84b8f1c89b16c9649dc44386d1df50309"
   },
   "new_gpu_measurements": 0,
   "exact_runs": 0,

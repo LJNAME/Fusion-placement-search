@@ -2,6 +2,8 @@
 
 包SHA256：a9f304b76995304cb0f3d0b4215d121a0e8d2bacf60339ee19eb58a53b3c348f。归档transfer/ffn-b4-received-20261102-05；7/7源码/证据哈希匹配e888d72。机器可读审核：data/ffn_b4_run05_review/report.json。
 
+主指标：priceable_plans=0/48；missing_for_all_plans=[down_proj@gpu0, down_proj@gpu1]，表示每个方案缺其所选的Down设备备选。格子数仅是测量记录状态，不代表方案覆盖。锚点CPU归因见FFN_B4_ANCHOR_AUDIT.md：6/70共享窗口、8/98设备锚点对越线，经共享/七轮规则影响9格；不能把中位比±2%当逐点稳定。
+
 ## 执行与质量
 
 | 项目 | 结果 |
