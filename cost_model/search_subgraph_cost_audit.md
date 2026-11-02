@@ -8,7 +8,7 @@
 
 | 指标 | 当前值 | 范围 |
 |---|---:|---|
-| Evidence Coverage | **2/2 配对比较 Case** | 两卡选定 KERV 与 Native 对照；P2 限定用途 |
+| Evidence Coverage | **2/2 配对比较 Case** | 历史P2对照；superseded_by=c4fc415，新配方可复用0条 |
 | Search Cost Coverage | **0 个独立搜索成本项** | singleton/link/whole-plan 搜索用途未开放 |
 
 需求集合尚未由边界驻留、实际放置与配对矩阵固定，分母未定，不使用“2/18”或“补测16项”。选定 KERV 的正式 Profile 可在局部比较 proxy 中严格查询，不等于独立搜索成本准入。
@@ -78,7 +78,7 @@ flowchart LR
 
 两卡均为 `gfx936:sramecc+:xnack-`，保持逐卡记录，不共享 Profile。以下为同卡配对、同契约的中位值（μs/call）；GPU0 与 GPU1 的完整 Contract ID 不相同，不能跨卡直接按同一个 ID 查询。
 
-| 设备 | KERV accepted | Native comparison_only | KERV Canonical Key |
+| 设备 | KERV历史accepted | Native comparison_only | KERV Canonical Key |
 |---|---:|---:|---|
 | GPU0 | 7.2511798143 | 10.3167796135 | sha256:2cfa617ace0ee3af1e7c9e12d8f99f6af409c3e64a575134e9be3679d74bca80 |
 | GPU1 | 7.2320002317 | 11.2543594837 | sha256:d53d35cfc3cc280317d00b41ae897d5300c6f42be70fd7af959b891dee751d36 |
@@ -86,6 +86,8 @@ flowchart LR
 - GPU0 Contract：`sha256:f4cbdf92046f460ce1c8c76c3b35229d634717fab8a9323b604b274d608c9d70`。
 - GPU1 Contract：`sha256:ce6b7d7f1a74fbbd95d58252764487ce5f7d707ef520585de5bfa0d7988af507`。
 - 决策：`sha256:d515655fab5ce53f21bbea060298210d10c07a37b0b5a5e285a5ae4a47bdb795`；use=`selected_fused_group_graph_batch_proxy`。
+
+上表两条旧Fused在当前审计标为 `superseded_by=c4fc415`，原记录及旧scope accepted不删不改。当前配方重测；新审计侧表见 `data/ffn_b4_preflight/superseded_profiles.json`。
 
 每卡 7 轮 × 50 次，10 次预热；所有 50 个输出保留并逐轮检查，Event 包围 Graph replay，恢复 gate 在计时外。绑定与证据可从报告中的 record_id → source_record_id / admission decision → 原始 result、trace、placed 追溯。Native 两 Kernel 的组合总时间不能分摊成 SiLU 或 Mul 标签。（`data/kerv_profile_admission_v1/strict_cost_queries.json:1`、`cost_model/kerv_admission.py:26`）
 

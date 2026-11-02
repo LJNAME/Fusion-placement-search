@@ -89,6 +89,8 @@ GPU实测不能与解析估计配对，Graph Replay不能与Eager配对，一张
 
 B3结果见 `data/ffn_measurement_b3/` 与 `cost_model/FFN_MEASUREMENT_B3.md`：18核心+1链路诊断，7有效轮×50调用、10预热；旧Fused缺新锚点/Recipe证据且输入/轮组上下文变化，两条均须重测，当前新测任务19而非17。用户确认最多9次尝试、取前7个锚点合格轮；IQR失败不替换样本补救。50 gate独立视图、1个共享只读up、每次Replay前计时外恢复；输入/别名均待GPU核验。清单7项CPU完成、1项HIP/跨卡Smoke待B4，正式计时仍禁止。
 
+当前B4执行策略见 `cost_model/FFN_B4_SMOKE.md`：Smoke最小四类含0.5MiB 0→1 Copy，纯布尔管道验收，耗时仅诊断；失败立即保留traceback/pool/显存并停止。正式固定7次尝试、不补轮、不替换，逐格quality_failed后继续19格。这是用户对旧B3最多9轮规则的更新，通过新policy/recipe哈希生效，不改签旧产物。旧2/2在新审计中标superseded_by=c4fc415，历史证据与原准入保留。GPU实际运行仍待执行。
+
 ## B4：准入不筛选性能赢家
 
 **Profile Admission仅验证测量身份、正确性、来源与契约有效性，不以性能收益作为准入条件。Fused慢于Native时仍可准入，搜索空间必须保留Native作为合法替代。**

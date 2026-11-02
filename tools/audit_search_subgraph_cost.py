@@ -91,7 +91,8 @@ def audit():
         assert list(group.node_ids) == list(selected[0].node_ids)
         store.query(key, record["measurement_contract_id"])
         identity.update(strict_query_matched=True, node_ids=list(group.node_ids),
-                        full_ffn_composition_admitted=False)
+                        full_ffn_composition_admitted=False, superseded_by="c4fc415",
+                        supersession_scope="new B3/B4 recipe only; original accepted scope retained")
         fused.append(identity)
         # Do not turn fused-expression metadata into a Native singleton layout.
         draft_keys = GroupKernelKeys(copy.deepcopy(graph), keys.hardware, runtime=keys.runtime)
@@ -145,6 +146,12 @@ def audit():
     assert all(key_id(value) == b3_verification["output_payload_ids"][name] for name, value in b3_payloads.items())
     assert b3_verification["pass_checks"] and not b3_verification["formal_gpu_timing_allowed"]
     assert all(digest(b2_root / name) == sha for name, sha in b3_payloads["identity.json"]["b2_source_sha256"].items())
+    b4_root = ROOT / "data/ffn_b4_preflight"
+    b4_plan = read(b4_root / "plan.json")
+    b4_verification = read(b4_root / "verification.json")
+    b4_superseded = read(b4_root / "superseded_profiles.json")
+    assert key_id(b4_plan) == b4_verification["plan_id"] and not b4_verification["gpu_smoke_executed"]
+    assert all(digest(ROOT / name) == sha for name, sha in b4_plan["source_sha256"].items())
     edge_rows = [{"src": e.src, "dst": e.dst, "bytes": e.bytes,
                   "source_device": None, "destination_device": None,
                   "tensor_shape": graph.nodes[e.src].extra["output_shape"], "tensor_bytes": e.bytes,
@@ -178,6 +185,10 @@ def audit():
                                  "diagnostic_rows": 1, "eligible_fused_reuse_rows": 0, "new_measurement_tasks": 19,
                                  "cpu_freeze_checks_complete": 7, "gpu_smoke_pending": 1,
                                  "formal_gpu_timing_allowed": False},
+            "ffn_b4_preflight": {"path": "data/ffn_b4_preflight", "policy_id": b4_plan["policy"]["policy_id"],
+                                 "smoke_minimum_cells": 4, "formal_cells": 19, "formal_attempts": 7,
+                                 "extra_attempts": 0, "gpu_smoke_executed": False, "automatic_admission": False},
+            "superseded_fused_profiles": b4_superseded["records"],
             "chain_cost_queries": [{"device": device, "arm": arm, "scope": "full_ffn_fork_join",
                                     "canonical_key": None, "measurement_contract_id": None,
                                     "accepted": False, "evidence": "no matching FFN chain in current P2 bundle"}
@@ -191,14 +202,16 @@ def audit():
             "legacy_kernel_records": legacy["kernel_records"],
             "legacy_record_admissions": legacy["record_admissions"],
             "evidence_coverage": {"accepted_paired_comparison_cases": 2, "reviewed_cases": 2,
-                                  "use": USE, "standalone_search_cost_admission": False},
+                                  "use": USE, "standalone_search_cost_admission": False,
+                                  "scope_status": "historical; superseded for current recipe", "superseded_by": "c4fc415",
+                                  "current_recipe_reuse_eligible_cases": 0},
             "search_cost_coverage": {"admitted_cost_items": 0, "denominator": None,
                                      "reason": "singleton/link/whole-plan search use is not open"},
             "stage_b_entry": {"B0": "CPU identity workflow verified; actual BW1000 identity captured before B4 timing",
                               "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
                               "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
                               "B3": "CPU 18+1 matrix and quality recipe frozen; old Fused profiles ineligible for new recipe reuse",
-                              "B4": "next: actual identity and GPU capture/copy/event smoke; formal timing still forbidden",
+                              "B4": "CPU-tested smoke/run entry ready; minimum smoke is timing-independent and fail-fast; formal grid fixed seven attempts and continues failed cells; no GPU execution yet",
                               "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
                               "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
                               "C": "whole-graph mixed-coverage validation deferred",
