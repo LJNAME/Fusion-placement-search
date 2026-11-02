@@ -7,7 +7,7 @@ import traceback
 from cost_model.fusion_kernel_profile import key_id
 
 POLICY = {
-    "version": "ffn-b4.execution.v2", "superseded_fused_by": "c4fc415",
+    "version": "ffn-b4.execution.v3", "superseded_fused_by": "c4fc415",
     "smoke": {"minimum_rows": ["down_proj@gpu0", "silu_mul/native@gpu0", "silu_mul/fused@gpu0", "copy/524288/0->1"],
               "calls": 50, "replays": 3, "failure": "fail_fast", "timing_is_pass_criterion": False,
               "required_booleans": ["capture_ok", "numeric_ok", "invariants_ok", "identity_written", "contract_written"]},
@@ -15,6 +15,11 @@ POLICY = {
                "replacement": False, "failure": "mark_cell_quality_failed_and_continue_grid",
                "process_scope": "one fresh subprocess per round group; no worker retry",
                "parent_gpu_state": "minimum-smoke runtime retained, idle during workers",
+               "path_trace_phase": "after all seven rounds and anchors in the worker; no subsequent timing",
+               "blocked_rows": {"diagnostic/down0-copy524288-gate1": {
+                   "reason": "reviewed BW1000 backend capture_end SIGSEGV; chain diagnostic unavailable",
+                   "evidence": "data/ffn_b4_diagnostics01_review/report.json",
+                   "scope": "this composed cross-GPU GEMM/copy/GEMM capture only; no physical route or global HIP claim"}},
                "preserve_all_attempts": True, "automatic_admission": False},
 }
 
@@ -24,7 +29,8 @@ def active_recipe(base):
     result.update(max_attempts=7, primary_selection="all seven chronological attempts; any invalid attempt fails that cell",
                   dispersion_failure="quality_failed; no retry or replacement; continue other cells",
                   formal_policy_id=key_id(POLICY["formal"]), base_b3_recipe_id=base["recipe_id"],
-                  uncaptured_initialization_bodies=1, path_trace_replays_before_formal=1)
+                  uncaptured_initialization_bodies=1, path_trace_replays_before_formal=0,
+                  path_trace_replays_after_formal=1)
     result["recipe_id"] = key_id(result)
     return result
 

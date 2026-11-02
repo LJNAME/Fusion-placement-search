@@ -152,6 +152,8 @@ def audit():
     b4_superseded = read(b4_root / "superseded_profiles.json")
     b4_returned = read(ROOT / "data/ffn_b4_run03_review/report.json")
     b4_run04 = read(ROOT / "data/ffn_b4_run04_review/report.json")
+    b4_diagnostics = read(ROOT / "data/ffn_b4_diagnostics01_review/report.json")
+    assert all(b4_diagnostics["source_checks"].values()) and b4_diagnostics["new_accepted_profiles"] == 0
     assert b4_run04["grid_written"] and b4_run04["formal_expected_cells"] == 19
     assert b4_run04["grid_quality_passed"] == 10 and b4_run04["grid_quality_failed"] == 9
     assert b4_run04["new_accepted_profiles"] == 0
@@ -207,6 +209,11 @@ def audit():
                                      "quality_passed": 10, "quality_failed": 9, "new_accepted_profiles": 0,
                                      "native_crash": "diagnostic chain capture_end SIGSEGV",
                                      "timing_boundary_review_required": True},
+            "ffn_b4_diagnostics01": {"review": "data/ffn_b4_diagnostics01_review/report.json",
+                                     "review_sha256": digest(ROOT / "data/ffn_b4_diagnostics01_review/report.json"),
+                                     "timing": b4_diagnostics["timing"], "new_accepted_profiles": 0,
+                                     "v3_active_measurements": 18, "blocked_composed_chain": 1,
+                                     "v3_gpu_validated": False},
             "chain_cost_queries": [{"device": device, "arm": arm, "scope": "full_ffn_fork_join",
                                     "canonical_key": None, "measurement_contract_id": None,
                                     "accepted": False, "evidence": "no matching FFN chain in current P2 bundle"}
@@ -229,7 +236,7 @@ def audit():
                               "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
                               "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
                               "B3": "CPU 18+1 matrix and quality recipe frozen; old Fused profiles ineligible for new recipe reuse",
-                              "B4": "run04 isolation validated: all 19 states retained, 10 quality_passed/9 failed; chain capture_end SIGSEGV and compute event collapse after profiler require targeted diagnosis; no new admission",
+                              "B4": "diagnostics reproduced existing-graph Event state change after profiler and one-call chain capture_end SIGSEGV with/without explicit output preallocation; v3 times all arms before any trace, blocks composed chain, 18 active cells CPU-ready; GPU pending; no new admission",
                               "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
                               "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
                               "C": "whole-graph mixed-coverage validation deferred",

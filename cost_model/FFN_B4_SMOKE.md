@@ -4,6 +4,8 @@ run03回传已核验：最小Smoke 4/4通过；正式8格完成，跨卡诊断�
 
 run04已回传：轮组隔离生效，19状态齐全（10 quality_passed/9 failed，15格有7次样本），跨卡诊断链定位capture_end段错误；计算侧Event在Profiler前后发生系统变化，当前不准入。下一项改为定点诊断，命令见FFN_B4_RUN04_REVIEW.md；不要继续整批重跑。
 
+当前入口已转v3：定点控制确认既有Graph经Profiler Replay后Event计时状态改变；单次预分配链仍capture_end崩溃。新轮组先完成全部采样/锚点再做Trace，组合链构造前阻断，其余18核心格照常；新时序/计数/命令见FFN_B4_V3.md。以下v1/v2时序作为历史保留，不用于当前Recipe。
+
 ## Smoke：布尔验收
 
 最小集合固定四项，每项50调用、3次Replay：

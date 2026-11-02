@@ -61,6 +61,7 @@ def plan(flagscale_root=DEFAULT_FLAGSCALE):
             "source_sha256": {name: digest(ROOT/name) for name in (
                 "calibration/ffn_b4.py", "calibration/ffn_b4_runtime.py", "calibration/ffn_b4_policy.py",
                 "calibration/ffn_b4_supervisor.py",
+                "data/ffn_b4_diagnostics01_review/report.json",
                 "execution/ffn_transfer.py", "integration/flagscale/kerv_execution.py")},
             "matrix": matrix, "superseded_profiles": superseded,
             "gpu_validated": False, "smoke_minimum_is_not_full_matrix_certification": True,
@@ -74,6 +75,8 @@ def write_cpu_plan(output, frozen=None):
     save(output/"superseded_profiles.json", {"records": frozen["superseded_profiles"], "original_sources_unchanged": True})
     save(output/"verification.json", {"scope": "CPU execution-plan verification only", "cpu_plan_ready": True,
          "minimum_smoke_cells": 4, "formal_cells": 19, "formal_attempts": 7, "extra_attempts": 0,
+         "active_measurement_cells": 19-len(frozen["policy"]["formal"].get("blocked_rows", {})),
+         "blocked_diagnostic_cells": len(frozen["policy"]["formal"].get("blocked_rows", {})),
          "superseded_profiles_retained": 2, "gpu_smoke_executed": False, "formal_executed": False,
          "automatic_admission": False, "policy_id": frozen["policy"]["policy_id"], "plan_id": key_id(frozen)})
     return frozen
@@ -124,7 +127,8 @@ def contract(row, case, frozen):
             "candidate_id": row["candidate_id"],
             "recipe_id": frozen["active_recipe"]["recipe_id"], "calls_per_round": 50,
             "rounds": 7, "warmup_replays": 10, "extra_attempts": 0,
-            "uncaptured_initialization_bodies": 1, "path_trace_replays_before_formal": 1,
+            "uncaptured_initialization_bodies": 1, "path_trace_replays_before_formal": 0,
+            "path_trace_replays_after_formal": 1,
             "restore_scope": "outside capture/replay Event interval", "retention": "all 50 outputs"}
 
 
@@ -187,6 +191,8 @@ def execute_formal(runtime, frozen, output, group_id=None):
     groups = [g for g in frozen["matrix"]["round_groups"] if group_id is None or g["group_id"] == group_id]
     if not groups:
         raise ValueError("unknown round group")
+    if len(groups) != 1:
+        raise ValueError("formal timing requires exactly one round group per fresh worker")
     rows = {r: rows[r] for group in groups for r in group["members"]}
     records, anchors = {}, {}
     anchor_error = None
@@ -209,6 +215,12 @@ def execute_formal(runtime, frozen, output, group_id=None):
         for row_id in members:
             directory = Path(output)/row_id.replace("/", "_").replace(">", "to")
             directory.mkdir(parents=True, exist_ok=True)
+            blocked = frozen["policy"]["formal"].get("blocked_rows", {}).get(row_id)
+            if blocked:
+                records[row_id] = {"row_id": row_id, "status": "quality_failed", "execution_status": "blocked_backend_capture",
+                                   "block": blocked, "samples": [], "attempted_calls": 0, "automatic_admission": False}
+                save(directory/"result.json", records[row_id])
+                continue
             try:
                 if anchor_error:
                     raise RuntimeError("anchor setup failed: " + repr(anchor_error))
@@ -239,12 +251,6 @@ def execute_formal(runtime, frozen, output, group_id=None):
                     warmup_timing, _ = case.replay(0)
                     record["warmup_diagnostic_timings"].append(warmup_timing)
                 save(directory/"preparation.json", record)
-                try:
-                    record["path_evidence"] = case.trace(directory/"replay_trace.json")
-                    record["path_verified"] = not row_id.startswith(("copy/", "diagnostic/")) or record["path_evidence"]["device_copy_trace_observed"]
-                except Exception as error:
-                    record["path_verified"] = False
-                    record["path_evidence"] = {"error": repr(error), "traceback": traceback.format_exc(), "review_required": True}
                 cases[row_id] = case
             except Exception as error:
                 records[row_id] = {"row_id": row_id, "status": "quality_failed", "samples": samples[row_id],
@@ -268,7 +274,7 @@ def execute_formal(runtime, frozen, output, group_id=None):
                     timing, checks = cases[row_id].replay(0)
                     pending[row_id] = {"duration_us": finite_us(timing), "raw_timing": timing,
                                        "numeric_ok": True, "capture_ok": True,
-                                       "path_ok": records[row_id].get("path_verified", False), "invariants": checks}
+                                       "path_evidence_state": "pending_post_timing_trace", "invariants": checks}
                 except Exception as error:
                     pending[row_id] = {"numeric_ok": False, "capture_ok": True, "path_ok": False,
                                        **failure(error, runtime, phase="formal_replay")}
@@ -282,12 +288,24 @@ def execute_formal(runtime, frozen, output, group_id=None):
                               anchor_failure=anchor_failure, round_group=group["group_id"], arm_order=order)
                 samples[row_id].append(sample)
                 save(Path(output)/row_id.replace("/", "_").replace(">", "to")/"samples.json", samples[row_id])
+        # Profiling an existing HIP graph changed subsequent Event timing in the
+        # controlled diagnostic. Complete every arm and anchor before profiling.
+        for row_id, case in cases.items():
+            directory = Path(output)/row_id.replace("/", "_").replace(">", "to")
+            record = records[row_id]
+            try:
+                record["path_evidence"] = case.trace(directory/"replay_trace.json")
+                record["path_verified"] = not row_id.startswith(("copy/", "diagnostic/")) or record["path_evidence"]["device_copy_trace_observed"]
+            except Exception as error:
+                record["path_verified"] = False
+                record["path_evidence"] = {"error": repr(error), "traceback": traceback.format_exc(), "review_required": True}
+            record["path_evidence_phase"] = "after_all_group_timing"
         for row_id, case in cases.items():
             try:
                 raw = samples[row_id]
                 if len(raw) != 7 or any(s.get("anchor_failure") or not s.get("numeric_ok") for s in raw):
                     raise ValueError("one or more of the fixed seven attempts failed")
-                shaped = [{"attempt": s["attempt"], "numeric_ok": True, "capture_ok": True, "path_ok": s["path_ok"],
+                shaped = [{"attempt": s["attempt"], "numeric_ok": True, "capture_ok": True, "path_ok": records[row_id].get("path_verified", False),
                            "arm_us": {"body": s["duration_us"]}, "anchors": s["anchors"]} for s in raw]
                 quality = formal_quality_review(shaped, ("body",), group["anchor_devices"])
                 records[row_id]["quality"] = quality

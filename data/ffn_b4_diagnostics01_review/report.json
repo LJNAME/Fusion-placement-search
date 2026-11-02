@@ -1,0 +1,172 @@
+{
+  "source_ref": "10c168c",
+  "source_checks": {
+    "calibration/ffn_b4_diagnostics.py": true,
+    "calibration/ffn_b4_runtime.py": true,
+    "integration/flagscale/kerv_execution.py": true,
+    "data/ffn_measurement_b3/recipe.json": true
+  },
+  "archive_sha256": "8c033f30f81ca9dba7729ddf8e22ea0452f5e3e919904c00b7719c521ca7b0aa",
+  "timing": {
+    "timing_control": {
+      "before": {
+        "event_batch_ms": 0.42063799500465393,
+        "event_us_per_call": 8.412759900093079,
+        "all_device_completion_wall_us": 488.892,
+        "extra_device_sync_us": 15.32
+      },
+      "after": {
+        "event_batch_ms": 0.4292779862880707,
+        "event_us_per_call": 8.585559725761414,
+        "all_device_completion_wall_us": 495.352,
+        "extra_device_sync_us": 16.61
+      },
+      "event_before_over_after": 0.9798732020755921,
+      "wall_before_over_after": 0.986958768713965
+    },
+    "timing_profile": {
+      "before": {
+        "event_batch_ms": 0.36191800236701965,
+        "event_us_per_call": 7.238360047340393,
+        "all_device_completion_wall_us": 417.302,
+        "extra_device_sync_us": 13.32
+      },
+      "after": {
+        "event_batch_ms": 0.015359999611973763,
+        "event_us_per_call": 0.30719999223947525,
+        "all_device_completion_wall_us": 224.971,
+        "extra_device_sync_us": 13.41
+      },
+      "event_before_over_after": 23.562370541005055,
+      "wall_before_over_after": 1.8549146334416438
+    }
+  },
+  "same_gpu0_environment": {
+    "observed": {
+      "name": "BW",
+      "total_memory": 68702699520,
+      "uuid": "30303134-6261-3861-3564-313032303831",
+      "architecture": "gfx936:sramecc+:xnack-"
+    },
+    "environment": {
+      "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+      "torch_module_version": "2.9.0",
+      "hip": "6.3.26113",
+      "cuda": null,
+      "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+      "triton_module_version": "3.5.1",
+      "driver_version": "60326113",
+      "device_model": "BW",
+      "device_uuid": "30303134-6261-3861-3564-313032303831",
+      "device_architecture": "gfx936:sramecc+:xnack-"
+    }
+  },
+  "profiled_fused_kernel_count": 50,
+  "chain": {
+    "chain_allocating_1": {
+      "returncode": -11,
+      "calls": 1,
+      "last_stage": {
+        "pool_config": {
+          "selection": "per_arm_default_private_pool",
+          "pool_argument": null,
+          "shared_between_arms": false
+        },
+        "stage": "capture_body_returned",
+        "memory_before_capture": {
+          "0": {
+            "memory_allocated": 41418752,
+            "memory_reserved": 56623104,
+            "max_memory_allocated": 49807360,
+            "max_memory_reserved": 56623104
+          },
+          "1": {
+            "memory_allocated": 41943040,
+            "memory_reserved": 77594624,
+            "max_memory_allocated": 57147392,
+            "max_memory_reserved": 77594624
+          }
+        },
+        "row_id": "diagnostic_chain"
+      },
+      "python_fault_stack": "Fatal Python error: Segmentation fault\n\nCurrent thread 0x00007f9713a91b80 (most recent call first):\n  File \"/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/site-packages/torch/cuda/graphs.py\", line 128 in capture_end\n  File \"/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/site-packages/torch/cuda/graphs.py\", line 265 in __exit__\n  File \"/root/private_data/LJ/Fusion-placement-search/calibration/ffn_b4_runtime.py\", line 71 in capture\n  File \"/root/private_data/LJ/Fusion-placement-search/calibration/ffn_b4_diagnostics.py\", line 152 in worker\n  File \"/root/private_data/LJ/Fusion-placement-search/calibration/ffn_b4_diagnostics.py\", line 196 in main\n  File \"/root/private_data/LJ/Fusion-placement-search/calibration/ffn_b4_diagnostics.py\", line 203 in <module>\n  File \"/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/runpy.py\", line 86 in _run_code\n  File \"/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/runpy.py\", line 196 in _run_module_as_main"
+    },
+    "chain_preallocated_1": {
+      "returncode": -11,
+      "calls": 1,
+      "last_stage": {
+        "pool_config": {
+          "selection": "per_arm_default_private_pool",
+          "pool_argument": null,
+          "shared_between_arms": false
+        },
+        "stage": "capture_body_returned",
+        "memory_before_capture": {
+          "0": {
+            "memory_allocated": 41943040,
+            "memory_reserved": 56623104,
+            "max_memory_allocated": 50331648,
+            "max_memory_reserved": 56623104
+          },
+          "1": {
+            "memory_allocated": 43515904,
+            "memory_reserved": 77594624,
+            "max_memory_allocated": 59244544,
+            "max_memory_reserved": 77594624
+          }
+        },
+        "row_id": "diagnostic_chain"
+      },
+      "python_fault_stack": "Fatal Python error: Segmentation fault\n\nCurrent thread 0x00007fc030492b80 (most recent call first):\n  File \"/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/site-packages/torch/cuda/graphs.py\", line 128 in capture_end\n  File \"/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/site-packages/torch/cuda/graphs.py\", line 265 in __exit__\n  File \"/root/private_data/LJ/Fusion-placement-search/calibration/ffn_b4_runtime.py\", line 71 in capture\n  File \"/root/private_data/LJ/Fusion-placement-search/calibration/ffn_b4_diagnostics.py\", line 152 in worker\n  File \"/root/private_data/LJ/Fusion-placement-search/calibration/ffn_b4_diagnostics.py\", line 196 in main\n  File \"/root/private_data/LJ/Fusion-placement-search/calibration/ffn_b4_diagnostics.py\", line 203 in <module>\n  File \"/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/runpy.py\", line 86 in _run_code\n  File \"/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/runpy.py\", line 196 in _run_module_as_main"
+    }
+  },
+  "chain_preallocated_50": {
+    "status": "blocked",
+    "reason": "one-call preallocated chain did not pass",
+    "worker_attempts": 0
+  },
+  "conclusions": {
+    "profiled_existing_graph_timing_state_requires_isolation": true,
+    "synchronous_wall_is_not_kernel_profile": true,
+    "explicit_output_preallocation_did_not_resolve_capture_end_crash": true,
+    "backend_internal_root_cause_known": false
+  },
+  "new_accepted_profiles": 0,
+  "raw_file_sha256": {
+    "chain_allocating_1/last_stage.json": "721ed5d9be2b00b61e579804dd3e55e935bc31b8b95afdf30704e2895b2d3071",
+    "chain_allocating_1/placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+    "chain_allocating_1/placed_gpu0/prepare.json": "e1a7ef2da2c4b48781a2a44bafefd73e54d7e041eb7c8c35998a47b2cb58ae52",
+    "chain_allocating_1/placed_gpu1/placed.json": "555207b81191a31855bf531f042a74e537672d23138b012c854aaf0f344f4418",
+    "chain_allocating_1/placed_gpu1/prepare.json": "b051f945f67443fdb91e03dc8cf4886bff9339d049dcf759b83c49d921ca7ade",
+    "chain_allocating_1/runtime_identity.json": "db5e475221577999d084da5f9f3bfddd9f5b860c64ae803b7f42dd99fd867905",
+    "chain_allocating_1/worker.log": "bc480cf325c4743b66378ad20b795a862583e03ad92754716cb6da859bc473af",
+    "chain_preallocated_1/last_stage.json": "51ed9e1ad7320551fbfc7a87ecbe91fb283aadc0e7e20225062538615f1707a3",
+    "chain_preallocated_1/placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+    "chain_preallocated_1/placed_gpu0/prepare.json": "e1a7ef2da2c4b48781a2a44bafefd73e54d7e041eb7c8c35998a47b2cb58ae52",
+    "chain_preallocated_1/placed_gpu1/placed.json": "555207b81191a31855bf531f042a74e537672d23138b012c854aaf0f344f4418",
+    "chain_preallocated_1/placed_gpu1/prepare.json": "b051f945f67443fdb91e03dc8cf4886bff9339d049dcf759b83c49d921ca7ade",
+    "chain_preallocated_1/runtime_identity.json": "db5e475221577999d084da5f9f3bfddd9f5b860c64ae803b7f42dd99fd867905",
+    "chain_preallocated_1/worker.log": "2f238dc2344c705bc93577500968f6d73a817f144436068b67be33bac95354af",
+    "plan.json": "9bfb401f585d68ed410ddcb9320fb6599d670a6b65e86fb302c8b544b64ac9bf",
+    "summary.json": "aae851abcb55c893d858089ba30943c6d2ec4acc422f284d5c235c4077344e1f",
+    "timing_control/identity.json": "63ad9b6a2dbb0b98f985b769aceab22ec7449b375fc26cafcc11bc31aa08d9e3",
+    "timing_control/last_stage.json": "7c442276a2394ec4bdeecd92293825fa738c13618b45b86729b3777e876d4735",
+    "timing_control/placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+    "timing_control/placed_gpu0/prepare.json": "e1a7ef2da2c4b48781a2a44bafefd73e54d7e041eb7c8c35998a47b2cb58ae52",
+    "timing_control/placed_gpu1/placed.json": "555207b81191a31855bf531f042a74e537672d23138b012c854aaf0f344f4418",
+    "timing_control/placed_gpu1/prepare.json": "b051f945f67443fdb91e03dc8cf4886bff9339d049dcf759b83c49d921ca7ade",
+    "timing_control/result.json": "2da36fa52fbe7e625da2bbb5dae613daa172dd81458b32f4900c295be57db97f",
+    "timing_control/runtime_identity.json": "db5e475221577999d084da5f9f3bfddd9f5b860c64ae803b7f42dd99fd867905",
+    "timing_control/worker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "timing_profile/identity.json": "56df9d0e93e183d1a167e0fb4a8f23f0f6ad6bc0eaf0bc7a78cb2221edd66bfc",
+    "timing_profile/intervention_trace.json": "31d61e459a9368593b29f024c87b8d78e5587b3771dedfddcfb66f0b56549574",
+    "timing_profile/last_stage.json": "7c442276a2394ec4bdeecd92293825fa738c13618b45b86729b3777e876d4735",
+    "timing_profile/placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+    "timing_profile/placed_gpu0/prepare.json": "e1a7ef2da2c4b48781a2a44bafefd73e54d7e041eb7c8c35998a47b2cb58ae52",
+    "timing_profile/placed_gpu1/placed.json": "555207b81191a31855bf531f042a74e537672d23138b012c854aaf0f344f4418",
+    "timing_profile/placed_gpu1/prepare.json": "b051f945f67443fdb91e03dc8cf4886bff9339d049dcf759b83c49d921ca7ade",
+    "timing_profile/result.json": "125ebb478adc1d72359f96c573aea911607c75d5dd8be6533b7e95c28683227d",
+    "timing_profile/runtime_identity.json": "db5e475221577999d084da5f9f3bfddd9f5b860c64ae803b7f42dd99fd867905",
+    "timing_profile/worker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "policy": {
-    "version": "ffn-b4.execution.v2",
+    "version": "ffn-b4.execution.v3",
     "superseded_fused_by": "c4fc415",
     "smoke": {
       "minimum_rows": [
@@ -30,10 +30,18 @@
       "failure": "mark_cell_quality_failed_and_continue_grid",
       "process_scope": "one fresh subprocess per round group; no worker retry",
       "parent_gpu_state": "minimum-smoke runtime retained, idle during workers",
+      "path_trace_phase": "after all seven rounds and anchors in the worker; no subsequent timing",
+      "blocked_rows": {
+        "diagnostic/down0-copy524288-gate1": {
+          "reason": "reviewed BW1000 backend capture_end SIGSEGV; chain diagnostic unavailable",
+          "evidence": "data/ffn_b4_diagnostics01_review/report.json",
+          "scope": "this composed cross-GPU GEMM/copy/GEMM capture only; no physical route or global HIP claim"
+        }
+      },
       "preserve_all_attempts": true,
       "automatic_admission": false
     },
-    "policy_id": "sha256:1c297985d72f5c03af0db778c28214b9b135c7db4541b883ff5f4daa54285a7e"
+    "policy_id": "sha256:7541d4036e4442182c74fdba1942ce90cc1d01f6b0697f74cb9607f288d563c7"
   },
   "active_recipe": {
     "mode": "graph_replay",
@@ -167,11 +175,12 @@
     ],
     "rotation": "attempt_id modulo four, including invalid attempts",
     "no_automatic_admission": true,
-    "formal_policy_id": "sha256:68b6983fc794048f00a87e8443baeca4b12f1991617d4092583ed82e684c7719",
+    "formal_policy_id": "sha256:51b80b8eaac03466a72d5975e0649201fcadfa73efb55c76c06841c5e721c2b8",
     "base_b3_recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
     "uncaptured_initialization_bodies": 1,
-    "path_trace_replays_before_formal": 1,
-    "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61"
+    "path_trace_replays_before_formal": 0,
+    "path_trace_replays_after_formal": 1,
+    "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055"
   },
   "b3_source_sha256": {
     "identity.json": "a464d510d00d233987a13b1152ed0ea32d49105729abee125566fff83f5cf108",
@@ -183,10 +192,11 @@
     "verification.json": "cfbaf04ef98e8fe4175bf3b4bed36e29b0f05f708bb45a1da495b75d8d083f94"
   },
   "source_sha256": {
-    "calibration/ffn_b4.py": "1e55c1ea01fb3f7c747be2d24bee870b5578efbf936c31757e47303117a0e9a9",
+    "calibration/ffn_b4.py": "e47c238a67579ad9741eb2c58a1e6896f54ff68ce1b014b230fc81e298a39869",
     "calibration/ffn_b4_runtime.py": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
-    "calibration/ffn_b4_policy.py": "aaf69c7d5b353303ad302984dcdeeffcf9867caf2b329158de8ee3740c3a6711",
+    "calibration/ffn_b4_policy.py": "ec5499feaabf8033e1cfca61383172680382042c9eb441c95af4252ec62d7ac4",
     "calibration/ffn_b4_supervisor.py": "a2c2ac6ae01bf253f79c52c23fd920f2f3fa027839eef1d42be0b67af7c9e5ab",
+    "data/ffn_b4_diagnostics01_review/report.json": "f47825aec75b347408dc9483c8f6ad723a2bac274c316939bfb285260b6be333",
     "execution/ffn_transfer.py": "44dd9e86217f727bd7357d77dbf6edcec1bd5ac90c6b3e8360627d860c61a6b6",
     "integration/flagscale/kerv_execution.py": "dd083ef1fe31c54176f24302f7f153f442e625db6284a4e12a3acb27c5b8bbe8"
   },
@@ -208,7 +218,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:2c89bf7f08030f17c7a25727635b372cc9a6ee9808b579236fcce37350c35ae3",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "gate_proj@gpu0",
         "gpu_measurement_ready": false,
@@ -232,7 +242,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:2871be40546ff07caa9a6ee649d58a8c0b6070abdc753dc2630f373e0f491d7c",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "up_proj@gpu0",
         "gpu_measurement_ready": false,
@@ -256,7 +266,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:0f5042f207ba742771ef42ac07872e3f274079c17a83cde2c3e8f705bdf6ae7b",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "activation_gpu0",
         "gpu_measurement_ready": false,
@@ -280,7 +290,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:f078e394718118a4361a495810c8b0345d332e05f4f3188ec4b82eca0fa9b84c",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "activation_gpu0",
         "gpu_measurement_ready": false,
@@ -304,7 +314,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:43b37592da985d881532b740185070931007687ba5c5bd862961719fea5216b3",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "link_quartet",
         "gpu_measurement_ready": false,
@@ -329,7 +339,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "activation_gpu0",
         "gpu_measurement_ready": false,
@@ -344,13 +354,13 @@
           "dtype": "bf16",
           "layout": "declared_contiguous",
           "measurement_contract": {
-            "template_id": "sha256:8208660ce5437608e081053f38e827925a7b55e01a3821afae1ee828ba3c57e4",
+            "template_id": "sha256:e2eb3fc4f6a2c1bc7d6c16a60e1fb705adee323270aaa133984ff85c8c4a72e8",
             "runtime_contract_id": null
           },
-          "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61"
+          "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055"
         },
         "input_policy": "same 50 disjoint gate views and one shared read-only up; reset gate outside EVERY replay; Fused outputs alias gates",
-        "pair_key_template_id": "sha256:681543eb261fe36050ff453ad2ac649e219f2dc00bfb3718b9d2c51142389c32",
+        "pair_key_template_id": "sha256:2ef299663872b2d601b196bf1457532579b567ea92ff6911e259ecdf90c7909e",
         "base_b3_recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647"
       },
       {
@@ -370,7 +380,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "activation_gpu0",
         "gpu_measurement_ready": false,
@@ -385,13 +395,13 @@
           "dtype": "bf16",
           "layout": "declared_contiguous",
           "measurement_contract": {
-            "template_id": "sha256:8208660ce5437608e081053f38e827925a7b55e01a3821afae1ee828ba3c57e4",
+            "template_id": "sha256:e2eb3fc4f6a2c1bc7d6c16a60e1fb705adee323270aaa133984ff85c8c4a72e8",
             "runtime_contract_id": null
           },
-          "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61"
+          "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055"
         },
         "input_policy": "same 50 disjoint gate views and one shared read-only up; reset gate outside EVERY replay; Fused outputs alias gates",
-        "pair_key_template_id": "sha256:681543eb261fe36050ff453ad2ac649e219f2dc00bfb3718b9d2c51142389c32",
+        "pair_key_template_id": "sha256:2ef299663872b2d601b196bf1457532579b567ea92ff6911e259ecdf90c7909e",
         "base_b3_recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647"
       },
       {
@@ -410,7 +420,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:2c89bf7f08030f17c7a25727635b372cc9a6ee9808b579236fcce37350c35ae3",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "link_quartet",
         "gpu_measurement_ready": false,
@@ -434,7 +444,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:2871be40546ff07caa9a6ee649d58a8c0b6070abdc753dc2630f373e0f491d7c",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "up_proj@gpu1",
         "gpu_measurement_ready": false,
@@ -458,7 +468,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:0f5042f207ba742771ef42ac07872e3f274079c17a83cde2c3e8f705bdf6ae7b",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "activation_gpu1",
         "gpu_measurement_ready": false,
@@ -482,7 +492,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:f078e394718118a4361a495810c8b0345d332e05f4f3188ec4b82eca0fa9b84c",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "activation_gpu1",
         "gpu_measurement_ready": false,
@@ -506,7 +516,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:43b37592da985d881532b740185070931007687ba5c5bd862961719fea5216b3",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "down_proj@gpu1",
         "gpu_measurement_ready": false,
@@ -531,7 +541,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "activation_gpu1",
         "gpu_measurement_ready": false,
@@ -546,13 +556,13 @@
           "dtype": "bf16",
           "layout": "declared_contiguous",
           "measurement_contract": {
-            "template_id": "sha256:8208660ce5437608e081053f38e827925a7b55e01a3821afae1ee828ba3c57e4",
+            "template_id": "sha256:e2eb3fc4f6a2c1bc7d6c16a60e1fb705adee323270aaa133984ff85c8c4a72e8",
             "runtime_contract_id": null
           },
-          "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61"
+          "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055"
         },
         "input_policy": "same 50 disjoint gate views and one shared read-only up; reset gate outside EVERY replay; Fused outputs alias gates",
-        "pair_key_template_id": "sha256:4fad70badaf562065f00cd976d60f6751e81682bcde21f060d40610314b363a4",
+        "pair_key_template_id": "sha256:7a432cbe13a42e76135844464ac23bbdcc42b8b10aff8d78cc000484487532fa",
         "base_b3_recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647"
       },
       {
@@ -572,7 +582,7 @@
         "layout": "constructor_declared_contiguous; must observe before timing",
         "action": "new_measurement",
         "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "activation_gpu1",
         "gpu_measurement_ready": false,
@@ -587,13 +597,13 @@
           "dtype": "bf16",
           "layout": "declared_contiguous",
           "measurement_contract": {
-            "template_id": "sha256:8208660ce5437608e081053f38e827925a7b55e01a3821afae1ee828ba3c57e4",
+            "template_id": "sha256:e2eb3fc4f6a2c1bc7d6c16a60e1fb705adee323270aaa133984ff85c8c4a72e8",
             "runtime_contract_id": null
           },
-          "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61"
+          "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055"
         },
         "input_policy": "same 50 disjoint gate views and one shared read-only up; reset gate outside EVERY replay; Fused outputs alias gates",
-        "pair_key_template_id": "sha256:4fad70badaf562065f00cd976d60f6751e81682bcde21f060d40610314b363a4",
+        "pair_key_template_id": "sha256:7a432cbe13a42e76135844464ac23bbdcc42b8b10aff8d78cc000484487532fa",
         "base_b3_recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647"
       },
       {
@@ -609,7 +619,7 @@
         "b2_request_id": "sha256:b816c3da2ac726b95d11398330f86911bfc013455519fc6f09fbed71369e8b5e",
         "action": "new_measurement",
         "candidate_id": "sha256:b55537131916468cd757858345da4e9eed59d83bdce3dc5de94a5d20c95abda3",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "link_quartet",
         "gpu_measurement_ready": false,
@@ -630,7 +640,7 @@
         "b2_request_id": "sha256:dd5cdabcef6c45b675092505c4c0e588c54d9b6acd62461c3bdfd6153bc552e4",
         "action": "new_measurement",
         "candidate_id": "sha256:df28a0d5d63ef486c5a17a1a22ec9db0eb18a98b73035dfa78622f3d6c23b21c",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "copy/524288/1->0",
         "gpu_measurement_ready": false,
@@ -651,7 +661,7 @@
         "b2_request_id": "sha256:1c7848212e0fc528daefc399bb67c2640ac4f553fef53504cd8fd2697310b871",
         "action": "new_measurement",
         "candidate_id": "sha256:646c0a16ac6d65ce09f65ed7751b35b27252305d265d777932c2437a050a99bf",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "copy/1572864/0->1",
         "gpu_measurement_ready": false,
@@ -672,7 +682,7 @@
         "b2_request_id": "sha256:f8831c2658f1f11c69a1b8caeb44f292d26e5469f30a378c522fb851de1f3a14",
         "action": "new_measurement",
         "candidate_id": "sha256:0236cbbc843ad1ebe247182eb1c1432beaed2778dfa9c3c40abb7ad614db85f2",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "copy/1572864/1->0",
         "gpu_measurement_ready": false,
@@ -703,7 +713,7 @@
         "copy_fixture": "50 independent source Y tensors, same values as producer outputs; sources unchanged in isolated copy",
         "scope_limit": "does not certify reverse direction, 1.5MiB links or complete FFN composition",
         "candidate_id": "sha256:696491b6c708096c69386a316ced17c6165b681ebec3275442847d657f4bafdf",
-        "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
         "measurement_contract_id": null,
         "round_group_id": "link_quartet",
         "gpu_measurement_ready": false,
@@ -980,7 +990,7 @@
       "unit": "us/call",
       "restore_scope": "outside Event interval",
       "retention": "all 50 outputs",
-      "recipe_id": "sha256:dc0676eb3bb8e6cb9f94bc86443b6a9f176070622c6c1788f911e3f1fe786a61",
+      "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
       "runtime_environment": "bind actual B4 observation",
       "max_attempts": 7,
       "extra_attempts": 0

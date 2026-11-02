@@ -51,13 +51,14 @@ def review(root, source_ref):
         result_path, sample_path = directory/"result.json", directory/"samples.json"
         item = {"row_id": row["row_id"], "identity_written": (directory/"identity.json").exists(),
                 "result_written": result_path.exists(), "attempts": 0, "admitted": False,
-                "grid_status": master_row.get("status")}
+                "grid_status": master_row.get("status"), "execution_status": master_row.get("execution_status")}
         if sample_path.exists():
             samples = read(sample_path)
             item["attempts"] = len(samples)
             if len(samples) == 7:
                 shaped = [{"attempt": s["attempt"], "numeric_ok": s["numeric_ok"], "capture_ok": s["capture_ok"],
-                           "path_ok": s["path_ok"], "arm_us": {"body": s["duration_us"]}, "anchors": s["anchors"]}
+                           "path_ok": s.get("path_ok", read(result_path).get("path_verified", False)),
+                           "arm_us": {"body": s["duration_us"]}, "anchors": s["anchors"]}
                           for s in samples]
                 checked = formal_quality_review(shaped, ("body",), tuple(samples[0]["anchors"]))
                 original = read(result_path)["quality"]
@@ -71,9 +72,13 @@ def review(root, source_ref):
                 if warm:
                     warm_ms = statistics.median(w["elapsed_ms"] for w in warm)
                     formal_ms = statistics.median(s["raw_timing"]["elapsed_ms"] for s in samples)
-                    item.update(pre_profiler_warmup_median_ms=warm_ms, post_profiler_formal_median_ms=formal_ms,
-                                pre_over_post_event_ratio=warm_ms/formal_ms,
-                                raw_event_devices=sorted({s["raw_timing"]["event_boundary"]["device"] for s in samples}))
+                    if read(result_path).get("path_evidence_phase") == "after_all_group_timing":
+                        item.update(warmup_median_ms=warm_ms, formal_median_ms=formal_ms,
+                                    warmup_over_formal_event_ratio=warm_ms/formal_ms, trace_phase="after_all_group_timing")
+                    else:
+                        item.update(pre_profiler_warmup_median_ms=warm_ms, post_profiler_formal_median_ms=formal_ms,
+                                    pre_over_post_event_ratio=warm_ms/formal_ms)
+                    item["raw_event_devices"] = sorted({s["raw_timing"]["event_boundary"]["device"] for s in samples})
                 events = read(directory/"replay_trace.json")["traceEvents"]
                 kernels = [e for e in events if e.get("cat") == "kernel"]
                 if kernels:
