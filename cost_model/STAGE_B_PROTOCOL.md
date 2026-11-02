@@ -100,6 +100,8 @@ run05已核验v3：18核心格各7轮、0进程崩溃，9 quality_passed/9锚点
 
 run05锚点CPU归因阶段（61557f7），见FFN_B4_ANCHOR_AUDIT.md。准入/覆盖报告主指标采用priceable_plans=0/48；Down0/1是各方案缺失的设备备选，并非每方案同时需要两者。去重后6/70轮组窗口、8/98设备前后对越线，全部在轮0～2；9格失败由共享判据与固定7轮传播。预热/正式中位比不能替代逐轮稳定性，现有时间/遥测缺口不足以区分纯协议/环境原因。该轮未改采集器/阈值、未新增GPU、未追溯升格；新锚点协议需另行预注册，不把记录口径修正当成本数据恢复。
 
+pilot01真机回传已CPU核验，见calibration/FFN_ANCHOR_PILOT01_REVIEW.md及data/ffn_anchor_pilot01_review：13/13来源匹配06af153、四格无崩溃且完整，pilot_passed=true但四格质量全部失败，R3质量闸门false。拒绝原因均为anchor漂移/端点IQR，target IQR均不超10%；R3 pre第一条14/14严格大于后两条。当前物理GPU0 UUID与run05不同，168项遥测全null/amdsmi不可导入，不能唯一判因或采用R3。旧样本/阈值/运行时不改，七项矩阵关闭；Mul0元数据Smoke仍独立待执行，不准入pilot数据。
+
 测前修订采用collector.v2，见calibration/FFN_ANCHOR_CONTROL.md及data/ffn_anchor_control_v2：pilot_passed只验四格/锚点/时间戳/端点三类读数完整性；R3质量另列，不自动采用或开矩阵。报告首行Down0，n=1仅描述差值，不估计越线率、不证明采样有偏或Down/共享窗口因果。超过噪声判据尚未冻结，保持人工协议复核。另加独立Mul0元数据Smoke（calibration.ffn_mul_metadata_smoke），完整当前pilot原件CPU复核后才允许启动一次worker；无KERV探针，计时不参与通过，仍无准入/七项自动执行。58项CPU测试通过，本轮GPU执行0。
 
 此前collector.v1已实现（2bc8f94），见calibration/FFN_ANCHOR_CONTROL.md及data/ffn_anchor_control_v1：默认CPU plan，显式run仅四格GPU0 pilot，父进程无GPU驻留；固定七轮、末尾Trace、UUID/build一致性与原始证据CPU复核已接通。新activation hook记录实际Mul left，但未在GPU执行，旧记录缺口不变。50项相关CPU测试通过；gpu_validated=false，七项后续矩阵仍关闭，无新准入或搜索。旧v3及冻结协议不改签。

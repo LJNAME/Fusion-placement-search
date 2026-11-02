@@ -1,0 +1,785 @@
+{
+  "scope": "CPU review of pilot_only_not_profile_admission evidence",
+  "source_ref": "06af153",
+  "archive_sha256": "01ce0469e98659d1f3e7540cf4d59450808a4fd6d486229e73200ead17ce0196",
+  "source_checks": {
+    "calibration/ffn_anchor_control.py": true,
+    "calibration/ffn_control_runtime.py": true,
+    "calibration/ffn_b4_runtime.py": true,
+    "calibration/ffn_anchor_control_protocol.py": true,
+    "integration/flagscale/kerv_profile_runtime.py": true,
+    "integration/flagscale/kerv_execution.py": true,
+    "calibration/validate_kerv_adapter.py": true,
+    "calibration/ffn_anchor_report.py": true,
+    "calibration/ffn_mul_metadata_smoke.py": true,
+    "tools/run_ffn_anchor_control.sh": true,
+    "cost_model/ffn_profile_export.py": true,
+    "cost_model/measurement_labels.py": true,
+    "data/ffn_measurement_b3/recipe.json": true
+  },
+  "report_recomputed": true,
+  "primary_readout": {
+    "workload": "Down0",
+    "cells": {
+      "down_r1": "quality_failed",
+      "down_r3": "quality_failed"
+    },
+    "interpretation": "Quality failure reproduced under pilot conditions; no Down-specific cause established."
+  },
+  "pilot_passed": true,
+  "r3_quality_gate_passed": false,
+  "cells": {
+    "down_r1": {
+      "pipeline_complete": true,
+      "quality": {
+        "status": "quality_failed",
+        "rounds": [
+          {
+            "attempt": 0,
+            "pre": {
+              "median_us": 8.220760226249695,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.5599799156188965,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.20202271626020227,
+            "valid": false,
+            "invalid_reasons": [
+              "anchor_drift_above_10pct"
+            ]
+          },
+          {
+            "attempt": 1,
+            "pre": {
+              "median_us": 6.5951597690582275,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.630399823188782,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.005343320763188485,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 2,
+            "pre": {
+              "median_us": 6.643199920654297,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.5407997369766235,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.015414286021906717,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 3,
+            "pre": {
+              "median_us": 6.575980186462402,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.569560170173645,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.0009762827908109954,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 4,
+            "pre": {
+              "median_us": 6.76800012588501,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.598359942436218,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.02506503845943837,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 5,
+            "pre": {
+              "median_us": 6.732800006866455,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.575999855995178,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.023288995768679304,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 6,
+            "pre": {
+              "median_us": 6.659160256385803,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.515200138092041,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.021618359185110708,
+            "valid": true,
+            "invalid_reasons": []
+          }
+        ],
+        "target_median_us": 20.499179363250732,
+        "target_iqr_over_median": 0.010850224221296657,
+        "cell_reasons": [
+          "invalid_anchor_rounds"
+        ],
+        "extra_attempts": 0,
+        "replacement": false
+      },
+      "r3_pre_first_strict_max": {
+        "observed": 0,
+        "endpoints": 0
+      },
+      "target_preparation_s": 5.957545756,
+      "window_median_ms": 41.615733,
+      "telemetry": {
+        "observations": 42,
+        "available": 0,
+        "errors": [
+          "ModuleNotFoundError(\"amdsmi does not seem to be installed or it can't be imported.\")"
+        ]
+      },
+      "warmup_over_target_median": 1.0752420423450673,
+      "trace_kernel_counts": {
+        "target": 50,
+        "anchor": 50
+      },
+      "identity_hash": "sha256:6c32840e11b470d8fa61a0ad60844c49bcd2d9db3b234dbbcbcbe499cfbe884d",
+      "measurement_contract_id": "sha256:1131fa500650cd8ba27d13ff832afe17300cacc98e675c46741d85403e7e55d3"
+    },
+    "up_r3": {
+      "pipeline_complete": true,
+      "quality": {
+        "status": "quality_failed",
+        "rounds": [
+          {
+            "attempt": 0,
+            "pre": {
+              "median_us": 6.748800277709961,
+              "iqr_over_median": 0.05760731096581282,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.56000018119812,
+              "iqr_over_median": 0.004149382683070301,
+              "endpoint_valid": true
+            },
+            "drift": 0.027975356914237425,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 1,
+            "pre": {
+              "median_us": 7.008000016212463,
+              "iqr_over_median": 0.03516265782621827,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.579179763793945,
+              "iqr_over_median": 0.010943617485435809,
+              "endpoint_valid": true
+            },
+            "drift": 0.06119010437021629,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 2,
+            "pre": {
+              "median_us": 6.588799953460693,
+              "iqr_over_median": 0.00946755668357612,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.524800062179565,
+              "iqr_over_median": 0.0014743580725614925,
+              "endpoint_valid": true
+            },
+            "drift": 0.009713436700641169,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 3,
+            "pre": {
+              "median_us": 6.53439998626709,
+              "iqr_over_median": 0.006608103108446448,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.547200083732605,
+              "iqr_over_median": 0.0007361818087303798,
+              "endpoint_valid": true
+            },
+            "drift": 0.001958878778834513,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 4,
+            "pre": {
+              "median_us": 6.672000288963318,
+              "iqr_over_median": 0.12230064985319052,
+              "endpoint_valid": false
+            },
+            "post": {
+              "median_us": 6.563199758529663,
+              "iqr_over_median": 0.027789785729503955,
+              "endpoint_valid": true
+            },
+            "drift": 0.01630703323164274,
+            "valid": false,
+            "invalid_reasons": [
+              "pre_endpoint_IQR_above_10pct"
+            ]
+          },
+          {
+            "attempt": 5,
+            "pre": {
+              "median_us": 6.588760018348694,
+              "iqr_over_median": 0.02428527682702489,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.607999801635742,
+              "iqr_over_median": 0.002666469066920287,
+              "endpoint_valid": true
+            },
+            "drift": 0.002920091676350098,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 6,
+            "pre": {
+              "median_us": 6.704000234603882,
+              "iqr_over_median": 0.10095318528313005,
+              "endpoint_valid": false
+            },
+            "post": {
+              "median_us": 6.623979806900024,
+              "iqr_over_median": 0.0009692083122097931,
+              "endpoint_valid": true
+            },
+            "drift": 0.011936220898504424,
+            "valid": false,
+            "invalid_reasons": [
+              "pre_endpoint_IQR_above_10pct"
+            ]
+          }
+        ],
+        "target_median_us": 16.5664005279541,
+        "target_iqr_over_median": 0.002800264001248048,
+        "cell_reasons": [
+          "invalid_anchor_rounds"
+        ],
+        "extra_attempts": 0,
+        "replacement": false
+      },
+      "r3_pre_first_strict_max": {
+        "observed": 7,
+        "endpoints": 7
+      },
+      "target_preparation_s": 5.906809746,
+      "window_median_ms": 97.705765,
+      "telemetry": {
+        "observations": 42,
+        "available": 0,
+        "errors": [
+          "ModuleNotFoundError(\"amdsmi does not seem to be installed or it can't be imported.\")"
+        ]
+      },
+      "warmup_over_target_median": 1.035637182209793,
+      "trace_kernel_counts": {
+        "target": 50,
+        "anchor": 50
+      },
+      "identity_hash": "sha256:f0d86e369eba8ff0fac9256d810b9a06abe8b77c43c0d634154d31e32d1e0a11",
+      "measurement_contract_id": "sha256:58d5834f9a3ae82e2e6d6f7d77f2e6b7d432f31adafbf757d49bdc151d658a7d"
+    },
+    "up_r1": {
+      "pipeline_complete": true,
+      "quality": {
+        "status": "quality_failed",
+        "rounds": [
+          {
+            "attempt": 0,
+            "pre": {
+              "median_us": 7.254379987716675,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.6975802183151245,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.07675359856312182,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 1,
+            "pre": {
+              "median_us": 7.919960021972656,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.668800115585327,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.15797553307291792,
+            "valid": false,
+            "invalid_reasons": [
+              "anchor_drift_above_10pct"
+            ]
+          },
+          {
+            "attempt": 2,
+            "pre": {
+              "median_us": 7.907159924507141,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.595199704170227,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.16592053693901854,
+            "valid": false,
+            "invalid_reasons": [
+              "anchor_drift_above_10pct"
+            ]
+          },
+          {
+            "attempt": 3,
+            "pre": {
+              "median_us": 7.907159924507141,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.934400200843811,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.12302264440717796,
+            "valid": false,
+            "invalid_reasons": [
+              "anchor_drift_above_10pct"
+            ]
+          },
+          {
+            "attempt": 4,
+            "pre": {
+              "median_us": 7.862359881401062,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.611199975013733,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.15913287171540336,
+            "valid": false,
+            "invalid_reasons": [
+              "anchor_drift_above_10pct"
+            ]
+          },
+          {
+            "attempt": 5,
+            "pre": {
+              "median_us": 6.588760018348694,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.537600159645081,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.0077647172701905765,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 6,
+            "pre": {
+              "median_us": 6.566399931907654,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.547200083732605,
+              "iqr_over_median": null,
+              "endpoint_valid": true
+            },
+            "drift": 0.002923953517018105,
+            "valid": true,
+            "invalid_reasons": []
+          }
+        ],
+        "target_median_us": 16.57920002937317,
+        "target_iqr_over_median": 0.00830072475986402,
+        "cell_reasons": [
+          "invalid_anchor_rounds"
+        ],
+        "extra_attempts": 0,
+        "replacement": false
+      },
+      "r3_pre_first_strict_max": {
+        "observed": 0,
+        "endpoints": 0
+      },
+      "target_preparation_s": 4.973374532,
+      "window_median_ms": 43.100028,
+      "telemetry": {
+        "observations": 42,
+        "available": 0,
+        "errors": [
+          "ModuleNotFoundError(\"amdsmi does not seem to be installed or it can't be imported.\")"
+        ]
+      },
+      "warmup_over_target_median": 0.9972013226398352,
+      "trace_kernel_counts": {
+        "target": 50,
+        "anchor": 50
+      },
+      "identity_hash": "sha256:98279a98ac4ccf5ce86d8c039fd8812a8e48ea78057d8913384512b33cf4f2eb",
+      "measurement_contract_id": "sha256:46da95e725763dd94b8619b809fadacd4dfdfc780436a774d15ed93c27758f17"
+    },
+    "down_r3": {
+      "pipeline_complete": true,
+      "quality": {
+        "status": "quality_failed",
+        "rounds": [
+          {
+            "attempt": 0,
+            "pre": {
+              "median_us": 6.6016000509262085,
+              "iqr_over_median": 0.10712254552713715,
+              "endpoint_valid": false
+            },
+            "post": {
+              "median_us": 6.799960136413574,
+              "iqr_over_median": 2.556954807142782,
+              "endpoint_valid": false
+            },
+            "drift": 0.030047273987695706,
+            "valid": false,
+            "invalid_reasons": [
+              "pre_endpoint_IQR_above_10pct",
+              "post_endpoint_IQR_above_10pct"
+            ]
+          },
+          {
+            "attempt": 1,
+            "pre": {
+              "median_us": 6.569579839706421,
+              "iqr_over_median": 0.10520915310082829,
+              "endpoint_valid": false
+            },
+            "post": {
+              "median_us": 6.537560224533081,
+              "iqr_over_median": 0.000978965931165042,
+              "endpoint_valid": true
+            },
+            "drift": 0.004873921309215831,
+            "valid": false,
+            "invalid_reasons": [
+              "pre_endpoint_IQR_above_10pct"
+            ]
+          },
+          {
+            "attempt": 2,
+            "pre": {
+              "median_us": 6.607999801635742,
+              "iqr_over_median": 0.05980480199855968,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.528000235557556,
+              "iqr_over_median": 0.0004932813752748657,
+              "endpoint_valid": true
+            },
+            "drift": 0.012106472227554088,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 3,
+            "pre": {
+              "median_us": 6.543999910354614,
+              "iqr_over_median": 0.065278153494714,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.537560224533081,
+              "iqr_over_median": 0.0041605710177215855,
+              "endpoint_valid": true
+            },
+            "drift": 0.0009840595827856975,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 4,
+            "pre": {
+              "median_us": 6.550400257110596,
+              "iqr_over_median": 0.06399305061408142,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.528000235557556,
+              "iqr_over_median": 0.002207417034455373,
+              "endpoint_valid": true
+            },
+            "drift": 0.003419641651473719,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 5,
+            "pre": {
+              "median_us": 6.553599834442139,
+              "iqr_over_median": 0.08788756753453078,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.537600159645081,
+              "iqr_over_median": 0.00024165153438467478,
+              "endpoint_valid": true
+            },
+            "drift": 0.0024413566896429287,
+            "valid": true,
+            "invalid_reasons": []
+          },
+          {
+            "attempt": 6,
+            "pre": {
+              "median_us": 6.531199812889099,
+              "iqr_over_median": 0.06344775535738649,
+              "endpoint_valid": true
+            },
+            "post": {
+              "median_us": 6.531199812889099,
+              "iqr_over_median": 0.0009829765544896731,
+              "endpoint_valid": true
+            },
+            "drift": 0.0,
+            "valid": true,
+            "invalid_reasons": []
+          }
+        ],
+        "target_median_us": 20.483200550079346,
+        "target_iqr_over_median": 0.0012492904139861862,
+        "cell_reasons": [
+          "invalid_anchor_rounds"
+        ],
+        "extra_attempts": 0,
+        "replacement": false
+      },
+      "r3_pre_first_strict_max": {
+        "observed": 7,
+        "endpoints": 7
+      },
+      "target_preparation_s": 6.475751799,
+      "window_median_ms": 95.773435,
+      "telemetry": {
+        "observations": 42,
+        "available": 0,
+        "errors": [
+          "ModuleNotFoundError(\"amdsmi does not seem to be installed or it can't be imported.\")"
+        ]
+      },
+      "warmup_over_target_median": 1.0035921900783784,
+      "trace_kernel_counts": {
+        "target": 50,
+        "anchor": 50
+      },
+      "identity_hash": "sha256:6a8f5cf502593139b1cf9c3fa0b765beb9e5646dd3a289bed83b0349a4cea09e",
+      "measurement_contract_id": "sha256:3fa745836790e6109e9de91dfdc600b07755b578e7e834b88ffa631eeb5d040b"
+    }
+  },
+  "comparisons": {
+    "down": {
+      "target_R1_median_us": 20.499179363250732,
+      "target_R3_median_us": 20.483200550079346,
+      "target_R3_minus_R1_us": -0.01597881317138672,
+      "target_R1_iqr_over_median": 0.010850224221296657,
+      "target_R3_iqr_over_median": 0.0012492904139861862,
+      "anchor_endpoints": {
+        "pre": {
+          "R1_median_of_seven_single_readings_us": 6.659160256385803,
+          "R3_median_of_seven_endpoint_medians_us": 6.553599834442139,
+          "R3_minus_R1_percent": -1.5851911934757443
+        },
+        "post": {
+          "R1_median_of_seven_single_readings_us": 6.569560170173645,
+          "R3_median_of_seven_endpoint_medians_us": 6.537560224533081,
+          "R3_minus_R1_percent": -0.48709418608944943
+        }
+      },
+      "noise_exceedance": "not_assessed_no_preregistered_criterion",
+      "interpretation": "descriptive comparison of two ordered runs; not a bias or rate estimate",
+      "target_R3_minus_R1_percent": -0.07794855046749939
+    },
+    "up": {
+      "target_R1_median_us": 16.57920002937317,
+      "target_R3_median_us": 16.5664005279541,
+      "target_R3_minus_R1_us": -0.012799501419067383,
+      "target_R1_iqr_over_median": 0.00830072475986402,
+      "target_R3_iqr_over_median": 0.002800264001248048,
+      "anchor_endpoints": {
+        "pre": {
+          "R1_median_of_seven_single_readings_us": 7.862359881401062,
+          "R3_median_of_seven_endpoint_medians_us": 6.672000288963318,
+          "R3_minus_R1_percent": -15.139978459312443
+        },
+        "post": {
+          "R1_median_of_seven_single_readings_us": 6.611199975013733,
+          "R3_median_of_seven_endpoint_medians_us": 6.563199758529663,
+          "R3_minus_R1_percent": -0.726043935525791
+        }
+      },
+      "noise_exceedance": "not_assessed_no_preregistered_criterion",
+      "interpretation": "descriptive comparison of two ordered runs; not a bias or rate estimate",
+      "target_R3_minus_R1_percent": -0.07720216534205909
+    }
+  },
+  "gpu0": {
+    "observed": {
+      "name": "BW",
+      "total_memory": 68702699520,
+      "uuid": "30303134-6331-6162-3532-646331313231",
+      "architecture": "gfx936:sramecc+:xnack-"
+    },
+    "environment": {
+      "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+      "torch_module_version": "2.9.0",
+      "hip": "6.3.26113",
+      "cuda": null,
+      "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+      "triton_module_version": "3.5.1",
+      "driver_version": "60326113",
+      "device_model": "BW",
+      "device_uuid": "30303134-6331-6162-3532-646331313231",
+      "device_architecture": "gfx936:sramecc+:xnack-"
+    }
+  },
+  "run05_gpu0_uuid": "30303134-6331-6162-3532-646133313431",
+  "same_physical_gpu0_as_run05": false,
+  "timed_target_replays": 28,
+  "timed_anchor_replays": 112,
+  "timed_function_invocations": 7000,
+  "r3_pre_first_strict_max": {
+    "observed": 14,
+    "endpoints": 14
+  },
+  "telemetry": {
+    "observations": 168,
+    "available": 0
+  },
+  "independent_runs_per_workload_strategy": 1,
+  "crossing_rate_estimate": null,
+  "environment_causal_verdict": "inconclusive",
+  "protocol_changed": false,
+  "r3_adopted": false,
+  "mul_metadata_smoke_executed": false,
+  "new_accepted_profiles": 0,
+  "priceable_plans": 0,
+  "legal_plans": 48,
+  "followup_matrix_open": false,
+  "raw_file_sha256": {
+    "down_r1/anchor_trace.json": "3a31deec069a6f015d49868566a9f4f7fb293d4cb9e85abecb6fda19a947f8e6",
+    "down_r1/identity.json": "7d6d7789d1338caa48ab80e9a9e68784f8b10ea00eba7cd0cfc53826e0efc136",
+    "down_r1/last_stage.json": "aac5333bc990289b05e989012ec4ccd633dee6431b6ad34484f098db0300c76d",
+    "down_r1/parent_plan.json": "fd3be0327699490aaf37fa939147e70b0c1d74630da712d48e92db427a0dbdd8",
+    "down_r1/placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+    "down_r1/placed_gpu0/prepare.json": "e1a7ef2da2c4b48781a2a44bafefd73e54d7e041eb7c8c35998a47b2cb58ae52",
+    "down_r1/preparation.json": "4440cb907bc0c62130d104cb5e6dad9aa54c13d6db733c4a2f8368179d0f517b",
+    "down_r1/result.json": "7c2c4b9d5b906732cf95d61f0d1d57a09529f23f6412ccd04cfed0d8a5e48516",
+    "down_r1/runtime_identity.json": "7e149661dcdebbc151deb3b80be594fdfe4823a42872f9e1a4115ad0d027546b",
+    "down_r1/samples.json": "1ccd6be4471aeab3693c5e1f212924294228db27ec00da9ec262a4f458da4564",
+    "down_r1/target_trace.json": "56bcbfd53abe542ab9ff3c7f73cd72ec726beff0196cfd5a9a1d8125f902c333",
+    "down_r1/worker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "down_r3/anchor_trace.json": "9dad159d43d82e937542a7c17c128955b0d7779cad7ec4319c57a2d2439add4b",
+    "down_r3/identity.json": "218edb032432cc746952edeee192285d7a80106beca032747c010c6d860a2b1f",
+    "down_r3/last_stage.json": "aac5333bc990289b05e989012ec4ccd633dee6431b6ad34484f098db0300c76d",
+    "down_r3/parent_plan.json": "fd3be0327699490aaf37fa939147e70b0c1d74630da712d48e92db427a0dbdd8",
+    "down_r3/placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+    "down_r3/placed_gpu0/prepare.json": "e1a7ef2da2c4b48781a2a44bafefd73e54d7e041eb7c8c35998a47b2cb58ae52",
+    "down_r3/preparation.json": "637991700c24e99ba7598edfd562deaeab804fd4154ea426932c2f3210b72b93",
+    "down_r3/result.json": "9e3767e95bb1e846c3d32f0ae772fde7e67995592b29aa2d9f5c59a9440a5ded",
+    "down_r3/runtime_identity.json": "7e149661dcdebbc151deb3b80be594fdfe4823a42872f9e1a4115ad0d027546b",
+    "down_r3/samples.json": "bbad172e37c3b5b17002c7a90ed588f18791fea6e84267d3b339399cd3988f8e",
+    "down_r3/target_trace.json": "13580c013cc201218e3ac45abdd5099b7ef167c221b37a998eee3494c8619f37",
+    "down_r3/worker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "fd3be0327699490aaf37fa939147e70b0c1d74630da712d48e92db427a0dbdd8",
+    "report.json": "f5799ad30f0e6f1df9583bb55911c99a607c683b4c38091c45580c6d1a9463c7",
+    "report.md": "e8f6f214fbdff48f1649ee2e4117a6bfd55ff933b4872d0fe518c97fc8f039d9",
+    "report_template.json": "7b48bfcc6285c3b70bf6d67b3725a8e844c61e8e415f6a89e8c8beab30880095",
+    "report_template.md": "cd69a2485ad6232bb9e8afcdfe828c6d0bb9a7e1dd1ac23fc1ee626df8ad319b",
+    "summary.json": "f694b076d5a5be412673fe47d2ca329256f120ad9ece5d4a278c49ba53531614",
+    "up_r1/anchor_trace.json": "b2a5e2bc31bc3dfd385b1754401c0c8d7997d028abde692f20f977c8e7e4a128",
+    "up_r1/identity.json": "4d6505cc91379283501bc4cc55d6a57b7126ebcd40e180185ffc8a17e235bd4e",
+    "up_r1/last_stage.json": "c33ecf75bc6c6ea506df0800c0a93c20534cdcedfc6435d9f356b2c9fa643db8",
+    "up_r1/parent_plan.json": "fd3be0327699490aaf37fa939147e70b0c1d74630da712d48e92db427a0dbdd8",
+    "up_r1/placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+    "up_r1/placed_gpu0/prepare.json": "e1a7ef2da2c4b48781a2a44bafefd73e54d7e041eb7c8c35998a47b2cb58ae52",
+    "up_r1/preparation.json": "c944b1287d0a840da64b133bc82611a9b1968ebe964440b07906ebc114ca523d",
+    "up_r1/result.json": "bfd230c7183c19121808579181957604c4f67fd77014852f7e613bf50e03ba58",
+    "up_r1/runtime_identity.json": "7e149661dcdebbc151deb3b80be594fdfe4823a42872f9e1a4115ad0d027546b",
+    "up_r1/samples.json": "154ed7bc37eb146fdfe3b50bf016fbd64d79aa7b92b55a02cc281efbf9b52782",
+    "up_r1/target_trace.json": "cb4a624730c06314d2fe8a40d8845582370d98878c01bee1097ea647f27b56da",
+    "up_r1/worker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "up_r3/anchor_trace.json": "2457466d74fa1df2fdac68492003db88d59c932c8025771b183e272077809522",
+    "up_r3/identity.json": "a57821cc3fbdbc6f9f09c520dccb10429869111a311be5906edfe2abc93085e4",
+    "up_r3/last_stage.json": "c33ecf75bc6c6ea506df0800c0a93c20534cdcedfc6435d9f356b2c9fa643db8",
+    "up_r3/parent_plan.json": "fd3be0327699490aaf37fa939147e70b0c1d74630da712d48e92db427a0dbdd8",
+    "up_r3/placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+    "up_r3/placed_gpu0/prepare.json": "e1a7ef2da2c4b48781a2a44bafefd73e54d7e041eb7c8c35998a47b2cb58ae52",
+    "up_r3/preparation.json": "fc18d190e7469939865577f99dfef21365cefea48e8efb66fd63510980d95062",
+    "up_r3/result.json": "08d39cdbabc32b93adda456fe6a8f157f1a5737d4318a1f14c797901ef91c64c",
+    "up_r3/runtime_identity.json": "7e149661dcdebbc151deb3b80be594fdfe4823a42872f9e1a4115ad0d027546b",
+    "up_r3/samples.json": "93fc70ec306f15b5f3dce89dfcfb615f93b791674990d33082df69c5f9673722",
+    "up_r3/target_trace.json": "85acc4c613a3a3e3acbecc4ccc68e8d0ff0643debcd604898ea2c8495a8f934d",
+    "up_r3/worker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
