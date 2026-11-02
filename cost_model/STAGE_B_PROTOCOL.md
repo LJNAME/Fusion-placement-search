@@ -100,7 +100,9 @@ run05已核验v3：18核心格各7轮、0进程崩溃，9 quality_passed/9锚点
 
 run05锚点CPU归因阶段（61557f7），见FFN_B4_ANCHOR_AUDIT.md。准入/覆盖报告主指标采用priceable_plans=0/48；Down0/1是各方案缺失的设备备选，并非每方案同时需要两者。去重后6/70轮组窗口、8/98设备前后对越线，全部在轮0～2；9格失败由共享判据与固定7轮传播。预热/正式中位比不能替代逐轮稳定性，现有时间/遥测缺口不足以区分纯协议/环境原因。该轮未改采集器/阈值、未新增GPU、未追溯升格；新锚点协议需另行预注册，不把记录口径修正当成本数据恢复。
 
-锚点控制采集器已实现，见calibration/FFN_ANCHOR_CONTROL.md及data/ffn_anchor_control_v1：默认CPU plan，显式run仅四格GPU0 pilot，父进程无GPU驻留；固定七轮、末尾Trace、UUID/build一致性与原始证据CPU复核已接通。新activation hook记录实际Mul left，但未在GPU执行，旧记录缺口不变。50项相关CPU测试通过；gpu_validated=false，七项后续矩阵仍关闭，无新准入或搜索。旧v3及冻结协议不改签。
+测前修订采用collector.v2，见calibration/FFN_ANCHOR_CONTROL.md及data/ffn_anchor_control_v2：pilot_passed只验四格/锚点/时间戳/端点三类读数完整性；R3质量另列，不自动采用或开矩阵。报告首行Down0，n=1仅描述差值，不估计越线率、不证明采样有偏或Down/共享窗口因果。超过噪声判据尚未冻结，保持人工协议复核。另加独立Mul0元数据Smoke（calibration.ffn_mul_metadata_smoke），完整当前pilot原件CPU复核后才允许启动一次worker；无KERV探针，计时不参与通过，仍无准入/七项自动执行。58项CPU测试通过，本轮GPU执行0。
+
+此前collector.v1已实现（2bc8f94），见calibration/FFN_ANCHOR_CONTROL.md及data/ffn_anchor_control_v1：默认CPU plan，显式run仅四格GPU0 pilot，父进程无GPU驻留；固定七轮、末尾Trace、UUID/build一致性与原始证据CPU复核已接通。新activation hook记录实际Mul left，但未在GPU执行，旧记录缺口不变。50项相关CPU测试通过；gpu_validated=false，七项后续矩阵仍关闭，无新准入或搜索。旧v3及冻结协议不改签。
 
 前次CPU准备快照（c2f58a5），见FFN_B4_CPU_PREPARATION.md：run05九条conditional导出、八条完整边界/运行时身份可精确检查，Mul left元数据缺口保留；严格成本查询九条全部拒绝，priceable仍0/48。另冻结ffn-anchor-control.v1的1/3端点策略对照，原预热位置和七轮/10%规则保留，R3汇总/离散度阈值显式预注册；当时采集器尚未实现、GPU入口关闭；当前入口状态见上一段。旧B4 v3不改、新旧数据不混用。
 

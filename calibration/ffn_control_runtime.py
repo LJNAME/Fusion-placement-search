@@ -54,7 +54,7 @@ class ControlRuntime(Runtime):
             raise ValueError("only the two frozen projection workloads are open")
         return super().make(row_id)
 
-    def activation(self, gpu):
+    def activation(self, gpu, *, mul_smoke_only=False):
         """Future single-device cases record operands at their actual use site.
 
         Not opened by make()/the pilot matrix. This separate implementation
@@ -62,8 +62,9 @@ class ControlRuntime(Runtime):
         """
         if gpu != 0:
             raise ValueError("control runtime is GPU0 only")
-        if "activation0" in self.cache:
-            return self.cache["activation0"]
+        token = "mul_metadata_smoke0" if mul_smoke_only else "activation0"
+        if token in self.cache:
+            return self.cache[token]
         original, up = self.tensor("gate_original", E, gpu), self.tensor("up", E, gpu)
         up_backup = up.clone()
         gates = original.unsqueeze(0).repeat((50, 1, 1, 1))
@@ -78,14 +79,19 @@ class ControlRuntime(Runtime):
         def fused(gate):
             return bound({bound.gate_node: gate, bound.up_node: up}, observe_dispatch=False).output
 
-        with torch.cuda.device(device):
-            probe = bound({bound.gate_node: views[0], bound.up_node: up}, observe_dispatch=True)
-            sync((0,))
-        if probe.observed_jit_launches != 1 or probe.output.data_ptr() != views[0].data_ptr():
-            raise RuntimeError("actual public KERV path or gate alias failed")
+        probe_launches = 0
+        if not mul_smoke_only:
+            with torch.cuda.device(device):
+                probe = bound({bound.gate_node: views[0], bound.up_node: up}, observe_dispatch=True)
+                sync((0,))
+            if probe.observed_jit_launches != 1 or probe.output.data_ptr() != views[0].data_ptr():
+                raise RuntimeError("actual public KERV path or gate alias failed")
+            probe_launches = 1
         cases = {}
         for role, row_id in (("silu", "silu@gpu0"), ("mul", "gated_mul@gpu0"),
                              ("native", "silu_mul/native@gpu0"), ("fused", "silu_mul/fused@gpu0")):
+            if mul_smoke_only and role != "mul":
+                continue
             def reset(_):
                 gates.copy_(original.unsqueeze(0).expand_as(gates))
                 sync((0,))
@@ -118,7 +124,7 @@ class ControlRuntime(Runtime):
                 inputs["left"] = [tensor_meta(g) for g in left_views]
             cases[row_id] = GraphCase(row_id, device, (0,), body, reset, check,
                 {**self.identity((0,), {"role": role, "kerv_binding": self.adapter.manifest["binding"] if role == "fused" else "Torch Reference"}),
-                 "inputs": inputs, "observed_jit_probe_launches": 1,
+                 "inputs": inputs, "observed_jit_probe_launches": probe_launches,
                  "operand_metadata_version": "actual-operands.v1"})
-        self.cache["activation0"] = cases
+        self.cache[token] = cases
         return cases

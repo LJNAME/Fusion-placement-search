@@ -50,7 +50,7 @@ def synthetic_cell(directory, cell, *, bad_r1=False, uuid="fixture-GPU0"):
     def sample(case):
         assert not runtime.profiled
         runtime.events.append("sample:" + case.name)
-        ms = .6 if bad_r1 and len(samples) % per_round == per_round - 1 else .5
+        ms = .8 if bad_r1 and len(samples) % per_round == per_round - 1 else .5
         stamps = {name: next(ticks) for name in pilot.PROTOCOL["required_timestamps_ns"]}
         result = {**stamps, "numeric_ok": True, "calls": 50, "batch_ms": ms,
                   "device": "cuda:0", "start_device": "cuda:0", "end_device": "cuda:0", "stream": 123,
@@ -100,6 +100,7 @@ def test_r1_quality_failure_does_not_stop_r3_or_select_a_replacement(tmp_path):
     assert result["cells"]["down_r1"]["status"] == "quality_failed"
     assert result["cells"]["up_r1"]["status"] == "quality_failed"
     assert result["pilot_gate_passed"] and not result["followup_matrix_open"]
+    assert result["pilot_passed"]
     assert all(c["worker_attempts"] == 1 for c in result["cells"].values())
 
 
@@ -117,6 +118,36 @@ def test_pipeline_crash_or_identity_change_stops_without_retry(tmp_path, failure
     assert len(calls) == (1 if failure == "crash" else 2)
     assert result["cells"][calls[-1]]["status"] == "pipeline_failed"
     assert result["cells"]["down_r3"]["worker_attempts"] == 0 and not result["pilot_gate_passed"]
+    failure_record = pilot.read(tmp_path / calls[-1] / "parent_failure.json")
+    assert "traceback" in failure_record and "pool_config" in failure_record and "memory" in failure_record
+
+
+def test_pilot_completeness_is_separate_from_r3_quality_and_rates_are_not_estimated(tmp_path):
+    def run(command, **kwargs):
+        name = command[command.index("--worker") + 1]
+        cell = next(c for c in pilot.PROTOCOL["cells"] if c["id"] == name)
+        synthetic_cell(command[command.index("--output") + 1], cell, bad_r1=True)
+        return subprocess.CompletedProcess(command, 0)
+    result = pilot.collect(tmp_path, "fixture-unused", pilot.pilot_plan(), run_worker=run)
+    assert result["pilot_passed"] and not result["r3_quality_gate_passed"]
+    report = pilot.read(tmp_path / "report.json")
+    assert report["primary_readout"]["workload"] == "Down0"
+    assert "no Down-specific cause" in report["primary_readout"]["interpretation"]
+    assert report["rules"]["independent_runs_per_workload_strategy"] == 1
+    assert report["rules"]["crossing_rate_estimate"] is None
+    assert report["protocol_review_required"] and not report["r3_adopted"]
+    assert not report["admission_eligible"] and not report["followup_matrix_open"]
+    assert report["comparisons"]["down"]["noise_exceedance"].startswith("not_assessed")
+    for cell, rows in report["endpoint_readouts"].items():
+        assert len(rows) == 14
+        for row in rows:
+            if cell.endswith("r1"):
+                assert row["R1_single_us"] is not None and row["R3_IQR_us"] is None
+                assert row["IQR_status"] == "not_estimable_single_replay"
+            else:
+                assert row["R3_median_us"] is not None and row["R3_IQR_us"] is not None
+    text = (tmp_path / "report.md").read_text()
+    assert text.startswith("PRIMARY READOUT: Down0") and "MUST NOT enter Profile admission" in text
 
 
 @pytest.mark.parametrize("mutation", ["timestamps", "numeric", "contract", "missing_round", "device"])
@@ -236,5 +267,13 @@ def test_actual_mul_operand_metadata_and_fused_invariants_on_cpu(monkeypatch):
         outputs = fused.body()
         assert all(v is True for v in fused.check(outputs, 0).values())
     assert runtime.cache["activation0"] is cases
+    def forbidden_probe(*a, **k): raise AssertionError("Mul-only smoke must not invoke KERV")
+    runtime.bound[0] = forbidden_probe
+    smoke_cases = runtime.activation(0, mul_smoke_only=True)
+    assert set(smoke_cases) == {"gated_mul@gpu0"}
+    smoke_case = smoke_cases["gated_mul@gpu0"]
+    smoke_case.reset(0)
+    assert all(v is True for v in smoke_case.check(smoke_case.body(), 0).values())
+    assert smoke_case.identity["observed_jit_probe_launches"] == 0
     with pytest.raises(ValueError): runtime.make("gated_mul@gpu0")
     with pytest.raises(ValueError): runtime.activation(1)

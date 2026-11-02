@@ -10,8 +10,10 @@ import statistics
 import subprocess
 import sys
 import time
+import traceback
 
 from calibration.ffn_anchor_control_protocol import PROTOCOL, endpoint_summary, frozen_protocol
+from calibration.ffn_anchor_report import REPORT_RULES, build_report, render_report, endpoint_readouts
 from cost_model.fusion_kernel_profile import key_id
 from cost_model.kerv_profile import digest
 from cost_model.measurement_labels import measurement_contract_id
@@ -35,7 +37,7 @@ def pilot_plan():
     if frozen != frozen_protocol():
         raise ValueError("the frozen pilot protocol or its source has changed")
     payload = {
-        "version": "ffn-anchor-collector.v1", "protocol": frozen,
+        "version": "ffn-anchor-collector.v2", "protocol": frozen, "report_rules": REPORT_RULES,
         "collector_implemented": True, "gpu_validated": False, "default_phase": "plan",
         "execution_entry": "explicit run phase only; no automatic GPU execution",
         "scope": "pilot_only_not_profile_admission", "automatic_admission": False,
@@ -47,7 +49,9 @@ def pilot_plan():
             "calibration/ffn_anchor_control.py", "calibration/ffn_control_runtime.py",
             "calibration/ffn_b4_runtime.py", "calibration/ffn_anchor_control_protocol.py",
             "integration/flagscale/kerv_profile_runtime.py", "integration/flagscale/kerv_execution.py",
-            "calibration/validate_kerv_adapter.py", "tools/run_ffn_anchor_control.sh",
+            "calibration/validate_kerv_adapter.py", "calibration/ffn_anchor_report.py",
+            "calibration/ffn_mul_metadata_smoke.py", "tools/run_ffn_anchor_control.sh",
+            "cost_model/ffn_profile_export.py", "cost_model/measurement_labels.py",
             "data/ffn_measurement_b3/recipe.json")},
     }
     return {**payload, "plan_id": key_id(payload)}
@@ -122,13 +126,18 @@ def review_rounds(rounds, repeats):
         pre, post = endpoint_summary(row["pre"], repeats), endpoint_summary(row["post"], repeats)
         drift = abs(post["median_us"] - pre["median_us"]) / pre["median_us"]
         targets.append(row["target"]["batch_ms"] * 1000 / 50)
+        reasons = (["pre_endpoint_IQR_above_10pct"] if not pre["endpoint_valid"] else [])
+        reasons += ["post_endpoint_IQR_above_10pct"] if not post["endpoint_valid"] else []
+        reasons += ["anchor_drift_above_10pct"] if drift > .10 else []
         reviewed.append({"attempt": row["attempt"], "pre": pre, "post": post, "drift": drift,
-                         "valid": pre["endpoint_valid"] and post["endpoint_valid"] and drift <= .10})
+                         "valid": not reasons, "invalid_reasons": reasons})
     median = statistics.median(targets)
     quartiles = statistics.quantiles(targets, n=4, method="inclusive")
     dispersion = (quartiles[2] - quartiles[0]) / median
     return {"status": "quality_passed" if all(r["valid"] for r in reviewed) and dispersion <= .10 else "quality_failed",
             "rounds": reviewed, "target_median_us": median, "target_iqr_over_median": dispersion,
+            "cell_reasons": (["invalid_anchor_rounds"] if any(not r["valid"] for r in reviewed) else []) +
+                            (["target_IQR_above_10pct"] if dispersion > .10 else []),
             "extra_attempts": 0, "replacement": False}
 
 
@@ -157,6 +166,7 @@ def execute_cell(runtime, cell, output, sample=timed_sample, observe=telemetry, 
     output = Path(output)
     context = {"anchor_preparation_begin": clock()}
     anchor = runtime.anchor(0)
+    runtime.checkpoint("pilot_anchor_capture", memory_before_capture=runtime.snapshots())
     anchor.capture()
     for _ in range(10): anchor.replay(0)
     context["anchor_warmup_end"] = clock()
@@ -237,13 +247,42 @@ def review_cell(directory, cell):
     rounds = read(directory / "samples.json")
     if digest(directory / "samples.json") != result["samples_sha256"] or review_rounds(rounds, cell["endpoint_replays"]) != result["quality"]:
         raise ValueError("worker quality/sample mismatch")
+    readouts = endpoint_readouts(rounds, cell["endpoint_replays"])
+    if len(readouts) != 14:
+        raise ValueError("endpoint report is incomplete")
     context = result["context"]
     stamps = [context[n] for n in ("anchor_preparation_begin", "anchor_warmup_end", "case_preparation_begin", "case_preparation_end")]
     if any(type(s) is not int for s in stamps) or stamps != sorted(stamps) or stamps[-1] > rounds[0]["pre"][0]["reset_begin"]:
         raise ValueError("missing or reordered preparation/warmup timestamps")
     return {"pipeline_complete": True, "quality_status": result["quality"]["status"],
+            "endpoint_readouts_complete": True,
             "runtime_signature": key_id(signatures[0]), "identity_hash": result["identity_hash"],
             "measurement_contract_id": expected_contract_id}
+
+
+def worker_failure(directory, error, returncode=None):
+    """CPU parent preserves native-worker diagnostics without touching HIP."""
+    directory = Path(directory)
+    try:
+        last = read(directory / "last_stage.json") if (directory / "last_stage.json").exists() else {}
+    except (ValueError, OSError) as read_error:
+        last = {"unavailable": repr(read_error)}
+    log = (directory / "worker.log").read_text(encoding="utf-8", errors="replace") if (directory / "worker.log").exists() else ""
+    payload = {"error": repr(error), "returncode": returncode, "traceback": traceback.format_exc(),
+        "worker_fault_traceback_log": log, "runtime_context": last,
+        "pool_config": last.get("pool_config", {"selection": "per_arm_default_private_pool", "pool_argument": None, "shared_between_arms": False}),
+        "memory": last.get("memory_before_capture", {"unavailable": "worker exited before snapshot"}),
+        "memory_scope": "last persisted pre-capture snapshot; not a post-crash GPU observation"}
+    save(directory / "parent_failure.json", payload)
+    return payload
+
+
+def write_report(output, rows, *, template=False):
+    report = build_report(output, rows)
+    prefix = "report_template" if template else "report"
+    save(Path(output) / (prefix + ".json"), report)
+    with (Path(output) / (prefix + ".md")).open("w", encoding="utf-8", newline="\n") as stream:
+        stream.write(render_report(report))
 
 
 def collect(output, flagscale_root, frozen, run_worker=subprocess.run):
@@ -271,12 +310,17 @@ def collect(output, flagscale_root, frozen, run_worker=subprocess.run):
                 record.update(status=checked["quality_status"], **checked)
             except Exception as error:
                 record.update(status="pipeline_failed", error=repr(error))
+                worker_failure(directory, error, record["returncode"])
                 stopped = True
             rows[cell["id"]] = record
         eligible = len(rows) == 4 and all(r.get("pipeline_complete") is True for r in rows.values()) and all(rows[c]["status"] == "quality_passed" for c in ("up_r3", "down_r3"))
-        save(output / "summary.json", {"cells": rows, "pilot_gate_passed": eligible,
+        complete = len(rows) == 4 and all(r.get("pipeline_complete") is True and r.get("endpoint_readouts_complete") is True for r in rows.values())
+        save(output / "summary.json", {"cells": rows, "pilot_passed": complete,
+             "pilot_gate_passed": eligible, "r3_quality_gate_passed": eligible,
+             "pilot_gate_passed_semantics": "legacy quality gate, distinct from pilot_passed completeness",
              "followup_matrix_open": False, "automatic_admission": False, "formal_profile": False,
              "environment_causal_verdict": "inconclusive", "plan_id": frozen["plan_id"]})
+        write_report(output, rows)
     return read(output / "summary.json")
 
 
@@ -323,9 +367,10 @@ def main():
         args.output.mkdir(parents=True, exist_ok=False)
         frozen = pilot_plan()
         save(args.output / "plan.json", frozen)
+        write_report(args.output, {c["id"]: {"status": "not_run"} for c in PROTOCOL["cells"]}, template=True)
         if args.phase == "run":
             result = collect(args.output, args.flagscale_root, frozen)
-            if not result["pilot_gate_passed"]: raise SystemExit(1)
+            if not result["pilot_passed"]: raise SystemExit(1)
 
 
 if __name__ == "__main__":
