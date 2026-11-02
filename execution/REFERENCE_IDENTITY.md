@@ -1,5 +1,7 @@
 # Reference Singleton Identity · B0
 
+正式阶段顺序、三种成本语义与测量入口见 `cost_model/STAGE_B_PROTOCOL.md`。
+
 B0 本机 CPU 验证通过；BW1000 的执行环境身份尚未在服务器重新观测。无新时延 Profile、无准入升格、无 GPU 测量。
 
 ## 实现绑定

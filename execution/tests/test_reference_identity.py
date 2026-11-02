@@ -119,6 +119,12 @@ class TestReferenceIdentity(unittest.TestCase):
             with self.assertRaises(MeasurementContractError):
                 self.keys.require_complete(self.group)
 
+    def test_changed_implementation_version_is_not_the_loaded_runtime(self):
+        keys = ReferenceKernelKeys(self.keys.graph, self.keys.hardware, self.keys.observation)
+        keys.bindings["unfused:silu"]["version"] = "different-torch-build"
+        with self.assertRaisesRegex(MeasurementContractError, "actual loaded runtime"):
+            keys.require_complete(self.group)
+
     def test_replaced_public_operator_cannot_reuse_original_identity(self):
         with patch("torch.matmul", lambda *args: None):
             with self.assertRaisesRegex(MeasurementContractError, "another implementation"):
@@ -160,18 +166,28 @@ class TestReferenceIdentity(unittest.TestCase):
         with self.assertRaises(MeasurementContractError):
             self.profile(self.keys, self.group, contract="different-contract").estimate_group(self.keys.graph, self.group)
 
-    def test_different_implementation_or_layout_cannot_hit_original_label(self):
+    def test_implementation_version_shape_or_layout_cannot_hit_original_label(self):
         profile = self.profile(self.keys, self.group)
         original, _ = self.keys.require_complete(self.group)
-        for change in ("implementation", "layout"):
-            changed = copy.deepcopy(original)
-            if change == "implementation":
-                changed["implementation"]["id"] = "different-execution-path"
-            else:
-                changed["operators"][0]["output"]["strides"][0] += 1
-            self.assertNotEqual(key_id(original), key_id(changed))
-            with self.assertRaises(KeyError):
-                profile.measurement_labels.lookup(key_id(changed), self.contract)
+        for change in ("implementation", "version", "shape", "layout"):
+            with self.subTest(change=change):
+                changed = copy.deepcopy(original)
+                if change == "implementation":
+                    changed["implementation"]["id"] = "different-execution-path"
+                elif change == "version":
+                    changed["implementation"]["version"] = "different-torch-build"
+                elif change == "shape":
+                    # Another SiLU case: update both boundary and output shape.
+                    changed["external_inputs"][0]["shape"][0] = 2
+                    changed["operators"][0]["output"]["shape"][0] = 2
+                    changed["operators"][0]["attributes"]["output_shape"][0] = 2
+                    changed["operators"][0]["attributes"]["shape"]["n"] *= 2
+                else:
+                    changed["operators"][0]["output"]["layout"] = "strided"
+                    changed["operators"][0]["output"]["strides"][1] += 1
+                self.assertNotEqual(key_id(original), key_id(changed))
+                with self.assertRaises(KeyError):
+                    profile.measurement_labels.lookup(key_id(changed), self.contract)
 
 
 if __name__ == "__main__":

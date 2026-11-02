@@ -1,5 +1,7 @@
 # Search Subgraph Cost Coverage Audit
 
+正式阶段顺序、三种成本语义与测量入口见 `cost_model/STAGE_B_PROTOCOL.md`。
+
 阶段 A；Qwen3-0.6B Builder 的第 0 层 FFN；2026-11-02。未采集新 GPU 数据，未运行 Exact/MCTS，未修改准入状态。
 
 ## Evidence Coverage 与 Search Cost Coverage
