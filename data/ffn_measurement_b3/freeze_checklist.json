@@ -1,0 +1,52 @@
+{
+  "items": [
+    {
+      "item": "18 core rows and within-device pair keys",
+      "status": "cpu_review_complete"
+    },
+    {
+      "item": "old Fused reuse audited (both ineligible)",
+      "status": "cpu_review_complete"
+    },
+    {
+      "item": "four isolated copy directions/sizes",
+      "status": "cpu_review_complete"
+    },
+    {
+      "item": "one shape-compatible link quartet",
+      "status": "cpu_review_complete"
+    },
+    {
+      "item": "R_link formula/relative value/0.5us boundary",
+      "status": "cpu_review_complete"
+    },
+    {
+      "item": "anchor/IQR/chronological attempts and fatal errors",
+      "status": "cpu_review_complete"
+    },
+    {
+      "item": "input restore and controlled buffer lifetimes",
+      "status": "cpu_review_complete"
+    },
+    {
+      "item": "HIP Graph capture and cross-device route/event smoke",
+      "status": "pending_B4_GPU_smoke",
+      "static_plan_available": true
+    }
+  ],
+  "cpu_checks_complete": 7,
+  "gpu_smoke_pending": 1,
+  "all_eight_passed": false,
+  "b4_smoke_plan": {
+    "phase": "B4 before formal timing; no eager/host-staging fallback",
+    "replays_per_body": 3,
+    "calls_in_each_capture": 50,
+    "activation": "capture all four arms on both GPUs; reset gates outside every replay; check every output, per-gate alias, invalidation and shared-up preservation",
+    "communication": "all four B2 requests, including both 1.5MiB directions; 50 independent sources/destinations; vary source payloads outside each replay to detect stale copies",
+    "chain": "producer/copy/consumer quartet and GPU1 start/end fences; no cross-device Event subtraction",
+    "event_proof": "destination-stream consumer guard must be causally after copy and before end Event; retain route/dependency trace; a host-synchronized output check alone is insufficient",
+    "identity": "actual loaded Torch/HIP/FlagScale implementation, both UUIDs, strides/aliases, input fingerprints and peer route",
+    "failure": "stop the affected whole round group, preserve artifacts, no timing labels; do not silently drop an arm or replace Graph with eager",
+    "verified_on_gpu": false
+  }
+}

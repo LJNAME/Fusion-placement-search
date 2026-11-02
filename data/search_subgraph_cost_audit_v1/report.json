@@ -3,7 +3,7 @@
   "version": "1.2",
   "execution_protocol": {
     "path": "cost_model/STAGE_B_PROTOCOL.md",
-    "sha256": "5345da8606edc0ed9bbfb3dd47287674de9398734b2e17f745bad8568f0c2ef6"
+    "sha256": "07d5618380bc15e7c957742b4a8033c41017f540464eba0c2cd2ddd94d2bc236"
   },
   "scope": "reference-builder FFN layer 0; accepted coverage under current P2 decision",
   "graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
@@ -1520,6 +1520,16 @@
     "measurement_ready_requests": 0,
     "accepted_link_profiles": 0
   },
+  "ffn_b3_inventory": {
+    "path": "data/ffn_measurement_b3",
+    "core_rows": 18,
+    "diagnostic_rows": 1,
+    "eligible_fused_reuse_rows": 0,
+    "new_measurement_tasks": 19,
+    "cpu_freeze_checks_complete": 7,
+    "gpu_smoke_pending": 1,
+    "formal_gpu_timing_allowed": false
+  },
   "chain_cost_queries": [
     {
       "device": 0,
@@ -1646,8 +1656,8 @@
     "B0": "CPU identity workflow verified; actual BW1000 identity captured before B4 timing",
     "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
     "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
-    "B3": "same-case/contract/recipe Fused-Native case matrix pending",
-    "B4": "BW1000 identity capture and paired admission pending B3; transfer preflight before timing",
+    "B3": "CPU 18+1 matrix and quality recipe frozen; old Fused profiles ineligible for new recipe reuse",
+    "B4": "next: actual identity and GPU capture/copy/event smoke; formal timing still forbidden",
     "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
     "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
     "C": "whole-graph mixed-coverage validation deferred",
@@ -1684,7 +1694,14 @@
     "data/ffn_communication_b2/verification.json": "bfeeb4248943438f48ce6064c3bd199e8b941063fdbe5df7fa5aa5bbe4f6aeca",
     "data/ffn_communication_b2/identity.json": "c5c814296742ff3c1470e60834e321ee4f2bf3cb7e05373b38aa777e8f50c985",
     "data/ffn_communication_b2/communication_requests.json": "5725338c888ac0948f3e4ca32aab472fdcc97a8a4f0872b54fe1caab91a1c430",
-    "data/ffn_communication_b2/coverage.json": "096b8b2fb8be6e1c9682c4c437e4e6ff0827bf9e81d0501b5f1cf5dcb57cf109"
+    "data/ffn_communication_b2/coverage.json": "096b8b2fb8be6e1c9682c4c437e4e6ff0827bf9e81d0501b5f1cf5dcb57cf109",
+    "data/ffn_measurement_b3/verification.json": "cfbaf04ef98e8fe4175bf3b4bed36e29b0f05f708bb45a1da495b75d8d083f94",
+    "data/ffn_measurement_b3/identity.json": "a464d510d00d233987a13b1152ed0ea32d49105729abee125566fff83f5cf108",
+    "data/ffn_measurement_b3/recipe.json": "de545b1e407f52430b9643628fde28c1a9bd3b686cff463cdd4ddadbf881c19f",
+    "data/ffn_measurement_b3/measurement_matrix.json": "22469aa6f1cbfeb9f78b8a78c81941916c8e130c994ccc0bdfbb53f801e2471f",
+    "data/ffn_measurement_b3/reuse_audit.json": "fde7964b7f028bfb7c18cf90f4f4bf9aaa0c0eef72e0dc51637586d3a412d891",
+    "data/ffn_measurement_b3/buffer_audit.json": "ab64942e4097348e1fe42247f6f902531469aa8bc5a1ca919158483c326fc666",
+    "data/ffn_measurement_b3/freeze_checklist.json": "3b172d2d09cfbbf1462b1d39ed021d2cbe1eda1f8acef2c7ebd689dc123ead61"
   },
   "new_gpu_measurements": 0,
   "exact_runs": 0,

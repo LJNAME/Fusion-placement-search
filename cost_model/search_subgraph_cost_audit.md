@@ -117,8 +117,8 @@ KERV 原地覆盖 gate，Mul 输出与 gate 别名；此层 gate 在 SiLU 外没
 | B0 | Reference singleton Identity 与布局来源闭合 | 无 | 代码与本机CPU验收通过；BW1000身份在B4计时前捕获 |
 | B1 | 合法融合动作空间、允许设备与可达放置 | 无 | GPU0边界场景完成，48带标签/24计算结构类 |
 | B2 | 全部合法方案的通信覆盖与声明契约 | 无 | 4请求/160跨卡实例已核验；B3配方与B4运行观测待完成 |
-| B3 | 定义同 Case/Contract/Recipe 的 Fused/Native 配对矩阵 | 无 | 待开展 |
-| B4 | BW1000身份捕获、配对测量与准入 | 有 | B0～B3通过后先核身份，再计时 |
+| B3 | 同Case/Contract/Recipe矩阵与质量配方 | 无 | 18核心+1诊断冻结；旧Fused不复用，7项CPU核验完成 |
+| B4 | BW1000身份/Graph/跨卡Smoke、正式测量 | 有 | 下一项Smoke；实际身份与路径未过，不许正式计时 |
 | B5 | 通信成本与链路组合验证 | 有 | 待B4；Δ_add = ΣT_single − T_chain |
 | B5.5 | 同算法解析/正式成本Before–After决策对照 | 无 | 待B5 |
 | B6 | FFN Exact/Guided/Sequential/Joint对照 | 视设计 | 待B5.5；完整图另列C阶段 |

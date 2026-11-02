@@ -1,0 +1,789 @@
+{
+  "core_rows": [
+    {
+      "row_id": "gate_proj@gpu0",
+      "kind": "singleton",
+      "node_ids": [
+        "L000.mlp.gate_proj"
+      ],
+      "device_id": "gpu0",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:2c89bf7f08030f17c7a25727635b372cc9a6ee9808b579236fcce37350c35ae3",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "gate_proj@gpu0",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint Y inputs; one resident W_gate; all 50 outputs retained"
+    },
+    {
+      "row_id": "up_proj@gpu0",
+      "kind": "singleton",
+      "node_ids": [
+        "L000.mlp.up_proj"
+      ],
+      "device_id": "gpu0",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:2871be40546ff07caa9a6ee649d58a8c0b6070abdc753dc2630f373e0f491d7c",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "up_proj@gpu0",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint Y inputs; one resident W_up; all 50 outputs retained"
+    },
+    {
+      "row_id": "silu@gpu0",
+      "kind": "singleton",
+      "node_ids": [
+        "L000.mlp.silu"
+      ],
+      "device_id": "gpu0",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:0f5042f207ba742771ef42ac07872e3f274079c17a83cde2c3e8f705bdf6ae7b",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "activation_gpu0",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "same 50 gate views as Native/Fused; reset outside each replay; all 50 outputs retained"
+    },
+    {
+      "row_id": "gated_mul@gpu0",
+      "kind": "singleton",
+      "node_ids": [
+        "L000.mlp.gated_mul"
+      ],
+      "device_id": "gpu0",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:f078e394718118a4361a495810c8b0345d332e05f4f3188ec4b82eca0fa9b84c",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "activation_gpu0",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint precomputed SiLU(gate_original) inputs plus one shared read-only up; all 50 outputs retained"
+    },
+    {
+      "row_id": "down_proj@gpu0",
+      "kind": "singleton",
+      "node_ids": [
+        "L000.mlp.down_proj"
+      ],
+      "device_id": "gpu0",
+      "shape": [
+        1,
+        256,
+        1024
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:43b37592da985d881532b740185070931007687ba5c5bd862961719fea5216b3",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "link_quartet",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint producer_V inputs; one resident W_down; all 50 outputs retained"
+    },
+    {
+      "row_id": "silu_mul/native@gpu0",
+      "kind": "native_chain",
+      "node_ids": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "device_id": "gpu0",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "activation_gpu0",
+      "gpu_measurement_ready": false,
+      "pair_key": {
+        "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
+        "device_id": "gpu0",
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "declared_contiguous",
+        "measurement_contract": {
+          "template_id": "sha256:a04c6593a0318ea3be1a9f3ee314fdd522474e7692bd450db4a3359c6b5726bc",
+          "runtime_contract_id": null
+        },
+        "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647"
+      },
+      "input_policy": "same 50 disjoint gate views and one shared read-only up; reset gate outside EVERY replay; Fused outputs alias gates",
+      "pair_key_template_id": "sha256:05bd4e9424d03fa77b88e49ab022028db003e87a3151b422502e7108f79fa460"
+    },
+    {
+      "row_id": "silu_mul/fused@gpu0",
+      "kind": "fused_kernel",
+      "node_ids": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "device_id": "gpu0",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "activation_gpu0",
+      "gpu_measurement_ready": false,
+      "pair_key": {
+        "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
+        "device_id": "gpu0",
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "declared_contiguous",
+        "measurement_contract": {
+          "template_id": "sha256:a04c6593a0318ea3be1a9f3ee314fdd522474e7692bd450db4a3359c6b5726bc",
+          "runtime_contract_id": null
+        },
+        "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647"
+      },
+      "input_policy": "same 50 disjoint gate views and one shared read-only up; reset gate outside EVERY replay; Fused outputs alias gates",
+      "pair_key_template_id": "sha256:05bd4e9424d03fa77b88e49ab022028db003e87a3151b422502e7108f79fa460"
+    },
+    {
+      "row_id": "gate_proj@gpu1",
+      "kind": "singleton",
+      "node_ids": [
+        "L000.mlp.gate_proj"
+      ],
+      "device_id": "gpu1",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:2c89bf7f08030f17c7a25727635b372cc9a6ee9808b579236fcce37350c35ae3",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "link_quartet",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint Y inputs; one resident W_gate; all 50 outputs retained"
+    },
+    {
+      "row_id": "up_proj@gpu1",
+      "kind": "singleton",
+      "node_ids": [
+        "L000.mlp.up_proj"
+      ],
+      "device_id": "gpu1",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:2871be40546ff07caa9a6ee649d58a8c0b6070abdc753dc2630f373e0f491d7c",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "up_proj@gpu1",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint Y inputs; one resident W_up; all 50 outputs retained"
+    },
+    {
+      "row_id": "silu@gpu1",
+      "kind": "singleton",
+      "node_ids": [
+        "L000.mlp.silu"
+      ],
+      "device_id": "gpu1",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:0f5042f207ba742771ef42ac07872e3f274079c17a83cde2c3e8f705bdf6ae7b",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "activation_gpu1",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "same 50 gate views as Native/Fused; reset outside each replay; all 50 outputs retained"
+    },
+    {
+      "row_id": "gated_mul@gpu1",
+      "kind": "singleton",
+      "node_ids": [
+        "L000.mlp.gated_mul"
+      ],
+      "device_id": "gpu1",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:f078e394718118a4361a495810c8b0345d332e05f4f3188ec4b82eca0fa9b84c",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "activation_gpu1",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint precomputed SiLU(gate_original) inputs plus one shared read-only up; all 50 outputs retained"
+    },
+    {
+      "row_id": "down_proj@gpu1",
+      "kind": "singleton",
+      "node_ids": [
+        "L000.mlp.down_proj"
+      ],
+      "device_id": "gpu1",
+      "shape": [
+        1,
+        256,
+        1024
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:43b37592da985d881532b740185070931007687ba5c5bd862961719fea5216b3",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "down_proj@gpu1",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint producer_V inputs; one resident W_down; all 50 outputs retained"
+    },
+    {
+      "row_id": "silu_mul/native@gpu1",
+      "kind": "native_chain",
+      "node_ids": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "device_id": "gpu1",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "activation_gpu1",
+      "gpu_measurement_ready": false,
+      "pair_key": {
+        "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
+        "device_id": "gpu1",
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "declared_contiguous",
+        "measurement_contract": {
+          "template_id": "sha256:a04c6593a0318ea3be1a9f3ee314fdd522474e7692bd450db4a3359c6b5726bc",
+          "runtime_contract_id": null
+        },
+        "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647"
+      },
+      "input_policy": "same 50 disjoint gate views and one shared read-only up; reset gate outside EVERY replay; Fused outputs alias gates",
+      "pair_key_template_id": "sha256:fcf0c5d151a218b561ced865e8acabf7323ce2c2601eef6bb4b1817d8b21f083"
+    },
+    {
+      "row_id": "silu_mul/fused@gpu1",
+      "kind": "fused_kernel",
+      "node_ids": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "device_id": "gpu1",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "constructor_declared_contiguous; must observe before timing",
+      "action": "new_measurement",
+      "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "activation_gpu1",
+      "gpu_measurement_ready": false,
+      "pair_key": {
+        "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
+        "device_id": "gpu1",
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "declared_contiguous",
+        "measurement_contract": {
+          "template_id": "sha256:a04c6593a0318ea3be1a9f3ee314fdd522474e7692bd450db4a3359c6b5726bc",
+          "runtime_contract_id": null
+        },
+        "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647"
+      },
+      "input_policy": "same 50 disjoint gate views and one shared read-only up; reset gate outside EVERY replay; Fused outputs alias gates",
+      "pair_key_template_id": "sha256:fcf0c5d151a218b561ced865e8acabf7323ce2c2601eef6bb4b1817d8b21f083"
+    },
+    {
+      "row_id": "copy/524288/0->1",
+      "kind": "communication",
+      "device_id": "gpu0->gpu1",
+      "shape": [
+        1,
+        256,
+        1024
+      ],
+      "dtype": "bf16",
+      "b2_request_id": "sha256:b816c3da2ac726b95d11398330f86911bfc013455519fc6f09fbed71369e8b5e",
+      "action": "new_measurement",
+      "candidate_id": "sha256:b55537131916468cd757858345da4e9eed59d83bdce3dc5de94a5d20c95abda3",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "link_quartet",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint immutable sources and 50 retained destinations; Y for 0.5MiB, gate_original for 1.5MiB; preparation outside timing"
+    },
+    {
+      "row_id": "copy/524288/1->0",
+      "kind": "communication",
+      "device_id": "gpu1->gpu0",
+      "shape": [
+        1,
+        256,
+        1024
+      ],
+      "dtype": "bf16",
+      "b2_request_id": "sha256:dd5cdabcef6c45b675092505c4c0e588c54d9b6acd62461c3bdfd6153bc552e4",
+      "action": "new_measurement",
+      "candidate_id": "sha256:df28a0d5d63ef486c5a17a1a22ec9db0eb18a98b73035dfa78622f3d6c23b21c",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "copy/524288/1->0",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint immutable sources and 50 retained destinations; Y for 0.5MiB, gate_original for 1.5MiB; preparation outside timing"
+    },
+    {
+      "row_id": "copy/1572864/0->1",
+      "kind": "communication",
+      "device_id": "gpu0->gpu1",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "b2_request_id": "sha256:1c7848212e0fc528daefc399bb67c2640ac4f553fef53504cd8fd2697310b871",
+      "action": "new_measurement",
+      "candidate_id": "sha256:646c0a16ac6d65ce09f65ed7751b35b27252305d265d777932c2437a050a99bf",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "copy/1572864/0->1",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint immutable sources and 50 retained destinations; Y for 0.5MiB, gate_original for 1.5MiB; preparation outside timing"
+    },
+    {
+      "row_id": "copy/1572864/1->0",
+      "kind": "communication",
+      "device_id": "gpu1->gpu0",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "b2_request_id": "sha256:f8831c2658f1f11c69a1b8caeb44f292d26e5469f30a378c522fb851de1f3a14",
+      "action": "new_measurement",
+      "candidate_id": "sha256:0236cbbc843ad1ebe247182eb1c1432beaed2778dfa9c3c40abb7ad614db85f2",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "copy/1572864/1->0",
+      "gpu_measurement_ready": false,
+      "pair_key": null,
+      "input_policy": "50 disjoint immutable sources and 50 retained destinations; Y for 0.5MiB, gate_original for 1.5MiB; preparation outside timing"
+    }
+  ],
+  "diagnostics": [
+    {
+      "row_id": "diagnostic/down0-copy524288-gate1",
+      "kind": "link_chain_diagnostic",
+      "device_id": "gpu0->gpu1",
+      "action": "new_measurement",
+      "components": [
+        "down_proj@gpu0",
+        "copy/524288/0->1",
+        "gate_proj@gpu1"
+      ],
+      "scope": "shape-compatible diagnostic proxy; not an original FFN edge or cross-layer fusion",
+      "R_link": "chain - (producer + copy + consumer), per matched round then summarized",
+      "relative_residual": "R_link / chain",
+      "threshold_us": 0.5,
+      "boundary_action": "abs(R_link)>=0.5 inspect; no automatic correction",
+      "chain_timer": "same GPU1 Event pair; start fence to GPU0 producer and completion fence back to GPU1; B4 smoke must prove ordering",
+      "producer_fixture": "50 independent V tensors and resident W_down, seed1234; same inputs/weight as isolated down0",
+      "consumer_fixture": "50 copies of exact canonical Y=down0(V,W_down), prepared outside timing; same values as chain copy destination",
+      "copy_fixture": "50 independent source Y tensors, same values as producer outputs; sources unchanged in isolated copy",
+      "scope_limit": "does not certify reverse direction, 1.5MiB links or complete FFN composition",
+      "candidate_id": "sha256:696491b6c708096c69386a316ced17c6165b681ebec3275442847d657f4bafdf",
+      "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+      "measurement_contract_id": null,
+      "round_group_id": "link_quartet",
+      "gpu_measurement_ready": false,
+      "pair_key": null
+    }
+  ],
+  "round_groups": [
+    {
+      "group_id": "activation_gpu0",
+      "members": [
+        "silu@gpu0",
+        "gated_mul@gpu0",
+        "silu_mul/native@gpu0",
+        "silu_mul/fused@gpu0"
+      ],
+      "roles": [
+        "silu",
+        "mul",
+        "native",
+        "fused"
+      ],
+      "anchor_devices": [
+        "gpu0"
+      ],
+      "orders": [
+        [
+          "silu",
+          "mul",
+          "fused",
+          "native"
+        ],
+        [
+          "mul",
+          "native",
+          "silu",
+          "fused"
+        ],
+        [
+          "native",
+          "fused",
+          "mul",
+          "silu"
+        ],
+        [
+          "fused",
+          "silu",
+          "native",
+          "mul"
+        ]
+      ],
+      "fixture": "synthetic gate_original/up repeated consistently across four arms; Mul input is precomputed SiLU(gate_original)"
+    },
+    {
+      "group_id": "activation_gpu1",
+      "members": [
+        "silu@gpu1",
+        "gated_mul@gpu1",
+        "silu_mul/native@gpu1",
+        "silu_mul/fused@gpu1"
+      ],
+      "roles": [
+        "silu",
+        "mul",
+        "native",
+        "fused"
+      ],
+      "anchor_devices": [
+        "gpu1"
+      ],
+      "orders": [
+        [
+          "silu",
+          "mul",
+          "fused",
+          "native"
+        ],
+        [
+          "mul",
+          "native",
+          "silu",
+          "fused"
+        ],
+        [
+          "native",
+          "fused",
+          "mul",
+          "silu"
+        ],
+        [
+          "fused",
+          "silu",
+          "native",
+          "mul"
+        ]
+      ],
+      "fixture": "synthetic gate_original/up repeated consistently across four arms; Mul input is precomputed SiLU(gate_original)"
+    },
+    {
+      "group_id": "link_quartet",
+      "members": [
+        "down_proj@gpu0",
+        "copy/524288/0->1",
+        "gate_proj@gpu1",
+        "diagnostic/down0-copy524288-gate1"
+      ],
+      "roles": [
+        "producer",
+        "copy",
+        "consumer",
+        "chain"
+      ],
+      "anchor_devices": [
+        "gpu0",
+        "gpu1"
+      ],
+      "orders": [
+        [
+          "producer",
+          "copy",
+          "chain",
+          "consumer"
+        ],
+        [
+          "copy",
+          "consumer",
+          "producer",
+          "chain"
+        ],
+        [
+          "consumer",
+          "chain",
+          "copy",
+          "producer"
+        ],
+        [
+          "chain",
+          "producer",
+          "consumer",
+          "copy"
+        ]
+      ],
+      "fixture": "same V/W_down/Y/W_gate across all four arms; paired attempt IDs and anchors"
+    },
+    {
+      "group_id": "gate_proj@gpu0",
+      "members": [
+        "gate_proj@gpu0"
+      ],
+      "roles": [
+        "body"
+      ],
+      "anchor_devices": [
+        "gpu0"
+      ],
+      "orders": [
+        [
+          "body"
+        ]
+      ]
+    },
+    {
+      "group_id": "up_proj@gpu0",
+      "members": [
+        "up_proj@gpu0"
+      ],
+      "roles": [
+        "body"
+      ],
+      "anchor_devices": [
+        "gpu0"
+      ],
+      "orders": [
+        [
+          "body"
+        ]
+      ]
+    },
+    {
+      "group_id": "up_proj@gpu1",
+      "members": [
+        "up_proj@gpu1"
+      ],
+      "roles": [
+        "body"
+      ],
+      "anchor_devices": [
+        "gpu1"
+      ],
+      "orders": [
+        [
+          "body"
+        ]
+      ]
+    },
+    {
+      "group_id": "down_proj@gpu1",
+      "members": [
+        "down_proj@gpu1"
+      ],
+      "roles": [
+        "body"
+      ],
+      "anchor_devices": [
+        "gpu1"
+      ],
+      "orders": [
+        [
+          "body"
+        ]
+      ]
+    },
+    {
+      "group_id": "copy/524288/1->0",
+      "members": [
+        "copy/524288/1->0"
+      ],
+      "roles": [
+        "body"
+      ],
+      "anchor_devices": [
+        "gpu0",
+        "gpu1"
+      ],
+      "orders": [
+        [
+          "body"
+        ]
+      ]
+    },
+    {
+      "group_id": "copy/1572864/0->1",
+      "members": [
+        "copy/1572864/0->1"
+      ],
+      "roles": [
+        "body"
+      ],
+      "anchor_devices": [
+        "gpu0",
+        "gpu1"
+      ],
+      "orders": [
+        [
+          "body"
+        ]
+      ]
+    },
+    {
+      "group_id": "copy/1572864/1->0",
+      "members": [
+        "copy/1572864/1->0"
+      ],
+      "roles": [
+        "body"
+      ],
+      "anchor_devices": [
+        "gpu0",
+        "gpu1"
+      ],
+      "orders": [
+        [
+          "body"
+        ]
+      ]
+    }
+  ],
+  "contract_template": {
+    "mode": "graph_replay",
+    "calls_per_round": 50,
+    "rounds": 7,
+    "warmup_replays": 10,
+    "allocation_included": false,
+    "unit": "us/call",
+    "restore_scope": "outside Event interval",
+    "retention": "all 50 outputs",
+    "recipe_id": "sha256:be86baeda68d67bad107c712259448339630572d1e711038005560a4efeca647",
+    "runtime_environment": "bind actual B4 observation"
+  },
+  "summary": {
+    "singleton_rows": 10,
+    "native_rows": 2,
+    "fused_rows": 2,
+    "communication_rows": 4,
+    "core_rows": 18,
+    "diagnostic_rows": 1,
+    "total_evidence_slots": 19,
+    "eligible_fused_reuse_rows": 0,
+    "new_measurement_tasks": 19,
+    "hypothetical_tasks_if_two_fused_reusable": 17
+  },
+  "pair_finalization": "B4 binds actual UUID/build and exact measurement_contract_id on both arms before timing",
+  "profiling_scope": "synthetic boundary/reference inputs of real Builder shapes, not captured model weights or complete FFN execution"
+}

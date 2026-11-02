@@ -139,6 +139,12 @@ def audit():
     assert all(key_id(value) == b2_verification["output_payload_ids"][name] for name, value in b2_payloads.items())
     assert b2_verification["pass_checks"] and b2_verification["accepted_link_profiles"] == 0
     assert all(digest(b1_root / name) == sha for name, sha in b2_payloads["identity.json"]["b1_source_sha256"].items())
+    b3_root = ROOT / "data/ffn_measurement_b3"
+    b3_verification = read(b3_root / "verification.json")
+    b3_payloads = {name: read(b3_root / name) for name in b3_verification["output_payload_ids"]}
+    assert all(key_id(value) == b3_verification["output_payload_ids"][name] for name, value in b3_payloads.items())
+    assert b3_verification["pass_checks"] and not b3_verification["formal_gpu_timing_allowed"]
+    assert all(digest(b2_root / name) == sha for name, sha in b3_payloads["identity.json"]["b2_source_sha256"].items())
     edge_rows = [{"src": e.src, "dst": e.dst, "bytes": e.bytes,
                   "source_device": None, "destination_device": None,
                   "tensor_shape": graph.nodes[e.src].extra["output_shape"], "tensor_bytes": e.bytes,
@@ -168,6 +174,10 @@ def audit():
                                  "declared_requests": b2_verification["request_count"],
                                  "covered_cross_device_edge_occurrences": b2_verification["covered_cross_device_edge_occurrences"],
                                  "measurement_ready_requests": 0, "accepted_link_profiles": 0},
+            "ffn_b3_inventory": {"path": "data/ffn_measurement_b3", "core_rows": b3_verification["core_rows"],
+                                 "diagnostic_rows": 1, "eligible_fused_reuse_rows": 0, "new_measurement_tasks": 19,
+                                 "cpu_freeze_checks_complete": 7, "gpu_smoke_pending": 1,
+                                 "formal_gpu_timing_allowed": False},
             "chain_cost_queries": [{"device": device, "arm": arm, "scope": "full_ffn_fork_join",
                                     "canonical_key": None, "measurement_contract_id": None,
                                     "accepted": False, "evidence": "no matching FFN chain in current P2 bundle"}
@@ -187,8 +197,8 @@ def audit():
             "stage_b_entry": {"B0": "CPU identity workflow verified; actual BW1000 identity captured before B4 timing",
                               "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
                               "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
-                              "B3": "same-case/contract/recipe Fused-Native case matrix pending",
-                              "B4": "BW1000 identity capture and paired admission pending B3; transfer preflight before timing",
+                              "B3": "CPU 18+1 matrix and quality recipe frozen; old Fused profiles ineligible for new recipe reuse",
+                              "B4": "next: actual identity and GPU capture/copy/event smoke; formal timing still forbidden",
                               "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
                               "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
                               "C": "whole-graph mixed-coverage validation deferred",

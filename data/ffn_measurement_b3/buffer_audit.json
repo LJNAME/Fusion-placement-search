@@ -1,0 +1,373 @@
+{
+  "scope": "explicit retained buffer lower bounds; not measured peak HBM; excludes graph-private temporaries, allocator slack and unlisted numeric oracles",
+  "activation_group": [
+    {
+      "name": "gate_pool",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 50,
+      "gpu": "active_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 78643200,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "mul_left_silu_pool",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 50,
+      "gpu": "active_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 78643200,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "silu_outputs",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 50,
+      "gpu": "active_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 78643200,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "mul_outputs",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 50,
+      "gpu": "active_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 78643200,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "native_outputs",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 50,
+      "gpu": "active_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 78643200,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "fused_outputs",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 50,
+      "gpu": "active_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 0,
+      "alias_of": "gate_pool",
+      "allocation": "declared tensor or alias"
+    },
+    {
+      "name": "gate_original",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 1,
+      "gpu": "active_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 1572864,
+      "alias_of": null,
+      "allocation": "declared tensor or alias"
+    },
+    {
+      "name": "up_shared_readonly",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 1,
+      "gpu": "active_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 1572864,
+      "alias_of": null,
+      "allocation": "declared tensor or alias"
+    },
+    {
+      "name": "up_backup",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 1,
+      "gpu": "active_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 1572864,
+      "alias_of": null,
+      "allocation": "declared tensor or alias"
+    },
+    {
+      "name": "silu_original",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 1,
+      "gpu": "active_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 1572864,
+      "alias_of": null,
+      "allocation": "declared tensor or alias"
+    }
+  ],
+  "activation_controlled_bytes": 399507456,
+  "anchor_per_gpu": [
+    {
+      "name": "anchor_source_readonly",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 1,
+      "gpu": "each_participating_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 1572864,
+      "alias_of": null,
+      "allocation": "declared tensor or alias"
+    },
+    {
+      "name": "anchor_outputs",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 50,
+      "gpu": "each_participating_gpu",
+      "dtype": "bf16",
+      "allocated_bytes": 78643200,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    }
+  ],
+  "anchor_controlled_bytes_per_gpu": 80216064,
+  "link_quartet": [
+    {
+      "name": "producer_inputs",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 50,
+      "gpu": 0,
+      "dtype": "bf16",
+      "allocated_bytes": 78643200,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "producer_weight",
+      "shape_per_call": [
+        3072,
+        1024
+      ],
+      "count": 1,
+      "gpu": 0,
+      "dtype": "bf16",
+      "allocated_bytes": 6291456,
+      "alias_of": null,
+      "allocation": "declared tensor or alias"
+    },
+    {
+      "name": "consumer_weight",
+      "shape_per_call": [
+        1024,
+        3072
+      ],
+      "count": 1,
+      "gpu": 1,
+      "dtype": "bf16",
+      "allocated_bytes": 6291456,
+      "alias_of": null,
+      "allocation": "declared tensor or alias"
+    },
+    {
+      "name": "producer_isolated_outputs",
+      "shape_per_call": [
+        1,
+        256,
+        1024
+      ],
+      "count": 50,
+      "gpu": 0,
+      "dtype": "bf16",
+      "allocated_bytes": 26214400,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "copy_isolated_sources",
+      "shape_per_call": [
+        1,
+        256,
+        1024
+      ],
+      "count": 50,
+      "gpu": 0,
+      "dtype": "bf16",
+      "allocated_bytes": 26214400,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "copy_isolated_outputs",
+      "shape_per_call": [
+        1,
+        256,
+        1024
+      ],
+      "count": 50,
+      "gpu": 1,
+      "dtype": "bf16",
+      "allocated_bytes": 26214400,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "consumer_isolated_inputs",
+      "shape_per_call": [
+        1,
+        256,
+        1024
+      ],
+      "count": 50,
+      "gpu": 1,
+      "dtype": "bf16",
+      "allocated_bytes": 26214400,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "consumer_isolated_outputs",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 50,
+      "gpu": 1,
+      "dtype": "bf16",
+      "allocated_bytes": 78643200,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "chain_producer_outputs",
+      "shape_per_call": [
+        1,
+        256,
+        1024
+      ],
+      "count": 50,
+      "gpu": 0,
+      "dtype": "bf16",
+      "allocated_bytes": 26214400,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "chain_copy_outputs",
+      "shape_per_call": [
+        1,
+        256,
+        1024
+      ],
+      "count": 50,
+      "gpu": 1,
+      "dtype": "bf16",
+      "allocated_bytes": 26214400,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "chain_consumer_outputs",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 50,
+      "gpu": 1,
+      "dtype": "bf16",
+      "allocated_bytes": 78643200,
+      "alias_of": null,
+      "allocation": "one backing pool with disjoint per-call views"
+    },
+    {
+      "name": "producer_original",
+      "shape_per_call": [
+        1,
+        256,
+        3072
+      ],
+      "count": 1,
+      "gpu": 0,
+      "dtype": "bf16",
+      "allocated_bytes": 1572864,
+      "alias_of": null,
+      "allocation": "declared tensor or alias"
+    },
+    {
+      "name": "consumer_original_Y",
+      "shape_per_call": [
+        1,
+        256,
+        1024
+      ],
+      "count": 1,
+      "gpu": 0,
+      "dtype": "bf16",
+      "allocated_bytes": 524288,
+      "alias_of": null,
+      "allocation": "declared tensor or alias"
+    }
+  ],
+  "link_quartet_controlled_bytes": 407896064,
+  "allocation_lifetime": "only current round group plus anchors; all captures initialized before timing; retain all outputs until checked",
+  "gate_lifecycle": [
+    "initialize 50 disjoint gate views from gate_original",
+    "restore after capture and before each warmup/replay",
+    "restore and synchronize outside timing",
+    "Fused overwrites each gate exactly once per replay",
+    "check all 50 outputs and up preservation before next reset"
+  ],
+  "readonly_up_count": 1,
+  "fifty_up_buffers_required": false,
+  "singleton_policy": "50 disjoint inputs and 50 retained outputs; one resident weight for GEMM; Mul shares the same immutable up",
+  "copy_policy": "50 disjoint sources and 50 disjoint retained destinations; no host staging inside capture",
+  "gpu_buffer_alias_and_lifetime_verified": false
+}
