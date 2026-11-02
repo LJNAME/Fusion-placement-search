@@ -2,6 +2,8 @@
 
 诊断回传：transfer/ffn-b4-diagnostics-received-20261102-01，包SHA256 8c033f30f81ca9dba7729ddf8e22ea0452f5e3e919904c00b7719c521ca7b0aa。4/4来源哈希匹配10c168c；审核记录data/ffn_b4_diagnostics01_review/report.json，CPU入口tools.review_ffn_b4_diagnostics。
 
+run05已核验：18核心格均完成7轮、0进程崩溃，9质量通过/9锚点失败，1组合链按规则阻断；预热/正式比0.9777～1.0181。当前不继续GPU补测，下一项为9候选的CPU Key/Admission准备，见FFN_B4_RUN05_REVIEW.md。以下v3上卡前说明保留为历史。
+
 ## 控制结果
 
 每列为3个样本的中位数，KERV / GPU0 / BF16[1,256,3072]，每Graph 50调用。

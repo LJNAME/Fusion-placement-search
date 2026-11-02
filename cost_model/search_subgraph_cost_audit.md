@@ -120,7 +120,7 @@ KERV 原地覆盖 gate，Mul 输出与 gate 别名；此层 gate 在 SiLU 外没
 | B1 | 合法融合动作空间、允许设备与可达放置 | 无 | GPU0边界场景完成，48带标签/24计算结构类 |
 | B2 | 全部合法方案的通信覆盖与声明契约 | 无 | 4请求/160跨卡实例已核验；B3配方与B4运行观测待完成 |
 | B3 | 同Case/Contract/Recipe矩阵与质量配方 | 无 | 18核心+1诊断冻结；旧Fused不复用，7项CPU核验完成 |
-| B4 | BW1000身份/Graph/跨卡Smoke、正式测量 | 有 | 定点诊断已核验；v3全部计时先于Trace，组合链已知阻断，18核心格待GPU，0新准入 |
+| B4 | BW1000身份/Graph/跨卡Smoke、正式测量 | 有 | run05验证v3：18核心格7轮，9质量通过/9锚点失败+1阻断；下一项CPU导出/准入准备，0新准入 |
 | B5 | 通信成本与链路组合验证 | 有 | 待B4；Δ_add = ΣT_single − T_chain |
 | B5.5 | 同算法解析/正式成本Before–After决策对照 | 无 | 待B5 |
 | B6 | FFN Exact/Guided/Sequential/Joint对照 | 视设计 | 待B5.5；完整图另列C阶段 |

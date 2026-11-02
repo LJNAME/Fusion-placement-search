@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 import statistics
 import subprocess
@@ -15,6 +16,24 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def read(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def verify_sample_binding(record, samples, identity):
+    assert key_id(record["identity"]) == record["identity_hash"] == identity["identity_hash"]
+    assert measurement_contract_id(record["measurement_contract"]) == record["measurement_contract_id"]
+    assert key_id(record["samples"]) == key_id(samples)
+    for index, sample in enumerate(samples):
+        assert sample["attempt"] == index and sample["numeric_ok"] and sample["capture_ok"]
+        assert all(value is True for value in sample["invariants"].values())
+        if "raw_timing" in sample:
+            raw = sample["raw_timing"]
+            assert math.isclose(sample["duration_us"], raw["elapsed_ms"]*1000/50, rel_tol=1e-12)
+            boundary = raw["event_boundary"]
+            assert boundary["device"] == boundary["start_device"] == boundary["end_device"]
+            assert boundary["calls_per_replay"] == 50
+        if record.get("path_evidence_phase") == "after_all_group_timing":
+            assert sample["path_evidence_state"] == "pending_post_timing_trace"
+            assert record["path_verified"]
 
 
 def review(root, source_ref):
@@ -56,6 +75,10 @@ def review(root, source_ref):
             samples = read(sample_path)
             item["attempts"] = len(samples)
             if len(samples) == 7:
+                result = read(result_path)
+                verify_sample_binding(result, samples, read(directory/"identity.json"))
+                if master:
+                    assert key_id(master_row["samples"]) == key_id(samples)
                 shaped = [{"attempt": s["attempt"], "numeric_ok": s["numeric_ok"], "capture_ok": s["capture_ok"],
                            "path_ok": s.get("path_ok", read(result_path).get("path_verified", False)),
                            "arm_us": {"body": s["duration_us"]}, "anchors": s["anchors"]}
@@ -64,8 +87,12 @@ def review(root, source_ref):
                 original = read(result_path)["quality"]
                 assert key_id(checked) == key_id(original)
                 item.update(recorded_status=read(result_path)["status"], quality_recomputed=True,
+                            sample_binding_verified=True,
                             quality_status=checked["status"], invalid_attempts=checked.get("invalid_attempts", []),
                             median_event_us_per_call=statistics.median(s["duration_us"] for s in samples))
+                item["invalid_anchor_details"] = [{"attempt": index, "anchors": {
+                    gpu: {**a, "relative_drift": abs(a["after_us"]-a["before_us"])/a["before_us"]}
+                    for gpu,a in samples[index]["anchors"].items()}} for index in checked.get("invalid_attempts", [])]
                 if master:
                     assert master_row["status"] == item["recorded_status"]
                 warm = read(result_path).get("warmup_diagnostic_timings", [])
@@ -101,6 +128,36 @@ def review(root, source_ref):
                 log = (directory/"worker.log").read_text(encoding="utf-8")
                 item["python_fault_stack"] = log.split("Extension modules:")[0].strip()
             groups.append(item)
+    crashes = [g for g in groups if g.get("returncode")]
+    post_trace = [r for r in rows if r.get("trace_phase") == "after_all_group_timing"]
+    qualified = [r for r in rows if r.get("recorded_status") == "quality_passed"]
+    eligible_ids = {r["row_id"] for r in qualified}
+    b1_root = ROOT/"data/ffn_placement_b1"
+    t1, t2 = read(b1_root/"T1_legal_placements.json"), read(b1_root/"T2_cross_device_edges.json")
+    hypothetical = []
+    for placement in t1["plans"]:
+        required = set()
+        for group in placement["groups"]:
+            name = "silu_mul/fused" if len(group["node_ids"]) == 2 else group["node_ids"][0].rsplit(".", 1)[1]
+            required.add(f"{name}@gpu{group['device']}")
+        for edge in t2["rows"]:
+            if edge["plan_id"] == placement["plan_id"] and edge["cross_device"]:
+                required.add(f"copy/{edge['tensor_bytes']}/{edge['source_gpu']}->{edge['destination_gpu']}")
+        hypothetical.append({"plan_id": placement["plan_id"], "missing_quality_passed_rows": sorted(required-eligible_ids)})
+    comparison = None
+    if master and all(master["cells"].get(n, {}).get("status") == "quality_passed" for n in
+                      ("silu@gpu1", "gated_mul@gpu1", "silu_mul/native@gpu1", "silu_mul/fused@gpu1")):
+        silu, mul, native, fused = [master["cells"][n] for n in
+                                   ("silu@gpu1", "gated_mul@gpu1", "silu_mul/native@gpu1", "silu_mul/fused@gpu1")]
+        assert native["pair_key_id"] == fused["pair_key_id"]
+        assert native["measurement_contract_id"] == fused["measurement_contract_id"]
+        n, f = (statistics.median(s["duration_us"] for s in r["samples"]) for r in (native, fused))
+        delta = [s["duration_us"]+m["duration_us"]-chain["duration_us"] for s,m,chain in
+                 zip(silu["samples"],mul["samples"],native["samples"])]
+        comparison = {"scope": "GPU1 local paired evidence only; not formal admission or FFN/link validation",
+                      "native_median_us": n, "fused_median_us": f, "saving_fraction": (n-f)/n,
+                      "delta_add_definition": "SiLU + Mul - Native chain, matched rounds",
+                      "delta_add_rounds_us": delta, "delta_add_median_us": statistics.median(delta)}
     return {"scope": "returned B4 audit; separate profiler replay is not the same timing sample",
             "archive_sha256": hashlib.sha256(archive.read_bytes()).hexdigest() if archive.exists() else None,
             "source_ref": source_ref, "source_checks": source_checks,
@@ -110,10 +167,24 @@ def review(root, source_ref):
             "formal_unstarted_cells": sum(not r["identity_written"] for r in rows),
             "grid_written": master is not None, "grid_quality_passed": sum(r.get("grid_status")=="quality_passed" for r in rows),
             "grid_quality_failed": sum(r.get("grid_status")=="quality_failed" for r in rows),
+            "blocked_cells": sum(r.get("execution_status")=="blocked_backend_capture" for r in rows),
+            "anchor_failed_cells": sum(r.get("quality_status")=="quality_failed_invalid_round" for r in rows),
+            "worker_crashes": len(crashes),
             "groups": groups, "formal_rows": rows,
-            "last_published_case": "diagnostic/down0-copy524288-gate1",
-            "crash_localization": "capture_body_returned -> torch.cuda.CUDAGraph.capture_end SIGSEGV" if master else "last identity precedes capture; native stack unavailable",
-            "timing_interpretation": "large event/trace discrepancy requires investigation; profiler overhead and boundary cause unverified",
+            "last_published_case": crashes[-1]["last_stage"]["row_id"] if crashes else None,
+            "crash_localization": "see failed worker stack" if crashes else (None if master else "no grid; crash stage not instrumented"),
+            "warmup_over_formal_range": [min(r["warmup_over_formal_event_ratio"] for r in post_trace),
+                                          max(r["warmup_over_formal_event_ratio"] for r in post_trace)] if post_trace else None,
+            "timing_interpretation": "post-timing Trace; warmup/formal consistency checked, no automatic admission" if post_trace else "pre-timing profiling state requires separate review",
+            "gpu1_local_comparison": comparison,
+            "hypothetical_quality_only_plan_availability": {
+                "scope": "availability only; not admission, layout/route proof or chain-additivity validation",
+                "legal_plans": len(hypothetical), "complete_plans": sum(not p["missing_quality_passed_rows"] for p in hypothetical),
+                "b1_source_sha256": {n: hashlib.sha256((b1_root/n).read_bytes()).hexdigest() for n in
+                                      ("T1_legal_placements.json", "T2_cross_device_edges.json")}, "plans": hypothetical},
+            "cpu_admission_candidates": [{"row_id": r["row_id"], "quality_passed": True,
+                                          "canonical_kernel_key_exported": False,
+                                          "strict_query_available": False, "admitted": False} for r in qualified],
             "new_accepted_profiles": 0, "search_cost_items_added": 0,
             "raw_file_sha256": {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                                 for p in sorted(root.rglob("*")) if p.is_file()}}
@@ -129,7 +200,8 @@ def main():
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", encoding="utf-8", newline="\n") as stream:
         stream.write(json.dumps(result, indent=2, allow_nan=False)+"\n")
-    print(json.dumps({k: v for k,v in result.items() if k not in ("smoke", "formal_rows", "raw_file_sha256")}))
+    print(json.dumps({k: v for k,v in result.items() if k not in ("smoke", "formal_rows", "raw_file_sha256",
+                                                               "hypothetical_quality_only_plan_availability")}))
 
 
 if __name__ == "__main__":

@@ -153,6 +153,10 @@ def audit():
     b4_returned = read(ROOT / "data/ffn_b4_run03_review/report.json")
     b4_run04 = read(ROOT / "data/ffn_b4_run04_review/report.json")
     b4_diagnostics = read(ROOT / "data/ffn_b4_diagnostics01_review/report.json")
+    b4_run05 = read(ROOT / "data/ffn_b4_run05_review/report.json")
+    assert b4_run05["worker_crashes"] == 0 and b4_run05["formal_completed_cells"] == 18
+    assert b4_run05["grid_quality_passed"] == 9 and b4_run05["anchor_failed_cells"] == 9 and b4_run05["blocked_cells"] == 1
+    assert b4_run05["new_accepted_profiles"] == 0
     assert all(b4_diagnostics["source_checks"].values()) and b4_diagnostics["new_accepted_profiles"] == 0
     assert b4_run04["grid_written"] and b4_run04["formal_expected_cells"] == 19
     assert b4_run04["grid_quality_passed"] == 10 and b4_run04["grid_quality_failed"] == 9
@@ -214,6 +218,13 @@ def audit():
                                      "timing": b4_diagnostics["timing"], "new_accepted_profiles": 0,
                                      "v3_active_measurements": 18, "blocked_composed_chain": 1,
                                      "v3_gpu_validated": False},
+            "ffn_b4_returned_run05": {"review": "data/ffn_b4_run05_review/report.json",
+                                     "review_sha256": digest(ROOT / "data/ffn_b4_run05_review/report.json"),
+                                     "v3_execution_verified": True, "core_measured_cells": 18, "worker_crashes": 0,
+                                     "quality_passed": 9, "anchor_failed": 9, "blocked_chain": 1,
+                                     "new_accepted_profiles": 0, "cpu_admission_candidates": b4_run05["cpu_admission_candidates"],
+                                     "hypothetical_quality_only_complete_plans": 0,
+                                     "strict_search_cost_query_open": False},
             "chain_cost_queries": [{"device": device, "arm": arm, "scope": "full_ffn_fork_join",
                                     "canonical_key": None, "measurement_contract_id": None,
                                     "accepted": False, "evidence": "no matching FFN chain in current P2 bundle"}
@@ -236,7 +247,7 @@ def audit():
                               "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
                               "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
                               "B3": "CPU 18+1 matrix and quality recipe frozen; old Fused profiles ineligible for new recipe reuse",
-                              "B4": "diagnostics reproduced existing-graph Event state change after profiler and one-call chain capture_end SIGSEGV with/without explicit output preallocation; v3 times all arms before any trace, blocks composed chain, 18 active cells CPU-ready; GPU pending; no new admission",
+                              "B4": "run05 v3 execution/timing verified: 18 core cells sampled seven times, zero worker crashes; 9 quality_passed/9 anchor_failed plus 1 blocked chain. CPU Canonical Key export and scoped admission remain; no immediate GPU rerun, threshold changes, sample replacement or new admission",
                               "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
                               "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
                               "C": "whole-graph mixed-coverage validation deferred",

@@ -96,6 +96,8 @@ run04验证轮组隔离：19状态齐全、15格各7次样本，10 quality_passe
 
 当前v3规范见FFN_B4_V3.md：独立控制复现Profiler Replay既有Graph后Event计时状态改变；每轮组的全部正式/锚点采样都必须先于任何Profiler，后置Trace只影响路径准入，不覆写原始样本。组合跨卡链经单次动态/预分配输出两路径仍capture_end崩溃，按已知后端证据阻断，不重试、不回退；18核心格可继续。B5链路残差与完整FFN成本仍缺失。旧Recipe/旧P2决策保留，v3仅CPU验证，GPU结果待回传。
 
+run05已核验v3：18核心格各7轮、0进程崩溃，9 quality_passed/9锚点失败+1组合链阻断；计时恢复稳定量级。当前不追加GPU、不调整阈值/补样本，先进行9候选的CPU Canonical Key导出与准入范围审核。新accepted仍0，FFN方案成本未闭合，B5.5/B6不启动。见FFN_B4_RUN05_REVIEW.md。
+
 ## B4：准入不筛选性能赢家
 
 **Profile Admission仅验证测量身份、正确性、来源与契约有效性，不以性能收益作为准入条件。Fused慢于Native时仍可准入，搜索空间必须保留Native作为合法替代。**
