@@ -1,0 +1,81 @@
+"""CPU design only. No GPU collector or run phase is provided."""
+import argparse
+import hashlib
+from pathlib import Path
+
+from calibration.ffn_anchor_control import ROOT, save
+from cost_model.fusion_kernel_profile import key_id
+
+
+def proposal():
+    payload = {
+        "version": "ffn-anchor-conditioning-design.v1",
+        "status": "cpu_design_for_review_not_active_measurement_contract",
+        "scope": "diagnostic_only_not_profile_admission",
+        "motivating_evidence": "data/ffn_anchor_position_v1/report.json",
+        "measurement_object_recommendation": {
+            "target": "graph-batch cost under an explicit conditioned execution recipe",
+            "basis": "existing Graph Replay and ten-warmup scope; not full-plan or post-idle latency",
+            "anchor_purpose": "compare explicitly matched pre/post execution conditions",
+            "resume_or_first_launch_cost": "separate condition and contract if required; never mix with conditioned labels",
+            "recommendation_not_implemented": True,
+        },
+        "question": "does one explicit conditioning replay reduce the observed first-position contrast under this recipe?",
+        "not_the_question": ["clock or thermal mechanism proved", "crossing-rate improvement", "R3 is unbiased", "search cost admission"],
+        "cells": [
+            {"id": "block1_A", "condition": "A", "row": "down_proj@gpu0", "conditioning_replays_per_endpoint": 0},
+            {"id": "block1_B", "condition": "B", "row": "down_proj@gpu0", "conditioning_replays_per_endpoint": 1},
+            {"id": "block2_B", "condition": "B", "row": "down_proj@gpu0", "conditioning_replays_per_endpoint": 1},
+            {"id": "block2_A", "condition": "A", "row": "down_proj@gpu0", "conditioning_replays_per_endpoint": 0}],
+        "only_intervention": "presence of exactly one conditioning replay before each measured endpoint triple",
+        "shared_recipe": {
+            "fresh_process_per_cell": True, "parent": "CPU only", "device": "GPU0 only",
+            "fresh_uuid_and_build": "observe at collection and require the same signature across four cells; no substitution by model name",
+            "attempts": 7, "extra_attempts": 0, "worker_retries": 0,
+            "calls_per_replay": 50, "anchor": "F.silu", "shape": [1, 256, 3072], "dtype": "bf16",
+            "anchor_warmup": 10, "anchor_warmup_position": "before target preparation, unchanged",
+            "target_warmup": 10, "measured_replays_per_endpoint": 3,
+            "round_order": "pre conditioning(0/1) -> three measured pre -> one target -> post conditioning(0/1) -> three measured post",
+            "fixture": "data/ffn_measurement_b3/recipe.json; existing Down0 fixtures and buffers",
+            "reset_sync_validation": "existing order and byte/numerical checks, outside each Event interval",
+            "conditioning_record": "separate named stage with boundaries/checks/diagnostic time; not a dropped measured sample",
+            "conditioning_to_first_sample": "no disk I/O, telemetry or profiler between completion and first measured replay; record actual gap",
+            "telemetry": "before pre conditioning and after post measurements; missing remains null plus error",
+            "trace": "after all timing; no later timing", "all_raw_records_retained": True,
+            "quality_diagnostics": "same 10% endpoint IQR/median, median drift and target IQR rules; no relaxation",
+        },
+        "planned_counts": {"fresh_workers": 4, "independent_runs_per_condition": 2,
+            "measured_target_replays": 28, "measured_anchor_replays": 168,
+            "conditioning_replays": 28, "measured_function_calls": 9800,
+            "conditioning_function_calls": 1400,
+            "excludes": "initialization, capture, ten warmups per graph and post-timing trace"},
+        "readouts": {
+            "endpoint": "all three values; first minus median(next two), absolute and relative; original triple IQR and pre/post drift",
+            "primary_per_run": "median of the seven pre first-minus-next-two contrasts; preserve every endpoint and separately show post",
+            "two_block_contrasts": "B minus A within block1 and block2; display both signs, no hidden pooling",
+            "target": "all seven durations and IQR/median, to observe any changed target condition",
+            "pipeline_pass": "all four complete with correct numeric/path/identity/boundary records",
+            "automatic_protocol_adoption": False, "crossing_rate_estimate": None,
+            "limited_replication": "two ordered blocks are descriptive engineering evidence, not validated rate or bias estimates",
+            "mechanism": "conditioning also changes preceding GPU work, cache/state and host history; mechanism remains unresolved",
+        },
+        "gpu_collector_implemented": False, "gpu_entry_open": False,
+        "retroactive_quality_change": False, "formal_matrix_open": False, "automatic_admission": False,
+        "source_sha256": {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in (
+            "calibration/ffn_anchor_conditioning_plan.py", "tools/analyze_ffn_anchor_position.py",
+            "calibration/ffn_anchor_control.py", "calibration/ffn_control_runtime.py",
+            "data/ffn_measurement_b3/recipe.json", "data/ffn_anchor_position_v1/report.json")},
+    }
+    return {**payload, "design_id": key_id(payload)}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    args.output.mkdir(parents=True, exist_ok=False)
+    save(args.output / "design.json", proposal())
+
+
+if __name__ == "__main__":
+    main()
