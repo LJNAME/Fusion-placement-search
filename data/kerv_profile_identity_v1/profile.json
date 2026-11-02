@@ -1,0 +1,310 @@
+{
+  "format": "fusion-placement-search.canonical-kerv-profile",
+  "version": "1.0",
+  "records": [
+    {
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": null,
+            "kind": "runtime_observation",
+            "uuid": "30303134-6261-3537-6132-326533393031"
+          }
+        },
+        "implementation": {
+          "backend": "flagscale_kerv_triton",
+          "compile_flags": {},
+          "id": "flagos_embodied.kerv_silu_mul.triton",
+          "loaded_source": {
+            "git_revision": null,
+            "module_sha256": null
+          },
+          "public_operator": "torch.ops.flagos_embodied.kerv_silu_mul",
+          "runtime_flags": {
+            "backend": "triton",
+            "enabled_operator": "kerv_silu_mul",
+            "inplace": true,
+            "output_alias_input": "gate"
+          },
+          "version": "sha256:05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728.0,
+              "layout": {
+                "materialization": "internal_fused_expression"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": null
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "materialization": "internal_fused_expression"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 0.0
+          },
+          {
+            "attributes": {
+              "bwd_flops": 1572864.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "internal": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          1
+        ],
+        "pattern_id": "silu_mul",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": null,
+          "device_uuid": "30303134-6261-3537-6132-326533393031",
+          "driver_version": null,
+          "framework": "torch",
+          "framework_version": "2.9.0",
+          "triton_version": "3.5.1"
+        }
+      },
+      "kernel_key_id": "sha256:07d3658cf585d3529a7dba22a195492c5d14aecf5a045e05bc184191e9d22c35",
+      "identity_gaps": [
+        "device.architecture",
+        "implementation.loaded_source",
+        "measurement_contract.recipe_incomplete",
+        "runtime.driver_version"
+      ],
+      "measurement_contract": {
+        "executor": "placed_kerv_adapter_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "independent_gate_batch_graph_replay",
+        "unit": "seconds_per_call",
+        "environment": {
+          "torch": "2.9.0",
+          "hip": "6.3.26113",
+          "cuda": null,
+          "triton": "3.5.1",
+          "device_model": "BW"
+        },
+        "timing": "Event interval includes one graph replay submission boundary; amortized across calls",
+        "restore": "outside Event interval; each call has a fresh gate slice"
+      },
+      "measurement_contract_id": "sha256:5bb9b8640532400508522f3303c49e30e08f3df14c692a31b77b1424771e7f83",
+      "statistics": {
+        "median_us": 7.238399982452393,
+        "min_us": 7.1807998418807975,
+        "max_us": 7.286400198936462,
+        "mad_rel": 0.003089092409267978,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples": [
+        {
+          "round": 0,
+          "graph_event_total_s": 0.0003590399920940399,
+          "graph_calls": 50,
+          "amortized_per_call_s": 7.180799841880798e-06
+        },
+        {
+          "round": 1,
+          "graph_event_total_s": 0.0003643200099468231,
+          "graph_calls": 50,
+          "amortized_per_call_s": 7.286400198936462e-06
+        },
+        {
+          "round": 2,
+          "graph_event_total_s": 0.0003630380034446716,
+          "graph_calls": 50,
+          "amortized_per_call_s": 7.260760068893432e-06
+        },
+        {
+          "round": 3,
+          "graph_event_total_s": 0.0003632000088691711,
+          "graph_calls": 50,
+          "amortized_per_call_s": 7.2640001773834225e-06
+        },
+        {
+          "round": 4,
+          "graph_event_total_s": 0.00036191999912261964,
+          "graph_calls": 50,
+          "amortized_per_call_s": 7.238399982452393e-06
+        },
+        {
+          "round": 5,
+          "graph_event_total_s": 0.00036191898584365847,
+          "graph_calls": 50,
+          "amortized_per_call_s": 7.2383797168731695e-06
+        },
+        {
+          "round": 6,
+          "graph_event_total_s": 0.0003617590069770813,
+          "graph_calls": 50,
+          "amortized_per_call_s": 7.235180139541627e-06
+        }
+      ],
+      "case_id": "gpu0",
+      "role": "fused_kernel",
+      "evidence": {
+        "inputs/gpu0/fused/result.json": "eceba0b603c197d3b679c8500c94269f8103ce5a26f1dd0145e3d23a6f4decb6",
+        "inputs/gpu0/fused/samples.json": "f2e20f1a9f7aa25d89d62d299355cb9277bd6ab229233b6f41619cde5004a81f",
+        "inputs/gpu0/fused/dispatch_trace.json": "1df16e5601762daaeab823f7b2529bc58bb59516603bcdeade7562afa6094bb8",
+        "inputs/gpu0/fused/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d"
+      },
+      "admission": "conditional_dev",
+      "source_graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+      "source_candidate_id": "sha256:a56666671949f4f735dd125904dc72f25a8403a2d0f7db5ba06de64dccbaf28b",
+      "loaded_source": {},
+      "correctness": {
+        "rtol": 0.01,
+        "atol": 0.001,
+        "max_abs_error_native": 0.0625,
+        "max_abs_error_fp32": 0.00390625,
+        "gate_alias": true,
+        "up_preserved": true,
+        "gate_invalidated": true,
+        "all_replay_outputs_checked": 350
+      },
+      "execution": {
+        "observed_jit_launches": 1,
+        "synchronized_successfully": true,
+        "device_kernel_count": 1,
+        "device_kernel_name": "_silu_mul_kernel"
+      },
+      "record_id": "sha256:178f60b7e3df4ab117dd0242972746201318f268a58c2e76d5916169c68c89b8"
+    }
+  ],
+  "hardware_profile_sharing": false,
+  "automatic_admission": false
+}

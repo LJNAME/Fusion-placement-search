@@ -1,0 +1,50 @@
+{
+  "scope": "selected fused candidate only; no Native cost decomposition or whole-model search",
+  "measured_candidates": 1,
+  "results": [
+    {
+      "case_id": "gpu0",
+      "makespan_s": 7.238399982452393e-06,
+      "profile_usage": [
+        {
+          "node_ids": [
+            "L000.mlp.gate_proj"
+          ],
+          "source": "logical_input",
+          "measured": false,
+          "scope": "logical input or explicit analytic singleton"
+        },
+        {
+          "node_ids": [
+            "L000.mlp.up_proj"
+          ],
+          "source": "logical_input",
+          "measured": false,
+          "scope": "logical input or explicit analytic singleton"
+        },
+        {
+          "node_ids": [
+            "L000.mlp.silu",
+            "L000.mlp.gated_mul"
+          ],
+          "device": 0,
+          "source": "measured_group_kernel_diagnostic_unbound",
+          "measured": true,
+          "kernel_key_id": "sha256:07d3658cf585d3529a7dba22a195492c5d14aecf5a045e05bc184191e9d22c35",
+          "measurement_contract_id": "sha256:5bb9b8640532400508522f3303c49e30e08f3df14c692a31b77b1424771e7f83",
+          "record_id": "sha256:178f60b7e3df4ab117dd0242972746201318f268a58c2e76d5916169c68c89b8",
+          "admission": "conditional_dev",
+          "identity_gaps": [
+            "device.architecture",
+            "implementation.loaded_source",
+            "measurement_contract.recipe_incomplete",
+            "runtime.driver_version"
+          ],
+          "duration_s": 7.238399982452393e-06
+        }
+      ],
+      "deployable": false
+    }
+  ],
+  "profile_sharing": false
+}
