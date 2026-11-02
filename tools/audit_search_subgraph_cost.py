@@ -128,6 +128,11 @@ def audit():
     raw = read(ROOT / "data/bw1000_2card/raw_measurements.json")
     legacy = read(ROOT / "data/fixed_profile_audit_v1/report.json")
     assert legacy["kernel_records"] == legacy["record_admissions"]["legacy_unbound"] == 36
+    b1_root = ROOT / "data/ffn_placement_b1"
+    b1_verification = read(b1_root / "verification.json")
+    b1_payloads = {name: read(b1_root / name) for name in b1_verification["output_payload_ids"]}
+    assert all(key_id(value) == b1_verification["output_payload_ids"][name] for name, value in b1_payloads.items())
+    assert b1_verification["pass_checks"] and b1_payloads["identity.json"]["source_graph_hash"] == graph_fingerprint(graph)
     edge_rows = [{"src": e.src, "dst": e.dst, "bytes": e.bytes,
                   "source_device": None, "destination_device": None,
                   "tensor_shape": graph.nodes[e.src].extra["output_shape"], "tensor_bytes": e.bytes,
@@ -147,6 +152,12 @@ def audit():
             "edges": edge_rows, "fused_groups": fused, "native_comparisons": native,
             "singleton_cost_queries": singleton, "potential_link_query_classes": potential_links,
             "actual_transfer_measurement_cases": None,
+            "ffn_b1_inventory": {"path": "data/ffn_placement_b1", "boundary": b1_payloads["identity.json"]["boundary_constraints"],
+                                 "legal_labeled_plans": b1_verification["legal_labeled_plans"],
+                                 "compute_structure_classes": b1_verification["compute_structure_classes"],
+                                 "labeled_plans_to_score": b1_verification["labeled_plans_to_score"],
+                                 "logical_communication_requirement_classes": b1_verification["t3_requirement_classes"],
+                                 "b2_contract_review_complete": False},
             "chain_cost_queries": [{"device": device, "arm": arm, "scope": "full_ffn_fork_join",
                                     "canonical_key": None, "measurement_contract_id": None,
                                     "accepted": False, "evidence": "no matching FFN chain in current P2 bundle"}
@@ -164,8 +175,8 @@ def audit():
             "search_cost_coverage": {"admitted_cost_items": 0, "denominator": None,
                                      "reason": "singleton/link/whole-plan search use is not open"},
             "stage_b_entry": {"B0": "CPU identity workflow verified; actual BW1000 identity captured before B4 timing",
-                              "B1": "legal fusion/placement action space and jointly reachable devices pending",
-                              "B2": "union of crossing edges across all legal plans pending",
+                              "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
+                              "B2": "B1 union derived; transfer mechanism/layout/synchronization contract review pending",
                               "B3": "same-case/contract/recipe Fused-Native case matrix pending",
                               "B4": "BW1000 identity capture and paired admission pending B1-B3",
                               "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",

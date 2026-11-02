@@ -1,0 +1,526 @@
+{
+  "format": "fusion-placement-search.ffn-placement-b1",
+  "version": "1.0",
+  "scope": "layer0 FFN declared structural action space; not cost/HBM/deployment certification",
+  "source_graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+  "subgraph_hash": "sha256:a4c78f910a750680b2701532b4c9a90ff3cba07050d705ae0f0993efb4cf3059",
+  "subgraph": {
+    "name": "qwen3-layer0-ffn-b1",
+    "extra": {
+      "scope": "FFN structural action enumeration",
+      "output_nodes": [
+        "L000.mlp.down_proj"
+      ]
+    },
+    "nodes": [
+      {
+        "id": "L000.pre_mlp_norm",
+        "op_type": "input",
+        "flops": 0,
+        "out_bytes": 524288.0,
+        "param_bytes": 0,
+        "extra": {
+          "layer": 0,
+          "local_name": "pre_mlp_norm",
+          "module_path": "decoder.layers.0.pre_mlp_layernorm",
+          "output_shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1310720.0,
+          "bwd_flops": 2621440.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 262144
+          }
+        }
+      },
+      {
+        "id": "L000.mlp.gate_proj",
+        "op_type": "matmul",
+        "flops": 1610612736.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 6291456.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.gate_proj",
+          "module_path": "decoder.layers.0.mlp.linear_fc1.gate",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1610612736.0,
+          "bwd_flops": 3221225472.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 3072,
+            "k": 1024
+          },
+          "sharding_rule": "column",
+          "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+          "semantic_slice": "gate"
+        }
+      },
+      {
+        "id": "L000.mlp.up_proj",
+        "op_type": "matmul",
+        "flops": 1610612736.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 6291456.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.up_proj",
+          "module_path": "decoder.layers.0.mlp.linear_fc1.up",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1610612736.0,
+          "bwd_flops": 3221225472.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 3072,
+            "k": 1024
+          },
+          "sharding_rule": "column",
+          "implementation_group": "decoder.layers.0.mlp.linear_fc1",
+          "semantic_slice": "up"
+        }
+      },
+      {
+        "id": "L000.mlp.silu",
+        "op_type": "silu",
+        "flops": 3145728.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.silu",
+          "module_path": "decoder.layers.0.mlp.activation",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 3145728.0,
+          "bwd_flops": 6291456.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 786432
+          }
+        }
+      },
+      {
+        "id": "L000.mlp.gated_mul",
+        "op_type": "mul",
+        "flops": 786432.0,
+        "out_bytes": 1572864.0,
+        "param_bytes": 0.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.gated_mul",
+          "module_path": "decoder.layers.0.mlp.gated_linear_unit",
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 786432.0,
+          "bwd_flops": 1572864.0,
+          "saved_activation_bytes": 1572864.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "n": 786432
+          }
+        }
+      },
+      {
+        "id": "L000.mlp.down_proj",
+        "op_type": "matmul",
+        "flops": 1610612736.0,
+        "out_bytes": 524288.0,
+        "param_bytes": 6291456.0,
+        "extra": {
+          "layer": 0,
+          "local_name": "mlp.down_proj",
+          "module_path": "decoder.layers.0.mlp.linear_fc2",
+          "output_shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "phase": "forward",
+          "fwd_flops": 1610612736.0,
+          "bwd_flops": 3221225472.0,
+          "saved_activation_bytes": 524288.0,
+          "recompute_eligible": true,
+          "collective": null,
+          "shape": {
+            "m": 256,
+            "n": 1024,
+            "k": 3072
+          },
+          "sharding_rule": "row"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "src": "L000.pre_mlp_norm",
+        "dst": "L000.mlp.gate_proj",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.pre_mlp_norm:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.pre_mlp_norm",
+        "dst": "L000.mlp.up_proj",
+        "bytes": 524288.0,
+        "extra": {
+          "tensor_id": "L000.pre_mlp_norm:output",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.gate_proj",
+        "dst": "L000.mlp.silu",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.gate_proj:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.silu",
+        "dst": "L000.mlp.gated_mul",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.silu:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.up_proj",
+        "dst": "L000.mlp.gated_mul",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.up_proj:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "src": "L000.mlp.gated_mul",
+        "dst": "L000.mlp.down_proj",
+        "bytes": 1572864.0,
+        "extra": {
+          "tensor_id": "L000.mlp.gated_mul:output",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      }
+    ]
+  },
+  "compute_node_order": [
+    "L000.mlp.gate_proj",
+    "L000.mlp.up_proj",
+    "L000.mlp.silu",
+    "L000.mlp.gated_mul",
+    "L000.mlp.down_proj"
+  ],
+  "edges": [
+    {
+      "edge_id": "ffn.e00",
+      "producer": "L000.pre_mlp_norm",
+      "consumer": "L000.mlp.gate_proj",
+      "tensor_shape": [
+        1,
+        256,
+        1024
+      ],
+      "tensor_bytes": 524288,
+      "dtype": "bf16",
+      "boundary": "ingress"
+    },
+    {
+      "edge_id": "ffn.e01",
+      "producer": "L000.pre_mlp_norm",
+      "consumer": "L000.mlp.up_proj",
+      "tensor_shape": [
+        1,
+        256,
+        1024
+      ],
+      "tensor_bytes": 524288,
+      "dtype": "bf16",
+      "boundary": "ingress"
+    },
+    {
+      "edge_id": "ffn.e02",
+      "producer": "L000.mlp.gate_proj",
+      "consumer": "L000.mlp.silu",
+      "tensor_shape": [
+        1,
+        256,
+        3072
+      ],
+      "tensor_bytes": 1572864,
+      "dtype": "bf16",
+      "boundary": "internal"
+    },
+    {
+      "edge_id": "ffn.e03",
+      "producer": "L000.mlp.silu",
+      "consumer": "L000.mlp.gated_mul",
+      "tensor_shape": [
+        1,
+        256,
+        3072
+      ],
+      "tensor_bytes": 1572864,
+      "dtype": "bf16",
+      "boundary": "internal"
+    },
+    {
+      "edge_id": "ffn.e04",
+      "producer": "L000.mlp.up_proj",
+      "consumer": "L000.mlp.gated_mul",
+      "tensor_shape": [
+        1,
+        256,
+        3072
+      ],
+      "tensor_bytes": 1572864,
+      "dtype": "bf16",
+      "boundary": "internal"
+    },
+    {
+      "edge_id": "ffn.e05",
+      "producer": "L000.mlp.gated_mul",
+      "consumer": "L000.mlp.down_proj",
+      "tensor_shape": [
+        1,
+        256,
+        3072
+      ],
+      "tensor_bytes": 1572864,
+      "dtype": "bf16",
+      "boundary": "internal"
+    },
+    {
+      "edge_id": "ffn.e06",
+      "producer": "L000.mlp.down_proj",
+      "consumer": "L000.residual_add_2",
+      "tensor_shape": [
+        1,
+        256,
+        1024
+      ],
+      "tensor_bytes": 524288,
+      "dtype": "bf16",
+      "boundary": "egress"
+    }
+  ],
+  "boundary_constraints": {
+    "input_producer": "L000.pre_mlp_norm",
+    "input_device": 0,
+    "output_consumer": "L000.residual_add_2",
+    "output_device": 0,
+    "authority": "user-confirmed GPU0/GPU0 default; CLI alternatives are separate scenarios"
+  },
+  "legal_fusion_candidates": [
+    {
+      "node_ids": [
+        "L000.mlp.gate_proj"
+      ],
+      "pattern_id": "unfused",
+      "allowed_devices": [
+        0,
+        1
+      ],
+      "implementation_status": "reference"
+    },
+    {
+      "node_ids": [
+        "L000.mlp.silu"
+      ],
+      "pattern_id": "unfused",
+      "allowed_devices": [
+        0,
+        1
+      ],
+      "implementation_status": "reference"
+    },
+    {
+      "node_ids": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "pattern_id": "silu_mul",
+      "allowed_devices": [
+        0,
+        1
+      ],
+      "implementation_status": "implemented"
+    },
+    {
+      "node_ids": [
+        "L000.mlp.up_proj"
+      ],
+      "pattern_id": "unfused",
+      "allowed_devices": [
+        0,
+        1
+      ],
+      "implementation_status": "reference"
+    },
+    {
+      "node_ids": [
+        "L000.mlp.gated_mul"
+      ],
+      "pattern_id": "unfused",
+      "allowed_devices": [
+        0,
+        1
+      ],
+      "implementation_status": "reference"
+    },
+    {
+      "node_ids": [
+        "L000.mlp.down_proj"
+      ],
+      "pattern_id": "unfused",
+      "allowed_devices": [
+        0,
+        1
+      ],
+      "implementation_status": "reference"
+    }
+  ],
+  "additional_node_device_restrictions": {},
+  "node_reachable_devices": {
+    "L000.mlp.gate_proj": [
+      0,
+      1
+    ],
+    "L000.mlp.up_proj": [
+      0,
+      1
+    ],
+    "L000.mlp.silu": [
+      0,
+      1
+    ],
+    "L000.mlp.gated_mul": [
+      0,
+      1
+    ],
+    "L000.mlp.down_proj": [
+      0,
+      1
+    ]
+  },
+  "constraints_enforced": [
+    "exact disjoint coverage",
+    "DAG/topology",
+    "same-layer source-pinned executable pattern",
+    "KERV alias/shape guards with runtime contiguous precondition",
+    "GPU ordinal 0/1",
+    "declared boundary and node device sets"
+  ],
+  "not_certified": [
+    "runtime layout",
+    "HBM/workspace feasibility",
+    "stage/stream implementation",
+    "cost admission",
+    "production captured graph"
+  ],
+  "capability_id": "sha256:225560cdfed78c2d93e8b9e1262f3ebcd9f490ba199c436d91b714f44472df3f",
+  "kerv_applicability": {
+    "eligible": true,
+    "reasons": [],
+    "requirements": [
+      "gate_must_be_contiguous_at_runtime",
+      "up_must_be_contiguous_at_runtime"
+    ],
+    "gate_node": "L000.mlp.gate_proj",
+    "up_node": "L000.mlp.up_proj",
+    "shape": [
+      1,
+      256,
+      3072
+    ],
+    "dtype": "bf16"
+  },
+  "source_sha256": {
+    "cost_model/ffn_placement_b1.py": "2eeb7f368b9de0908dd47de945a9fb4673be90eab8dea2b85e470a0bbf702f34",
+    "cost_model/legal_search.py": "d95af5faf6bbf2dab8df09b736cfa87ee4772a542c269134168ba0164ac448b2",
+    "simulator/validate.py": "dc3ad7b67da474d387edf6bcbcdd61f6649b2399fb8c4cb4170f22d95cb3e64e",
+    "simulator/fusion_rules.py": "5af6359be8fb16220fedab0a9b8d311a8d6ed410ff1c1a8855efdbf9a2d6298b",
+    "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead",
+    "cost_model/search_evaluation.py": "92c4450f53c37ebc099990e449a5e26643f1a389decf68f9a949a175950746e7",
+    "integration/flagscale/kerv_execution.py": "dd083ef1fe31c54176f24302f7f153f442e625db6284a4e12a3acb27c5b8bbe8",
+    "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+    "data/kerv_silu_mul_proxy_v1/capability.json": "74bfa16c961107844a50f44fdf5a9aaf7439ea471a7be1a7cdb6f2fc82ee1ba6",
+    "data/kerv_profile_admission_v1/measurements/profile.json": "b335c913cbacd299d0e2675dd7f2cb19646c330d417efc461404121af7c07017"
+  },
+  "new_gpu_measurements": 0,
+  "cost_scoring_calls": 0,
+  "mcts_runs": 0,
+  "b2_contract_review_complete": false
+}
