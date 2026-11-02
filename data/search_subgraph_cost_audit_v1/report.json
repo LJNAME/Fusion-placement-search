@@ -1,0 +1,1558 @@
+{
+  "format": "fusion-placement-search.search-subgraph-cost-audit",
+  "version": "1.0",
+  "scope": "reference-builder FFN layer 0; accepted coverage under current P2 decision",
+  "graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+  "model_nodes": 591,
+  "layers": 28,
+  "ffn_shape_templates": 1,
+  "nodes": [
+    {
+      "node_id": "L000.pre_mlp_norm",
+      "role": "boundary_input",
+      "original_op": "rmsnorm",
+      "shape": [
+        1,
+        256,
+        1024
+      ],
+      "dtype": "bf16",
+      "parameter_bytes_in_scope": 0,
+      "matmul_shape": null,
+      "semantic_slice": null
+    },
+    {
+      "node_id": "L000.mlp.gate_proj",
+      "role": "compute",
+      "original_op": "matmul",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "parameter_bytes_in_scope": 6291456.0,
+      "matmul_shape": {
+        "m": 256,
+        "n": 3072,
+        "k": 1024
+      },
+      "semantic_slice": "gate"
+    },
+    {
+      "node_id": "L000.mlp.up_proj",
+      "role": "compute",
+      "original_op": "matmul",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "parameter_bytes_in_scope": 6291456.0,
+      "matmul_shape": {
+        "m": 256,
+        "n": 3072,
+        "k": 1024
+      },
+      "semantic_slice": "up"
+    },
+    {
+      "node_id": "L000.mlp.silu",
+      "role": "compute",
+      "original_op": "silu",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "parameter_bytes_in_scope": 0.0,
+      "matmul_shape": null,
+      "semantic_slice": null
+    },
+    {
+      "node_id": "L000.mlp.gated_mul",
+      "role": "compute",
+      "original_op": "mul",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "parameter_bytes_in_scope": 0.0,
+      "matmul_shape": null,
+      "semantic_slice": null
+    },
+    {
+      "node_id": "L000.mlp.down_proj",
+      "role": "compute",
+      "original_op": "matmul",
+      "shape": [
+        1,
+        256,
+        1024
+      ],
+      "dtype": "bf16",
+      "parameter_bytes_in_scope": 6291456.0,
+      "matmul_shape": {
+        "m": 256,
+        "n": 1024,
+        "k": 3072
+      },
+      "semantic_slice": null
+    }
+  ],
+  "edges": [
+    {
+      "src": "L000.pre_mlp_norm",
+      "dst": "L000.mlp.gate_proj",
+      "bytes": 524288.0,
+      "kind": "ffn_internal",
+      "eliminated_when_fused": false,
+      "cross_device_cost_accepted": false
+    },
+    {
+      "src": "L000.pre_mlp_norm",
+      "dst": "L000.mlp.up_proj",
+      "bytes": 524288.0,
+      "kind": "ffn_internal",
+      "eliminated_when_fused": false,
+      "cross_device_cost_accepted": false
+    },
+    {
+      "src": "L000.mlp.gate_proj",
+      "dst": "L000.mlp.silu",
+      "bytes": 1572864.0,
+      "kind": "ffn_internal",
+      "eliminated_when_fused": false,
+      "cross_device_cost_accepted": false
+    },
+    {
+      "src": "L000.mlp.silu",
+      "dst": "L000.mlp.gated_mul",
+      "bytes": 1572864.0,
+      "kind": "ffn_internal",
+      "eliminated_when_fused": true,
+      "cross_device_cost_accepted": false
+    },
+    {
+      "src": "L000.mlp.up_proj",
+      "dst": "L000.mlp.gated_mul",
+      "bytes": 1572864.0,
+      "kind": "ffn_internal",
+      "eliminated_when_fused": false,
+      "cross_device_cost_accepted": false
+    },
+    {
+      "src": "L000.mlp.gated_mul",
+      "dst": "L000.mlp.down_proj",
+      "bytes": 1572864.0,
+      "kind": "ffn_internal",
+      "eliminated_when_fused": false,
+      "cross_device_cost_accepted": false
+    },
+    {
+      "src": "L000.mlp.down_proj",
+      "dst": "L000.residual_add_2",
+      "bytes": 524288.0,
+      "kind": "external_egress",
+      "eliminated_when_fused": false,
+      "cross_device_cost_accepted": false
+    }
+  ],
+  "fused_groups": [
+    {
+      "case_id": "gpu0",
+      "role": "fused_kernel",
+      "kernel_key_id": "sha256:2cfa617ace0ee3af1e7c9e12d8f99f6af409c3e64a575134e9be3679d74bca80",
+      "measurement_contract_id": "sha256:f4cbdf92046f460ce1c8c76c3b35229d634717fab8a9323b604b274d608c9d70",
+      "record_id": "sha256:00b98004722a672ddacf90121797f8be2b4830b3e5c6c892c594ef45246bae24",
+      "admission": "accepted",
+      "median_us": 7.251179814338683,
+      "hardware": {
+        "class": "BW1000",
+        "device_index": 0,
+        "name": "BW",
+        "physical_index": 0,
+        "source": {
+          "architecture": "gfx936:sramecc+:xnack-",
+          "kind": "runtime_observation",
+          "uuid": "30303134-6332-3666-6533-623231386531"
+        }
+      },
+      "admission_use": "selected_fused_group_graph_batch_proxy",
+      "strict_query_matched": true,
+      "node_ids": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "full_ffn_composition_admitted": false
+    },
+    {
+      "case_id": "gpu1",
+      "role": "fused_kernel",
+      "kernel_key_id": "sha256:d53d35cfc3cc280317d00b41ae897d5300c6f42be70fd7af959b891dee751d36",
+      "measurement_contract_id": "sha256:ce6b7d7f1a74fbbd95d58252764487ce5f7d707ef520585de5bfa0d7988af507",
+      "record_id": "sha256:d7b02c01e077b83ee3a7862aed293adf645326f6d8ec86d835124295a66a910b",
+      "admission": "accepted",
+      "median_us": 7.232000231742859,
+      "hardware": {
+        "class": "BW1000",
+        "device_index": 1,
+        "name": "BW",
+        "physical_index": 1,
+        "source": {
+          "architecture": "gfx936:sramecc+:xnack-",
+          "kind": "runtime_observation",
+          "uuid": "30303134-6332-3666-6533-616533386531"
+        }
+      },
+      "admission_use": "selected_fused_group_graph_batch_proxy",
+      "strict_query_matched": true,
+      "node_ids": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "full_ffn_composition_admitted": false
+    }
+  ],
+  "native_comparisons": [
+    {
+      "case_id": "gpu0",
+      "role": "native_chain",
+      "kernel_key_id": "sha256:ebaa900241f63ebb2edb550722cadc08b914a1dc49df755a620600c25e2fe0b7",
+      "measurement_contract_id": "sha256:f4cbdf92046f460ce1c8c76c3b35229d634717fab8a9323b604b274d608c9d70",
+      "record_id": "sha256:d9acd59aadeeb5d85817595883b10aca0d121d2c580e15fbb0850fbabfc29cb1",
+      "admission": "conditional_dev",
+      "median_us": 10.316779613494875,
+      "hardware": {
+        "class": "BW1000",
+        "device_index": 0,
+        "name": "BW",
+        "physical_index": 0,
+        "source": {
+          "architecture": "gfx936:sramecc+:xnack-",
+          "kind": "runtime_observation",
+          "uuid": "30303134-6332-3666-6533-623231386531"
+        }
+      },
+      "admission_use": null,
+      "strict_query_rejected": true
+    },
+    {
+      "case_id": "gpu1",
+      "role": "native_chain",
+      "kernel_key_id": "sha256:e16d7ae2ff51a4ab287b3b6808e1ce17a4272adaaa5c0425e5d2c659c4482966",
+      "measurement_contract_id": "sha256:ce6b7d7f1a74fbbd95d58252764487ce5f7d707ef520585de5bfa0d7988af507",
+      "record_id": "sha256:d093f3b4321f7a8a38ea9a9c77af7d2e7ad69a56a2731e11d4e045b410389c41",
+      "admission": "conditional_dev",
+      "median_us": 11.254359483718872,
+      "hardware": {
+        "class": "BW1000",
+        "device_index": 1,
+        "name": "BW",
+        "physical_index": 1,
+        "source": {
+          "architecture": "gfx936:sramecc+:xnack-",
+          "kind": "runtime_observation",
+          "uuid": "30303134-6332-3666-6533-616533386531"
+        }
+      },
+      "admission_use": null,
+      "strict_query_rejected": true
+    }
+  ],
+  "singleton_cost_queries": [
+    {
+      "node_id": "L000.mlp.gate_proj",
+      "device": 0,
+      "pattern_id": "unfused",
+      "draft_key_id": "sha256:e532c588e86d124c3cd18ae8131aba8754d946d006b3da88d33dc29e015fd112",
+      "identity_gaps": [
+        "implementation.id",
+        "implementation.version",
+        "tensor.layout_or_strides"
+      ],
+      "key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "strides": null
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-623231386531"
+          }
+        },
+        "implementation": {
+          "id": null,
+          "version": null
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "semantic_slice": "gate",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    1024
+                  ]
+                },
+                "bytes": 524288.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": null,
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-623231386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "reference_operator": "torch.matmul (flatten input; resident weight)",
+      "accepted": false,
+      "cost_source": "historical_diagnostic_or_analytic_only"
+    },
+    {
+      "node_id": "L000.mlp.silu",
+      "device": 0,
+      "pattern_id": "unfused",
+      "draft_key_id": "sha256:c8f55544fffe32ace0c5f4b7795b2652190a996f9a3152a61a5701107fbc966c",
+      "identity_gaps": [
+        "implementation.id",
+        "implementation.version",
+        "tensor.layout_or_strides"
+      ],
+      "key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": null
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-623231386531"
+          }
+        },
+        "implementation": {
+          "id": null,
+          "version": null
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728.0,
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": null,
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-623231386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "reference_operator": "torch.nn.functional.silu",
+      "accepted": false,
+      "cost_source": "historical_diagnostic_or_analytic_only"
+    },
+    {
+      "node_id": "L000.mlp.up_proj",
+      "device": 0,
+      "pattern_id": "unfused",
+      "draft_key_id": "sha256:2ad5c6c014cd52a2c8e8b4709347d56039304610fae74421db27f1cbc1f82ca2",
+      "identity_gaps": [
+        "implementation.id",
+        "implementation.version",
+        "tensor.layout_or_strides"
+      ],
+      "key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "strides": null
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-623231386531"
+          }
+        },
+        "implementation": {
+          "id": null,
+          "version": null
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "semantic_slice": "up",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    1024
+                  ]
+                },
+                "bytes": 524288.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": null,
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-623231386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "reference_operator": "torch.matmul (flatten input; resident weight)",
+      "accepted": false,
+      "cost_source": "historical_diagnostic_or_analytic_only"
+    },
+    {
+      "node_id": "L000.mlp.gated_mul",
+      "device": 0,
+      "pattern_id": "unfused",
+      "draft_key_id": "sha256:1a7b9a8a26fd305cae998ba0ee1cd13744f631b0a67faf4d9f4ac8d30826a298",
+      "identity_gaps": [
+        "implementation.id",
+        "implementation.version",
+        "tensor.layout_or_strides"
+      ],
+      "key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": null
+          },
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": null
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-623231386531"
+          }
+        },
+        "implementation": {
+          "id": null,
+          "version": null
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 1572864.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432.0,
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": null,
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-623231386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "reference_operator": "torch.Tensor.__mul__",
+      "accepted": false,
+      "cost_source": "historical_diagnostic_or_analytic_only"
+    },
+    {
+      "node_id": "L000.mlp.down_proj",
+      "device": 0,
+      "pattern_id": "unfused",
+      "draft_key_id": "sha256:ca02f5cc22603d3ae29168189c67f3aaf866b8cf3e7a12e5031a445707d611b7",
+      "identity_gaps": [
+        "implementation.id",
+        "implementation.version",
+        "tensor.layout_or_strides"
+      ],
+      "key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": null
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-623231386531"
+          }
+        },
+        "implementation": {
+          "id": null,
+          "version": null
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "output_shape": [
+                1,
+                256,
+                1024
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 524288.0,
+              "shape": {
+                "k": 3072,
+                "m": 256,
+                "n": 1024
+              },
+              "sharding_rule": "row"
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": null,
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-623231386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "reference_operator": "torch.matmul (flatten input; resident weight)",
+      "accepted": false,
+      "cost_source": "historical_diagnostic_or_analytic_only"
+    },
+    {
+      "node_id": "L000.mlp.gate_proj",
+      "device": 1,
+      "pattern_id": "unfused",
+      "draft_key_id": "sha256:752f7573e097cc08de0512bb40e321570ecca812764929d44d7ada6e87a560d7",
+      "identity_gaps": [
+        "implementation.id",
+        "implementation.version",
+        "tensor.layout_or_strides"
+      ],
+      "key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "strides": null
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-616533386531"
+          }
+        },
+        "implementation": {
+          "id": null,
+          "version": null
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "semantic_slice": "gate",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    1024
+                  ]
+                },
+                "bytes": 524288.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": null,
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-616533386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "reference_operator": "torch.matmul (flatten input; resident weight)",
+      "accepted": false,
+      "cost_source": "historical_diagnostic_or_analytic_only"
+    },
+    {
+      "node_id": "L000.mlp.silu",
+      "device": 1,
+      "pattern_id": "unfused",
+      "draft_key_id": "sha256:9df522bf89bd53e71053f856af6bed2cef4092b25ea2104b4daa86b2ebfb8879",
+      "identity_gaps": [
+        "implementation.id",
+        "implementation.version",
+        "tensor.layout_or_strides"
+      ],
+      "key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": null
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-616533386531"
+          }
+        },
+        "implementation": {
+          "id": null,
+          "version": null
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728.0,
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": null,
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-616533386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "reference_operator": "torch.nn.functional.silu",
+      "accepted": false,
+      "cost_source": "historical_diagnostic_or_analytic_only"
+    },
+    {
+      "node_id": "L000.mlp.up_proj",
+      "device": 1,
+      "pattern_id": "unfused",
+      "draft_key_id": "sha256:d2c9df93f4d0c97b5e635079e636b84dabcaaa78e002aa355f86be402afef53a",
+      "identity_gaps": [
+        "implementation.id",
+        "implementation.version",
+        "tensor.layout_or_strides"
+      ],
+      "key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "strides": null
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-616533386531"
+          }
+        },
+        "implementation": {
+          "id": null,
+          "version": null
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "semantic_slice": "up",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    1024
+                  ]
+                },
+                "bytes": 524288.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": null,
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-616533386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "reference_operator": "torch.matmul (flatten input; resident weight)",
+      "accepted": false,
+      "cost_source": "historical_diagnostic_or_analytic_only"
+    },
+    {
+      "node_id": "L000.mlp.gated_mul",
+      "device": 1,
+      "pattern_id": "unfused",
+      "draft_key_id": "sha256:8271bdf4cdb48441425b43f15a1c7b22bac9b8905b14c00ada136283ad047189",
+      "identity_gaps": [
+        "implementation.id",
+        "implementation.version",
+        "tensor.layout_or_strides"
+      ],
+      "key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": null
+          },
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": null
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-616533386531"
+          }
+        },
+        "implementation": {
+          "id": null,
+          "version": null
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 1572864.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432.0,
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": null,
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-616533386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "reference_operator": "torch.Tensor.__mul__",
+      "accepted": false,
+      "cost_source": "historical_diagnostic_or_analytic_only"
+    },
+    {
+      "node_id": "L000.mlp.down_proj",
+      "device": 1,
+      "pattern_id": "unfused",
+      "draft_key_id": "sha256:b32e871a3c1cc8e71537cb0b4fc90a96183088f06e8fcdf73c150a1ae2d6480d",
+      "identity_gaps": [
+        "implementation.id",
+        "implementation.version",
+        "tensor.layout_or_strides"
+      ],
+      "key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": null
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-616533386531"
+          }
+        },
+        "implementation": {
+          "id": null,
+          "version": null
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "output_shape": [
+                1,
+                256,
+                1024
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 524288.0,
+              "shape": {
+                "k": 3072,
+                "m": 256,
+                "n": 1024
+              },
+              "sharding_rule": "row"
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": null,
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-616533386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "reference_operator": "torch.matmul (flatten input; resident weight)",
+      "accepted": false,
+      "cost_source": "historical_diagnostic_or_analytic_only"
+    }
+  ],
+  "required_link_queries": [
+    {
+      "src_device": 0,
+      "dst_device": 1,
+      "bytes": 524288.0,
+      "accepted": false
+    },
+    {
+      "src_device": 1,
+      "dst_device": 0,
+      "bytes": 524288.0,
+      "accepted": false
+    },
+    {
+      "src_device": 0,
+      "dst_device": 1,
+      "bytes": 1572864.0,
+      "accepted": false
+    },
+    {
+      "src_device": 1,
+      "dst_device": 0,
+      "bytes": 1572864.0,
+      "accepted": false
+    }
+  ],
+  "chain_cost_queries": [
+    {
+      "device": 0,
+      "arm": "native",
+      "scope": "full_ffn_fork_join",
+      "canonical_key": null,
+      "measurement_contract_id": null,
+      "accepted": false,
+      "evidence": "no matching FFN chain in current P2 bundle"
+    },
+    {
+      "device": 0,
+      "arm": "fused",
+      "scope": "full_ffn_fork_join",
+      "canonical_key": null,
+      "measurement_contract_id": null,
+      "accepted": false,
+      "evidence": "no matching FFN chain in current P2 bundle"
+    },
+    {
+      "device": 1,
+      "arm": "native",
+      "scope": "full_ffn_fork_join",
+      "canonical_key": null,
+      "measurement_contract_id": null,
+      "accepted": false,
+      "evidence": "no matching FFN chain in current P2 bundle"
+    },
+    {
+      "device": 1,
+      "arm": "fused",
+      "scope": "full_ffn_fork_join",
+      "canonical_key": null,
+      "measurement_contract_id": null,
+      "accepted": false,
+      "evidence": "no matching FFN chain in current P2 bundle"
+    }
+  ],
+  "historical_four_arm": [
+    {
+      "device": 0,
+      "source": "data/fusion_cost_validation_v1/inputs/gpu0_seq256/result.json",
+      "measurement_contract_id": "sha256:b0b0cd8a76c3bbe3d4924d718cc4d84807043c2c7643fdc12a7324a501f49c48",
+      "admission": "conditional_dev",
+      "rounds": 8,
+      "median_us": {
+        "silu": 7.289569973945618,
+        "mul": 4.734359979629517,
+        "chain": 11.033599972724915,
+        "fused": 8.028759956359863
+      },
+      "paired_epsilon_median_us": -0.8879898488521576,
+      "paired_epsilon_relative_median": -0.07888430975510718,
+      "output_lifetime": "last final output only; 50 calls per graph",
+      "compatible_with_p2": false
+    },
+    {
+      "device": 1,
+      "source": "data/fusion_cost_validation_v1/inputs/gpu1_seq256/result.json",
+      "measurement_contract_id": "sha256:b0b0cd8a76c3bbe3d4924d718cc4d84807043c2c7643fdc12a7324a501f49c48",
+      "admission": "conditional_dev",
+      "rounds": 8,
+      "median_us": {
+        "silu": 7.555200159549713,
+        "mul": 4.67519998550415,
+        "chain": 10.731199979782104,
+        "fused": 8.172799944877625
+      },
+      "paired_epsilon_median_us": -1.0752002894878387,
+      "paired_epsilon_relative_median": -0.10046590881842554,
+      "output_lifetime": "last final output only; 50 calls per graph",
+      "compatible_with_p2": false
+    }
+  ],
+  "historical_links": [
+    {
+      "src": 0,
+      "dst": 1,
+      "points": 6,
+      "sizes_bytes": [
+        4096,
+        65536,
+        1048576,
+        16777216,
+        67108864,
+        268435456
+      ],
+      "accepted_under_p2": false
+    },
+    {
+      "src": 1,
+      "dst": 0,
+      "points": 6,
+      "sizes_bytes": [
+        4096,
+        65536,
+        1048576,
+        16777216,
+        67108864,
+        268435456
+      ],
+      "accepted_under_p2": false
+    }
+  ],
+  "legacy_profile_audit_source": "data/fixed_profile_audit_v1/report.json",
+  "legacy_kernel_records": 36,
+  "legacy_record_admissions": {
+    "legacy_unbound": 36
+  },
+  "coverage": {
+    "ffn_singleton_device_uses_accepted": 0,
+    "ffn_singleton_device_uses_required": 10,
+    "activation_singleton_device_uses_accepted": 0,
+    "activation_singleton_device_uses_required": 4,
+    "selected_fused_device_uses_accepted": 2,
+    "selected_fused_device_uses_required": 2,
+    "native_chain_device_uses_accepted": 0,
+    "native_chain_device_uses_required": 2,
+    "directed_size_link_classes_accepted": 0,
+    "directed_size_link_classes_required": 4,
+    "whole_ffn_profiles_admitted": 0,
+    "whole_ffn_arm_device_uses_required": 4
+  },
+  "stage_b_measurement_plan": [
+    "Fix boundary placement, Native output lifetime, timing unit and implementation bindings first.",
+    "Review existing four-arm evidence; if incompatible, pair SiLU/Mul/Native/Fused on each GPU under the new common contract.",
+    "Expand to three GEMM node identities per GPU; at least two shape templates per GPU; no unreviewed gate/up sharing.",
+    "Measure representative serial/fork-join Native and Fused chains before admitting additive composition.",
+    "For placement, validate both directions at 524288 and 1572864 bytes with dependency completion in scope."
+  ],
+  "source_sha256": {
+    "data/kerv_profile_admission_v1/admission.json": "ca51a72f0daa20779f3f67d1c43226debd26171241ca8e8590bdc550823ad9cf",
+    "data/kerv_profile_admission_v1/measurements/profile.json": "b335c913cbacd299d0e2675dd7f2cb19646c330d417efc461404121af7c07017",
+    "data/kerv_profile_admission_v1/strict_cost_queries.json": "7f097c8dce77e880ed3d25cc93c37d24b9d48aef138750ea90ca949b2479966a",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu0/fused/result.json": "ac18d60f38a525a3a5f9b5a8db065df16eeb964c2a867226b96c2e6384c58e2b",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu0/fused/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu1/fused/result.json": "ac583978dd7bdb5b536e8c11b7d5dac6bb7fec1f19a59cbeeb1920258f7ec988",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu1/fused/placed.json": "7766e2379b3494404d3cc28db38038a3639ad1d83369817fd4ac1394db077fa9",
+    "data/fusion_cost_validation_v1/inputs/gpu0_seq256/result.json": "66b973e65e9cc4ab1aa5fd2bb340384185f8bfcfb33329dd77a295b2d36a7f35",
+    "data/fusion_cost_validation_v1/inputs/gpu1_seq256/result.json": "886bec3596b579c08b45b80269d4d4366087dc3fd89ed80a93333dc27d64fd22",
+    "data/bw1000_2card/raw_measurements.json": "1f772418437bc941332bddd4d0a12e138ee34ae472312b0d18c5e6e3009b7ec9",
+    "data/fixed_profile_audit_v1/report.json": "3fa2dfe8ba341be468407e738c08155d5fc464867065a6391fbe4b8d99e69492"
+  },
+  "new_gpu_measurements": 0,
+  "exact_runs": 0,
+  "mcts_runs": 0,
+  "ready_for_real_profile_search": false
+}
