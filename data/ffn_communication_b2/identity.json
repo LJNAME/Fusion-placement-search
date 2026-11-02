@@ -1,0 +1,72 @@
+{
+  "format": "fusion-placement-search.ffn-communication-b2",
+  "version": "1.0",
+  "scope": "CPU declaration and exhaustive coverage review; no GPU path validation or cost admission",
+  "b1_source_sha256": {
+    "identity.json": "04ca4db81b0d52169321a92e59960c71e120f99e5ec414e6d50dbbe5e716da79",
+    "T1_legal_placements.json": "f8407251dfa86c871004f586f965cac4c8473f42d3d813eaa6597781ce4c2c98",
+    "T2_cross_device_edges.json": "84a224d1009159d36167d8541ec0964d82f4474fa065981c457b88f57897fe3f",
+    "T3_communication_union.json": "4792c45fab21f7f5f67b99a5d861efe5f9cb6b96211b0b8cdff418e21c3baaa7",
+    "verification.json": "16d5298a249de81c85f0e1107987e8dacd3b21fd8db8a03f61d3aa7d4286118d"
+  },
+  "source_sha256": {
+    "cost_model/ffn_communication_b2.py": "316dec8fa025d6df0ac7e4ba970e1b4108eedc6ce110e8e6d2d6f54f1e37787a",
+    "execution/ffn_transfer.py": "44dd9e86217f727bd7357d77dbf6edcec1bd5ac90c6b3e8360627d860c61a6b6",
+    "execution/reference.py": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+    "calibration/calibrate_bw1000.py": "dc6b75d4419c47c1a26fa12a6c38e91c8580181fedc7b3c4941a9b2fcd4bef01",
+    "cost_model/measured_profile.py": "4d91ed071ec30f25a9feb1f116f5bcce7c70ab527b5e4720472aa0be364b690e",
+    "data/bw1000_2card/raw_measurements.json": "1f772418437bc941332bddd4d0a12e138ee34ae472312b0d18c5e6e3009b7ec9"
+  },
+  "existing_paths": [
+    {
+      "source": "execution/reference.py:255",
+      "operation": "value.to(target)",
+      "allocation": "destination allocated by Tensor.to",
+      "timer": "synchronized CPU wall, eager",
+      "compatible_with_selected_contract": false
+    },
+    {
+      "source": "calibration/calibrate_bw1000.py:582",
+      "operation": "target.copy_(source, non_blocking=True)",
+      "allocation": "outside timing",
+      "timer": "synchronized CPU wall eager loop",
+      "compatible_with_selected_contract": false
+    }
+  ],
+  "historical_link_tables": [
+    {
+      "source_gpu": 0,
+      "destination_gpu": 1,
+      "sizes_bytes": [
+        4096,
+        65536,
+        1048576,
+        16777216,
+        67108864,
+        268435456
+      ],
+      "new_contract_admission": false
+    },
+    {
+      "source_gpu": 1,
+      "destination_gpu": 0,
+      "sizes_bytes": [
+        4096,
+        65536,
+        1048576,
+        16777216,
+        67108864,
+        268435456
+      ],
+      "new_contract_admission": false
+    }
+  ],
+  "layout_policy": "constructor declarations are new carrier requirements, not inferred producer observations; mismatches reject",
+  "current_executor_alignment": "new standalone copy binding; existing eager reference loop is not silently relabelled Graph Replay",
+  "b2_declaration_review_complete": true,
+  "b3_complete": false,
+  "gpu_measurement_allowed": false,
+  "new_gpu_measurements": 0,
+  "accepted_link_profiles": 0,
+  "cost_scoring_calls": 0
+}

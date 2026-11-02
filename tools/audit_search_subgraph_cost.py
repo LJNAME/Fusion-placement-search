@@ -133,6 +133,12 @@ def audit():
     b1_payloads = {name: read(b1_root / name) for name in b1_verification["output_payload_ids"]}
     assert all(key_id(value) == b1_verification["output_payload_ids"][name] for name, value in b1_payloads.items())
     assert b1_verification["pass_checks"] and b1_payloads["identity.json"]["source_graph_hash"] == graph_fingerprint(graph)
+    b2_root = ROOT / "data/ffn_communication_b2"
+    b2_verification = read(b2_root / "verification.json")
+    b2_payloads = {name: read(b2_root / name) for name in b2_verification["output_payload_ids"]}
+    assert all(key_id(value) == b2_verification["output_payload_ids"][name] for name, value in b2_payloads.items())
+    assert b2_verification["pass_checks"] and b2_verification["accepted_link_profiles"] == 0
+    assert all(digest(b1_root / name) == sha for name, sha in b2_payloads["identity.json"]["b1_source_sha256"].items())
     edge_rows = [{"src": e.src, "dst": e.dst, "bytes": e.bytes,
                   "source_device": None, "destination_device": None,
                   "tensor_shape": graph.nodes[e.src].extra["output_shape"], "tensor_bytes": e.bytes,
@@ -157,7 +163,11 @@ def audit():
                                  "compute_structure_classes": b1_verification["compute_structure_classes"],
                                  "labeled_plans_to_score": b1_verification["labeled_plans_to_score"],
                                  "logical_communication_requirement_classes": b1_verification["t3_requirement_classes"],
-                                 "b2_contract_review_complete": False},
+                                 "b2_contract_review_complete": True},
+            "ffn_b2_inventory": {"path": "data/ffn_communication_b2", "scope": "declared carrier/transport semantics and coverage; not GPU validation",
+                                 "declared_requests": b2_verification["request_count"],
+                                 "covered_cross_device_edge_occurrences": b2_verification["covered_cross_device_edge_occurrences"],
+                                 "measurement_ready_requests": 0, "accepted_link_profiles": 0},
             "chain_cost_queries": [{"device": device, "arm": arm, "scope": "full_ffn_fork_join",
                                     "canonical_key": None, "measurement_contract_id": None,
                                     "accepted": False, "evidence": "no matching FFN chain in current P2 bundle"}
@@ -176,9 +186,9 @@ def audit():
                                      "reason": "singleton/link/whole-plan search use is not open"},
             "stage_b_entry": {"B0": "CPU identity workflow verified; actual BW1000 identity captured before B4 timing",
                               "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
-                              "B2": "B1 union derived; transfer mechanism/layout/synchronization contract review pending",
+                              "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
                               "B3": "same-case/contract/recipe Fused-Native case matrix pending",
-                              "B4": "BW1000 identity capture and paired admission pending B1-B3",
+                              "B4": "BW1000 identity capture and paired admission pending B3; transfer preflight before timing",
                               "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
                               "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
                               "C": "whole-graph mixed-coverage validation deferred",

@@ -3,7 +3,7 @@
   "version": "1.2",
   "execution_protocol": {
     "path": "cost_model/STAGE_B_PROTOCOL.md",
-    "sha256": "0bb55e01c13b3ab841611cac2636c22205cc6e17fa57b22f2b68371121c47c87"
+    "sha256": "5345da8606edc0ed9bbfb3dd47287674de9398734b2e17f745bad8568f0c2ef6"
   },
   "scope": "reference-builder FFN layer 0; accepted coverage under current P2 decision",
   "graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
@@ -1510,7 +1510,15 @@
     "compute_structure_classes": 24,
     "labeled_plans_to_score": 48,
     "logical_communication_requirement_classes": 4,
-    "b2_contract_review_complete": false
+    "b2_contract_review_complete": true
+  },
+  "ffn_b2_inventory": {
+    "path": "data/ffn_communication_b2",
+    "scope": "declared carrier/transport semantics and coverage; not GPU validation",
+    "declared_requests": 4,
+    "covered_cross_device_edge_occurrences": 160,
+    "measurement_ready_requests": 0,
+    "accepted_link_profiles": 0
   },
   "chain_cost_queries": [
     {
@@ -1637,9 +1645,9 @@
   "stage_b_entry": {
     "B0": "CPU identity workflow verified; actual BW1000 identity captured before B4 timing",
     "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
-    "B2": "B1 union derived; transfer mechanism/layout/synchronization contract review pending",
+    "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
     "B3": "same-case/contract/recipe Fused-Native case matrix pending",
-    "B4": "BW1000 identity capture and paired admission pending B1-B3",
+    "B4": "BW1000 identity capture and paired admission pending B3; transfer preflight before timing",
     "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
     "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
     "C": "whole-graph mixed-coverage validation deferred",
@@ -1672,7 +1680,11 @@
     "data/ffn_placement_b1/identity.json": "04ca4db81b0d52169321a92e59960c71e120f99e5ec414e6d50dbbe5e716da79",
     "data/ffn_placement_b1/T1_legal_placements.json": "f8407251dfa86c871004f586f965cac4c8473f42d3d813eaa6597781ce4c2c98",
     "data/ffn_placement_b1/T2_cross_device_edges.json": "84a224d1009159d36167d8541ec0964d82f4474fa065981c457b88f57897fe3f",
-    "data/ffn_placement_b1/T3_communication_union.json": "4792c45fab21f7f5f67b99a5d861efe5f9cb6b96211b0b8cdff418e21c3baaa7"
+    "data/ffn_placement_b1/T3_communication_union.json": "4792c45fab21f7f5f67b99a5d861efe5f9cb6b96211b0b8cdff418e21c3baaa7",
+    "data/ffn_communication_b2/verification.json": "bfeeb4248943438f48ce6064c3bd199e8b941063fdbe5df7fa5aa5bbe4f6aeca",
+    "data/ffn_communication_b2/identity.json": "c5c814296742ff3c1470e60834e321ee4f2bf3cb7e05373b38aa777e8f50c985",
+    "data/ffn_communication_b2/communication_requests.json": "5725338c888ac0948f3e4ca32aab472fdcc97a8a4f0872b54fe1caab91a1c430",
+    "data/ffn_communication_b2/coverage.json": "096b8b2fb8be6e1c9682c4c437e4e6ff0827bf9e81d0501b5f1cf5dcb57cf109"
   },
   "new_gpu_measurements": 0,
   "exact_runs": 0,
