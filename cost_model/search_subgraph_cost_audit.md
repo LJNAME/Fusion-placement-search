@@ -18,7 +18,7 @@
 | FFN singleton × 两卡 | 5 × 2 个节点用途 | GPU Reference 身份与布局尚未实地绑定；B0 本机 CPU 验证另记 |
 | Native 激活组合 | 两卡各一个对照臂 | comparison_only，未开放搜索用途 |
 | 完整 FFN Native/Fused | 两卡各一个配对 Case 的候选范围 | 具体矩阵待 B3；不可按 Profile 行数直接开测 |
-| 通信 | 两尺寸 × 双方向，4 种潜在查询类别 | 实际传输集合待 B1/B2，不是4项必测任务 |
+| 通信 | 两尺寸 × 双方向，4 种潜在查询类别 | 实际传输集合待 B1合法动作空间/B2，不是4项必测任务 |
 
 机器清单：`data/search_subgraph_cost_audit_v1/report.json` 的 `evidence_coverage` 与 `search_cost_coverage` 分开记录；`potential_link_query_classes` 仅列可能类别，`actual_transfer_measurement_cases=null`。每条图边保留 source_device、destination_device、tensor_shape、tensor_bytes、transfer_required、synchronization；B1/B2 未完成时设备与传输必要性保持未定。
 
@@ -68,7 +68,7 @@ flowchart LR
 | gated_mul → down_proj | 1,572,864 | 输出与 Down 不同卡时传输 |
 | down_proj → residual_add_2（子图外） | 524,288 | 只有固定外部消费者位置后才能确定是否需传输 |
 
-内部 **6 条边**，出口另 **1 条**。潜在跨卡查询类别为 `(0→1, 524288)`、`(1→0, 524288)`、`(0→1, 1572864)`、`(1→0, 1572864)` 四类；实际测量清单尚未确定。先固定入口、出口及每个计算节点的驻留，再枚举真实跨卡边；全部同卡时可以没有传输。激活核心子图的潜在通信大小仅为 1.5 MiB。
+内部 **6 条边**，出口另 **1 条**。潜在跨卡查询类别为 `(0→1, 524288)`、`(1→0, 524288)`、`(0→1, 1572864)`、`(1→0, 1572864)` 四类；实际测量清单尚未确定。先定义边界约束与完整合法动作空间，再对所有合法方案的跨卡边取并集；某个全同卡方案无传输，不代表整个空间无通信需求。激活核心子图的潜在通信大小仅为 1.5 MiB。
 
 历史 `raw_measurements.json` 在两个方向各有 6 个尺寸点（4 KiB～256 MiB），可以被旧代价模型插值查询；这不等于通过同一 Measurement Contract 的准入。旧链路估计接口尚未经过 Kernel 使用的 MeasurementLabelLookup，当前 P2 overlay 则直接拒绝通信成本。（`cost_model/measured_profile.py:480`、`cost_model/kerv_profile.py:229`）
 
@@ -114,19 +114,20 @@ KERV 原地覆盖 gate，Mul 输出与 gate 别名；此层 gate 在 SiLU 外没
 
 | 阶段 | 工作 | GPU测量 | 当前状态 |
 |---|---|---|---|
-| B0 | Reference singleton Identity 与布局来源闭合 | 无 | 代码与本机 CPU 验证通过；GPU执行环境身份仍待实际观测 |
-| B1 | 固定边界驻留与节点放置 Case | 无 | 待开展 |
-| B2 | 枚举实际跨卡边与同步边界 | 无 | 待 B1 |
+| B0 | Reference singleton Identity 与布局来源闭合 | 无 | 代码与本机CPU验收通过；BW1000身份在B4计时前捕获 |
+| B1 | 合法融合动作空间、允许设备与可达放置 | 无 | 待开展，不能只取参考放置 |
+| B2 | 全部合法方案的跨卡边并集与唯一通信清单 | 无 | 待B1合法动作空间 |
 | B3 | 定义同 Case/Contract/Recipe 的 Fused/Native 配对矩阵 | 无 | 待开展 |
-| B4 | 配对补测与 Profile Admission | 有 | B0～B3全部通过前关闭 |
-| B5 | 验证 Δ_add = ΣT_single − T_chain | 有 | 待 B4 |
-| B6 | Cost Model 真实子图验证 | 有 | 待 B5 |
+| B4 | BW1000身份捕获、配对测量与准入 | 有 | B0～B3通过后先核身份，再计时 |
+| B5 | 通信成本与链路组合验证 | 有 | 待B4；Δ_add = ΣT_single − T_chain |
+| B5.5 | 同算法解析/正式成本Before–After决策对照 | 无 | 待B5 |
+| B6 | FFN Exact/Guided/Sequential/Joint对照 | 视设计 | 待B5.5；完整图另列C阶段 |
 
 B0 不把未知布局写为 contiguous。图声明必须有来源标识；运行时观测读取真实 Tensor 的 shape/dtype/stride/is_contiguous。未知值保留并被严格身份检查拒绝；GEMM 常驻 weight 也需要独立布局来源。身份完整只表示能够进入后续测量与准入检查，不产生 accepted 时延标签。
 
 B3 按配对 Case 管理，Fused 是实际 KERV 路径，Native 是对应 Reference 算子分解；同 Case、同 Contract、同 Recipe，执行路径分别记录。禁止 GPU实测与解析估计、Graph与Eager、GPU0与GPU1数据直接混比。单算子标签与原生组合成本分别定义，不能把组合总时间拆成 singleton 标签。
 
-历史四臂实验先核对身份与契约适用范围；若不满足新 Case，重新定义配对测量，不能拼接旧标签或预设10～14行就是固定测量集。通信只为 B2 的真实跨卡边生成任务，不预先要求四种潜在类别全部测量。
+历史四臂实验先核对身份与契约适用范围；若不满足新 Case，重新定义配对测量，不能拼接旧标签或预设10～14行就是固定测量集。通信需求取全部合法方案的跨卡边并集，不能从一个参考方案推导。B2按方向、大小及执行/同步语义归并，四种潜在类别是否都需要由B1确认。
 
 28 层当前 FFN 形状相同，不能先验认定逐层融合收益有差异；两卡局部融合收益不同也尚不能证明最优放置改变。Exact/MCTS 均保持未启动；14/14、16/12 的 PP 层切分归下游。
 

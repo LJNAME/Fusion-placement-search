@@ -1,6 +1,10 @@
 {
   "format": "fusion-placement-search.search-subgraph-cost-audit",
-  "version": "1.1",
+  "version": "1.2",
+  "execution_protocol": {
+    "path": "cost_model/STAGE_B_PROTOCOL.md",
+    "sha256": "64d0e345412534601255ae0cf96031b8c806d17ac1ed7a1c01499820da63b458"
+  },
   "scope": "reference-builder FFN layer 0; accepted coverage under current P2 decision",
   "graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
   "model_nodes": 591,
@@ -1616,20 +1620,26 @@
     "reason": "singleton/link/whole-plan search use is not open"
   },
   "stage_b_entry": {
-    "B0": "local CPU workflow implemented; GPU runtime identity still unobserved",
-    "B1": "boundary residence pending",
-    "B2": "actual cross-device edges pending",
+    "B0": "CPU identity workflow verified; actual BW1000 identity captured before B4 timing",
+    "B1": "legal fusion/placement action space and jointly reachable devices pending",
+    "B2": "union of crossing edges across all legal plans pending",
     "B3": "same-case/contract/recipe Fused-Native case matrix pending",
+    "B4": "BW1000 identity capture and paired admission pending B1-B3",
+    "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
+    "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
+    "C": "whole-graph mixed-coverage validation deferred",
     "gpu_measurement_allowed": false
   },
   "stage_b_measurement_plan": [
     "B0: close singleton identity/layout provenance in the actual executing runtime.",
-    "B1: fix boundary Tensor residence and node placement cases.",
-    "B2: enumerate actual crossing edges; generate only required communication cases.",
+    "B1: enumerate legal fusion/placement actions, boundary constraints and jointly reachable device pairs.",
+    "B2: union crossing edges over all legal plans; deduplicate by direction, Tensor and transfer contract.",
     "B3: define paired Fused/Native cases with equal case, contract and recipe; paths remain distinct.",
-    "B4: only after B0-B3, measure paired cases and review admission.",
-    "B5: validate sum(single) - chain under identical timing boundaries.",
-    "B6: validate the real subgraph in the cost model."
+    "B4: after B0-B3, capture actual BW1000 identities before paired timing; admission is independent of speedup.",
+    "B5: validate communication and sum(single) - chain under identical timing boundaries.",
+    "B5.5: compare analytic versus admitted costs on identical graph/space/algorithm/parameters; cross-score both plans.",
+    "B6: FFN-only Exact/Guided/Sequential/Joint under fixed admitted costs; retain Native actions.",
+    "C: defer whole-graph validation with explicitly mixed cost sources."
   ],
   "source_sha256": {
     "data/kerv_profile_admission_v1/admission.json": "ca51a72f0daa20779f3f67d1c43226debd26171241ca8e8590bdc550823ad9cf",

@@ -138,7 +138,9 @@ def audit():
     potential_links = [{"src_device": a, "dst_device": b, "bytes": size, "measurement_required": None}
                       for size in sorted({e.bytes for e in edges}) for a, b in ((0, 1), (1, 0))]
     assert len(singleton) == 10 and len(fused) == 2 and len(native) == 2 and len(potential_links) == 4
-    return {"format": "fusion-placement-search.search-subgraph-cost-audit", "version": "1.1",
+    return {"format": "fusion-placement-search.search-subgraph-cost-audit", "version": "1.2",
+            "execution_protocol": {"path": "cost_model/STAGE_B_PROTOCOL.md",
+                                   "sha256": digest(ROOT / "cost_model/STAGE_B_PROTOCOL.md")},
             "scope": "reference-builder FFN layer 0; accepted coverage under current P2 decision",
             "graph_hash": graph_fingerprint(graph), "model_nodes": len(graph.nodes),
             "layers": 28, "ffn_shape_templates": len(signatures), "nodes": nodes,
@@ -161,18 +163,25 @@ def audit():
                                   "use": USE, "standalone_search_cost_admission": False},
             "search_cost_coverage": {"admitted_cost_items": 0, "denominator": None,
                                      "reason": "singleton/link/whole-plan search use is not open"},
-            "stage_b_entry": {"B0": "local CPU workflow implemented; GPU runtime identity still unobserved",
-                              "B1": "boundary residence pending", "B2": "actual cross-device edges pending",
+            "stage_b_entry": {"B0": "CPU identity workflow verified; actual BW1000 identity captured before B4 timing",
+                              "B1": "legal fusion/placement action space and jointly reachable devices pending",
+                              "B2": "union of crossing edges across all legal plans pending",
                               "B3": "same-case/contract/recipe Fused-Native case matrix pending",
+                              "B4": "BW1000 identity capture and paired admission pending B1-B3",
+                              "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
+                              "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
+                              "C": "whole-graph mixed-coverage validation deferred",
                               "gpu_measurement_allowed": False},
             "stage_b_measurement_plan": [
                 "B0: close singleton identity/layout provenance in the actual executing runtime.",
-                "B1: fix boundary Tensor residence and node placement cases.",
-                "B2: enumerate actual crossing edges; generate only required communication cases.",
+                "B1: enumerate legal fusion/placement actions, boundary constraints and jointly reachable device pairs.",
+                "B2: union crossing edges over all legal plans; deduplicate by direction, Tensor and transfer contract.",
                 "B3: define paired Fused/Native cases with equal case, contract and recipe; paths remain distinct.",
-                "B4: only after B0-B3, measure paired cases and review admission.",
-                "B5: validate sum(single) - chain under identical timing boundaries.",
-                "B6: validate the real subgraph in the cost model."],
+                "B4: after B0-B3, capture actual BW1000 identities before paired timing; admission is independent of speedup.",
+                "B5: validate communication and sum(single) - chain under identical timing boundaries.",
+                "B5.5: compare analytic versus admitted costs on identical graph/space/algorithm/parameters; cross-score both plans.",
+                "B6: FFN-only Exact/Guided/Sequential/Joint under fixed admitted costs; retain Native actions.",
+                "C: defer whole-graph validation with explicitly mixed cost sources."],
             "source_sha256": sources, "new_gpu_measurements": 0, "exact_runs": 0, "mcts_runs": 0,
             "ready_for_real_profile_search": False}
 

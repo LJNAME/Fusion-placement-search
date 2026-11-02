@@ -44,7 +44,7 @@ singleton 的 pattern_id 都是 unfused；Canonical Key 工厂优先选择 `patt
 
 ## GPU入口状态
 
-`gpu_identity_closed=false`、`gpu_measurement_entry_open=false`。当前本地结果不能证明服务器加载了相同Reference实现；BW1000应在实际环境读取版本/源码/设备及Tensor或显式图声明的布局，再通过相同检查。B1边界驻留、B2真实跨卡边、B3配对矩阵也都未完成。
+`gpu_identity_closed=false`、`gpu_measurement_entry_open=false`。当前本地结果不能证明服务器加载了相同Reference实现；BW1000应在实际环境读取版本/源码/设备及Tensor或显式图声明的布局，再通过相同检查。实际捕获安排在B4计时前；B1合法动作空间、B2跨卡边并集、B3配对矩阵也都未完成。
 
 GPU0/1各自的实现/运行环境身份应独立保留。原始Builder draft仍有缺项，这是缺少实际观测，不用CPU Key将其填平。B0～B3全部通过前不补测，不生成搜索结果。
 
