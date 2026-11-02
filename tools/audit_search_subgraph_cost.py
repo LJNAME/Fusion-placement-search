@@ -70,7 +70,7 @@ def audit():
             "case_id", "role", "kernel_key_id", "measurement_contract_id", "record_id", "admission")}
         identity.update(median_us=record["statistics"]["median_us"],
                         hardware=record["kernel_key"]["hardware"],
-                        admission_use=record.get("admission_use"))
+                        admission_use=record.get("admission_use"), search_cost_admitted=False)
         if record["role"] == "native_chain":
             try:
                 store.query(record["kernel_key"], record["measurement_contract_id"])
@@ -104,6 +104,7 @@ def audit():
             singleton.append({"node_id": single.node_ids[0], "device": group.device,
                               "pattern_id": draft["pattern_id"], "draft_key_id": key_id(draft),
                               "identity_gaps": list(missing), "key": draft,
+                              "identity_state": "raw_builder_without_executing_reference_runtime_observation",
                               "reference_operator": {"matmul": "torch.matmul (flatten input; resident weight)",
                                                      "silu": "torch.nn.functional.silu", "mul": "torch.Tensor.__mul__"}
                               [graph.nodes[single.node_ids[0]].op_type],
@@ -119,26 +120,31 @@ def audit():
                            "admission": old["admission"], "rounds": len(summary["round_results"]),
                            "median_us": {arm: stats["median"] for arm, stats in
                                          summary["graph_batch_amortized_per_call_us"].items()},
-                           "paired_epsilon_median_us": -summary["additivity_residual_us"]["median"],
-                           "paired_epsilon_relative_median": -summary["additivity_residual_relative"]["median"],
+                           "sum_single_minus_chain_paired_median_us": summary["additivity_residual_us"]["median"],
+                           "sum_single_minus_chain_over_chain_paired_median": summary["additivity_residual_relative"]["median"],
+                           "chain_minus_sum_single_paired_median_us": -summary["additivity_residual_us"]["median"],
                            "output_lifetime": "last final output only; 50 calls per graph",
                            "compatible_with_p2": False})
     raw = read(ROOT / "data/bw1000_2card/raw_measurements.json")
     legacy = read(ROOT / "data/fixed_profile_audit_v1/report.json")
     assert legacy["kernel_records"] == legacy["record_admissions"]["legacy_unbound"] == 36
     edge_rows = [{"src": e.src, "dst": e.dst, "bytes": e.bytes,
+                  "source_device": None, "destination_device": None,
+                  "tensor_shape": graph.nodes[e.src].extra["output_shape"], "tensor_bytes": e.bytes,
+                  "transfer_required": None, "synchronization": "unresolved_until_B1_B2",
                   "kind": "ffn_internal" if e in edges else "external_egress",
                   "eliminated_when_fused": e.src.endswith("mlp.silu") and e.dst.endswith("mlp.gated_mul"),
                   "cross_device_cost_accepted": False} for e in edges + egress]
-    required_links = [{"src_device": a, "dst_device": b, "bytes": size, "accepted": False}
+    potential_links = [{"src_device": a, "dst_device": b, "bytes": size, "measurement_required": None}
                       for size in sorted({e.bytes for e in edges}) for a, b in ((0, 1), (1, 0))]
-    assert len(singleton) == 10 and len(fused) == 2 and len(native) == 2 and len(required_links) == 4
-    return {"format": "fusion-placement-search.search-subgraph-cost-audit", "version": "1.0",
+    assert len(singleton) == 10 and len(fused) == 2 and len(native) == 2 and len(potential_links) == 4
+    return {"format": "fusion-placement-search.search-subgraph-cost-audit", "version": "1.1",
             "scope": "reference-builder FFN layer 0; accepted coverage under current P2 decision",
             "graph_hash": graph_fingerprint(graph), "model_nodes": len(graph.nodes),
             "layers": 28, "ffn_shape_templates": len(signatures), "nodes": nodes,
             "edges": edge_rows, "fused_groups": fused, "native_comparisons": native,
-            "singleton_cost_queries": singleton, "required_link_queries": required_links,
+            "singleton_cost_queries": singleton, "potential_link_query_classes": potential_links,
+            "actual_transfer_measurement_cases": None,
             "chain_cost_queries": [{"device": device, "arm": arm, "scope": "full_ffn_fork_join",
                                     "canonical_key": None, "measurement_contract_id": None,
                                     "accepted": False, "evidence": "no matching FFN chain in current P2 bundle"}
@@ -151,18 +157,22 @@ def audit():
             "legacy_profile_audit_source": "data/fixed_profile_audit_v1/report.json",
             "legacy_kernel_records": legacy["kernel_records"],
             "legacy_record_admissions": legacy["record_admissions"],
-            "coverage": {"ffn_singleton_device_uses_accepted": 0, "ffn_singleton_device_uses_required": 10,
-                         "activation_singleton_device_uses_accepted": 0, "activation_singleton_device_uses_required": 4,
-                         "selected_fused_device_uses_accepted": 2, "selected_fused_device_uses_required": 2,
-                         "native_chain_device_uses_accepted": 0, "native_chain_device_uses_required": 2,
-                         "directed_size_link_classes_accepted": 0, "directed_size_link_classes_required": 4,
-                         "whole_ffn_profiles_admitted": 0, "whole_ffn_arm_device_uses_required": 4},
+            "evidence_coverage": {"accepted_paired_comparison_cases": 2, "reviewed_cases": 2,
+                                  "use": USE, "standalone_search_cost_admission": False},
+            "search_cost_coverage": {"admitted_cost_items": 0, "denominator": None,
+                                     "reason": "singleton/link/whole-plan search use is not open"},
+            "stage_b_entry": {"B0": "local CPU workflow implemented; GPU runtime identity still unobserved",
+                              "B1": "boundary residence pending", "B2": "actual cross-device edges pending",
+                              "B3": "same-case/contract/recipe Fused-Native case matrix pending",
+                              "gpu_measurement_allowed": False},
             "stage_b_measurement_plan": [
-                "Fix boundary placement, Native output lifetime, timing unit and implementation bindings first.",
-                "Review existing four-arm evidence; if incompatible, pair SiLU/Mul/Native/Fused on each GPU under the new common contract.",
-                "Expand to three GEMM node identities per GPU; at least two shape templates per GPU; no unreviewed gate/up sharing.",
-                "Measure representative serial/fork-join Native and Fused chains before admitting additive composition.",
-                "For placement, validate both directions at 524288 and 1572864 bytes with dependency completion in scope."],
+                "B0: close singleton identity/layout provenance in the actual executing runtime.",
+                "B1: fix boundary Tensor residence and node placement cases.",
+                "B2: enumerate actual crossing edges; generate only required communication cases.",
+                "B3: define paired Fused/Native cases with equal case, contract and recipe; paths remain distinct.",
+                "B4: only after B0-B3, measure paired cases and review admission.",
+                "B5: validate sum(single) - chain under identical timing boundaries.",
+                "B6: validate the real subgraph in the cost model."],
             "source_sha256": sources, "new_gpu_measurements": 0, "exact_runs": 0, "mcts_runs": 0,
             "ready_for_real_profile_search": False}
 
@@ -172,5 +182,6 @@ if __name__ == "__main__":
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     with OUTPUT.open("w", encoding="utf-8", newline="\n") as stream:
         stream.write(json.dumps(result, indent=2, ensure_ascii=False, allow_nan=False) + "\n")
-    print(json.dumps({"output": str(OUTPUT), "coverage": result["coverage"],
+    print(json.dumps({"output": str(OUTPUT), "evidence_coverage": result["evidence_coverage"],
+                      "search_cost_coverage": result["search_cost_coverage"],
                       "historical_four_arm": result["historical_four_arm"]}, indent=2))

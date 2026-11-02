@@ -1,6 +1,6 @@
 {
   "format": "fusion-placement-search.search-subgraph-cost-audit",
-  "version": "1.0",
+  "version": "1.1",
   "scope": "reference-builder FFN layer 0; accepted coverage under current P2 decision",
   "graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
   "model_nodes": 591,
@@ -109,6 +109,16 @@
       "src": "L000.pre_mlp_norm",
       "dst": "L000.mlp.gate_proj",
       "bytes": 524288.0,
+      "source_device": null,
+      "destination_device": null,
+      "tensor_shape": [
+        1,
+        256,
+        1024
+      ],
+      "tensor_bytes": 524288.0,
+      "transfer_required": null,
+      "synchronization": "unresolved_until_B1_B2",
       "kind": "ffn_internal",
       "eliminated_when_fused": false,
       "cross_device_cost_accepted": false
@@ -117,6 +127,16 @@
       "src": "L000.pre_mlp_norm",
       "dst": "L000.mlp.up_proj",
       "bytes": 524288.0,
+      "source_device": null,
+      "destination_device": null,
+      "tensor_shape": [
+        1,
+        256,
+        1024
+      ],
+      "tensor_bytes": 524288.0,
+      "transfer_required": null,
+      "synchronization": "unresolved_until_B1_B2",
       "kind": "ffn_internal",
       "eliminated_when_fused": false,
       "cross_device_cost_accepted": false
@@ -125,6 +145,16 @@
       "src": "L000.mlp.gate_proj",
       "dst": "L000.mlp.silu",
       "bytes": 1572864.0,
+      "source_device": null,
+      "destination_device": null,
+      "tensor_shape": [
+        1,
+        256,
+        3072
+      ],
+      "tensor_bytes": 1572864.0,
+      "transfer_required": null,
+      "synchronization": "unresolved_until_B1_B2",
       "kind": "ffn_internal",
       "eliminated_when_fused": false,
       "cross_device_cost_accepted": false
@@ -133,6 +163,16 @@
       "src": "L000.mlp.silu",
       "dst": "L000.mlp.gated_mul",
       "bytes": 1572864.0,
+      "source_device": null,
+      "destination_device": null,
+      "tensor_shape": [
+        1,
+        256,
+        3072
+      ],
+      "tensor_bytes": 1572864.0,
+      "transfer_required": null,
+      "synchronization": "unresolved_until_B1_B2",
       "kind": "ffn_internal",
       "eliminated_when_fused": true,
       "cross_device_cost_accepted": false
@@ -141,6 +181,16 @@
       "src": "L000.mlp.up_proj",
       "dst": "L000.mlp.gated_mul",
       "bytes": 1572864.0,
+      "source_device": null,
+      "destination_device": null,
+      "tensor_shape": [
+        1,
+        256,
+        3072
+      ],
+      "tensor_bytes": 1572864.0,
+      "transfer_required": null,
+      "synchronization": "unresolved_until_B1_B2",
       "kind": "ffn_internal",
       "eliminated_when_fused": false,
       "cross_device_cost_accepted": false
@@ -149,6 +199,16 @@
       "src": "L000.mlp.gated_mul",
       "dst": "L000.mlp.down_proj",
       "bytes": 1572864.0,
+      "source_device": null,
+      "destination_device": null,
+      "tensor_shape": [
+        1,
+        256,
+        3072
+      ],
+      "tensor_bytes": 1572864.0,
+      "transfer_required": null,
+      "synchronization": "unresolved_until_B1_B2",
       "kind": "ffn_internal",
       "eliminated_when_fused": false,
       "cross_device_cost_accepted": false
@@ -157,6 +217,16 @@
       "src": "L000.mlp.down_proj",
       "dst": "L000.residual_add_2",
       "bytes": 524288.0,
+      "source_device": null,
+      "destination_device": null,
+      "tensor_shape": [
+        1,
+        256,
+        1024
+      ],
+      "tensor_bytes": 524288.0,
+      "transfer_required": null,
+      "synchronization": "unresolved_until_B1_B2",
       "kind": "external_egress",
       "eliminated_when_fused": false,
       "cross_device_cost_accepted": false
@@ -183,6 +253,7 @@
         }
       },
       "admission_use": "selected_fused_group_graph_batch_proxy",
+      "search_cost_admitted": false,
       "strict_query_matched": true,
       "node_ids": [
         "L000.mlp.silu",
@@ -210,6 +281,7 @@
         }
       },
       "admission_use": "selected_fused_group_graph_batch_proxy",
+      "search_cost_admitted": false,
       "strict_query_matched": true,
       "node_ids": [
         "L000.mlp.silu",
@@ -239,6 +311,7 @@
         }
       },
       "admission_use": null,
+      "search_cost_admitted": false,
       "strict_query_rejected": true
     },
     {
@@ -261,6 +334,7 @@
         }
       },
       "admission_use": null,
+      "search_cost_admitted": false,
       "strict_query_rejected": true
     }
   ],
@@ -370,6 +444,7 @@
           "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
         }
       },
+      "identity_state": "raw_builder_without_executing_reference_runtime_observation",
       "reference_operator": "torch.matmul (flatten input; resident weight)",
       "accepted": false,
       "cost_source": "historical_diagnostic_or_analytic_only"
@@ -475,6 +550,7 @@
           "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
         }
       },
+      "identity_state": "raw_builder_without_executing_reference_runtime_observation",
       "reference_operator": "torch.nn.functional.silu",
       "accepted": false,
       "cost_source": "historical_diagnostic_or_analytic_only"
@@ -584,6 +660,7 @@
           "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
         }
       },
+      "identity_state": "raw_builder_without_executing_reference_runtime_observation",
       "reference_operator": "torch.matmul (flatten input; resident weight)",
       "accepted": false,
       "cost_source": "historical_diagnostic_or_analytic_only"
@@ -711,6 +788,7 @@
           "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
         }
       },
+      "identity_state": "raw_builder_without_executing_reference_runtime_observation",
       "reference_operator": "torch.Tensor.__mul__",
       "accepted": false,
       "cost_source": "historical_diagnostic_or_analytic_only"
@@ -819,6 +897,7 @@
           "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
         }
       },
+      "identity_state": "raw_builder_without_executing_reference_runtime_observation",
       "reference_operator": "torch.matmul (flatten input; resident weight)",
       "accepted": false,
       "cost_source": "historical_diagnostic_or_analytic_only"
@@ -928,6 +1007,7 @@
           "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
         }
       },
+      "identity_state": "raw_builder_without_executing_reference_runtime_observation",
       "reference_operator": "torch.matmul (flatten input; resident weight)",
       "accepted": false,
       "cost_source": "historical_diagnostic_or_analytic_only"
@@ -1033,6 +1113,7 @@
           "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
         }
       },
+      "identity_state": "raw_builder_without_executing_reference_runtime_observation",
       "reference_operator": "torch.nn.functional.silu",
       "accepted": false,
       "cost_source": "historical_diagnostic_or_analytic_only"
@@ -1142,6 +1223,7 @@
           "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
         }
       },
+      "identity_state": "raw_builder_without_executing_reference_runtime_observation",
       "reference_operator": "torch.matmul (flatten input; resident weight)",
       "accepted": false,
       "cost_source": "historical_diagnostic_or_analytic_only"
@@ -1269,6 +1351,7 @@
           "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
         }
       },
+      "identity_state": "raw_builder_without_executing_reference_runtime_observation",
       "reference_operator": "torch.Tensor.__mul__",
       "accepted": false,
       "cost_source": "historical_diagnostic_or_analytic_only"
@@ -1377,37 +1460,39 @@
           "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
         }
       },
+      "identity_state": "raw_builder_without_executing_reference_runtime_observation",
       "reference_operator": "torch.matmul (flatten input; resident weight)",
       "accepted": false,
       "cost_source": "historical_diagnostic_or_analytic_only"
     }
   ],
-  "required_link_queries": [
+  "potential_link_query_classes": [
     {
       "src_device": 0,
       "dst_device": 1,
       "bytes": 524288.0,
-      "accepted": false
+      "measurement_required": null
     },
     {
       "src_device": 1,
       "dst_device": 0,
       "bytes": 524288.0,
-      "accepted": false
+      "measurement_required": null
     },
     {
       "src_device": 0,
       "dst_device": 1,
       "bytes": 1572864.0,
-      "accepted": false
+      "measurement_required": null
     },
     {
       "src_device": 1,
       "dst_device": 0,
       "bytes": 1572864.0,
-      "accepted": false
+      "measurement_required": null
     }
   ],
+  "actual_transfer_measurement_cases": null,
   "chain_cost_queries": [
     {
       "device": 0,
@@ -1459,8 +1544,9 @@
         "chain": 11.033599972724915,
         "fused": 8.028759956359863
       },
-      "paired_epsilon_median_us": -0.8879898488521576,
-      "paired_epsilon_relative_median": -0.07888430975510718,
+      "sum_single_minus_chain_paired_median_us": 0.8879898488521576,
+      "sum_single_minus_chain_over_chain_paired_median": 0.07888430975510718,
+      "chain_minus_sum_single_paired_median_us": -0.8879898488521576,
       "output_lifetime": "last final output only; 50 calls per graph",
       "compatible_with_p2": false
     },
@@ -1476,8 +1562,9 @@
         "chain": 10.731199979782104,
         "fused": 8.172799944877625
       },
-      "paired_epsilon_median_us": -1.0752002894878387,
-      "paired_epsilon_relative_median": -0.10046590881842554,
+      "sum_single_minus_chain_paired_median_us": 1.0752002894878387,
+      "sum_single_minus_chain_over_chain_paired_median": 0.10046590881842554,
+      "chain_minus_sum_single_paired_median_us": -1.0752002894878387,
       "output_lifetime": "last final output only; 50 calls per graph",
       "compatible_with_p2": false
     }
@@ -1517,26 +1604,32 @@
   "legacy_record_admissions": {
     "legacy_unbound": 36
   },
-  "coverage": {
-    "ffn_singleton_device_uses_accepted": 0,
-    "ffn_singleton_device_uses_required": 10,
-    "activation_singleton_device_uses_accepted": 0,
-    "activation_singleton_device_uses_required": 4,
-    "selected_fused_device_uses_accepted": 2,
-    "selected_fused_device_uses_required": 2,
-    "native_chain_device_uses_accepted": 0,
-    "native_chain_device_uses_required": 2,
-    "directed_size_link_classes_accepted": 0,
-    "directed_size_link_classes_required": 4,
-    "whole_ffn_profiles_admitted": 0,
-    "whole_ffn_arm_device_uses_required": 4
+  "evidence_coverage": {
+    "accepted_paired_comparison_cases": 2,
+    "reviewed_cases": 2,
+    "use": "selected_fused_group_graph_batch_proxy",
+    "standalone_search_cost_admission": false
+  },
+  "search_cost_coverage": {
+    "admitted_cost_items": 0,
+    "denominator": null,
+    "reason": "singleton/link/whole-plan search use is not open"
+  },
+  "stage_b_entry": {
+    "B0": "local CPU workflow implemented; GPU runtime identity still unobserved",
+    "B1": "boundary residence pending",
+    "B2": "actual cross-device edges pending",
+    "B3": "same-case/contract/recipe Fused-Native case matrix pending",
+    "gpu_measurement_allowed": false
   },
   "stage_b_measurement_plan": [
-    "Fix boundary placement, Native output lifetime, timing unit and implementation bindings first.",
-    "Review existing four-arm evidence; if incompatible, pair SiLU/Mul/Native/Fused on each GPU under the new common contract.",
-    "Expand to three GEMM node identities per GPU; at least two shape templates per GPU; no unreviewed gate/up sharing.",
-    "Measure representative serial/fork-join Native and Fused chains before admitting additive composition.",
-    "For placement, validate both directions at 524288 and 1572864 bytes with dependency completion in scope."
+    "B0: close singleton identity/layout provenance in the actual executing runtime.",
+    "B1: fix boundary Tensor residence and node placement cases.",
+    "B2: enumerate actual crossing edges; generate only required communication cases.",
+    "B3: define paired Fused/Native cases with equal case, contract and recipe; paths remain distinct.",
+    "B4: only after B0-B3, measure paired cases and review admission.",
+    "B5: validate sum(single) - chain under identical timing boundaries.",
+    "B6: validate the real subgraph in the cost model."
   ],
   "source_sha256": {
     "data/kerv_profile_admission_v1/admission.json": "ca51a72f0daa20779f3f67d1c43226debd26171241ca8e8590bdc550823ad9cf",

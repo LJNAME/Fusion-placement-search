@@ -1,0 +1,1102 @@
+{
+  "format": "fusion-placement-search.reference-identity-b0",
+  "version": "1.0",
+  "scope": "actual_local_cpu_reference_identity_only",
+  "runtime": {
+    "framework": "torch",
+    "framework_version": "2.9.0+cpu",
+    "distribution_version": "2.9.0",
+    "torch_git_revision": "0fabc3ba44823f257e70ce397d989c8de5e362c1",
+    "accelerator": "CPU",
+    "accelerator_version": "not_applicable",
+    "execution_device_type": "cpu",
+    "execution_device": "cpu",
+    "build_config_sha256": "288dd0976f567d03541cc0b98d8d552459e4c41b706425c14ceef520ac1cc6e1",
+    "flags": {
+      "grad_enabled": false,
+      "num_threads": 10,
+      "num_interop_threads": 10,
+      "matmul_fp32_precision": "none",
+      "allow_bf16_reduced_precision_reduction": true,
+      "deterministic_algorithms": false
+    }
+  },
+  "device": {
+    "kind": "runtime_observation",
+    "execution_device": "cpu",
+    "name": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "architecture": "AMD64",
+    "platform": "Windows"
+  },
+  "source_paths": {
+    "reference_executor": "E:\\Chatgpt_work\\Fusion-placement-search\\execution\\reference.py",
+    "torch_extension": "C:\\Users\\LJ\\miniconda3\\envs\\fusion-dev\\Lib\\site-packages\\torch\\_C.cp311-win_amd64.pyd",
+    "torch_functional": "C:\\Users\\LJ\\miniconda3\\envs\\fusion-dev\\Lib\\site-packages\\torch\\nn\\functional.py"
+  },
+  "source_graph_hash": "sha256:b44acc395ac45e35b6d4e2de93be735b6803dbca56fae52c36fc843a1dc511e2",
+  "layout_observations": {
+    "L000.pre_mlp_norm": {
+      "shape": [
+        1,
+        256,
+        1024
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        262144,
+        1024,
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cpu",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    },
+    "L000.mlp.gate_proj": {
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        786432,
+        3072,
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cpu",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    },
+    "L000.mlp.silu": {
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        786432,
+        3072,
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cpu",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    },
+    "L000.mlp.up_proj": {
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        786432,
+        3072,
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cpu",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    },
+    "L000.mlp.gated_mul": {
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        786432,
+        3072,
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cpu",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    },
+    "L000.mlp.down_proj": {
+      "shape": [
+        1,
+        256,
+        1024
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        262144,
+        1024,
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cpu",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    }
+  },
+  "parameter_observations": {
+    "L000.mlp.gate_proj": {
+      "weight": {
+        "shape": [
+          1024,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cpu",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      }
+    },
+    "L000.mlp.up_proj": {
+      "weight": {
+        "shape": [
+          1024,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cpu",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      }
+    },
+    "L000.mlp.down_proj": {
+      "weight": {
+        "shape": [
+          3072,
+          1024
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          1024,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cpu",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      }
+    }
+  },
+  "records": [
+    {
+      "node_id": "L000.mlp.gate_proj",
+      "kernel_key_id": "sha256:e552db4ef601d1f6cda215a9f5fe13d010b00fc0f60e96e1da0669d0f9f718e2",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "strides": [
+              262144,
+              1024,
+              1
+            ],
+            "layout_provenance": {
+              "kind": "runtime_tensor",
+              "device": "cpu",
+              "observer": "Tensor.shape/dtype/stride/is_contiguous"
+            }
+          }
+        ],
+        "hardware": {
+          "class": null,
+          "device_index": 0,
+          "name": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+          "physical_index": null,
+          "source": {
+            "architecture": "AMD64",
+            "execution_device": "cpu",
+            "kind": "runtime_observation",
+            "name": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+            "platform": "Windows"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native_reference",
+          "entrypoint": "torch.matmul",
+          "id": "reference.torch.matmul",
+          "runtime_flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "deterministic_algorithms": false,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none",
+            "num_interop_threads": 10,
+            "num_threads": 10
+          },
+          "semantics": "flatten_input_mm_resident_weight_reshape",
+          "source_sha256": {
+            "reference_executor": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+            "torch_extension": "7170f51190b9215c9f97cb8ac14a26b4b62005b90f74bea4e6de14774faa75e2",
+            "torch_functional": "b17367f8734382d1301b36a7072fe206fba45eea07fd1d8a3412670087f8aa61"
+          },
+          "torch_git_revision": "0fabc3ba44823f257e70ce397d989c8de5e362c1",
+          "version": "2.9.0+cpu"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "layout": "contiguous",
+              "layout_provenance": {
+                "device": "cpu",
+                "kind": "runtime_tensor",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "reference_parameters": {
+                "weight": {
+                  "dtype": "bf16",
+                  "layout": "contiguous",
+                  "layout_provenance": {
+                    "device": "cpu",
+                    "kind": "runtime_tensor",
+                    "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                  },
+                  "shape": [
+                    1024,
+                    3072
+                  ],
+                  "strides": [
+                    3072,
+                    1
+                  ]
+                }
+              },
+              "saved_activation_bytes": 1572864.0,
+              "semantic_slice": "gate",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column",
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    1024
+                  ]
+                },
+                "bytes": 524288.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cpu",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "CPU",
+          "accelerator_version": "not_applicable",
+          "build_config_sha256": "288dd0976f567d03541cc0b98d8d552459e4c41b706425c14ceef520ac1cc6e1",
+          "distribution_version": "2.9.0",
+          "execution_device": "cpu",
+          "execution_device_type": "cpu",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "deterministic_algorithms": false,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none",
+            "num_interop_threads": 10,
+            "num_threads": 10
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+cpu",
+          "torch_git_revision": "0fabc3ba44823f257e70ce397d989c8de5e362c1"
+        },
+        "reference_identity_scope": "singleton_identity_only_not_measurement_admission"
+      },
+      "identity_gaps": [],
+      "profile_admission": "not_requested"
+    },
+    {
+      "node_id": "L000.mlp.silu",
+      "kernel_key_id": "sha256:f4b4c9b4d1d3bf6711ccf620833b066865de5a2aa14ff9d9b68e07aaf513cb65",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ],
+            "layout_provenance": {
+              "kind": "runtime_tensor",
+              "device": "cpu",
+              "observer": "Tensor.shape/dtype/stride/is_contiguous"
+            }
+          }
+        ],
+        "hardware": {
+          "class": null,
+          "device_index": 0,
+          "name": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+          "physical_index": null,
+          "source": {
+            "architecture": "AMD64",
+            "execution_device": "cpu",
+            "kind": "runtime_observation",
+            "name": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+            "platform": "Windows"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native_reference",
+          "entrypoint": "torch.nn.functional.silu",
+          "id": "reference.torch.nn.functional.silu",
+          "runtime_flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "deterministic_algorithms": false,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none",
+            "num_interop_threads": 10,
+            "num_threads": 10
+          },
+          "semantics": "out_of_place",
+          "source_sha256": {
+            "reference_executor": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+            "torch_extension": "7170f51190b9215c9f97cb8ac14a26b4b62005b90f74bea4e6de14774faa75e2",
+            "torch_functional": "b17367f8734382d1301b36a7072fe206fba45eea07fd1d8a3412670087f8aa61"
+          },
+          "torch_git_revision": "0fabc3ba44823f257e70ce397d989c8de5e362c1",
+          "version": "2.9.0+cpu"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728.0,
+              "layout": "contiguous",
+              "layout_provenance": {
+                "device": "cpu",
+                "kind": "runtime_tensor",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cpu",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "CPU",
+          "accelerator_version": "not_applicable",
+          "build_config_sha256": "288dd0976f567d03541cc0b98d8d552459e4c41b706425c14ceef520ac1cc6e1",
+          "distribution_version": "2.9.0",
+          "execution_device": "cpu",
+          "execution_device_type": "cpu",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "deterministic_algorithms": false,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none",
+            "num_interop_threads": 10,
+            "num_threads": 10
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+cpu",
+          "torch_git_revision": "0fabc3ba44823f257e70ce397d989c8de5e362c1"
+        },
+        "reference_identity_scope": "singleton_identity_only_not_measurement_admission"
+      },
+      "identity_gaps": [],
+      "profile_admission": "not_requested"
+    },
+    {
+      "node_id": "L000.mlp.up_proj",
+      "kernel_key_id": "sha256:b492f70d4b857d4126d81c3fc0e8f175480c25ee5d914240faf1981c998efe51",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "strides": [
+              262144,
+              1024,
+              1
+            ],
+            "layout_provenance": {
+              "kind": "runtime_tensor",
+              "device": "cpu",
+              "observer": "Tensor.shape/dtype/stride/is_contiguous"
+            }
+          }
+        ],
+        "hardware": {
+          "class": null,
+          "device_index": 0,
+          "name": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+          "physical_index": null,
+          "source": {
+            "architecture": "AMD64",
+            "execution_device": "cpu",
+            "kind": "runtime_observation",
+            "name": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+            "platform": "Windows"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native_reference",
+          "entrypoint": "torch.matmul",
+          "id": "reference.torch.matmul",
+          "runtime_flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "deterministic_algorithms": false,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none",
+            "num_interop_threads": 10,
+            "num_threads": 10
+          },
+          "semantics": "flatten_input_mm_resident_weight_reshape",
+          "source_sha256": {
+            "reference_executor": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+            "torch_extension": "7170f51190b9215c9f97cb8ac14a26b4b62005b90f74bea4e6de14774faa75e2",
+            "torch_functional": "b17367f8734382d1301b36a7072fe206fba45eea07fd1d8a3412670087f8aa61"
+          },
+          "torch_git_revision": "0fabc3ba44823f257e70ce397d989c8de5e362c1",
+          "version": "2.9.0+cpu"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "layout": "contiguous",
+              "layout_provenance": {
+                "device": "cpu",
+                "kind": "runtime_tensor",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "reference_parameters": {
+                "weight": {
+                  "dtype": "bf16",
+                  "layout": "contiguous",
+                  "layout_provenance": {
+                    "device": "cpu",
+                    "kind": "runtime_tensor",
+                    "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                  },
+                  "shape": [
+                    1024,
+                    3072
+                  ],
+                  "strides": [
+                    3072,
+                    1
+                  ]
+                }
+              },
+              "saved_activation_bytes": 1572864.0,
+              "semantic_slice": "up",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column",
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    1024
+                  ]
+                },
+                "bytes": 524288.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cpu",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "CPU",
+          "accelerator_version": "not_applicable",
+          "build_config_sha256": "288dd0976f567d03541cc0b98d8d552459e4c41b706425c14ceef520ac1cc6e1",
+          "distribution_version": "2.9.0",
+          "execution_device": "cpu",
+          "execution_device_type": "cpu",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "deterministic_algorithms": false,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none",
+            "num_interop_threads": 10,
+            "num_threads": 10
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+cpu",
+          "torch_git_revision": "0fabc3ba44823f257e70ce397d989c8de5e362c1"
+        },
+        "reference_identity_scope": "singleton_identity_only_not_measurement_admission"
+      },
+      "identity_gaps": [],
+      "profile_admission": "not_requested"
+    },
+    {
+      "node_id": "L000.mlp.gated_mul",
+      "kernel_key_id": "sha256:f9a0abe2c49c1b2efb7820e18dbdc2b807a9ceabf010513733dadd38529ead91",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ],
+            "layout_provenance": {
+              "kind": "runtime_tensor",
+              "device": "cpu",
+              "observer": "Tensor.shape/dtype/stride/is_contiguous"
+            }
+          },
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ],
+            "layout_provenance": {
+              "kind": "runtime_tensor",
+              "device": "cpu",
+              "observer": "Tensor.shape/dtype/stride/is_contiguous"
+            }
+          }
+        ],
+        "hardware": {
+          "class": null,
+          "device_index": 0,
+          "name": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+          "physical_index": null,
+          "source": {
+            "architecture": "AMD64",
+            "execution_device": "cpu",
+            "kind": "runtime_observation",
+            "name": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+            "platform": "Windows"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native_reference",
+          "entrypoint": "torch.Tensor.__mul__",
+          "id": "reference.torch.Tensor.__mul__",
+          "runtime_flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "deterministic_algorithms": false,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none",
+            "num_interop_threads": 10,
+            "num_threads": 10
+          },
+          "semantics": "out_of_place",
+          "source_sha256": {
+            "reference_executor": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+            "torch_extension": "7170f51190b9215c9f97cb8ac14a26b4b62005b90f74bea4e6de14774faa75e2",
+            "torch_functional": "b17367f8734382d1301b36a7072fe206fba45eea07fd1d8a3412670087f8aa61"
+          },
+          "torch_git_revision": "0fabc3ba44823f257e70ce397d989c8de5e362c1",
+          "version": "2.9.0+cpu"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 1572864.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432.0,
+              "layout": "contiguous",
+              "layout_provenance": {
+                "device": "cpu",
+                "kind": "runtime_tensor",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cpu",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "CPU",
+          "accelerator_version": "not_applicable",
+          "build_config_sha256": "288dd0976f567d03541cc0b98d8d552459e4c41b706425c14ceef520ac1cc6e1",
+          "distribution_version": "2.9.0",
+          "execution_device": "cpu",
+          "execution_device_type": "cpu",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "deterministic_algorithms": false,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none",
+            "num_interop_threads": 10,
+            "num_threads": 10
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+cpu",
+          "torch_git_revision": "0fabc3ba44823f257e70ce397d989c8de5e362c1"
+        },
+        "reference_identity_scope": "singleton_identity_only_not_measurement_admission"
+      },
+      "identity_gaps": [],
+      "profile_admission": "not_requested"
+    },
+    {
+      "node_id": "L000.mlp.down_proj",
+      "kernel_key_id": "sha256:5272dd2c2267ecea08250f4caeaa2a88307f456b952dec83ac0e9e35375f79ee",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ],
+            "layout_provenance": {
+              "kind": "runtime_tensor",
+              "device": "cpu",
+              "observer": "Tensor.shape/dtype/stride/is_contiguous"
+            }
+          }
+        ],
+        "hardware": {
+          "class": null,
+          "device_index": 0,
+          "name": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+          "physical_index": null,
+          "source": {
+            "architecture": "AMD64",
+            "execution_device": "cpu",
+            "kind": "runtime_observation",
+            "name": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+            "platform": "Windows"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native_reference",
+          "entrypoint": "torch.matmul",
+          "id": "reference.torch.matmul",
+          "runtime_flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "deterministic_algorithms": false,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none",
+            "num_interop_threads": 10,
+            "num_threads": 10
+          },
+          "semantics": "flatten_input_mm_resident_weight_reshape",
+          "source_sha256": {
+            "reference_executor": "a1c6f9b2ee453376aefcc1e3bf4a180bd8690c862d9a49d6cdeb15f2245ce199",
+            "torch_extension": "7170f51190b9215c9f97cb8ac14a26b4b62005b90f74bea4e6de14774faa75e2",
+            "torch_functional": "b17367f8734382d1301b36a7072fe206fba45eea07fd1d8a3412670087f8aa61"
+          },
+          "torch_git_revision": "0fabc3ba44823f257e70ce397d989c8de5e362c1",
+          "version": "2.9.0+cpu"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "layout": "contiguous",
+              "layout_provenance": {
+                "device": "cpu",
+                "kind": "runtime_tensor",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              },
+              "output_shape": [
+                1,
+                256,
+                1024
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "reference_parameters": {
+                "weight": {
+                  "dtype": "bf16",
+                  "layout": "contiguous",
+                  "layout_provenance": {
+                    "device": "cpu",
+                    "kind": "runtime_tensor",
+                    "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                  },
+                  "shape": [
+                    3072,
+                    1024
+                  ],
+                  "strides": [
+                    1024,
+                    1
+                  ]
+                }
+              },
+              "saved_activation_bytes": 524288.0,
+              "shape": {
+                "k": 3072,
+                "m": 256,
+                "n": 1024
+              },
+              "sharding_rule": "row",
+              "strides": [
+                262144,
+                1024,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cpu",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "CPU",
+          "accelerator_version": "not_applicable",
+          "build_config_sha256": "288dd0976f567d03541cc0b98d8d552459e4c41b706425c14ceef520ac1cc6e1",
+          "distribution_version": "2.9.0",
+          "execution_device": "cpu",
+          "execution_device_type": "cpu",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "deterministic_algorithms": false,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none",
+            "num_interop_threads": 10,
+            "num_threads": 10
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+cpu",
+          "torch_git_revision": "0fabc3ba44823f257e70ce397d989c8de5e362c1"
+        },
+        "reference_identity_scope": "singleton_identity_only_not_measurement_admission"
+      },
+      "identity_gaps": [],
+      "profile_admission": "not_requested"
+    }
+  ],
+  "local_identity_closed": true,
+  "gpu_identity_closed": false,
+  "gpu_identity_requirement": "observe the executing GPU Torch build, device and Tensor layouts; never copy CPU Keys",
+  "new_latency_profiles": 0,
+  "accepted_profiles_created": 0,
+  "new_gpu_measurements": 0,
+  "search_cost_items_admitted": 0,
+  "gpu_measurement_entry_open": false,
+  "pending_entry_conditions": [
+    "GPU runtime identity/layout verification",
+    "B1",
+    "B2",
+    "B3"
+  ]
+}

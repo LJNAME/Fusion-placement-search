@@ -63,7 +63,10 @@ class GroupKernelKeys:
             return None, ()
         if not 0 <= group.device < self.hardware.n_devs:
             raise ValueError("Kernel device is outside the hardware snapshot")
-        binding = self.bindings.get(pattern_id, {})
+        # Reference singletons share the "unfused" pattern, but not an
+        # implementation. Explicit per-operator bindings take precedence.
+        binding_name = f"{pattern_id}:{self.graph.nodes[nodes[0]].op_type}" if len(nodes) == 1 else pattern_id
+        binding = self.bindings.get(binding_name, self.bindings.get(pattern_id, {}))
         gaps = set()
         for field in ("id", "version"):
             if not binding.get(field):

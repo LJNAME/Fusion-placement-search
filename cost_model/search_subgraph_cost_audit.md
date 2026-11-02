@@ -2,22 +2,25 @@
 
 阶段 A；Qwen3-0.6B Builder 的第 0 层 FFN；2026-11-02。未采集新 GPU 数据，未运行 Exact/MCTS，未修改准入状态。
 
-## 覆盖结果
+## Evidence Coverage 与 Search Cost Coverage
 
-下表的 accepted 均指当前 P2 决策允许严格消费的成本，不能与历史采集器的完整性计数混用。
+| 指标 | 当前值 | 范围 |
+|---|---:|---|
+| Evidence Coverage | **2/2 配对比较 Case** | 两卡选定 KERV 与 Native 对照；P2 限定用途 |
+| Search Cost Coverage | **0 个独立搜索成本项** | singleton/link/whole-plan 搜索用途未开放 |
 
-| 成本用途 | 需求 | 当前 accepted | 已有证据 |
-|---|---:|---:|---|
-| 完整 FFN 单节点 × 两卡 | 5 × 2 = 10 | 0/10 | 旧单算子表、旧组级实验；实现/契约未绑定到本次查询 |
-| 其中 SiLU、Mul 单节点 × 两卡 | 2 × 2 = 4 | 0/4 | 旧四臂 Graph 诊断中有实测 |
-| 选定 KERV 融合组 × 两卡 | 2 | **2/2** | P2 严格查询重放通过；仅局部 Graph batch proxy |
-| Native SiLU→Mul 组合 × 两卡 | 2 | 0/2 | 原始记录 conditional_dev；comparison_only |
-| 完整 FFN 的 Native/Fused × 两卡 | 4 | 0/4 | 本次证据包未覆盖 FFN 链路 |
-| 两种边大小 × 两个传输方向 | 4 | 0/4 | 历史双向曲线各 6 点；未被本次契约准入 |
+需求集合尚未由边界驻留、实际放置与配对矩阵固定，分母未定，不使用“2/18”或“补测16项”。选定 KERV 的正式 Profile 可在局部比较 proxy 中严格查询，不等于独立搜索成本准入。
 
-机器清单：`data/search_subgraph_cost_audit_v1/report.json` 的 `nodes`、`edges`、`fused_groups`、`singleton_cost_queries`、`chain_cost_queries`、`required_link_queries`。覆盖数按节点用途计算，不是待测独立 Kernel 数；逻辑边界输入不计入计算节点。
+| 审计对象 | 结构上的候选用途 | 当前限制 |
+|---|---:|---|
+| FFN singleton × 两卡 | 5 × 2 个节点用途 | GPU Reference 身份与布局尚未实地绑定；B0 本机 CPU 验证另记 |
+| Native 激活组合 | 两卡各一个对照臂 | comparison_only，未开放搜索用途 |
+| 完整 FFN Native/Fused | 两卡各一个配对 Case 的候选范围 | 具体矩阵待 B3；不可按 Profile 行数直接开测 |
+| 通信 | 两尺寸 × 双方向，4 种潜在查询类别 | 实际传输集合待 B1/B2，不是4项必测任务 |
 
-P2 明确设置 `singleton_costs_admitted=false`、`link_costs_admitted=false`、`hardware_profile_sharing=false`、`whole_plan_costs_admitted=false`。严格 overlay 遇到普通计算 singleton 或正字节通信会拒绝，不会偷偷退回解析估计。因此完整 FFN 的正式成本覆盖仍未闭合。（`cost_model/kerv_admission.py:16`、`cost_model/kerv_profile.py:229`、`cost_model/kerv_profile.py:238`）
+机器清单：`data/search_subgraph_cost_audit_v1/report.json` 的 `evidence_coverage` 与 `search_cost_coverage` 分开记录；`potential_link_query_classes` 仅列可能类别，`actual_transfer_measurement_cases=null`。每条图边保留 source_device、destination_device、tensor_shape、tensor_bytes、transfer_required、synchronization；B1/B2 未完成时设备与传输必要性保持未定。
+
+P2 明确设置 `singleton_costs_admitted=false`、`link_costs_admitted=false`、`hardware_profile_sharing=false`、`whole_plan_costs_admitted=false`。严格 overlay 遇到普通计算 singleton 或正字节通信会拒绝，不会退回解析估计。（`cost_model/kerv_admission.py:16`、`cost_model/kerv_profile.py:229`、`cost_model/kerv_profile.py:238`）
 
 ## 子图与边界
 
@@ -49,7 +52,7 @@ flowchart LR
 
 三个 GEMM 参数各 **6,291,456 bytes**，总 **18 MiB**；权重按驻留参数处理，不凭空加入每次调用的搬运。扩展到权重分片或迁移时另建边和实现契约。reference executor 目前只执行 singleton；已有 KERV Adapter 只绑定选定融合组，尚无包含这三个 GEMM 的统一 FFN 融合执行器。（`execution/reference.py:124`、`execution/reference.py:195`、`integration/flagscale/kerv_execution.py:181`）
 
-`GroupKernelKeys` 已能为每个 singleton 生成 draft hash，但缺 implementation.id/version 和未观测布局，不能将 draft hash 当成可信 Profile 身份。审计 JSON 保留每个节点×设备的完整 draft Key 和 identity_gaps；没有编造 source hash、原生 Kernel 绑定或布局。（`cost_model/fusion_kernel_profile.py:59`）
+`GroupKernelKeys` 的原始 Builder draft 未带执行环境与布局，仍不具备可信 Profile 身份。B0 已增加按 `unfused:matmul/silu/mul` 分派的实际实现绑定与独立布局来源检查；本机 CPU 的5个 Key无缺项，不能覆盖两卡 GPU draft。审计 JSON 保留 GPU 原始 draft 与 identity_gaps；B0 实现和本地结果见 `execution/REFERENCE_IDENTITY.md`、`data/reference_identity_b0_v1/identity.json`。（`cost_model/fusion_kernel_profile.py:59`）
 
 ### 边的覆盖
 
@@ -63,7 +66,7 @@ flowchart LR
 | gated_mul → down_proj | 1,572,864 | 输出与 Down 不同卡时传输 |
 | down_proj → residual_add_2（子图外） | 524,288 | 只有固定外部消费者位置后才能确定是否需传输 |
 
-内部 **6 条边**，出口另 **1 条**。跨卡查询归并为 `(0→1, 524288)`、`(1→0, 524288)`、`(0→1, 1572864)`、`(1→0, 1572864)` 四类；不是每个方案都发生四次通信。激活核心子图仅涉及 1.5 MiB 的两个方向。
+内部 **6 条边**，出口另 **1 条**。潜在跨卡查询类别为 `(0→1, 524288)`、`(1→0, 524288)`、`(0→1, 1572864)`、`(1→0, 1572864)` 四类；实际测量清单尚未确定。先固定入口、出口及每个计算节点的驻留，再枚举真实跨卡边；全部同卡时可以没有传输。激活核心子图的潜在通信大小仅为 1.5 MiB。
 
 历史 `raw_measurements.json` 在两个方向各有 6 个尺寸点（4 KiB～256 MiB），可以被旧代价模型插值查询；这不等于通过同一 Measurement Contract 的准入。旧链路估计接口尚未经过 Kernel 使用的 MeasurementLabelLookup，当前 P2 overlay 则直接拒绝通信成本。（`cost_model/measured_profile.py:480`、`cost_model/kerv_profile.py:229`）
 
@@ -90,12 +93,12 @@ KERV 原地覆盖 gate，Mul 输出与 gate 别名；此层 gate 在 SiLU 外没
 
 `data/fusion_cost_validation_v1/inputs/gpu{0,1}_seq256/result.json` 已有同 Shape 的四臂 Graph 诊断。以下数值均来自该旧实验，不能与上节 P2 的单项数值拼表评分。
 
-| 设备 | SiLU 中位 | Mul 中位 | Native chain 中位 | Fused 中位 | 逐轮 ε 中位 | 逐轮 ε/chain 中位 |
+| 设备 | SiLU 中位 | Mul 中位 | Native chain 中位 | Fused 中位 | ΣT_single − T_chain（逐轮中位） | (ΣT_single − T_chain)/T_chain（逐轮中位） |
 |---|---:|---:|---:|---:|---:|---:|
-| GPU0 | 7.289570 | 4.734360 | 11.033600 | 8.028760 | **−0.887990 μs** | −7.8884% |
-| GPU1 | 7.555200 | 4.675200 | 10.731200 | 8.172800 | **−1.075200 μs** | −10.0466% |
+| GPU0 | 7.289570 | 4.734360 | 11.033600 | 8.028760 | **+0.887990 μs** | +7.8884% |
+| GPU1 | 7.555200 | 4.675200 | 10.731200 | 8.172800 | **+1.075200 μs** | +10.0466% |
 
-这里 `ε_round = T_chain,round − (T_silu,round + T_mul,round)`，先逐轮计算再取中位；不是用各列中位相减。旧采集器报告的 residual 定义正好相反，本表已转换符号。（`calibration/probe_kerv_additivity.py:59`）
+统一采用 `Δ_add = ΣT_single − T_chain`，先逐轮计算再取中位；不是用各列中位相减。正值表示单项加和高于链路实测。反向量 `R_chain = T_chain − ΣT_single` 则为 GPU0/1 的 −0.887990/−1.075200 μs；两种量含义相同、符号相反。本表沿用原始采集器的正向定义，不修改历史原始数据。（`calibration/probe_kerv_additivity.py:59`）
 
 旧协议 **8 轮 × 50 次**，只保留最后一个输出；P2 是 **7 轮 × 50 次**，保留全部重放输出。旧 Contract `sha256:b0b0cd8a76c3bbe3d4924d718cc4d84807043c2c7643fdc12a7324a501f49c48` 也没有本次逐卡绑定的完整身份。这些是已有诊断数据，尚不能直接升级成当前 accepted 单算子/链路标签。（`calibration/probe_kerv_additivity.py:32`）
 
@@ -105,16 +108,25 @@ KERV 原地覆盖 gate，Mul 输出与 gate 别名；此层 gate 在 SiLU 外没
 
 完整 FFN 的预测也不是全图耗时直接相加：结构模型按设备队列、前驱就绪、通信与共享链路资源推进时间；Gate/Up 的分叉是否并发取决于具体设备与执行流。单流链残差不能直接当成双卡并行 DAG 的修正项。（`cost_model/structural.py:194`、`cost_model/structural.py:234`）
 
-## 阶段 B 的最小测量集
+## 阶段 B 入口与顺序
 
-1. **先固定实验对象。** 激活核心用真实 Builder 节点 ID 与 Shape；分别说明两输入及输出的驻留位置。选择 Native 输出保留策略、单流/多流与计时边界，明确目标是局部 graph_batch_proxy 还是串接后的子图成本。若改变 P2 契约，重新生成并准入相应标签，不沿用旧 accepted 状态。
-2. **激活核心先补语义身份。** SiLU/Mul × 两卡共 4 个 singleton 用途；先复核历史四臂数据可否满足新契约。不能满足时，同批采集 SiLU、Mul、Native chain、Fused × 两卡，共 8 个臂，计算逐轮 ε；不是从旧 Native 总时间倒推单项。Native 组合另行审核。若暂时只允许整段 Native/Fused 两个替代候选，则先补 Native 组合准入与组合语义，不宣称支持两单节点独立放置。
-3. **再扩 GEMM。** 三个节点 × 两卡共 6 个身份用途，数学 Shape 只有两种 × 两卡共 4 个模板；Gate/Up 的语义字段、布局、实现及绑定一致性审核通过后才考虑共享实测。随后采集两卡各自完整 FFN Native/Fused，共 4 个链路臂，验证实际调度边界下的组合预测；两个分支要保留真实依赖。
-4. **最后开放跨卡放置。** 在输入/出口位置确定后，审查 0.5/1.5 MiB × 双方向这 4 类传输，并验证至少一个含实际生产者→传输→消费者的代表性链路。四类大小/方向不足以证明任意重叠、资源争用或 Pipeline 成本，后续仅开放已验证的执行域。
+| 阶段 | 工作 | GPU测量 | 当前状态 |
+|---|---|---|---|
+| B0 | Reference singleton Identity 与布局来源闭合 | 无 | 代码与本机 CPU 验证通过；GPU执行环境身份仍待实际观测 |
+| B1 | 固定边界驻留与节点放置 Case | 无 | 待开展 |
+| B2 | 枚举实际跨卡边与同步边界 | 无 | 待 B1 |
+| B3 | 定义同 Case/Contract/Recipe 的 Fused/Native 配对矩阵 | 无 | 待开展 |
+| B4 | 配对补测与 Profile Admission | 有 | B0～B3全部通过前关闭 |
+| B5 | 验证 Δ_add = ΣT_single − T_chain | 有 | 待 B4 |
+| B6 | Cost Model 真实子图验证 | 有 | 待 B5 |
 
-最小集按上述阶段递增，不要求现在批量重测所有历史 Kernel。没有完整共同契约、组合验证与通信来源之前，不生成“真实 Profile 最优值”，也不启动 MCTS 对照。
+B0 不把未知布局写为 contiguous。图声明必须有来源标识；运行时观测读取真实 Tensor 的 shape/dtype/stride/is_contiguous。未知值保留并被严格身份检查拒绝；GEMM 常驻 weight 也需要独立布局来源。身份完整只表示能够进入后续测量与准入检查，不产生 accepted 时延标签。
 
-28 层当前 FFN 形状相同，不能先验认定逐层融合收益有差异；两卡局部融合收益不同也尚不能证明最优放置改变。后续 Exact Oracle 应使用届时已准入的成本域，并检查融合选择是否改变层内分组或设备放置；14/14、16/12 的 PP 层切分仍由下游处理。
+B3 按配对 Case 管理，Fused 是实际 KERV 路径，Native 是对应 Reference 算子分解；同 Case、同 Contract、同 Recipe，执行路径分别记录。禁止 GPU实测与解析估计、Graph与Eager、GPU0与GPU1数据直接混比。单算子标签与原生组合成本分别定义，不能把组合总时间拆成 singleton 标签。
+
+历史四臂实验先核对身份与契约适用范围；若不满足新 Case，重新定义配对测量，不能拼接旧标签或预设10～14行就是固定测量集。通信只为 B2 的真实跨卡边生成任务，不预先要求四种潜在类别全部测量。
+
+28 层当前 FFN 形状相同，不能先验认定逐层融合收益有差异；两卡局部融合收益不同也尚不能证明最优放置改变。Exact/MCTS 均保持未启动；14/14、16/12 的 PP 层切分归下游。
 
 ## 重放
 
@@ -124,4 +136,4 @@ KERV 原地覆盖 gate，Mul 输出与 gate 别名；此层 gate 在 SiLU 外没
 & 'C:/Users/LJ/miniconda3/envs/fusion-dev/python.exe' -m tools.audit_search_subgraph_cost
 ```
 
-脚本只重建图、核对已保存证据及严格查询、导出清单。它会检查图快照一致、28 个可执行 KERV 位置、目标组一致、两次 accepted 精确查询、两次 Native 严格拒绝，以及 10 个 singleton 缺项；不调用 GPU，不变更原始测量与准入决策。JSON 中保存输入文件 SHA256。Pinned FlagScale 源码需位于既有相邻目录，CPU 重放不加载 Triton 执行模块。
+脚本只重建图、核对已保存证据及严格查询、导出清单。它会检查图快照一致、28 个可执行 KERV 位置、目标组一致、两次 accepted 精确查询、两次 Native 严格拒绝，以及两类分开的覆盖指标；GPU原始 Builder draft 的10个 singleton 用途仍保持缺项；不调用 GPU，不变更原始测量与准入决策。JSON 中保存输入文件 SHA256。Pinned FlagScale 源码需位于既有相邻目录，CPU 重放不加载 Triton 执行模块。
