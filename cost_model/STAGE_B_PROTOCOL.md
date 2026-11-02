@@ -92,6 +92,8 @@ B3结果见 `data/ffn_measurement_b3/` 与 `cost_model/FFN_MEASUREMENT_B3.md`：
 当前B4执行策略见 `cost_model/FFN_B4_SMOKE.md`：Smoke最小四类含0.5MiB 0→1 Copy，纯布尔管道验收，耗时仅诊断；失败立即保留traceback/pool/显存并停止。正式固定7次尝试、不补轮、不替换，逐格quality_failed后继续19格。这是用户对旧B3最多9轮规则的更新，通过新policy/recipe哈希生效，不改签旧产物。旧2/2在新审计中标superseded_by=c4fc415，历史证据与原准入保留。GPU实际运行仍待执行。
 
 run03实际回传：最小Smoke 4/4通过，正式8/19格完成，跨卡诊断链Capture边界发生native段错误；计时Event与独立Trace跨度差异待核，未新增准入。当前B4 v2按10个轮组顺序隔离子进程，每组只启动一次；同组各臂保持共同锚点/配方，硬崩溃整组失败后继续其他组。新进程边界写入policy/Recipe，不与run03拼接替换；采样仍固定7尝试，不补轮。v2仅CPU验证，实际GPU及计时边界均待核验。
+run04验证轮组隔离：19状态齐全、15格各7次样本，10 quality_passed/9 failed；链路capture_end段错误，计算Event在Profiler前后系统变化。暂停正式补测/准入，先执行独立Profiler控制与预分配链路诊断；不改既有阈值、不用预热补正式样本、不替换run04记录。见FFN_B4_RUN04_REVIEW.md。
+
 ## B4：准入不筛选性能赢家
 
 **Profile Admission仅验证测量身份、正确性、来源与契约有效性，不以性能收益作为准入条件。Fused慢于Native时仍可准入，搜索空间必须保留Native作为合法替代。**

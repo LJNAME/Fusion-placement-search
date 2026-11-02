@@ -1,0 +1,37 @@
+{
+  "version": "ffn-b4-diagnostics.v1",
+  "cases": [
+    "timing_control",
+    "timing_profile",
+    "chain_allocating_1",
+    "chain_preallocated_1",
+    "chain_preallocated_50"
+  ],
+  "worker_attempts": 1,
+  "process_scope": "CPU-only parent; fresh HIP context per worker; no retained parent smoke runtime",
+  "timing": {
+    "calls_per_replay": 50,
+    "warmup": 10,
+    "pre_samples": 3,
+    "post_samples": 3,
+    "intervention": "one replay with profiler versus one replay without profiler",
+    "wall_boundary": "before start.record through all-device completion; excludes reset/check",
+    "wall_is_diagnostic_proxy": true
+  },
+  "chain": {
+    "calls": [
+      1,
+      50
+    ],
+    "preallocated_50_requires_preallocated_1_pass": true,
+    "preallocation_scope": "explicit producer/consumer outputs only; BLAS internals not certified"
+  },
+  "formal_measurements": false,
+  "automatic_admission": false,
+  "source_sha256": {
+    "calibration/ffn_b4_diagnostics.py": "ddee211996ac39df85283df3fe00cc1d166f8f7b39380ff76342c9959a4c65a7",
+    "calibration/ffn_b4_runtime.py": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
+    "integration/flagscale/kerv_execution.py": "dd083ef1fe31c54176f24302f7f153f442e625db6284a4e12a3acb27c5b8bbe8",
+    "data/ffn_measurement_b3/recipe.json": "de545b1e407f52430b9643628fde28c1a9bd3b686cff463cdd4ddadbf881c19f"
+  }
+}

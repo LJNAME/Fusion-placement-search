@@ -151,6 +151,10 @@ def audit():
     b4_verification = read(b4_root / "verification.json")
     b4_superseded = read(b4_root / "superseded_profiles.json")
     b4_returned = read(ROOT / "data/ffn_b4_run03_review/report.json")
+    b4_run04 = read(ROOT / "data/ffn_b4_run04_review/report.json")
+    assert b4_run04["grid_written"] and b4_run04["formal_expected_cells"] == 19
+    assert b4_run04["grid_quality_passed"] == 10 and b4_run04["grid_quality_failed"] == 9
+    assert b4_run04["new_accepted_profiles"] == 0
     assert b4_returned["smoke_passed_cells"] == 4 and b4_returned["formal_completed_cells"] == 8
     assert b4_returned["new_accepted_profiles"] == 0 and not b4_returned["grid_written"]
     assert key_id(b4_plan) == b4_verification["plan_id"] and not b4_verification["gpu_smoke_executed"]
@@ -197,6 +201,12 @@ def audit():
                                      "smoke_passed_cells": 4, "formal_completed_cells": 8, "formal_expected_cells": 19,
                                      "formal_batch_complete": False, "new_accepted_profiles": 0,
                                      "timing_boundary_review_required": True},
+            "ffn_b4_returned_run04": {"review": "data/ffn_b4_run04_review/report.json",
+                                     "review_sha256": digest(ROOT / "data/ffn_b4_run04_review/report.json"),
+                                     "grid_complete": True, "recorded_cells": 19, "seven_attempt_sample_cells": 15,
+                                     "quality_passed": 10, "quality_failed": 9, "new_accepted_profiles": 0,
+                                     "native_crash": "diagnostic chain capture_end SIGSEGV",
+                                     "timing_boundary_review_required": True},
             "chain_cost_queries": [{"device": device, "arm": arm, "scope": "full_ffn_fork_join",
                                     "canonical_key": None, "measurement_contract_id": None,
                                     "accepted": False, "evidence": "no matching FFN chain in current P2 bundle"}
@@ -219,7 +229,7 @@ def audit():
                               "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
                               "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
                               "B3": "CPU 18+1 matrix and quality recipe frozen; old Fused profiles ineligible for new recipe reuse",
-                              "B4": "run03 minimum smoke passed 4/4; 8/19 formal cells completed before native crash near diagnostic capture; timing review pending; v2 isolated groups CPU-tested, GPU pending; no new admission",
+                              "B4": "run04 isolation validated: all 19 states retained, 10 quality_passed/9 failed; chain capture_end SIGSEGV and compute event collapse after profiler require targeted diagnosis; no new admission",
                               "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
                               "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
                               "C": "whole-graph mixed-coverage validation deferred",

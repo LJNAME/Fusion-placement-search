@@ -39,13 +39,19 @@ def review(root, source_ref):
                            "invariants": row["invariant_checks"],
                            "profiled_kernel_count": len(row["path_evidence"].get("kernel_names", [])),
                            "copy_trace_observed": row["path_evidence"].get("device_copy_trace_observed")})
+    master = read(root/"formal/grid.json") if (root/"formal/grid.json").exists() else None
     rows = []
     row_defs = frozen["matrix"]["core_rows"] + frozen["matrix"]["diagnostics"]
     for row in row_defs:
-        directory = root/"formal"/row["row_id"].replace("/", "_").replace(">", "to")
+        master_row = master["cells"][row["row_id"]] if master else {}
+        base = root/"formal"
+        if master_row.get("worker_evidence"):
+            base = base/master_row["worker_evidence"]/"formal"
+        directory = base/row["row_id"].replace("/", "_").replace(">", "to")
         result_path, sample_path = directory/"result.json", directory/"samples.json"
         item = {"row_id": row["row_id"], "identity_written": (directory/"identity.json").exists(),
-                "result_written": result_path.exists(), "attempts": 0, "admitted": False}
+                "result_written": result_path.exists(), "attempts": 0, "admitted": False,
+                "grid_status": master_row.get("status")}
         if sample_path.exists():
             samples = read(sample_path)
             item["attempts"] = len(samples)
@@ -57,7 +63,17 @@ def review(root, source_ref):
                 original = read(result_path)["quality"]
                 assert key_id(checked) == key_id(original)
                 item.update(recorded_status=read(result_path)["status"], quality_recomputed=True,
+                            quality_status=checked["status"], invalid_attempts=checked.get("invalid_attempts", []),
                             median_event_us_per_call=statistics.median(s["duration_us"] for s in samples))
+                if master:
+                    assert master_row["status"] == item["recorded_status"]
+                warm = read(result_path).get("warmup_diagnostic_timings", [])
+                if warm:
+                    warm_ms = statistics.median(w["elapsed_ms"] for w in warm)
+                    formal_ms = statistics.median(s["raw_timing"]["elapsed_ms"] for s in samples)
+                    item.update(pre_profiler_warmup_median_ms=warm_ms, post_profiler_formal_median_ms=formal_ms,
+                                pre_over_post_event_ratio=warm_ms/formal_ms,
+                                raw_event_devices=sorted({s["raw_timing"]["event_boundary"]["device"] for s in samples}))
                 events = read(directory/"replay_trace.json")["traceEvents"]
                 kernels = [e for e in events if e.get("cat") == "kernel"]
                 if kernels:
@@ -69,16 +85,29 @@ def review(root, source_ref):
                                 timing_boundary_review_required=True)
         rows.append(item)
     completed = sum(r["attempts"] == 7 and r["result_written"] for r in rows)
-    return {"scope": "returned run03 audit; separate profiler replay is not the same timing sample",
+    groups = []
+    if master:
+        assert set(master["cells"]) == {r["row_id"] for r in row_defs} and master["recorded_cells"] == len(row_defs)
+        for group in master["groups"]:
+            item = {k:v for k,v in group.items() if k != "command"}
+            if group.get("returncode"):
+                directory = root/"formal/groups"/group["group_id"].replace("/", "_").replace(">", "to")
+                item["last_stage"] = read(directory/"last_stage.json")
+                log = (directory/"worker.log").read_text(encoding="utf-8")
+                item["python_fault_stack"] = log.split("Extension modules:")[0].strip()
+            groups.append(item)
+    return {"scope": "returned B4 audit; separate profiler replay is not the same timing sample",
             "archive_sha256": hashlib.sha256(archive.read_bytes()).hexdigest() if archive.exists() else None,
             "source_ref": source_ref, "source_checks": source_checks,
             "smoke_status": smoke["status"], "smoke_passed_cells": len(smoke_rows), "smoke": smoke_rows,
             "formal_expected_cells": len(rows), "formal_completed_cells": completed,
             "formal_prepared_without_samples": sum(r["identity_written"] and not r["attempts"] for r in rows),
             "formal_unstarted_cells": sum(not r["identity_written"] for r in rows),
-            "grid_written": (root/"formal/grid.json").exists(), "formal_rows": rows,
+            "grid_written": master is not None, "grid_quality_passed": sum(r.get("grid_status")=="quality_passed" for r in rows),
+            "grid_quality_failed": sum(r.get("grid_status")=="quality_failed" for r in rows),
+            "groups": groups, "formal_rows": rows,
             "last_published_case": "diagnostic/down0-copy524288-gate1",
-            "crash_localization": "last identity precedes capture; no completed capture identity or trace; native stack unavailable",
+            "crash_localization": "capture_body_returned -> torch.cuda.CUDAGraph.capture_end SIGSEGV" if master else "last identity precedes capture; native stack unavailable",
             "timing_interpretation": "large event/trace discrepancy requires investigation; profiler overhead and boundary cause unverified",
             "new_accepted_profiles": 0, "search_cost_items_added": 0,
             "raw_file_sha256": {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
