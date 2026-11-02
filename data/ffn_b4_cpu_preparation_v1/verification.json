@@ -1,0 +1,43 @@
+{
+  "scope": "CPU preparation only",
+  "exported_records": 9,
+  "canonical_key_count": 9,
+  "exact_complete_identity_inspections": [
+    "gate_proj@gpu0",
+    "up_proj@gpu0",
+    "up_proj@gpu1",
+    "silu@gpu1",
+    "silu_mul/native@gpu1",
+    "silu_mul/fused@gpu1",
+    "copy/524288/1->0",
+    "copy/1572864/1->0"
+  ],
+  "incomplete_identities": [
+    {
+      "row_id": "gated_mul@gpu1",
+      "identity_gaps": [
+        "mul_left.runtime_tensor_metadata_missing",
+        "tensor.layout_or_strides"
+      ]
+    }
+  ],
+  "strict_cost_rejected_records": [
+    "gate_proj@gpu0",
+    "up_proj@gpu0",
+    "up_proj@gpu1",
+    "silu@gpu1",
+    "gated_mul@gpu1",
+    "silu_mul/native@gpu1",
+    "silu_mul/fused@gpu1",
+    "copy/524288/1->0",
+    "copy/1572864/1->0"
+  ],
+  "new_accepted_profiles": 0,
+  "new_gpu_measurements": 0,
+  "gpu_collector_ready": false,
+  "gpu_entry_open": false,
+  "priceable_plans": 0,
+  "legal_plans": 48,
+  "export_id": "sha256:e31c122059354d0a0f3ce7e8f78ca737be18d538443d54aa2bba65b33e225af4",
+  "protocol_id": "sha256:a8ac1703cd9701dfc20b677192e71d12b5139107a6c95cc91f61d9162cd60e1c"
+}

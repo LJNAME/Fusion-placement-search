@@ -1,0 +1,131 @@
+{
+  "version": "ffn-anchor-control.v1",
+  "scope": "pilot_only_not_profile_admission",
+  "device": "logical GPU0; observe fresh UUID/build, require same device for all four cells",
+  "cells": [
+    {
+      "id": "down_r1",
+      "row": "down_proj@gpu0",
+      "endpoint_replays": 1
+    },
+    {
+      "id": "up_r3",
+      "row": "up_proj@gpu0",
+      "endpoint_replays": 3
+    },
+    {
+      "id": "up_r1",
+      "row": "up_proj@gpu0",
+      "endpoint_replays": 1
+    },
+    {
+      "id": "down_r3",
+      "row": "down_proj@gpu0",
+      "endpoint_replays": 3
+    }
+  ],
+  "only_changed_factor": "anchor endpoint repeat count and its prespecified aggregation",
+  "fixed": {
+    "attempts": 7,
+    "calls_per_replay": 50,
+    "anchor_operator": "F.silu",
+    "anchor_shape": [
+      1,
+      256,
+      3072
+    ],
+    "dtype": "bf16",
+    "target_warmup": 10,
+    "anchor_warmup": 10,
+    "anchor_warmup_position": "before target case preparation, same as v3",
+    "path_trace_position": "after every target and anchor timing in the worker",
+    "new_process_per_cell": true,
+    "worker_retries": 0,
+    "extra_rounds": 0,
+    "parent_gpu_state": "CPU-only parent; no retained smoke runtime",
+    "unused_device_work": "no GPU1 workload in a pilot cell",
+    "restore_and_validation": "outside Event interval; preserve v3 order and buffers"
+  },
+  "endpoint": {
+    "aggregation": "median of all repeats, no trimming",
+    "dispersion": "inclusive IQR/median for r3, null/not-estimable for r1",
+    "r3_dispersion_limit": 0.1
+  },
+  "round": {
+    "drift": "abs(post_median-pre_median)/pre_median",
+    "drift_limit": 0.1,
+    "invalid": "any endpoint numerical/dispersion failure or drift above limit invalidates round",
+    "cell": "all seven attempts must be valid; target inclusive IQR/median <= 0.10",
+    "threshold_status": "preregistered engineering pilot thresholds, not validated statistical guarantees"
+  },
+  "required_timestamps_ns": [
+    "reset_begin",
+    "timing_begin",
+    "event_wait_end",
+    "all_device_sync_end",
+    "validation_end"
+  ],
+  "timestamp_clock": "time.perf_counter_ns, raw per repeat and target; no disk I/O inside Event interval",
+  "required_context": [
+    "UUID/build",
+    "stream/device",
+    "case preparation begin/end",
+    "anchor warmup end"
+  ],
+  "telemetry": {
+    "fields_if_available": [
+      "clock_mhz",
+      "utilization_percent",
+      "temperature_c"
+    ],
+    "missing": "null plus source/error; never substitute normal or zero",
+    "missing_blocks_environment_causal_verdict": true
+  },
+  "followup_gate": "all four pipelines/identities/numerical/path/timestamps complete; both r3 cells pass every preregistered quality check; r1 quality failures retained; no retry or selecting another protocol",
+  "followup": "same allocation may continue to a separately frozen seven-item GPU0 matrix; not implemented/open here",
+  "v3_v4_profile_mixing": false,
+  "retroactive_admission": false,
+  "gpu_collector_ready": false,
+  "gpu_entry_open": false,
+  "workloads": {
+    "down_proj@gpu0": {
+      "input": [
+        1,
+        256,
+        3072
+      ],
+      "weight": [
+        3072,
+        1024
+      ],
+      "output": [
+        1,
+        256,
+        1024
+      ]
+    },
+    "up_proj@gpu0": {
+      "input": [
+        1,
+        256,
+        1024
+      ],
+      "weight": [
+        1024,
+        3072
+      ],
+      "output": [
+        1,
+        256,
+        3072
+      ]
+    }
+  },
+  "fixture_recipe": "data/ffn_measurement_b3/recipe.json; named fixtures/seeds unchanged",
+  "source_sha256": {
+    "calibration/ffn_anchor_control_protocol.py": "4d853660d9a4d1dcca548547b5bf124d418189239b24c0eb601150845afd22d3",
+    "calibration/ffn_b4_runtime.py": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
+    "data/ffn_measurement_b3/recipe.json": "de545b1e407f52430b9643628fde28c1a9bd3b686cff463cdd4ddadbf881c19f"
+  },
+  "protocol_id": "sha256:a8ac1703cd9701dfc20b677192e71d12b5139107a6c95cc91f61d9162cd60e1c"
+}

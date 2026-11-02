@@ -1,0 +1,2158 @@
+{
+  "format": "fusion-placement-search.ffn-profile-export.v1",
+  "source_archive_sha256": "a9f304b76995304cb0f3d0b4215d121a0e8d2bacf60339ee19eb58a53b3c348f",
+  "records": [
+    {
+      "row_id": "gate_proj@gpu0",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "strides": [
+              262144,
+              1024,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6331-6162-3532-646133313431"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native",
+          "collector_source_sha256": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
+          "functional_source_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+          "id": "ffn_b4.reference.torch.matmul",
+          "operator": "torch.matmul",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "version": "2.9.0"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "reference_parameters": {
+                "weight": {
+                  "dtype": "bf16",
+                  "layout": "contiguous",
+                  "shape": [
+                    1024,
+                    3072
+                  ],
+                  "strides": [
+                    3072,
+                    1
+                  ]
+                }
+              },
+              "saved_activation_bytes": 1572864.0,
+              "semantic_slice": "gate",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column",
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    1024
+                  ]
+                },
+                "bytes": 524288.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "driver_version": "60326113",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none"
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        },
+        "execution_kind": "singleton",
+        "alias_semantics": {
+          "output_alias_input": null,
+          "inplace": false
+        }
+      },
+      "kernel_key_id": "sha256:3a26b00892639b5ccc2f74b5e94024f6d5a740a006e6148294c36e400dfcfd56",
+      "identity_gaps": [],
+      "kind": "singleton",
+      "usage": "singleton_identity_inspection",
+      "measurement_contract": {
+        "executor": "ffn_b4_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "50_independent_invocations_per_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "hip": "6.3.26113",
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "device_model": "BW",
+          "endpoints": {
+            "0": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6331-6162-3532-646133313431",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6331-6162-3532-646133313431",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            }
+          }
+        },
+        "candidate_id": "sha256:2c89bf7f08030f17c7a25727635b372cc9a6ee9808b579236fcce37350c35ae3",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
+        "calls_per_round": 50,
+        "rounds": 7,
+        "warmup_replays": 10,
+        "extra_attempts": 0,
+        "uncaptured_initialization_bodies": 1,
+        "path_trace_replays_before_formal": 0,
+        "path_trace_replays_after_formal": 1,
+        "restore_scope": "outside capture/replay Event interval",
+        "retention": "all 50 outputs"
+      },
+      "measurement_contract_id": "sha256:5cf3cde133249eb0914950c0840ddad108f64a48c948569ac98db68879ceebea",
+      "statistics": {
+        "median_us": 16.62078022956848,
+        "iqr_over_median": 0.0033686519102248437,
+        "n_rounds": 7,
+        "n_calls": 350,
+        "min_us": 16.59518003463745,
+        "max_us": 16.67199969291687
+      },
+      "quality_status": "quality_passed",
+      "admission": "conditional_dev",
+      "cost_use_open": false,
+      "source_record_sha256": "985bd7fa15e4a0a3eb3c0723e2ad6ed0aefa38b0112468126cf05cc7f271f3cb",
+      "evidence": {
+        "plan.json": "c216e8589467b2c02951ae9e75d8cd44a7606af80514c524118cf79e7b0a80bf",
+        "formal/grid.json": "7cf5237aa1c0f265ccff30210d5feb957a4440de528d1039bdab288905e5a705",
+        "placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+        "formal/groups/gate_proj@gpu0/formal/gate_proj@gpu0/identity.json": "25ca5e0f369d5b44a367fa31cb912b4e4bf2c544972008d6983b1d1891380677",
+        "formal/groups/gate_proj@gpu0/formal/gate_proj@gpu0/result.json": "985bd7fa15e4a0a3eb3c0723e2ad6ed0aefa38b0112468126cf05cc7f271f3cb",
+        "formal/groups/gate_proj@gpu0/formal/gate_proj@gpu0/samples.json": "7cdfc1a2530972be1a0db71caa5bbf853dd05b9e168050b8317f9a24c44a33b2",
+        "formal/groups/gate_proj@gpu0/formal/gate_proj@gpu0/replay_trace.json": "a8ef4dd8a93b2274262c626f92b78ec801d0a3ad2f3ef20d2b363c59cbe79543"
+      },
+      "admission_blockers": [
+        "no_scoped_admission_decision"
+      ],
+      "scope_notes": null,
+      "record_id": "sha256:cb6ede0f664788102a1055a78e65f2e8160962a313cf744da8fe0baba289d12b"
+    },
+    {
+      "row_id": "up_proj@gpu0",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "strides": [
+              262144,
+              1024,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6331-6162-3532-646133313431"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native",
+          "collector_source_sha256": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
+          "functional_source_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+          "id": "ffn_b4.reference.torch.matmul",
+          "operator": "torch.matmul",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "version": "2.9.0"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "reference_parameters": {
+                "weight": {
+                  "dtype": "bf16",
+                  "layout": "contiguous",
+                  "shape": [
+                    1024,
+                    3072
+                  ],
+                  "strides": [
+                    3072,
+                    1
+                  ]
+                }
+              },
+              "saved_activation_bytes": 1572864.0,
+              "semantic_slice": "up",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column",
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    1024
+                  ]
+                },
+                "bytes": 524288.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "driver_version": "60326113",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none"
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        },
+        "execution_kind": "singleton",
+        "alias_semantics": {
+          "output_alias_input": null,
+          "inplace": false
+        }
+      },
+      "kernel_key_id": "sha256:0c1e07fe8d82a7d1f81255aea29d46fb95b82d02e5fddedf0c1295ceb793bb79",
+      "identity_gaps": [],
+      "kind": "singleton",
+      "usage": "singleton_identity_inspection",
+      "measurement_contract": {
+        "executor": "ffn_b4_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "50_independent_invocations_per_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "hip": "6.3.26113",
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "device_model": "BW",
+          "endpoints": {
+            "0": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6331-6162-3532-646133313431",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6331-6162-3532-646133313431",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            }
+          }
+        },
+        "candidate_id": "sha256:2871be40546ff07caa9a6ee649d58a8c0b6070abdc753dc2630f373e0f491d7c",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
+        "calls_per_round": 50,
+        "rounds": 7,
+        "warmup_replays": 10,
+        "extra_attempts": 0,
+        "uncaptured_initialization_bodies": 1,
+        "path_trace_replays_before_formal": 0,
+        "path_trace_replays_after_formal": 1,
+        "restore_scope": "outside capture/replay Event interval",
+        "retention": "all 50 outputs"
+      },
+      "measurement_contract_id": "sha256:29818ada05a3bee3216ef270d2d28dc069e3ce19d059bacec46bbe404a5663e8",
+      "statistics": {
+        "median_us": 16.60159945487976,
+        "iqr_over_median": 0.002794290942166015,
+        "n_rounds": 7,
+        "n_calls": 350,
+        "min_us": 16.57595992088318,
+        "max_us": 16.68795943260193
+      },
+      "quality_status": "quality_passed",
+      "admission": "conditional_dev",
+      "cost_use_open": false,
+      "source_record_sha256": "f52d85973ee5139a55f46a6b52fcc70e82b3a6506315f4d9e317d8e7d061322b",
+      "evidence": {
+        "plan.json": "c216e8589467b2c02951ae9e75d8cd44a7606af80514c524118cf79e7b0a80bf",
+        "formal/grid.json": "7cf5237aa1c0f265ccff30210d5feb957a4440de528d1039bdab288905e5a705",
+        "placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+        "formal/groups/up_proj@gpu0/formal/up_proj@gpu0/identity.json": "4acc0cea56a638d4f11162c97ca08687336c410bf0c667b032915b7745f56fa3",
+        "formal/groups/up_proj@gpu0/formal/up_proj@gpu0/result.json": "f52d85973ee5139a55f46a6b52fcc70e82b3a6506315f4d9e317d8e7d061322b",
+        "formal/groups/up_proj@gpu0/formal/up_proj@gpu0/samples.json": "2a7d1ce90e4e079c15f403547104f5dc42f6d6d36e217317c77a4ee569a0238e",
+        "formal/groups/up_proj@gpu0/formal/up_proj@gpu0/replay_trace.json": "6b8eb8f8278e6ae8518cba1fcd15c8ae375d6540ea4bb63513ec2daee87ba9fb"
+      },
+      "admission_blockers": [
+        "no_scoped_admission_decision"
+      ],
+      "scope_notes": null,
+      "record_id": "sha256:e7498eaa9c35249f99ef4ef7b6cda8de5dbf739fe3fe4c1be0e50c5c552b6785"
+    },
+    {
+      "row_id": "up_proj@gpu1",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "strides": [
+              262144,
+              1024,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6330-3532-3338-313033386531"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native",
+          "collector_source_sha256": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
+          "functional_source_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+          "id": "ffn_b4.reference.torch.matmul",
+          "operator": "torch.matmul",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "version": "2.9.0"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "reference_parameters": {
+                "weight": {
+                  "dtype": "bf16",
+                  "layout": "contiguous",
+                  "shape": [
+                    1024,
+                    3072
+                  ],
+                  "strides": [
+                    3072,
+                    1
+                  ]
+                }
+              },
+              "saved_activation_bytes": 1572864.0,
+              "semantic_slice": "up",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column",
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    1024
+                  ]
+                },
+                "bytes": 524288.0,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "driver_version": "60326113",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none"
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        },
+        "execution_kind": "singleton",
+        "alias_semantics": {
+          "output_alias_input": null,
+          "inplace": false
+        }
+      },
+      "kernel_key_id": "sha256:c66568d3cce4f47485b0f31c7163a9316d58bdbef78646631d92bf20541eda57",
+      "identity_gaps": [],
+      "kind": "singleton",
+      "usage": "singleton_identity_inspection",
+      "measurement_contract": {
+        "executor": "ffn_b4_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "50_independent_invocations_per_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "hip": "6.3.26113",
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "device_model": "BW",
+          "endpoints": {
+            "1": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6330-3532-3338-313033386531",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6330-3532-3338-313033386531",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            }
+          }
+        },
+        "candidate_id": "sha256:2871be40546ff07caa9a6ee649d58a8c0b6070abdc753dc2630f373e0f491d7c",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
+        "calls_per_round": 50,
+        "rounds": 7,
+        "warmup_replays": 10,
+        "extra_attempts": 0,
+        "uncaptured_initialization_bodies": 1,
+        "path_trace_replays_before_formal": 0,
+        "path_trace_replays_after_formal": 1,
+        "restore_scope": "outside capture/replay Event interval",
+        "retention": "all 50 outputs"
+      },
+      "measurement_contract_id": "sha256:ce1e1f9ed9f4b07572e7194ccf13ff6684bfda545fd693d8a34507ef2987db0e",
+      "statistics": {
+        "median_us": 16.550400257110596,
+        "iqr_over_median": 0.0010634219859254328,
+        "n_rounds": 7,
+        "n_calls": 350,
+        "min_us": 16.53439998626709,
+        "max_us": 16.572799682617188
+      },
+      "quality_status": "quality_passed",
+      "admission": "conditional_dev",
+      "cost_use_open": false,
+      "source_record_sha256": "6885f9b483770c6d29a2ddc9c1ece62dc1626185ea25cddda87a31372c1e7e04",
+      "evidence": {
+        "plan.json": "c216e8589467b2c02951ae9e75d8cd44a7606af80514c524118cf79e7b0a80bf",
+        "formal/grid.json": "7cf5237aa1c0f265ccff30210d5feb957a4440de528d1039bdab288905e5a705",
+        "placed_gpu1/placed.json": "555207b81191a31855bf531f042a74e537672d23138b012c854aaf0f344f4418",
+        "formal/groups/up_proj@gpu1/formal/up_proj@gpu1/identity.json": "e775393ea61513e16a9a12d88ac1a7d19c4d539eddaff50a983892515b661cb7",
+        "formal/groups/up_proj@gpu1/formal/up_proj@gpu1/result.json": "6885f9b483770c6d29a2ddc9c1ece62dc1626185ea25cddda87a31372c1e7e04",
+        "formal/groups/up_proj@gpu1/formal/up_proj@gpu1/samples.json": "9f645fba589033a7a03e5b5b17f134f7ea53b8d5eea05a7c7d95f7f4d3ba6d4a",
+        "formal/groups/up_proj@gpu1/formal/up_proj@gpu1/replay_trace.json": "4db62de2a5248d4ff97e1f93d6300e029c3f666923c025a9c076ce6713083fa7"
+      },
+      "admission_blockers": [
+        "no_scoped_admission_decision"
+      ],
+      "scope_notes": null,
+      "record_id": "sha256:2dffe82daa16a0424fd89c50e380cc3a0e85c8c1d4a6aa90c31aca7428efa7f5"
+    },
+    {
+      "row_id": "silu@gpu1",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6330-3532-3338-313033386531"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native",
+          "collector_source_sha256": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
+          "functional_source_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+          "id": "ffn_b4.reference.silu",
+          "role": "silu",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "version": "2.9.0"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "driver_version": "60326113",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none"
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        },
+        "execution_kind": "singleton",
+        "alias_semantics": {
+          "output_alias_input": null,
+          "inplace": false
+        }
+      },
+      "kernel_key_id": "sha256:ecc2cce1cc01ac561e6acc5e31defd6e26a30ae5332831e70f56ff754e0a5cbc",
+      "identity_gaps": [],
+      "kind": "singleton",
+      "usage": "singleton_identity_inspection",
+      "measurement_contract": {
+        "executor": "ffn_b4_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "50_independent_invocations_per_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "hip": "6.3.26113",
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "device_model": "BW",
+          "endpoints": {
+            "1": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6330-3532-3338-313033386531",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6330-3532-3338-313033386531",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            }
+          }
+        },
+        "candidate_id": "sha256:0f5042f207ba742771ef42ac07872e3f274079c17a83cde2c3e8f705bdf6ae7b",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
+        "calls_per_round": 50,
+        "rounds": 7,
+        "warmup_replays": 10,
+        "extra_attempts": 0,
+        "uncaptured_initialization_bodies": 1,
+        "path_trace_replays_before_formal": 0,
+        "path_trace_replays_after_formal": 1,
+        "restore_scope": "outside capture/replay Event interval",
+        "retention": "all 50 outputs"
+      },
+      "measurement_contract_id": "sha256:b6dbc161b44fd598434b60af7241ef935f570f1b7226eb078164f8b4c39d2321",
+      "statistics": {
+        "median_us": 7.049599885940552,
+        "iqr_over_median": 0.003631439421418272,
+        "n_rounds": 7,
+        "n_calls": 350,
+        "min_us": 7.014399766921997,
+        "max_us": 7.100800275802612
+      },
+      "quality_status": "quality_passed",
+      "admission": "conditional_dev",
+      "cost_use_open": false,
+      "source_record_sha256": "0607563fd6492acc747e9c0659f608e2df89c58f6eb6559e947359b14fb9fb13",
+      "evidence": {
+        "plan.json": "c216e8589467b2c02951ae9e75d8cd44a7606af80514c524118cf79e7b0a80bf",
+        "formal/grid.json": "7cf5237aa1c0f265ccff30210d5feb957a4440de528d1039bdab288905e5a705",
+        "placed_gpu1/placed.json": "555207b81191a31855bf531f042a74e537672d23138b012c854aaf0f344f4418",
+        "formal/groups/activation_gpu1/formal/silu@gpu1/identity.json": "fb707b2264ce589c7bbcca3677d223ea0b1db3c94d8bd4821fc2c7664ac5affc",
+        "formal/groups/activation_gpu1/formal/silu@gpu1/result.json": "0607563fd6492acc747e9c0659f608e2df89c58f6eb6559e947359b14fb9fb13",
+        "formal/groups/activation_gpu1/formal/silu@gpu1/samples.json": "e9c67fe6c359867feb1b2a36515dcabae572e49271be3542a8d80d5d399edfdf",
+        "formal/groups/activation_gpu1/formal/silu@gpu1/replay_trace.json": "0396207cfdc8a429d1401eecbeadb761ae6fd7429011ea9663ed48b17800d91f"
+      },
+      "admission_blockers": [
+        "no_scoped_admission_decision"
+      ],
+      "scope_notes": null,
+      "record_id": "sha256:3b2d0b3353727d7b1f1f64c82ff6e8dbac3cda0e394ccdf38faf22f1e3dc1706"
+    },
+    {
+      "row_id": "gated_mul@gpu1",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": null,
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": null
+          },
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6330-3532-3338-313033386531"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native",
+          "collector_source_sha256": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
+          "functional_source_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+          "id": "ffn_b4.reference.mul",
+          "role": "mul",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "version": "2.9.0"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 1572864.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "driver_version": "60326113",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none"
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        },
+        "execution_kind": "singleton",
+        "alias_semantics": {
+          "output_alias_input": null,
+          "inplace": false
+        }
+      },
+      "kernel_key_id": "sha256:6808953c21807a814ff0bf322fd9146c4d180014b402a4051b6aaadfb1702064",
+      "identity_gaps": [
+        "mul_left.runtime_tensor_metadata_missing",
+        "tensor.layout_or_strides"
+      ],
+      "kind": "singleton",
+      "usage": "singleton_identity_inspection",
+      "measurement_contract": {
+        "executor": "ffn_b4_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "50_independent_invocations_per_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "hip": "6.3.26113",
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "device_model": "BW",
+          "endpoints": {
+            "1": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6330-3532-3338-313033386531",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6330-3532-3338-313033386531",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            }
+          }
+        },
+        "candidate_id": "sha256:f078e394718118a4361a495810c8b0345d332e05f4f3188ec4b82eca0fa9b84c",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
+        "calls_per_round": 50,
+        "rounds": 7,
+        "warmup_replays": 10,
+        "extra_attempts": 0,
+        "uncaptured_initialization_bodies": 1,
+        "path_trace_replays_before_formal": 0,
+        "path_trace_replays_after_formal": 1,
+        "restore_scope": "outside capture/replay Event interval",
+        "retention": "all 50 outputs"
+      },
+      "measurement_contract_id": "sha256:5c2487a56c7b296d2589ae87f6123e44db0b334335c6950e2cfabc205872f138",
+      "statistics": {
+        "median_us": 4.336000084877014,
+        "iqr_over_median": 0.033210343770056945,
+        "n_rounds": 7,
+        "n_calls": 350,
+        "min_us": 4.320000112056732,
+        "max_us": 4.630399942398071
+      },
+      "quality_status": "quality_passed",
+      "admission": "conditional_dev",
+      "cost_use_open": false,
+      "source_record_sha256": "b8b685523dc6948e15037c1573f4dc9b4038cc2a3483346c6098346ec7467252",
+      "evidence": {
+        "plan.json": "c216e8589467b2c02951ae9e75d8cd44a7606af80514c524118cf79e7b0a80bf",
+        "formal/grid.json": "7cf5237aa1c0f265ccff30210d5feb957a4440de528d1039bdab288905e5a705",
+        "placed_gpu1/placed.json": "555207b81191a31855bf531f042a74e537672d23138b012c854aaf0f344f4418",
+        "formal/groups/activation_gpu1/formal/gated_mul@gpu1/identity.json": "d1534e3953b414731b1812343b4743b13646f15c2b6e6ad636a1dd2e77f4f33b",
+        "formal/groups/activation_gpu1/formal/gated_mul@gpu1/result.json": "b8b685523dc6948e15037c1573f4dc9b4038cc2a3483346c6098346ec7467252",
+        "formal/groups/activation_gpu1/formal/gated_mul@gpu1/samples.json": "c036f551788ec9968f558c7e787b0470306d17e32bbc5a26c9f68a1c3a7c64bd",
+        "formal/groups/activation_gpu1/formal/gated_mul@gpu1/replay_trace.json": "8d6f96010758eb627821d1449ea95f915a7b14f1cabb99047171b08c4e432094"
+      },
+      "admission_blockers": [
+        "no_scoped_admission_decision"
+      ],
+      "scope_notes": null,
+      "record_id": "sha256:44938133803d1921118f2d20c3a83c176c83f78c202b9294d0265f3910e214c3"
+    },
+    {
+      "row_id": "silu_mul/native@gpu1",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6330-3532-3338-313033386531"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native",
+          "collector_source_sha256": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
+          "functional_source_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+          "id": "ffn_b4.reference.native",
+          "role": "native",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "version": "2.9.0"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728.0,
+              "layout": {
+                "materialization": "native_intermediate_not_observed"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": null
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "materialization": "native_intermediate_not_observed"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 0.0
+          },
+          {
+            "attributes": {
+              "bwd_flops": 1572864.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "internal": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          1
+        ],
+        "pattern_id": "silu_mul",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "driver_version": "60326113",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none"
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        },
+        "execution_kind": "native_chain",
+        "alias_semantics": {
+          "output_alias_input": null,
+          "inplace": false
+        }
+      },
+      "kernel_key_id": "sha256:89b841293de55078223bcae7f9051866af38301c1dcc827ed2f0b6df841bde5f",
+      "identity_gaps": [],
+      "kind": "native_chain",
+      "usage": "native_chain_comparison",
+      "measurement_contract": {
+        "executor": "ffn_b4_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "50_independent_invocations_per_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "hip": "6.3.26113",
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "device_model": "BW",
+          "endpoints": {
+            "1": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6330-3532-3338-313033386531",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6330-3532-3338-313033386531",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            }
+          }
+        },
+        "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
+        "calls_per_round": 50,
+        "rounds": 7,
+        "warmup_replays": 10,
+        "extra_attempts": 0,
+        "uncaptured_initialization_bodies": 1,
+        "path_trace_replays_before_formal": 0,
+        "path_trace_replays_after_formal": 1,
+        "restore_scope": "outside capture/replay Event interval",
+        "retention": "all 50 outputs"
+      },
+      "measurement_contract_id": "sha256:601ef9914ec114e3c158b4d3038faf94e609c66932758edbc09cf9cd1fcae8e7",
+      "statistics": {
+        "median_us": 10.339219570159912,
+        "iqr_over_median": 0.0038687141465988313,
+        "n_rounds": 7,
+        "n_calls": 350,
+        "min_us": 10.316799879074097,
+        "max_us": 10.569599866867065
+      },
+      "quality_status": "quality_passed",
+      "admission": "conditional_dev",
+      "cost_use_open": false,
+      "source_record_sha256": "5b249dcc23b2ee9ca63ed43240d20a00ea8a03af391530dbdbaabe4d93a579f5",
+      "evidence": {
+        "plan.json": "c216e8589467b2c02951ae9e75d8cd44a7606af80514c524118cf79e7b0a80bf",
+        "formal/grid.json": "7cf5237aa1c0f265ccff30210d5feb957a4440de528d1039bdab288905e5a705",
+        "placed_gpu1/placed.json": "555207b81191a31855bf531f042a74e537672d23138b012c854aaf0f344f4418",
+        "formal/groups/activation_gpu1/formal/silu_mul_native@gpu1/identity.json": "4ec9e74790cbb9a15113313391be417acfa9648fbd03d41c307cee2e7ce82fd2",
+        "formal/groups/activation_gpu1/formal/silu_mul_native@gpu1/result.json": "5b249dcc23b2ee9ca63ed43240d20a00ea8a03af391530dbdbaabe4d93a579f5",
+        "formal/groups/activation_gpu1/formal/silu_mul_native@gpu1/samples.json": "835132147a77137ef6b0c0a141b0f4714a27557604dd7053f34168ef906b8d81",
+        "formal/groups/activation_gpu1/formal/silu_mul_native@gpu1/replay_trace.json": "513bb0de0b96b547b78dc3e92735db672faf3c32cc935c6720941238ed1fd6a6"
+      },
+      "admission_blockers": [
+        "no_scoped_admission_decision"
+      ],
+      "scope_notes": "native internal temporary unobserved; only boundary layouts are identity requirements",
+      "record_id": "sha256:f229c62f513beecab1897dfb2a1529ca4e0a04ef5c34a311e5445fb088958e58"
+    },
+    {
+      "row_id": "silu_mul/fused@gpu1",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6330-3532-3338-313033386531"
+          }
+        },
+        "implementation": {
+          "backend": "flagscale_kerv_triton",
+          "collector_source_sha256": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
+          "compile_flags": {},
+          "functional_source_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+          "id": "flagos_embodied.kerv_silu_mul.triton",
+          "loaded_source": {
+            "git_revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326",
+            "module_sha256": "05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60"
+          },
+          "public_operator": "torch.ops.flagos_embodied.kerv_silu_mul",
+          "role": "fused",
+          "runtime_flags": {
+            "backend": "triton",
+            "enabled_operator": "kerv_silu_mul",
+            "inplace": true,
+            "output_alias_input": "gate"
+          },
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "version": "sha256:05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728.0,
+              "layout": {
+                "materialization": "internal_fused_expression"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": null
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "materialization": "internal_fused_expression"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 0.0
+          },
+          {
+            "attributes": {
+              "bwd_flops": 1572864.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "internal": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          1
+        ],
+        "pattern_id": "silu_mul",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "driver_version": "60326113",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none"
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        },
+        "execution_kind": "fused",
+        "alias_semantics": {
+          "output_alias_input": "gate",
+          "inplace": true
+        }
+      },
+      "kernel_key_id": "sha256:a557c071a43e69818af7073608456ba246c106133daea8f52a74c581c1be8742",
+      "identity_gaps": [],
+      "kind": "fused",
+      "usage": "selected_fused_identity_inspection",
+      "measurement_contract": {
+        "executor": "ffn_b4_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "50_independent_invocations_per_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "hip": "6.3.26113",
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "device_model": "BW",
+          "endpoints": {
+            "1": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6330-3532-3338-313033386531",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6330-3532-3338-313033386531",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            }
+          }
+        },
+        "candidate_id": "sha256:d4843a3d5bd59dd332303afef3525dfab9ae09b41e956be4134e608beefbe3a8",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
+        "calls_per_round": 50,
+        "rounds": 7,
+        "warmup_replays": 10,
+        "extra_attempts": 0,
+        "uncaptured_initialization_bodies": 1,
+        "path_trace_replays_before_formal": 0,
+        "path_trace_replays_after_formal": 1,
+        "restore_scope": "outside capture/replay Event interval",
+        "retention": "all 50 outputs"
+      },
+      "measurement_contract_id": "sha256:601ef9914ec114e3c158b4d3038faf94e609c66932758edbc09cf9cd1fcae8e7",
+      "statistics": {
+        "median_us": 7.360000014305115,
+        "iqr_over_median": 0.006088339104428876,
+        "n_rounds": 7,
+        "n_calls": 350,
+        "min_us": 7.321599721908569,
+        "max_us": 7.420799732208252
+      },
+      "quality_status": "quality_passed",
+      "admission": "conditional_dev",
+      "cost_use_open": false,
+      "source_record_sha256": "0194b3936da9d462c3a1d0f76d802c8b91bd0852e29f5ec6c2ac8fa326848036",
+      "evidence": {
+        "plan.json": "c216e8589467b2c02951ae9e75d8cd44a7606af80514c524118cf79e7b0a80bf",
+        "formal/grid.json": "7cf5237aa1c0f265ccff30210d5feb957a4440de528d1039bdab288905e5a705",
+        "placed_gpu1/placed.json": "555207b81191a31855bf531f042a74e537672d23138b012c854aaf0f344f4418",
+        "formal/groups/activation_gpu1/formal/silu_mul_fused@gpu1/identity.json": "cc67e20e2a6a52691f8c86849a4c9c676a9d21909841ee89e3fc2a80be706f61",
+        "formal/groups/activation_gpu1/formal/silu_mul_fused@gpu1/result.json": "0194b3936da9d462c3a1d0f76d802c8b91bd0852e29f5ec6c2ac8fa326848036",
+        "formal/groups/activation_gpu1/formal/silu_mul_fused@gpu1/samples.json": "a84f9fb9bc4864d7e19291d8bb4f8a8fa1a327229b618ddaad9a12f7030b6b17",
+        "formal/groups/activation_gpu1/formal/silu_mul_fused@gpu1/replay_trace.json": "409b056ae4abb260f879ef2d296db7937ddfa5c8350402498cf2352b01b04e8d"
+      },
+      "admission_blockers": [
+        "no_scoped_admission_decision"
+      ],
+      "scope_notes": null,
+      "record_id": "sha256:2ff5dbd8c37b3f459b8daecf1e16dda1fa9d1a3f93f858b623c3a3ba14a137e2"
+    },
+    {
+      "row_id": "copy/524288/1->0",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "strides": [
+              262144,
+              1024,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6331-6162-3532-646133313431"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native",
+          "collector_source_sha256": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
+          "functional_source_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+          "id": "ffn_b4.reference.preallocated Tensor.copy_",
+          "operator": "preallocated Tensor.copy_",
+          "size_bytes": 524288,
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "version": "2.9.0"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": [
+                262144,
+                1024,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {},
+                "bytes": 524288,
+                "external": 0
+              }
+            ],
+            "operator": "copy",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": [
+                262144,
+                1024,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "preallocated_copy",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "driver_version": "60326113",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none"
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        },
+        "execution_kind": "transfer",
+        "alias_semantics": {
+          "output_alias_input": "preallocated_destination",
+          "source_readonly": true
+        },
+        "transfer": {
+          "source_device": 1,
+          "destination_device": 0,
+          "endpoints": {
+            "1": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6330-3532-3338-313033386531",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6330-3532-3338-313033386531",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            },
+            "0": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6331-6162-3532-646133313431",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6331-6162-3532-646133313431",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            }
+          },
+          "mechanism": "preallocated Tensor.copy_",
+          "physical_route": "not_certified"
+        }
+      },
+      "kernel_key_id": "sha256:f3f1e2c42c5d695f1ee585473345e39487a5bed5e5c27fbcc8898baf434b218a",
+      "identity_gaps": [],
+      "kind": "transfer",
+      "usage": "observed_driver_copy_inspection",
+      "measurement_contract": {
+        "executor": "ffn_b4_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "50_independent_invocations_per_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "hip": "6.3.26113",
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "device_model": "BW",
+          "endpoints": {
+            "1": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6330-3532-3338-313033386531",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6330-3532-3338-313033386531",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            },
+            "0": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6331-6162-3532-646133313431",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6331-6162-3532-646133313431",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            }
+          }
+        },
+        "candidate_id": "sha256:df28a0d5d63ef486c5a17a1a22ec9db0eb18a98b73035dfa78622f3d6c23b21c",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
+        "calls_per_round": 50,
+        "rounds": 7,
+        "warmup_replays": 10,
+        "extra_attempts": 0,
+        "uncaptured_initialization_bodies": 1,
+        "path_trace_replays_before_formal": 0,
+        "path_trace_replays_after_formal": 1,
+        "restore_scope": "outside capture/replay Event interval",
+        "retention": "all 50 outputs"
+      },
+      "measurement_contract_id": "sha256:f7305a4b00c51fb5005c1c9fd28590d8453bb6f83e13a248cecd5dd359b77768",
+      "statistics": {
+        "median_us": 33.78237962722778,
+        "iqr_over_median": 0.020460385040760847,
+        "n_rounds": 7,
+        "n_calls": 350,
+        "min_us": 33.26397895812988,
+        "max_us": 34.51198101043701
+      },
+      "quality_status": "quality_passed",
+      "admission": "conditional_dev",
+      "cost_use_open": false,
+      "source_record_sha256": "5d05bb9ae542a24a377ecb633c83a3801666855974390d0af2cf7cf07849b25b",
+      "evidence": {
+        "plan.json": "c216e8589467b2c02951ae9e75d8cd44a7606af80514c524118cf79e7b0a80bf",
+        "formal/grid.json": "7cf5237aa1c0f265ccff30210d5feb957a4440de528d1039bdab288905e5a705",
+        "placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+        "formal/groups/copy_524288_1-to0/formal/copy_524288_1-to0/identity.json": "c5ef33c26de8f21f0515c81db7a470631f7f0e8767fd2551a87c5de3f35587f8",
+        "formal/groups/copy_524288_1-to0/formal/copy_524288_1-to0/result.json": "5d05bb9ae542a24a377ecb633c83a3801666855974390d0af2cf7cf07849b25b",
+        "formal/groups/copy_524288_1-to0/formal/copy_524288_1-to0/samples.json": "010355a4493f3b5bed3134433b0baa8a29c2a418e0fd33bdb9bdf5aaef60410f",
+        "formal/groups/copy_524288_1-to0/formal/copy_524288_1-to0/replay_trace.json": "33b100bbe1949a7e24c18c83d7e63653664058a0a5e204d2c0398fb54af82b70"
+      },
+      "admission_blockers": [
+        "no_scoped_admission_decision",
+        "direct_P2P_route_not_certified"
+      ],
+      "scope_notes": null,
+      "record_id": "sha256:53689c379d8ea7855fb9ed742d263aafe14d1e1923fd3d3aa6603706e4005ceb"
+    },
+    {
+      "row_id": "copy/1572864/1->0",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6331-6162-3532-646133313431"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native",
+          "collector_source_sha256": "5ab656b201f2f66086e0f017cf6bbdf76eb7f5a31e2374992634c9df13899bd3",
+          "functional_source_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+          "id": "ffn_b4.reference.preallocated Tensor.copy_",
+          "operator": "preallocated Tensor.copy_",
+          "size_bytes": 1572864,
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "version": "2.9.0"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {},
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "copy",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "preallocated_copy",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "driver_version": "60326113",
+          "flags": {
+            "allow_bf16_reduced_precision_reduction": true,
+            "grad_enabled": false,
+            "matmul_fp32_precision": "none"
+          },
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        },
+        "execution_kind": "transfer",
+        "alias_semantics": {
+          "output_alias_input": "preallocated_destination",
+          "source_readonly": true
+        },
+        "transfer": {
+          "source_device": 1,
+          "destination_device": 0,
+          "endpoints": {
+            "1": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6330-3532-3338-313033386531",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6330-3532-3338-313033386531",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            },
+            "0": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6331-6162-3532-646133313431",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6331-6162-3532-646133313431",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            }
+          },
+          "mechanism": "preallocated Tensor.copy_",
+          "physical_route": "not_certified"
+        }
+      },
+      "kernel_key_id": "sha256:ecca79441d867ec21426b79278f8c087f6d7e76f2c7b950c24367df8130d958f",
+      "identity_gaps": [],
+      "kind": "transfer",
+      "usage": "observed_driver_copy_inspection",
+      "measurement_contract": {
+        "executor": "ffn_b4_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "50_independent_invocations_per_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "hip": "6.3.26113",
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "device_model": "BW",
+          "endpoints": {
+            "1": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6330-3532-3338-313033386531",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6330-3532-3338-313033386531",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            },
+            "0": {
+              "observed": {
+                "name": "BW",
+                "total_memory": 68702699520,
+                "uuid": "30303134-6331-6162-3532-646133313431",
+                "architecture": "gfx936:sramecc+:xnack-"
+              },
+              "environment": {
+                "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+                "torch_module_version": "2.9.0",
+                "hip": "6.3.26113",
+                "cuda": null,
+                "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+                "triton_module_version": "3.5.1",
+                "driver_version": "60326113",
+                "device_model": "BW",
+                "device_uuid": "30303134-6331-6162-3532-646133313431",
+                "device_architecture": "gfx936:sramecc+:xnack-"
+              }
+            }
+          }
+        },
+        "candidate_id": "sha256:0236cbbc843ad1ebe247182eb1c1432beaed2778dfa9c3c40abb7ad614db85f2",
+        "recipe_id": "sha256:6de2fe65fc111d84b3e1d44fa4da972b71763456fa17deab6a084e69828e0055",
+        "calls_per_round": 50,
+        "rounds": 7,
+        "warmup_replays": 10,
+        "extra_attempts": 0,
+        "uncaptured_initialization_bodies": 1,
+        "path_trace_replays_before_formal": 0,
+        "path_trace_replays_after_formal": 1,
+        "restore_scope": "outside capture/replay Event interval",
+        "retention": "all 50 outputs"
+      },
+      "measurement_contract_id": "sha256:82e899a983f88d0f4f971892369a2a413eccec961f6589ed2b242f75a697e73c",
+      "statistics": {
+        "median_us": 44.585580825805664,
+        "iqr_over_median": 0.02038303904249223,
+        "n_rounds": 7,
+        "n_calls": 350,
+        "min_us": 44.131178855895996,
+        "max_us": 45.85917949676514
+      },
+      "quality_status": "quality_passed",
+      "admission": "conditional_dev",
+      "cost_use_open": false,
+      "source_record_sha256": "bcb8cedf85fd2cc83f515568f38fa7c8aaaef43de5eeafcc27737f314ce7ddc4",
+      "evidence": {
+        "plan.json": "c216e8589467b2c02951ae9e75d8cd44a7606af80514c524118cf79e7b0a80bf",
+        "formal/grid.json": "7cf5237aa1c0f265ccff30210d5feb957a4440de528d1039bdab288905e5a705",
+        "placed_gpu0/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d",
+        "formal/groups/copy_1572864_1-to0/formal/copy_1572864_1-to0/identity.json": "4ff63cae3271072343191ff3ed532833526c688d101ee4160b267939117f728a",
+        "formal/groups/copy_1572864_1-to0/formal/copy_1572864_1-to0/result.json": "bcb8cedf85fd2cc83f515568f38fa7c8aaaef43de5eeafcc27737f314ce7ddc4",
+        "formal/groups/copy_1572864_1-to0/formal/copy_1572864_1-to0/samples.json": "0b4749665728670ee0fb8cde7201ebe267eee2f5cef26ea1f1eace1f935d4b91",
+        "formal/groups/copy_1572864_1-to0/formal/copy_1572864_1-to0/replay_trace.json": "527bca49edc9546a784e305b0be9bc213f2ade4ac953d89e8d65792da26a86fd"
+      },
+      "admission_blockers": [
+        "no_scoped_admission_decision",
+        "direct_P2P_route_not_certified"
+      ],
+      "scope_notes": null,
+      "record_id": "sha256:6eb829d16adc509cb9f913f3efdb7d8f7ce61c9984390c32ba31e357ffc23038"
+    }
+  ],
+  "new_accepted_profiles": 0,
+  "source_ref": "e888d72",
+  "exporter_source_sha256": {
+    "cost_model/ffn_profile_export.py": "e360a607c263b30c3465465e4f62f4097de659633d49598aac906ae1b7c78765",
+    "cost_model/fusion_kernel_profile.py": "a308ed3912ec79a4eb5b60d9276d91c031cb72536095ce2af7efcb6b270c4906",
+    "cost_model/measurement_labels.py": "45f7da5636c6677df65c6b32fe73eb333076f7fe103f0e3571da2d322aae9340"
+  },
+  "export_id": "sha256:e31c122059354d0a0f3ce7e8f78ca737be18d538443d54aa2bba65b33e225af4"
+}

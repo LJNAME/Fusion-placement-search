@@ -21,7 +21,7 @@
   },
   "execution_protocol": {
     "path": "cost_model/STAGE_B_PROTOCOL.md",
-    "sha256": "b690e1498b659d34ef5f61da8720b4492bbc6c32cec3ec20016f739e3b0e5526"
+    "sha256": "ecb999848af49fc81437e444be8d8b570c440790673a1021c3e057006376a41a"
   },
   "scope": "reference-builder FFN layer 0; accepted coverage under current P2 decision",
   "graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
@@ -1758,6 +1758,51 @@
     "cause_identified": false,
     "admission_reclassified": false
   },
+  "ffn_b4_cpu_preparation": {
+    "path": "data/ffn_b4_cpu_preparation_v1",
+    "scope": "CPU preparation only",
+    "exported_records": 9,
+    "canonical_key_count": 9,
+    "exact_complete_identity_inspections": [
+      "gate_proj@gpu0",
+      "up_proj@gpu0",
+      "up_proj@gpu1",
+      "silu@gpu1",
+      "silu_mul/native@gpu1",
+      "silu_mul/fused@gpu1",
+      "copy/524288/1->0",
+      "copy/1572864/1->0"
+    ],
+    "incomplete_identities": [
+      {
+        "row_id": "gated_mul@gpu1",
+        "identity_gaps": [
+          "mul_left.runtime_tensor_metadata_missing",
+          "tensor.layout_or_strides"
+        ]
+      }
+    ],
+    "strict_cost_rejected_records": [
+      "gate_proj@gpu0",
+      "up_proj@gpu0",
+      "up_proj@gpu1",
+      "silu@gpu1",
+      "gated_mul@gpu1",
+      "silu_mul/native@gpu1",
+      "silu_mul/fused@gpu1",
+      "copy/524288/1->0",
+      "copy/1572864/1->0"
+    ],
+    "new_accepted_profiles": 0,
+    "new_gpu_measurements": 0,
+    "gpu_collector_ready": false,
+    "gpu_entry_open": false,
+    "priceable_plans": 0,
+    "legal_plans": 48,
+    "export_id": "sha256:e31c122059354d0a0f3ce7e8f78ca737be18d538443d54aa2bba65b33e225af4",
+    "protocol_id": "sha256:a8ac1703cd9701dfc20b677192e71d12b5139107a6c95cc91f61d9162cd60e1c",
+    "verification_sha256": "7b553734fc09056e5719612ef518d898afacc6b44866b48d72daa94e8548d911"
+  },
   "chain_cost_queries": [
     {
       "device": 0,
@@ -1888,7 +1933,7 @@
     "B1": "complete for GPU0/GPU0 boundary: 48 labeled placements, 24 compute-only swap classes; no cost scoring",
     "B2": "CPU declaration/coverage review complete; B3 recipe and B4 actual route/capture/event validation pending",
     "B3": "CPU 18+1 matrix and quality recipe frozen; old Fused profiles ineligible for new recipe reuse",
-    "B4": "run05 anchor CPU attribution complete: 6/70 shared windows and 8/98 device pairs reject 9 cells; all rejected windows in attempts 0-2, median-ratio is not pointwise stability, pure protocol/environment cause unidentifiable. Priceable plans 0/48; no GPU rerun or retrospective admission change",
+    "B4": "CPU pilot frozen and run05 records exported: 9 canonical records, 8 complete boundary/runtime identity inspections, Mul left metadata missing; strict costs reject all 9 conditional records. Pilot GPU collector not ready/entry closed, no new admission; priceable plans 0/48",
     "B5.5": "controlled analytic-versus-Profile decision comparison pending B5",
     "B6": "FFN-only Exact/Guided/Sequential/Joint comparison pending B5.5",
     "C": "whole-graph mixed-coverage validation deferred",
@@ -1940,7 +1985,8 @@
     "data/ffn_b4_run04_review/report.json": "98ae376958d88dbd7bd24ca2e65694a91c6770a79ecf80594b23ee9c2d3fbea5",
     "data/ffn_b4_diagnostics01_review/report.json": "f47825aec75b347408dc9483c8f6ad723a2bac274c316939bfb285260b6be333",
     "data/ffn_b4_run05_review/report.json": "0967049a35f3354056cf9ade7c8c301611bcbd86733aed574d51ef612afc0856",
-    "data/ffn_b4_anchor_audit_run05/report.json": "3e4c22d923eb073abb762cd6e32e76d84b8f1c89b16c9649dc44386d1df50309"
+    "data/ffn_b4_anchor_audit_run05/report.json": "3e4c22d923eb073abb762cd6e32e76d84b8f1c89b16c9649dc44386d1df50309",
+    "data/ffn_b4_cpu_preparation_v1/verification.json": "7b553734fc09056e5719612ef518d898afacc6b44866b48d72daa94e8548d911"
   },
   "new_gpu_measurements": 0,
   "exact_runs": 0,
