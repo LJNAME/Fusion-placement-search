@@ -227,6 +227,8 @@ class KervMeasuredProfile:
         return self.base.max_memory(device)
 
     def estimate_transfer(self, src, dst, nbytes):
+        if getattr(self.store, "admission_use", None) and nbytes > 0:
+            raise MeasurementContractError("selected-group admission does not admit communication costs")
         return self.base.estimate_transfer(src, dst, nbytes)
 
     def link_key(self, src, dst):
@@ -236,6 +238,9 @@ class KervMeasuredProfile:
         if graph is not self.keys.graph:
             raise ValueError("KERV Profile is bound to a different graph snapshot")
         if len(group.node_ids) == 1:
+            if (getattr(self.store, "admission_use", None)
+                    and graph.nodes[group.node_ids[0]].op_type != "input"):
+                raise MeasurementContractError("selected-group admission does not admit analytic singleton costs")
             cost = self.base.estimate_group(graph, group)
             self.usage.append({"node_ids": list(group.node_ids), "source": cost.source,
                                "measured": False, "scope": "logical input or explicit analytic singleton"})
@@ -255,4 +260,7 @@ class KervMeasuredProfile:
             "measurement_contract_id": contract, "record_id": record["record_id"],
             "admission": record["admission"], "identity_gaps": record["identity_gaps"],
             "duration_s": cost.duration})
+        if "admission_decision_id" in record:
+            self.usage[-1].update(admission_decision_id=record["admission_decision_id"],
+                                 source_record_id=record["source_record_id"], admission_use=record["admission_use"])
         return cost

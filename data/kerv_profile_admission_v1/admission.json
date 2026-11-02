@@ -1,0 +1,49 @@
+{
+  "format": "fusion-placement-search.kerv-profile-admission",
+  "version": "1.0",
+  "status": "accepted",
+  "scope": {
+    "use": "selected_fused_group_graph_batch_proxy",
+    "executor": "placed_kerv_native_fused_graph_replay",
+    "shape": [
+      1,
+      256,
+      3072
+    ],
+    "dtype": "bf16",
+    "layout": "contiguous",
+    "calls_per_round": 50,
+    "rounds": 7,
+    "warmup_replays": 10,
+    "native_use": "comparison_only",
+    "singleton_costs_admitted": false,
+    "link_costs_admitted": false,
+    "hardware_profile_sharing": false,
+    "whole_plan_costs_admitted": false,
+    "downstream_deployable": false
+  },
+  "source_profile_sha256": "b335c913cbacd299d0e2675dd7f2cb19646c330d417efc461404121af7c07017",
+  "entries": [
+    {
+      "source_record_id": "sha256:b966883bf5cb82c7c2a0f1a1b03e5f54c2d3b4b78d224aeaf914bfbf40c2ad19",
+      "native_record_id": "sha256:d9acd59aadeeb5d85817595883b10aca0d121d2c580e15fbb0850fbabfc29cb1",
+      "kernel_key_id": "sha256:2cfa617ace0ee3af1e7c9e12d8f99f6af409c3e64a575134e9be3679d74bca80",
+      "measurement_contract_id": "sha256:f4cbdf92046f460ce1c8c76c3b35229d634717fab8a9323b604b274d608c9d70"
+    },
+    {
+      "source_record_id": "sha256:db29283e839f942bd156316c8c74631603225a1f827c2dac2890f4f343158a54",
+      "native_record_id": "sha256:d093f3b4321f7a8a38ea9a9c77af7d2e7ad69a56a2731e11d4e045b410389c41",
+      "kernel_key_id": "sha256:d53d35cfc3cc280317d00b41ae897d5300c6f42be70fd7af959b891dee751d36",
+      "measurement_contract_id": "sha256:ce6b7d7f1a74fbbd95d58252764487ce5f7d707ef520585de5bfa0d7988af507"
+    }
+  ],
+  "review": {
+    "reviewer": "codex_project_review",
+    "rationale": "User requested P2 continuation after verified paired batch; admit exact measured fused groups only for local graph-batch proxy cost queries.",
+    "data_checks": "source, trace, identity, pairing, numeric assertions and finite sampling",
+    "preference_used_as_admission_gate": false,
+    "numeric_evidence": "source-matched collector assertions; raw output tensors not replayed locally",
+    "downstream_execution_contract_confirmed": false
+  },
+  "admission_id": "sha256:d515655fab5ce53f21bbea060298210d10c07a37b0b5a5e285a5ae4a47bdb795"
+}

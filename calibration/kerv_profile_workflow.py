@@ -129,9 +129,15 @@ def export(source, output, capability=DEFAULT_BUNDLE / "capability.json", flagsc
     return records
 
 
-def demonstrate(profile_path, *, allow_conditional_dev=False):
+def demonstrate(profile_path, *, allow_conditional_dev=False, admission_path=None):
     profile_path = Path(profile_path)
-    store = KervProfileStore.load(profile_path)
+    if admission_path is not None:
+        if allow_conditional_dev:
+            raise ValueError("admitted queries must not enable conditional diagnostic bypass")
+        from cost_model.kerv_admission import USE, load_admitted_store
+        store = load_admitted_store(profile_path, admission_path, usage_scope=USE)
+    else:
+        store = KervProfileStore.load(profile_path)
     results = []
     for record in store.records.values():
         if record["role"] != "fused_kernel":
@@ -170,8 +176,14 @@ def demonstrate(profile_path, *, allow_conditional_dev=False):
             raise ValueError("measured duration was not consumed exactly once")
         results.append({"case_id": record["case_id"], "makespan_s": estimate.makespan,
                         "profile_usage": profile.usage, "deployable": False})
-    return {"scope": "selected fused candidate only; no Native cost decomposition or whole-model search",
-            "measured_candidates": len(results), "results": results, "profile_sharing": False}
+        if admission_path is not None:
+            results[-1].update(out_of_distribution=estimate.out_of_distribution,
+                               admission_decision_id=store.admission_id)
+    result = {"scope": "selected fused candidate only; no Native cost decomposition or whole-model search",
+              "measured_candidates": len(results), "results": results, "profile_sharing": False}
+    if admission_path is not None:
+        result.update(admission_use=store.admission_use, admission_decision_id=store.admission_id)
+    return result
 
 
 def main(argv=None):
@@ -183,6 +195,7 @@ def main(argv=None):
     parser.add_argument("--capability", type=Path, default=DEFAULT_BUNDLE / "capability.json")
     parser.add_argument("--flagscale-root", type=Path, default=DEFAULT_FLAGSCALE)
     parser.add_argument("--allow-conditional-dev", action="store_true")
+    parser.add_argument("--admission", type=Path, help="explicit scoped admission decision for strict query")
     args = parser.parse_args(argv)
     if args.action == "export":
         if args.source is None or args.output is None:
@@ -193,7 +206,7 @@ def main(argv=None):
     else:
         if args.profile is None:
             parser.error("query requires --profile")
-        result = demonstrate(args.profile, allow_conditional_dev=args.allow_conditional_dev)
+        result = demonstrate(args.profile, allow_conditional_dev=args.allow_conditional_dev, admission_path=args.admission)
         if args.output:
             save(args.output, result)
         print(json.dumps(result, indent=2))

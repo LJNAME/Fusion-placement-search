@@ -1,0 +1,200 @@
+{
+  "format": "fusion-placement-search.kerv-profile-measurement",
+  "version": "1.0",
+  "arm": "fused",
+  "graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+  "hardware_hash": "sha256:ff225a9f374bfa7a0782ede295a5753053a7460e8e07a87fa95ef48d2df61777",
+  "candidate_id": "sha256:3c3482e91dc92a905cde9ee03df74b493a61602f2af8dacc466af57a58b7c392",
+  "placed_artifact_sha256": "7766e2379b3494404d3cc28db38038a3639ad1d83369817fd4ac1394db077fa9",
+  "group_index": 18,
+  "node_ids": [
+    "L000.mlp.silu",
+    "L000.mlp.gated_mul"
+  ],
+  "gate_node": "L000.mlp.gate_proj",
+  "up_node": "L000.mlp.up_proj",
+  "logical_device": 1,
+  "runtime_device": "cuda:1",
+  "observed_device": {
+    "name": "BW",
+    "total_memory": 68702699520,
+    "uuid": "30303134-6332-3666-6533-616533386531",
+    "architecture": "gfx936:sramecc+:xnack-"
+  },
+  "capability_id": "sha256:225560cdfed78c2d93e8b9e1262f3ebcd9f490ba199c436d91b714f44472df3f",
+  "binding": {
+    "id": "flagos_embodied.kerv_silu_mul.triton",
+    "version": "sha256:05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60",
+    "public_operator": "torch.ops.flagos_embodied.kerv_silu_mul",
+    "backend": "flagscale_kerv_triton",
+    "compile_flags": {},
+    "runtime_flags": {
+      "backend": "triton",
+      "enabled_operator": "kerv_silu_mul",
+      "output_alias_input": "gate",
+      "inplace": true
+    }
+  },
+  "loaded_source": {
+    "module_path": "/root/private_data/LJ/FlagScale-main/flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/kerv_ops.py",
+    "jit_code_file": "/root/private_data/LJ/FlagScale-main/flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/kerv_ops.py",
+    "module_sha256": "05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60",
+    "git_revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326"
+  },
+  "source_sha256": {
+    "calibration/measure_kerv_profile_pair.py": "c3cb340e06b58a31d647156c09e6102a408ee9af0ff2ec979c6cc5b7193489fe",
+    "calibration/validate_kerv_adapter.py": "18bbf47e03abc53439d8ded0d859bb4de4c2372f21b2ff1ef48535cd440cc53c",
+    "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+    "calibration/probe_kerv_graph.py": "3bcca44e1d58d22a419403efac9ccdbb21fa16dc8308989912b58ba99becf73b",
+    "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+    "integration/flagscale/kerv_execution.py": "dd083ef1fe31c54176f24302f7f153f442e625db6284a4e12a3acb27c5b8bbe8",
+    "integration/flagscale/kerv_profile_runtime.py": "1fabeaa9fdf149d0b37bab1b65914fbd9a3bda17f5b7f41f3198f88963529bb2",
+    "simulator/fusion_rules.py": "5af6359be8fb16220fedab0a9b8d311a8d6ed410ff1c1a8855efdbf9a2d6298b",
+    "simulator/placement_artifacts.py": "065544af3559e8d6afebef9ebd6f4efb490166e3aeb4660010a126a7e8c10a63"
+  },
+  "kernel_source_sha256": {
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/__init__.py": "3502c71c924430d2427096d05d9c1c49ffe668d67e7a4c1b2e362502b209d084",
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/adaptive_linear_fusion.py": "e1c4b8664bce0e9bc3466de606e75a93d7c50a50af51a121401ea16c0714fa05",
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/adaptive_rms_norm.py": "f9b3bafdd1a1c303627cf2dbe2561879155088f763c40c341cc997beed107f88",
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/adaptive_rotary_fusion.py": "61c1d569ec9695324eb40a675a9ccb5276bdf17df39540b1e09cf25e19259e8e",
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/__init__.py": "f32553cdb195726fa0251611eab4357094c7b999f2a8e09b90c8163850c903b4",
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/kerv_ops.py": "05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60",
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/phase2_ops.py": "7503f340dcd482c858277f6c5c6ce0c910556d480bcea4faa9dcc7dcd1eb6f0b",
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/runtime.py": "def30c807b41b87650abb611065ca2f47b5afd442c4371857176777094277b0d",
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/static_tree_attention.py": "c1ff542eb53daa854f378f2b69f287477592b98502533613dd3c9adaebf387d7",
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/fused_logsoftmax_topk.py": "35fa4569262f4c3743959a48713ad95e84c7ccd49bbecc259837a8441a44c83e",
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/rotary_cache.py": "b94356baa6c63d79bf5d3f38798503e3bd9a15dcae55357512a5dca4e8e08960",
+    "flagscale/models/kerv/ops/KERVRuntimeOptimization/tree_attention_mask.py": "f920b0704ccf76d3dba1fedd75501ab1f3de6f3676790e528728bdc316217ea1"
+  },
+  "input": {
+    "shape": [
+      1,
+      256,
+      3072
+    ],
+    "dtype": "bf16",
+    "layout": "contiguous",
+    "gate_strides": [
+      786432,
+      3072,
+      1
+    ],
+    "up_strides": [
+      786432,
+      3072,
+      1
+    ],
+    "seed": 1234,
+    "origin": "synthetic boundary tensors with selected reference graph shape"
+  },
+  "execution": {
+    "device_kernel_count": 1,
+    "device_kernel_names": [
+      "_silu_mul_kernel"
+    ],
+    "observed_jit_launches": 1,
+    "synchronized_successfully": true,
+    "hip_driver_version": 60326113
+  },
+  "correctness": {
+    "rtol": 0.01,
+    "atol": 0.001,
+    "max_abs_error_native": 0.0625,
+    "max_abs_error_fp32": 0.00390625,
+    "gate_alias": true,
+    "gate_invalidated": true,
+    "gate_preserved": false,
+    "up_preserved": true,
+    "all_replay_outputs_checked": 350
+  },
+  "measurement_contract": {
+    "executor": "placed_kerv_native_fused_graph_replay",
+    "submission_included": true,
+    "allocation_included": false,
+    "granularity": "independent_gate_batch_graph_replay",
+    "unit": "us/call",
+    "environment": {
+      "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+      "torch_module_version": "2.9.0",
+      "hip": "6.3.26113",
+      "cuda": null,
+      "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+      "triton_module_version": "3.5.1",
+      "driver_version": "60326113",
+      "device_model": "BW",
+      "device_uuid": "30303134-6332-3666-6533-616533386531",
+      "device_architecture": "gfx936:sramecc+:xnack-"
+    },
+    "calls_per_round": 50,
+    "rounds": 7,
+    "timing_boundary": "one Event pair around one graph replay, divided by 50",
+    "synchronization": "device synchronize after restore; end Event synchronize after replay",
+    "warmup": {
+      "replays_per_arm": 10,
+      "compilation": "before capture and timing"
+    },
+    "statistic": "median of seven batch-amortized per-call durations",
+    "working_set": "same gate pool and read-only up; restore original gates before every replay",
+    "retention": "all 50 final outputs retained for both arms; Native outputs do not alias gate",
+    "arm_order": "fused/native on even rounds; native/fused on odd rounds",
+    "allocation_scope": "capture allocation excluded; graph device writes included",
+    "restore_scope": "outside Event interval",
+    "seed": 1234
+  },
+  "measurement_contract_id": "sha256:ce6b7d7f1a74fbbd95d58252764487ce5f7d707ef520585de5bfa0d7988af507",
+  "rows": [
+    {
+      "round": 0,
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0003627200126647949,
+      "amortized_per_call_s": 7.254400253295899e-06,
+      "arm_order_index": 0
+    },
+    {
+      "round": 1,
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0003614389896392822,
+      "amortized_per_call_s": 7.228779792785644e-06,
+      "arm_order_index": 1
+    },
+    {
+      "round": 2,
+      "graph_calls": 50,
+      "graph_event_total_s": 0.000397597998380661,
+      "amortized_per_call_s": 7.95195996761322e-06,
+      "arm_order_index": 0
+    },
+    {
+      "round": 3,
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0003627200126647949,
+      "amortized_per_call_s": 7.254400253295899e-06,
+      "arm_order_index": 1
+    },
+    {
+      "round": 4,
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0003609580099582672,
+      "amortized_per_call_s": 7.219160199165345e-06,
+      "arm_order_index": 0
+    },
+    {
+      "round": 5,
+      "graph_calls": 50,
+      "graph_event_total_s": 0.00036160001158714293,
+      "amortized_per_call_s": 7.232000231742859e-06,
+      "arm_order_index": 1
+    },
+    {
+      "round": 6,
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0003609580099582672,
+      "amortized_per_call_s": 7.219160199165345e-06,
+      "arm_order_index": 0
+    }
+  ],
+  "warmup": 10,
+  "graph_batch_amortized_per_call_s": 7.232000231742859e-06,
+  "admission": "conditional_dev",
+  "downstream_deployable": false
+}

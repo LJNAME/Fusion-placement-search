@@ -1,0 +1,1352 @@
+{
+  "format": "fusion-placement-search.canonical-kerv-profile",
+  "version": "1.0",
+  "records": [
+    {
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-623231386531"
+          }
+        },
+        "implementation": {
+          "backend": "flagscale_kerv_triton",
+          "compile_flags": {},
+          "id": "flagos_embodied.kerv_silu_mul.triton",
+          "loaded_source": {
+            "git_revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326",
+            "module_sha256": "05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60"
+          },
+          "public_operator": "torch.ops.flagos_embodied.kerv_silu_mul",
+          "runtime_flags": {
+            "backend": "triton",
+            "enabled_operator": "kerv_silu_mul",
+            "inplace": true,
+            "output_alias_input": "gate"
+          },
+          "version": "sha256:05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728.0,
+              "layout": {
+                "materialization": "internal_fused_expression"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": null
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "materialization": "internal_fused_expression"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 0.0
+          },
+          {
+            "attributes": {
+              "bwd_flops": 1572864.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "internal": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          1
+        ],
+        "pattern_id": "silu_mul",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-623231386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "kernel_key_id": "sha256:2cfa617ace0ee3af1e7c9e12d8f99f6af409c3e64a575134e9be3679d74bca80",
+      "identity_gaps": [],
+      "measurement_contract": {
+        "executor": "placed_kerv_native_fused_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "independent_gate_batch_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "hip": "6.3.26113",
+          "cuda": null,
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "triton_module_version": "3.5.1",
+          "driver_version": "60326113",
+          "device_model": "BW",
+          "device_uuid": "30303134-6332-3666-6533-623231386531",
+          "device_architecture": "gfx936:sramecc+:xnack-"
+        },
+        "calls_per_round": 50,
+        "rounds": 7,
+        "timing_boundary": "one Event pair around one graph replay, divided by 50",
+        "synchronization": "device synchronize after restore; end Event synchronize after replay",
+        "warmup": {
+          "replays_per_arm": 10,
+          "compilation": "before capture and timing"
+        },
+        "statistic": "median of seven batch-amortized per-call durations",
+        "working_set": "same gate pool and read-only up; restore original gates before every replay",
+        "retention": "all 50 final outputs retained for both arms; Native outputs do not alias gate",
+        "arm_order": "fused/native on even rounds; native/fused on odd rounds",
+        "allocation_scope": "capture allocation excluded; graph device writes included",
+        "restore_scope": "outside Event interval",
+        "seed": 1234
+      },
+      "measurement_contract_id": "sha256:f4cbdf92046f460ce1c8c76c3b35229d634717fab8a9323b604b274d608c9d70",
+      "statistics": {
+        "median_us": 7.251179814338683,
+        "min_us": 7.200000286102295,
+        "max_us": 7.273560166358948,
+        "mad_rel": 0.002645111434741478,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples": [
+        {
+          "round": 0,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.00036000001430511473,
+          "amortized_per_call_s": 7.2000002861022946e-06,
+          "arm_order_index": 0
+        },
+        {
+          "round": 1,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.00036079999804496766,
+          "amortized_per_call_s": 7.215999960899353e-06,
+          "arm_order_index": 1
+        },
+        {
+          "round": 2,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0003636780083179474,
+          "amortized_per_call_s": 7.273560166358948e-06,
+          "arm_order_index": 0
+        },
+        {
+          "round": 3,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0003625589907169342,
+          "amortized_per_call_s": 7.2511798143386835e-06,
+          "arm_order_index": 1
+        },
+        {
+          "round": 4,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.00036351799964904783,
+          "amortized_per_call_s": 7.270359992980957e-06,
+          "arm_order_index": 0
+        },
+        {
+          "round": 5,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.00036208000779151914,
+          "amortized_per_call_s": 7.241600155830383e-06,
+          "arm_order_index": 1
+        },
+        {
+          "round": 6,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.00036287999153137207,
+          "amortized_per_call_s": 7.2575998306274416e-06,
+          "arm_order_index": 0
+        }
+      ],
+      "case_id": "gpu0",
+      "role": "fused_kernel",
+      "evidence": {
+        "inputs/gpu0/fused/result.json": "ac18d60f38a525a3a5f9b5a8db065df16eeb964c2a867226b96c2e6384c58e2b",
+        "inputs/gpu0/fused/samples.json": "fe6ade6c1294bcce0ab656cece38fbff7af2e12db0109ff1b443c59adbb96169",
+        "inputs/gpu0/fused/dispatch_trace.json": "a95f9691f6bec9d3d062b61e105b1f5af04a2e2aace95b30d1d58d8604db220d",
+        "inputs/gpu0/fused/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d"
+      },
+      "admission": "accepted",
+      "source_graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+      "source_candidate_id": "sha256:a56666671949f4f735dd125904dc72f25a8403a2d0f7db5ba06de64dccbaf28b",
+      "loaded_source": {
+        "module_path": "/root/private_data/LJ/FlagScale-main/flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/kerv_ops.py",
+        "jit_code_file": "/root/private_data/LJ/FlagScale-main/flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/kerv_ops.py",
+        "module_sha256": "05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60",
+        "git_revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326"
+      },
+      "correctness": {
+        "rtol": 0.01,
+        "atol": 0.001,
+        "max_abs_error_native": 0.0625,
+        "max_abs_error_fp32": 0.00390625,
+        "gate_alias": true,
+        "gate_invalidated": true,
+        "gate_preserved": false,
+        "up_preserved": true,
+        "all_replay_outputs_checked": 350
+      },
+      "execution": {
+        "device_kernel_count": 1,
+        "device_kernel_names": [
+          "_silu_mul_kernel"
+        ],
+        "observed_jit_launches": 1,
+        "synchronized_successfully": true,
+        "hip_driver_version": 60326113
+      },
+      "record_id": "sha256:00b98004722a672ddacf90121797f8be2b4830b3e5c6c892c594ef45246bae24",
+      "source_record_id": "sha256:b966883bf5cb82c7c2a0f1a1b03e5f54c2d3b4b78d224aeaf914bfbf40c2ad19",
+      "admission_decision_id": "sha256:d515655fab5ce53f21bbea060298210d10c07a37b0b5a5e285a5ae4a47bdb795",
+      "admission_use": "selected_fused_group_graph_batch_proxy"
+    },
+    {
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 0,
+          "name": "BW",
+          "physical_index": 0,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-623231386531"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native",
+          "compile_flags": {},
+          "functional_source_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+          "id": "torch.native.silu_then_mul",
+          "loaded_source": {
+            "git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+            "module_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7"
+          },
+          "public_operator": [
+            "aten::silu",
+            "aten::mul"
+          ],
+          "runtime_flags": {
+            "inplace": false,
+            "output_alias_input": null
+          },
+          "version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          },
+          {
+            "attributes": {
+              "bwd_flops": 1572864.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "internal": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          1
+        ],
+        "pattern_id": "silu_mul",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-623231386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "kernel_key_id": "sha256:ebaa900241f63ebb2edb550722cadc08b914a1dc49df755a620600c25e2fe0b7",
+      "identity_gaps": [],
+      "measurement_contract": {
+        "executor": "placed_kerv_native_fused_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "independent_gate_batch_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "hip": "6.3.26113",
+          "cuda": null,
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "triton_module_version": "3.5.1",
+          "driver_version": "60326113",
+          "device_model": "BW",
+          "device_uuid": "30303134-6332-3666-6533-623231386531",
+          "device_architecture": "gfx936:sramecc+:xnack-"
+        },
+        "calls_per_round": 50,
+        "rounds": 7,
+        "timing_boundary": "one Event pair around one graph replay, divided by 50",
+        "synchronization": "device synchronize after restore; end Event synchronize after replay",
+        "warmup": {
+          "replays_per_arm": 10,
+          "compilation": "before capture and timing"
+        },
+        "statistic": "median of seven batch-amortized per-call durations",
+        "working_set": "same gate pool and read-only up; restore original gates before every replay",
+        "retention": "all 50 final outputs retained for both arms; Native outputs do not alias gate",
+        "arm_order": "fused/native on even rounds; native/fused on odd rounds",
+        "allocation_scope": "capture allocation excluded; graph device writes included",
+        "restore_scope": "outside Event interval",
+        "seed": 1234
+      },
+      "measurement_contract_id": "sha256:f4cbdf92046f460ce1c8c76c3b35229d634717fab8a9323b604b274d608c9d70",
+      "statistics": {
+        "median_us": 10.316779613494875,
+        "min_us": 10.259200334548948,
+        "max_us": 11.241559982299805,
+        "mad_rel": 0.005581129102594163,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples": [
+        {
+          "round": 0,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005225600004196167,
+          "amortized_per_call_s": 1.0451200008392336e-05,
+          "arm_order_index": 1
+        },
+        {
+          "round": 1,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005231980085372925,
+          "amortized_per_call_s": 1.0463960170745851e-05,
+          "arm_order_index": 0
+        },
+        {
+          "round": 2,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005129600167274475,
+          "amortized_per_call_s": 1.0259200334548949e-05,
+          "arm_order_index": 1
+        },
+        {
+          "round": 3,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005147179961204529,
+          "amortized_per_call_s": 1.0294359922409058e-05,
+          "arm_order_index": 0
+        },
+        {
+          "round": 4,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005158389806747437,
+          "amortized_per_call_s": 1.0316779613494874e-05,
+          "arm_order_index": 1
+        },
+        {
+          "round": 5,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005153579711914063,
+          "amortized_per_call_s": 1.0307159423828126e-05,
+          "arm_order_index": 0
+        },
+        {
+          "round": 6,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005620779991149902,
+          "amortized_per_call_s": 1.1241559982299805e-05,
+          "arm_order_index": 1
+        }
+      ],
+      "case_id": "gpu0",
+      "role": "native_chain",
+      "evidence": {
+        "inputs/gpu0/native/result.json": "6a0b4ded5d992b921aa1eb2fabeb510ac496a3a52d6b146d89de3afba7642807",
+        "inputs/gpu0/native/samples.json": "972ead2d0a98a016a7d4ea229b7590737b812e271c38ca0f6bf123c6493967d7",
+        "inputs/gpu0/native/dispatch_trace.json": "86f15ccbc7cd6091acf1b10a89906412c4b25a2f5ce173a11ef1cbb293d65560",
+        "inputs/gpu0/native/placed.json": "ec8a157b1f7ca825de3978c483496ad9acd657e7ed6cdeb279a9c24b9971b65d"
+      },
+      "admission": "conditional_dev",
+      "source_graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+      "source_candidate_id": "sha256:a56666671949f4f735dd125904dc72f25a8403a2d0f7db5ba06de64dccbaf28b",
+      "loaded_source": {
+        "module_path": "/root/private_data/LJ/dcu-kernel310-20261031/vendor/site-packages/torch/nn/functional.py",
+        "module_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+        "git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370"
+      },
+      "correctness": {
+        "rtol": 0.01,
+        "atol": 0.001,
+        "max_abs_error_native": 0.0,
+        "max_abs_error_fp32": 0.0625,
+        "gate_alias": false,
+        "gate_invalidated": false,
+        "gate_preserved": true,
+        "up_preserved": true,
+        "all_replay_outputs_checked": 350
+      },
+      "execution": {
+        "device_kernel_count": 2,
+        "device_kernel_names": [
+          "void at::native::vectorized_elementwise_kernel<8, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul> >(int, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+          "void at::native::vectorized_elementwise_kernel<8, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul> >(int, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul>)"
+        ],
+        "observed_jit_launches": 0,
+        "synchronized_successfully": true,
+        "hip_driver_version": 60326113
+      },
+      "record_id": "sha256:d9acd59aadeeb5d85817595883b10aca0d121d2c580e15fbb0850fbabfc29cb1"
+    },
+    {
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-616533386531"
+          }
+        },
+        "implementation": {
+          "backend": "flagscale_kerv_triton",
+          "compile_flags": {},
+          "id": "flagos_embodied.kerv_silu_mul.triton",
+          "loaded_source": {
+            "git_revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326",
+            "module_sha256": "05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60"
+          },
+          "public_operator": "torch.ops.flagos_embodied.kerv_silu_mul",
+          "runtime_flags": {
+            "backend": "triton",
+            "enabled_operator": "kerv_silu_mul",
+            "inplace": true,
+            "output_alias_input": "gate"
+          },
+          "version": "sha256:05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728.0,
+              "layout": {
+                "materialization": "internal_fused_expression"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": null
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "materialization": "internal_fused_expression"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            "parameter_bytes": 0.0
+          },
+          {
+            "attributes": {
+              "bwd_flops": 1572864.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "internal": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          1
+        ],
+        "pattern_id": "silu_mul",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-616533386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "kernel_key_id": "sha256:d53d35cfc3cc280317d00b41ae897d5300c6f42be70fd7af959b891dee751d36",
+      "identity_gaps": [],
+      "measurement_contract": {
+        "executor": "placed_kerv_native_fused_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "independent_gate_batch_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "hip": "6.3.26113",
+          "cuda": null,
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "triton_module_version": "3.5.1",
+          "driver_version": "60326113",
+          "device_model": "BW",
+          "device_uuid": "30303134-6332-3666-6533-616533386531",
+          "device_architecture": "gfx936:sramecc+:xnack-"
+        },
+        "calls_per_round": 50,
+        "rounds": 7,
+        "timing_boundary": "one Event pair around one graph replay, divided by 50",
+        "synchronization": "device synchronize after restore; end Event synchronize after replay",
+        "warmup": {
+          "replays_per_arm": 10,
+          "compilation": "before capture and timing"
+        },
+        "statistic": "median of seven batch-amortized per-call durations",
+        "working_set": "same gate pool and read-only up; restore original gates before every replay",
+        "retention": "all 50 final outputs retained for both arms; Native outputs do not alias gate",
+        "arm_order": "fused/native on even rounds; native/fused on odd rounds",
+        "allocation_scope": "capture allocation excluded; graph device writes included",
+        "restore_scope": "outside Event interval",
+        "seed": 1234
+      },
+      "measurement_contract_id": "sha256:ce6b7d7f1a74fbbd95d58252764487ce5f7d707ef520585de5bfa0d7988af507",
+      "statistics": {
+        "median_us": 7.232000231742859,
+        "min_us": 7.219160199165344,
+        "max_us": 7.951959967613219,
+        "mad_rel": 0.0017754469256177408,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples": [
+        {
+          "round": 0,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0003627200126647949,
+          "amortized_per_call_s": 7.254400253295899e-06,
+          "arm_order_index": 0
+        },
+        {
+          "round": 1,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0003614389896392822,
+          "amortized_per_call_s": 7.228779792785644e-06,
+          "arm_order_index": 1
+        },
+        {
+          "round": 2,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.000397597998380661,
+          "amortized_per_call_s": 7.95195996761322e-06,
+          "arm_order_index": 0
+        },
+        {
+          "round": 3,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0003627200126647949,
+          "amortized_per_call_s": 7.254400253295899e-06,
+          "arm_order_index": 1
+        },
+        {
+          "round": 4,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0003609580099582672,
+          "amortized_per_call_s": 7.219160199165345e-06,
+          "arm_order_index": 0
+        },
+        {
+          "round": 5,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.00036160001158714293,
+          "amortized_per_call_s": 7.232000231742859e-06,
+          "arm_order_index": 1
+        },
+        {
+          "round": 6,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0003609580099582672,
+          "amortized_per_call_s": 7.219160199165345e-06,
+          "arm_order_index": 0
+        }
+      ],
+      "case_id": "gpu1",
+      "role": "fused_kernel",
+      "evidence": {
+        "inputs/gpu1/fused/result.json": "ac583978dd7bdb5b536e8c11b7d5dac6bb7fec1f19a59cbeeb1920258f7ec988",
+        "inputs/gpu1/fused/samples.json": "bcea472ae91a2333304a2751ff09e95e9e3b9e48db9d8373adab21f584ca358a",
+        "inputs/gpu1/fused/dispatch_trace.json": "d70885abdb5677007b9e6ebf0b56b0563621fe80030c6a6a18d470cd0d18aa5c",
+        "inputs/gpu1/fused/placed.json": "7766e2379b3494404d3cc28db38038a3639ad1d83369817fd4ac1394db077fa9"
+      },
+      "admission": "accepted",
+      "source_graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+      "source_candidate_id": "sha256:3c3482e91dc92a905cde9ee03df74b493a61602f2af8dacc466af57a58b7c392",
+      "loaded_source": {
+        "module_path": "/root/private_data/LJ/FlagScale-main/flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/kerv_ops.py",
+        "jit_code_file": "/root/private_data/LJ/FlagScale-main/flagscale/models/kerv/ops/KERVRuntimeOptimization/embodied_ops/kerv_ops.py",
+        "module_sha256": "05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60",
+        "git_revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326"
+      },
+      "correctness": {
+        "rtol": 0.01,
+        "atol": 0.001,
+        "max_abs_error_native": 0.0625,
+        "max_abs_error_fp32": 0.00390625,
+        "gate_alias": true,
+        "gate_invalidated": true,
+        "gate_preserved": false,
+        "up_preserved": true,
+        "all_replay_outputs_checked": 350
+      },
+      "execution": {
+        "device_kernel_count": 1,
+        "device_kernel_names": [
+          "_silu_mul_kernel"
+        ],
+        "observed_jit_launches": 1,
+        "synchronized_successfully": true,
+        "hip_driver_version": 60326113
+      },
+      "record_id": "sha256:d7b02c01e077b83ee3a7862aed293adf645326f6d8ec86d835124295a66a910b",
+      "source_record_id": "sha256:db29283e839f942bd156316c8c74631603225a1f827c2dac2890f4f343158a54",
+      "admission_decision_id": "sha256:d515655fab5ce53f21bbea060298210d10c07a37b0b5a5e285a5ae4a47bdb795",
+      "admission_use": "selected_fused_group_graph_batch_proxy"
+    },
+    {
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": "contiguous",
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "class": "BW1000",
+          "device_index": 1,
+          "name": "BW",
+          "physical_index": 1,
+          "source": {
+            "architecture": "gfx936:sramecc+:xnack-",
+            "kind": "runtime_observation",
+            "uuid": "30303134-6332-3666-6533-616533386531"
+          }
+        },
+        "implementation": {
+          "backend": "torch_native",
+          "compile_flags": {},
+          "functional_source_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+          "id": "torch.native.silu_then_mul",
+          "loaded_source": {
+            "git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+            "module_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7"
+          },
+          "public_operator": [
+            "aten::silu",
+            "aten::mul"
+          ],
+          "runtime_flags": {
+            "inplace": false,
+            "output_alias_input": null
+          },
+          "version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15"
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          },
+          {
+            "attributes": {
+              "bwd_flops": 1572864.0,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432.0,
+              "layout": "contiguous",
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864.0,
+              "shape": {
+                "n": 786432
+              },
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "internal": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864.0,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0.0
+          }
+        ],
+        "outputs": [
+          1
+        ],
+        "pattern_id": "silu_mul",
+        "runtime": {
+          "accelerator": "HIP",
+          "accelerator_version": "6.3.26113",
+          "device_architecture": "gfx936:sramecc+:xnack-",
+          "device_uuid": "30303134-6332-3666-6533-616533386531",
+          "driver_version": "60326113",
+          "framework": "torch",
+          "framework_version": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "triton_version": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+        }
+      },
+      "kernel_key_id": "sha256:e16d7ae2ff51a4ab287b3b6808e1ce17a4272adaaa5c0425e5d2c659c4482966",
+      "identity_gaps": [],
+      "measurement_contract": {
+        "executor": "placed_kerv_native_fused_graph_replay",
+        "submission_included": true,
+        "allocation_included": false,
+        "granularity": "independent_gate_batch_graph_replay",
+        "unit": "us/call",
+        "environment": {
+          "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "hip": "6.3.26113",
+          "cuda": null,
+          "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+          "triton_module_version": "3.5.1",
+          "driver_version": "60326113",
+          "device_model": "BW",
+          "device_uuid": "30303134-6332-3666-6533-616533386531",
+          "device_architecture": "gfx936:sramecc+:xnack-"
+        },
+        "calls_per_round": 50,
+        "rounds": 7,
+        "timing_boundary": "one Event pair around one graph replay, divided by 50",
+        "synchronization": "device synchronize after restore; end Event synchronize after replay",
+        "warmup": {
+          "replays_per_arm": 10,
+          "compilation": "before capture and timing"
+        },
+        "statistic": "median of seven batch-amortized per-call durations",
+        "working_set": "same gate pool and read-only up; restore original gates before every replay",
+        "retention": "all 50 final outputs retained for both arms; Native outputs do not alias gate",
+        "arm_order": "fused/native on even rounds; native/fused on odd rounds",
+        "allocation_scope": "capture allocation excluded; graph device writes included",
+        "restore_scope": "outside Event interval",
+        "seed": 1234
+      },
+      "measurement_contract_id": "sha256:ce6b7d7f1a74fbbd95d58252764487ce5f7d707ef520585de5bfa0d7988af507",
+      "statistics": {
+        "median_us": 11.254359483718872,
+        "min_us": 10.310399532318113,
+        "max_us": 11.443159580230713,
+        "mad_rel": 0.001990394711657416,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples": [
+        {
+          "round": 0,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005721579790115357,
+          "amortized_per_call_s": 1.1443159580230713e-05,
+          "arm_order_index": 1
+        },
+        {
+          "round": 1,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005715180039405823,
+          "amortized_per_call_s": 1.1430360078811646e-05,
+          "arm_order_index": 0
+        },
+        {
+          "round": 2,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005617579817771912,
+          "amortized_per_call_s": 1.1235159635543825e-05,
+          "arm_order_index": 1
+        },
+        {
+          "round": 3,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005638380050659179,
+          "amortized_per_call_s": 1.1276760101318358e-05,
+          "arm_order_index": 0
+        },
+        {
+          "round": 4,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005155199766159057,
+          "amortized_per_call_s": 1.0310399532318114e-05,
+          "arm_order_index": 1
+        },
+        {
+          "round": 5,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005627179741859436,
+          "amortized_per_call_s": 1.1254359483718872e-05,
+          "arm_order_index": 0
+        },
+        {
+          "round": 6,
+          "graph_calls": 50,
+          "graph_event_total_s": 0.0005617579817771912,
+          "amortized_per_call_s": 1.1235159635543825e-05,
+          "arm_order_index": 1
+        }
+      ],
+      "case_id": "gpu1",
+      "role": "native_chain",
+      "evidence": {
+        "inputs/gpu1/native/result.json": "0af6363cdb362dcdbeed543a92aa712ecc7826faba2e6a793e57893fadaa4fe6",
+        "inputs/gpu1/native/samples.json": "7a35422d7810cda42776beb8830cc494cbe29538883161d47fe9cf678c2f0b21",
+        "inputs/gpu1/native/dispatch_trace.json": "d22c4fe50d9bfca64cf0057a2240736328e013300cd15175a025875375d3cc8b",
+        "inputs/gpu1/native/placed.json": "7766e2379b3494404d3cc28db38038a3639ad1d83369817fd4ac1394db077fa9"
+      },
+      "admission": "conditional_dev",
+      "source_graph_hash": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+      "source_candidate_id": "sha256:3c3482e91dc92a905cde9ee03df74b493a61602f2af8dacc466af57a58b7c392",
+      "loaded_source": {
+        "module_path": "/root/private_data/LJ/dcu-kernel310-20261031/vendor/site-packages/torch/nn/functional.py",
+        "module_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+        "git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370"
+      },
+      "correctness": {
+        "rtol": 0.01,
+        "atol": 0.001,
+        "max_abs_error_native": 0.0,
+        "max_abs_error_fp32": 0.0625,
+        "gate_alias": false,
+        "gate_invalidated": false,
+        "gate_preserved": true,
+        "up_preserved": true,
+        "all_replay_outputs_checked": 350
+      },
+      "execution": {
+        "device_kernel_count": 2,
+        "device_kernel_names": [
+          "void at::native::vectorized_elementwise_kernel<8, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul> >(int, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+          "void at::native::vectorized_elementwise_kernel<8, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul> >(int, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 3ul>)"
+        ],
+        "observed_jit_launches": 0,
+        "synchronized_successfully": true,
+        "hip_driver_version": 60326113
+      },
+      "record_id": "sha256:d093f3b4321f7a8a38ea9a9c77af7d2e7ad69a56a2731e11d4e045b410389c41"
+    }
+  ],
+  "hardware_profile_sharing": false,
+  "automatic_admission": false,
+  "admission_decision_id": "sha256:d515655fab5ce53f21bbea060298210d10c07a37b0b5a5e285a5ae4a47bdb795",
+  "admission_use": "selected_fused_group_graph_batch_proxy"
+}

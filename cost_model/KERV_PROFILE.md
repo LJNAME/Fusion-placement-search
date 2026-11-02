@@ -55,7 +55,7 @@ record and on the cost usage trace. No `legacy_unbound` table is loaded.
 Changing a JSON status to `accepted` is insufficient for the query API: it also
 requires verified evidence, complete identity, a same-contract counterpart arm,
 and an explicitly reviewed contract passed via `approved_contract_ids`. There
-is no automatic acceptance CLI. A future review must decide which replay
+is no automatic measurement promotion. An explicit review decides which replay
 contract is appropriate for the intended cost-model use; complete evidence does
 not establish a downstream execution contract or deployment capability.
 
@@ -111,3 +111,24 @@ This stage verifies the selected candidate's measured cost. It does not rerun
 MCTS or claim a changed optimum: comparable full-plan scoring additionally needs
 contract-compatible singleton/link costs. The native chain total alone cannot
 supply those per-operator costs, and PP layer partitioning remains downstream.
+
+## Scoped P2 review
+
+`data/kerv_profile_admission_v1` preserves the complete paired receipt and
+records a project review decision for two exact Fused records. The accepted
+use is `selected_fused_group_graph_batch_proxy`, not a general eager/full-plan
+latency claim. The original four measurement records remain conditional.
+An accepted derived record has a new ID and references the original record,
+review decision and use. Native chains remain comparison-only.
+
+```bash
+python -m calibration.kerv_profile_workflow query \
+  --profile data/kerv_profile_admission_v1/measurements/profile.json \
+  --admission data/kerv_profile_admission_v1/admission.json
+```
+
+This strict path uses `load_admitted_store(..., usage_scope=...)`: an exact
+bundle hash, decision identity, scope, source record, Key, contract, paired
+evidence and input recipe must match. No diagnostic bypass is enabled. The
+profile rejects analytic singleton and communication costs outside the review.
+Whole-model deployment and MCTS search quality require their own evidence.
