@@ -1,0 +1,52 @@
+{
+  "scope": "hygon_lightop_exploratory_not_profile_admission",
+  "source_reference": "https://developer.sourcefind.cn/codes/OpenDAS/vllm_cscc/-/commit/3842b316979a3ca0c56ceecb7d0faf7262653950",
+  "source_sha256": {
+    "calibration/hygon_silu_trial.py": "80f9687915da3c14362fb420a1d80f387371f85c326379ba46a78785ebc0c108",
+    "tools/run_hygon_silu_trial.sh": "9d042cee07496d65809319a44e25ebfd1600e7fde613fc2af93deb00abcdc94a"
+  },
+  "device": "cuda:0",
+  "dtype": "bf16",
+  "logical_shape": [
+    1,
+    256,
+    3072
+  ],
+  "call_shape_packed": [
+    256,
+    6144
+  ],
+  "call_shape_output": [
+    256,
+    3072
+  ],
+  "binding": "lightop.silu_and_mul_opt(out, packed_input)",
+  "binding_status": "project trial of a vendor API; installed public export must be verified",
+  "arms": [
+    "native_packed",
+    "lightop_packed",
+    "native_split",
+    "lightop_split_with_pack"
+  ],
+  "warmup_calls_per_arm": 10,
+  "timed_calls_per_arm": 100,
+  "independent_timing_batches_per_arm": 1,
+  "seed": 1234,
+  "rtol": 0.01,
+  "atol": 0.001,
+  "timing": "synchronized eager loop; GPU Event and synchronized host wall reported separately",
+  "allocation": "native allocates intermediate/output; LightOP wrapper allocates output on every call",
+  "packing": "excluded only for already-packed input; included for split-input LightOP arm",
+  "validation": "one pre-timing and final output per arm; input bytes checked after warmup/timing",
+  "timed_intermediate_outputs_retained": false,
+  "profiler": "separate processes after all benchmark timing",
+  "profile_arms": [
+    "native_packed",
+    "lightop_packed"
+  ],
+  "library_original_benchmark_executed": false,
+  "kernel_dispatch_certified": false,
+  "automatic_admission": false,
+  "followup_matrix_open": false,
+  "cross_batch_uuid_equality_required": false
+}
