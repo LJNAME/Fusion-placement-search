@@ -21,7 +21,9 @@ fi
 : "${FLAGSCALE_ROOT:?Set FLAGSCALE_ROOT to the existing checkout}"
 source "$FLAGSCALE_ROOT/tools/install/hygon/env.sh"
 ulimit -c 0
-"$FUSION_PYTHON" -X faulthandler "$task_root/tools/prepare_lightop_bench_followup.py" install --output "$task_output/preparation"
+task_prepare_args=()
+if [[ -n "${LIGHTOP_BENCH_WHEELHOUSE:-}" ]]; then task_prepare_args+=(--wheelhouse "$LIGHTOP_BENCH_WHEELHOUSE"); fi
+"$FUSION_PYTHON" -X faulthandler "$task_root/tools/prepare_lightop_bench_followup.py" install --output "$task_output/preparation" "${task_prepare_args[@]}"
 mapfile -t task_jobs < <("$FUSION_PYTHON" -c 'from tools.prepare_lightop_bench_followup import manifest; print("\n".join(manifest()["jobs"]))')
 if [[ ${#task_jobs[@]} -ne 16 ]]; then printf 'Expected the 16 dependency-failed jobs\n' >&2; exit 2; fi
 bash "$task_root/tools/run_lightop_vendor_suite.sh" "$task_output/measurements" run --jobs "${task_jobs[@]}"

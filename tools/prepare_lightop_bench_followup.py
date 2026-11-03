@@ -5,6 +5,7 @@ import importlib
 import importlib.metadata as metadata
 import inspect
 import json
+import os
 from pathlib import Path
 import platform
 import re
@@ -12,6 +13,7 @@ import subprocess
 import sys
 import traceback
 import urllib.request
+import urllib.parse
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -53,7 +55,7 @@ def protected(snapshot_record, data):
     return {n: snapshot_record["packages"].get(n) for n in data["protected_distributions"]}
 
 
-def approved_lock(report, protected_names):
+def approved_lock(report, protected_names, wheelhouse=None):
     """Reject numeric-stack replacements before pip makes any mutation."""
     locked = []
     for item in report["install"]:
@@ -63,17 +65,31 @@ def approved_lock(report, protected_names):
         download = item["download_info"]
         url = download["url"]
         digest = download["archive_info"]["hashes"]["sha256"]
-        if not url.startswith("https://") or not re.fullmatch(r"[a-f0-9]{64}", digest):
+        verified_local = False
+        if wheelhouse is not None and urllib.parse.urlparse(url).scheme == "file":
+            parsed = urllib.parse.urlparse(url)
+            if parsed.netloc not in ("", "localhost"):
+                raise ValueError("Remote file host in offline dependency URL")
+            path = Path(urllib.request.url2pathname(parsed.path)).resolve()
+            verified_local = path.is_relative_to(Path(wheelhouse).resolve() / "host") and sha(path) == digest
+        allowed_url = verified_local if wheelhouse is not None else url.startswith("https://")
+        if not allowed_url or not re.fullmatch(r"[a-f0-9]{64}", digest):
             raise ValueError("Dependency URL/hash unavailable: " + name)
         locked.append(name + " @ " + url + " --hash=sha256:" + digest)
     return locked
 
 
+def pip_environment():
+    env = {k: v for k, v in os.environ.items() if not k.upper().startswith("PIP_")}
+    env["PIP_CONFIG_FILE"] = os.devnull
+    return env
+
+
 def pip(output, label, args):
     print(json.dumps({"step": label}), flush=True)
-    command = [sys.executable, "-m", "pip", "--disable-pip-version-check", *args]
+    command = [sys.executable, "-m", "pip", "--isolated", "--disable-pip-version-check", *args]
     with (output / (label + ".log")).open("wb") as stream:
-        result = subprocess.run(command, stdout=stream, stderr=subprocess.STDOUT)
+        result = subprocess.run(command, stdout=stream, stderr=subprocess.STDOUT, env=pip_environment())
     if result.returncode:
         raise RuntimeError(label + " failed; see " + str(output / (label + ".log")))
 
@@ -92,6 +108,21 @@ def fetch(wheel, cache):
     if sha(path) != wheel["sha256"]:
         raise ValueError("Cached wheel SHA mismatch: " + wheel["filename"])
     return path
+
+
+def verify_bundle(wheelhouse, data):
+    root = Path(wheelhouse).resolve()
+    bundle = json.loads((root / "bundle.json").read_text(encoding="utf-8"))
+    if bundle["source_manifest_sha256"] != sha(MANIFEST):
+        raise ValueError("Offline bundle was built for a different followup plan")
+    for record in bundle["files"]:
+        path = (root / record["path"]).resolve()
+        if not path.is_relative_to(root) or sha(path) != record["sha256"]:
+            raise ValueError("Offline bundle file differs: " + record["path"])
+    for wheel in data["wheels"]:
+        if sha(root / "vendor" / wheel["filename"]) != wheel["sha256"]:
+            raise ValueError("Offline vendor wheel differs: " + wheel["filename"])
+    return bundle
 
 
 def probe(output):
@@ -140,10 +171,12 @@ def probe(output):
         "scope": "imports_and_interfaces_only_not_a_kernel_measurement"})
 
 
-def install(output):
+def install(output, wheelhouse=None):
     data = manifest()
     before = snapshot()
     save(output / "before.json", before)
+    save(output / "pip_context.json", {"inherited_pip_variable_names": sorted(k for k in os.environ if k.upper().startswith("PIP_")),
+        "effective_config_file": os.devnull, "isolated": True, "offline": wheelhouse is not None})
     if sys.version_info[:2] != (3, 10) or platform.system() != "Linux" or platform.machine() != "x86_64":
         raise ValueError("Requires the existing Linux x86_64 Python3.10 vendor launcher")
     versions = protected(before, data)
@@ -158,14 +191,21 @@ def install(output):
     constraints = output / "constraints.txt"
     constraints.write_text("\n".join(n + "===" + v for n, v in versions.items() if v) + "\n", encoding="utf-8", newline="\n")
     report_path = output / "host_resolution.json"
-    pip(output, "resolve_host_dependencies", ["install", "--dry-run", "--only-binary=:all:", "--retries", "0", "--report", str(report_path), "--constraint", str(constraints), "--index-url", data["host_index_url"], *data["host_requirements"]])
-    locked = approved_lock(json.loads(report_path.read_text(encoding="utf-8")), data["protected_distributions"])
+    if wheelhouse is not None:
+        wheelhouse = Path(wheelhouse).resolve()
+        bundle = verify_bundle(wheelhouse, data)
+        save(output / "offline_bundle.json", bundle)
+        index_args = ["--no-index", "--find-links", str(wheelhouse / "host")]
+    else:
+        index_args = ["--index-url", data["host_index_url"]]
+    pip(output, "resolve_host_dependencies", ["install", "--dry-run", "--only-binary=:all:", "--retries", "0", "--report", str(report_path), "--constraint", str(constraints), *index_args, *data["host_requirements"]])
+    locked = approved_lock(json.loads(report_path.read_text(encoding="utf-8")), data["protected_distributions"], wheelhouse)
     lock = output / "host_requirements.lock"
     lock.write_text("\n".join(locked) + "\n", encoding="utf-8", newline="\n")
     if locked:
-        pip(output, "install_host_dependencies", ["install", "--no-deps", "--require-hashes", "--only-binary=:all:", "--retries", "0", "--report", str(output / "host_installed.json"), "-r", str(lock)])
+        pip(output, "install_host_dependencies", ["install", "--no-deps", "--no-index", "--require-hashes", "--only-binary=:all:", "--retries", "0", "--report", str(output / "host_installed.json"), "-r", str(lock)])
     cache = Path.home() / "private_data/LJ/lightop_bench_wheels"
-    paths = [str(fetch(w, cache)) for w in data["wheels"] if not(w["install_if_missing"] and version(w["distribution"]))]
+    paths = [str(wheelhouse / "vendor" / w["filename"] if wheelhouse else fetch(w, cache)) for w in data["wheels"] if not(w["install_if_missing"] and version(w["distribution"]))]
     pip(output, "install_vendor_baselines", ["install", "--no-deps", "--no-index", *paths])
     after = snapshot()
     save(output / "after.json", after)
@@ -185,6 +225,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("phase", choices=("plan", "install", "probe"))
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--wheelhouse", type=Path)
     args = parser.parse_args()
     output = args.output.resolve()
     if args.phase != "probe":
@@ -194,7 +235,7 @@ def main():
             save(output / "plan.json", manifest())
         elif args.phase == "install":
             save(output / "plan.json", manifest())
-            install(output)
+            install(output, args.wheelhouse)
         else:
             probe(output)
     except Exception:

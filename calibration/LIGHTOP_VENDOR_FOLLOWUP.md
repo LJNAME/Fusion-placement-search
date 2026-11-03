@@ -22,6 +22,8 @@ Host 依赖先执行 pip dry-run，检查解析计划，禁止安装或替换上
 
 ## 服务器执行
 
+第二批在 pip 候选解析阶段停止。第三批按 [LIGHTOP_BENCH_OFFLINE.md](LIGHTOP_BENCH_OFFLINE.md) 上传离线包并设置 LIGHTOP_BENCH_WHEELHOUSE，随后执行同一入口。下面保留原联网入口。
+
 ```bash
 cd ~/private_data/LJ/Fusion-placement-search
 git pull --ff-only
