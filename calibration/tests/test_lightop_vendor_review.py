@@ -1,9 +1,17 @@
 import unittest
-from tools.review_lightop_vendor_suite import classify, timings
+from tools.review_lightop_vendor_suite import classify, timings, selected_jobs
 from integration.lightop import capabilities
 
 
 class VendorReviewTests(unittest.TestCase):
+    def test_selected_subset_is_complete_and_ordered(self):
+        matrix = {"jobs": [{"id": n} for n in ("a", "b", "c")]}
+        plan = {"selected_jobs": ["a", "c"]}
+        self.assertEqual(list(selected_jobs(plan, matrix, [{"id": "a"}, {"id": "c"}])), ["a", "b", "c"])
+        for rows in ([{"id": "a"}], [{"id": "c"}, {"id": "a"}], [{"id": "a"}, {"id": "a"}]):
+            with self.subTest(rows=rows), self.assertRaises(ValueError):
+                selected_jobs(plan, matrix, rows)
+
     def test_zero_exit_and_success_text_do_not_hide_false(self):
         status, _, lines = classify("test_scaled_masked_softmax_dropout", 0, "True\nFalse\nSuccess\n", "")
         self.assertEqual(status, "vendor_checks_failed")

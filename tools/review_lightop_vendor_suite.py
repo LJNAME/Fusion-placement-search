@@ -98,7 +98,17 @@ def timings(job_id, stdout):
     return records
 
 
-def review(received, output, archive=None):
+def selected_jobs(plan, matrix, rows):
+    jobs = {j["id"]: j for j in matrix["jobs"]}
+    selected = plan["selected_jobs"]
+    if not selected or len(set(selected)) != len(selected) or not set(selected).issubset(jobs):
+        raise ValueError("Invalid selected vendor jobs")
+    if selected != [name for name in jobs if name in selected] or [r["id"] for r in rows] != selected:
+        raise ValueError("Results omit, duplicate or reorder selected jobs")
+    return jobs
+
+
+def review(received, output, archive=None, report_key="lightop_vendor_suite01_review"):
     received, output = Path(received).resolve(), Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     if any(output.iterdir()):
@@ -111,9 +121,7 @@ def review(received, output, archive=None):
     assert plan["jobs"] == matrix["jobs"]
     assert identity["version"] == catalog["version"] and identity["op_so_sha256"] == catalog["op_so_sha256"]
     rows = read(received / "results.json")
-    jobs = {j["id"]: j for j in matrix["jobs"]}
-    assert len(rows) == len({r["id"] for r in rows}) == len(jobs)
-    assert [r["id"] for r in rows] == plan["selected_jobs"] == list(jobs)
+    jobs = selected_jobs(plan, matrix, rows)
     records, all_timings, verified_sources = [], [], 0
     for tree in [received / "vendor_original", *(received / "jobs" / r["id"] / "vendor" for r in rows)]:
         for relative, expected in matrix["test_tree_sha256"].items():
@@ -149,7 +157,9 @@ def review(received, output, archive=None):
         "jobs_with_printed_timing": sum(r["timing_rows"] > 0 for r in records), "timing_rows": len(all_timings),
         "verified_original_source_copies": verified_sources, "runtime_collector_source_captured": False,
         "new_accepted_profiles": 0, "priceable_ffn_plans": "0/48", "records": records}
-    overlay = {"source_report": "data/lightop_vendor_suite01_review/report.json", "scope": report["scope"], "capabilities": {}}
+    if len(rows) != len(jobs):
+        report.update(selection_scope="selected_subset_followup", baseline_total_jobs=len(jobs))
+    overlay = {"source_report": "data/" + report_key + "/report.json", "scope": report["scope"], "capabilities": {}}
     for c in catalog["capabilities"]:
         observations = [{k: r[k] for k in ("job_id", "review_status", "timing_rows", "false_check_count")} for r in records if c["id"] in r["primary_capabilities"]]
         overlay["capabilities"][c["id"]] = {"observations": observations, "in_this_batch": bool(observations),
@@ -172,8 +182,9 @@ def main():
     parser.add_argument("received", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--archive", type=Path)
+    parser.add_argument("--report-key", default="lightop_vendor_suite01_review")
     args = parser.parse_args()
-    report = review(args.received, args.output, args.archive)
+    report = review(args.received, args.output, args.archive, args.report_key)
     print(json.dumps({k: report[k] for k in ("jobs", "process_completed", "process_failed", "review_counts", "missing_dependency_counts", "jobs_with_printed_timing", "timing_rows", "verified_original_source_copies")}))
 
 

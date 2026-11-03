@@ -63,3 +63,5 @@ python -m unittest calibration.tests.test_lightop_vendor_suite -v
 ```
 
 生成过程只读取 wheel，不导入厂商二进制。固定版本、下载地址和 SHA 见 `data/hygon_lightop_wheel_v1/manifest.json`。
+
+首批依赖受阻项的定向补测入口：见 [LIGHTOP_VENDOR_FOLLOWUP.md](LIGHTOP_VENDOR_FOLLOWUP.md)。
