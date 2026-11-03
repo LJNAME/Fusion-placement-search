@@ -1,0 +1,1274 @@
+{
+  "scope": "vendor_original_tests_cpu_review_not_profile_admission",
+  "archive_sha256": "0a0a68385eedc688b833eb70d0baa53c28e50f477559ee2440f9e2f312caa387",
+  "identity": {
+    "version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+    "op_so_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+    "checked_files": 21,
+    "python": "3.10.22 | packaged by conda-forge | (main, Oct  6 2026, 23:02:24) [GCC 14.4.0]",
+    "executable": "/root/private_data/LJ/dcu-kernel310-20261031/venv/bin/python",
+    "packages": {
+      "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+      "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+      "vllm": null,
+      "pytest": null
+    },
+    "visible_devices": {
+      "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+      "CUDA_VISIBLE_DEVICES": null,
+      "ROCR_VISIBLE_DEVICES": null
+    }
+  },
+  "jobs": 48,
+  "process_completed": 30,
+  "process_failed": 18,
+  "review_counts": {
+    "correctness_failed": 1,
+    "missing_dependency": 16,
+    "timed_zero_difference_reported": 1,
+    "tolerance_dependent": 1,
+    "vendor_api_mismatch": 1,
+    "vendor_checks_failed": 2,
+    "vendor_checks_passed_correctness_only": 4,
+    "vendor_checks_passed_timed": 22
+  },
+  "missing_dependency_counts": {
+    "pytest": 1,
+    "tqdm": 3,
+    "vllm": 12
+  },
+  "jobs_with_printed_timing": 25,
+  "timing_rows": 253,
+  "verified_original_source_copies": 5929,
+  "runtime_collector_source_captured": false,
+  "new_accepted_profiles": 0,
+  "priceable_ffn_plans": "0/48",
+  "records": [
+    {
+      "job_id": "test_act_and_mul_silu",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "op.silu_and_mul_opt"
+      ],
+      "static_source_references": [
+        "op.silu_and_mul_opt"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_act_and_mul.py",
+      "source_sha256": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "94e826ec79b8e870fb197b0eba89e2a3b520fd24ceae51a83c34ce5f67307bb0",
+      "elapsed_host_seconds": 26.556312799453735,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_act_and_mul_gelu",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "op.gelu_and_mul_opt"
+      ],
+      "static_source_references": [
+        "op.gelu_and_mul_opt"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_act_and_mul.py",
+      "source_sha256": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "2623f3e91750392586b14855029d3da474576c13ad25c6a6fd89cf525391ba26",
+      "elapsed_host_seconds": 18.023823499679565,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_act_and_mul_gelu_tanh",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "op.gelu_tanh_and_mul_opt"
+      ],
+      "static_source_references": [
+        "op.gelu_tanh_and_mul_opt"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_act_and_mul.py",
+      "source_sha256": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "8155d0f548a7d5234eb83e99dbd04a59655455c3a3829e7f116292f7bdf26e3f",
+      "elapsed_host_seconds": 20.380407571792603,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_add_dropout",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "AddDropout"
+      ],
+      "static_source_references": [
+        "AddDropout"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_add_dropout.py",
+      "source_sha256": "2971e0d8921047e54c080cd91e076f14755505e05c325d58d653005403d4b82c",
+      "stdout_sha256": "3aa9fd6ea1591d26b64717bb4041ca8f546a0da671807abf19ec478fb60336ff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 40.7037513256073,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_bias_dropout_add",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "FuseBiasDropoutAdd"
+      ],
+      "static_source_references": [
+        "FuseBiasDropoutAdd"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_bias_dropout_add.py",
+      "source_sha256": "e36d2b2def643242ec1c4ed9565f67e19c464ccb8bc02bdf195235c0bf3f0d64",
+      "stdout_sha256": "368e3aa7215831f7f77fca04d2baa1e11ea48797efacf02017961c6549f2a515",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 38.56446099281311,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_bias_gelu",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "FuseBiasGelu"
+      ],
+      "static_source_references": [
+        "FuseBiasGelu"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_bias_gelu.py",
+      "source_sha256": "a5725b86fc62fa1eecf561fe07ae4fc40e6bed49625828a161aa1c25b27e4d20",
+      "stdout_sha256": "55ab18dc3622b49d639b171edd953deb27a7be3bfa096d3a245daf8b53ea89cb",
+      "stderr_sha256": "aac92e73e311acfdad72c43a86827d5b03a501500dfb0c73e5d2825d256ab49e",
+      "elapsed_host_seconds": 38.18241095542908,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_bias_swiglu",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "FuseBiasSwiGLU"
+      ],
+      "static_source_references": [
+        "FuseBiasSwiGLU"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_bias_swiglu.py",
+      "source_sha256": "9d75292e96d7a158dd637eaa395787c075bd42d3ef1ea6eedac8feb8b4bca810",
+      "stdout_sha256": "6b097a99f3b9239935cf85fe3304d160981cfcfda3e483ae7b6820850d0a430a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 23.525657176971436,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_blockwise_scaled_1d_cast_transpose",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "blockwise_scaled_cast_transpose"
+      ],
+      "static_source_references": [
+        "blockwise_scaled_cast_transpose"
+      ],
+      "timing_rows": 1,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_blockwise_scaled_1d_cast_transpose.py",
+      "source_sha256": "0bd6ef2cdfd562cd794fe718752b3316174ca810b820a6f1108b6ab96b7b4b91",
+      "stdout_sha256": "e2e4cfab71758a66aea24f73c0a4355b25ee1075a61f51f1a55c5ae47959a035",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 41.2940776348114,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_celu_groupnorm",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "CeluGN"
+      ],
+      "static_source_references": [
+        "CeluGN"
+      ],
+      "timing_rows": 27,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_celu_groupnorm.py",
+      "source_sha256": "d73a5a7a1d1dfd409dcda14dedfe5803a1e3176c992ed11edf026c1f61485158",
+      "stdout_sha256": "0c1d240fc03bb3ab3ca5b42b5dc7d4a3c3aa1a00e930d5a7fd96d837d4dbd0d9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 33.31768465042114,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_fill_rms_x2_concat",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "fuse_fill_rms_x2_concat"
+      ],
+      "static_source_references": [
+        "fuse_fill_rms_x2_concat"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_fill_rms_x2_concat.py",
+      "source_sha256": "faf070e8dee643574862129969880db4868c85410ef6d900db1a4d73a810a848",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e0a12961eeb4b9637db5c6e4f8a1739e556ce5396dfea3b84ff51486fb224bae",
+      "elapsed_host_seconds": 13.262277364730835,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_gammarmsnorm_rope_qkv_kernel",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "gammarms_rotary_embedding_fuse_with_kv_store"
+      ],
+      "static_source_references": [
+        "gammarms_rotary_embedding_fuse_with_kv_store"
+      ],
+      "timing_rows": 10,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_gammarmsnorm_rope_qkv_kernel.py",
+      "source_sha256": "aea5c91808ae87c6a4a4746bc8d603d7a97f4a18a64a08377818c487580617cc",
+      "stdout_sha256": "87783784463c615db1c8ad9ae3707a456c75d93e9ac8b9c6015a0d4251980073",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 39.04446840286255,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_groupgemm_permute_quant",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "pytest",
+      "primary_capabilities": [
+        "fuse_groupgemm_permute_quant"
+      ],
+      "static_source_references": [
+        "fuse_groupgemm_permute_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_groupgemm_permute_quant.py",
+      "source_sha256": "ca17da7f320b31833ce3a05cd46facf552563cd2996c03b52d43e2ec41a5f04e",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0f9a26efe9f89c854510059af4f8152358d673b8e4b1f3ecc000c22035b50f2e",
+      "elapsed_host_seconds": 15.509490728378296,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_rmsnorm_rope_contiguous",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "fused_rms_norm_rope_contiguous"
+      ],
+      "static_source_references": [
+        "fused_rms_norm_rope_contiguous"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_rmsnorm_rope_contiguous.py",
+      "source_sha256": "7f3f593dc4895077018edc69ac8cadfbfa6b8f3bc8a147526c84caf4ca588408",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "05cb1e6e4a485be64623a55e6d07f8166fe06522b3cc57c3d26e9400ef84558b",
+      "elapsed_host_seconds": 14.456487655639648,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_rmsnorm_rope_qkv_kernel",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "rms_rotary_embedding_fuse_with_kv_store"
+      ],
+      "static_source_references": [
+        "rms_rotary_embedding_fuse_with_kv_store"
+      ],
+      "timing_rows": 5,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_rmsnorm_rope_qkv_kernel.py",
+      "source_sha256": "609a2f99723f3c38a685d573bed0c96a7b4a14b90d96c05f0feca2bbff53f1b1",
+      "stdout_sha256": "d04d238a183cff607186db41f95362493b8c2d426d5fdca0c668bbfe333e2979",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 39.49697232246399,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_rmsnorm_rope_qkv_no_quant",
+      "returncode": 1,
+      "review_status": "vendor_api_mismatch",
+      "reason": "ImportError: cannot import name 'rms_rotary_embedding_fuse_with_kv_store_no_quant' from 'lightop' (/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/site-packages/lightop/__init__.py)",
+      "primary_capabilities": [],
+      "static_source_references": [
+        "gammarms_rotary_embedding_fuse_with_kv_store",
+        "rms_rotary_embedding_fuse",
+        "rms_rotary_embedding_fuse_with_kv_store"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_rmsnorm_rope_qkv_no_quant.py",
+      "source_sha256": "b0f9cfff9a29d732cac4fdb73d590536a18fdc52abc8bcf8377bad9810a6665b",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "d822af49274d7340e5dde19e915e0f5fde75c94d53c85e39901a38c453e167fb",
+      "elapsed_host_seconds": 30.0499267578125,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_rmsnorm_rope_quant_qkv",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_correctness_only",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "fuse_rmsnorm_rope_quant_qkv"
+      ],
+      "static_source_references": [
+        "fuse_rmsnorm_rope_quant_qkv"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_rmsnorm_rope_quant_qkv.py",
+      "source_sha256": "499ae2baac094a79ec7fa762dc7817a3a1fc7cac885b0e380794356ed14ac49e",
+      "stdout_sha256": "237130213378c88576dc6387171804d7412110bf5203e4661948cd3a8c333f24",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 55.33978581428528,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_silu_mul",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "fuse_silu_and_mul"
+      ],
+      "static_source_references": [
+        "fuse_silu_and_mul"
+      ],
+      "timing_rows": 1,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_silu_mul.py",
+      "source_sha256": "6e408b9252136d932c8569d296a03b7ad47a9ae8afbd2746d17e2f37eda64cba",
+      "stdout_sha256": "9cf4955483b26ceebb3e6aea5b3b1d94449196e1cbd3fecfc2ec6fb2122d11a5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 40.88361954689026,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_silu_mul_fp8_quant",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "tqdm",
+      "primary_capabilities": [
+        "rms_norm_per_token_fp8_quant"
+      ],
+      "static_source_references": [
+        "rms_norm_per_token_fp8_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_silu_mul_fp8_quant.py",
+      "source_sha256": "fd9d6901174e6da128f024a5c0bd4d55cd317ef8e7340c91a2adc835638299fe",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3e83c1c3bc565b081147348edafef1d5dc528776ff1780011021177212eae0af",
+      "elapsed_host_seconds": 31.493961572647095,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_silu_mul_quant",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "fuse_silu_mul_quant"
+      ],
+      "static_source_references": [
+        "fuse_silu_mul_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_silu_mul_quant.py",
+      "source_sha256": "a669069ca2ab2ba7bfdaf97dccc7d63848aa0d24688b4d3fbfc4501cedd98d26",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "fde8ad703554a3feeed14670e4d088a4e90c2123985af792b07d9487eeb11a50",
+      "elapsed_host_seconds": 16.236449480056763,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_silu_mul_quant_ep",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "fuse_silu_mul_quant_ep"
+      ],
+      "static_source_references": [
+        "fuse_silu_mul_quant_ep"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_silu_mul_quant_ep.py",
+      "source_sha256": "d24b48427df34b04bea7e69cda5bd49afa06a39e7d4604e4dbdd6462e760646b",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "07befdd8d49996fefbea15d5fa37c9f92c349d3360f47be043dc3a464ce91839",
+      "elapsed_host_seconds": 10.69588565826416,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fused_moe_gate",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "moe_fused_gate"
+      ],
+      "static_source_references": [
+        "moe_fused_gate"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fused_moe_gate.py",
+      "source_sha256": "c94113259db1cb25f08224603329944c11cc18442bc6f9387161d632342d84ae",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "381b162f2373f95fb82854561f6161c139db3f53cfba584f2d466f07971783bf",
+      "elapsed_host_seconds": 25.178941249847412,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fused_rms_rope",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "rms_rotary_embedding_fuse"
+      ],
+      "static_source_references": [
+        "rms_rotary_embedding_fuse"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fused_rms_rope.py",
+      "source_sha256": "46411e1c28aeca9293e880685a46a8993ed3189236a408f2fa56a2ed16370606",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "b7466c1f9dd8dce471cc83134b0ce23f27e784b6864b7136b7ccffa8691b9314",
+      "elapsed_host_seconds": 21.31297254562378,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fused_trans_bmm_trans_benchmark",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "fused_bmm"
+      ],
+      "static_source_references": [
+        "fuse_rmsnorm_rope_quant_qkv",
+        "fused_bmm",
+        "fused_rms_norm_rope_contiguous"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fused_trans_bmm_trans.py",
+      "source_sha256": "8f55f76e2013d6400f0eecaf81b945b8f5151d235dec87be63012c011d2d4259",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "83dfc3c390ba4f91d3b33e098d640f2408f04b01be40065c243b724bc2ee5bbb",
+      "elapsed_host_seconds": 15.938226461410522,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_gemma_fused_add_rmsnorm",
+      "returncode": 0,
+      "review_status": "tolerance_dependent",
+      "reason": "1e-2 allclose passes; 1e-3/1e-4 output checks fail; no timing",
+      "primary_capabilities": [
+        "gemma_fused_add_rmsnorm"
+      ],
+      "static_source_references": [
+        "gemma_fused_add_rmsnorm"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 4,
+      "false_check_stdout_lines": [
+        18,
+        19,
+        48,
+        49
+      ],
+      "source": "test/test_gemma_fused_add_rmsnorm.py",
+      "source_sha256": "0a6a4d616f2f31362c0cedbfbcb57778a0d43bfc4c475e8020c7302f819a35f4",
+      "stdout_sha256": "8ebace599a752692645dc0bdc09aa2b4a6c4afb3f541a4989ee82b7338221264",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 27.838547229766846,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_gemma_rms_norm_fp8_quant",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "gemma_rms_norm_per_token_fp8_quant"
+      ],
+      "static_source_references": [
+        "gemma_rms_norm_per_token_fp8_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_gemma_rms_norm_fp8_quant.py",
+      "source_sha256": "194138d3fb1f780500abd40d5768a60764faec422c44f5f023568670b22ceda4",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ee3bc669db9fcd7d61aab7456cadea6a1bc29a0aaa724299c37ddc4c3fb85282",
+      "elapsed_host_seconds": 25.46342706680298,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_gn_silu",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "GNSilu"
+      ],
+      "static_source_references": [
+        "GNSilu"
+      ],
+      "timing_rows": 27,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_gn_silu.py",
+      "source_sha256": "980727f19cb09a7f2dbbf0aecb16845fdc6bba5bbeacbfa0c6111ae1a62f106c",
+      "stdout_sha256": "64768e53395413fb9682fbe18eb8cfdbf1010af1f7320c38981be52b6ecd4c85",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 41.448957204818726,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_ln_add",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "AddLn"
+      ],
+      "static_source_references": [
+        "AddLn"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_ln_add.py",
+      "source_sha256": "e6a7bf6d6ce2356dc68418c8f2e3d3498030911ba50c225810cfee92301d9da3",
+      "stdout_sha256": "8cd2626f3d6f80b01ca9d3bde3626af885e5385073da0f2b5424387c8464f8c9",
+      "stderr_sha256": "8a213220911550a397513e49ac77cfebe87966562ff5eb8a5a1ba9b070ea818e",
+      "elapsed_host_seconds": 46.73771023750305,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_ln_add_dropout",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "LnAddDropout"
+      ],
+      "static_source_references": [
+        "LnAddDropout"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_ln_add_dropout.py",
+      "source_sha256": "9a3d966ce2a2114fe0b1303f193d9d2716662a26de29b6ba09cdbbd68cef95c0",
+      "stdout_sha256": "f722f090395d12c05f0db324c4dcb8b3f1ebcbda168a859ff7ca4f8401f59d45",
+      "stderr_sha256": "86e38d1bf7f4a4e5b3a6900d82a9e795453855c1616034117483d8485a5bebb3",
+      "elapsed_host_seconds": 54.817267179489136,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_ln_add_dropout_bias",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "LnAddDropoutBias"
+      ],
+      "static_source_references": [
+        "LnAddDropoutBias"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_ln_add_dropout_bias.py",
+      "source_sha256": "de341a3da44967eb7f6943897665247522bc6e5001f4c119d0d3a89cea3842ba",
+      "stdout_sha256": "b01fbd35bcb5a3713f5979a2b10e4d277f2497da7b694265ce3862ef35aa5c3c",
+      "stderr_sha256": "1fa24517f8c0bcd8b815e5296cf30273f19c0972645dc5f7e2211aa143eb840b",
+      "elapsed_host_seconds": 58.330349922180176,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_ln_dropout",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "LnDropout"
+      ],
+      "static_source_references": [
+        "LnDropout"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_ln_dropout.py",
+      "source_sha256": "6711f3fc815338189cb15990b33d6df22cd0d40b45cb8dcf504b298a42ef2d7d",
+      "stdout_sha256": "962da99d5312c5d6126732ddce6b6b7a76366449dea31d22258d75b8b3933fb8",
+      "stderr_sha256": "77f2893fab8d9aac8ec6f884ca8df48096786a0cf87e1602a567cb97ecea1987",
+      "elapsed_host_seconds": 42.11364388465881,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_ln_droppath",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "LnDropPath"
+      ],
+      "static_source_references": [
+        "LnDropPath"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_ln_droppath.py",
+      "source_sha256": "a6022111f5e84cef31660e4fb76ef8c37292e9eb6092220c08c1bbe0c2478d34",
+      "stdout_sha256": "a6936f481184c93127bc6d70d74e9ab93cbfa3da1dd21962ef72d43a33c17416",
+      "stderr_sha256": "f499b04bda57060a08cc2d1d6ba456319941429a1cbbfb35e71f4e81cf9c9231",
+      "elapsed_host_seconds": 46.01571702957153,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_moe_swiglu_dynamic_quant",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "moe_swiglu_dynamic_quant"
+      ],
+      "static_source_references": [
+        "moe_swiglu_dynamic_quant"
+      ],
+      "timing_rows": 140,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_moe_swiglu_dynamic_quant.py",
+      "source_sha256": "e66e0ee4a98f49b5d4e944e308db5e65fec3f11d6426e999530e3249574964cc",
+      "stdout_sha256": "43fd7732d092f3ded0493dae36e477c5d004a279f97510a1b061efef30f94c66",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 48.031874656677246,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_quantization_cuda",
+      "returncode": 0,
+      "review_status": "timed_zero_difference_reported",
+      "reason": "eight zero differences printed; no substitute admission threshold",
+      "primary_capabilities": [
+        "destindex_copy_quantize_int8_cuda"
+      ],
+      "static_source_references": [
+        "destindex_copy_quantize_int8_cuda"
+      ],
+      "timing_rows": 4,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_quantization_cuda.py",
+      "source_sha256": "2d87e76520948eeb98eb8392481be4203210ac5d5b4d18b81447a9b3e760ab26",
+      "stdout_sha256": "868aefbd63a04858376ec9b9e35d27bf3fd24432f7fdf83e94fed82733fe7f61",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 57.400630712509155,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_relu_dropout",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "ReluDropout"
+      ],
+      "static_source_references": [
+        "ReluDropout"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_relu_dropout.py",
+      "source_sha256": "68a3a7d25eb8f8e5d44f95e7410d24ce554bed9bd2c2e72f4a2378ca1feae047",
+      "stdout_sha256": "712d8cb8ae570e575de7ddfb12664bd03f412b5b3a090014f23bebf00e32c8ee",
+      "stderr_sha256": "2c18b69cb670eba4fa232cbdde2d73658a42dff8ff140e3d69369061c4ed931a",
+      "elapsed_host_seconds": 46.16645574569702,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_reshape_cache_cuda",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "vllm",
+      "primary_capabilities": [
+        "reshape_and_cache_cuda"
+      ],
+      "static_source_references": [
+        "reshape_and_cache_cuda"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_reshape_cache_cuda.py",
+      "source_sha256": "d46d22d1faa0106f890effe6ef0504d9a1304850c63d21a1f883f772393057af",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "1c4bf3171eab667cc8db5b17a68b2ed4ccc02708bdf96a70efc262f166e58bd8",
+      "elapsed_host_seconds": 15.62696361541748,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_rms_add",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "fused_add_rms_norm"
+      ],
+      "static_source_references": [
+        "fused_add_rms_norm"
+      ],
+      "timing_rows": 6,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_rms_add.py",
+      "source_sha256": "b8e5fa25f2eca1fbc405dad6f3a47083b3e193247d65229f79cac89560489fff",
+      "stdout_sha256": "b820a9dc6fd1e09b1539ca15e442fc107d07e6876545e4a8f92d7cc1d0596e2e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 19.774009466171265,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_rms_mrope",
+      "returncode": 1,
+      "review_status": "correctness_failed",
+      "reason": "ValueError: Fusion mismatch exceeds tolerance 0.02",
+      "primary_capabilities": [
+        "fuse_rms_mrope_cuda"
+      ],
+      "static_source_references": [
+        "fuse_rms_mrope_cuda"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_rms_mrope.py",
+      "source_sha256": "a06145f84cd9b46f375a6e6a406d63851daf0999a78bf9c9f2363e427afec457",
+      "stdout_sha256": "8129480632f45cb21756a63db5397108a359544cfb9ce2d7d47e080194e65839",
+      "stderr_sha256": "19054846d5d5a8819f2b2cb749ee86a42b5741a120811e190ca85765950a9d91",
+      "elapsed_host_seconds": 42.73220181465149,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_rms_norm_dynamic_per_token_quant",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "tqdm",
+      "primary_capabilities": [
+        "rms_norm_dynamic_per_token_quant"
+      ],
+      "static_source_references": [
+        "rms_norm_dynamic_per_token_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_rms_norm_dynamic_per_token_quant.py",
+      "source_sha256": "dee46b354df45f01671557206effb783ab42edb580655773d54e2c6992f04c23",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "266a363563341fb751548312821be489f19a02d267469127b92a12e0514854f1",
+      "elapsed_host_seconds": 35.165273904800415,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_rms_norm_fp8_quant",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "tqdm",
+      "primary_capabilities": [
+        "rms_norm_per_token_fp8_quant"
+      ],
+      "static_source_references": [
+        "rms_norm_per_token_fp8_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_rms_norm_fp8_quant.py",
+      "source_sha256": "7ad736be5d86659b19d1f84aaf9233d20f16ac56eec69d6f39fa851f9c545f6b",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "604509f78dcb260aa1796a82772bf9c9ee61418081cf5728e3bed80e7cac1502",
+      "elapsed_host_seconds": 33.840933084487915,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_rn_add",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "RMSNormAdd"
+      ],
+      "static_source_references": [
+        "RMSNormAdd"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_rn_add.py",
+      "source_sha256": "65e2604d89bc394f6aac339c353388133961f057eb640bc9485a5acf0ee7cbd3",
+      "stdout_sha256": "988b17a85347172292d7e9da54921a19aef5db46d63e1a0f7ce9afb64223128a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 50.883711099624634,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_rn_add_dropout",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "RMSNormAddDropout"
+      ],
+      "static_source_references": [
+        "RMSNormAddDropout"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_rn_add_dropout.py",
+      "source_sha256": "ea7ed14851b84b409946149850b84a22f8cd2949f837426ac7c4a9519866f23d",
+      "stdout_sha256": "d2e60125caa3b8885a5ee1d47706b4b5212d84fb3fe9749a3164c11b3e60a9ce",
+      "stderr_sha256": "b403a8f1ae7bdd8d2657e3a626f7b22b6274b896af85442e126cc69bf028a65a",
+      "elapsed_host_seconds": 30.410231590270996,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_rn_add_dropout_bias",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "RMSNormAddDropoutBias"
+      ],
+      "static_source_references": [
+        "RMSNormAddDropoutBias"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_rn_add_dropout_bias.py",
+      "source_sha256": "de189c64d0589b5517e8aa00712744ca23bce466918809bc6c4aacfd2e9e1a8c",
+      "stdout_sha256": "621949c09a2ecbf90df1ff2543a9acbd51ab1d6b659d92b215680e931c2f2f9d",
+      "stderr_sha256": "62c261a7cd25d4628468d958417bfdaf85e6d8f1b35fe4a8d3449e815bcf612f",
+      "elapsed_host_seconds": 39.108938455581665,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_rn_dropout",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "RMSNormDropout"
+      ],
+      "static_source_references": [
+        "RMSNormDropout"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_rn_dropout.py",
+      "source_sha256": "6f443fad5c8f10d4c37e96550a7ee7fad67ee9b8c1bd924b2bdc63e94df2f941",
+      "stdout_sha256": "c224c69a5cb1586988b48ac6ba93dbb7924b63f2e26b0dba3cb004857edfa6cf",
+      "stderr_sha256": "e689ea4effd4b0a34783d66f919a383fbb6e3e81756c9fa9541edd34b76f6aec",
+      "elapsed_host_seconds": 34.34389114379883,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_scaled_masked_softmax",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_correctness_only",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "FusedScaleMaskSoftmax"
+      ],
+      "static_source_references": [
+        "FusedScaleMaskSoftmax"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_scaled_masked_softmax.py",
+      "source_sha256": "6420f4fda07ed773ad3ff165716a151b828f508be5f3c664c2f58686671ba9dc",
+      "stdout_sha256": "614b345a133ee10c57d698fd7a1b56395488947c16d4da5e808e4ef8b186760b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 40.21500563621521,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_scaled_masked_softmax_dropout",
+      "returncode": 0,
+      "review_status": "vendor_checks_failed",
+      "reason": "printed False/FAIL despite zero exit",
+      "primary_capabilities": [
+        "FusedScaleMaskSoftmaxDropout"
+      ],
+      "static_source_references": [
+        "FusedScaleMaskSoftmax",
+        "FusedScaleMaskSoftmaxDropout"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 150,
+      "false_check_stdout_lines": [
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200
+      ],
+      "source": "test/test_scaled_masked_softmax_dropout.py",
+      "source_sha256": "69bcbb84200dbda1bb73ae502258ae5fb9b5025a84371a742738c0025fbe6251",
+      "stdout_sha256": "8d1ed708f74e8fd141c2441982606754b6ecb24229ea3aa76cbe50b22ec6856c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 36.97846794128418,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_scaled_upper_traing_masked_softmax",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_correctness_only",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "FusedScaleMaskSoftmax"
+      ],
+      "static_source_references": [
+        "FusedScaleMaskSoftmax"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_scaled_upper_traing_masked_softmax.py",
+      "source_sha256": "c89a63cd39c36f28fcacd9a292ad25130525f550d3ea9ddda63dbc04c31e551b",
+      "stdout_sha256": "70752f18de988f11b53b6beff9d4b8dcbd66f56346382cb477612eec9e32870b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 66.45779490470886,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_scaled_upper_traing_masked_softmax_dropout",
+      "returncode": 0,
+      "review_status": "vendor_checks_failed",
+      "reason": "printed False/FAIL despite zero exit",
+      "primary_capabilities": [
+        "FusedScaleMaskSoftmaxDropout"
+      ],
+      "static_source_references": [
+        "FusedScaleMaskSoftmax",
+        "FusedScaleMaskSoftmaxDropout"
+      ],
+      "timing_rows": 2,
+      "false_check_count": 6,
+      "false_check_stdout_lines": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "source": "test/test_scaled_upper_traing_masked_softmax_dropout.py",
+      "source_sha256": "60a6eb7c84e808b371f42e105daabfd502421e038bcde16b1d0313a3871c60fa",
+      "stdout_sha256": "38c45de29a1b646052750d7b4470339065c7f5410267b693e9891f3fe00d8923",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 69.44088649749756,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_split_qkv_rms_rotary_embedding_fuse_with_kv_store_quant",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_correctness_only",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "split_qkv_rms_rotary_embedding_fuse_with_kv_store_quant"
+      ],
+      "static_source_references": [
+        "gammarms_rotary_embedding_fuse_with_kv_store",
+        "rms_rotary_embedding_fuse",
+        "rms_rotary_embedding_fuse_with_kv_store",
+        "split_qkv_rms_rotary_embedding_fuse_with_kv_store_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_split_qkv_rms_rotary_embedding_fuse_with_kv_store_quant.py",
+      "source_sha256": "125f46161abd5d6a5ffe75fc7b97fa73f79720e50138f77190f9b4e543ceeb48",
+      "stdout_sha256": "64cfc7f68513aa21f029645d8ed49921c82b8e7ef180e511c05ec0abba47ddb2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 36.67945981025696,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    }
+  ]
+}

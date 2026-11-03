@@ -1,0 +1,668 @@
+{
+  "source_report": "data/lightop_vendor_suite01_review/report.json",
+  "scope": "vendor_original_tests_cpu_review_not_profile_admission",
+  "capabilities": {
+    "AddDropout": {
+      "observations": [
+        {
+          "job_id": "test_add_dropout",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "AddLn": {
+      "observations": [
+        {
+          "job_id": "test_ln_add",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "CeluGN": {
+      "observations": [
+        {
+          "job_id": "test_celu_groupnorm",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 27,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "FuseBiasDropoutAdd": {
+      "observations": [
+        {
+          "job_id": "test_bias_dropout_add",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "FuseBiasGelu": {
+      "observations": [
+        {
+          "job_id": "test_bias_gelu",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "FuseBiasSwiGLU": {
+      "observations": [
+        {
+          "job_id": "test_bias_swiglu",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "FusedScaleMaskSoftmax": {
+      "observations": [
+        {
+          "job_id": "test_scaled_masked_softmax",
+          "review_status": "vendor_checks_passed_correctness_only",
+          "timing_rows": 0,
+          "false_check_count": 0
+        },
+        {
+          "job_id": "test_scaled_upper_traing_masked_softmax",
+          "review_status": "vendor_checks_passed_correctness_only",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "FusedScaleMaskSoftmaxDropout": {
+      "observations": [
+        {
+          "job_id": "test_scaled_masked_softmax_dropout",
+          "review_status": "vendor_checks_failed",
+          "timing_rows": 2,
+          "false_check_count": 150
+        },
+        {
+          "job_id": "test_scaled_upper_traing_masked_softmax_dropout",
+          "review_status": "vendor_checks_failed",
+          "timing_rows": 2,
+          "false_check_count": 6
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "GNSilu": {
+      "observations": [
+        {
+          "job_id": "test_gn_silu",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 27,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "LnAddDropout": {
+      "observations": [
+        {
+          "job_id": "test_ln_add_dropout",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "LnAddDropoutBias": {
+      "observations": [
+        {
+          "job_id": "test_ln_add_dropout_bias",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "LnDropPath": {
+      "observations": [
+        {
+          "job_id": "test_ln_droppath",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "LnDropout": {
+      "observations": [
+        {
+          "job_id": "test_ln_dropout",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "RMSNormAdd": {
+      "observations": [
+        {
+          "job_id": "test_rn_add",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "RMSNormAddDropout": {
+      "observations": [
+        {
+          "job_id": "test_rn_add_dropout",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "RMSNormAddDropoutBias": {
+      "observations": [
+        {
+          "job_id": "test_rn_add_dropout_bias",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "RMSNormDropout": {
+      "observations": [
+        {
+          "job_id": "test_rn_dropout",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "ReluDropout": {
+      "observations": [
+        {
+          "job_id": "test_relu_dropout",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 2,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "blockwise_scaled_cast_transpose": {
+      "observations": [
+        {
+          "job_id": "test_blockwise_scaled_1d_cast_transpose",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 1,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "destindex_copy_quantize_int8_cuda": {
+      "observations": [
+        {
+          "job_id": "test_quantization_cuda",
+          "review_status": "timed_zero_difference_reported",
+          "timing_rows": 4,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fast_topk_transform_fused": {
+      "observations": [],
+      "in_this_batch": false,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fast_topk_transform_ragged_fused": {
+      "observations": [],
+      "in_this_batch": false,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fuse_fill_rms_x2_concat": {
+      "observations": [
+        {
+          "job_id": "test_fuse_fill_rms_x2_concat",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fuse_groupgemm_permute_quant": {
+      "observations": [
+        {
+          "job_id": "test_fuse_groupgemm_permute_quant",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fuse_rms_mrope_cuda": {
+      "observations": [
+        {
+          "job_id": "test_rms_mrope",
+          "review_status": "correctness_failed",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fuse_rmsnorm_rope_quant_qkv": {
+      "observations": [
+        {
+          "job_id": "test_fuse_rmsnorm_rope_quant_qkv",
+          "review_status": "vendor_checks_passed_correctness_only",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fuse_silu_and_mul": {
+      "observations": [
+        {
+          "job_id": "test_fuse_silu_mul",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 1,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fuse_silu_mul_fp8_quant": {
+      "observations": [],
+      "in_this_batch": false,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fuse_silu_mul_fp8_quant_ep": {
+      "observations": [],
+      "in_this_batch": false,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fuse_silu_mul_quant": {
+      "observations": [
+        {
+          "job_id": "test_fuse_silu_mul_quant",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fuse_silu_mul_quant_ep": {
+      "observations": [
+        {
+          "job_id": "test_fuse_silu_mul_quant_ep",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fused_add_rms_norm": {
+      "observations": [
+        {
+          "job_id": "test_rms_add",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 6,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fused_bmm": {
+      "observations": [
+        {
+          "job_id": "test_fused_trans_bmm_trans_benchmark",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "fused_rms_norm_rope_contiguous": {
+      "observations": [
+        {
+          "job_id": "test_fuse_rmsnorm_rope_contiguous",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "gammarms_rotary_embedding_fuse_with_kv_store": {
+      "observations": [
+        {
+          "job_id": "test_fuse_gammarmsnorm_rope_qkv_kernel",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 10,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "gemma_fused_add_rmsnorm": {
+      "observations": [
+        {
+          "job_id": "test_gemma_fused_add_rmsnorm",
+          "review_status": "tolerance_dependent",
+          "timing_rows": 0,
+          "false_check_count": 4
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "gemma_rms_norm_per_token_fp8_quant": {
+      "observations": [
+        {
+          "job_id": "test_gemma_rms_norm_fp8_quant",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "moe_fused_gate": {
+      "observations": [
+        {
+          "job_id": "test_fused_moe_gate",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "moe_swiglu_dynamic_quant": {
+      "observations": [
+        {
+          "job_id": "test_moe_swiglu_dynamic_quant",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 140,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "op.gelu_and_mul_opt": {
+      "observations": [
+        {
+          "job_id": "test_act_and_mul_gelu",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "op.gelu_tanh_and_mul_opt": {
+      "observations": [
+        {
+          "job_id": "test_act_and_mul_gelu_tanh",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "op.silu_and_mul_opt": {
+      "observations": [
+        {
+          "job_id": "test_act_and_mul_silu",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "reshape_and_cache_cuda": {
+      "observations": [
+        {
+          "job_id": "test_reshape_cache_cuda",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "rms_norm_dynamic_per_token_quant": {
+      "observations": [
+        {
+          "job_id": "test_rms_norm_dynamic_per_token_quant",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "rms_norm_per_token_fp8_quant": {
+      "observations": [
+        {
+          "job_id": "test_fuse_silu_mul_fp8_quant",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        },
+        {
+          "job_id": "test_rms_norm_fp8_quant",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "rms_rotary_embedding_fuse": {
+      "observations": [
+        {
+          "job_id": "test_fused_rms_rope",
+          "review_status": "missing_dependency",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "rms_rotary_embedding_fuse_with_kv_store": {
+      "observations": [
+        {
+          "job_id": "test_fuse_rmsnorm_rope_qkv_kernel",
+          "review_status": "vendor_checks_passed_timed",
+          "timing_rows": 5,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": true,
+      "graph_adapter": false,
+      "automatic_admission": false
+    },
+    "split_qkv_rms_rotary_embedding_fuse_with_kv_store_quant": {
+      "observations": [
+        {
+          "job_id": "test_split_qkv_rms_rotary_embedding_fuse_with_kv_store_quant",
+          "review_status": "vendor_checks_passed_correctness_only",
+          "timing_rows": 0,
+          "false_check_count": 0
+        }
+      ],
+      "in_this_batch": true,
+      "gpu_timing_and_checks_available": false,
+      "graph_adapter": false,
+      "automatic_admission": false
+    }
+  }
+}

@@ -53,7 +53,7 @@ bash tools/run_lightop_vendor_suite.sh \
 
 包内 `test_fuse_silu_mul_fp8_quant.py` 实际调用 RMSNorm FP8 量化，不能按文件名算成 SiLU FP8 的测试。
 
-此前 trial02 的真机证据仅属于 `op.silu_and_mul_opt`，记录在该接口的 `evidence` 字段。本次原版批测尚未执行，不增加正式 Profile 或搜索成本覆盖。
+此前 trial02 的真机证据仅属于 `op.silu_and_mul_opt`，记录在该接口的 `evidence` 字段。首批原版测试已返回，审核见 `LIGHTOP_VENDOR_SUITE01_REVIEW.md`。测量状态由 `data/lightop_vendor_suite01_review/capability_status.json` 追加记录，`capabilities()` 返回 `vendor_suite01` 观察；固定能力文件作为首版身份快照保持原 SHA，不增加正式 Profile 或搜索成本覆盖。
 
 ## 重建清单（CPU）
 

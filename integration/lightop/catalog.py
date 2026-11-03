@@ -15,7 +15,13 @@ def catalog():
 
 
 def capabilities():
-    return catalog()["capabilities"]
+    records = catalog()["capabilities"]
+    review = ROOT / "data/lightop_vendor_suite01_review/capability_status.json"
+    if review.exists():
+        overlay = json.loads(review.read_text(encoding="utf-8"))
+        for record in records:
+            record["vendor_suite01"] = overlay["capabilities"][record["id"]]
+    return records
 
 
 def check_installed():

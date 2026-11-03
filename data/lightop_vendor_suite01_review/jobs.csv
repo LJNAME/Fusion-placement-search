@@ -1,0 +1,49 @@
+job_id,returncode,review_status,reason,timing_rows,false_check_count
+test_act_and_mul_silu,1,missing_dependency,vllm,0,0
+test_act_and_mul_gelu,1,missing_dependency,vllm,0,0
+test_act_and_mul_gelu_tanh,1,missing_dependency,vllm,0,0
+test_add_dropout,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_bias_dropout_add,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_bias_gelu,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_bias_swiglu,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_blockwise_scaled_1d_cast_transpose,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,1,0
+test_celu_groupnorm,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,27,0
+test_fuse_fill_rms_x2_concat,1,missing_dependency,vllm,0,0
+test_fuse_gammarmsnorm_rope_qkv_kernel,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,10,0
+test_fuse_groupgemm_permute_quant,1,missing_dependency,pytest,0,0
+test_fuse_rmsnorm_rope_contiguous,1,missing_dependency,vllm,0,0
+test_fuse_rmsnorm_rope_qkv_kernel,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,5,0
+test_fuse_rmsnorm_rope_qkv_no_quant,1,vendor_api_mismatch,ImportError: cannot import name 'rms_rotary_embedding_fuse_with_kv_store_no_quant' from 'lightop' (/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/site-packages/lightop/__init__.py),0,0
+test_fuse_rmsnorm_rope_quant_qkv,0,vendor_checks_passed_correctness_only,vendor checks only; not Canonical Profile admission,0,0
+test_fuse_silu_mul,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,1,0
+test_fuse_silu_mul_fp8_quant,1,missing_dependency,tqdm,0,0
+test_fuse_silu_mul_quant,1,missing_dependency,vllm,0,0
+test_fuse_silu_mul_quant_ep,1,missing_dependency,vllm,0,0
+test_fused_moe_gate,1,missing_dependency,vllm,0,0
+test_fused_rms_rope,1,missing_dependency,vllm,0,0
+test_fused_trans_bmm_trans_benchmark,1,missing_dependency,vllm,0,0
+test_gemma_fused_add_rmsnorm,0,tolerance_dependent,1e-2 allclose passes; 1e-3/1e-4 output checks fail; no timing,0,4
+test_gemma_rms_norm_fp8_quant,1,missing_dependency,vllm,0,0
+test_gn_silu,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,27,0
+test_ln_add,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_ln_add_dropout,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_ln_add_dropout_bias,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_ln_dropout,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_ln_droppath,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_moe_swiglu_dynamic_quant,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,140,0
+test_quantization_cuda,0,timed_zero_difference_reported,eight zero differences printed; no substitute admission threshold,4,0
+test_relu_dropout,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_reshape_cache_cuda,1,missing_dependency,vllm,0,0
+test_rms_add,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,6,0
+test_rms_mrope,1,correctness_failed,ValueError: Fusion mismatch exceeds tolerance 0.02,0,0
+test_rms_norm_dynamic_per_token_quant,1,missing_dependency,tqdm,0,0
+test_rms_norm_fp8_quant,1,missing_dependency,tqdm,0,0
+test_rn_add,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_rn_add_dropout,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_rn_add_dropout_bias,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_rn_dropout,0,vendor_checks_passed_timed,vendor checks only; not Canonical Profile admission,2,0
+test_scaled_masked_softmax,0,vendor_checks_passed_correctness_only,vendor checks only; not Canonical Profile admission,0,0
+test_scaled_masked_softmax_dropout,0,vendor_checks_failed,printed False/FAIL despite zero exit,2,150
+test_scaled_upper_traing_masked_softmax,0,vendor_checks_passed_correctness_only,vendor checks only; not Canonical Profile admission,0,0
+test_scaled_upper_traing_masked_softmax_dropout,0,vendor_checks_failed,printed False/FAIL despite zero exit,2,6
+test_split_qkv_rms_rotary_embedding_fuse_with_kv_store_quant,0,vendor_checks_passed_correctness_only,vendor checks only; not Canonical Profile admission,0,0
