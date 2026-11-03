@@ -10,8 +10,9 @@ from calibration.ffn_anchor_control import pilot_plan
 from calibration.tests.test_ffn_anchor_control import FakeRuntime
 
 
-def synthetic(directory, cell, *, uuid="fixture-GPU0", first_us=12, monkeypatch=None):
-    runtime, ticks, count = FakeRuntime(uuid), itertools.count(100), itertools.count()
+def synthetic(directory, cell, *, uuid="fixture-GPU0", first_us=12, monkeypatch=None,
+              ticks_start=100, observe_override=None):
+    runtime, ticks, count = FakeRuntime(uuid), itertools.count(ticks_start), itertools.count()
     runtime.checkpoint = lambda stage, **k: runtime.events.append("checkpoint:" + stage)
     per_round = 7 + 2 * cell["conditioning_replays_per_endpoint"]
     cond = cell["conditioning_replays_per_endpoint"]
@@ -29,7 +30,7 @@ def synthetic(directory, cell, *, uuid="fixture-GPU0", first_us=12, monkeypatch=
     def observe(gpu):
         assert gpu == 0
         runtime.events.append("telemetry")
-        return {"fixture": True}
+        return observe_override if observe_override is not None else {"fixture": True}
     frozen = collector.plan()
     result = collector.execute_cell(runtime, cell, directory, frozen,
         sample=sample, observe=observe, clock=lambda: next(ticks))

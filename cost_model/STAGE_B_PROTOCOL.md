@@ -1,5 +1,7 @@
 # 阶段 B 执行规范
 
+2026-11-03 执行状态：conditioning01 四格管道与质量均通过，12/12 来源匹配 3adcddc，196 主 Replay / 28 独立 conditioning Replay；两个区组主差值 B−A 为 −0.635160 / −0.024020 μs，Down0 耗时差为 −0.109148% / −0.187440%。A/B 各两次独立运行，A 也均通过；不估计失败率、不自动采用新协议。四格物理 GPU 一致但与旧 pilot 不同。复核见 calibration/FFN_ANCHOR_CONDITIONING01_REVIEW.md。新 accepted=0，priceable_plans=0/48，七项矩阵关闭；旧状态段落保留历史，不代表未收到真机回传。
+
 2026-11-02 修订，基线 `6005868`。顺序为 **B0 → B1 → B2 → B3 → B4 → B5 → B5.5 → B6**；完整计算图验证另列C阶段。B0～B3仅CPU，B4首次使用GPU；B5.5仅CPU，不重新测量。B1已完成入口/出口GPU0的声明动作空间枚举；B2声明及覆盖核验已完成，B3 CPU矩阵/质量配方已冻结，B4 Smoke及后续实验未执行。
 
 ## 三种成本语义
