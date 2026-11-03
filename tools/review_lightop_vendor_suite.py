@@ -161,7 +161,7 @@ def review(received, output, archive=None):
         for record in all_timings:
             stream.write(json.dumps(record, ensure_ascii=True) + "\n")
     with (output / "jobs.csv").open("w", encoding="utf-8", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=["job_id", "returncode", "review_status", "reason", "timing_rows", "false_check_count"])
+        writer = csv.DictWriter(stream, fieldnames=["job_id", "returncode", "review_status", "reason", "timing_rows", "false_check_count"], lineterminator="\n")
         writer.writeheader()
         writer.writerows({k: r[k] for k in writer.fieldnames} for r in records)
     return report
