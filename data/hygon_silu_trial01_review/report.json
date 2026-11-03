@@ -1,0 +1,53 @@
+{
+  "scope": "CPU review of inspection-only receipt; not a GPU trial",
+  "archive_sha256": "a36ff6fcdcea6f6433fc879db1b4f664a4dc23900b66018eae76a27e839f5b22",
+  "source_ref": "3d9b114",
+  "source_checks": 2,
+  "plan_matches_frozen_v1": true,
+  "inspection": {
+    "scope": "hygon_lightop_exploratory_not_profile_admission",
+    "python": "3.10.22 | packaged by conda-forge | (main, Oct  6 2026, 23:02:24) [GCC 14.4.0]",
+    "executable": "/root/private_data/LJ/dcu-kernel310-20261031/venv/bin/python",
+    "packages": {
+      "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+      "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+      "lightop": null
+    },
+    "hipprof": "/opt/dtk/bin/hipprof",
+    "torch": {
+      "module": "2.9.0",
+      "hip": "6.3.26113",
+      "git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+      "file": "/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/site-packages/torch/__init__.py"
+    },
+    "lightop": {
+      "import_traceback": "Traceback (most recent call last):\n  File \"/root/private_data/LJ/Fusion-placement-search/calibration/hygon_silu_trial.py\", line 73, in inspect_stack\n    module = importlib.import_module(\"lightop\")\n  File \"/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/importlib/__init__.py\", line 126, in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n  File \"<frozen importlib._bootstrap>\", line 1050, in _gcd_import\n  File \"<frozen importlib._bootstrap>\", line 1027, in _find_and_load\n  File \"<frozen importlib._bootstrap>\", line 1004, in _find_and_load_unlocked\nModuleNotFoundError: No module named 'lightop'\n"
+    },
+    "package_files": [],
+    "library_test_candidates": []
+  },
+  "summary": {
+    "scope": "hygon_lightop_exploratory_not_profile_admission",
+    "jobs": {
+      "inspection": {
+        "returncode": 0,
+        "attempts": 1
+      }
+    },
+    "pipeline_passed": false,
+    "automatic_admission": false,
+    "followup_matrix_open": false,
+    "no_retries": true,
+    "blocked_reason": "LightOP export or HIP PyTorch unavailable; return inspection before selecting a package/version"
+  },
+  "finding": "LightOP not installed in the selected private Python 3.10; HIP module and hipprof path present",
+  "benchmark_executed": false,
+  "hipprof_executed": false,
+  "new_accepted_profiles": 0,
+  "raw_file_sha256": {
+    "plan.json": "6f3bd32b1f8d9f18d42846c0b9563bdb6b43bf09ecd2a79dc39a7c8cef2f5fb8",
+    "summary.json": "99d64cc335a841d4eb36f3a466fdb27aec775020bb6e1c589c31392f4f4c2c15",
+    "inspection/inspection.json": "f5a4d611393c395c5c3caa83d05e7d67b897ab5c29f77ce8e63ca1dc71b74d56",
+    "inspection/worker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

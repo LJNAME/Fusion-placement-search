@@ -1,0 +1,41 @@
+{
+  "index_url": "https://pypi.sourcefind.cn/release/dtk/+simple/lightop/",
+  "download_url": "https://pypi.sourcefind.cn/das_release/das1.8.2/+f/61e/f2672bbca7419/lightop-0.6.0+das.dtk2604.torch290.2605220936.g6bfaca-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+  "filename": "lightop-0.6.0+das.dtk2604.torch290.2605220936.g6bfaca-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+  "sha256": "61ef2672bbca7419a59ef14d41d1fcd883a972d57d51a2070df98e18d98a5795",
+  "size_bytes": 100433180,
+  "distribution": "lightop",
+  "version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+  "requires_dist": [
+    "torch==2.9.0"
+  ],
+  "python_tag": "cp310",
+  "platform_tags": [
+    "manylinux_2_27_x86_64",
+    "manylinux_2_28_x86_64"
+  ],
+  "abi": "abi1",
+  "dtk": "2604",
+  "torch_version": "2.9",
+  "optimized_binding": "lightop.op.silu_and_mul_opt(output, input)",
+  "other_public_binding": "lightop.fuse_silu_and_mul(input, output)",
+  "vendor_test": "test/test_act_and_mul.py",
+  "vendor_timing": {
+    "warmup": 10,
+    "runs": 100,
+    "graph_capture": false,
+    "preallocated_output": true
+  },
+  "vendor_test_baseline": "vLLM torch.ops._C.silu_and_mul; not the Native two-op baseline used by this project",
+  "original_vendor_test_executed": false,
+  "wheel_executed_locally": false,
+  "gpu_validated": false,
+  "wheel_file_sha256": {
+    "lightop/__init__.py": "b8401d80c6fbd2407a336cbce506bd414cc2f2a2ef9cd3f647b4a9f926786236",
+    "lightop/fuse_silu_mul_quant.py": "306a3920cb89b029a295ff0961966fc1b1a073e00d618f5418aaaf672f1ec645",
+    "lightop/version.py": "73b13d4dc2f411575e422210cbc157e5f88651f5b2c3fbedc9f9c641d1008f3a",
+    "test/test_act_and_mul.py": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+    "test/test_fuse_silu_mul.py": "6e408b9252136d932c8569d296a03b7ad47a9ae8afbd2746d17e2f37eda64cba",
+    "lightop-0.6.0+das.dtk2604.torch290.2605220936.g6bfaca.dist-info/METADATA": "4a79f4bd8f82412add02809e675e43047017f42f225210753091110537edfc49"
+  }
+}

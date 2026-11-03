@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCOPE = "hygon_lightop_exploratory_not_profile_admission"
 ARMS = ("native_packed", "lightop_packed", "native_split", "lightop_split_with_pack")
 SOURCE = "https://developer.sourcefind.cn/codes/OpenDAS/vllm_cscc/-/commit/3842b316979a3ca0c56ceecb7d0faf7262653950"
+BINDING = "lightop.op.silu_and_mul_opt"
 
 
 def save(path, value):
@@ -37,17 +38,18 @@ def version(name):
 
 
 def plan():
-    return {"scope": SCOPE, "source_reference": SOURCE,
+    return {"scope": SCOPE, "collector_version": 2, "source_reference": SOURCE,
         "source_sha256": {n: file_info(ROOT / n)["sha256"] for n in (
             "calibration/hygon_silu_trial.py", "tools/run_hygon_silu_trial.sh")},
         "device": "cuda:0", "dtype": "bf16", "logical_shape": [1, 256, 3072],
         "call_shape_packed": [256, 6144], "call_shape_output": [256, 3072],
-        "binding": "lightop.silu_and_mul_opt(out, packed_input)",
-        "binding_status": "project trial of a vendor API; installed public export must be verified",
+        "binding": BINDING + "(out, packed_input)",
+        "binding_status": "verified statically in the pinned wheel's test/test_act_and_mul.py; GPU unvalidated",
+        "wheel_manifest": json.loads((ROOT / "data/hygon_lightop_wheel_v1/manifest.json").read_text(encoding="utf-8")),
         "arms": list(ARMS), "warmup_calls_per_arm": 10, "timed_calls_per_arm": 100,
         "independent_timing_batches_per_arm": 1, "seed": 1234, "rtol": .01, "atol": .001,
         "timing": "synchronized eager loop; GPU Event and synchronized host wall reported separately",
-        "allocation": "native allocates intermediate/output; LightOP wrapper allocates output on every call",
+        "allocation": "preallocated outputs as in the vendor test; native SiLU intermediate remains allocated during each call",
         "packing": "excluded only for already-packed input; included for split-input LightOP arm",
         "validation": "one pre-timing and final output per arm; input bytes checked after warmup/timing",
         "timed_intermediate_outputs_retained": False, "profiler": "separate processes after all benchmark timing",
@@ -72,8 +74,10 @@ def inspect_stack(output):
     try:
         module = importlib.import_module("lightop")
         names = sorted(n for n in dir(module) if "silu" in n.lower() or "mul" in n.lower())
-        binding = getattr(module, "silu_and_mul_opt", None)
+        operators = getattr(module, "op", None)
+        binding = getattr(operators, "silu_and_mul_opt", None)
         record["lightop"] = {"file": getattr(module, "__file__", None), "symbols": names,
+            "binding": BINDING, "operator_module_file": getattr(operators, "__file__", None),
             "required_export_callable": callable(binding), "doc": getattr(binding, "__doc__", None)}
         try:
             record["lightop"]["signature"] = str(inspect.signature(binding))
@@ -106,22 +110,23 @@ def functions(torch, op, gate, up):
     packed_backup = packed.clone()
     gate_backup, up_backup = gate.clone(), up.clone()
     last_split_input = [None]
+    outputs = {name: torch.empty_like(gate) for name in ARMS}
 
     def native_packed():
-        return torch.nn.functional.silu(packed[..., :width]) * packed[..., width:]
+        return torch.mul(torch.nn.functional.silu(packed[..., :width]), packed[..., width:], out=outputs["native_packed"])
 
-    def lightop_call(value):
-        out = torch.empty(value.shape[:-1] + (width,), dtype=value.dtype, device=value.device)
+    def lightop_call(value, arm):
+        out = outputs[arm]
         op(out, value)
         return out
 
     def split_call():
         value = torch.cat((gate, up), dim=-1)
         last_split_input[0] = value
-        return lightop_call(value)
+        return lightop_call(value, "lightop_split_with_pack")
 
-    arms = {"native_packed": native_packed, "lightop_packed": lambda: lightop_call(packed),
-        "native_split": lambda: torch.nn.functional.silu(gate) * up,
+    arms = {"native_packed": native_packed, "lightop_packed": lambda: lightop_call(packed, "lightop_packed"),
+        "native_split": lambda: torch.mul(torch.nn.functional.silu(gate), up, out=outputs["native_split"]),
         "lightop_split_with_pack": split_call}
 
     def unchanged():
@@ -136,7 +141,7 @@ def functions(torch, op, gate, up):
 def runtime(output):
     import torch
     module = importlib.import_module("lightop")
-    op = getattr(module, "silu_and_mul_opt", None)
+    op = getattr(getattr(module, "op", None), "silu_and_mul_opt", None)
     if not callable(op):
         raise RuntimeError("required public LightOP export missing; inspect installed sources before changing the binding")
     if not torch.version.hip or not torch.cuda.is_available():
@@ -147,7 +152,7 @@ def runtime(output):
         "architecture": getattr(props, "gcnArchName", None), "uuid": str(getattr(props, "uuid", "unavailable")),
         "torch": str(torch.__version__), "torch_distribution": version("torch"),
         "hip": torch.version.hip, "lightop_distribution": version("lightop"),
-        "lightop_file": module.__file__, "binding": "lightop.silu_and_mul_opt",
+        "lightop_file": module.__file__, "binding": BINDING,
         "pool": "ordinary PyTorch eager allocator; no Graph pool",
         "input": {"logical_shape": [1, 256, 3072], "call_shape": [256, 3072], "dtype": "bf16"}}
     save(output / "runtime_identity.json", identity)

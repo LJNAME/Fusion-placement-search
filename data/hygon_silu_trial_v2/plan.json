@@ -1,0 +1,94 @@
+{
+  "scope": "hygon_lightop_exploratory_not_profile_admission",
+  "collector_version": 2,
+  "source_reference": "https://developer.sourcefind.cn/codes/OpenDAS/vllm_cscc/-/commit/3842b316979a3ca0c56ceecb7d0faf7262653950",
+  "source_sha256": {
+    "calibration/hygon_silu_trial.py": "088a1ba87890ed121219a16c4ba2ecbcffb6dd5759667947863f0d1ccecd0c27",
+    "tools/run_hygon_silu_trial.sh": "9d042cee07496d65809319a44e25ebfd1600e7fde613fc2af93deb00abcdc94a"
+  },
+  "device": "cuda:0",
+  "dtype": "bf16",
+  "logical_shape": [
+    1,
+    256,
+    3072
+  ],
+  "call_shape_packed": [
+    256,
+    6144
+  ],
+  "call_shape_output": [
+    256,
+    3072
+  ],
+  "binding": "lightop.op.silu_and_mul_opt(out, packed_input)",
+  "binding_status": "verified statically in the pinned wheel's test/test_act_and_mul.py; GPU unvalidated",
+  "wheel_manifest": {
+    "index_url": "https://pypi.sourcefind.cn/release/dtk/+simple/lightop/",
+    "download_url": "https://pypi.sourcefind.cn/das_release/das1.8.2/+f/61e/f2672bbca7419/lightop-0.6.0+das.dtk2604.torch290.2605220936.g6bfaca-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+    "filename": "lightop-0.6.0+das.dtk2604.torch290.2605220936.g6bfaca-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+    "sha256": "61ef2672bbca7419a59ef14d41d1fcd883a972d57d51a2070df98e18d98a5795",
+    "size_bytes": 100433180,
+    "distribution": "lightop",
+    "version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+    "requires_dist": [
+      "torch==2.9.0"
+    ],
+    "python_tag": "cp310",
+    "platform_tags": [
+      "manylinux_2_27_x86_64",
+      "manylinux_2_28_x86_64"
+    ],
+    "abi": "abi1",
+    "dtk": "2604",
+    "torch_version": "2.9",
+    "optimized_binding": "lightop.op.silu_and_mul_opt(output, input)",
+    "other_public_binding": "lightop.fuse_silu_and_mul(input, output)",
+    "vendor_test": "test/test_act_and_mul.py",
+    "vendor_timing": {
+      "warmup": 10,
+      "runs": 100,
+      "graph_capture": false,
+      "preallocated_output": true
+    },
+    "vendor_test_baseline": "vLLM torch.ops._C.silu_and_mul; not the Native two-op baseline used by this project",
+    "original_vendor_test_executed": false,
+    "wheel_executed_locally": false,
+    "gpu_validated": false,
+    "wheel_file_sha256": {
+      "lightop/__init__.py": "b8401d80c6fbd2407a336cbce506bd414cc2f2a2ef9cd3f647b4a9f926786236",
+      "lightop/fuse_silu_mul_quant.py": "306a3920cb89b029a295ff0961966fc1b1a073e00d618f5418aaaf672f1ec645",
+      "lightop/version.py": "73b13d4dc2f411575e422210cbc157e5f88651f5b2c3fbedc9f9c641d1008f3a",
+      "test/test_act_and_mul.py": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+      "test/test_fuse_silu_mul.py": "6e408b9252136d932c8569d296a03b7ad47a9ae8afbd2746d17e2f37eda64cba",
+      "lightop-0.6.0+das.dtk2604.torch290.2605220936.g6bfaca.dist-info/METADATA": "4a79f4bd8f82412add02809e675e43047017f42f225210753091110537edfc49"
+    }
+  },
+  "arms": [
+    "native_packed",
+    "lightop_packed",
+    "native_split",
+    "lightop_split_with_pack"
+  ],
+  "warmup_calls_per_arm": 10,
+  "timed_calls_per_arm": 100,
+  "independent_timing_batches_per_arm": 1,
+  "seed": 1234,
+  "rtol": 0.01,
+  "atol": 0.001,
+  "timing": "synchronized eager loop; GPU Event and synchronized host wall reported separately",
+  "allocation": "preallocated outputs as in the vendor test; native SiLU intermediate remains allocated during each call",
+  "packing": "excluded only for already-packed input; included for split-input LightOP arm",
+  "validation": "one pre-timing and final output per arm; input bytes checked after warmup/timing",
+  "timed_intermediate_outputs_retained": false,
+  "profiler": "separate processes after all benchmark timing",
+  "profile_arms": [
+    "native_packed",
+    "lightop_packed"
+  ],
+  "library_original_benchmark_executed": false,
+  "kernel_dispatch_certified": false,
+  "automatic_admission": false,
+  "followup_matrix_open": false,
+  "cross_batch_uuid_equality_required": false
+}

@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import subprocess
+from types import SimpleNamespace
 
 import pytest
 import torch
@@ -77,3 +78,29 @@ def test_plan_is_cpu_only_and_does_not_claim_a_library_benchmark_or_dispatch_cer
     assert not frozen["library_original_benchmark_executed"]
     assert not frozen["cross_batch_uuid_equality_required"]
     assert not frozen["kernel_dispatch_certified"] and not frozen["automatic_admission"]
+    assert frozen["binding"] == "lightop.op.silu_and_mul_opt(out, packed_input)"
+    assert frozen["collector_version"] == 2
+
+
+@pytest.mark.parametrize("nested", [True, False])
+def test_inspection_requires_the_optimized_export_in_the_actual_operator_module(tmp_path, monkeypatch, nested):
+    callback = lambda out, value: None
+    module = SimpleNamespace(__file__=None, silu_and_mul_opt=callback,
+        op=SimpleNamespace(**({"silu_and_mul_opt": callback} if nested else {})))
+    monkeypatch.setattr(trial.importlib, "import_module", lambda _: module)
+    monkeypatch.setattr(trial.metadata, "packages_distributions", lambda: {})
+    report = trial.inspect_stack(tmp_path)
+    assert report["lightop"]["required_export_callable"] is nested
+    assert report["lightop"]["binding"] == "lightop.op.silu_and_mul_opt"
+
+
+def test_vendor_style_outputs_are_preallocated_per_arm():
+    def op(out, value):
+        out.copy_(torch.nn.functional.silu(value[..., :8]) * value[..., 8:])
+    arms, unchanged = trial.functions(torch, op, torch.randn(3, 8), torch.randn(3, 8))
+    outputs = []
+    for function in arms.values():
+        first, second = function(), function()
+        assert first.data_ptr() == second.data_ptr()
+        outputs.append(first)
+    assert len({v.data_ptr() for v in outputs}) == 4 and unchanged()
