@@ -1,0 +1,153 @@
+{
+  "scope": "CPU review of exploratory LightOP evidence, not Profile admission",
+  "source_ref": "228ee20",
+  "archive_sha256": "41a98bd37414ad2563bb10118c975d157f2fa106418ab8b0c39d1ca6cc073f92",
+  "source_checks": 2,
+  "recorded_package_hashes_matching_wheel": 49,
+  "identity": {
+    "scope": "hygon_lightop_exploratory_not_profile_admission",
+    "device_index": 0,
+    "name": "BW",
+    "architecture": "gfx936:sramecc+:xnack-",
+    "uuid": "30303134-6264-6363-3764-316131386131",
+    "torch": "2.9.0",
+    "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+    "hip": "6.3.26113",
+    "lightop_distribution": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+    "lightop_file": "/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/site-packages/lightop/__init__.py",
+    "binding": "lightop.op.silu_and_mul_opt",
+    "pool": "ordinary PyTorch eager allocator; no Graph pool",
+    "input": {
+      "logical_shape": [
+        1,
+        256,
+        3072
+      ],
+      "call_shape": [
+        256,
+        3072
+      ],
+      "dtype": "bf16"
+    }
+  },
+  "benchmark": {
+    "scope": "hygon_lightop_exploratory_not_profile_admission",
+    "arms": {
+      "native_packed": {
+        "gpu_batch_ms": 3.114716053009033,
+        "gpu_us_per_call": 31.147160530090332,
+        "synchronized_wall_us_per_call": 32.94252,
+        "calls": 100,
+        "warmup_calls": 10,
+        "numeric_ok": true,
+        "input_bytes_unchanged": true
+      },
+      "lightop_packed": {
+        "gpu_batch_ms": 0.7806389927864075,
+        "gpu_us_per_call": 7.806389927864075,
+        "synchronized_wall_us_per_call": 8.67079,
+        "calls": 100,
+        "warmup_calls": 10,
+        "numeric_ok": true,
+        "input_bytes_unchanged": true
+      },
+      "native_split": {
+        "gpu_batch_ms": 1.7111990451812744,
+        "gpu_us_per_call": 17.111990451812744,
+        "synchronized_wall_us_per_call": 17.69358,
+        "calls": 100,
+        "warmup_calls": 10,
+        "numeric_ok": true,
+        "input_bytes_unchanged": true
+      },
+      "lightop_split_with_pack": {
+        "gpu_batch_ms": 2.18127703666687,
+        "gpu_us_per_call": 21.8127703666687,
+        "synchronized_wall_us_per_call": 22.700219999999998,
+        "calls": 100,
+        "warmup_calls": 10,
+        "numeric_ok": true,
+        "input_bytes_unchanged": true
+      }
+    },
+    "complete": true,
+    "profiler_active": false,
+    "library_original_benchmark": false,
+    "independent_batches_per_arm": 1,
+    "automatic_admission": false
+  },
+  "comparisons": {
+    "packed": {
+      "native_us": 31.147160530090332,
+      "lightop_path_us": 7.806389927864075,
+      "lightop_minus_native_us": -23.340770602226257,
+      "relative_duration_change_percent": -74.93707357265342,
+      "native_over_lightop": 3.9899570503023263,
+      "descriptive_single_batch_only": true
+    },
+    "split": {
+      "native_us": 17.111990451812744,
+      "lightop_path_us": 21.8127703666687,
+      "lightop_minus_native_us": 4.700779914855957,
+      "relative_duration_change_percent": 27.470678692191438,
+      "native_over_lightop": 0.7844941364239066,
+      "descriptive_single_batch_only": true
+    }
+  },
+  "profiles": {
+    "native_packed": {
+      "all_process_kernel_events": 100,
+      "target_counts": {
+        "native_silu": 11,
+        "native_mul": 11
+      },
+      "database_csv_counts_and_durations_match": true,
+      "evidence_scope": "separate profiling process, not the hundred timed invocations"
+    },
+    "lightop_packed": {
+      "all_process_kernel_events": 89,
+      "target_counts": {
+        "lightop_fused": 11
+      },
+      "database_csv_counts_and_durations_match": true,
+      "evidence_scope": "separate profiling process, not the hundred timed invocations"
+    }
+  },
+  "all_processes_completed_once": true,
+  "installation_report_supplied": false,
+  "profile_dispatch_observed": true,
+  "timed_invocations_individually_traced": false,
+  "pftrace_preserved_not_decoded": true,
+  "independent_batches_per_arm": 1,
+  "new_accepted_profiles": 0,
+  "priceable_plans": 0,
+  "legal_plans": 48,
+  "automatic_followup": false,
+  "originals_unchanged": true,
+  "raw_file_sha256": {
+    "benchmark/benchmark.json": "e072ae02fa4c6a9adb8a8f5cbe1a867cc01dc8473473c0dd24c427cb04d28829",
+    "benchmark/last_stage.json": "302fb5d4da82227d4512f24fa13a0c462eb7d307c3057ce43fc5c2c3c9dcf1db",
+    "benchmark/runtime_identity.json": "134ad3098808fca90a1a08b8328a0a7fb246149769a57c4a8ab9be58b7dd771d",
+    "benchmark/worker.log": "1ed7cafd47865a4fbaaa00122de9e3aec214c58a98f929be3c1ce78bb39ad398",
+    "hipprof_lightop_packed/hip-prof-746.db": "940b6b8a845b711d59858ca5d43b70644ae2addd0f67c0c70dbe5e374bee6806",
+    "hipprof_lightop_packed/last_stage.json": "16d1e03f42eea5b866fdd7dffa6df3c5217bec40fe291b19b592d48f17331887",
+    "hipprof_lightop_packed/profile_worker.json": "726d58fd90f9316ee6c667030b3aeb843689f95a3d29a8d25c42dfc2d685d41b",
+    "hipprof_lightop_packed/result_746.hipkernel.csv": "e41197915486ca9d54de0a87eed677232787bc01cc0cae7264a7255b24bd534c",
+    "hipprof_lightop_packed/result_746.hiptrace.csv": "c65cb6f38105c47af08adc2b575d1edfa4c415a9831e4d40eb35e2ea41996cda",
+    "hipprof_lightop_packed/result_746.pftrace": "d7aead90548e58f243db0f48c422e42f07ddcf8699393dfe39d21abe4b14514f",
+    "hipprof_lightop_packed/runtime_identity.json": "134ad3098808fca90a1a08b8328a0a7fb246149769a57c4a8ab9be58b7dd771d",
+    "hipprof_lightop_packed/worker.log": "c19006205cc3cab9b1c3a716f5739eeeab473a18403621e75a6a5c2448917f27",
+    "hipprof_native_packed/hip-prof-519.db": "0760f63e47c8091aca156bf9235e92732c7011e4a1460a73d702ae23cf20b685",
+    "hipprof_native_packed/last_stage.json": "acc2d11571bf1f45c06f94e04777f38e27209ee1acf7b75e45ffa1ad50db47c8",
+    "hipprof_native_packed/profile_worker.json": "aaadf63a7db9b2d304629b48c6991959f10185f54c4950ac528822411190dc44",
+    "hipprof_native_packed/result_519.hipkernel.csv": "324f4a55f8e3eccece0ecd5539b4148173443e1d75b43930aa6e8c734a865304",
+    "hipprof_native_packed/result_519.hiptrace.csv": "d38874388284e4d4a1a5a8a03957262ff194ef9a81fc141a9056989328e8309d",
+    "hipprof_native_packed/result_519.pftrace": "04281a2cb72b49758c180aff877afa95c0159fabc669f9c8a5a5b4449d64d5c7",
+    "hipprof_native_packed/runtime_identity.json": "134ad3098808fca90a1a08b8328a0a7fb246149769a57c4a8ab9be58b7dd771d",
+    "hipprof_native_packed/worker.log": "1005b238da7c5295788b3a042e45d1b0b3740111f961e04c4f27dabec2c8fb85",
+    "inspection/inspection.json": "2267578c57a32ef09c46f5b589707aa6dd0833201a15da269ac283a307a54421",
+    "inspection/worker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "2a0f71d6194cd57f1a9668122e7b70efe54d3768d38165db61c1a1b3a13d4086",
+    "summary.json": "34300ce65c44ec8de3edced7f63fd8634602c3b9227b9cdfdfa89af1ead9652b"
+  }
+}
