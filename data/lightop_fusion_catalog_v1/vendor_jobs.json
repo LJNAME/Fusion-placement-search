@@ -1,0 +1,1268 @@
+{
+  "schema_version": 1,
+  "scope": "vendor_original_tests_not_profile_admission",
+  "wheel_sha256": "61ef2672bbca7419a59ef14d41d1fcd883a972d57d51a2070df98e18d98a5795",
+  "job_count": 48,
+  "jobs": [
+    {
+      "id": "test_act_and_mul_silu",
+      "script": "test/test_act_and_mul.py",
+      "args": [
+        "--act",
+        "silu"
+      ],
+      "source_sha256": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+      "capability_references": [
+        "op.silu_and_mul_opt"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "argparse",
+        "lightop",
+        "time",
+        "torch",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "torch.cuda.Event"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_act_and_mul_gelu",
+      "script": "test/test_act_and_mul.py",
+      "args": [
+        "--act",
+        "gelu"
+      ],
+      "source_sha256": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+      "capability_references": [
+        "op.gelu_and_mul_opt"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "argparse",
+        "lightop",
+        "time",
+        "torch",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "torch.cuda.Event"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_act_and_mul_gelu_tanh",
+      "script": "test/test_act_and_mul.py",
+      "args": [
+        "--act",
+        "gelu_tanh"
+      ],
+      "source_sha256": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+      "capability_references": [
+        "op.gelu_tanh_and_mul_opt"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "argparse",
+        "lightop",
+        "time",
+        "torch",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "torch.cuda.Event"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_add_dropout",
+      "script": "test/test_add_dropout.py",
+      "args": [],
+      "source_sha256": "2971e0d8921047e54c080cd91e076f14755505e05c325d58d653005403d4b82c",
+      "capability_references": [
+        "AddDropout"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_bias_dropout_add",
+      "script": "test/test_bias_dropout_add.py",
+      "args": [],
+      "source_sha256": "e36d2b2def643242ec1c4ed9565f67e19c464ccb8bc02bdf195235c0bf3f0d64",
+      "capability_references": [
+        "FuseBiasDropoutAdd"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_bias_gelu",
+      "script": "test/test_bias_gelu.py",
+      "args": [],
+      "source_sha256": "a5725b86fc62fa1eecf561fe07ae4fc40e6bed49625828a161aa1c25b27e4d20",
+      "capability_references": [
+        "FuseBiasGelu"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "os",
+        "random",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_bias_swiglu",
+      "script": "test/test_bias_swiglu.py",
+      "args": [],
+      "source_sha256": "9d75292e96d7a158dd637eaa395787c075bd42d3ef1ea6eedac8feb8b4bca810",
+      "capability_references": [
+        "FuseBiasSwiGLU"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_blockwise_scaled_1d_cast_transpose",
+      "script": "test/test_blockwise_scaled_1d_cast_transpose.py",
+      "args": [],
+      "source_sha256": "0bd6ef2cdfd562cd794fe718752b3316174ca810b820a6f1108b6ab96b7b4b91",
+      "capability_references": [
+        "blockwise_scaled_cast_transpose"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "dataclasses",
+        "lightop",
+        "math",
+        "os",
+        "time",
+        "torch",
+        "typing"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "torch.cuda.Event"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_celu_groupnorm",
+      "script": "test/test_celu_groupnorm.py",
+      "args": [],
+      "source_sha256": "d73a5a7a1d1dfd409dcda14dedfe5803a1e3176c992ed11edf026c1f61485158",
+      "capability_references": [
+        "CeluGN"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_fuse_fill_rms_x2_concat",
+      "script": "test/test_fuse_fill_rms_x2_concat.py",
+      "args": [],
+      "source_sha256": "faf070e8dee643574862129969880db4868c85410ef6d900db1a4d73a810a848",
+      "capability_references": [
+        "fuse_fill_rms_x2_concat"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "pdb",
+        "torch",
+        "triton",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fuse_gammarmsnorm_rope_qkv_kernel",
+      "script": "test/test_fuse_gammarmsnorm_rope_qkv_kernel.py",
+      "args": [],
+      "source_sha256": "aea5c91808ae87c6a4a4746bc8d603d7a97f4a18a64a08377818c487580617cc",
+      "capability_references": [
+        "gammarms_rotary_embedding_fuse_with_kv_store"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "itertools",
+        "lightop",
+        "os",
+        "statistics",
+        "sys",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fuse_groupgemm_permute_quant",
+      "script": "test/test_fuse_groupgemm_permute_quant.py",
+      "args": [],
+      "source_sha256": "ca17da7f320b31833ce3a05cd46facf552563cd2996c03b52d43e2ec41a5f04e",
+      "capability_references": [
+        "fuse_groupgemm_permute_quant"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "copy",
+        "datetime",
+        "lightop",
+        "pytest",
+        "random",
+        "time",
+        "torch",
+        "typing",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fuse_rmsnorm_rope_contiguous",
+      "script": "test/test_fuse_rmsnorm_rope_contiguous.py",
+      "args": [],
+      "source_sha256": "7f3f593dc4895077018edc69ac8cadfbfa6b8f3bc8a147526c84caf4ca588408",
+      "capability_references": [
+        "fused_rms_norm_rope_contiguous"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "pdb",
+        "torch",
+        "triton",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fuse_rmsnorm_rope_qkv_kernel",
+      "script": "test/test_fuse_rmsnorm_rope_qkv_kernel.py",
+      "args": [],
+      "source_sha256": "609a2f99723f3c38a685d573bed0c96a7b4a14b90d96c05f0feca2bbff53f1b1",
+      "capability_references": [
+        "rms_rotary_embedding_fuse_with_kv_store"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "itertools",
+        "lightop",
+        "os",
+        "statistics",
+        "sys",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fuse_rmsnorm_rope_qkv_no_quant",
+      "script": "test/test_fuse_rmsnorm_rope_qkv_no_quant.py",
+      "args": [],
+      "source_sha256": "b0f9cfff9a29d732cac4fdb73d590536a18fdc52abc8bcf8377bad9810a6665b",
+      "capability_references": [
+        "gammarms_rotary_embedding_fuse_with_kv_store",
+        "rms_rotary_embedding_fuse",
+        "rms_rotary_embedding_fuse_with_kv_store"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "itertools",
+        "lightop",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fuse_rmsnorm_rope_quant_qkv",
+      "script": "test/test_fuse_rmsnorm_rope_quant_qkv.py",
+      "args": [],
+      "source_sha256": "499ae2baac094a79ec7fa762dc7817a3a1fc7cac885b0e380794356ed14ac49e",
+      "capability_references": [
+        "fuse_rmsnorm_rope_quant_qkv"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "pdb",
+        "torch",
+        "triton"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fuse_silu_mul",
+      "script": "test/test_fuse_silu_mul.py",
+      "args": [],
+      "source_sha256": "6e408b9252136d932c8569d296a03b7ad47a9ae8afbd2746d17e2f37eda64cba",
+      "capability_references": [
+        "fuse_silu_and_mul"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "time",
+        "torch",
+        "triton"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fuse_silu_mul_fp8_quant",
+      "script": "test/test_fuse_silu_mul_fp8_quant.py",
+      "args": [],
+      "source_sha256": "fd9d6901174e6da128f024a5c0bd4d55cd317ef8e7340c91a2adc835638299fe",
+      "capability_references": [
+        "rms_norm_per_token_fp8_quant"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "collections",
+        "copy",
+        "dataclasses",
+        "itertools",
+        "lightop",
+        "pandas",
+        "pickle",
+        "time",
+        "torch",
+        "tqdm",
+        "triton",
+        "typing",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "bench_fn_multi",
+        "bench_fn_triton_stable",
+        "triton.testing.do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fuse_silu_mul_quant",
+      "script": "test/test_fuse_silu_mul_quant.py",
+      "args": [],
+      "source_sha256": "a669069ca2ab2ba7bfdaf97dccc7d63848aa0d24688b4d3fbfc4501cedd98d26",
+      "capability_references": [
+        "fuse_silu_mul_quant"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "torch",
+        "triton",
+        "typing",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "benchmark.run",
+        "triton.testing.do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fuse_silu_mul_quant_ep",
+      "script": "test/test_fuse_silu_mul_quant_ep.py",
+      "args": [],
+      "source_sha256": "d24b48427df34b04bea7e69cda5bd49afa06a39e7d4604e4dbdd6462e760646b",
+      "capability_references": [
+        "fuse_silu_mul_quant_ep"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "torch",
+        "triton",
+        "typing",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "benchmark.run",
+        "triton.testing.do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fused_moe_gate",
+      "script": "test/test_fused_moe_gate.py",
+      "args": [],
+      "source_sha256": "c94113259db1cb25f08224603329944c11cc18442bc6f9387161d632342d84ae",
+      "capability_references": [
+        "moe_fused_gate"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "pdb",
+        "torch",
+        "triton",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "benchmark.run",
+        "triton.testing.do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fused_rms_rope",
+      "script": "test/test_fused_rms_rope.py",
+      "args": [],
+      "source_sha256": "46411e1c28aeca9293e880685a46a8993ed3189236a408f2fa56a2ed16370606",
+      "capability_references": [
+        "rms_rotary_embedding_fuse"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "itertools",
+        "lightop",
+        "os",
+        "pandas",
+        "torch",
+        "triton",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "torch.cuda.Event"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_fused_trans_bmm_trans_benchmark",
+      "script": "test/test_fused_trans_bmm_trans.py",
+      "args": [
+        "benchmark"
+      ],
+      "source_sha256": "8f55f76e2013d6400f0eecaf81b945b8f5151d235dec87be63012c011d2d4259",
+      "capability_references": [
+        "fuse_rmsnorm_rope_quant_qkv",
+        "fused_bmm",
+        "fused_rms_norm_rope_contiguous"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "json",
+        "lightop",
+        "lmslim",
+        "math",
+        "os",
+        "pandas",
+        "pdb",
+        "sys",
+        "test_fuse_rmsnorm_rope_quant_qkv",
+        "time",
+        "torch",
+        "triton",
+        "typing",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "triton.testing.do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_gemma_fused_add_rmsnorm",
+      "script": "test/test_gemma_fused_add_rmsnorm.py",
+      "args": [],
+      "source_sha256": "0a6a4d616f2f31362c0cedbfbcb57778a0d43bfc4c475e8020c7302f819a35f4",
+      "capability_references": [
+        "gemma_fused_add_rmsnorm"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "torch",
+        "typing"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_gemma_rms_norm_fp8_quant",
+      "script": "test/test_gemma_rms_norm_fp8_quant.py",
+      "args": [],
+      "source_sha256": "194138d3fb1f780500abd40d5768a60764faec422c44f5f023568670b22ceda4",
+      "capability_references": [
+        "gemma_rms_norm_per_token_fp8_quant"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "collections",
+        "copy",
+        "dataclasses",
+        "itertools",
+        "lightop",
+        "pandas",
+        "pickle",
+        "time",
+        "torch",
+        "triton",
+        "typing",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "torch.cuda.Event"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_gn_silu",
+      "script": "test/test_gn_silu.py",
+      "args": [],
+      "source_sha256": "980727f19cb09a7f2dbbf0aecb16845fdc6bba5bbeacbfa0c6111ae1a62f106c",
+      "capability_references": [
+        "GNSilu"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_ln_add",
+      "script": "test/test_ln_add.py",
+      "args": [],
+      "source_sha256": "e6a7bf6d6ce2356dc68418c8f2e3d3498030911ba50c225810cfee92301d9da3",
+      "capability_references": [
+        "AddLn"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "os",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_ln_add_dropout",
+      "script": "test/test_ln_add_dropout.py",
+      "args": [],
+      "source_sha256": "9a3d966ce2a2114fe0b1303f193d9d2716662a26de29b6ba09cdbbd68cef95c0",
+      "capability_references": [
+        "LnAddDropout"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "os",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_ln_add_dropout_bias",
+      "script": "test/test_ln_add_dropout_bias.py",
+      "args": [],
+      "source_sha256": "de341a3da44967eb7f6943897665247522bc6e5001f4c119d0d3a89cea3842ba",
+      "capability_references": [
+        "LnAddDropoutBias"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "os",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_ln_dropout",
+      "script": "test/test_ln_dropout.py",
+      "args": [],
+      "source_sha256": "6711f3fc815338189cb15990b33d6df22cd0d40b45cb8dcf504b298a42ef2d7d",
+      "capability_references": [
+        "LnDropout"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "os",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_ln_droppath",
+      "script": "test/test_ln_droppath.py",
+      "args": [],
+      "source_sha256": "a6022111f5e84cef31660e4fb76ef8c37292e9eb6092220c08c1bbe0c2478d34",
+      "capability_references": [
+        "LnDropPath"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_moe_swiglu_dynamic_quant",
+      "script": "test/test_moe_swiglu_dynamic_quant.py",
+      "args": [],
+      "source_sha256": "e66e0ee4a98f49b5d4e944e308db5e65fec3f11d6426e999530e3249574964cc",
+      "capability_references": [
+        "moe_swiglu_dynamic_quant"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "numpy",
+        "time",
+        "torch",
+        "triton"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_quantization_cuda",
+      "script": "test/test_quantization_cuda.py",
+      "args": [],
+      "source_sha256": "2d87e76520948eeb98eb8392481be4203210ac5d5b4d18b81447a9b3e760ab26",
+      "capability_references": [
+        "destindex_copy_quantize_int8_cuda"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "numpy",
+        "time",
+        "torch",
+        "triton"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_relu_dropout",
+      "script": "test/test_relu_dropout.py",
+      "args": [],
+      "source_sha256": "68a3a7d25eb8f8e5d44f95e7410d24ce554bed9bd2c2e72f4a2378ca1feae047",
+      "capability_references": [
+        "ReluDropout"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "copy",
+        "lightop",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_reshape_cache_cuda",
+      "script": "test/test_reshape_cache_cuda.py",
+      "args": [],
+      "source_sha256": "d46d22d1faa0106f890effe6ef0504d9a1304850c63d21a1f883f772393057af",
+      "capability_references": [
+        "reshape_and_cache_cuda"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "openpyxl",
+        "random",
+        "torch",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "torch.cuda.Event"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_rms_add",
+      "script": "test/test_rms_add.py",
+      "args": [],
+      "source_sha256": "b8e5fa25f2eca1fbc405dad6f3a47083b3e193247d65229f79cac89560489fff",
+      "capability_references": [
+        "fused_add_rms_norm"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "itertools",
+        "lightop",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "torch.cuda.Event"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_rms_mrope",
+      "script": "test/test_rms_mrope.py",
+      "args": [],
+      "source_sha256": "a06145f84cd9b46f375a6e6a406d63851daf0999a78bf9c9f2363e427afec457",
+      "capability_references": [
+        "fuse_rms_mrope_cuda"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "pdb",
+        "torch",
+        "triton",
+        "typing",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_rms_norm_dynamic_per_token_quant",
+      "script": "test/test_rms_norm_dynamic_per_token_quant.py",
+      "args": [],
+      "source_sha256": "dee46b354df45f01671557206effb783ab42edb580655773d54e2c6992f04c23",
+      "capability_references": [
+        "rms_norm_dynamic_per_token_quant"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "collections",
+        "copy",
+        "dataclasses",
+        "itertools",
+        "lightop",
+        "pandas",
+        "pickle",
+        "time",
+        "torch",
+        "tqdm",
+        "triton",
+        "typing",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "bench_fn_multi",
+        "bench_fn_triton_stable",
+        "triton.testing.do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_rms_norm_fp8_quant",
+      "script": "test/test_rms_norm_fp8_quant.py",
+      "args": [],
+      "source_sha256": "7ad736be5d86659b19d1f84aaf9233d20f16ac56eec69d6f39fa851f9c545f6b",
+      "capability_references": [
+        "rms_norm_per_token_fp8_quant"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "collections",
+        "copy",
+        "dataclasses",
+        "itertools",
+        "lightop",
+        "pandas",
+        "pickle",
+        "time",
+        "torch",
+        "tqdm",
+        "triton",
+        "typing",
+        "vllm"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "bench_fn_multi",
+        "bench_fn_triton_stable",
+        "triton.testing.do_bench"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_rn_add",
+      "script": "test/test_rn_add.py",
+      "args": [],
+      "source_sha256": "65e2604d89bc394f6aac339c353388133961f057eb640bc9485a5acf0ee7cbd3",
+      "capability_references": [
+        "RMSNormAdd"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "os",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_rn_add_dropout",
+      "script": "test/test_rn_add_dropout.py",
+      "args": [],
+      "source_sha256": "ea7ed14851b84b409946149850b84a22f8cd2949f837426ac7c4a9519866f23d",
+      "capability_references": [
+        "RMSNormAddDropout"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "os",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_rn_add_dropout_bias",
+      "script": "test/test_rn_add_dropout_bias.py",
+      "args": [],
+      "source_sha256": "de189c64d0589b5517e8aa00712744ca23bce466918809bc6c4aacfd2e9e1a8c",
+      "capability_references": [
+        "RMSNormAddDropoutBias"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "os",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_rn_dropout",
+      "script": "test/test_rn_dropout.py",
+      "args": [],
+      "source_sha256": "6f443fad5c8f10d4c37e96550a7ee7fad67ee9b8c1bd924b2bdc63e94df2f941",
+      "capability_references": [
+        "RMSNormDropout"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "os",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": true
+    },
+    {
+      "id": "test_scaled_masked_softmax",
+      "script": "test/test_scaled_masked_softmax.py",
+      "args": [],
+      "source_sha256": "6420f4fda07ed773ad3ff165716a151b828f508be5f3c664c2f58686671ba9dc",
+      "capability_references": [
+        "FusedScaleMaskSoftmax"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "math",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_scaled_masked_softmax_dropout",
+      "script": "test/test_scaled_masked_softmax_dropout.py",
+      "args": [],
+      "source_sha256": "69bcbb84200dbda1bb73ae502258ae5fb9b5025a84371a742738c0025fbe6251",
+      "capability_references": [
+        "FusedScaleMaskSoftmax",
+        "FusedScaleMaskSoftmaxDropout"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "math",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_scaled_upper_traing_masked_softmax",
+      "script": "test/test_scaled_upper_traing_masked_softmax.py",
+      "args": [],
+      "source_sha256": "c89a63cd39c36f28fcacd9a292ad25130525f550d3ea9ddda63dbc04c31e551b",
+      "capability_references": [
+        "FusedScaleMaskSoftmax"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "math",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_scaled_upper_traing_masked_softmax_dropout",
+      "script": "test/test_scaled_upper_traing_masked_softmax_dropout.py",
+      "args": [],
+      "source_sha256": "60a6eb7c84e808b371f42e105daabfd502421e038bcde16b1d0313a3871c60fa",
+      "capability_references": [
+        "FusedScaleMaskSoftmax",
+        "FusedScaleMaskSoftmaxDropout"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "lightop",
+        "math",
+        "time",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [
+        "time.time"
+      ],
+      "includes_profiler": false
+    },
+    {
+      "id": "test_split_qkv_rms_rotary_embedding_fuse_with_kv_store_quant",
+      "script": "test/test_split_qkv_rms_rotary_embedding_fuse_with_kv_store_quant.py",
+      "args": [],
+      "source_sha256": "125f46161abd5d6a5ffe75fc7b97fa73f79720e50138f77190f9b4e543ceeb48",
+      "capability_references": [
+        "gammarms_rotary_embedding_fuse_with_kv_store",
+        "rms_rotary_embedding_fuse",
+        "rms_rotary_embedding_fuse_with_kv_store",
+        "split_qkv_rms_rotary_embedding_fuse_with_kv_store_quant"
+      ],
+      "reference_scope": "static call references; execution and shape coverage require vendor output review",
+      "launch_mode": "script",
+      "imports": [
+        "itertools",
+        "lightop",
+        "torch"
+      ],
+      "method": "unmodified_vendor_script",
+      "timing_helpers": [],
+      "includes_profiler": false
+    }
+  ],
+  "test_tree_sha256": {
+    "test/__init__.py": "de2abade832c8e350a1bdc98cfcdb1e202ac4749c5fc51a4a970d41736b6df5c",
+    "test/all_test.py": "5a24ae7f1d56aeba859d702c29fe670bea59c968cb0bb28f96fc921b3308fc75",
+    "test/benchmark_allreduce.py": "afc3b2f8a1deb71c67a9bd1e24b0ea63e6619e3fe54b47d8fd783e9a4746bf54",
+    "test/test_act_and_mul.py": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+    "test/test_add_dropout.py": "2971e0d8921047e54c080cd91e076f14755505e05c325d58d653005403d4b82c",
+    "test/test_awq_w4a16_dequant_trans.py": "f1808b4619849c49897f77f7338f5b898d1ffd78f7287150411fe7aea63db4ca",
+    "test/test_batch_linear_assignment.py": "703e6c6c5e23d457ead36edee9b94ba49c24fdaefe63722e765e6ccfc9541e73",
+    "test/test_bf16_deepgemm_contig.py": "e5e41d38b896c2ed5c9add6f49c517b6de6b0da88c2743de689441e5c6ef5e42",
+    "test/test_bias_dropout_add.py": "e36d2b2def643242ec1c4ed9565f67e19c464ccb8bc02bdf195235c0bf3f0d64",
+    "test/test_bias_gelu.py": "a5725b86fc62fa1eecf561fe07ae4fc40e6bed49625828a161aa1c25b27e4d20",
+    "test/test_bias_swiglu.py": "9d75292e96d7a158dd637eaa395787c075bd42d3ef1ea6eedac8feb8b4bca810",
+    "test/test_blinear_sample.py": "d682dc9cf2cd8ee985dbdd4591b04b1fd6a665d1b77e6e8990947ff128f7171c",
+    "test/test_blockwise_scaled_1d_cast_transpose.py": "0bd6ef2cdfd562cd794fe718752b3316174ca810b820a6f1108b6ab96b7b4b91",
+    "test/test_celu_groupnorm.py": "d73a5a7a1d1dfd409dcda14dedfe5803a1e3176c992ed11edf026c1f61485158",
+    "test/test_concat.py": "01d5fd2818ea7c5c7f3b0d16c94a84c6adf586e7215160e2464f824bd260a377",
+    "test/test_convert_req_index_to_global_index.py": "3ed3a4fec7fc9f5447259531ee0e8fe86d3d524bfade0496e3401cf751e1707f",
+    "test/test_cross_modified.py": "a4395d7bf37bc8ee93746762df89cc99b1e74985d53bcfc351f58fc0fb97dcca",
+    "test/test_demo_box_cost_i.py": "bfc14dee43ba4b23b830aac973a6abde2a1ba0776d3f740f1987ea147c23f9d3",
+    "test/test_demo_encode_reg_target.py": "c8b405d05d6e24163504aea58761d8f3337eef3a7402f237a4307f7b00415344",
+    "test/test_droppath.py": "76807dc9cd0d6ec591ecec29b04170800e61c236ac4524a5877e7c6aefb87943",
+    "test/test_ep_gather.py": "3499130ee2ad5bff5d6aff30c1caa99fd7a0b742d201bed16a9b3e85d2d622f6",
+    "test/test_ep_scatter.py": "166675241c49598729a57c8f68a7471767f49482c65907d9151febac6a00c4c7",
+    "test/test_ep_scatter_fuse_quant.py": "df8fc11ce7c9b1fc6de0c364c7baf5335dcb5d1edd4b6d490e3148aca0d7beb1",
+    "test/test_ep_scatter_fuse_smooth_quant.py": "349885ae6c576a06dbe599d81786f2a5b05b78214bb5c182ed714629324b077e",
+    "test/test_fake_quant_affine.py": "2e0445a27185d83ed1652a3341a519fd06f636ace67799f31591471183b79b3f",
+    "test/test_fill_zeros.py": "ac7fa633147476b4dbccbce9cf6108473c852afa94d14be84593651f01ffa314",
+    "test/test_fuse_concat_and_cast_fp8.py": "2510c981287fc5cf73bf360d6fb278ac18c941b14d1f6bf770adcf57c55bf105",
+    "test/test_fuse_fill_rms_x2_concat.py": "faf070e8dee643574862129969880db4868c85410ef6d900db1a4d73a810a848",
+    "test/test_fuse_gammarmsnorm_rope_qkv_kernel.py": "aea5c91808ae87c6a4a4746bc8d603d7a97f4a18a64a08377818c487580617cc",
+    "test/test_fuse_groupgemm_permute_quant.py": "ca17da7f320b31833ce3a05cd46facf552563cd2996c03b52d43e2ec41a5f04e",
+    "test/test_fuse_qkv_head_rms_norm.py": "39d736f6c6755f1d10fd94052ccfa3e12e4644b1b7a47cbdde34bf1d0fbbe49e",
+    "test/test_fuse_rmsnorm_contiguous.py": "ffb4084a0beb91e0e8421dacbc36bd19172a0f1aa545565d551c4ffd961d74f1",
+    "test/test_fuse_rmsnorm_rope_contiguous.py": "7f3f593dc4895077018edc69ac8cadfbfa6b8f3bc8a147526c84caf4ca588408",
+    "test/test_fuse_rmsnorm_rope_qkv_kernel.py": "609a2f99723f3c38a685d573bed0c96a7b4a14b90d96c05f0feca2bbff53f1b1",
+    "test/test_fuse_rmsnorm_rope_qkv_no_quant.py": "b0f9cfff9a29d732cac4fdb73d590536a18fdc52abc8bcf8377bad9810a6665b",
+    "test/test_fuse_rmsnorm_rope_quant_qkv.py": "499ae2baac094a79ec7fa762dc7817a3a1fc7cac885b0e380794356ed14ac49e",
+    "test/test_fuse_rotary_embedding_deepseek.py": "a25d783d7cb47aee222dbd4206fd5bfdcefc6a54a73bbcad5ebd2bc75b5ea510",
+    "test/test_fuse_silu_mul.py": "6e408b9252136d932c8569d296a03b7ad47a9ae8afbd2746d17e2f37eda64cba",
+    "test/test_fuse_silu_mul_fp8_quant.py": "fd9d6901174e6da128f024a5c0bd4d55cd317ef8e7340c91a2adc835638299fe",
+    "test/test_fuse_silu_mul_quant.py": "a669069ca2ab2ba7bfdaf97dccc7d63848aa0d24688b4d3fbfc4501cedd98d26",
+    "test/test_fuse_silu_mul_quant_ep.py": "d24b48427df34b04bea7e69cda5bd49afa06a39e7d4604e4dbdd6462e760646b",
+    "test/test_fused_moe_gate.py": "c94113259db1cb25f08224603329944c11cc18442bc6f9387161d632342d84ae",
+    "test/test_fused_rms_rope.py": "46411e1c28aeca9293e880685a46a8993ed3189236a408f2fa56a2ed16370606",
+    "test/test_fused_store_index_k_cache_fp8.py": "19602b60542b9386a0ef04338a50e2aaec7cb37555150cbfd801d9c26ddbfba9",
+    "test/test_fused_trans_bmm_trans.py": "8f55f76e2013d6400f0eecaf81b945b8f5151d235dec87be63012c011d2d4259",
+    "test/test_gemm.py": "8ab90347cc56e17e24c17be2b05bff4fbd36adcb74c644d6a9fe17c28a1ae123",
+    "test/test_gemm_bias.py": "210e49788e45c8ce724233ade6c77f4ab7414af342a94d17af00e5074d7e70e4",
+    "test/test_gemma_fused_add_rmsnorm.py": "0a6a4d616f2f31362c0cedbfbcb57778a0d43bfc4c475e8020c7302f819a35f4",
+    "test/test_gemma_rms_norm_fp8_quant.py": "194138d3fb1f780500abd40d5768a60764faec422c44f5f023568670b22ceda4",
+    "test/test_gn_silu.py": "980727f19cb09a7f2dbbf0aecb16845fdc6bba5bbeacbfa0c6111ae1a62f106c",
+    "test/test_grid_sample.py": "15cd2ec7eb820188909a5414d5178eff4ce52ebc86796bc58e9a71dac6a31c4f",
+    "test/test_group_gemm.py": "c9682e7e5195ffcc982a2ca9c65b347dff204e6d96390380e1d55ec8c413a292",
+    "test/test_groupgemm_permute_unpermute.py": "b4b5b635b02f4ded416da98878a52000a630c8bd28c431cc2d95a8dd2a5ba3a8",
+    "test/test_groupnorm.py": "6688d88d65b32f5985c214a405d55419807270da7186ff13ea2b74f655425027",
+    "test/test_int8_add_sub.py": "5865d612c9e20101021b5bf13bba9710a76be1f141c4a533db9b5646ae513fd3",
+    "test/test_kimi_k2_moe_fused_gate.py": "562da5351623c0ddbd45af0b206eda432c4266739c237d2e976c2d7350e9e365",
+    "test/test_layer_norm_fwd_1pass.py": "a8ae430c44bc76dac2047f7bd68b25910fef9f3daed7fb5ad9f987a01021676e",
+    "test/test_layernorm.py": "95f1ed2b5526d854a9a25d02b083c1d007982d973cba5aef3dc2ed3b5dbed61b",
+    "test/test_layernorm_mixed_fp32_weight.py": "d8f5394dc483448bc2882ce0a173a58750c0e73a37b939b85371caf190fe032e",
+    "test/test_ln_add.py": "e6a7bf6d6ce2356dc68418c8f2e3d3498030911ba50c225810cfee92301d9da3",
+    "test/test_ln_add_dropout.py": "9a3d966ce2a2114fe0b1303f193d9d2716662a26de29b6ba09cdbbd68cef95c0",
+    "test/test_ln_add_dropout_bias.py": "de341a3da44967eb7f6943897665247522bc6e5001f4c119d0d3a89cea3842ba",
+    "test/test_ln_dropout.py": "6711f3fc815338189cb15990b33d6df22cd0d40b45cb8dcf504b298a42ef2d7d",
+    "test/test_ln_droppath.py": "a6022111f5e84cef31660e4fb76ef8c37292e9eb6092220c08c1bbe0c2478d34",
+    "test/test_lossctc.py": "a2672e18335c82c945f02a37ad56294b113e1cbfda409648b2c2381cd7e0c965",
+    "test/test_lossrnnt.py": "8109b4348d17794f53a969402f30231b4e7ac260238d57d177b43a2e871a12ba",
+    "test/test_mha_modified.py": "269098cb42d80f69aee28ec0a063e2544ba23baa92f16618d47cfd8a4f97a48b",
+    "test/test_moe_align_block_size.py": "205c19fc467c9561e6013371c4b49dbeba5271e7ea8094745f339cd33ec65a0a",
+    "test/test_moe_sum_opt.py": "04da8364d67e21d81f06385f3cbda4ff2bb40de404351298e6c6d025e2736591",
+    "test/test_moe_swiglu_dynamic_quant.py": "e66e0ee4a98f49b5d4e944e308db5e65fec3f11d6426e999530e3249574964cc",
+    "test/test_ms_deform_attn_cuda.py": "71fcd3bae4a4ed65b893cbdc99aab61142d1bf7bf263b46f46c959a704023724",
+    "test/test_pack_padded_sequence.py": "6ea7273a1401e071cf608ee2a18f3def83e780109d0439d5be3b06c19a5ad5c1",
+    "test/test_paged_mqa_logits.py": "9e03500f2a8f6272af8007172ff24f2d5348437aaad3f4d41761c38345faf9d7",
+    "test/test_per_token_dynamic_quant_int8.py": "3596beb08cf501f3c6a1ebcc1b5edea22975af5bc0b18ff0806e58476511e134",
+    "test/test_per_token_fp8.py": "ad20421654338a900fbe11556268505b880f2c66a03743c2e1d59f4b9e9876cd",
+    "test/test_per_token_group_quant_fp8.py": "9d9f9aff4a588441c41fc53dfe4af96aa9e5d68c0d733a36cda23306b906a21d",
+    "test/test_per_token_smooth_quant_int8.py": "e14dd2941c66774cce3b082234049613bf794b4d17f5df73d1950d0467457407",
+    "test/test_polyfill_bwd.py": "c4d6bd73fd9b6bf3b3f3fbdf2374e9182faf9629ad519a8ca11431fd8bbec4fe",
+    "test/test_polyfill_fwd.py": "c244ddfab842cd1106b8d46a279c6a3d6d2903ab8b211bb97fb7ae9d6cde6bf3",
+    "test/test_quantization_cuda.py": "2d87e76520948eeb98eb8392481be4203210ac5d5b4d18b81447a9b3e760ab26",
+    "test/test_relu2.py": "53ad25eb69f95b18fdfef2902f58469b9165db948200276a0c3010b0866ea239",
+    "test/test_relu_dropout.py": "68a3a7d25eb8f8e5d44f95e7410d24ce554bed9bd2c2e72f4a2378ca1feae047",
+    "test/test_reshape_cache_cuda.py": "d46d22d1faa0106f890effe6ef0504d9a1304850c63d21a1f883f772393057af",
+    "test/test_reshape_to_float32.py": "c2fc7806c066d5a1721320f48c8c9f34e80e16128e1d977b283426d61177313c",
+    "test/test_rms_add.py": "b8e5fa25f2eca1fbc405dad6f3a47083b3e193247d65229f79cac89560489fff",
+    "test/test_rms_mrope.py": "a06145f84cd9b46f375a6e6a406d63851daf0999a78bf9c9f2363e427afec457",
+    "test/test_rms_norm_dynamic_per_token_quant.py": "dee46b354df45f01671557206effb783ab42edb580655773d54e2c6992f04c23",
+    "test/test_rms_norm_fp8_quant.py": "7ad736be5d86659b19d1f84aaf9233d20f16ac56eec69d6f39fa851f9c545f6b",
+    "test/test_rmsnorm.py": "0e6bef705bcb5d9682777ef028a54b7b126f6112218d0996bf8e4fcfb66ec246",
+    "test/test_rn_add.py": "65e2604d89bc394f6aac339c353388133961f057eb640bc9485a5acf0ee7cbd3",
+    "test/test_rn_add_dropout.py": "ea7ed14851b84b409946149850b84a22f8cd2949f837426ac7c4a9519866f23d",
+    "test/test_rn_add_dropout_bias.py": "de189c64d0589b5517e8aa00712744ca23bce466918809bc6c4aacfd2e9e1a8c",
+    "test/test_rn_dropout.py": "6f443fad5c8f10d4c37e96550a7ee7fad67ee9b8c1bd924b2bdc63e94df2f941",
+    "test/test_rotary_positional_embedding.py": "784cc78c9e36a157277480eb6e8d192a2058e0091a74e279b6b5f41598c534d1",
+    "test/test_scaled_masked_softmax.py": "6420f4fda07ed773ad3ff165716a151b828f508be5f3c664c2f58686671ba9dc",
+    "test/test_scaled_masked_softmax_dropout.py": "69bcbb84200dbda1bb73ae502258ae5fb9b5025a84371a742738c0025fbe6251",
+    "test/test_scaled_upper_traing_masked_softmax.py": "c89a63cd39c36f28fcacd9a292ad25130525f550d3ea9ddda63dbc04c31e551b",
+    "test/test_scaled_upper_traing_masked_softmax_dropout.py": "60a6eb7c84e808b371f42e105daabfd502421e038bcde16b1d0313a3871c60fa",
+    "test/test_set_mla_kv_buffer.py": "a374e508d7c2e3486b55699ff0dfee3dcf89d6227f5bab2a33a0506d5ef828d0",
+    "test/test_softmax.py": "9262505835b2f0c5ca40913c9f47aaf128a00762b8f767c908a051f593ab6e5a",
+    "test/test_softmax_topk.py": "357de7a27149cdd3bb4623b765f82f033174b1a17f12c820d153d6b2d1079cca",
+    "test/test_split_qkv_rms_rotary_embedding_fuse_with_kv_store_quant.py": "125f46161abd5d6a5ffe75fc7b97fa73f79720e50138f77190f9b4e543ceeb48",
+    "test/test_store_kv_cache.py": "d160bacceefd4ea6b085cbee52981af0991546e7a07967f03fe068c120dca53b",
+    "test/test_store_kv_cache_page.py": "82a682b0ddcf87035f115b26f00e9bfe0fed4beddac9d52240c21c8327d52d06",
+    "test/test_sum.py": "42373493ea7e6720e8b7000accc52b0e8f2cc38206ca2e8fda19649a37ff09f5",
+    "test/test_topk.py": "8fde7a4c87163b547eae0606ffc4fb2f09dd3e7db509b8242a61f9bac50b70cc",
+    "test/test_topk_topp_sampler.py": "4518bc9d55059c43f5d1fa226a04a7fb5b125ae96b21d535478e8c5d5111e0d4",
+    "test/test_w8a16.py": "f693e8d79dcd5cfcf4bffcb039b634c23f8d51adc69f3671c83e666ee1a4890f",
+    "test/w8a8/__init__.py": "de2abade832c8e350a1bdc98cfcdb1e202ac4749c5fc51a4a970d41736b6df5c",
+    "test/w8a8/checkout_k.py": "11c978ea79e5f5178ad84503d4750c84d06d13623ce083e06fcce1554acded3f",
+    "test/w8a8/test.py": "09a816c6c35dddbb234a49c24318d91459455c53827d449f0b4ee9c7d80e8156",
+    "test/w8a8/test_w8a8_block.py": "7fd525ce3aea0a105df7329c910026f852bc0854eef9d9d1a89d8cc98914d87b",
+    "test/w8a8/test_w8a8_block_wgrad.py": "ecb01f702cd504a1542f589ac2f186101e43ad668528c96ac003b2a7990276d0",
+    "test/w8a8/test_w8a8_block_xgrad.py": "207bf09bbc8d695d347b262c2d63888bb1775f127b8bae7339d5dde67d74100c",
+    "test/w8a8/test_w8a8_deepgemm_contig.py": "fc48a28cc95b984627b14fa1cfa221acf1915f52f72b4d3886813a513e505b98",
+    "test/w8a8/test_w8a8_groupgemm.py": "da41925ad379102664e66fa817e2eacb85cbee2fd04985d8394075177f089549",
+    "test/w8a8/test_w8a8_smooth.py": "3817443cdf20fc063d2b14fcb26c522224d0a7d8c82d4e5fda4b5d075166c5c6",
+    "test/w8a8/test_w8a8_smooth_tunning.py": "15291cfcee9e9ded2425868e5878a066296d6665b051dc7fcc98953d493ac1d8",
+    "test/w8a8/w8a8_smooth_config_search.py": "994ada56aeb04d3698c7df80041bd6f87677be1aeff6261ae9f0ba55f4cc51e1",
+    "test/w8a8/w8a8_test.py": "649a0de7387804cd2b24e88a0de50556167370df7b9f9ac676bfc597648f7ad0",
+    "test/w8a8/w8a8_test_nv.py": "17a8ee813725d6e96c22f122b5db47fb9c0f4c6c410dd21c9a313e87afc306a8"
+  },
+  "script_bytes_modified": false,
+  "timing_contract": "per vendor script; do not pool across different scripts",
+  "zero_exit_proves_correctness": false,
+  "one_attempt_per_job": true
+}
