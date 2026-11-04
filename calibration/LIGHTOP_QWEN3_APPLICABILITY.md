@@ -61,7 +61,7 @@ SiLU 的厂商基准是 vLLM 的另一种融合实现；RMS＋RoPE 的计时 lam
 
 ## 最小缺项与下一步
 
-SiLU×Mul 首版执行映射和 CPU 验证已完成，以下流程的下一项是实际运行身份、Canonical Key 与 Measurement Contract 接入：
+SiLU×Mul 首版执行映射和 CPU 验证已完成，实际运行身份、Canonical Key 与严格成本查询已完成 CPU 接口，最小 Smoke 入口见 [运行说明](LIGHTOP_PROFILE_SMOKE.md)。以下流程仍需真实回执与准入：
 
 1. 定义 gate/up 到打包输入及独立输出的映射，明确真实 stride、存储关系、设备、生存期和计时边界；预测与实测覆盖同一组必要操作。
 2. 将 Adapter 版本、实际二进制、Shape、dtype、输入布局、设备及 Measurement Contract 绑定到 Canonical Key，明确已有证据可复用项与最小缺项。旧 eager 单批数据不改名为正式 Graph 标签。
