@@ -61,7 +61,7 @@
 | 4 | Adapter、输入条件和测量边界明确后，仅针对首个可用候选补充必要验证；若现有证据充分则直接复用 | 一条可执行、可追溯的融合候选及其合法成本查询 | 按缺项决定 |
 | 5 | 重新核对 FFN 方案成本覆盖；覆盖满足后再做 Exact 全枚举和解析/实测成本交叉评分 | 可定价方案清单、最优方案变化及缺项 | 否（搜索评价） |
 
-首项只做适用性审计，不开始 GPU 测量或 Adapter 编码。
+首项已完成，见 [LightOP × Qwen3 适用性审计](LIGHTOP_QWEN3_APPLICABILITY.md)：9 项中直接映射 0、需要适配 1、证据不足 1、不适用 7；记录 28 组 SiLU→Mul 和 28 组 Q/K Norm→RoPE 结构。原图布局未知，未新增 Adapter、测量或准入。下一项为 SiLU×Mul 的最小 Adapter 设计，先明确打包边界和已有负收益证据。
 
 `op.silu_and_mul_opt` 接收打包输入和独立输出，而当前图中的 gate/up 来自两个投影；若需要拼接或复制，Adapter 必须明确该成本由谁承担，不能只引用 Kernel 内部耗时。现有这一批 d=4096 的测量，也不能直接用于 Qwen3 FFN 的宽度 3072（`data/ffn_placement_b1/identity.json:56`）。
 

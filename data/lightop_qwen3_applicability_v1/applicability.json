@@ -1,0 +1,301 @@
+{
+  "scope": "cpu_applicability_audit_of_frozen_logical_reference_graph_not_gpu_validation",
+  "graph": {
+    "builder": "cost_model.search_evaluation.build_evaluation_graph(model)",
+    "fingerprint": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+    "runtime_captured": false,
+    "nodes": 591,
+    "edges": 730,
+    "op_counts": {
+      "add": 56,
+      "embedding": 1,
+      "input": 28,
+      "matmul": 253,
+      "mul": 28,
+      "rmsnorm": 113,
+      "rope": 56,
+      "silu": 28,
+      "softmax": 28
+    },
+    "runtime_layout": "unknown; logical shape does not establish contiguous storage",
+    "b1_graph_fingerprint_matches": true
+  },
+  "status_counts": {
+    "direct_mapping": 0,
+    "needs_adapter": 1,
+    "evidence_insufficient": 1,
+    "not_applicable": 7
+  },
+  "rows": [
+    {
+      "job_id": "test_act_and_mul_silu",
+      "capability_id": "op.silu_and_mul_opt",
+      "status": "needs_adapter",
+      "match_family": "silu_mul",
+      "verified_case": "BF16 [tokens,8192] packed input -> [tokens,4096] output; tokens=32..16384",
+      "target": "BF16 gate/up [1,256,3072]; independent logical producers",
+      "semantic_check": "SiLU(gate)*up",
+      "layout_alias_check": "Packed [gate|up], separate preallocated output; graph storage/strides/alias unknown",
+      "cost_boundary": "Vendor eager Event mean, vLLM fused baseline; not a Native two-kernel baseline or Graph Replay",
+      "missing_evidence": [
+        "PlacedOpGraph binding including pack and output allocation/lifetime",
+        "actual producer strides, alias, co-location and packing boundary",
+        "Canonical implementation+adapter identity and target measurement contract"
+      ],
+      "source_refs": [
+        "test/test_act_and_mul.py:40-70"
+      ],
+      "binding": "lightop.op.silu_and_mul_opt",
+      "vendor_review_status": "vendor_checks_passed_timed",
+      "structural_group_count": 28,
+      "project_adapter_available": false,
+      "direct_mapping_ready": false,
+      "profile_reusable_for_search": false
+    },
+    {
+      "job_id": "test_act_and_mul_gelu",
+      "capability_id": "op.gelu_and_mul_opt",
+      "status": "not_applicable",
+      "match_family": null,
+      "verified_case": "BF16 [tokens,8192] packed input -> [tokens,4096] output; tokens=32..16384",
+      "target": "BF16 gate/up [1,256,3072]; independent logical producers",
+      "semantic_check": "GELU is not interchangeable with the graph's SiLU",
+      "layout_alias_check": "Packed [gate|up], separate preallocated output; graph storage/strides/alias unknown",
+      "cost_boundary": "Vendor eager Event mean, vLLM fused baseline; not a Native two-kernel baseline or Graph Replay",
+      "missing_evidence": [
+        "no GELU nodes in this graph"
+      ],
+      "source_refs": [
+        "test/test_act_and_mul.py:40-70"
+      ],
+      "binding": "lightop.op.gelu_and_mul_opt",
+      "vendor_review_status": "vendor_checks_passed_timed",
+      "structural_group_count": 0,
+      "project_adapter_available": false,
+      "direct_mapping_ready": false,
+      "profile_reusable_for_search": false
+    },
+    {
+      "job_id": "test_act_and_mul_gelu_tanh",
+      "capability_id": "op.gelu_tanh_and_mul_opt",
+      "status": "not_applicable",
+      "match_family": null,
+      "verified_case": "BF16 [tokens,8192] packed input -> [tokens,4096] output; tokens=32..16384",
+      "target": "BF16 gate/up [1,256,3072]; independent logical producers",
+      "semantic_check": "GELU is not interchangeable with the graph's SiLU",
+      "layout_alias_check": "Packed [gate|up], separate preallocated output; graph storage/strides/alias unknown",
+      "cost_boundary": "Vendor eager Event mean, vLLM fused baseline; not a Native two-kernel baseline or Graph Replay",
+      "missing_evidence": [
+        "no GELU nodes in this graph"
+      ],
+      "source_refs": [
+        "test/test_act_and_mul.py:40-70"
+      ],
+      "binding": "lightop.op.gelu_tanh_and_mul_opt",
+      "vendor_review_status": "vendor_checks_passed_timed",
+      "structural_group_count": 0,
+      "project_adapter_available": false,
+      "direct_mapping_ready": false,
+      "profile_reusable_for_search": false
+    },
+    {
+      "job_id": "test_fuse_fill_rms_x2_concat",
+      "capability_id": "fuse_fill_rms_x2_concat",
+      "status": "not_applicable",
+      "match_family": null,
+      "verified_case": "BF16 hidden=7168, ten batch sizes; two zero-difference reports; no timing",
+      "target": "Dense hidden=1024; no position-zero fill or two-hidden-state concat",
+      "semantic_check": "Masks positions==0, normalizes both inputs in place, concatenates outputs",
+      "layout_alias_check": "Mutates two inputs and writes concat output; not a standalone RMSNorm replacement",
+      "cost_boundary": "Correctness-only; no measured cost to reuse",
+      "missing_evidence": [
+        "required fill+two-branch+concat computation absent"
+      ],
+      "source_refs": [
+        "test/test_fuse_fill_rms_x2_concat.py:17-39",
+        "lightop/rmsnorm.py:319-330"
+      ],
+      "binding": "lightop.fuse_fill_rms_x2_concat",
+      "vendor_review_status": "zero_difference_reported_correctness_only",
+      "structural_group_count": 0,
+      "project_adapter_available": false,
+      "direct_mapping_ready": false,
+      "profile_reusable_for_search": false
+    },
+    {
+      "job_id": "test_fuse_groupgemm_permute_quant",
+      "capability_id": "fuse_groupgemm_permute_quant",
+      "status": "not_applicable",
+      "match_family": null,
+      "verified_case": "BF16 tokens x 7168, 256 experts, top-k=8, INT8 quantized output",
+      "target": "Dense non-MoE graph; no routing map or quantization/scales",
+      "semantic_check": "Permutes selected tokens then quantizes; no GroupGEMM executed",
+      "layout_alias_check": "Produces reordered quantized tokens, scales and expert indices/counts",
+      "cost_boundary": "Synchronized wall-clock mean 100 calls after 10 warmups",
+      "missing_evidence": [
+        "expert routing+permute+quant computation absent"
+      ],
+      "source_refs": [
+        "test/test_fuse_groupgemm_permute_quant.py:20-38",
+        "test/test_fuse_groupgemm_permute_quant.py:49-78",
+        "lightop/permute_unpermute.py:22-27"
+      ],
+      "binding": "lightop.fuse_groupgemm_permute_quant",
+      "vendor_review_status": "vendor_checks_passed_timed",
+      "structural_group_count": 0,
+      "project_adapter_available": false,
+      "direct_mapping_ready": false,
+      "profile_reusable_for_search": false
+    },
+    {
+      "job_id": "test_fuse_rmsnorm_rope_contiguous",
+      "capability_id": "fused_rms_norm_rope_contiguous",
+      "status": "not_applicable",
+      "match_family": null,
+      "verified_case": "MLA BF16 inputs; compressed-KV dim=512, rotary dim=64, FP8 KV cache; zero differences only",
+      "target": "Qwen GQA Q/K per-head norms, no compressed MLA KV or cache writes",
+      "semantic_check": "DeepSeek rotary path + compressed KV RMSNorm + KV cache storage",
+      "layout_alias_check": "Requires kv_c, normalized output, slot mapping and KV-cache buffers",
+      "cost_boundary": "Correctness-only; no measured cost to reuse",
+      "missing_evidence": [
+        "MLA and KV-cache storage computation absent"
+      ],
+      "source_refs": [
+        "test/test_fuse_rmsnorm_rope_contiguous.py:48-54",
+        "test/test_fuse_rmsnorm_rope_contiguous.py:96-114",
+        "lightop/rmsnorm.py:279-294"
+      ],
+      "binding": "lightop.fused_rms_norm_rope_contiguous",
+      "vendor_review_status": "zero_difference_reported_correctness_only",
+      "structural_group_count": 0,
+      "project_adapter_available": false,
+      "direct_mapping_ready": false,
+      "profile_reusable_for_search": false
+    },
+    {
+      "job_id": "test_fused_rms_rope",
+      "capability_id": "rms_rotary_embedding_fuse",
+      "status": "evidence_insufficient",
+      "match_family": "qk_rms_rope",
+      "verified_case": "FP16 Q/K heads=8/1, head_dim=128, rotary_dim=64, epsilon=1e-6, theta=10000, neox=True",
+      "target": "BF16 Q/K heads=16/8, head_dim=128; epsilon/rotary semantics not recorded",
+      "semantic_check": "Two Q/K RMSNorm->RoPE branches structurally match; numerical and group legality not established",
+      "layout_alias_check": "API overwrites query/key; graph alias/strides and outside consumers require validation",
+      "cost_boundary": "Event benchmark includes Q/K clones inside each timed lambda; not pure kernel or Graph Replay",
+      "missing_evidence": [
+        "graph RMS epsilon, rotation dimension/theta/neox, positions/cache construction and weights",
+        "BF16 and 16/8 GQA support for this implementation",
+        "actual layout/alias safety and legal joint group for two branches",
+        "adapter identity and compatible timing boundary"
+      ],
+      "source_refs": [
+        "test/test_fused_rms_rope.py:14-27",
+        "test/test_fused_rms_rope.py:43-68",
+        "test/test_fused_rms_rope.py:145-156",
+        "lightop/fuse_rmsnorm_rope.py:6-43"
+      ],
+      "binding": "lightop.rms_rotary_embedding_fuse",
+      "vendor_review_status": "vendor_checks_passed_timed",
+      "structural_group_count": 28,
+      "project_adapter_available": false,
+      "direct_mapping_ready": false,
+      "profile_reusable_for_search": false
+    },
+    {
+      "job_id": "test_fused_trans_bmm_trans_benchmark",
+      "capability_id": "fused_bmm",
+      "status": "not_applicable",
+      "match_family": null,
+      "verified_case": "INT8 x/w + scales -> BF16; 32 unique shapes, four repeats each; quantization cost forced to zero",
+      "target": "BF16 attention QK/AV matmuls; no INT8 inputs or scales",
+      "semantic_check": "Verified quantized path cannot silently replace BF16 matmul or prove pure fusion gain",
+      "layout_alias_check": "Input/output permutations and scale ownership would require a different graph contract",
+      "cost_boundary": "Triton do_bench quantiles versus BF16 Torch; excludes quantization; workbook FP8 label is misleading",
+      "missing_evidence": [
+        "matching precision and graph semantics; untested BF16 API support is not inferred"
+      ],
+      "source_refs": [
+        "test/test_fused_trans_bmm_trans.py:484-508",
+        "test/test_fused_trans_bmm_trans.py:896-924",
+        "lightop/gemmopt.py:727-765"
+      ],
+      "binding": "lightop.fused_bmm",
+      "vendor_review_status": "vendor_checks_passed_timed",
+      "structural_group_count": 0,
+      "project_adapter_available": false,
+      "direct_mapping_ready": false,
+      "profile_reusable_for_search": false
+    },
+    {
+      "job_id": "test_reshape_cache_cuda",
+      "capability_id": "reshape_and_cache_cuda",
+      "status": "not_applicable",
+      "match_family": null,
+      "verified_case": "FP16 key/value, heads=1, head_dim=128, 17 token sizes, paged-cache writes",
+      "target": "BF16 explicit forward DAG; no KV-cache nodes or slot mapping",
+      "semantic_check": "Cache storage side effect cannot be introduced as a replacement for a pure attention node",
+      "layout_alias_check": "Writes preallocated key/value cache using slot_mapping",
+      "cost_boundary": "Eager Event benchmark; not a Graph Replay cache profile",
+      "missing_evidence": [
+        "cache storage and slot-mapping computation absent"
+      ],
+      "source_refs": [
+        "test/test_reshape_cache_cuda.py:35-45",
+        "test/test_reshape_cache_cuda.py:86-101",
+        "test/test_reshape_cache_cuda.py:150-180",
+        "lightop/reshape_and_cache_cuda.py:7-24"
+      ],
+      "binding": "lightop.reshape_and_cache_cuda",
+      "vendor_review_status": "vendor_checks_passed_timed",
+      "structural_group_count": 0,
+      "project_adapter_available": false,
+      "direct_mapping_ready": false,
+      "profile_reusable_for_search": false
+    }
+  ],
+  "existing_width_3072_evidence": {
+    "source": "data/hygon_silu_trial02_review/report.json",
+    "binding": "lightop.op.silu_and_mul_opt",
+    "input": {
+      "logical_shape": [
+        1,
+        256,
+        3072
+      ],
+      "call_shape": [
+        256,
+        3072
+      ],
+      "dtype": "bf16"
+    },
+    "contract": "eager Event batch; 10 warmup + 100 calls; one independent batch per arm",
+    "native_split_us": 17.111990451812744,
+    "lightop_split_with_pack_us": 21.8127703666687,
+    "relative_duration_change_percent": 27.470678692191438,
+    "packed_storage_kernel_us": 7.806389927864075,
+    "numeric_checks_passed": true,
+    "formal_profile_reuse": false,
+    "limits": "Exploratory single-batch evidence, no target Graph contract or graph adapter identity; separate dispatch trace not all timed calls"
+  },
+  "new_accepted_profiles": 0,
+  "historical_ffn_cost_coverage": {
+    "source": "data/lightop_vendor_20261104_02_review/report.json",
+    "priceable_plans": "0/48",
+    "recomputed_in_this_audit": false
+  },
+  "gpu_executed": false,
+  "adapter_implemented": false,
+  "deferred_jobs_resumed": false,
+  "search_executed": false,
+  "source_sha256": {
+    "data/lightop_fusion_catalog_v1/capabilities.json": "39e847410ceed638c0da2ac90e6efc7bc68d32b947be7037b301d5f8334a040b",
+    "data/lightop_fusion_catalog_v1/vendor_jobs.json": "52243533621be22c126572121434148a4cf457977e4ef27b415013ecf1f588e3",
+    "data/lightop_vendor_20261104_02_review/report.json": "720fe741aa02fcba259e17b5b2673dcc7d1e25b8bb4f80deeabb9a580d9d9919",
+    "data/hygon_silu_trial02_review/report.json": "baf9919c9a970150a6ddfcec3a51317fee5f094b98b3eaea0031ba0396f2fd3e",
+    "data/lightop_qwen3_applicability_v1/source_evidence.json": "793c907a1a1ce037e6c9ce0bbd550542e66b49f7342187306245cb6ea4a618d3",
+    "cost_model/search_evaluation.py": "92c4450f53c37ebc099990e449a5e26643f1a389decf68f9a949a175950746e7",
+    "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead",
+    "simulator/fusion_rules.py": "5af6359be8fb16220fedab0a9b8d311a8d6ed410ff1c1a8855efdbf9a2d6298b",
+    "tools/audit_lightop_qwen3_applicability.py": "08b08809017de57eb509ad7a6b1e9766dec67db746235a45cbb88667d3c92966"
+  }
+}
