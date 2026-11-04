@@ -1,5 +1,7 @@
 # SMI 恢复首批：卸载完成，子进程结束状态未记录
 
+> 最新诊断已确认 Torch/LightOP 恢复，宿主 SMI 可枚举 2 张设备。后续按 [LIGHTOP_SMI_DIAGNOSTICS01_REVIEW.md](LIGHTOP_SMI_DIAGNOSTICS01_REVIEW.md) 使用宿主 SDK 完成预检及原版补测；下文保留历史过程。
+
 不兼容的 amdsmi 已卸载，其他分发包版本未变，17 个备份文件 SHA 均匹配。
 
 `torch_import.log:1-3` 已输出：

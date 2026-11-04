@@ -1,5 +1,7 @@
 # LightOP 原版测试：依赖修复与定向补测
 
+> 最新诊断已确认 Torch/LightOP 恢复，宿主 SMI 可枚举 2 张设备。后续按 [LIGHTOP_SMI_DIAGNOSTICS01_REVIEW.md](LIGHTOP_SMI_DIAGNOSTICS01_REVIEW.md) 使用宿主 SDK 完成预检及原版补测；下文保留历史过程。
+
 > 2026-11-04：第三批安装的 amdsmi 与 HyHAL 符号不匹配，已阻断 Torch 导入。先按 [LIGHTOP_VENDOR_SUITE03_REVIEW.md](LIGHTOP_VENDOR_SUITE03_REVIEW.md) 恢复；下文保留原安装计划，当前入口已禁用该 SMI 安装项，暂不重启 16 项补测。
 
 本次选择首批因缺依赖退出的 16 个任务。已完成的测量、3 个数值失败和缺失的 no_quant API 均保留原记录，不重跑整批。固定清单见 `data/lightop_bench_followup_v1/manifest.json`。

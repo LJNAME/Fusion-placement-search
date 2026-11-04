@@ -1,5 +1,7 @@
 # LightOP 定向补测：离线依赖包
 
+> 最新诊断已确认 Torch/LightOP 恢复，宿主 SMI 可枚举 2 张设备。后续按 [LIGHTOP_SMI_DIAGNOSTICS01_REVIEW.md](LIGHTOP_SMI_DIAGNOSTICS01_REVIEW.md) 使用宿主 SDK 完成预检及原版补测；下文保留历史过程。
+
 > 2026-11-04：第三批安装的 amdsmi 与 HyHAL 符号不匹配，已阻断 Torch 导入。先按 [LIGHTOP_VENDOR_SUITE03_REVIEW.md](LIGHTOP_VENDOR_SUITE03_REVIEW.md) 恢复；下文保留原安装计划，当前入口已禁用该 SMI 安装项，暂不重启 16 项补测。
 
 第二批停在 pytest 的 pip 候选解析，未安装、未测量，见 LIGHTOP_VENDOR_SUITE02_REVIEW.md。第三批改用离线包完成依赖解析和安装，仍只运行首批缺依赖的 16 项。

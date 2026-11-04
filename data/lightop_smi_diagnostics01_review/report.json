@@ -1,0 +1,97 @@
+{
+  "scope": "runtime_and_host_sdk_import_evidence_not_kernel_measurements",
+  "archive_sha256": "99e4a2619819eaf62e7bf9753055853ae300e272b10168a6ce6c45428c72e91f",
+  "archive_bytes": 47819,
+  "prior_recovery_hashes_match": true,
+  "packages_unchanged_since_removal": true,
+  "torch_only": {
+    "returncode": 0,
+    "timed_out": false,
+    "elapsed_seconds": 9.937664050143212,
+    "timeout_seconds": 60,
+    "arguments": [
+      "-c",
+      "import torch; print(torch.__version__); print(torch.version.hip); print('IMPORT_BODY_COMPLETE', flush=True)"
+    ],
+    "import_body_completed": true
+  },
+  "torch_lightop": {
+    "returncode": 0,
+    "timed_out": false,
+    "elapsed_seconds": 11.36680965917185,
+    "timeout_seconds": 60,
+    "arguments": [
+      "-c",
+      "import torch, lightop; print(torch.__version__); print(torch.version.hip); print(lightop.__file__); print('IMPORT_BODY_COMPLETE', flush=True)"
+    ],
+    "import_body_completed": true
+  },
+  "host_sdk": {
+    "path": "/opt/hyhal/share/amd_smi/amdsmi",
+    "python_sources_sha256": {
+      "__init__.py": "ef55fbb7eb9dc4abe8825f12f5221482b3eaf7433fa39ec76ef118c15043d0af",
+      "_version.py": "6ac531dd01d685750e58228c92fb6e377f229aae4f7b7fc08dca742b1b781939",
+      "amdsmi_exception.py": "00cb3e3bfc0144579ee92dc4282a58bc156e5eb233b027425cfb6edd4d3cce73",
+      "amdsmi_interface.py": "e0ea02346f83d0508503b0c6ba94836c0688dac1cb7d3894a718b347cb11d118",
+      "amdsmi_wrapper.py": "c03db8666e5c03ce9910a04ed703d1a2abb45f44184a921558b3a6b351ce12d8"
+    },
+    "python_extensions": [],
+    "inspection": {
+      "returncode": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.4674892737530172,
+      "timeout_seconds": 20,
+      "arguments": [
+        "/root/private_data/LJ/Fusion-placement-search/tools/recover_lightop_smi.py",
+        "inspect-sdk",
+        "--candidate",
+        "/opt/hyhal/share/amd_smi/amdsmi",
+        "--output",
+        "/root/private_data/LJ/lightop_smi_diagnostics_20261104_01/sdk_00/result.json"
+      ]
+    }
+  },
+  "host_sdk_version": "7.6.0+995313d1",
+  "host_sdk_init": {
+    "module": "/opt/hyhal/share/amd_smi/amdsmi/__init__.py",
+    "initialized": true,
+    "processor_count": 2
+  },
+  "host_library": {
+    "path": "/opt/hyhal/lib/libamd_smi.so",
+    "exists": true,
+    "resolved": "/opt/hyhal/lib/libamd_smi.so.0.0",
+    "sha256": "c2f663b92556039e328fda65bc13ea7cfc096ace9eda4310f6172c644ecf9686",
+    "symbols": {
+      "amdsmi_get_node_handle": false,
+      "amdsmi_init": true,
+      "amdsmi_shut_down": true,
+      "amdsmi_get_processor_handles": true,
+      "amdsmi_get_gpu_asic_info": true
+    }
+  },
+  "previous_recovery_abnormal_exit_cause": "unresolved; not reproduced in this diagnostic run",
+  "baseline_ready": false,
+  "gpu_measurement_jobs": 0,
+  "new_accepted_profiles": 0,
+  "evidence_sha256": {
+    "host_library.json": "156b0857a97379e3989c42195aa315d3ddee5a36c99fb9ccf33e3f0e5c3df5f1",
+    "host_library.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "host_library.process.json": "00c3dde1a05697d8c3f6db41d133e96f1994f86bbb2a6c11e6ee87ef73255d48",
+    "input_receipt_sha256.json": "c2f3da17015b76e6534345f5348fbf66113d608327fb6e19e205d0a6b3f1795d",
+    "packages.json": "8f74f44c4c8b579ee50f5269454eb7f43e5e7fe044ad2d026bf808b811cc2444",
+    "sdk_00/import_and_smi_init.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sdk_00/import_and_smi_init.process.json": "58b0cd5ed111eacdcd15d437d6b6a7acf575ffccc47f1939d3e4bccaa6f93bfc",
+    "sdk_00/result.json": "bacda02a40f422a6998838b81bb0e80fb8025552074fba6d3ad2c26af9f39bc1",
+    "sdk_00/source/__init__.py": "ef55fbb7eb9dc4abe8825f12f5221482b3eaf7433fa39ec76ef118c15043d0af",
+    "sdk_00/source/_version.py": "6ac531dd01d685750e58228c92fb6e377f229aae4f7b7fc08dca742b1b781939",
+    "sdk_00/source/amdsmi_exception.py": "00cb3e3bfc0144579ee92dc4282a58bc156e5eb233b027425cfb6edd4d3cce73",
+    "sdk_00/source/amdsmi_interface.py": "e0ea02346f83d0508503b0c6ba94836c0688dac1cb7d3894a718b347cb11d118",
+    "sdk_00/source/amdsmi_wrapper.py": "c03db8666e5c03ce9910a04ed703d1a2abb45f44184a921558b3a6b351ce12d8",
+    "summary.json": "23f69a7feee5553d8ee71de4e0ea6e110de913c2fe69b1be0f313fa6ddc586e0",
+    "torch_lightop.log": "cd453a8ea968475db4c9b1705ad459be1f3598225908be97d3ada3cef706d34d",
+    "torch_lightop.process.json": "7de420d8c110be705bda188ec6aef0d39fff988343c0e811532d385bc293c4c0",
+    "torch_only.log": "28494f020eef6fd3cf520d9d45ac7441b9614278319c590d19a612edd6f70b97",
+    "torch_only.process.json": "933c9d9efb79c1b0b66aa2ed32e60ec98b39773ffb96ff9e76581aadbf027948"
+  }
+}
