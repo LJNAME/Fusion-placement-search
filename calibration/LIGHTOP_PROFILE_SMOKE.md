@@ -16,6 +16,27 @@ UUID 和安装绝对路径保存在运行溯源中，不参与 Key；SCNet 重�
 
 当前没有新增 accepted Profile。严格查询的正向测试使用明确标注的 CPU 假数据，不能当作实际准入。
 
+## 2026-11-04 首次 GPU0 回执
+
+回执 `lightop_profile_smoke_20261104_02.tar.gz` 完整，35,391 字节，SHA256 `763ef934ab3a227118982cc245ad27720d4296368f4ed1329d1c38b89cab0da1`。审核记录：[report.json](../data/lightop_profile_smoke_20261104_02_review/report.json)。
+
+| 项目 | 本次结果 |
+| --- | --- |
+| 场景 | GPU0，`gfx936:sramecc+:xnack-`，第 0 层 BF16 `[1,256,3072]` |
+| 进程 / Capture / Replay | 进程退出 0；Capture 和 3 次诊断 Replay 完成 |
+| 输出 | 3×50=150 个诊断输出全部通过，每个分别对照 BF16 Native 和 FP32 Reference |
+| 输入与存储 | gate/up 字节不变；输出与输入独立；调用缓冲独立 |
+| 身份 | 从 PlacedOpGraph、运行环境和 Tensor 观测重建 Key/Contract，与原记录精确一致；`identity_gaps=[]` |
+| 计时边界 | `cat(out=packed)`＋LightOP 完整 Adapter 调用，Graph 批摊销；计时不作通过条件 |
+| 正式标签 | 未写入，新增 accepted=0 |
+
+三次诊断 Event 批耗时为 0.905918 / 0.879200 / 0.914878 ms，每批 50 次调用；不作为正式成本标签，不用于加速结论。CPU 审核共 25 项一致性检查通过，包含 UUID 改变不影响 Key、Smoke 契约被正式成本接口拒绝。
+
+本次只覆盖一个固定输入场景和 GPU0。没有独立 dispatch trace，没有 GPU1、完整 FFN 或模型执行证据。执行检查来自回执及本地冻结代码核对，未保存原始 GPU Tensor，未独立重做数值计算；Adapter 源码 SHA 匹配，采集器本身的 revision/SHA 未单独记录。
+
+`preparation.one_call.gpu_execution_verified=false` 是执行前的准备快照，冻结 Recipe 的 `capture_support=unverified_on_GPU` 也不在本次修改，避免改变已执行实现的身份。这两项不覆盖事后 `capture_numeric_passed=true` 的结果；完整执行路径认证仍等待独立 trace。
+
+下一项先补同一完整 Adapter 调用的独立 profiling 证据，区分打包与 LightOP 目标 Kernel；再冻结正式采集与 Admission，记录采集器自身身份和校准/验证 Case。剖析与计时分进程，不把本次 3 轮诊断转换为正式标签，不启动 GPU1、全矩阵或搜索。
 ## SCNet 命令
 
 使用已安装的固定 LightOP 与现有私有 Python，不安装依赖，不运行暂停的 7 项厂商任务。

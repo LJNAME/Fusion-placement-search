@@ -1,0 +1,107 @@
+{
+  "scope": "cpu_review_of_received_gpu_smoke_not_profile_admission",
+  "archive": {
+    "name": "lightop_profile_smoke_20261104_02.tar.gz",
+    "bytes": 35391,
+    "sha256": "763ef934ab3a227118982cc245ad27720d4296368f4ed1329d1c38b89cab0da1",
+    "gzip_integrity_checked": true
+  },
+  "artifact_sha256": {
+    "identity.json": "7259100cdb9b0ff0cd4d6240a6c1cf540f54e4099050b72bbe2769385b77a7bd",
+    "last_stage.json": "038b3b30c408bc118b55e03b593fd50e903eab9b59dae6fa8633f5e6855b8666",
+    "placed.json": "e3d1a6b2ce7ef750556bf3145041bcb5ee2f39839b9a5e142ef6256d81ecb0a9",
+    "plan.json": "ec7416f0b30b88055ec588be0a9ff56fd6409d11036b4c02021ad53d424d3bcb",
+    "preparation.json": "c88cdf379f0594472ec92fe49de6cd47e9008a57c82c26ba56653e16f2875f07",
+    "process.json": "6e4eac7e903097a8e846bc232d66f1a9148eba8bd28fc7bd10b8b6e36a977f46",
+    "process.log": "218f7ff7e36386bdd06a496b3a2e06da1069a3bdc10eb716d0910bf9ae239a48",
+    "replay_0.json": "44387a61d9d659095d808feee30cb036b35d3361913b3f1f546309a852771c11",
+    "replay_1.json": "85abaa440a3549630dce01d840d7acaea4d6e3943a3f05afdbfaf39d85875cb9",
+    "replay_2.json": "fe17ee548d05e2fd84ef62a4a7a7a17b3b2822d44ec841a95192b00d4f99cbd5",
+    "result.json": "14f174bcf0f74b516713dc5671af5c26d78714910f4d3a3caa9f12d0e420ca7b",
+    "runtime.json": "4b355e7957a9a8f690154ad67292d3c1e2ed4cde8fe9cc04077576e3e1a75480"
+  },
+  "checks": {
+    "plan_matches_local_frozen_plan": true,
+    "graph_matches_reference_builder": true,
+    "hardware_snapshot_matches_frozen_input": true,
+    "selected_group_matches_frozen_case": true,
+    "adapter_binding_matches_local_source": true,
+    "kernel_key_reconstructed_exactly": true,
+    "identity_gaps_recomputed_empty": true,
+    "contract_reconstructed_exactly": true,
+    "process_completed": true,
+    "replay_count": true,
+    "replay_0_artifact_matches": true,
+    "replay_0_checks": true,
+    "replay_0_timing_diagnostic_only": true,
+    "replay_1_artifact_matches": true,
+    "replay_1_checks": true,
+    "replay_1_timing_diagnostic_only": true,
+    "replay_2_artifact_matches": true,
+    "replay_2_checks": true,
+    "replay_2_timing_diagnostic_only": true,
+    "buffer_size_consistent": true,
+    "no_failure_artifact": true,
+    "no_automatic_admission_or_labels": true,
+    "reported_capture_numerics_pass": true,
+    "smoke_rejected_by_formal_cost_interface": true,
+    "uuid_change_does_not_change_kernel_key": true
+  },
+  "review_passed": true,
+  "case": {
+    "device": "cuda:0",
+    "architecture": "gfx936:sramecc+:xnack-",
+    "shape": [
+      1,
+      256,
+      3072
+    ],
+    "dtype": "bf16",
+    "node_ids": [
+      "L000.mlp.silu",
+      "L000.mlp.gated_mul"
+    ],
+    "graph_fingerprint": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+    "graph_source": "logical reference builder; synthetic boundary inputs"
+  },
+  "identity": {
+    "kernel_key_id": "sha256:218e38d370d950669c6cb66bcfe0a0ee183b018c66bece018cb8b582109f0298",
+    "measurement_contract_id": "sha256:5ac42b0831320f4f7db6ca963e74cfea3f46c8eb5006c72d180433b8e5e3710c",
+    "identity_gaps": [],
+    "loaded_source_sha256": {
+      "package": "b8401d80c6fbd2407a336cbce506bd414cc2f2a2ef9cd3f647b4a9f926786236",
+      "native": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+      "adapter": "de47e663131182d7832b71488a11548e2326aeb2e654ee10f3e5aecf2f4e8b3a"
+    },
+    "collector_revision_captured": false
+  },
+  "smoke": {
+    "capture_numeric_passed": true,
+    "diagnostic_replays": 3,
+    "outputs_per_replay": 50,
+    "total_diagnostic_outputs_checked": 150,
+    "references_per_output": 2,
+    "input_bytes_unchanged": true,
+    "outputs_independent": true,
+    "explicit_mutable_buffer_bytes": 235929600
+  },
+  "diagnostic_timing": {
+    "raw_ms_per_50_calls": [
+      0.9059180021286011,
+      0.8791999816894531,
+      0.9148780107498169
+    ],
+    "used_for_pass_fail": false,
+    "usable_as_latency_label": false
+  },
+  "limits": {
+    "dispatch_trace_certified": false,
+    "gpu1_tested": false,
+    "full_ffn_or_model_executed": false,
+    "new_accepted_profiles": 0,
+    "latency_labels_written": false,
+    "automatic_admission": false,
+    "raw_gpu_tensors_archived": false
+  },
+  "next_step": "separate dispatch profiling evidence; then freeze formal complete-adapter-call measurement and admission. No MCTS/SROP or failed vendor matrix rerun."
+}

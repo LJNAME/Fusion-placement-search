@@ -49,7 +49,7 @@ values[call.output_node] = call()  # 返回异步 GPU 结果；同步和后续�
 
 CPU 测试验证真实 Shape 的打包顺序、每次重新打包、独立输出、输入字节保持、共享输入存储、布局观测、错误输入/设备/实现拒绝、异常不回退、工件往返及 28 组结构枚举。测试通过替代 callable 和 GPU guard 实现，记录的实际 Tensor 设备仍是 CPU，不视为新的 GPU 执行证据。
 
-实际运行身份、Canonical Key、严格成本查询接口与最小 GPU Smoke 入口已完成 CPU 实现，见 [身份绑定与 Smoke](../../calibration/LIGHTOP_PROFILE_SMOKE.md)。运行时身份闭合和 GPU Capture/Replay 尚待回执。GPU 验证需要证明包含 `cat(out=...)` 的整条 Capture/Replay 路径、全部输出正确及输入只读；dispatch trace 应分别识别打包工作与 LightOP 融合 Kernel，不要求整个 Adapter 只有一个设备 Kernel。不得静默回退到 Native、eager 或其他实现。
+实际运行身份、Canonical Key、严格成本查询接口与最小 GPU Smoke 入口已完成 CPU 实现，见 [身份绑定与 Smoke](../../calibration/LIGHTOP_PROFILE_SMOKE.md)。GPU0 的 BF16 `[1,256,3072]` 首次 Capture/Replay Smoke 已通过，Key/Contract 经 CPU 重建一致；独立 dispatch 与正式 Profile 准入尚未完成。GPU 验证需要证明包含 `cat(out=...)` 的整条 Capture/Replay 路径、全部输出正确及输入只读；dispatch trace 应分别识别打包工作与 LightOP 融合 Kernel，不要求整个 Adapter 只有一个设备 Kernel。不得静默回退到 Native、eager 或其他实现。
 
 Adapter 本身不采集计时轮次、不执行准入。独立 Smoke 入口记录契约与诊断计时，不产生时延标签；严格成本接口只消费已审核标签，目前没有本版正式标签。实际环境字段从服务器观测，SCNet 重启导致 UUID 改变不单独作为跨批阻断条件。同批设备和 Tensor 的对应关系仍分别核验。
 
