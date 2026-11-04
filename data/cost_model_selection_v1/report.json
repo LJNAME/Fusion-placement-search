@@ -1,0 +1,105 @@
+{
+  "scope": "static_paper_and_official_source_selection_not_predictor_validation",
+  "date": "2026-11-04",
+  "repositories": {
+    "scai-tech/NeuSight": "6945927d9afcca2b9daf021f8395e53edc5b4eef",
+    "microsoft/nn-Meter": "cd8dab49b735d58d03746141f73ef5934559ae68",
+    "JF-D/Proteus": "ef8730d3f45025ff4f7119ad12b4176bb0ace212"
+  },
+  "checks": {
+    "source_files_verified": 27,
+    "source_bytes_verified": 202656,
+    "sha256_and_git_blob_verified": true,
+    "third_party_code_executed": false,
+    "pretrained_weights_downloaded_or_loaded": false,
+    "new_gpu_execution": false,
+    "production_cost_model_changed": false,
+    "mcts_changed": false,
+    "repository_commit_ids_verified": true
+  },
+  "decision": {
+    "operator_predictor_primary_candidate": "NeuSight tile/wave method, conditional on BF16/DCU/Graph adaptation",
+    "implementation_specific_fusion": "preserve existing canonical exact Profile path; packing included",
+    "graph_aggregation": "retain StructuralCostModel first; use Proteus as reference for later overlap/topology work",
+    "secondary_method": "nn-Meter kernel-granularity random-forest regression; no full framework migration",
+    "dcu_accuracy_verified": false,
+    "drop_in_replacement_available": false
+  },
+  "neusight": {
+    "paper_data_precision": "fp32",
+    "published_predictor_families": [
+      "BMM",
+      "LINEAR",
+      "VEC",
+      "SOFTMAX",
+      "LN"
+    ],
+    "amd_checkpoint_files_listed_in_official_tree": 5,
+    "amd_checkpoint_bytes": 31633540,
+    "device_feature_gaps_to_resolve": [
+      "Num_Sm/CU mapping",
+      "L2Cache",
+      "dtype-specific matrix/vector throughput",
+      "memory-bandwidth units"
+    ],
+    "software_gaps": [
+      "FP32 byte assumptions in predictor and matrix model",
+      "SiLU and RMSNorm mappings absent in inspected dispatcher",
+      "Tile metadata transfer to actual vendor kernels",
+      "Graph replay timing semantics",
+      "package initializer imports collector with module-level CUDA Events",
+      "explicit weight and Tile table loading"
+    ],
+    "cost_to_implement": "medium-to-high, engineering estimate; no measured work-hour claim"
+  },
+  "nn_meter": {
+    "prebuilt_targets": [
+      "TFLite CortexA76",
+      "TFLite Adreno640",
+      "TFLite Adreno630",
+      "OpenVINO MyriadVPU"
+    ],
+    "archived_on_github": "2025-09-12",
+    "predictor": "RandomForestRegressor",
+    "checked_config_initial_samples": {
+      "conv-bn-relu": 10000,
+      "dwconv-bn-relu": 5000,
+      "fc": 3000
+    },
+    "dcu_backend_or_pretrained_predictor_found": false,
+    "cost_to_implement": "medium code adaptation, new target data needed; engineering estimate"
+  },
+  "proteus": {
+    "role": "profile/cost plus distributed execution simulation, not a pretrained replacement for individual kernel prediction",
+    "porting_gaps": [
+      "NCCL binding and topology",
+      "CUDA-oriented collection",
+      "whole strategy-tree frontend exceeds current scope"
+    ],
+    "cost_to_implement": "high for full migration; lower for method-level comparison; engineering estimate"
+  },
+  "reference_graph": {
+    "kind": "synthetic Qwen3 reference builder, not captured production graph",
+    "nodes": 591,
+    "op_type_counts": {
+      "embedding": 1,
+      "input": 28,
+      "rmsnorm": 113,
+      "matmul": 253,
+      "rope": 56,
+      "softmax": 28,
+      "add": 56,
+      "silu": 28,
+      "mul": 28
+    },
+    "counts_are_not_supported_or_accepted_profile_coverage": true
+  },
+  "prior_local_pair": {
+    "native_reference_us": 10.092799663543701,
+    "fused_pack_plus_lightop_reference_us": 18.847960233688354,
+    "old_native_two_launch_proxy_us": 15.540810534730554,
+    "use_for_new_predictor": "development/diagnostic example; not independent new-model test if used for design or fitting",
+    "original_frozen_evaluation_preserved": true
+  },
+  "next_step": "CPU-only NeuSight predictor feasibility and feature/Tile mapping; do not batch-collect GPU profiles or replace MCTS yet"
+}
