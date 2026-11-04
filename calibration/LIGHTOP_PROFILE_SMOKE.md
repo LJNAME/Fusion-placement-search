@@ -14,7 +14,7 @@ UUID 和安装绝对路径保存在运行溯源中，不参与 Key；SCNet 重�
 
 成本查询只接受已审核的、契约完全一致的 measured/accepted 标签。缺 Key、身份缺项、`conditional_dev`、`legacy_unbound`、synthetic、Smoke、eager 或仅 Kernel 的标签均拒绝，不用解析成本替代本组缺项。其他节点不在此接口的成本覆盖范围，通信仍由既有基础接口提供，不能据此声称完整方案具备正式成本。
 
-当前没有新增 accepted Profile。严格查询的正向测试使用明确标注的 CPU 假数据，不能当作实际准入。
+Smoke 不产生 accepted Profile。后续独立正式采集已取得 1 条 GPU0 单组 accepted Profile，见 [正式回执](LIGHTOP_PROFILE_CALIBRATION.md)。严格查询的 CPU 正向测试仍是明确标注的假数据，真实准入依据为正式回执。
 
 ## 2026-11-04 首次 GPU0 回执
 
@@ -36,7 +36,7 @@ UUID 和安装绝对路径保存在运行溯源中，不参与 Key；SCNet 重�
 
 `preparation.one_call.gpu_execution_verified=false` 是执行前的准备快照，冻结 Recipe 的 `capture_support=unverified_on_GPU` 也不在本次修改，避免改变已执行实现的身份。这两项不覆盖事后 `capture_numeric_passed=true` 的结果；独立执行路径认证见后续 dispatch 回执。
 
-后续 `lightop_dispatch_20261104_02` 已通过独立 trace 审核，见 [dispatch 回执](LIGHTOP_DISPATCH.md)：同一 Key/Smoke Contract，目标 Replay 内 50 次打包＋50 次 BF16 LightOP 融合 Kernel。下一项冻结正式采集与 Admission，记录采集器自身身份和校准/验证 Case；profiling 与计时分进程，不把本次 3 轮诊断或 trace DurationNs 转换为正式标签，不启动 GPU1、全矩阵或搜索。
+后续 `lightop_dispatch_20261104_02` 已通过独立 trace 审核，见 [dispatch 回执](LIGHTOP_DISPATCH.md)：同一 Key/Smoke Contract，目标 Replay 内 50 次打包＋50 次 BF16 LightOP 融合 Kernel。后续 [正式采集与 Admission](LIGHTOP_PROFILE_CALIBRATION.md) 已取得首条单组 accepted 数据；profiling 与计时分进程，不把本次 3 轮诊断或 trace DurationNs 转换为正式标签，不启动 GPU1、全矩阵或搜索。
 
 ## SCNet 命令
 
@@ -75,7 +75,7 @@ bash tools/run_lightop_profile_smoke.sh \
 
 本入口不采 dispatch trace，不认证实际 Kernel 数量或 fallback 路径。后续若需要执行路径证据，使用独立 profiling 进程，避免污染计时。整个 Adapter 包含打包操作，不能要求它总共只有一个 GPU Kernel。
 
-`measurement_contract(..., purpose="calibration")` 当前用于成本接口的 CPU 契约测试，尚无对应正式采集与 Admission 实现；不将 Smoke 的 3 轮诊断值改名为 7 轮正式标签。Smoke 与独立 dispatch 回执已审核通过，正式采集与 Admission 尚待冻结实现；不扩大矩阵或启动搜索。
+`measurement_contract(..., purpose="calibration")` 已由独立正式采集与 CPU Admission 入口使用，见 [正式回执](LIGHTOP_PROFILE_CALIBRATION.md)。Smoke 的 3 轮诊断保持诊断身份，不改名为正式标签。
 
 ## CPU 验证
 

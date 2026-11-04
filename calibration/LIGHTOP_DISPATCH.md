@@ -44,7 +44,7 @@ worker 在进入运行时检查前报 `fresh output required` 并退出 2：hipp
 
 本次只验证 GPU0、第 0 层 BF16 `[1,256,3072]` 的完整 Adapter 路径，边界输入来自逻辑参考图的固定种子生成。未执行 GPU1、完整 FFN 或模型。
 
-完整 Adapter 调用的正式计时与 CPU Admission 入口已实现，见 [正式采集](LIGHTOP_PROFILE_CALIBRATION.md)；尚待无 profiler 的独立 GPU 回执。profiling DurationNs、标记间隔和 Smoke 诊断耗时均不转为正式标签。Adapter 与 Recipe 源码保持冻结；历史执行前的未验证声明保留，事后证据以本节和审核记录为准。
+完整 Adapter 调用的正式计时与 CPU Admission 入口已实现，见 [正式采集](LIGHTOP_PROFILE_CALIBRATION.md)；后续无 profiler 的独立 GPU 回执已准入 1 条单组正式 Profile。profiling DurationNs、标记间隔和 Smoke 诊断耗时均不转为正式标签。Adapter 与 Recipe 源码保持冻结；历史执行前的未验证声明保留，事后证据以本节和审核记录为准。
 
 ## 执行与定位
 
@@ -77,4 +77,4 @@ worker 在进入运行时检查前报 `fresh output required` 并退出 2：hipp
 
 失败立即停止；Python 异常保留 traceback/pool/阶段及 worker 显存快照，原生崩溃依靠 faulthandler 日志与进程退出码。父进程不查询 GPU 显存。
 
-本入口不产生任何正式延迟标签，`automatic_admission=false`。通过后再冻结独立时延采集与 Admission；不把 profiling DurationNs 用于校准，不启动 GPU1、其他 7 项厂商任务、MCTS 或 SROP。
+本入口不产生任何正式延迟标签，`automatic_admission=false`。独立正式时延采集与 Admission 见 [正式回执](LIGHTOP_PROFILE_CALIBRATION.md)；不把 profiling DurationNs 用于校准，不启动 GPU1、其他 7 项厂商任务、MCTS 或 SROP。

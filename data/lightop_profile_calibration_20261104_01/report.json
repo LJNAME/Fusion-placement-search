@@ -1,0 +1,85 @@
+{
+  "scope": "cpu_review_of_first_lightop_gpu0_complete_call_profile",
+  "archive": {
+    "name": "lightop_profile_calibration_20261104_01.tar.gz",
+    "bytes": 35651,
+    "sha256": "51c62cd583f666c1925aa188dad4de869b8ed76a7c4f9d987a75385aab16d8b4",
+    "gzip_integrity_checked": true
+  },
+  "checks": {
+    "frozen_admission_cli_passed": true,
+    "archive_replay_matches_transfer_review": true,
+    "collector_sources_match_git": {
+      "calibration/lightop_dispatch.py": true,
+      "calibration/lightop_profile_smoke.py": true,
+      "integration/lightop/silu_mul.py": true,
+      "integration/lightop/catalog.py": true,
+      "integration/lightop/profile_identity.py": true,
+      "cost_model/lightop_profile.py": true,
+      "tools/run_lightop_dispatch.sh": true,
+      "calibration/lightop_profile_calibration.py": true,
+      "tools/run_lightop_profile_calibration.sh": true
+    },
+    "all_original_files_unchanged": true,
+    "repository_copy_is_byte_identical": true,
+    "load_reviewed_profile_passed": true
+  },
+  "collector_revision": "9e53805b8e7966fa1e52d32223b4966ae5f677cf",
+  "status": "accepted",
+  "kernel_key_id": "sha256:218e38d370d950669c6cb66bcfe0a0ee183b018c66bece018cb8b582109f0298",
+  "measurement_contract_id": "sha256:082daa2882acc37959d20f5487b32908b3c7810749d4ec0023433bb56f1ab72d",
+  "admission_id": "sha256:c97f9650775e5f9f5e8b9321eb9a927d7e6cccb87c2b81a04911d59a83ebb429",
+  "statistics": {
+    "median_us": 17.811180353164673,
+    "min_us": 17.67680048942566,
+    "max_us": 19.148759841918945,
+    "iqr_us": 0.8431899547576904,
+    "iqr_over_median": 0.04734048715687016,
+    "mad_rel": 0.007544691652910987,
+    "n_rounds": 7,
+    "n_calls": 350
+  },
+  "cost_query": {
+    "duration_s": 1.7811180353164673e-05,
+    "source": "measured_group_kernel",
+    "launch_time": 0.0,
+    "memory_time": 0.0
+  },
+  "accepted_lightop_selected_group_profiles": 1,
+  "limits": {
+    "device_index": 0,
+    "layer": 0,
+    "shape": [
+      1,
+      256,
+      3072
+    ],
+    "dtype": "bf16",
+    "timed_body": "preallocated cat(out=packed) plus LightOP fusion; graph batch amortized",
+    "raw_gpu_tensors_archived": false,
+    "numeric_checks_independently_reexecuted_on_cpu": false,
+    "independent_holdout_validation": false,
+    "full_ffn_or_model_cost_coverage": false,
+    "gpu1_cost_coverage": false,
+    "new_gpu_execution_during_review": false
+  },
+  "raw_file_sha256": {
+    "identity.json": "31f55034e1a1731ac828b1eb5237aad04d6be86633b64f4328385937b8a92eb2",
+    "last_stage.json": "e4f74715863d52135ed7350521ce35a5e1874d881987027ff3c00cd715c0ef1d",
+    "placed.json": "e3d1a6b2ce7ef750556bf3145041bcb5ee2f39839b9a5e142ef6256d81ecb0a9",
+    "plan.json": "26102df3d9949bef16c1f03c9e4690a1e6166c852e3d6238396e7ced2bbca942",
+    "preparation.json": "5c2ab2ef2aa02e13b48f773f89474934fd5a7ff98a67cc657122f554dbbbd288",
+    "process.json": "6e4eac7e903097a8e846bc232d66f1a9148eba8bd28fc7bd10b8b6e36a977f46",
+    "process.log": "1492646a715db75623f69d0a5389b01888aaefd82cf75735a7bdb5f55e7d6312",
+    "result.json": "8f27d198c3875f06c2222790c795c326faf7aafd16a861706c368c41c5ad681c",
+    "round_0.json": "5a93990f29b7afc9815cb08a03c3ad84383f4f2c24c4250da4a0f182982a607b",
+    "round_1.json": "e2b5bcd910501aba02d07946709a8db766f3fdb2d14194da7b71b2da75abb9ae",
+    "round_2.json": "97a24aec96068345242362963f5aaebbb6e3bb49d4ffa88258729bfca0fdea74",
+    "round_3.json": "ac6d4c874f91f60bde7434a3ae38c63e8efbb6809097d922b54d8bd05462a3dd",
+    "round_4.json": "73d79d8d4b62a89359f200186b3c746fb267ffe9e9face26f63100bf942e60ba",
+    "round_5.json": "bd41b24beaef9d8248e807da22ceffa145847c155ac4f64e3bbcf47604bfad8b",
+    "round_6.json": "9b847909e13de39003e36a450ba452bd8f4876df870fe8d659ae784862792cd4",
+    "runtime.json": "d3cb83a26f55f703ad8703670125f36ea67cdf0a062b2f06252f3fca8562bf6f"
+  },
+  "next_step": "CPU cost coverage and same-contract analytic calibration audit before selecting minimal additional measurements; no search expansion"
+}

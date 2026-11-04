@@ -1,0 +1,87 @@
+{
+  "scope": "lightop_gpu0_complete_adapter_call_calibration_v1",
+  "device": "cuda:0",
+  "seed": 20261104,
+  "expected_kernel_key_id": "sha256:218e38d370d950669c6cb66bcfe0a0ee183b018c66bece018cb8b582109f0298",
+  "expected_smoke_contract_id": "sha256:5ac42b0831320f4f7db6ca963e74cfea3f46c8eb5006c72d180433b8e5e3710c",
+  "dispatch_evidence_sha256": {
+    "report.json": "2a2b205eba98c65078e9443d0b4cab3b9c37e839ff3c1b185b3de713aa64915c",
+    "target_kernel_timeline.json": "dfff893740e9ec46e8d0d0391b73752d0b74af586dbd6c947dca194b3760bf49"
+  },
+  "collector": {
+    "git_revision": "9e53805b8e7966fa1e52d32223b4966ae5f677cf",
+    "source_sha256": {
+      "calibration/lightop_dispatch.py": "24dd18f0e349efdf116ce77075ad0fb19a60b13e0803e174d44402a9ce5eddac",
+      "calibration/lightop_profile_smoke.py": "caa6724246c1e559230cc2dc6ccdefaae72468cf7d7d385d760528a021a931d3",
+      "integration/lightop/silu_mul.py": "de47e663131182d7832b71488a11548e2326aeb2e654ee10f3e5aecf2f4e8b3a",
+      "integration/lightop/catalog.py": "d1b7cacf79f389ee570db93f7fe92e832a8109fda3393622c474de10e7afefa1",
+      "integration/lightop/profile_identity.py": "80d3670890c9b6954adb73958075d596450a44ea049b8890c5b0a9e63be4c6ea",
+      "cost_model/lightop_profile.py": "770d13519a8f42f54fc75a2376f31189010c824df709f28c633f6fb584d95829",
+      "tools/run_lightop_dispatch.sh": "f89a36b880929ea3db43c016c6997784544145e24d7c3f507ef55cfd95da09b4",
+      "calibration/lightop_profile_calibration.py": "ee33044d80c43270c1dd1a4c4ca37cb558fa4e7fecda0a927e7515d84cf3723b",
+      "tools/run_lightop_profile_calibration.sh": "3b36cc2a11939137e37eb70a8993050e3f83381434b10bc39645c9ee35b32ea0"
+    }
+  },
+  "measurement_template": {
+    "executor": "placed_lightop_split_pack_graph_replay",
+    "purpose": "calibration",
+    "submission_included": false,
+    "allocation_included": false,
+    "granularity": "graph_batch_amortized_complete_adapter_call",
+    "unit": "us/call",
+    "mode": "graph_replay",
+    "calls_per_round": 50,
+    "rounds": 7,
+    "extra_attempts": 0,
+    "eager_warmup_calls": 50,
+    "warmup_replays": 10,
+    "statistic": "median",
+    "timing_boundary": "start Event -> one Graph replay -> end Event; same device and stream",
+    "synchronization": "end Event and device synchronized outside Event interval",
+    "input_reuse": "shared read-only gate/up; 50 distinct packed/output buffer pairs",
+    "buffer_preparation": "fill packed/output with NaN before checked replay; outside Event interval on same stream",
+    "recipe": {
+      "id": "lightop.silu_mul.split_pack_preallocated.v1",
+      "outside_timing": [
+        "validate graph and tensors",
+        "allocate packed input and output",
+        "create reshape views"
+      ],
+      "timed_body": [
+        "torch.cat((gate_2d, up_2d), dim=-1, out=packed)",
+        "lightop.op.silu_and_mul_opt(output_2d, packed)"
+      ],
+      "input_semantics": "gate and up read-only; no restoration between replays",
+      "output_semantics": "independent preallocated output; not an alias of either input",
+      "buffer_ownership": "one packed input and one output per prepared call; retain through GPU completion",
+      "scheduling": "caller owns stream, dependencies, synchronization and timing events",
+      "capture_support": "unverified_on_GPU"
+    },
+    "correctness": {
+      "rtol": 0.01,
+      "atol": 0.001,
+      "check_all_outputs": true,
+      "input_check": "bytewise unchanged",
+      "output_alias_input": false
+    },
+    "environment": {},
+    "automatic_admission": false
+  },
+  "quality_policy": {
+    "attempts": 7,
+    "extra_attempts": 0,
+    "sample_replacement": false,
+    "iqr_method": "inclusive",
+    "max_iqr_over_median": 0.1,
+    "anchor_policy": "no separate anchors; no cross-window drift certification",
+    "performance_gain_required": false
+  },
+  "pool": {
+    "pool_argument": null,
+    "selection": "default_private_pool",
+    "shared_with_other_graphs": false
+  },
+  "profiling": "separate previous dispatch process; not launched here",
+  "automatic_admission": false,
+  "full_ffn_or_model_executed": false
+}

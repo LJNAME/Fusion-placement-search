@@ -1,6 +1,27 @@
 # LightOP GPU0 正式时延采集与 CPU 准入
 
-承接已通过的 Smoke02 和 dispatch02。只测 GPU0、第 0 层 SiLU→Mul、BF16 `[1,256,3072]` 的完整 Adapter 调用，边界输入由固定种子生成。当前只有 CPU 实现与测试，尚无本版正式 GPU 回执，新增 accepted=0。
+承接已通过的 Smoke02 和 dispatch02。只测 GPU0、第 0 层 SiLU→Mul、BF16 `[1,256,3072]` 的完整 Adapter 调用，边界输入由固定种子生成。首次正式 GPU 回执已按冻结规则准入，LightOP 单组可查询 Profile 从 0 增至 1；范围仅限下述场景。
+
+## 2026-11-04 首次正式回执
+
+`lightop_profile_calibration_20261104_01.tar.gz` 完整，35,651 字节，SHA256 `51c62cd583f666c1925aa188dad4de869b8ed76a7c4f9d987a75385aab16d8b4`。9 个采集源码 SHA 匹配 `9e53805`；CPU 原入口审核与仓库归档副本重放结果一致，未改执行代码、契约或阈值。[审核记录](../data/lightop_profile_calibration_20261104_01/report.json)、[准入决定](../data/lightop_profile_calibration_20261104_01/review/admission.json)、[原始回执](../data/lightop_profile_calibration_20261104_01/raw/result.json)。
+
+| 项目 | 结果 |
+| --- | --- |
+| 轮次 / 调用 | 7/7 轮，350 次调用；无补轮、筛除或替换 |
+| 每轮 μs/call（按时间顺序） | 18.1344 / 17.6768 / 17.7024 / 17.8112 / 19.1488 / 17.7248 / 18.9792 |
+| Median | **17.8111803532 μs/call** |
+| Min / Max | 17.6768004894 / 19.1487598419 μs/call |
+| IQR / Median | **4.7340487157% ≤10%** |
+| 正确性 | 350 个输出各对照 BF16 Native 与 FP32；全部逐轮存储检查通过 |
+| 身份 | 无缺项；Kernel Key 与 Smoke02、dispatch02 一致 |
+| 正式 Contract | `sha256:082daa2882acc37959d20f5487b32908b3c7810749d4ec0023433bb56f1ab72d` |
+| 准入 | `accepted`；原始采集仍保留 `conditional_dev` |
+| 严格成本查询 | `measured_group_kernel`，17.8111803532 μs；附加 launch/memory 均为 0 |
+
+原始回执逐字节归档在 `data/lightop_profile_calibration_20261104_01/raw/`，审核产物另放 `review/`。可以直接对这份仓库数据调用 `load_reviewed_profile`，不用依赖本机 transfer 目录。采集进程未启动 profiler，沿用 dispatch02 的独立路径证据；CPU 未独立重做 GPU 数值运算。
+
+当前完成单组“真实测量→身份绑定→准入→严格成本查询”。未完成解析模型误差校准、独立验证集、GPU1、其他算子或通信覆盖；不能据此评价完整 FFN 方案，不能将这条数据复制计为 28 条逐层实测 Profile。下一项先在 CPU 上核对同契约成本接入与搜索成本缺项，再据此确定最小补测集合。
 
 ## 固定执行契约
 
@@ -70,7 +91,7 @@ python -m calibration.lightop_profile_calibration review \
 ```python
 from calibration.lightop_profile_calibration import load_reviewed_profile
 
-profile = load_reviewed_profile("/path/to/lightop_profile_calibration_20261104_01")
+profile = load_reviewed_profile("data/lightop_profile_calibration_20261104_01/raw")
 # 对同一观测组调用 estimate_group；缺项或不匹配时拒绝，不回退。
 ```
 
