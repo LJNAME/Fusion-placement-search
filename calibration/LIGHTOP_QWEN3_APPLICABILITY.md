@@ -1,6 +1,8 @@
 # LightOP × Qwen3 图适用性审计（2026-11-04）
 
-9 项已完成厂商任务：**直接映射 0、需要适配 1、证据不足 1、不适用 7**。本轮只做 CPU 审计，未新增 Adapter、GPU 测量或 accepted Profile；7 项依赖失败任务继续标记未完成、暂缓。
+v1 静态审计（`c64834f`）的 9 项结论：**直接映射 0、需要适配 1、证据不足 1、不适用 7**。该历史审计没有新增 Adapter 或 Profile，原 JSON 证据保留。
+
+后续进展：SiLU×Mul 已完成单组 Adapter 及 CPU 验证，见 [执行与计时边界](../integration/lightop/SILU_MUL_ADAPTER.md)。它显式包含输入打包，仍待真实 GPU 执行与 Canonical Profile 接入；未新增 accepted Profile。7 项依赖失败任务继续标记未完成、暂缓。
 
 ## 执行后端与验收目标
 
@@ -59,7 +61,7 @@ SiLU 的厂商基准是 vLLM 的另一种融合实现；RMS＋RoPE 的计时 lam
 
 ## 最小缺项与下一步
 
-下一项是 SiLU×Mul 的最小执行与测量 Adapter 设计，按以下顺序推进：
+SiLU×Mul 首版执行映射和 CPU 验证已完成，以下流程的下一项是实际运行身份、Canonical Key 与 Measurement Contract 接入：
 
 1. 定义 gate/up 到打包输入及独立输出的映射，明确真实 stride、存储关系、设备、生存期和计时边界；预测与实测覆盖同一组必要操作。
 2. 将 Adapter 版本、实际二进制、Shape、dtype、输入布局、设备及 Measurement Contract 绑定到 Canonical Key，明确已有证据可复用项与最小缺项。旧 eager 单批数据不改名为正式 Graph 标签。

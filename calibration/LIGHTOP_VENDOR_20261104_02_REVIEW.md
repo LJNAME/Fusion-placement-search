@@ -62,13 +62,13 @@ LightOP 作为真实融合 Kernel 的执行与测量后端，用于校准代价�
 | 顺序 | 工作 | 产出 | GPU |
 | --- | --- | --- | --- |
 | 1 | 将已完成任务对应的实际 API 与 Qwen3-0.6B 图匹配，核对 Shape、dtype、布局、层内分组和输入输出语义 | 真实图适用表：可直接映射、需要适配、不适用、证据不足 | 否 |
-| 2 | 设计 SiLU×Mul 的最小执行与测量 Adapter，明确输入打包、输出、生存期和计时边界 | 与图候选及预测成本一致的执行契约；已有 KERV 保留 | 否 |
+| 2 | 已实现 SiLU×Mul 单组 Adapter，明确输入打包、输出、生存期和计时边界 | 33 项 Adapter CPU 测试通过；真实 GPU 待验证，KERV 保留 | 否 |
 | 3 | 绑定 Canonical Key / Measurement Contract，审查已有计时的复用范围与最小缺项 | 可精确查询的 Profile 身份；开发证据与正式数据分列 | 否 |
 | 4 | 仅补齐选定候选所缺的执行、正确性与测量证据，完成 Admission 和成本查询 | 可信融合 Profile；不以加速比作为准入条件 | 按缺项决定 |
 | 5 | 用实测数据校准代价模型，在独立验证数据上检查校准前后误差 | 同一执行边界的预测误差、验证集身份和适用范围 | 按缺项决定 |
 | 6 | 成本覆盖满足后，在固定 FFN 图和动作空间上做 Exact / 搜索结果对照 | 独立参考成本下的排名、方案选择和 regret | 否（搜索评价） |
 
-首项已完成，见 [LightOP × Qwen3 适用性审计](LIGHTOP_QWEN3_APPLICABILITY.md)：9 项中直接映射 0、需要适配 1、证据不足 1、不适用 7；记录 28 组 SiLU→Mul 和 28 组 Q/K Norm→RoPE 结构。原图布局未知，未新增 Adapter、测量或准入。下一项为 SiLU×Mul 的最小 Adapter 设计，先明确与代价模型一致的执行和计时边界。
+首项已完成，见 [LightOP × Qwen3 适用性审计](LIGHTOP_QWEN3_APPLICABILITY.md)：9 项中直接映射 0、需要适配 1、证据不足 1、不适用 7；记录 28 组 SiLU→Mul 和 28 组 Q/K Norm→RoPE 结构。原图布局未知，v1 审计证据保持历史状态。此后已完成 [SiLU×Mul Adapter 的 CPU 实现](../integration/lightop/SILU_MUL_ADAPTER.md)，动态能力目录单独标注 CPU 验证/GPU 待验；未新增计时或准入。下一项为实际运行身份、Canonical Key / Measurement Contract 与最小验证入口。
 
 `op.silu_and_mul_opt` 接收打包输入和独立输出，而当前图中的 gate/up 来自两个投影；若需要拼接或复制，Adapter 必须明确该成本由谁承担，不能只引用 Kernel 内部耗时。现有这一批 d=4096 的测量，也不能直接用于 Qwen3 FFN 的宽度 3072（`data/ffn_placement_b1/identity.json:56`）。
 

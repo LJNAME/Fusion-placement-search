@@ -23,6 +23,15 @@ def capabilities():
             overlay = json.loads(review.read_text(encoding="utf-8"))
             for record in records:
                 record[field] = overlay["capabilities"][record["id"]]
+    for record in records:
+        if record["id"] == "op.silu_and_mul_opt":
+            record["placed_graph_adapter"] = True
+            record["project_adapter"] = {
+                "module": "integration.lightop.silu_mul.LightopSiluMulAdapter",
+                "validation": "cpu_contract_only_gpu_pending",
+                "case": {"shape": [1, 256, 3072], "dtype": "bf16"},
+                "gpu_execution_verified": False, "accepted_profiles": 0,
+            }
     return records
 
 

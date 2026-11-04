@@ -95,11 +95,16 @@ class VendorReviewTests(unittest.TestCase):
         self.assertEqual(result[1]["values"], [.461, .356])
         self.assertEqual(result[2]["case"]["dtype"], "FP16")
 
-    def test_overlay_records_evidence_without_promoting_graph_execution(self):
+    def test_overlay_keeps_vendor_evidence_separate_from_adapter_validation(self):
         records = {r["id"]: r for r in capabilities()}
         self.assertTrue(records["fuse_silu_and_mul"]["vendor_suite01"]["gpu_timing_and_checks_available"])
         self.assertFalse(records["FusedScaleMaskSoftmaxDropout"]["vendor_suite01"]["gpu_timing_and_checks_available"])
-        self.assertTrue(all(not r["placed_graph_adapter"] for r in records.values()))
+        self.assertEqual([r["id"] for r in records.values() if r["placed_graph_adapter"]],
+                         ["op.silu_and_mul_opt"])
+        adapter = records["op.silu_and_mul_opt"]["project_adapter"]
+        self.assertEqual(adapter["validation"], "cpu_contract_only_gpu_pending")
+        self.assertFalse(adapter["gpu_execution_verified"])
+        self.assertEqual(adapter["accepted_profiles"], 0)
         latest = "vendor_20261104_02"
         self.assertTrue(records["op.silu_and_mul_opt"][latest]["gpu_timing_and_checks_available"])
         self.assertTrue(records["fused_bmm"][latest]["gpu_timing_and_checks_available"])
