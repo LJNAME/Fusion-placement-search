@@ -125,6 +125,23 @@ def verify_bundle(wheelhouse, data):
     return bundle
 
 
+def baseline_wheels(data):
+    # The v1 optional SMI wrapper failed against SCNet HyHAL (receipt 03).
+    # Keep the frozen bundle/manifest as evidence, but never install that wrapper.
+    return [w for w in data["wheels"] if w["distribution"] != "amdsmi"]
+
+
+def numeric_import_probe(output):
+    print(json.dumps({"step": "check_existing_torch_import"}), flush=True)
+    with (output / "numeric_import.log").open("wb") as stream:
+        result = subprocess.run([sys.executable, "-X", "faulthandler", "-c",
+            "import torch; print(torch.__version__); print(torch.version.hip)"],
+            stdout=stream, stderr=subprocess.STDOUT)
+    if result.returncode:
+        raise RuntimeError("Existing Torch import failed; see numeric_import.log. "
+            "For receipt03's newly installed amdsmi, use tools/recover_lightop_smi.sh before installing anything else.")
+
+
 def probe(output):
     data = manifest()
     checks = {}
@@ -182,6 +199,7 @@ def install(output, wheelhouse=None):
     versions = protected(before, data)
     if not versions["torch"] or not versions["torch"].startswith("2.9.0+das.") or "dtk2604" not in versions["torch"]:
         raise ValueError("Requires the existing Torch2.9 DTK2604 numeric stack")
+    numeric_import_probe(output)
     from integration.lightop.catalog import check_installed
     check_installed()
     for wheel in data["wheels"]:
@@ -205,7 +223,7 @@ def install(output, wheelhouse=None):
     if locked:
         pip(output, "install_host_dependencies", ["install", "--no-deps", "--no-index", "--require-hashes", "--only-binary=:all:", "--retries", "0", "--report", str(output / "host_installed.json"), "-r", str(lock)])
     cache = Path.home() / "private_data/LJ/lightop_bench_wheels"
-    paths = [str(wheelhouse / "vendor" / w["filename"] if wheelhouse else fetch(w, cache)) for w in data["wheels"] if not(w["install_if_missing"] and version(w["distribution"]))]
+    paths = [str(wheelhouse / "vendor" / w["filename"] if wheelhouse else fetch(w, cache)) for w in baseline_wheels(data) if not(w["install_if_missing"] and version(w["distribution"]))]
     pip(output, "install_vendor_baselines", ["install", "--no-deps", "--no-index", *paths])
     after = snapshot()
     save(output / "after.json", after)

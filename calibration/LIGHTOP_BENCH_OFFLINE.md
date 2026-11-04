@@ -1,5 +1,7 @@
 # LightOP 定向补测：离线依赖包
 
+> 2026-11-04：第三批安装的 amdsmi 与 HyHAL 符号不匹配，已阻断 Torch 导入。先按 [LIGHTOP_VENDOR_SUITE03_REVIEW.md](LIGHTOP_VENDOR_SUITE03_REVIEW.md) 恢复；下文保留原安装计划，当前入口已禁用该 SMI 安装项，暂不重启 16 项补测。
+
 第二批停在 pytest 的 pip 候选解析，未安装、未测量，见 LIGHTOP_VENDOR_SUITE02_REVIEW.md。第三批改用离线包完成依赖解析和安装，仍只运行首批缺依赖的 16 项。
 
 包名：`lightop_bench_deps_cp310_linux_v3.tar.gz`，84,184,701 字节（80.28 MiB），65 个 wheel。
