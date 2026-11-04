@@ -21,7 +21,7 @@
 
 原始回执逐字节归档在 `data/lightop_profile_calibration_20261104_01/raw/`，审核产物另放 `review/`。可以直接对这份仓库数据调用 `load_reviewed_profile`，不用依赖本机 transfer 目录。采集进程未启动 profiler，沿用 dispatch02 的独立路径证据；CPU 未独立重做 GPU 数值运算。
 
-当前完成单组“真实测量→身份绑定→准入→严格成本查询”。未完成解析模型误差校准、独立验证集、GPU1、其他算子或通信覆盖；不能据此评价完整 FFN 方案，不能将这条数据复制计为 28 条逐层实测 Profile。CPU 成本边界与覆盖审计已完成，见 [覆盖记录](../cost_model/LIGHTOP_COST_COVERAGE.md)：LightOP 结构方案 0/48 可完整定价。下一项先闭合两个 GPU0 零通信方案的 Reference 身份与测量用途。
+当前完成单组“真实测量→身份绑定→准入→严格成本查询”。未完成解析模型误差校准、独立验证集、GPU1、其他算子或通信覆盖；不能据此评价完整 FFN 方案，不能将这条数据复制计为 28 条逐层实测 Profile。CPU 成本边界与覆盖审计已完成，见 [覆盖记录](../cost_model/LIGHTOP_COST_COVERAGE.md)：LightOP 结构方案 0/48 可完整定价。当前路线已收缩为GPU0 Native/Fused激活组两候选对照，先补Native链并复用现有Fused实现；完整Singleton闭合后置，见覆盖记录的“当前最小实验”。
 
 ## 固定执行契约
 
