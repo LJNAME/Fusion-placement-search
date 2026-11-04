@@ -1,0 +1,404 @@
+{
+  "scope": "vendor_original_tests_cpu_review_not_profile_admission",
+  "archive_sha256": "0b248b3fd1c9c6f6405d39212845a1e17b975d56794d8530ee328388a7e23bef",
+  "identity": {
+    "version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+    "op_so_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+    "checked_files": 21,
+    "python": "3.10.22 | packaged by conda-forge | (main, Oct  6 2026, 23:02:24) [GCC 14.4.0]",
+    "executable": "/root/private_data/LJ/dcu-kernel310-20261031/venv/bin/python",
+    "packages": {
+      "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+      "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+      "vllm": "0.11.0+das.opt1.dtk2604.torch290",
+      "pytest": "8.3.5"
+    },
+    "visible_devices": {
+      "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+      "CUDA_VISIBLE_DEVICES": null,
+      "ROCR_VISIBLE_DEVICES": null
+    }
+  },
+  "jobs": 16,
+  "process_completed": 9,
+  "process_failed": 7,
+  "review_counts": {
+    "missing_dependency": 7,
+    "vendor_checks_passed_timed": 7,
+    "zero_difference_reported_correctness_only": 2
+  },
+  "missing_dependency_counts": {
+    "matplotlib": 3,
+    "numa": 4
+  },
+  "jobs_with_printed_timing": 6,
+  "timing_rows": 205,
+  "verified_original_source_copies": 2057,
+  "runtime_collector_source_captured": false,
+  "new_accepted_profiles": 0,
+  "priceable_ffn_plans": "0/48",
+  "records": [
+    {
+      "job_id": "test_act_and_mul_silu",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "op.silu_and_mul_opt"
+      ],
+      "static_source_references": [
+        "op.silu_and_mul_opt"
+      ],
+      "timing_rows": 10,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_act_and_mul.py",
+      "source_sha256": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+      "stdout_sha256": "8e79ce5b6d7d2b85cab9e578ceab7e03288b036c9d3bdaec436cd0d0d1af63b3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 79.05660629272461,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_act_and_mul_gelu",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "op.gelu_and_mul_opt"
+      ],
+      "static_source_references": [
+        "op.gelu_and_mul_opt"
+      ],
+      "timing_rows": 10,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_act_and_mul.py",
+      "source_sha256": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+      "stdout_sha256": "f4cb680c91521de5d67b35ae4080622722ae8d299b637c5ca74756508b97705f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 80.6069483757019,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_act_and_mul_gelu_tanh",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "op.gelu_tanh_and_mul_opt"
+      ],
+      "static_source_references": [
+        "op.gelu_tanh_and_mul_opt"
+      ],
+      "timing_rows": 10,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_act_and_mul.py",
+      "source_sha256": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560",
+      "stdout_sha256": "81a30ed4f69bf961bdc490b74d87dc9d120417ed4d1c3f38b8bd783baefc6046",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 42.08427667617798,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_fill_rms_x2_concat",
+      "returncode": 0,
+      "review_status": "zero_difference_reported_correctness_only",
+      "reason": "all expected differences are zero; no timing or substitute admission threshold",
+      "primary_capabilities": [
+        "fuse_fill_rms_x2_concat"
+      ],
+      "static_source_references": [
+        "fuse_fill_rms_x2_concat"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_fill_rms_x2_concat.py",
+      "source_sha256": "faf070e8dee643574862129969880db4868c85410ef6d900db1a4d73a810a848",
+      "stdout_sha256": "bea37c3c9ce7e61e7f19b9a8dc55eb137a7401c7b35274047243c83671bf3dfe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 55.196953535079956,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_groupgemm_permute_quant",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "fuse_groupgemm_permute_quant"
+      ],
+      "static_source_references": [
+        "fuse_groupgemm_permute_quant"
+      ],
+      "timing_rows": 14,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_groupgemm_permute_quant.py",
+      "source_sha256": "ca17da7f320b31833ce3a05cd46facf552563cd2996c03b52d43e2ec41a5f04e",
+      "stdout_sha256": "c01e47b6ac9695ef432abc7877e418f98347a01112d26961d69c04ee2d7ece82",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 125.9136152267456,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_rmsnorm_rope_contiguous",
+      "returncode": 0,
+      "review_status": "zero_difference_reported_correctness_only",
+      "reason": "all expected differences are zero; no timing or substitute admission threshold",
+      "primary_capabilities": [
+        "fused_rms_norm_rope_contiguous"
+      ],
+      "static_source_references": [
+        "fused_rms_norm_rope_contiguous"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_rmsnorm_rope_contiguous.py",
+      "source_sha256": "7f3f593dc4895077018edc69ac8cadfbfa6b8f3bc8a147526c84caf4ca588408",
+      "stdout_sha256": "f8df621288f80d7bba08aa4ca56012ebe92a470ed75cb5af36a080a1c6cf1d7d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 89.16945505142212,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_silu_mul_fp8_quant",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "numa",
+      "primary_capabilities": [
+        "rms_norm_per_token_fp8_quant"
+      ],
+      "static_source_references": [
+        "rms_norm_per_token_fp8_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_silu_mul_fp8_quant.py",
+      "source_sha256": "fd9d6901174e6da128f024a5c0bd4d55cd317ef8e7340c91a2adc835638299fe",
+      "stdout_sha256": "45e5639718ed3f14ead41a05672e837a1dc70c00beab0e33250726d07db9307d",
+      "stderr_sha256": "945235e97707a36bac3430c23cee0da1331ea9798ed595d00ebf03ca2d6758b0",
+      "elapsed_host_seconds": 150.89390659332275,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_silu_mul_quant",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "matplotlib",
+      "primary_capabilities": [
+        "fuse_silu_mul_quant"
+      ],
+      "static_source_references": [
+        "fuse_silu_mul_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_silu_mul_quant.py",
+      "source_sha256": "a669069ca2ab2ba7bfdaf97dccc7d63848aa0d24688b4d3fbfc4501cedd98d26",
+      "stdout_sha256": "806820f5b9033861d3f0332b1d2702752ac3fe03fb339d3994c978bfc375f817",
+      "stderr_sha256": "94bb77c09f17753031b72be33dcfbccd687b708fdfd95be72ce71396b34ec7fd",
+      "elapsed_host_seconds": 60.14955186843872,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fuse_silu_mul_quant_ep",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "matplotlib",
+      "primary_capabilities": [
+        "fuse_silu_mul_quant_ep"
+      ],
+      "static_source_references": [
+        "fuse_silu_mul_quant_ep"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fuse_silu_mul_quant_ep.py",
+      "source_sha256": "d24b48427df34b04bea7e69cda5bd49afa06a39e7d4604e4dbdd6462e760646b",
+      "stdout_sha256": "002552c97fc3abe451ac0807552b954a1b60050f2f53ba691a5e1f0519f80c55",
+      "stderr_sha256": "204dd183d1765181d6807a7efd902fea4dcd2d180cd6149ef8fb72d90545bd6b",
+      "elapsed_host_seconds": 68.03110575675964,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fused_moe_gate",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "matplotlib",
+      "primary_capabilities": [
+        "moe_fused_gate"
+      ],
+      "static_source_references": [
+        "moe_fused_gate"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fused_moe_gate.py",
+      "source_sha256": "c94113259db1cb25f08224603329944c11cc18442bc6f9387161d632342d84ae",
+      "stdout_sha256": "4d57131a817884b2492f17d8262482f19c42dfbec0c69ed2baf64382e26984a4",
+      "stderr_sha256": "fa5f92c397dacc31ebfe090bcaae4fa6509ac81fed77e7793f2c427e9d2e93e0",
+      "elapsed_host_seconds": 23.395604133605957,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fused_rms_rope",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "rms_rotary_embedding_fuse"
+      ],
+      "static_source_references": [
+        "rms_rotary_embedding_fuse"
+      ],
+      "timing_rows": 16,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fused_rms_rope.py",
+      "source_sha256": "46411e1c28aeca9293e880685a46a8993ed3189236a408f2fa56a2ed16370606",
+      "stdout_sha256": "5d47028d92700f6476db1d7f0dc338eb0ead8189934c900d1f5d346e43730e56",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 65.51544451713562,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_fused_trans_bmm_trans_benchmark",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "128 workbook timing rows; prequantized INT8 versus BF16, quantization excluded; not a pure fusion comparison",
+      "primary_capabilities": [
+        "fused_bmm"
+      ],
+      "static_source_references": [
+        "fuse_rmsnorm_rope_quant_qkv",
+        "fused_bmm",
+        "fused_rms_norm_rope_contiguous"
+      ],
+      "timing_rows": 128,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_fused_trans_bmm_trans.py",
+      "source_sha256": "8f55f76e2013d6400f0eecaf81b945b8f5151d235dec87be63012c011d2d4259",
+      "stdout_sha256": "835bceaa82fec1631d75c5ee9fe98dab72e8655b8335dbbe600619d2d9f6f09e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 393.41190910339355,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false,
+      "printed_timing_rows": 0,
+      "workbook_timing_rows": 128
+    },
+    {
+      "job_id": "test_gemma_rms_norm_fp8_quant",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "numa",
+      "primary_capabilities": [
+        "gemma_rms_norm_per_token_fp8_quant"
+      ],
+      "static_source_references": [
+        "gemma_rms_norm_per_token_fp8_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_gemma_rms_norm_fp8_quant.py",
+      "source_sha256": "194138d3fb1f780500abd40d5768a60764faec422c44f5f023568670b22ceda4",
+      "stdout_sha256": "79b0d6613e7da00777d3007a28e35ca0e84b9e871e36f047d5ddfb5632310d35",
+      "stderr_sha256": "076bd52978dd7a560b4f42e5249c08302060472abd30d8bbd8b4aa7b4a3b0244",
+      "elapsed_host_seconds": 93.09852313995361,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_reshape_cache_cuda",
+      "returncode": 0,
+      "review_status": "vendor_checks_passed_timed",
+      "reason": "vendor checks only; not Canonical Profile admission",
+      "primary_capabilities": [
+        "reshape_and_cache_cuda"
+      ],
+      "static_source_references": [
+        "reshape_and_cache_cuda"
+      ],
+      "timing_rows": 17,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_reshape_cache_cuda.py",
+      "source_sha256": "d46d22d1faa0106f890effe6ef0504d9a1304850c63d21a1f883f772393057af",
+      "stdout_sha256": "ce4cbfa925cc1e21fc5a6b31c2da9d2ac892ca5ccf96f79f5b259875d1423aff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_host_seconds": 64.78302669525146,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_rms_norm_dynamic_per_token_quant",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "numa",
+      "primary_capabilities": [
+        "rms_norm_dynamic_per_token_quant"
+      ],
+      "static_source_references": [
+        "rms_norm_dynamic_per_token_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_rms_norm_dynamic_per_token_quant.py",
+      "source_sha256": "dee46b354df45f01671557206effb783ab42edb580655773d54e2c6992f04c23",
+      "stdout_sha256": "a0f97e7a5ce5c7a3b46943db74a235b9e44d2ee2021af34b83f2e5dde97bfc90",
+      "stderr_sha256": "75905bdd9134e5a787a54e00dbe3bc959ac0f71eab6a4eac8262750c0ba97cee",
+      "elapsed_host_seconds": 105.21907663345337,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    },
+    {
+      "job_id": "test_rms_norm_fp8_quant",
+      "returncode": 1,
+      "review_status": "missing_dependency",
+      "reason": "numa",
+      "primary_capabilities": [
+        "rms_norm_per_token_fp8_quant"
+      ],
+      "static_source_references": [
+        "rms_norm_per_token_fp8_quant"
+      ],
+      "timing_rows": 0,
+      "false_check_count": 0,
+      "false_check_stdout_lines": [],
+      "source": "test/test_rms_norm_fp8_quant.py",
+      "source_sha256": "7ad736be5d86659b19d1f84aaf9233d20f16ac56eec69d6f39fa851f9c545f6b",
+      "stdout_sha256": "051409f95533287227afc3fa225d39634d252f6b7e20e43c89973c035967fe69",
+      "stderr_sha256": "397b9f3175d21ffb6ce68d62ff265b1efc9580df5f17b94c7c2e176bd802d5db",
+      "elapsed_host_seconds": 90.48502993583679,
+      "automatic_admission": false,
+      "kernel_dispatch_certified": false
+    }
+  ],
+  "jobs_with_timing_evidence": 7,
+  "jobs_with_workbook_timing": 1,
+  "printed_timing_rows": 77,
+  "workbook_timing_rows": 128,
+  "selection_scope": "selected_subset_followup",
+  "baseline_total_jobs": 48
+}

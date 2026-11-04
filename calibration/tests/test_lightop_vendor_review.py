@@ -1,5 +1,8 @@
 import unittest
-from tools.review_lightop_vendor_suite import classify, timings, selected_jobs
+from pathlib import Path
+import tempfile
+import zipfile
+from tools.review_lightop_vendor_suite import classify, timings, selected_jobs, bmm_workbook_timings
 from integration.lightop import capabilities
 
 
@@ -20,6 +23,53 @@ class VendorReviewTests(unittest.TestCase):
     def test_missing_baseline_is_not_a_kernel_failure(self):
         status, reason, _ = classify("test_act_and_mul_silu", 1, "", "ModuleNotFoundError: No module named 'vllm'")
         self.assertEqual((status, reason), ("missing_dependency", "vllm"))
+
+    def test_followup_tables_keep_baseline_units_and_cases(self):
+        cases = [
+            ("test_act_and_mul_silu", "| 32 | 4096 | Pass | 6.99 | 4.28 | 1.63 x |", "us", [6.99, 4.28]),
+            ("test_fuse_groupgemm_permute_quant", "32 | Pass | 0.225 | 0.077 | 2.92x", "ms", [.225, .077]),
+            ("test_reshape_cache_cuda", "8 1 7.525 5.101 1.48 1.09 1.61 PASS", "us", [7.525, 5.101]),
+        ]
+        for job, line, unit, values in cases:
+            with self.subTest(job=job):
+                self.assertEqual(classify(job, 0, line, "")[0], "vendor_checks_passed_timed")
+                result = timings(job, line)
+                self.assertEqual(len(result), 1)
+                self.assertEqual((result[0]["unit"], result[0]["values"]), (unit, values))
+                self.assertEqual(classify(job, 0, line.replace("Pass", "FAIL").replace("PASS", "FAIL"), "")[0], "vendor_checks_failed")
+
+    def test_zero_reports_and_bmm_are_not_timing_evidence(self):
+        line = "diff_inputs_embeds_max: 0.0, diff_previous_hidden_states_max: 0.0\n"
+        job = "test_fuse_fill_rms_x2_concat"
+        self.assertEqual(classify(job, 0, line * 10, "")[0], "zero_difference_reported_correctness_only")
+        for text in (line * 9, line * 9 + line.replace("0.0", "1.0")):
+            self.assertEqual(classify(job, 0, text, "")[0], "requires_review")
+        bmm = "config: {'MODE': 0}, status: False\n\u901a\u8fc7\u7387: 128/128 = 100.00%\n"
+        self.assertEqual(classify("test_fused_trans_bmm_trans_benchmark", 0, bmm, "")[0], "vendor_checks_passed_correctness_only")
+        self.assertEqual(timings("test_fused_trans_bmm_trans_benchmark", bmm), [])
+        self.assertEqual(classify("test_fused_trans_bmm_trans_benchmark", 0, bmm + "torch check kernel \u7cbe\u5ea6\u68c0\u67e5\u4e0d\u5408\u683c!!!", "")[0], "vendor_checks_failed")
+
+    def test_bmm_workbook_evidence_preserves_boundary_and_rejects_failed_rows(self):
+        columns = ["B", "N", "L", "P", "Passed", "Torch_bf16_bmm_time_us", "Q_quant_time_us",
+                   "Fused_fp8_bmm_Time_us", "Q_quant+Fused_fp8_bmm_Time_us", "Fused_fp8_bmm_TFlops", "Fused_fp8_bmm_GB/s"]
+        header = "<row>" + "".join('<c t="inlineStr"><is><t>' + name + "</t></is></c>" for name in columns) + "</row>"
+        body = '<row><c><v>1</v></c><c><v>16</v></c><c><v>128</v></c><c><v>512</v></c><c t="b"><v>1</v></c>'
+        body += "".join("<c><v>" + str(n) + "</v></c>" for n in [36, 0, 9.28, 9.28, .2, 107]) + "</row>"
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "bmm.xlsx"
+            def write(text):
+                with zipfile.ZipFile(path, "w") as archive:
+                    archive.writestr("xl/worksheets/sheet1.xml", '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>' + header + text + "</sheetData></worksheet>")
+            write(body * 128)
+            result = bmm_workbook_timings(path)
+            self.assertEqual(len(result), 128)
+            self.assertEqual(result[0]["values"], [36, 0, 9.28, 9.28])
+            self.assertEqual(result[0]["input_dtype"], "int8")
+            self.assertIn("quantization cost to zero", result[0]["boundary"])
+            for bad in (body * 127, body * 127 + body.replace('t="b"><v>1', 't="b"><v>0'), body.replace('<v>36</v>', '<f>1+1</f><v>36</v>') * 128):
+                write(bad)
+                with self.assertRaises(ValueError):
+                    bmm_workbook_timings(path)
 
     def test_gemma_tolerances_remain_distinct(self):
         text = "allclose(atol=1e-2, rtol=1e-2): True\nallclose(atol=1e-3, rtol=1e-3): False\n"
@@ -50,6 +100,10 @@ class VendorReviewTests(unittest.TestCase):
         self.assertTrue(records["fuse_silu_and_mul"]["vendor_suite01"]["gpu_timing_and_checks_available"])
         self.assertFalse(records["FusedScaleMaskSoftmaxDropout"]["vendor_suite01"]["gpu_timing_and_checks_available"])
         self.assertTrue(all(not r["placed_graph_adapter"] for r in records.values()))
+        latest = "vendor_20261104_02"
+        self.assertTrue(records["op.silu_and_mul_opt"][latest]["gpu_timing_and_checks_available"])
+        self.assertTrue(records["fused_bmm"][latest]["gpu_timing_and_checks_available"])
+        self.assertFalse(records["rms_norm_per_token_fp8_quant"][latest]["gpu_timing_and_checks_available"])
 
 
 if __name__ == "__main__":

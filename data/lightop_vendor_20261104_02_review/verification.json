@@ -1,0 +1,124 @@
+{
+  "scope": "cpu_only_complete_receipt_review_not_profile_admission",
+  "archive_bytes": 3820468,
+  "archive_sha256": "0b248b3fd1c9c6f6405d39212845a1e17b975d56794d8530ee328388a7e23bef",
+  "gzip_crc_passed": true,
+  "archive_regular_files": 2126,
+  "verified_original_source_copies": 2057,
+  "receipt_json_sha256": {
+    "preparation/probe.process.json": {
+      "sha256": "450303743ba7649f093d3d50ebb082d9f4eca2c9651af0ac04bb20f08a5c6e6c"
+    },
+    "preparation/probe.json": {
+      "sha256": "773c08aa7a4fa31e892922b06e6fc57b332130501e787419f567d2e8a5459a34"
+    },
+    "summary.json": {
+      "sha256": "1ae9055b5d10529364c12a3fcfe730121cf4e4b763e22d89aa792a7f7cbb0d6d"
+    },
+    "path_cleanup.json": {
+      "sha256": "430f3cddbf9da7c561de31157f8aa60a4865c71c0ab5c95cbc6644cd2138a02f"
+    },
+    "platform_cleanup.json": {
+      "sha256": "5944b2c35a64a183a7e45bc10cd14bc28e85f69700e154478b8b8454f50dbfc7"
+    },
+    "before.json": {
+      "sha256": "8f74f44c4c8b579ee50f5269454eb7f43e5e7fe044ad2d026bf808b811cc2444"
+    },
+    "after.json": {
+      "sha256": "8f74f44c4c8b579ee50f5269454eb7f43e5e7fe044ad2d026bf808b811cc2444"
+    }
+  },
+  "preflight_returncode": 0,
+  "preflight_elapsed_seconds": 168.9446937246248,
+  "preflight_timed_out": false,
+  "selected_platform": "vllm.platforms.rocm.RocmPlatform",
+  "installed_package_count": 81,
+  "package_snapshots_equal": true,
+  "temporary_path_removed": true,
+  "temporary_platform_registration_removed": true,
+  "failed_jobs_with_partial_correctness_output": [
+    {
+      "job_id": "test_fuse_silu_mul_fp8_quant",
+      "missing_module": "numa",
+      "partial_checks": [],
+      "timing_complete": false
+    },
+    {
+      "job_id": "test_fuse_silu_mul_quant",
+      "missing_module": "matplotlib",
+      "partial_checks": [
+        {
+          "stdout_line": 5,
+          "text": "[Correctness] All tests passed "
+        }
+      ],
+      "timing_complete": false
+    },
+    {
+      "job_id": "test_fuse_silu_mul_quant_ep",
+      "missing_module": "matplotlib",
+      "partial_checks": [
+        {
+          "stdout_line": 6,
+          "text": "[Correctness] All tests passed."
+        }
+      ],
+      "timing_complete": false
+    },
+    {
+      "job_id": "test_fused_moe_gate",
+      "missing_module": "matplotlib",
+      "partial_checks": [
+        {
+          "stdout_line": 5,
+          "text": "[Correctness] All bf16 tests passed \u2705 (num_expert=288)"
+        }
+      ],
+      "timing_complete": false
+    },
+    {
+      "job_id": "test_gemma_rms_norm_fp8_quant",
+      "missing_module": "numa",
+      "partial_checks": [],
+      "timing_complete": false
+    },
+    {
+      "job_id": "test_rms_norm_dynamic_per_token_quant",
+      "missing_module": "numa",
+      "partial_checks": [],
+      "timing_complete": false
+    },
+    {
+      "job_id": "test_rms_norm_fp8_quant",
+      "missing_module": "numa",
+      "partial_checks": [],
+      "timing_complete": false
+    }
+  ],
+  "new_accepted_profiles": 0,
+  "priceable_ffn_plans": "0/48",
+  "report_sha256": "720fe741aa02fcba259e17b5b2673dcc7d1e25b8bb4f80deeabb9a580d9d9919",
+  "capability_status_sha256": "a374ad407cd285134a22641e355794173272fc67f604a03a3613207c3031239f",
+  "timings_sha256": "e2fcd2ec9956ff360538e571035a840311afbe2f10b07725b469553256033e4e",
+  "bmm_workbook": {
+    "path": "measurements/jobs/test_fused_trans_bmm_trans_benchmark/vendor/test/fused_bmm_benchmark.xlsx",
+    "sha256": "8956d12ecb25018fcd0816791b96d66701fde6da7137c2196307c4c8e1de2bbb",
+    "sheet": "Sheet1",
+    "range": "A1:K129",
+    "records": 128,
+    "unique_shapes": 32,
+    "repeated_entries_per_shape": 4,
+    "actual_input_dtype": "int8",
+    "actual_output_dtype": "bfloat16",
+    "quantization_cost_source": "test/test_fused_trans_bmm_trans.py:504-505 sets q_quant_time=0",
+    "baseline": "BF16 Torch path; do not attribute comparison entirely to fusion"
+  },
+  "related_cpu_tests_passed": 52,
+  "first_batch_regression_byte_equal": [
+    "report.json",
+    "capability_status.json",
+    "timings.jsonl",
+    "jobs.csv"
+  ],
+  "reviewer_source_sha256": "49351262656ac0156ceaf911b4ff5450175455becde5fbf75a5598dbb3e36f06"
+}
