@@ -11,7 +11,7 @@
 | BMM | 128/128；32 个不同 Shape 各出现 4 次 | Excel 128 行，μs |
 | Fill + RMS × 2 + Concat | 10 个 Case，两项差值均为 0 | 无 |
 | RMSNorm + RoPE + Contiguous | 1 个 Case，四项差值均为 0 | 无 |
-| 剩余 7 项 | 缺依赖退出 | 未完成 |
+| 剩余 7 项 | 未完成，暂不续测（缺依赖退出） | 未完成 |
 
 共 16 项、各尝试 1 次：9 项退出 0，7 项退出 1。7 项有检查和计时证据，2 项只有零误差输出。终端 77 行计时、BMM 表格 128 行，共 205 行。报告、逐项状态、原值和来源 SHA 在 `data/lightop_vendor_20261104_02_review/`。
 
@@ -22,7 +22,7 @@
 - BMM 的 `fused_bmm_benchmark.xlsx` 表头写 FP8，入口实际设 `in_dtype=torch.int8`、`out_dtype=torch.bfloat16`（原脚本 `test/test_fused_trans_bmm_trans.py:910-912`）；`q_quant_time=0.0`（`:504-505`），基准为 BF16 Torch BMM（`:507-508`）。这组数据排除了量化成本且比较精度不同，不能据此单独归因融合收益。Shape 列和全部原始计时保留在 `timings.jsonl`，未把 128 条当成 128 个不同 Shape。
 - 两个零误差任务只报告差值，保留为 correctness-only，未补造耗时或准入容差。
 
-## 7 项依赖阻断
+## 7 项未完成（暂不续测）
 
 | 缺失模块 | 原版任务 |
 | --- | --- |
@@ -45,12 +45,26 @@
 
 新增 accepted Profile 为 0，完整 FFN 可定价方案仍为 0/48。厂商脚本各自的耗时边界尚未转换成项目统一的 Canonical Key / Measurement Contract。
 
-## 续测入口条件
+## 当前处理决定（2026-11-04）
 
-`remaining_jobs.json` 固定 7 个依赖失败任务及各自源码 SHA，9 个完成任务保留，不重跑整批。
+7 项均标记为 **未完成，暂不续测**，保留缺失模块、原始失败记录与源码 SHA。`remaining_jobs.json` 逐项写入 `completion_status=incomplete`、`followup_decision=deferred_by_user`，待执行集合为空；原 `report.json` 的历史审核结果不改写。
 
-先补齐两项依赖，再做实际构造预检：除了导入 `matplotlib.pyplot` 和 `numa`，还要构造原 vLLM 的 `RMSNorm`（含 Gemma 对照脚本实际使用的同一类），不能只检查类是否存在。当前预检只检查 callable，漏掉了构造时的配置依赖。
+本阶段不补装 `matplotlib` / `numa`，不重新执行这 7 项，不扩大厂商测试矩阵。9 项已完成任务及其证据保留。若以后恢复，再核验原依赖和实际 `RMSNorm` 构造路径；该条件不再是当前主线的前置任务。
 
-`numa 1.4.6` 官方发布物只有源码包，CPython 安装会编译并链接 `libnuma`；SCNet 的头文件、编译环境及后续构造依赖尚未核验。暂未交付自动安装或新 GPU 运行命令，不能直接安装同名替代包或补整个 vLLM 推理环境。官方来源：[PyPI](https://pypi.org/project/numa/)、[构建脚本](https://github.com/smira/py-numa/blob/master/setup.py)。
+## 下一步计划
 
-本次仅 CPU 审核与证据解析，未重新运行 GPU。
+| 顺序 | 工作 | 产出 | GPU |
+| --- | --- | --- | --- |
+| 1 | 将已完成任务对应的实际 API 与 Qwen3-0.6B 图匹配，核对 Shape、dtype、布局、层内分组和输入输出语义 | 真实图适用表：可直接映射、需要适配、不适用、证据不足 | 否 |
+| 2 | 根据适用表选择首个 LightOP Adapter，优先核查已测的 `op.silu_and_mul_opt`；保留现有 KERV 实现 | 最小 Adapter 设计及 CPU 映射/约束验证 | 否 |
+| 3 | 整理该候选已有计时的 Canonical Key 与测量边界，列出进入成本查询所缺的最小证据 | Profile 可复用表与缺项清单；不满足的记录保留为开发证据 | 否 |
+| 4 | Adapter、输入条件和测量边界明确后，仅针对首个可用候选补充必要验证；若现有证据充分则直接复用 | 一条可执行、可追溯的融合候选及其合法成本查询 | 按缺项决定 |
+| 5 | 重新核对 FFN 方案成本覆盖；覆盖满足后再做 Exact 全枚举和解析/实测成本交叉评分 | 可定价方案清单、最优方案变化及缺项 | 否（搜索评价） |
+
+首项只做适用性审计，不开始 GPU 测量或 Adapter 编码。
+
+`op.silu_and_mul_opt` 接收打包输入和独立输出，而当前图中的 gate/up 来自两个投影；若需要拼接或复制，Adapter 必须明确该成本由谁承担，不能只引用 Kernel 内部耗时。现有这一批 d=4096 的测量，也不能直接用于 Qwen3 FFN 的宽度 3072（`data/ffn_placement_b1/identity.json:56`）。
+
+7 项有计时证据的任务与 2 项仅零误差任务继续分列。厂商接口可调用、当前图可映射、Profile 可准入、完整方案可评分分别记录。BMM 的 INT8/BF16 边界、Permute+Quant 的实际范围沿用上文，不能补写成统一融合收益。
+
+Exact 只表示当前成本模型下的最优值；完整方案的通信和其他成本缺失时，不宣称真实最优。MCTS 和 SROP 本阶段保持不变。

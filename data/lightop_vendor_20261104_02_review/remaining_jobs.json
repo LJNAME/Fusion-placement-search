@@ -5,37 +5,51 @@
     {
       "job_id": "test_fuse_silu_mul_fp8_quant",
       "missing_module": "numa",
-      "source_sha256": "fd9d6901174e6da128f024a5c0bd4d55cd317ef8e7340c91a2adc835638299fe"
+      "source_sha256": "fd9d6901174e6da128f024a5c0bd4d55cd317ef8e7340c91a2adc835638299fe",
+      "completion_status": "incomplete",
+      "followup_decision": "deferred_by_user"
     },
     {
       "job_id": "test_fuse_silu_mul_quant",
       "missing_module": "matplotlib",
-      "source_sha256": "a669069ca2ab2ba7bfdaf97dccc7d63848aa0d24688b4d3fbfc4501cedd98d26"
+      "source_sha256": "a669069ca2ab2ba7bfdaf97dccc7d63848aa0d24688b4d3fbfc4501cedd98d26",
+      "completion_status": "incomplete",
+      "followup_decision": "deferred_by_user"
     },
     {
       "job_id": "test_fuse_silu_mul_quant_ep",
       "missing_module": "matplotlib",
-      "source_sha256": "d24b48427df34b04bea7e69cda5bd49afa06a39e7d4604e4dbdd6462e760646b"
+      "source_sha256": "d24b48427df34b04bea7e69cda5bd49afa06a39e7d4604e4dbdd6462e760646b",
+      "completion_status": "incomplete",
+      "followup_decision": "deferred_by_user"
     },
     {
       "job_id": "test_fused_moe_gate",
       "missing_module": "matplotlib",
-      "source_sha256": "c94113259db1cb25f08224603329944c11cc18442bc6f9387161d632342d84ae"
+      "source_sha256": "c94113259db1cb25f08224603329944c11cc18442bc6f9387161d632342d84ae",
+      "completion_status": "incomplete",
+      "followup_decision": "deferred_by_user"
     },
     {
       "job_id": "test_gemma_rms_norm_fp8_quant",
       "missing_module": "numa",
-      "source_sha256": "194138d3fb1f780500abd40d5768a60764faec422c44f5f023568670b22ceda4"
+      "source_sha256": "194138d3fb1f780500abd40d5768a60764faec422c44f5f023568670b22ceda4",
+      "completion_status": "incomplete",
+      "followup_decision": "deferred_by_user"
     },
     {
       "job_id": "test_rms_norm_dynamic_per_token_quant",
       "missing_module": "numa",
-      "source_sha256": "dee46b354df45f01671557206effb783ab42edb580655773d54e2c6992f04c23"
+      "source_sha256": "dee46b354df45f01671557206effb783ab42edb580655773d54e2c6992f04c23",
+      "completion_status": "incomplete",
+      "followup_decision": "deferred_by_user"
     },
     {
       "job_id": "test_rms_norm_fp8_quant",
       "missing_module": "numa",
-      "source_sha256": "7ad736be5d86659b19d1f84aaf9233d20f16ac56eec69d6f39fa851f9c545f6b"
+      "source_sha256": "7ad736be5d86659b19d1f84aaf9233d20f16ac56eec69d6f39fa851f9c545f6b",
+      "completion_status": "incomplete",
+      "followup_decision": "deferred_by_user"
     }
   ],
   "completed_jobs_to_preserve": [
@@ -49,11 +63,17 @@
     "test_fused_trans_bmm_trans_benchmark",
     "test_reshape_cache_cuda"
   ],
-  "preflight_requirements": [
+  "dependency_installer_ready": false,
+  "blocker": "numa 1.4.6 offers an sdist; native build prerequisites and the runtime constructor dependency closure have not been verified on SCNet; do not blindly install a same-name alternative or the full vLLM inference stack",
+  "completion_status": "incomplete",
+  "followup_decision": "deferred_by_user",
+  "decision_date": "2026-11-04",
+  "automatic_retry": false,
+  "scheduled_jobs": [],
+  "next_workstream": "cpu_graph_applicability_audit_of_completed_vendor_results",
+  "preflight_requirements_if_resumed": [
     "import matplotlib.pyplot with a headless backend",
     "import numa and verify get_max_node, bind, get_membind interfaces and actual libnuma loading",
     "construct actual vLLM RMSNorm on CPU using vendor defaults before GPU benchmark jobs; the Gemma comparison script also uses RMSNorm"
-  ],
-  "dependency_installer_ready": false,
-  "blocker": "numa 1.4.6 offers an sdist; native build prerequisites and the runtime constructor dependency closure have not been verified on SCNet; do not blindly install a same-name alternative or the full vLLM inference stack"
+  ]
 }
