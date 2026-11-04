@@ -1,5 +1,7 @@
 # LightOP 第三批：SMI 包与 HyHAL 不匹配
 
+> 恢复首批已卸载 SMI，导入后的子进程结束状态仍待定位。已经执行过卸载的环境按 [LIGHTOP_SMI_RECOVERY01_REVIEW.md](LIGHTOP_SMI_RECOVERY01_REVIEW.md) 使用 resume，不重复运行卸载。
+
 第三批完成离线依赖安装，基准预检在 `import torch` 处失败；没有创建 measurements，没有启动 16 项补测。
 
 | 项目 | 回执结果 |
@@ -23,7 +25,7 @@
 
 1. 核对原回执、私有 Python 路径、安装前不存在 amdsmi、当前版本及源码 SHA、原数值库版本。
 2. 将该分发包全部文件备份到恢复目录，然后只卸载 amdsmi。
-3. 子进程验证 Torch 和 LightOP 导入。未恢复则停止，保留日志。
+3. 子进程分别验证 Torch 和 Torch+LightOP 导入，保存完成标记、退出码及超时状态；异常仍保留后续只读检查。
 4. 只读收集服务器已有 SMI wrapper 源码、系统库 SHA 与符号；独立子进程验证找到的纯 Python wrapper 能否导入、初始化和枚举设备。含其他 Python 版本扩展的候选不导入。
 
 不安装其他 amdsmi 版本，不替换 HyHAL 系统库，不启动算子计时。SDK 检查失败也保留日志；不能将 SMI 设备枚举成功当成 vLLM 基准已通过。

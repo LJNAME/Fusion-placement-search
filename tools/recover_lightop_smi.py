@@ -6,8 +6,10 @@ import importlib.metadata as metadata
 import json
 from pathlib import Path
 import shutil
+import signal
 import subprocess
 import sys
+import time
 import traceback
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -37,13 +39,23 @@ def validate_receipt(receipt, current, executable, data):
 
 def run_child(output, label, arguments, timeout=60):
     print(json.dumps({"step": label}), flush=True)
+    started = time.monotonic()
     with (output / (label + ".log")).open("wb") as stream:
         try:
             result = subprocess.run([sys.executable, "-X", "faulthandler", *arguments],
                 stdout=stream, stderr=subprocess.STDOUT, timeout=timeout)
-            return {"returncode": result.returncode, "timed_out": False}
+            record = {"returncode": result.returncode, "timed_out": False}
         except subprocess.TimeoutExpired:
-            return {"returncode": None, "timed_out": True}
+            record = {"returncode": None, "timed_out": True}
+    record.update(elapsed_seconds=time.monotonic() - started, timeout_seconds=timeout,
+                  arguments=arguments)
+    if record["returncode"] is not None and record["returncode"] < 0:
+        try:
+            record["signal"] = signal.Signals(-record["returncode"]).name
+        except ValueError:
+            record["signal"] = "unknown"
+    prepare.save(output / (label + ".process.json"), record)
+    return record
 
 
 def sdk_paths():
@@ -123,10 +135,48 @@ def recover(receipt, output):
     expected_packages.pop("amdsmi")
     if after["packages"] != expected_packages:
         raise ValueError("Packages other than the receipt03 SMI changed during recovery")
-    restored = run_child(output, "torch_import", ["-c",
-        "import torch, lightop; print(torch.__version__); print(torch.version.hip); print(lightop.__file__)"])
-    if restored["returncode"] != 0:
-        raise RuntimeError("Torch import is still blocked; see torch_import.log; no further mutation attempted")
+    collect_diagnostics(output)
+
+
+def validate_removed_receipt(receipt, current):
+    before = json.loads((receipt / "before.json").read_text())
+    after = json.loads((receipt / "after.json").read_text())
+    expected = dict(before["packages"])
+    expected.pop("amdsmi", None)
+    data = prepare.manifest()
+    bad = next(w for w in data["wheels"] if w["distribution"] == "amdsmi")
+    if before["packages"].get("amdsmi") != bad["version"] or after["packages"] != expected:
+        raise ValueError("Recovery receipt does not show only the known SMI removal")
+    if current["packages"] != after["packages"] or current["executable"] != after["executable"]:
+        raise ValueError("Use the unchanged post-removal private environment")
+    if before["executable"] != after["executable"]:
+        raise ValueError("Recovery changed the Python executable")
+    for relative, digest in bad["source_sha256"].items():
+        if prepare.sha(receipt / "removed_distribution" / relative) != digest:
+            raise ValueError("Removed SMI backup differs from the known wrapper")
+
+
+def resume(receipt, output):
+    if sys.platform != "linux" or sys.version_info[:2] != (3, 10):
+        raise ValueError("Requires the original Linux Python3.10 launcher")
+    current = prepare.snapshot()
+    validate_removed_receipt(receipt, current)
+    prepare.save(output / "packages.json", current)
+    prepare.save(output / "input_receipt_sha256.json", {n: prepare.sha(receipt / n)
+        for n in ("before.json", "after.json", "torch_import.log", "failure.json")})
+    collect_diagnostics(output)
+
+
+def collect_diagnostics(output):
+    imports = {}
+    for label, source in (
+        ("torch_only", "import torch; print(torch.__version__); print(torch.version.hip); print('IMPORT_BODY_COMPLETE', flush=True)"),
+        ("torch_lightop", "import torch, lightop; print(torch.__version__); print(torch.version.hip); print(lightop.__file__); print('IMPORT_BODY_COMPLETE', flush=True)"),
+    ):
+        result = run_child(output, label, ["-c", source])
+        result["import_body_completed"] = "IMPORT_BODY_COMPLETE" in (output / (label + ".log")).read_text(errors="replace")
+        imports[label] = result
+    # Host SDK inspection is independent of the numeric subprocess exit status.
     candidates = []
     for index, name in enumerate(sdk_paths()):
         candidate = Path(name)
@@ -149,17 +199,18 @@ def recover(receipt, output):
         candidates.append(entry)
     library_probe = run_child(output, "host_library", [str(Path(__file__).resolve()),
         "inspect-library", "--output", str(output / "host_library.json")], timeout=20)
-    prepare.save(output / "summary.json", {"scope": "receipt03_recovery_and_readonly_sdk_inventory",
-        "torch_and_lightop_import_restored": True, "removed_distribution": bad["version"],
-        "protected_versions_unchanged": True, "sdk_candidates": candidates, "host_library_probe": library_probe,
+    clean_imports = all(r["returncode"] == 0 and r["import_body_completed"] for r in imports.values())
+    prepare.save(output / "summary.json", {"scope": "post_smi_removal_readonly_runtime_and_sdk_inventory",
+        "torch_and_lightop_import_restored": clean_imports, "import_probes": imports,
+        "diagnostic_collection_completed": True, "sdk_candidates": candidates, "host_library_probe": library_probe,
         "baseline_ready": False, "gpu_measurement_jobs": 0, "automatic_admission": False})
-    print(json.dumps({"torch_and_lightop_import_restored": True, "sdk_candidates": len(candidates),
+    print(json.dumps({"torch_and_lightop_import_restored": clean_imports, "sdk_candidates": len(candidates),
         "baseline_ready": False, "gpu_measurement_jobs": 0}), flush=True)
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("phase", choices=("recover", "inspect-sdk", "inspect-library"))
+    parser.add_argument("phase", choices=("recover", "resume", "inspect-sdk", "inspect-library"))
     parser.add_argument("--receipt", type=Path)
     parser.add_argument("--candidate", type=Path)
     parser.add_argument("--output", type=Path, required=True)
@@ -172,7 +223,10 @@ def main():
         output = args.output.resolve()
         output.mkdir(parents=True, exist_ok=False)
         try:
-            recover((args.receipt.resolve() / "preparation"), output)
+            if args.phase == "resume":
+                resume(args.receipt.resolve(), output)
+            else:
+                recover((args.receipt.resolve() / "preparation"), output)
         except Exception:
             prepare.save(output / "failure.json", {"traceback": traceback.format_exc()})
             prepare.save(output / "after_failure.json", prepare.snapshot())
