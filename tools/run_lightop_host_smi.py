@@ -2,6 +2,7 @@
 import argparse
 from contextlib import contextmanager
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -12,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools import prepare_lightop_bench_followup as prepare
 from tools.recover_lightop_smi import run_child
+from integration.lightop.hygon_platform import ENTRY_POINT, PLATFORM
 
 MANIFEST = ROOT / "data/lightop_host_smi_v1/manifest.json"
 
@@ -37,7 +39,7 @@ def check_sources(data):
 def sdk_search_path(site_packages, package, output):
     """Python startup handles .pth in every child, including vendor subprocesses."""
     path = site_packages / "fusion_lightop_host_smi.pth"
-    content = str(package.parent) + "\n"
+    content = str(package.parent) + "\n" + str(ROOT) + "\n"
     # Never overwrite a pre-existing environment binding.
     with path.open("x", encoding="utf-8", newline="\n") as stream:
         stream.write(content)
@@ -50,6 +52,37 @@ def sdk_search_path(site_packages, package, output):
             raise ValueError("SMI path binding changed during the run; retained for inspection")
         path.unlink()
         prepare.save(output / "path_cleanup.json", {"removed": True, "path": str(path)})
+
+
+@contextmanager
+def platform_registration(site_packages, output):
+    """Use vLLM's public out-of-tree platform entry point for this run only."""
+    allowed = os.environ.get("VLLM_PLUGINS")
+    if allowed is not None and ENTRY_POINT not in allowed.split(","):
+        raise ValueError("Existing VLLM_PLUGINS excludes the required host platform plugin")
+    directory = site_packages / "fusion_lightop_hygon_platform-0.1.0.dist-info"
+    directory.mkdir()
+    files = {
+        "METADATA": "Metadata-Version: 2.1\nName: fusion-lightop-hygon-platform\nVersion: 0.1.0\n",
+        "entry_points.txt": "[vllm.platform_plugins]\n" + ENTRY_POINT + " = integration.lightop.hygon_platform:register\n",
+    }
+    try:
+        for name, content in files.items():
+            (directory / name).write_text(content, encoding="utf-8", newline="\n")
+        prepare.save(output / "platform_binding.json", {"distribution": str(directory),
+            "entry_point": ENTRY_POINT, "group": "vllm.platform_plugins", "selected_platform": PLATFORM,
+            "source_sha256": prepare.sha(ROOT / "integration/lightop/hygon_platform.py"),
+            "inherited_VLLM_PLUGINS": allowed})
+        yield
+    finally:
+        for name, content in files.items():
+            path = directory / name
+            if path.exists():
+                if path.read_text() != content:
+                    raise ValueError("Temporary platform metadata changed; retained for inspection")
+                path.unlink()
+        directory.rmdir()
+        prepare.save(output / "platform_cleanup.json", {"removed": True, "path": str(directory)})
 
 
 def probe_host(output):
@@ -72,7 +105,16 @@ def probe_host(output):
         raise ValueError("SMI did not enumerate any processors")
     prepare.save(output / "host_smi.json", {"module": str(amdsmi.__file__), "version": __version__,
         "loaded_library": str(actual_library), "library_sha256": data["library_sha256"], "processor_count": count})
+    from integration.lightop.hygon_platform import register
+    if register() != PLATFORM:
+        raise ValueError("HIP Torch and an initialized SMI device are required for platform selection")
+    prepare.save(output / "platform_selection.json", {"entry_point": ENTRY_POINT, "platform": PLATFORM,
+        "scope": "platform_selection_only_original_vllm_backend_and_kernels"})
     prepare.probe(output)
+    import vllm.platforms as platforms
+    expected_class = platforms.current_platform.__class__
+    if expected_class.__module__ + "." + expected_class.__name__ != PLATFORM:
+        raise ValueError("vLLM selected a different platform class")
 
 
 def run(output, wheel):
@@ -94,7 +136,7 @@ def run(output, wheel):
     preflight.mkdir()
     code = 1
     try:
-        with sdk_search_path(site_packages, Path(data["sdk_package_path"]), output):
+        with sdk_search_path(site_packages, Path(data["sdk_package_path"]), output), platform_registration(site_packages, output):
             probe = run_child(preflight, "probe", [str(Path(__file__).resolve()),
                 "probe", "--output", str(preflight)], timeout=180)
             if probe["returncode"] != 0 or not (preflight / "probe.json").is_file():

@@ -1,4 +1,5 @@
 from pathlib import Path
+import importlib.metadata
 import json
 import subprocess
 import sys
@@ -6,9 +7,11 @@ import tempfile
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
+from unittest.mock import Mock
 
 from tools import run_lightop_host_smi as host
 from tools import prepare_lightop_bench_followup as prepare
+from integration.lightop import hygon_platform
 
 
 class HostSmiTests(unittest.TestCase):
@@ -86,6 +89,49 @@ class HostSmiTests(unittest.TestCase):
             source.write_text("changed")
             with self.assertRaisesRegex(ValueError, "wrapper differs"):
                 host.check_sources(data)
+
+    def test_platform_entrypoint_is_discovered_and_removed(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with patch.dict(host.os.environ, {}, clear=True):
+                with host.platform_registration(root, root):
+                    entries = [e for d in importlib.metadata.distributions(path=[str(root)])
+                               for e in d.entry_points if e.group == "vllm.platform_plugins"]
+                    self.assertEqual(len(entries), 1)
+                    self.assertEqual(entries[0].name, hygon_platform.ENTRY_POINT)
+                    self.assertIs(entries[0].load(), hygon_platform.register)
+            self.assertFalse(list(importlib.metadata.distributions(path=[str(root)])))
+            self.assertTrue(json.loads((root / "platform_cleanup.json").read_text())["removed"])
+
+    def test_platform_binding_cleans_up_on_probe_error(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with patch.dict(host.os.environ, {}, clear=True):
+                with self.assertRaisesRegex(RuntimeError, "probe failed"):
+                    with host.platform_registration(root, root):
+                        raise RuntimeError("probe failed")
+            self.assertFalse(list(root.glob("*.dist-info")))
+
+    def test_existing_plugin_allowlist_is_preserved(self):
+        with tempfile.TemporaryDirectory() as temporary, patch.dict(host.os.environ, {"VLLM_PLUGINS": "another_plugin"}):
+            root = Path(temporary)
+            with self.assertRaisesRegex(ValueError, "VLLM_PLUGINS excludes"):
+                with host.platform_registration(root, root):
+                    self.fail("must not create a binding")
+            self.assertFalse(list(root.glob("*.dist-info")))
+
+    def test_plugin_requires_hip_and_a_real_smi_device(self):
+        smi = Mock()
+        smi.amdsmi_get_processor_handles.return_value = [object()]
+        for hip, handles, expected in ((None, [object()], None), ("6.3", [], None), ("6.3", [object()], hygon_platform.PLATFORM)):
+            smi.reset_mock()
+            smi.amdsmi_get_processor_handles.return_value = handles
+            with self.subTest(hip=hip, count=len(handles)), patch.dict(sys.modules, {"torch": SimpleNamespace(version=SimpleNamespace(hip=hip)), "amdsmi": smi}):
+                self.assertEqual(hygon_platform.register(), expected)
+            if hip:
+                smi.amdsmi_shut_down.assert_called_once()
+            else:
+                smi.amdsmi_init.assert_not_called()
 
 
 if __name__ == "__main__":

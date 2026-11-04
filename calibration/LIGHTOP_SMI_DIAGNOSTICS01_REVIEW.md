@@ -1,5 +1,7 @@
 # SMI 诊断首批：恢复通过，复用宿主 SDK
 
+> 11.4 首批 SMI 已接入，预检遇到 CUDA/ROCm 双平台冲突。修复和第二批命令见 [LIGHTOP_VENDOR_20261104_01_REVIEW.md](LIGHTOP_VENDOR_20261104_01_REVIEW.md)；下文保留首版 SDK 接入记录。
+
 | 检查 | 结果 |
 | --- | --- |
 | Torch 单独导入 | 退出码 0，9.938 s，无超时 |

@@ -1,0 +1,51 @@
+{
+  "scope": "host_smi_ready_vllm_builtin_platform_conflict_no_measurements",
+  "archive_sha256": "b7931fd0e163e88d0ded036a17c54884b0faabf7766ea1432899145b5f85563b",
+  "archive_bytes": 3218,
+  "host_smi": {
+    "module": "/opt/hyhal/share/amd_smi/amdsmi/__init__.py",
+    "version": "7.6.0+995313d1",
+    "loaded_library": "/opt/hyhal/share/amd_smi/amdsmi/libamd_smi.so",
+    "library_sha256": "c2f663b92556039e328fda65bc13ea7cfc096ace9eda4310f6172c644ecf9686",
+    "processor_count": 2
+  },
+  "probe_process": {
+    "returncode": 1,
+    "timed_out": false,
+    "elapsed_seconds": 56.743873533792794,
+    "timeout_seconds": 180,
+    "arguments": [
+      "/root/private_data/LJ/Fusion-placement-search/tools/run_lightop_host_smi.py",
+      "probe",
+      "--output",
+      "/root/private_data/LJ/lightop_vendor_suite_20261104_01/preparation"
+    ]
+  },
+  "error": "Only one platform plugin can be activated, but got: ['cuda', 'rocm']",
+  "root_cause": "Both built-in platform detectors activate in the current environment; vLLM rejects the ambiguous selection. The deeper reason the CUDA detector activates is not established by this receipt.",
+  "package_snapshots_byte_identical": true,
+  "path_binding_removed": true,
+  "host_smi_plan_matches": true,
+  "gpu_measurement_jobs": 0,
+  "new_accepted_profiles": 0,
+  "selector_cpu_replay": {
+    "scope": "pinned_source_branch_replay_with_stub_detectors_not_hardware_validation",
+    "vllm_wheel_sha256": "cb2d0022688fbe504e254ab6bc36bf9e32fce76f155fe2204f6c09b2f57eb537",
+    "platforms_source_sha256": "d16059d93595bf8aa9bc2667b935781c4ba3f693b2e4f577228ca6a50889b517",
+    "builtin_only_error": "Only one platform plugin can be activated, but got: ['cuda', 'rocm']",
+    "single_out_of_tree_plugin_result": "vllm.platforms.rocm.RocmPlatform",
+    "vendor_source_modified": false
+  },
+  "evidence_sha256": {
+    "after.json": "8f74f44c4c8b579ee50f5269454eb7f43e5e7fe044ad2d026bf808b811cc2444",
+    "before.json": "8f74f44c4c8b579ee50f5269454eb7f43e5e7fe044ad2d026bf808b811cc2444",
+    "failure_run.json": "6e6945ecc8ee18ecf389bd54532df4147a42cfa9419fd938ce288a686fcff89f",
+    "host_smi_plan.json": "855b3172a038ba0937ab81867bd5ca8120a8ce359659710bcac69ac22709d582",
+    "path_binding.json": "0b637fc19f60a8308ffef3b2776edd0ec4683d9a89e8ce814164387174709dd4",
+    "path_cleanup.json": "430f3cddbf9da7c561de31157f8aa60a4865c71c0ab5c95cbc6644cd2138a02f",
+    "preparation/failure_probe.json": "2fa7a9198d25ff684c568224a70c799cd1110d20b6989baaa74cec3dc7160e15",
+    "preparation/host_smi.json": "14a4098f80e48a859dda09649334441445682d86ff74978899a102a385559a28",
+    "preparation/probe.log": "d97812f1032aa81e253d8acc141d373e8cd36ccab956e53afe4d599652f3f9b0",
+    "preparation/probe.process.json": "9c292bbaf3c008c4238be3b67640799e3eca742e6b18b0c4c32f7543f09b7309"
+  }
+}
