@@ -22,7 +22,30 @@ worker 在进入运行时检查前报 `fresh output required` 并退出 2：hipp
 
 修复后 profiler 工作目录仍为 `trace/`，worker 独立写入空的 `trace/worker/`；父进程在 hipprof 退出后先检查 worker 完成记录，不能将 profiler 退出 0 当成 worker 成功。CPU 回归覆盖“profiler 先创建数据库再启动真实 worker 入口”的顺序，以及 profiler 退出 0 但 worker 没完成的情况。空目录保护保留，不放宽为任意旧目录复用。
 
-下一次用全新 `lightop_dispatch_20261104_02` 目录运行；当前 dispatch 仍未通过，新增 accepted=0。本次不改 Adapter、Recipe、Kernel Key、标记方式或数值阈值。
+首批修复后以全新 `lightop_dispatch_20261104_02` 目录重跑，结果见下节。首批原始记录保留；Adapter、Recipe、Kernel Key、标记方式和数值阈值未改。
+
+## 2026-11-04 第二批 dispatch 回执
+
+`lightop_dispatch_20261104_02.tar.gz` 完整，1,364,600 字节，SHA256 `a014e82019b9a3d9865e087e7cab9785006739afd88e3e0e914f8e96ca0be5ec`。本地从原始 SQLite/CSV 重新审核，与回传的审核结果和目标时间线精确一致；原始文件未改。[审核记录](../data/lightop_dispatch_20261104_02_review/report.json)、[目标时间线](../data/lightop_dispatch_20261104_02_review/target_kernel_timeline.json)。
+
+| 项目 | 结果 |
+| --- | --- |
+| 进程与源码 | 父进程、profiler、worker 完成；7 个采集器源码 SHA 匹配 `ab067e8` |
+| 目标区域 | worker PID 575，GPU0；257/263 字节标记唯一，隔离 1 次目标 Replay |
+| 打包 Kernel | `CatArrayBatchedCopy_contig<...OpaqueType<2u>...>`，50 次 |
+| LightOP Kernel | `act_and_mul_kernel_opt1<BFloat16, ...silu_kernel...>`，50 次 |
+| 顺序与队列 | 50 对打包→融合，均在 GPU0 的队列 1；窗口内无其他 Kernel/Copy，无独立 SiLU/Mul 替代 |
+| Graph API | Capture/EndCapture/Instantiate 各 1 次；`hipGraphLaunch=11`（10 次预热＋1 次目标 Replay） |
+| 数值与存储 | 50 个输出逐个对照 BF16 Native / FP32；gate/up 字节保持，输出独立 |
+| 身份 | `identity_gaps=[]`；Kernel Key / Smoke Contract 与首次 Smoke 精确一致 |
+| 正式标签 | 未产生；新增 accepted=0 |
+
+全进程 2,864 个 Kernel 包含准备、预热及数值参考；认证只针对标记内的 100 个事件。`at::native` 是本次实际目标符号的一部分，不能仅凭命名空间判定发生回退。原始 GPU Tensor 未归档，数值结论来自 worker 执行检查，CPU 复核其记录与冻结实现；pftrace 保留但本次不解码。
+
+本次只验证 GPU0、第 0 层 BF16 `[1,256,3072]` 的完整 Adapter 路径，边界输入来自逻辑参考图的固定种子生成。未执行 GPU1、完整 FFN 或模型。
+
+下一项冻结完整 Adapter 调用的正式计时契约和 Admission，在无 profiler 的独立进程采集。profiling DurationNs、标记间隔和 Smoke 诊断耗时均不转为正式标签。Adapter 与 Recipe 源码保持冻结；历史执行前的未验证声明保留，事后证据以本节和审核记录为准。
+
 ## 执行与定位
 
 1. 核对实际 LightOP/Adapter/Torch/HIP/设备身份，重建 Key 与 Smoke 契约哈希，要求与已通过场景精确一致。UUID 仅作溯源，不参与匹配；其他执行条件变化则停止并保留观测。
@@ -31,7 +54,7 @@ worker 在进入运行时检查前报 `fresh output required` 并退出 2：hipp
 4. 在同一侧流上执行 257 字节 pinned-host→GPU0 拷贝并同步，Replay 一次并同步，再执行 263 字节拷贝并同步。标记缓冲不与计算缓冲共享。
 5. 结束标记后再计算 BF16 Native / FP32 参考，检查全部 50 个输出、输入字节保持及独立缓冲，`rtol=0.01, atol=0.001`。
 
-两个拷贝只用于定位，不属于 Adapter 或成本标签。小型标记拷贝在这条厂商 profiling 路径中尚待首次 GPU 回执验证；标记缺失或有歧义时不自动换成 eager 或全进程计数。
+两个拷贝只用于定位，不属于 Adapter 或成本标签。小型标记拷贝已在第二批 GPU0 回执中验证；标记缺失或有歧义时不自动换成 eager 或全进程计数。
 
 ## CPU trace 审核
 

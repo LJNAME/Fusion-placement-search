@@ -1,0 +1,129 @@
+{
+  "scope": "cpu_review_of_gpu0_lightop_dispatch_not_latency_admission",
+  "archive": {
+    "name": "lightop_dispatch_20261104_02.tar.gz",
+    "bytes": 1364600,
+    "sha256": "a014e82019b9a3d9865e087e7cab9785006739afd88e3e0e914f8e96ca0be5ec",
+    "gzip_integrity_checked": true
+  },
+  "checks": {
+    "parent_worker_plans_match": true,
+    "collector_sources_match_git": {
+      "calibration/lightop_dispatch.py": true,
+      "calibration/lightop_profile_smoke.py": true,
+      "integration/lightop/silu_mul.py": true,
+      "integration/lightop/catalog.py": true,
+      "integration/lightop/profile_identity.py": true,
+      "cost_model/lightop_profile.py": true,
+      "tools/run_lightop_dispatch.sh": true
+    },
+    "all_processes_completed_once": true,
+    "dispatch_review_recomputed_exactly": true,
+    "target_timeline_recomputed_exactly": true,
+    "graph_api_counts_match": true,
+    "originals_unchanged": true
+  },
+  "review_passed": true,
+  "collector_revision": "ab067e8e05c74f3a81dfe2a63b9325760bb4ed5e",
+  "case": {
+    "device_index": 0,
+    "dtype": "bf16",
+    "shape": [
+      1,
+      256,
+      3072
+    ],
+    "layer": 0,
+    "graph_source": "logical Qwen3 reference builder with synthetic boundary inputs"
+  },
+  "identity": {
+    "kernel_key_id": "sha256:218e38d370d950669c6cb66bcfe0a0ee183b018c66bece018cb8b582109f0298",
+    "smoke_contract_id": "sha256:5ac42b0831320f4f7db6ca963e74cfea3f46c8eb5006c72d180433b8e5e3710c",
+    "identity_gaps": [],
+    "same_kernel_key_as_smoke": true
+  },
+  "dispatch": {
+    "scope": "lightop_gpu0_dispatch_evidence_not_latency_admission",
+    "dispatch_observed": true,
+    "kernel_key_id": "sha256:218e38d370d950669c6cb66bcfe0a0ee183b018c66bece018cb8b582109f0298",
+    "smoke_contract_id": "sha256:5ac42b0831320f4f7db6ca963e74cfea3f46c8eb5006c72d180433b8e5e3710c",
+    "region": {
+      "begin_ns": 1793790940742018922,
+      "end_ns": 1793790940743022923,
+      "marker_bytes": [
+        257,
+        263
+      ],
+      "target_kernel_events": 100,
+      "roles": {
+        "split_input_pack": 50,
+        "lightop_silu_mul": 50
+      }
+    },
+    "database_csv_consistent": true,
+    "all_process_kernel_events": 2864,
+    "reviewer_sha256": "da03087c0c06973b51caee918f7dadee001c71bbeeb69197ec017fa755bb62a1",
+    "validation_and_warmup_excluded": true,
+    "target_correctness": {
+      "outputs_checked": 50,
+      "references_per_output": 2,
+      "input_bytes_unchanged": true,
+      "outputs_independent": true
+    },
+    "trace_file_sha256": {
+      "hip-prof-570.db": "9886deb4a07d728ab1175f6b8dc06ad37118a17db712c23671f0881133a0dfb8",
+      "result_570.hipkernel.csv": "9afab02c7bcc40b447b67aae097e81f352cd7488d239f7734321dbaad98e9432"
+    },
+    "timing_labels_emitted": false,
+    "usable_as_latency_label": false,
+    "automatic_admission": false
+  },
+  "graph_api_calls": {
+    "hipGraphLaunch": 11,
+    "hipStreamBeginCapture": 1,
+    "hipStreamEndCapture": 1,
+    "hipGraphInstantiateWithFlags": 1
+  },
+  "target_symbols": [
+    "void at::native::(anonymous namespace)::CatArrayBatchedCopy_contig<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 2, 128, 1>(at::native::(anonymous namespace)::OpaqueType<2u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+    "void at::native::act_and_mul_kernel_opt1<c10::BFloat16, &(c10::BFloat16 at::native::silu_kernel<c10::BFloat16>(c10::BFloat16 const&)), 8, true>(c10::BFloat16*, c10::BFloat16 const*, int)"
+  ],
+  "target_devices": [
+    0
+  ],
+  "target_queues": [
+    "1"
+  ],
+  "limits": {
+    "evidence_covers_one_marked_replay": true,
+    "profiled_duration_is_latency_label": false,
+    "raw_gpu_tensors_archived": false,
+    "pftrace_decoded": false,
+    "new_accepted_profiles": 0,
+    "gpu1_validated": false,
+    "full_ffn_or_model_executed": false,
+    "new_gpu_run_during_cpu_review": false
+  },
+  "raw_file_sha256": {
+    "dispatch_review.json": "f4a20e1438e059c9ae1a9647fac8ec73390301fc792fe8e54bd34d4ee09f133c",
+    "plan.json": "619e9787dd8fc91b52885def428f71cc7182446efdfd726a8a7286722bff6b04",
+    "process.json": "6e4eac7e903097a8e846bc232d66f1a9148eba8bd28fc7bd10b8b6e36a977f46",
+    "process.log": "993c655f01044edee05cab6527004dd87f902e7f1819df82e56766f1e2a89e00",
+    "profiler.json": "48cc9c1ba54645df5977d42c978086897458fe813956d5a915e280a8619e9119",
+    "summary.json": "b0703afd70b896435c987b76e6421e3e21324a7794ea3e1c8a09bb006f55e2c9",
+    "target_kernel_timeline.json": "dfff893740e9ec46e8d0d0391b73752d0b74af586dbd6c947dca194b3760bf49",
+    "trace/hip-prof-570.db": "9886deb4a07d728ab1175f6b8dc06ad37118a17db712c23671f0881133a0dfb8",
+    "trace/result_570.hipkernel.csv": "9afab02c7bcc40b447b67aae097e81f352cd7488d239f7734321dbaad98e9432",
+    "trace/result_570.hiptrace.csv": "adb7bca7fc08432ea6756e275817b6b47ae380421d4f725c512ced1b893a82f4",
+    "trace/result_570.pftrace": "3a5ab455b4f4ba520ea407bdf50990bb6fc94b54efa2b360ab525ba6e50023b5",
+    "trace/worker/identity.json": "44d942ded1aa70074123a0146754c90b36f1dcfd3377ade2278124154b4bb0b7",
+    "trace/worker/last_stage.json": "8b7beb9e63faa6966837bb9bbac3c36e2906ed1881a61efe9f8740357d7bb5e0",
+    "trace/worker/placed.json": "e3d1a6b2ce7ef750556bf3145041bcb5ee2f39839b9a5e142ef6256d81ecb0a9",
+    "trace/worker/plan.json": "619e9787dd8fc91b52885def428f71cc7182446efdfd726a8a7286722bff6b04",
+    "trace/worker/preparation.json": "5c2ab2ef2aa02e13b48f773f89474934fd5a7ff98a67cc657122f554dbbbd288",
+    "trace/worker/profile_worker.json": "869a8404c5986ed9a9c50615263e3cf199d13bc37199bc66319a911ca1cfeb8b",
+    "trace/worker/runtime.json": "c80e9772e3aa4cce844bdcc6d08da83b32074ac1e423afd28ccb870471ad7a4e",
+    "trace/worker.log": "0f395dd8d59e5691fad96b748b2bcd4ef5576f38125b98a0a2b0de2841542a15"
+  },
+  "next_step": "freeze formal complete-adapter-call timing and admission; independent unprofiled collection, no search or vendor matrix expansion"
+}

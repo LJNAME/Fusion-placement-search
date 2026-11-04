@@ -34,9 +34,10 @@ UUID 和安装绝对路径保存在运行溯源中，不参与 Key；SCNet 重�
 
 本次只覆盖一个固定输入场景和 GPU0。没有独立 dispatch trace，没有 GPU1、完整 FFN 或模型执行证据。执行检查来自回执及本地冻结代码核对，未保存原始 GPU Tensor，未独立重做数值计算；Adapter 源码 SHA 匹配，采集器本身的 revision/SHA 未单独记录。
 
-`preparation.one_call.gpu_execution_verified=false` 是执行前的准备快照，冻结 Recipe 的 `capture_support=unverified_on_GPU` 也不在本次修改，避免改变已执行实现的身份。这两项不覆盖事后 `capture_numeric_passed=true` 的结果；完整执行路径认证仍等待独立 trace。
+`preparation.one_call.gpu_execution_verified=false` 是执行前的准备快照，冻结 Recipe 的 `capture_support=unverified_on_GPU` 也不在本次修改，避免改变已执行实现的身份。这两项不覆盖事后 `capture_numeric_passed=true` 的结果；独立执行路径认证见后续 dispatch 回执。
 
-独立 profiling 入口现已准备，见 [dispatch 采集](LIGHTOP_DISPATCH.md)，CPU 验证完成、真实 trace 待回执。下一项先补同一完整 Adapter 调用的独立 profiling 证据，区分打包与 LightOP 目标 Kernel；再冻结正式采集与 Admission，记录采集器自身身份和校准/验证 Case。剖析与计时分进程，不把本次 3 轮诊断转换为正式标签，不启动 GPU1、全矩阵或搜索。
+后续 `lightop_dispatch_20261104_02` 已通过独立 trace 审核，见 [dispatch 回执](LIGHTOP_DISPATCH.md)：同一 Key/Smoke Contract，目标 Replay 内 50 次打包＋50 次 BF16 LightOP 融合 Kernel。下一项冻结正式采集与 Admission，记录采集器自身身份和校准/验证 Case；profiling 与计时分进程，不把本次 3 轮诊断或 trace DurationNs 转换为正式标签，不启动 GPU1、全矩阵或搜索。
+
 ## SCNet 命令
 
 使用已安装的固定 LightOP 与现有私有 Python，不安装依赖，不运行暂停的 7 项厂商任务。
@@ -74,7 +75,7 @@ bash tools/run_lightop_profile_smoke.sh \
 
 本入口不采 dispatch trace，不认证实际 Kernel 数量或 fallback 路径。后续若需要执行路径证据，使用独立 profiling 进程，避免污染计时。整个 Adapter 包含打包操作，不能要求它总共只有一个 GPU Kernel。
 
-`measurement_contract(..., purpose="calibration")` 当前用于成本接口的 CPU 契约测试，尚无对应正式采集与 Admission 实现；不将 Smoke 的 3 轮诊断值改名为 7 轮正式标签。下一步先审 Smoke 回执，再确定正式测量、独立执行证据及准入所缺的最小工作，不扩大矩阵或启动搜索。
+`measurement_contract(..., purpose="calibration")` 当前用于成本接口的 CPU 契约测试，尚无对应正式采集与 Admission 实现；不将 Smoke 的 3 轮诊断值改名为 7 轮正式标签。Smoke 与独立 dispatch 回执已审核通过，正式采集与 Admission 尚待冻结实现；不扩大矩阵或启动搜索。
 
 ## CPU 验证
 
