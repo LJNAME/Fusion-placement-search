@@ -1,0 +1,202 @@
+{
+  "scope": "lightop_gpu0_local_pair_reference_not_profile_admission_v1",
+  "seed": 20261105,
+  "device": "cuda:0",
+  "shape": [
+    1,
+    256,
+    3072
+  ],
+  "dtype": "bf16",
+  "layout": "contiguous",
+  "measurement_semantics": {
+    "executor": "two_prepared_calls_gpu0",
+    "purpose": "independent_local_reference",
+    "submission_included": false,
+    "allocation_included": false,
+    "granularity": "graph_batch_amortized_complete_adapter_call",
+    "unit": "us/call",
+    "mode": "graph_replay",
+    "calls_per_round": 50,
+    "rounds": 7,
+    "extra_attempts": 0,
+    "eager_warmup_calls": 50,
+    "warmup_replays": 10,
+    "statistic": "median",
+    "timing_boundary": "start Event -> one Graph replay -> end Event; same device and stream",
+    "synchronization": "end Event and device synchronized outside Event interval",
+    "input_reuse": "shared read-only gate/up; 50 independent intermediate/output pairs per arm",
+    "buffer_preparation": "fill packed/output with NaN before checked replay; outside Event interval on same stream",
+    "correctness": {
+      "rtol": 0.01,
+      "atol": 0.001,
+      "check_all_outputs": true,
+      "input_check": "bytewise unchanged",
+      "output_alias_input": false
+    },
+    "environment": {},
+    "automatic_admission": false
+  },
+  "recipes": {
+    "native": {
+      "id": "aten.silu_out_mul_out.preallocated_chain.v1",
+      "timed_body": [
+        "torch.ops.aten.silu.out(gate, out=intermediate)",
+        "torch.ops.aten.mul.out(intermediate, up, out=output)"
+      ],
+      "outside_timing": [
+        "validate inputs",
+        "allocate intermediate and output"
+      ],
+      "input_semantics": "shared read-only gate/up; no restoration between replays",
+      "output_semantics": "independent preallocated output"
+    },
+    "fused": {
+      "id": "lightop.silu_mul.split_pack_preallocated.v1",
+      "outside_timing": [
+        "validate graph and tensors",
+        "allocate packed input and output",
+        "create reshape views"
+      ],
+      "timed_body": [
+        "torch.cat((gate_2d, up_2d), dim=-1, out=packed)",
+        "lightop.op.silu_and_mul_opt(output_2d, packed)"
+      ],
+      "input_semantics": "gate and up read-only; no restoration between replays",
+      "output_semantics": "independent preallocated output; not an alias of either input",
+      "buffer_ownership": "one packed input and one output per prepared call; retain through GPU completion",
+      "scheduling": "caller owns stream, dependencies, synchronization and timing events",
+      "capture_support": "unverified_on_GPU"
+    }
+  },
+  "order": [
+    [
+      "native",
+      "fused"
+    ],
+    [
+      "fused",
+      "native"
+    ],
+    [
+      "native",
+      "fused"
+    ],
+    [
+      "fused",
+      "native"
+    ],
+    [
+      "native",
+      "fused"
+    ],
+    [
+      "fused",
+      "native"
+    ],
+    [
+      "native",
+      "fused"
+    ]
+  ],
+  "quality_policy": {
+    "attempts": 7,
+    "extra_attempts": 0,
+    "sample_replacement": false,
+    "iqr_method": "inclusive",
+    "max_iqr_over_median": 0.1,
+    "anchor_policy": "no separate anchors; no cross-window drift certification",
+    "performance_gain_required": false
+  },
+  "pool": {
+    "pool_argument": null,
+    "selection": "default_private_pool",
+    "shared_with_other_graphs": false
+  },
+  "predictions": {
+    "L1_analytic": {
+      "cost_us": {
+        "native": 21.40284976849216,
+        "fused": 23.747665461996803
+      },
+      "chosen": "native"
+    },
+    "L2_fused_calibrated": {
+      "cost_us": {
+        "native": 21.40284976849216,
+        "fused": 17.811180353164673
+      },
+      "chosen": "fused"
+    }
+  },
+  "analytic_stages": {
+    "native": [
+      {
+        "logical_io_bytes": 3145728,
+        "compute_s": 3.3286669349763544e-08,
+        "memory_s": 2.344815693504643e-06,
+        "launch_proxy_s": 7.770405267365277e-06,
+        "duration_us": 10.11522096086992
+      },
+      {
+        "logical_io_bytes": 4718592,
+        "compute_s": 8.321667337440886e-09,
+        "memory_s": 3.517223540256964e-06,
+        "launch_proxy_s": 7.770405267365277e-06,
+        "duration_us": 11.28762880762224
+      }
+    ],
+    "fused": [
+      {
+        "logical_io_bytes": 6291456,
+        "compute_s": 0.0,
+        "memory_s": 4.689631387009286e-06,
+        "launch_proxy_s": 7.770405267365277e-06,
+        "duration_us": 12.460036654374562
+      },
+      {
+        "logical_io_bytes": 4718592,
+        "compute_s": 4.1608336687204433e-08,
+        "memory_s": 3.517223540256964e-06,
+        "launch_proxy_s": 7.770405267365277e-06,
+        "duration_us": 11.28762880762224
+      }
+    ]
+  },
+  "launch_assumption": "legacy_eager_proxy_for_graph; not measured graph launch",
+  "common_projection_cost": "unknown C cancels only under the additive model; not measured FFN",
+  "L2": {
+    "admission_id": "sha256:c97f9650775e5f9f5e8b9321eb9a927d7e6cccb87c2b81a04911d59a83ebb429",
+    "kernel_key_id": "sha256:218e38d370d950669c6cb66bcfe0a0ee183b018c66bece018cb8b582109f0298",
+    "smoke_contract_id": "sha256:5ac42b0831320f4f7db6ca963e74cfea3f46c8eb5006c72d180433b8e5e3710c",
+    "raw_sha256": {
+      "identity.json": "31f55034e1a1731ac828b1eb5237aad04d6be86633b64f4328385937b8a92eb2",
+      "last_stage.json": "e4f74715863d52135ed7350521ce35a5e1874d881987027ff3c00cd715c0ef1d",
+      "placed.json": "e3d1a6b2ce7ef750556bf3145041bcb5ee2f39839b9a5e142ef6256d81ecb0a9",
+      "plan.json": "26102df3d9949bef16c1f03c9e4690a1e6166c852e3d6238396e7ced2bbca942",
+      "preparation.json": "5c2ab2ef2aa02e13b48f773f89474934fd5a7ff98a67cc657122f554dbbbd288",
+      "process.json": "6e4eac7e903097a8e846bc232d66f1a9148eba8bd28fc7bd10b8b6e36a977f46",
+      "result.json": "8f27d198c3875f06c2222790c795c326faf7aafd16a861706c368c41c5ad681c",
+      "round_0.json": "5a93990f29b7afc9815cb08a03c3ad84383f4f2c24c4250da4a0f182982a607b",
+      "round_1.json": "e2b5bcd910501aba02d07946709a8db766f3fdb2d14194da7b71b2da75abb9ae",
+      "round_2.json": "97a24aec96068345242362963f5aaebbb6e3bb49d4ffa88258729bfca0fdea74",
+      "round_3.json": "ac6d4c874f91f60bde7434a3ae38c63e8efbb6809097d922b54d8bd05462a3dd",
+      "round_4.json": "73d79d8d4b62a89359f200186b3c746fb267ffe9e9face26f63100bf942e60ba",
+      "round_5.json": "bd41b24beaef9d8248e807da22ceffa145847c155ac4f64e3bbcf47604bfad8b",
+      "round_6.json": "9b847909e13de39003e36a450ba452bd8f4876df870fe8d659ae784862792cd4",
+      "runtime.json": "d3cb83a26f55f703ad8703670125f36ea67cdf0a062b2f06252f3fca8562bf6f"
+    }
+  },
+  "collector": {
+    "git_revision": "04c6d8cc7a74740627c9e834510a0efaa0bd97dc",
+    "source_sha256": {
+      "calibration/lightop_local_pair.py": "c6ba06488b723d8c5b26253059345543b9d13fff9f0d6911872eab7ed7a5ecee",
+      "tools/run_lightop_local_pair.sh": "6abcc64c626db4e358cb69c1ed368ea85432971720eb5429903567f5b6823a83",
+      "simulator/shape_model.py": "d80fe667316d740fd58b7fc28241d97162fd9e9a500e6d5342f7a92d08145b73",
+      "simulator/hardware.py": "fd34d7b8cfeb341c7a6b680fd91dab237a348366a3f68f9f2d51fd7120c2cc62",
+      "data/bw1000_2card/bw1000_2card.calibrated.json": "261c9a53afebcc1abc25032a8a7124a599f6b0873187cb020d6ad2dc67d5776e"
+    }
+  },
+  "automatic_admission": false,
+  "full_ffn_or_model_executed": false
+}

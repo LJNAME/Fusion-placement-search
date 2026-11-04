@@ -1,0 +1,47 @@
+{
+  "fused_kernel_key_id": "sha256:218e38d370d950669c6cb66bcfe0a0ee183b018c66bece018cb8b582109f0298",
+  "native_chain_key_id": "sha256:a448ef83a531703345e2a8a4877c67104dbee08031a948ffd129ff90aabe98f5",
+  "shared_measurement_contract": {
+    "executor": "two_prepared_calls_gpu0",
+    "purpose": "independent_local_reference",
+    "submission_included": false,
+    "allocation_included": false,
+    "granularity": "graph_batch_amortized_complete_adapter_call",
+    "unit": "us/call",
+    "mode": "graph_replay",
+    "calls_per_round": 50,
+    "rounds": 7,
+    "extra_attempts": 0,
+    "eager_warmup_calls": 50,
+    "warmup_replays": 10,
+    "statistic": "median",
+    "timing_boundary": "start Event -> one Graph replay -> end Event; same device and stream",
+    "synchronization": "end Event and device synchronized outside Event interval",
+    "input_reuse": "shared read-only gate/up; 50 independent intermediate/output pairs per arm",
+    "buffer_preparation": "fill packed/output with NaN before checked replay; outside Event interval on same stream",
+    "correctness": {
+      "rtol": 0.01,
+      "atol": 0.001,
+      "check_all_outputs": true,
+      "input_check": "bytewise unchanged",
+      "output_alias_input": false
+    },
+    "environment": {
+      "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+      "hip": "6.3.26113",
+      "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+      "device_model": "BW",
+      "device_architecture": "gfx936:sramecc+:xnack-",
+      "runtime_device": "cuda:0",
+      "driver_version": "60326113",
+      "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea"
+    },
+    "automatic_admission": false
+  },
+  "shared_measurement_contract_id": "sha256:0b267d89f6bd2eafcfd2b919ac64d5a3bd6161c0757a612c06171ab31d97dc6a",
+  "recipes_sha256": {
+    "native": "sha256:fa7c0936cdd58d52c8f7c0cf10e6adfb8bc84d74ef4f0bc6edf532e0104a7f11",
+    "fused": "sha256:190c679ebbe6fcb7f30ad14b6a22cbb25f3a3009bc2e19bfcb73d454bd6743a1"
+  },
+  "native_dispatch_trace_collected": false
+}

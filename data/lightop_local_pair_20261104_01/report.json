@@ -1,0 +1,163 @@
+{
+  "scope": "cpu_review_of_frozen_gpu0_two_candidate_reference",
+  "status": "reference_ready",
+  "archive": {
+    "name": "lightop_local_pair_20261104_01.tar.gz",
+    "bytes": 37878,
+    "sha256": "30e6e6ebf7930a54a2b1777d21578f99f106b3862776e0415e9de6ff500b9eef",
+    "gzip_integrity_checked": true
+  },
+  "collector_revision": "04c6d8cc7a74740627c9e834510a0efaa0bd97dc",
+  "checks": {
+    "frozen_review_cli_passed": true,
+    "repository_replay_matches_transfer_review": true,
+    "collector_sources_match_git": {
+      "calibration/lightop_local_pair.py": true,
+      "tools/run_lightop_local_pair.sh": true,
+      "simulator/shape_model.py": true,
+      "simulator/hardware.py": true,
+      "data/bw1000_2card/bw1000_2card.calibrated.json": true
+    },
+    "raw_files_byte_identical": true,
+    "independent_statistics_match": true,
+    "attempts_retained": 14,
+    "attempts_replaced": 0,
+    "both_arms_passed_correctness_and_quality": true,
+    "freeze_precedes_first_measurement": true
+  },
+  "reference_cost_us": {
+    "native": 10.092799663543701,
+    "fused": 18.847960233688354
+  },
+  "quality": {
+    "native": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 10.092799663543701,
+        "min_us": 10.063999891281128,
+        "max_us": 11.142359972000122,
+        "iqr_us": 0.05119979381561279,
+        "iqr_over_median": 0.005072903012288262,
+        "mad_rel": 0.001906228983231941,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        10.153579711914062,
+        11.142359972000122,
+        10.092799663543701,
+        10.095959901809692,
+        10.063999891281128,
+        10.073579549789429,
+        10.0735604763031
+      ]
+    },
+    "fused": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 18.847960233688354,
+        "min_us": 17.715200185775757,
+        "max_us": 19.331159591674805,
+        "iqr_us": 0.8399903774261475,
+        "iqr_over_median": 0.044566646311401406,
+        "mad_rel": 0.02325983828158131,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        18.847960233688354,
+        18.937560319900513,
+        18.409559726715088,
+        17.715200185775757,
+        19.331159591674805,
+        18.892760276794434,
+        17.740780115127563
+      ]
+    }
+  },
+  "frozen_predictions": {
+    "L1_analytic": {
+      "cost_us": {
+        "native": 21.40284976849216,
+        "fused": 23.747665461996803
+      },
+      "chosen": "native"
+    },
+    "L2_fused_calibrated": {
+      "cost_us": {
+        "native": 21.40284976849216,
+        "fused": 17.811180353164673
+      },
+      "chosen": "fused"
+    }
+  },
+  "comparisons": {
+    "L1_analytic": {
+      "frozen_choice": "native",
+      "reference_choice": "native",
+      "same_choice": true,
+      "local_absolute_regret_us": 0.0,
+      "prediction_error_us": {
+        "native": 11.31005010494846,
+        "fused": 4.899705228308449
+      }
+    },
+    "L2_fused_calibrated": {
+      "frozen_choice": "fused",
+      "reference_choice": "native",
+      "same_choice": false,
+      "local_absolute_regret_us": 8.755160570144653,
+      "prediction_error_us": {
+        "native": 11.31005010494846,
+        "fused": -1.0367798805236816
+      }
+    }
+  },
+  "paired_rounds_native_lower_cost": 7,
+  "fused_complete_call_over_native_percent": 86.74660017050822,
+  "native_analytic_over_reference_percent": 112.06058261318313,
+  "fused_L2_relative_prediction_error_percent": -5.500753756210541,
+  "limits": {
+    "scope": "GPU0 activation chain only; shape [1,256,3072], BF16 contiguous",
+    "reference_is_complete_ffn": false,
+    "absolute_regret_is_local_only": true,
+    "new_profile_admission": false,
+    "prior_accepted_profile_modified": false,
+    "reference_reused_for_selection": false,
+    "native_dispatch_trace_collected": false,
+    "individual_pack_or_vendor_kernel_latency_measured": false,
+    "numeric_checks_independently_reexecuted_on_cpu": false,
+    "new_gpu_execution_during_review": false,
+    "mcts_or_joint_placement_benefit_evaluated": false
+  },
+  "raw_file_sha256": {
+    "attempt_00.json": "3c93a22ea1fe7f7c6f878e4eae8191a5ad50061f1c99552366b117241e39776f",
+    "attempt_01.json": "7cac9dc0734f684f0e488796640d45e21c6f34588bd3e443ecbeb71055b78774",
+    "attempt_02.json": "b688596a91b59d2560ea1afac3e68e05d747e3ff1ca911a0e62b07926f9bad45",
+    "attempt_03.json": "2ad30ea260c97e588621e17b1c35c249b6524810145ca496600baab52918685e",
+    "attempt_04.json": "4930e42ae823444e63c8009eeb2fe9ba04714f3f7dae560fef745473275e77fe",
+    "attempt_05.json": "247fc1b55b99c608c9215684f93e390d9d6d0d1995f3011fd4eae089c4adb43b",
+    "attempt_06.json": "b508935305fb7e1ae953eb4f6cc88eaaae6e11c098948f0874f97ecd97ae9ee0",
+    "attempt_07.json": "177b04aa6b8d7ca21275b3f1087b1ce2fc5860e6199562cc91485782e3dbd686",
+    "attempt_08.json": "51b6d8d55259cc934f72b35d34d2fcd5075960d99f37d3c4d396c377f20e632d",
+    "attempt_09.json": "8251d28742de1dbc8893f32147e29e97b4b76ad5e92089ac4eb7becef9312d7b",
+    "attempt_10.json": "51ba81788a60a94aec99adb09f50d17469e8a82ade0336bf191aaec40a22dcea",
+    "attempt_11.json": "0958e0ccfa4a265562f9d1860c8097161fa5cb1f876a9e9c2b22530a6b8c38de",
+    "attempt_12.json": "39980a398656a0b7720907c30fcc57aacbe0a6dad68f67eb6ce040d3957cb157",
+    "attempt_13.json": "9d09501bce5e3df96a2758fdc413dc4cb3466ed53e4bef74759542da70b12019",
+    "identity.json": "b4734b796bc02b3006a71d434fbb050496c4201244400cf202e70ef0d6692711",
+    "last_stage.json": "8a03e6c7b72a763e3aa84a78625c644b303065d22a546a8cb54ce674593469fd",
+    "placed.json": "e3d1a6b2ce7ef750556bf3145041bcb5ee2f39839b9a5e142ef6256d81ecb0a9",
+    "plan.json": "cd549a7d6eec4cc07cd8dd2304eea9b15b4ffbbe45a5a3360c52104e24113899",
+    "prediction.json": "08add11dc9a1dc7ec09f17877fa65304851595f10bcface1c2e60c2225f5c851",
+    "preparation.json": "8d52952dec8c07ca53f20301da32890d1fb002c3e2c13196a24efda324418b23",
+    "process.json": "6e4eac7e903097a8e846bc232d66f1a9148eba8bd28fc7bd10b8b6e36a977f46",
+    "process.log": "a7f3704b24c86bfa8314bb3c930d6edc7447660f3c11cae3cb9a85bb75fa6230",
+    "result.json": "f46f4bd0f4f475dcccb96f8d1218746c10e6decc3b4c3d6f31419a3232055e3d",
+    "runtime.json": "462afe0ac0237e7d5171f5cd9c044d57a32286c58894f84c90df639c0a2e6875",
+    "warmup.json": "a35d43073e5a2f46e8f3b8997bef514aedc59aaea3aa02e247da41fce2cc2c61"
+  },
+  "next_step": "Use balanced Native/Fused costs in subsequent local scoring, keeping this frozen experiment intact; no GPU expansion required to inspect the ranking error."
+}

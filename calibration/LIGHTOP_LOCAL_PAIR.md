@@ -46,3 +46,24 @@ Native 为预分配的 `aten.silu.out → aten.mul.out`；Fused 复用现有 Ada
 `evaluation.json` 分别给出两种冻结选择、新参考选择、逐臂预测误差和局部绝对 regret（μs）。新参考不回流修改预测；没有自动 Profile 准入，不覆盖既有正式记录。
 
 共同 Projection 成本 C 仅在加性模型下相消。局部差值不等于完整 FFN 实测收益，不报告完整 FFN 相对 regret；Native 链成本不拆成单算子 Profile。两个候选穷举不构成 MCTS、联合放置或 SROP 的效果证据。单个 Shape、单个新批次也不证明泛化或统计显著性。
+## 首批回传：2026-11-04
+
+回执 `lightop_local_pair_20261104_01`，采集版本 `04c6d8c`。冻结 CPU review 返回 `reference_ready`；两臂各7轮×50次全部保留，没有补轮或替换。IQR/Median：Native 0.5073%，Fused 4.4567%，均低于预注册10%阈值。回执中的全部输出双参考、输入字节保持及缓冲独立检查通过；CPU复核记录与冻结执行代码，未重做GPU数值计算。
+
+| 执行路径 | 新参考中位数 / μs |
+| --- | ---: |
+| Native 预分配 SiLU→Mul 链 | 10.09280 |
+| 预分配 pack＋LightOP 完整调用 | 18.84796 |
+
+7/7轮中Native均低于Fused。上述差异包含pack，没有分别测pack与LightOP Kernel，不能据此定位是哪一阶段造成差异，也不能据此评价LightOP独立融合Kernel的速度。
+
+| 测量前冻结模式 | 选择 | 新参考选择 | 局部绝对 regret / μs |
+| --- | --- | --- | ---: |
+| L1 完整边界解析估计 | Native | Native | 0 |
+| L2 仅替换正式融合成本 | Fused | Native | 8.75516 |
+
+Native解析值21.40285 μs，比本批10.09280 μs高112.06%；旧Fused Profile为17.81118 μs，比本批18.84796 μs低5.50%。只替换Fused成本保留了过高的Native估计，导致错误排序。这是本Case的成本替换范围问题，不表示已证明解析模型普遍优于实测校准，也没有修改原始Profile的准入结论。
+
+原始25文件逐字节保存在 `data/lightop_local_pair_20261104_01/raw/`；冻结复核输出为 `review/evaluation.json`，来源、源码校验和独立统计复算见 `report.json`。本批为独立局部评价数据，不新增accepted Profile，不回填后改写测前选择，不改变原完整FFN成本覆盖结论。
+
+下一项先在CPU处理Native/Fused两臂一致的成本接入，不增加设备和算子范围。若未来把本批作为校准输入，应单独标记该用途；本批不能同时作为更新后模型的独立验证数据。
