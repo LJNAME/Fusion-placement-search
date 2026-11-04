@@ -103,7 +103,8 @@ def target_region(events, copies, pid, device):
 
 def review(directory):
     directory = Path(directory)
-    frozen, worker, identity, actual, prep = [read(directory / name) for name in
+    receipt = directory / "worker"
+    frozen, worker, identity, actual, prep = [read(receipt / name) for name in
         ("plan.json", "profile_worker.json", "identity.json", "runtime.json", "preparation.json")]
     local = plan()
     # A later docs/report-only commit must not invalidate an unchanged collector.
@@ -119,7 +120,7 @@ def review(directory):
     if worker["checks"] != {"outputs_checked": 50, "references_per_output": 2,
                             "input_bytes_unchanged": True, "outputs_independent": True}:
         raise ValueError("target replay correctness/alias checks incomplete")
-    placed = load_placed_op_graph(directory / "placed.json", registry=adapter_registry())
+    placed = load_placed_op_graph(receipt / "placed.json", registry=adapter_registry())
     keys = LightopKernelKeys(placed, identity["group_index"], prep["one_call"], actual)
     key, gaps = keys.describe(placed.plan.groups[identity["group_index"]])
     if (gaps or key != identity["kernel_key"] or identity["identity_gaps"]

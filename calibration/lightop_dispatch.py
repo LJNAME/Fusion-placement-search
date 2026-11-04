@@ -152,17 +152,25 @@ def run(output, launcher, context, command=subprocess.run):
         raise RuntimeError("hipprof not found in the existing environment; no install or fallback")
     trace = output / "trace"
     trace.mkdir()
+    receipt = trace / "worker"
+    receipt.mkdir()
     args = [profiler, "--hip-trace", launcher, "-X", "utf8", "-X", "faulthandler",
-            str(Path(__file__).resolve()), "worker", "--output", str(trace)]
+            str(Path(__file__).resolve()), "worker", "--output", str(receipt)]
     save(output / "profiler.json", {"path": profiler, "sha256": hashlib.sha256(Path(profiler).read_bytes()).hexdigest(),
                                     "argv": args, "attempts": 1})
     context["stage"] = "profile_worker"
     with (trace / "worker.log").open("w", encoding="utf-8") as log:
         completed = command(args, cwd=trace, stdout=log, stderr=subprocess.STDOUT, check=False)
     summary = {"scope": SCOPE, "returncode": completed.returncode, "attempts": 1,
+               "worker_complete": (receipt / "profile_worker.json").is_file(),
                "pipeline_passed": False, "timing_labels_emitted": False, "automatic_admission": False}
     save(output / "summary.json", summary)
     if completed.returncode:
+        return summary
+    if not summary["worker_complete"]:
+        # hipprof can return zero even when its child exits nonzero.
+        summary["blocked_reason"] = "profiler returned but worker did not complete; inspect trace/worker.log and trace/worker/failure.json"
+        save(output / "summary.json", summary)
         return summary
     context["stage"] = "cpu_trace_review"
     from tools.review_lightop_dispatch import review

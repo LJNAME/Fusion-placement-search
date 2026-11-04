@@ -98,10 +98,12 @@ def full_receipt(tmp_path, monkeypatch):
               "calls_per_replay":50,"marker_copy_bytes":[257,263],"timing_labels_emitted":False,
               "automatic_admission":False,"collector":frozen["collector"],"kernel_key_id":key_id(key),
               "checks":{"outputs_checked":50,"references_per_output":2,"input_bytes_unchanged":True,"outputs_independent":True}}
+    receipt = tmp_path/"worker"
+    receipt.mkdir()
     for name,value in [("plan.json",frozen),("identity.json",identity),("runtime.json",actual),
                        ("preparation.json",{"one_call":prep,"call_count":50}),("profile_worker.json",worker)]:
-        dispatch.save(tmp_path/name,value)
-    save_placed_op_graph(tmp_path/"placed.json",placed)
+        dispatch.save(receipt/name,value)
+    save_placed_op_graph(receipt/"placed.json",placed)
     trace_fixture(tmp_path)
     return worker,identity,frozen
 
@@ -136,6 +138,6 @@ def test_trace_counts_do_not_override_bad_worker_or_identity(tmp_path,monkeypatc
     elif failure == "kernel_key": identity["kernel_key_id"] = "other"
     elif failure == "contract": identity["smoke_contract_id"] = "other"
     else: worker["collector"] = {"source_sha256":{}}
-    dispatch.save(tmp_path/"profile_worker.json",worker)
-    dispatch.save(tmp_path/"identity.json",identity)
+    dispatch.save(tmp_path/"worker/profile_worker.json",worker)
+    dispatch.save(tmp_path/"worker/identity.json",identity)
     with pytest.raises(ValueError): audit.review(tmp_path)

@@ -1,0 +1,60 @@
+{
+  "scope": "cpu_review_of_dispatch_startup_failure_not_kernel_failure",
+  "archive": {
+    "name": "lightop_dispatch_20261104_01.tar.gz",
+    "bytes": 3608,
+    "sha256": "d4166e7591f18a107d378ed9750e262fb710602ad6d44ffcfc2000946b5dd742",
+    "gzip_integrity_checked": true
+  },
+  "collector_revision": "110294b25969b8e05389b185f3975d3270bea119",
+  "collector_sources_match_git": {
+    "calibration/lightop_dispatch.py": true,
+    "calibration/lightop_profile_smoke.py": true,
+    "integration/lightop/silu_mul.py": true,
+    "integration/lightop/catalog.py": true,
+    "integration/lightop/profile_identity.py": true,
+    "cost_model/lightop_profile.py": true,
+    "tools/run_lightop_dispatch.sh": true
+  },
+  "process": {
+    "hipprof_returncode": 0,
+    "worker_exit_status_reported_by_hipprof": 2,
+    "parent_python_returncode": 1,
+    "attempts": 1
+  },
+  "observed_failure": {
+    "stage": "worker_fresh_output_check_before_runtime_guard",
+    "message": "fresh output required; preserve earlier receipts",
+    "worker_plan_written": false,
+    "worker_completion_written": false,
+    "database_table_rows": {
+      "CONFIG": 0,
+      "STR_TABLE": 0,
+      "TRACE_COUNTER": 0
+    }
+  },
+  "root_cause": "hipprof created its database in the same directory used as worker output before worker freshness validation",
+  "fix": {
+    "profiler_workdir": "trace/",
+    "worker_receipt": "trace/worker/",
+    "parent_completion_gate": "require worker completion receipt even when hipprof returns zero"
+  },
+  "limits": {
+    "target_capture_executed": false,
+    "dispatch_evidence_obtained": false,
+    "numeric_failure_observed": false,
+    "new_accepted_profiles": 0,
+    "timing_labels_emitted": false,
+    "prior_smoke_result_changed": false
+  },
+  "raw_file_sha256": {
+    "failure.json": "4cb6e60a67aa9980ffadee681f7717203cd9a8168ac7474b8d5b3a81fd0726a0",
+    "plan.json": "8eadb0bbc48d122933e0cf4d688638f5625dd620600d00a6390b13a6e2e4b096",
+    "process.json": "9a7587d3de4c6cde188c75a87e39ddeff8210d9e2ca89526673454b9ab5d295b",
+    "process.log": "0b0ff8631e2a427fdd122f521e6969be1e4b9c1062f4861e21f701ee424a0857",
+    "profiler.json": "7f044f738d5f677b8809d61d7d3b01a9e6b6633ae1a5fa72d868df01b82011aa",
+    "summary.json": "e5be84013048f430490afebb0f8d926492885dac01ea632d5670aa70bf0c9bf3",
+    "trace/hip-prof-288.db": "b1d128a995b041c90b4e07e3ff640a49291cf7a8591146391d52eafc418af5aa",
+    "trace/worker.log": "e69895f5f4b03a74b1137435e7d20d2b36413df2ef3beaf62c6dbc63b6d66701"
+  }
+}

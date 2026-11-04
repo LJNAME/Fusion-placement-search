@@ -52,7 +52,7 @@ def test_worker_cpu_failure_preserves_context_and_pool(tmp_path, monkeypatch):
     assert result["pool"] == dispatch.POOL and not result["timing_labels_emitted"]
 
 
-@pytest.mark.parametrize("failure", ["missing_profiler", "worker_crash", "trace_incomplete", "none"])
+@pytest.mark.parametrize("failure", ["missing_profiler", "worker_crash", "worker_missing", "trace_incomplete", "none"])
 def test_parent_runs_one_profile_process_and_never_runs_timing(tmp_path, monkeypatch, failure):
     profiler = tmp_path / "fixture-hipprof"
     profiler.write_bytes(b"CPU test only")
@@ -64,8 +64,13 @@ def test_parent_runs_one_profile_process_and_never_runs_timing(tmp_path, monkeyp
         assert args[2] == "/fixture/launcher" and "worker" in args
         assert "benchmark" not in args and "run" not in args
         assert kwargs["check"] is False and kwargs["cwd"].name == "trace"
+        receipt = Path(args[args.index("--output") + 1])
+        assert receipt == kwargs["cwd"] / "worker"
+        if failure not in ("worker_crash", "worker_missing"):
+            dispatch.save(receipt / "profile_worker.json", {"complete": True})
         return subprocess.CompletedProcess(args, -11 if failure == "worker_crash" else 0)
     def review(directory):
+        assert failure != "worker_missing", "incomplete worker must stop before trace review"
         if failure == "trace_incomplete":
             raise ValueError("fixture trace missing")
         return {"dispatch_observed": True, "scope": "CPU test fixture"}, []
@@ -83,3 +88,32 @@ def test_parent_runs_one_profile_process_and_never_runs_timing(tmp_path, monkeyp
         assert not result["automatic_admission"] and not result["timing_labels_emitted"]
         if failure == "trace_incomplete":
             assert "fixture trace missing" in result["trace_audit_error"]
+        if failure == "worker_missing":
+            assert result["returncode"] == 0 and result["worker_complete"] is False
+            assert "worker did not complete" in result["blocked_reason"]
+
+
+def test_worker_entry_accepts_empty_receipt_when_profiler_creates_its_database_first(tmp_path,monkeypatch):
+    profiler = tmp_path / "fixture-hipprof"
+    profiler.write_bytes(b"CPU fixture only")
+    monkeypatch.setattr(dispatch.shutil,"which",lambda _:str(profiler))
+    def worker(receipt,context):
+        assert receipt.name == "worker"
+        assert (receipt.parent/"hip-prof-fixture.db").is_file()
+        result = {"complete":True,"scope":"CPU fixture only"}
+        dispatch.save(receipt/"profile_worker.json",result)
+        return result
+    monkeypatch.setattr(dispatch,"worker",worker)
+    def command(args,**kwargs):
+        (kwargs["cwd"]/"hip-prof-fixture.db").write_bytes(b"profiler initialized before child")
+        receipt = Path(args[args.index("--output")+1])
+        dispatch.main(["worker","--output",str(receipt)])
+        return subprocess.CompletedProcess(args,0)
+    monkeypatch.setattr(audit,"review",lambda _:({"dispatch_observed":True},[]))
+    output = tmp_path/"output"
+    output.mkdir()
+    result = dispatch.run(output,"/fixture/launcher",{},command)
+    assert result["pipeline_passed"] and result["worker_complete"]
+    # The worker still refuses to overwrite an earlier receipt.
+    with pytest.raises(SystemExit):
+        dispatch.main(["worker","--output",str(output/"trace/worker")])

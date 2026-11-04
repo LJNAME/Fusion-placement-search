@@ -9,11 +9,20 @@ export FLAGSCALE_ROOT="$HOME/private_data/LJ/FlagScale-main"
 export FUSION_PYTHON="$HOME/private_data/LJ/dcu-kernel310-20261031/run_python.sh"
 
 bash tools/run_lightop_dispatch.sh \
-  "$HOME/private_data/LJ/lightop_dispatch_20261104_01" run
+  "$HOME/private_data/LJ/lightop_dispatch_20261104_02" run
 ```
 
-默认 `plan`；显式 `run` 才启动既有 `hipprof --hip-trace`。不安装依赖、不切换实现、不重试。父进程只编排和 CPU 审核，唯一子任务为独立 profiling worker，当前只覆盖 GPU0。
+默认 `plan`；显式 `run` 才启动既有 `hipprof --hip-trace`。不安装依赖、不切换实现、不重试。父进程只编排和 CPU 审核，唯一子任务为独立 profiling worker，当前只覆盖 GPU0。profiler 在 `trace/` 工作，worker 使用独立的 `trace/worker/` 产物目录。
 
+## 2026-11-04 首次回执与入口修复
+
+首批 `lightop_dispatch_20261104_01.tar.gz` 完整，3,608 字节，SHA256 `d4166e7591f18a107d378ed9750e262fb710602ad6d44ffcfc2000946b5dd742`。父计划中的 7 个源码 SHA 与提交 `110294b` 一致。[审核记录](../data/lightop_dispatch_20261104_01_review/report.json)。
+
+worker 在进入运行时检查前报 `fresh output required` 并退出 2：hipprof 已先在同一 `trace/` 创建数据库，与 worker 的空目录要求冲突。hipprof 自身退出 0，父进程随后因缺少 worker 产物退出 1。数据库仅有 CONFIG、STR_TABLE、TRACE_COUNTER 三张空表，没有 Capture、数值或目标 Kernel 证据；此前 Smoke 通过的结论不变。
+
+修复后 profiler 工作目录仍为 `trace/`，worker 独立写入空的 `trace/worker/`；父进程在 hipprof 退出后先检查 worker 完成记录，不能将 profiler 退出 0 当成 worker 成功。CPU 回归覆盖“profiler 先创建数据库再启动真实 worker 入口”的顺序，以及 profiler 退出 0 但 worker 没完成的情况。空目录保护保留，不放宽为任意旧目录复用。
+
+下一次用全新 `lightop_dispatch_20261104_02` 目录运行；当前 dispatch 仍未通过，新增 accepted=0。本次不改 Adapter、Recipe、Kernel Key、标记方式或数值阈值。
 ## 执行与定位
 
 1. 核对实际 LightOP/Adapter/Torch/HIP/设备身份，重建 Key 与 Smoke 契约哈希，要求与已通过场景精确一致。UUID 仅作溯源，不参与匹配；其他执行条件变化则停止并保留观测。
@@ -39,7 +48,7 @@ bash tools/run_lightop_dispatch.sh \
 
 ## 产物与身份
 
-输出根目录保留 `plan.json`、`profiler.json`、`summary.json`、`dispatch_review.json`、`target_kernel_timeline.json`、`process.log/json`，以及 `trace/` 下的图、运行身份、Key、准备记录、阶段、worker 结果和完整 hipprof 产物。
+输出根目录保留 `plan.json`、`profiler.json`、`summary.json`、`dispatch_review.json`、`target_kernel_timeline.json`、`process.log/json`，以及 `trace/worker/` 下的图、运行身份、Key、准备记录、阶段和 worker 结果；hipprof 的数据库、CSV、pftrace 及 worker.log 留在 `trace/`。
 
 计划、worker 和 Key 记录中均附采集器 Git revision 与实际源文件 SHA；审核器另记录自身 SHA。后续仅文档或报告提交不使相同源码的回执失效。冻结 Adapter 及 Recipe 不改，避免改变已验证实现的 SHA。
 
