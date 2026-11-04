@@ -70,6 +70,8 @@ L1继续复用现有roofline思路，将pack和LightOP两个阶段都计入。Gr
 
 该实验回答局部成本排序和融合选择是否一致。Projection相消仅在加性模型下成立，真实FFN邻接、缓存与调度效应仍需链路实测；局部regret不称完整FFN实测regret，缺少共同C时不报告完整FFN相对regret。两个选项只需穷举，不构成MCTS或联合放置收益证据。后续再按研究需求扩大设备放置，SROP暂不恢复。
 
+执行入口与边界见 [GPU0 两候选局部验证](../calibration/LIGHTOP_LOCAL_PAIR.md)。新入口不修改既有 Adapter、Recipe 或准入数据。
+
 ## 完整成本闭合需求（后置）
 
 若后续需要完整计算成本或更自由的放置，保留以下成本用途清单；它不再阻断上述两候选局部实验：
