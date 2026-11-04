@@ -1,0 +1,48 @@
+# LightOP GPU0 独立 dispatch 采集
+
+承接 `lightop_profile_smoke_20261104_02`：同一 BF16 `[1,256,3072]`、第 0 层 SiLU→Mul、预分配拼接＋LightOP 调用。只采执行路径证据，不采正式时延，不写 Profile，不运行 Native 性能对照。
+
+## 入口
+
+```bash
+export FLAGSCALE_ROOT="$HOME/private_data/LJ/FlagScale-main"
+export FUSION_PYTHON="$HOME/private_data/LJ/dcu-kernel310-20261031/run_python.sh"
+
+bash tools/run_lightop_dispatch.sh \
+  "$HOME/private_data/LJ/lightop_dispatch_20261104_01" run
+```
+
+默认 `plan`；显式 `run` 才启动既有 `hipprof --hip-trace`。不安装依赖、不切换实现、不重试。父进程只编排和 CPU 审核，唯一子任务为独立 profiling worker，当前只覆盖 GPU0。
+
+## 执行与定位
+
+1. 核对实际 LightOP/Adapter/Torch/HIP/设备身份，重建 Key 与 Smoke 契约哈希，要求与已通过场景精确一致。UUID 仅作溯源，不参与匹配；其他执行条件变化则停止并保留观测。
+2. 使用同一单组 PlacedOpGraph 和 50 份独立 packed/output 缓冲，共享只读 gate/up；50 次 eager 准备调用，捕获 50-call Graph，预热 Replay 10 次。
+3. 在目标区域外将 packed/output 填 NaN 并同步，避免使用预热残留值。
+4. 在同一侧流上执行 257 字节 pinned-host→GPU0 拷贝并同步，Replay 一次并同步，再执行 263 字节拷贝并同步。标记缓冲不与计算缓冲共享。
+5. 结束标记后再计算 BF16 Native / FP32 参考，检查全部 50 个输出、输入字节保持及独立缓冲，`rtol=0.01, atol=0.001`。
+
+两个拷贝只用于定位，不属于 Adapter 或成本标签。小型标记拷贝在这条厂商 profiling 路径中尚待首次 GPU 回执验证；标记缺失或有歧义时不自动换成 eager 或全进程计数。
+
+## CPU trace 审核
+
+复用已有回执核实过的 DTK hipprof SQLite/CSV 格式：从 `HIPCOPY_*` 找到 worker PID、GPU0 的两个唯一字节数标记；从 `STR_TABLE` 按 `(PID, STR_ID)` 解码 `HIPOPS_*` 名称，不从文件名推断 worker PID，不把 `at::native` 命名空间视为 fallback。
+
+目标区域为起始拷贝 EndNs 到结束拷贝 BeginNs，必须含 50 组按序出现的 BF16 打包与目标融合事件：
+
+- 打包：已观察到的 `CatArrayBatchedCopy_contig`、`OpaqueType<2...>`；
+- LightOP：已观察到的 `act_and_mul_kernel_opt1`、`BFloat16`、`silu_kernel` 模板。
+
+原始 Kernel 次数和 DurationNs 与汇总 CSV 交叉核对。窗口内额外 Kernel、独立 SiLU/Mul、缺失调用、错误设备、其他 Copy、跨边界事件或队列不符均不认证。未知符号只报告审核失败并保留原始 trace，不能据此直接判定 Kernel 故障。窗口外的预热、随机输入和数值校验不混入目标计数。
+
+采集完成且自动 CPU 审核通过时，`summary.pipeline_passed=true`，`dispatch_review.dispatch_observed=true`。退出 0 或 `profile_worker.complete=true` 单独不代表 dispatch 通过。原始数据库、CSV、pftrace、日志全部回传；pftrace 当前不解码。
+
+## 产物与身份
+
+输出根目录保留 `plan.json`、`profiler.json`、`summary.json`、`dispatch_review.json`、`target_kernel_timeline.json`、`process.log/json`，以及 `trace/` 下的图、运行身份、Key、准备记录、阶段、worker 结果和完整 hipprof 产物。
+
+计划、worker 和 Key 记录中均附采集器 Git revision 与实际源文件 SHA；审核器另记录自身 SHA。后续仅文档或报告提交不使相同源码的回执失效。冻结 Adapter 及 Recipe 不改，避免改变已验证实现的 SHA。
+
+失败立即停止；Python 异常保留 traceback/pool/阶段及 worker 显存快照，原生崩溃依靠 faulthandler 日志与进程退出码。父进程不查询 GPU 显存。
+
+本入口不产生任何正式延迟标签，`automatic_admission=false`。通过后再冻结独立时延采集与 Admission；不把 profiling DurationNs 用于校准，不启动 GPU1、其他 7 项厂商任务、MCTS 或 SROP。

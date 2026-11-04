@@ -36,7 +36,7 @@ UUID 和安装绝对路径保存在运行溯源中，不参与 Key；SCNet 重�
 
 `preparation.one_call.gpu_execution_verified=false` 是执行前的准备快照，冻结 Recipe 的 `capture_support=unverified_on_GPU` 也不在本次修改，避免改变已执行实现的身份。这两项不覆盖事后 `capture_numeric_passed=true` 的结果；完整执行路径认证仍等待独立 trace。
 
-下一项先补同一完整 Adapter 调用的独立 profiling 证据，区分打包与 LightOP 目标 Kernel；再冻结正式采集与 Admission，记录采集器自身身份和校准/验证 Case。剖析与计时分进程，不把本次 3 轮诊断转换为正式标签，不启动 GPU1、全矩阵或搜索。
+独立 profiling 入口现已准备，见 [dispatch 采集](LIGHTOP_DISPATCH.md)，CPU 验证完成、真实 trace 待回执。下一项先补同一完整 Adapter 调用的独立 profiling 证据，区分打包与 LightOP 目标 Kernel；再冻结正式采集与 Admission，记录采集器自身身份和校准/验证 Case。剖析与计时分进程，不把本次 3 轮诊断转换为正式标签，不启动 GPU1、全矩阵或搜索。
 ## SCNet 命令
 
 使用已安装的固定 LightOP 与现有私有 Python，不安装依赖，不运行暂停的 7 项厂商任务。
