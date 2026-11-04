@@ -9,7 +9,7 @@
 | 临时路径清理 | 已完成 |
 | 安装前后包清单 | 字节一致 |
 
-错误原文（`preparation/probe.log:26`）：
+错误原文（`preparation/probe.log:25`）：
 
 ```text
 RuntimeError: Only one platform plugin can be activated, but got: ['cuda', 'rocm']
