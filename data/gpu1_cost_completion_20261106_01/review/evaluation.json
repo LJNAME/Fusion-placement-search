@@ -1,0 +1,870 @@
+{
+  "scope": "gpu1_ffn_cost_completion_v1",
+  "cases": {
+    "stage/silu/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 7.363160252571106,
+        "min_us": 6.55676007270813,
+        "max_us": 7.542359828948975,
+        "iqr_us": 0.5344003438949585,
+        "iqr_over_median": 0.072577578860701,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        7.542359828948975,
+        7.32155978679657,
+        6.55676007270813,
+        6.575959920883179,
+        7.4943602085113525,
+        7.471960186958313,
+        7.363160252571106
+      ]
+    },
+    "stage/mul/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 3.852759897708893,
+        "min_us": 3.532800078392029,
+        "max_us": 4.0127599239349365,
+        "iqr_us": 0.31836003065109253,
+        "iqr_over_median": 0.08263168198994456,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        3.683199882507324,
+        3.926360011100769,
+        3.532800078392029,
+        3.577600121498108,
+        3.852759897708893,
+        3.971160054206848,
+        4.0127599239349365
+      ]
+    },
+    "fused/silu_mul/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 18.979159593582153,
+        "min_us": 17.731200456619263,
+        "max_us": 19.427160024642944,
+        "iqr_us": 1.1887800693511963,
+        "iqr_over_median": 0.06263607529561978,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        17.849559783935547,
+        17.731200456619263,
+        19.04636025428772,
+        19.427160024642944,
+        17.84000039100647,
+        18.979159593582153,
+        19.02076005935669
+      ]
+    },
+    "gemm/down/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 27.126359939575195,
+        "min_us": 26.92795991897583,
+        "max_us": 27.276759147644043,
+        "iqr_us": 0.18880009651184082,
+        "iqr_over_median": 0.006960023273760242,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        27.276759147644043,
+        27.08156108856201,
+        27.126359939575195,
+        27.267160415649414,
+        27.052760124206543,
+        26.92795991897583,
+        27.244760990142822
+      ]
+    },
+    "gemm/down/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 27.004759311676025,
+        "min_us": 26.822359561920166,
+        "max_us": 27.113559246063232,
+        "iqr_us": 0.12800097465515137,
+        "iqr_over_median": 0.004739941325816879,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        27.004759311676025,
+        27.043159008026123,
+        26.822359561920166,
+        26.844758987426758,
+        26.96955919265747,
+        27.113559246063232,
+        27.027161121368408
+      ]
+    }
+  },
+  "automatic_admission": false,
+  "status": "calibration_candidates_ready",
+  "quality_passed": [
+    "fused/silu_mul/gpu1",
+    "gemm/down/gpu0",
+    "gemm/down/gpu1",
+    "stage/mul/gpu1",
+    "stage/silu/gpu1"
+  ],
+  "quality_failed": [],
+  "data_role": "GPU1 calibration candidates; Down GPU0 same-batch reference",
+  "model_parameters_updated": false,
+  "proxy_error": {
+    "stage/silu/gpu1": {
+      "predicted_us": 18.801504,
+      "proxy_source": "analytic_ffn_stage_proxy",
+      "measured_us": 7.363160252571106,
+      "quality": "quality_passed",
+      "signed_error": 1.5534557656048293
+    },
+    "stage/mul/gpu1": {
+      "predicted_us": 6.527005733739186,
+      "proxy_source": "analytic_ffn_stage_proxy",
+      "measured_us": 3.852759897708893,
+      "quality": "quality_passed",
+      "signed_error": 0.6941117295216287
+    },
+    "fused/silu_mul/gpu1": {
+      "predicted_us": 28.07704231165225,
+      "proxy_source": "analytic_ffn_fused_proxy",
+      "measured_us": 18.979159593582153,
+      "quality": "quality_passed",
+      "signed_error": 0.4793617269094763
+    },
+    "gemm/down/gpu1": {
+      "predicted_us": 22.902725699947528,
+      "proxy_source": "analytic_ffn_gemm_proxy",
+      "measured_us": 27.126359939575195,
+      "quality": "quality_passed",
+      "signed_error": -0.155702211761399
+    },
+    "gemm/down/gpu0": {
+      "predicted_us": 22.888162683225087,
+      "proxy_source": "analytic_ffn_gemm_proxy",
+      "measured_us": 27.004759311676025,
+      "quality": "quality_passed",
+      "signed_error": -0.15243967113126794
+    }
+  },
+  "identity": {
+    "scope": "gpu1_ffn_cost_completion_v1",
+    "cases": {
+      "stage/silu/gpu1": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.silu.out.preallocated_stage.v1",
+              "timed_body": "aten.silu.out(gate, out=output)",
+              "operands": [
+                "gate"
+              ]
+            },
+            "schema": "aten::silu.out(Tensor self, *, Tensor(a!) out) -> Tensor(a!)",
+            "tensors": {
+              "gate": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "up": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "left": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "output": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            },
+            "source_sha256": "5e4310f89ebef182555b0d3abe07e31d9e761d2d5c7f5528ee7f6977fac2c71e"
+          },
+          "gpu": {
+            "device": {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 1
+            },
+            "runtime": {
+              "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+              "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+              "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+              "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+              "hip": "6.3.26113",
+              "driver": "60326113"
+            }
+          },
+          "case": {
+            "kind": "stage",
+            "stage": "silu",
+            "nodes": [
+              "L000.mlp.silu"
+            ],
+            "device": 1,
+            "timing_device": "cuda:1",
+            "role": "gpu1_cost_candidate",
+            "shape": [
+              1,
+              256,
+              3072
+            ]
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.01,
+              "atol": 0.001
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only inputs; independent preallocated outputs per call",
+            "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:8e7b47a8c3a012bfce37809d137e69f092eff59b04c70d421193ddf43b1c1a8d",
+        "gpu_key_id": "sha256:ea017934705338cd3fb8b53a21d53f2b42a1084dcb3291f6d85e3ecb87d90659",
+        "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2"
+      },
+      "stage/mul/gpu1": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.mul.out.preallocated_derived_left_stage.v1",
+              "timed_body": "aten.mul.out(left, up, out=output)",
+              "operands": [
+                "left",
+                "up"
+              ],
+              "left_origin": "aten.silu.out(gate, out=left), outside capture and timing"
+            },
+            "schema": "aten::mul.out(Tensor self, Tensor other, *, Tensor(a!) out) -> Tensor(a!)",
+            "tensors": {
+              "gate": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "up": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "left": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "output": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            },
+            "source_sha256": "5e4310f89ebef182555b0d3abe07e31d9e761d2d5c7f5528ee7f6977fac2c71e"
+          },
+          "gpu": {
+            "device": {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 1
+            },
+            "runtime": {
+              "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+              "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+              "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+              "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+              "hip": "6.3.26113",
+              "driver": "60326113"
+            }
+          },
+          "case": {
+            "kind": "stage",
+            "stage": "mul",
+            "nodes": [
+              "L000.mlp.gated_mul"
+            ],
+            "device": 1,
+            "timing_device": "cuda:1",
+            "role": "gpu1_cost_candidate",
+            "shape": [
+              1,
+              256,
+              3072
+            ]
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.01,
+              "atol": 0.001
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only inputs; independent preallocated outputs per call",
+            "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:e56623593938d5b6b5ffa8c7b8c3d9bff6022e316cdb3843ac767938fbca2f42",
+        "gpu_key_id": "sha256:ea017934705338cd3fb8b53a21d53f2b42a1084dcb3291f6d85e3ecb87d90659",
+        "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2"
+      },
+      "fused/silu_mul/gpu1": {
+        "case_identity": {
+          "kernel_key_id": "sha256:4ad32b4d48d4fd6cdbaafcef6a3c56d685399ef734c619ff0e908ca156391ea1",
+          "measurement_contract_id": "sha256:f2f2bdc39f04489f9c51a4314e57291d4dda006b1972333bd2c732906a9d5ea2",
+          "gpu": {
+            "device": {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 1
+            },
+            "runtime": {
+              "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+              "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+              "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+              "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+              "hip": "6.3.26113",
+              "driver": "60326113"
+            }
+          },
+          "case": {
+            "kind": "fused",
+            "nodes": [
+              "L000.mlp.silu",
+              "L000.mlp.gated_mul"
+            ],
+            "device": 1,
+            "timing_device": "cuda:1",
+            "role": "gpu1_cost_candidate",
+            "shape": [
+              1,
+              256,
+              3072
+            ]
+          }
+        },
+        "case_identity_id": "sha256:aa92943e9a999970a15b542e9e39d6d4a0205e1b54bff4a5bedaf8f60e3b524b",
+        "gpu_key_id": "sha256:ea017934705338cd3fb8b53a21d53f2b42a1084dcb3291f6d85e3ecb87d90659",
+        "contract_id": "sha256:f2f2bdc39f04489f9c51a4314e57291d4dda006b1972333bd2c732906a9d5ea2"
+      },
+      "gemm/down/gpu1": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+              "timed_body": "aten.mm.out(x2d, weight.t(), out=output)",
+              "weight_layout": "nn.Linear [out, in] contiguous; transposed view, no copy",
+              "operands": [
+                "x",
+                "weight"
+              ],
+              "bias": null,
+              "layout_status": "declared FFN execution contract; not captured from a running FFN"
+            },
+            "source_sha256": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+            "tensors": {
+              "x": {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "weight": {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "output": {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "gpu": {
+            "device": {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 1
+            },
+            "runtime": {
+              "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+              "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+              "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+              "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+              "hip": "6.3.26113",
+              "driver": "60326113"
+            }
+          },
+          "case": {
+            "kind": "gemm",
+            "projection": "down",
+            "nodes": [
+              "L000.mlp.down_proj"
+            ],
+            "device": 1,
+            "timing_device": "cuda:1",
+            "role": "gpu1_cost_candidate",
+            "m": 256,
+            "k": 3072,
+            "n": 1024,
+            "x_shape": [
+              256,
+              3072
+            ],
+            "weight_shape": [
+              1024,
+              3072
+            ],
+            "output_shape": [
+              256,
+              1024
+            ],
+            "flops": 1610612736
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.02,
+              "atol": 0.02
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only x and weight per case; 50 independent outputs",
+            "cache_context": "same weight reused by 50 calls per replay; no cold-weight claim"
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:3418dea6c6f49cd35dcb6fb82dff3b7544f6742c7bfe73736c6edb8cc461bed8",
+        "gpu_key_id": "sha256:ea017934705338cd3fb8b53a21d53f2b42a1084dcb3291f6d85e3ecb87d90659",
+        "contract_id": "sha256:ff33bd1924e2911d8304d0b7f46c313f164088b53568bc2e0a1a9e4bd315a99c"
+      },
+      "gemm/down/gpu0": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+              "timed_body": "aten.mm.out(x2d, weight.t(), out=output)",
+              "weight_layout": "nn.Linear [out, in] contiguous; transposed view, no copy",
+              "operands": [
+                "x",
+                "weight"
+              ],
+              "bias": null,
+              "layout_status": "declared FFN execution contract; not captured from a running FFN"
+            },
+            "source_sha256": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+            "tensors": {
+              "x": {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "weight": {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "output": {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "gpu": {
+            "device": {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 0
+            },
+            "runtime": {
+              "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+              "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+              "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+              "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+              "hip": "6.3.26113",
+              "driver": "60326113"
+            }
+          },
+          "case": {
+            "kind": "gemm",
+            "projection": "down",
+            "nodes": [
+              "L000.mlp.down_proj"
+            ],
+            "device": 0,
+            "role": "same_batch_reference_not_a_new_profile",
+            "timing_device": "cuda:0",
+            "m": 256,
+            "k": 3072,
+            "n": 1024,
+            "x_shape": [
+              256,
+              3072
+            ],
+            "weight_shape": [
+              1024,
+              3072
+            ],
+            "output_shape": [
+              256,
+              1024
+            ],
+            "flops": 1610612736
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.02,
+              "atol": 0.02
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only x and weight per case; 50 independent outputs",
+            "cache_context": "same weight reused by 50 calls per replay; no cold-weight claim"
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:f713e1a9b02e9c21b49cffa3104a883048baeabd29c3ea40ff33181289056cce",
+        "gpu_key_id": "sha256:72b22f6ae3a931c6bc06e790005cee2fc3bd9b806da845a313179425a486e532",
+        "contract_id": "sha256:ff33bd1924e2911d8304d0b7f46c313f164088b53568bc2e0a1a9e4bd315a99c"
+      }
+    },
+    "uuid_is_provenance_only": true,
+    "known_gaps": [
+      "no GPU1 LightOP dispatch trace in this collection; kernel identity rests on loaded source hashes"
+    ]
+  },
+  "plan_sha256": "b59f8bd6144f500f05d9f889bc2ae64ac5def4ddd9a6788023b9010b081204dc",
+  "raw_sha256": {
+    "attempt_000.json": "9d286ae1281e9d0ff193f0986819f99bf669d25058194d1a005411b41f86e436",
+    "attempt_001.json": "5d4805f8f756cfff408c00cb4123fda4388332da1e9cbec5d2a33573a90e8b53",
+    "attempt_002.json": "694c20cfb68de35e12bb3fbde0cb3bb4d4351b01c3257ee8d5df7eb43582576f",
+    "attempt_003.json": "9a96da29b98294d9c548185f0fa8a0f3cca4cd36cfd431d403c94e7f69124d69",
+    "attempt_004.json": "4cd1beb6308323d1980ef84347b856a7503125f1f13cd7a93cc76d59148f3b40",
+    "attempt_005.json": "a2f1f612315e5a1ef8a1a67a584951d51d6d73e67bea4063e885d68f37d23f72",
+    "attempt_006.json": "186a02c663642dcb4af191cfbbe122f3fe817868a7bbed5017b498d80f248583",
+    "attempt_007.json": "f863fe7508c82295f59a12e8a9ec00398a4963e028734b759ee40c02d3cb15b5",
+    "attempt_008.json": "c934bf4998bf7a9a2051f24aebf4a4686b413b35469691e205196d8a82ef7d5a",
+    "attempt_009.json": "dfe2b80432eacfbe4814971afaac9660247e4e87e087001fdfdc20da60177c6a",
+    "attempt_010.json": "8e83a887a5463bf4d44f3f4cb46b1ace149f1b89d3e72a7be914dca205ea6b61",
+    "attempt_011.json": "68838763da59762e41e79d0d0f68449036382b5ebed634b44384cbbe7bcae455",
+    "attempt_012.json": "ab473130f54975a273f01331429f6fa1306054c9ee68baaf72da7b490d949b47",
+    "attempt_013.json": "717876a4d371ab2a88c9290df702d559dd98d6bba488fc51e6668c6a66b4f1aa",
+    "attempt_014.json": "eb272000dfa4b479a570874e07d56f7d4b911ace252b420c1bd21e3987273b78",
+    "attempt_015.json": "3f57ea7f21048815ef87f092401b9a089fcc69dabff5fc60c203a2f1c6057143",
+    "attempt_016.json": "c801d9b94ab788c48a0351221ab9bd11e7f03823be5ad22e8167189f68af7d55",
+    "attempt_017.json": "cf1d3e800eff931433b5ee6c0798f7771a28b97cea2d5d931b0842b10d3fd700",
+    "attempt_018.json": "b33e09645d3735b66017a6838799215131b6bb74acdfcab916728cf189f4a811",
+    "attempt_019.json": "c134119e6b9a0792cd70b2139d01a8c8d994dd459444e4f29b1e9267facaaa36",
+    "attempt_020.json": "7eb18ad0fedf4ad64ef45a233f49e4687adc60e1aed1f9cbc0937f46066f0e39",
+    "attempt_021.json": "7d7676a906b3ba5b0cc5286ad31e2fe77e818c55a75cd30df298c3a2a9e3c163",
+    "attempt_022.json": "6fc1a85e7b411359a23917388b55a837a52cdb65f19cf3b9f55680509585b9ed",
+    "attempt_023.json": "1a9baa144879a817884b3c7d5bbca215bdfdc3de333d95907933f91876b8db2a",
+    "attempt_024.json": "8525b73eba8c4d6b1fe1cbb2e822419022194eded738e2309f9ca65ab5770ba2",
+    "attempt_025.json": "3155e8d91625262b2ffa4b8691b57b49c812d20ad0389dd4c87dd51b71461ade",
+    "attempt_026.json": "122e43d0ebabe935027a76e3d576e4cfedbfd57eb3f23a064e02cecd2c6c85b5",
+    "attempt_027.json": "a4d40ffcfd1d1c25b8542b7916fa2ca097f04d16e3743584e7e9383108394087",
+    "attempt_028.json": "c2c1610783c2a05c617cc9754121a62747a498514cea775d8e29380ab7b950a2",
+    "attempt_029.json": "f424dc1d5e7e98af26d5beeef5e52f46f68f1490403b2de372668d72e86a1148",
+    "attempt_030.json": "d83ef20fb591a4f4ed5a94372b89ed8b343216ed0ca79270e63211e160361f47",
+    "attempt_031.json": "4a069968f93bae5071b41693a9396b10648bca8fe17e86ee3514a99814199fcc",
+    "attempt_032.json": "1c04a6dc178d30b9b3b3395324dafbb10df71189fddd22af6edf94ef61aace65",
+    "attempt_033.json": "922b46368c61a7b07b9f4fe5f0ef36c741b71816586c7c2fd47a2f20b3fc717c",
+    "attempt_034.json": "ed2af730dd9c1968fa6c03e54919c69b34bca163ec433d2b4a8392499f6474ff",
+    "collection_quality.json": "081599a3ec0665124c4e9b64c365ffe89cdeff054f2bc68eff0209169089905f",
+    "fused_identity.json": "0b93a8df70e304883859c5d53f3e276287a40df0138c801d0bea5e8d07152bb3",
+    "fused_placed.json": "e47bb2b22112896a6bbb361db607a5323c960e987b3c49a4541b7eb77fc0bb81",
+    "fused_runtime.json": "0f1ac6ff48a3a18b889a8247e930fb4933e7bf8b30f2ca0079b665d737a71c79",
+    "identity.json": "a436a19581d61f29159b2e9cb2b058a3aae2cb8567d15ce0517b5b4585042c9c",
+    "last_stage.json": "5b13a4c4fb9083b485b574780ceb43c75f96059a19aeaaa23f7d2caf07e3001e",
+    "plan.json": "b59f8bd6144f500f05d9f889bc2ae64ac5def4ddd9a6788023b9010b081204dc",
+    "preparation.json": "4791478708ed37074e8b72bcfac4e3dfd30bb1fc1cc90a78c8e3170e642d67de",
+    "process.json": "6e4eac7e903097a8e846bc232d66f1a9148eba8bd28fc7bd10b8b6e36a977f46",
+    "result.json": "685f60d69e713a1e4cf76b2fe0d73367620da0c5f34f179656e49c4a35503e22",
+    "runtime.json": "48fba01f3121f661ca34808b955aa1ebaf04ebfd433b143261191dd0a56650db",
+    "warmup.json": "8807e39bdf57151d191d983cbeeeb9f85b85a24a973e361a95a8ed51b67d4165"
+  }
+}

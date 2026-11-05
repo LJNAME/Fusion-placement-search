@@ -1,0 +1,1310 @@
+{
+  "scope": "48-plan rescoring with every reviewed compute Profile; communication proxy",
+  "proxy_error_first": {
+    "gemm": {
+      "gemm/gate/gpu0": {
+        "predicted_us": 22.884743841557214,
+        "measured_us": 20.489559173583984,
+        "quality": "quality_passed",
+        "signed_error": 0.1168978135489222
+      },
+      "gemm/gate/gpu1": {
+        "predicted_us": 22.899304530419656,
+        "measured_us": 20.339159965515137,
+        "quality": "quality_passed",
+        "signed_error": 0.12587267956224452
+      },
+      "gemm/up/gpu0": {
+        "predicted_us": 22.884743841557214,
+        "measured_us": 20.47355890274048,
+        "quality": "quality_passed",
+        "signed_error": 0.11777067925860155
+      },
+      "gemm/up/gpu1": {
+        "predicted_us": 22.899304530419656,
+        "measured_us": 20.76796054840088,
+        "quality": "quality_passed",
+        "signed_error": 0.10262654231509935
+      },
+      "gemm/down/gpu0": {
+        "predicted_us": 22.888162683225087,
+        "measured_us": 27.43675947189331,
+        "quality": "quality_passed",
+        "signed_error": -0.1657847674514144
+      },
+      "gemm/down/gpu1": {
+        "predicted_us": 22.902725699947528,
+        "measured_us": 27.35356092453003,
+        "quality": "quality_failed",
+        "signed_error": -0.16271502042686872
+      }
+    },
+    "gpu1": {
+      "stage/silu/gpu1": {
+        "predicted_us": 18.801504,
+        "proxy_source": "analytic_ffn_stage_proxy",
+        "measured_us": 7.363160252571106,
+        "quality": "quality_passed",
+        "signed_error": 1.5534557656048293
+      },
+      "stage/mul/gpu1": {
+        "predicted_us": 6.527005733739186,
+        "proxy_source": "analytic_ffn_stage_proxy",
+        "measured_us": 3.852759897708893,
+        "quality": "quality_passed",
+        "signed_error": 0.6941117295216287
+      },
+      "fused/silu_mul/gpu1": {
+        "predicted_us": 28.07704231165225,
+        "proxy_source": "analytic_ffn_fused_proxy",
+        "measured_us": 18.979159593582153,
+        "quality": "quality_passed",
+        "signed_error": 0.4793617269094763
+      },
+      "gemm/down/gpu1": {
+        "predicted_us": 22.902725699947528,
+        "proxy_source": "analytic_ffn_gemm_proxy",
+        "measured_us": 27.126359939575195,
+        "quality": "quality_passed",
+        "signed_error": -0.155702211761399
+      },
+      "gemm/down/gpu0": {
+        "predicted_us": 22.888162683225087,
+        "proxy_source": "analytic_ffn_gemm_proxy",
+        "measured_us": 27.004759311676025,
+        "quality": "quality_passed",
+        "signed_error": -0.15243967113126794
+      }
+    }
+  },
+  "gpu1_quality_failed_left_as_proxy": [],
+  "reference_only_cases": [
+    "gemm/down/gpu0"
+  ],
+  "steps": {
+    "proxy_compute_except_gpu0_activation": {
+      "best": {
+        "plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+        "fused": false,
+        "placement": {
+          "L000.mlp.gate_proj": 0,
+          "L000.mlp.silu": 0,
+          "L000.mlp.up_proj": 0,
+          "L000.mlp.gated_mul": 0,
+          "L000.mlp.down_proj": 0
+        },
+        "cross_device": false,
+        "cost_us": 78.83045049003108,
+        "sources": [
+          "analytic_ffn_gemm_proxy",
+          "logical_boundary",
+          "measured_native_isolated_stage"
+        ]
+      },
+      "mcts": [
+        {
+          "seed": 0,
+          "best_plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+          "cost_us": 78.83045049003108,
+          "gap_to_exact_us": 0.0,
+          "matches_exact": true
+        },
+        {
+          "seed": 1,
+          "best_plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+          "cost_us": 78.83045049003108,
+          "gap_to_exact_us": 0.0,
+          "matches_exact": true
+        },
+        {
+          "seed": 7,
+          "best_plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+          "cost_us": 78.83045049003108,
+          "gap_to_exact_us": 0.0,
+          "matches_exact": true
+        }
+      ],
+      "cross_minus_local_us": 91.86089534766934,
+      "best_cross": {
+        "plan_id": "sha256:66241454a93046d0d4036841592bba21774b9a000ff8ae5891e748741c4f8efa",
+        "fused": false,
+        "placement": {
+          "L000.mlp.gate_proj": 0,
+          "L000.mlp.silu": 0,
+          "L000.mlp.up_proj": 1,
+          "L000.mlp.gated_mul": 0,
+          "L000.mlp.down_proj": 0
+        },
+        "cross_device": true,
+        "cost_us": 170.69134583770042,
+        "sources": [
+          "analytic_ffn_gemm_proxy",
+          "logical_boundary",
+          "measured_native_isolated_stage"
+        ]
+      },
+      "search_space": 48
+    },
+    "plus_p2_gemm": {
+      "best": {
+        "plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+        "fused": false,
+        "placement": {
+          "L000.mlp.gate_proj": 0,
+          "L000.mlp.silu": 0,
+          "L000.mlp.up_proj": 0,
+          "L000.mlp.gated_mul": 0,
+          "L000.mlp.down_proj": 0
+        },
+        "cross_device": false,
+        "cost_us": 78.57267767190933,
+        "sources": [
+          "logical_boundary",
+          "measured_gemm_projection",
+          "measured_native_isolated_stage"
+        ]
+      },
+      "mcts": [
+        {
+          "seed": 0,
+          "best_plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+          "cost_us": 78.57267767190933,
+          "gap_to_exact_us": 0.0,
+          "matches_exact": true
+        },
+        {
+          "seed": 1,
+          "best_plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+          "cost_us": 78.57267767190933,
+          "gap_to_exact_us": 0.0,
+          "matches_exact": true
+        },
+        {
+          "seed": 7,
+          "best_plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+          "cost_us": 78.57267767190933,
+          "gap_to_exact_us": 0.0,
+          "matches_exact": true
+        }
+      ],
+      "cross_minus_local_us": 94.53592097244058,
+      "best_cross": {
+        "plan_id": "sha256:66241454a93046d0d4036841592bba21774b9a000ff8ae5891e748741c4f8efa",
+        "fused": false,
+        "placement": {
+          "L000.mlp.gate_proj": 0,
+          "L000.mlp.silu": 0,
+          "L000.mlp.up_proj": 1,
+          "L000.mlp.gated_mul": 0,
+          "L000.mlp.down_proj": 0
+        },
+        "cross_device": true,
+        "cost_us": 173.1085986443499,
+        "sources": [
+          "logical_boundary",
+          "measured_gemm_projection",
+          "measured_native_isolated_stage"
+        ]
+      },
+      "search_space": 48
+    },
+    "plus_gpu1_completion": {
+      "best": {
+        "plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+        "fused": false,
+        "placement": {
+          "L000.mlp.gate_proj": 0,
+          "L000.mlp.silu": 0,
+          "L000.mlp.up_proj": 0,
+          "L000.mlp.gated_mul": 0,
+          "L000.mlp.down_proj": 0
+        },
+        "cross_device": false,
+        "cost_us": 78.57267767190933,
+        "sources": [
+          "logical_boundary",
+          "measured_gemm_projection",
+          "measured_native_isolated_stage"
+        ]
+      },
+      "mcts": [
+        {
+          "seed": 0,
+          "best_plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+          "cost_us": 78.57267767190933,
+          "gap_to_exact_us": 0.0,
+          "matches_exact": true
+        },
+        {
+          "seed": 1,
+          "best_plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+          "cost_us": 78.57267767190933,
+          "gap_to_exact_us": 0.0,
+          "matches_exact": true
+        },
+        {
+          "seed": 7,
+          "best_plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+          "cost_us": 78.57267767190933,
+          "gap_to_exact_us": 0.0,
+          "matches_exact": true
+        }
+      ],
+      "cross_minus_local_us": 94.53592097244058,
+      "best_cross": {
+        "plan_id": "sha256:66241454a93046d0d4036841592bba21774b9a000ff8ae5891e748741c4f8efa",
+        "fused": false,
+        "placement": {
+          "L000.mlp.gate_proj": 0,
+          "L000.mlp.silu": 0,
+          "L000.mlp.up_proj": 1,
+          "L000.mlp.gated_mul": 0,
+          "L000.mlp.down_proj": 0
+        },
+        "cross_device": true,
+        "cost_us": 173.1085986443499,
+        "sources": [
+          "logical_boundary",
+          "measured_gemm_projection",
+          "measured_native_isolated_stage"
+        ]
+      },
+      "search_space": 48
+    }
+  },
+  "best_changed_vs_proxy": false,
+  "fusion_changed_vs_proxy": false,
+  "placement_changed_vs_proxy": false,
+  "top10_final_with_rank_before": [
+    {
+      "plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cost_us": 78.57267767190933,
+      "cross_device": false,
+      "rank_before": 0
+    },
+    {
+      "plan_id": "sha256:ee030cf7b961ca4136ce9a1d44303869e2c3f699a48d62b43afdffb9369b5aa0",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cost_us": 86.21105790138245,
+      "cross_device": false,
+      "rank_before": 1
+    },
+    {
+      "plan_id": "sha256:66241454a93046d0d4036841592bba21774b9a000ff8ae5891e748741c4f8efa",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cost_us": 173.1085986443499,
+      "cross_device": true,
+      "rank_before": 2
+    },
+    {
+      "plan_id": "sha256:dc70bfd0a20d0afe0f59df749b81fd2dae3e1234647b9abaf67523ffdb07f899",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cost_us": 179.21739822110922,
+      "cross_device": true,
+      "rank_before": 3
+    },
+    {
+      "plan_id": "sha256:59763edbbe1d93991352b7936b2024cfafcaef6d2e64ff99013a4e221e0acddd",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cost_us": 180.04295831403527,
+      "cross_device": true,
+      "rank_before": 6
+    },
+    {
+      "plan_id": "sha256:900fa0d8f11c0d44bead60b26c3d1b225071b2f5c36753347eff7ca4bd72ca50",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cost_us": 186.09309239609132,
+      "cross_device": true,
+      "rank_before": 7
+    },
+    {
+      "plan_id": "sha256:abbb2b1879a950b0bee7b2993495b5409ce4b4d5cf8fe55c42c3231271961f45",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cost_us": 186.85577845058236,
+      "cross_device": true,
+      "rank_before": 5
+    },
+    {
+      "plan_id": "sha256:eb7d55623c244817a97bdb7f247422d1b52df320addf162680ce262de58e0cbb",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cost_us": 187.2845790334681,
+      "cross_device": true,
+      "rank_before": 4
+    },
+    {
+      "plan_id": "sha256:f11a17d1e76082b23dd6911de696454fa8a71d6d8bb7c131a84fcc90ae8675bf",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cost_us": 199.5466124263204,
+      "cross_device": true,
+      "rank_before": 8
+    },
+    {
+      "plan_id": "sha256:1ebcc9e919bbbaebe93edd96dcd2fbc1987c252ef098efd81f8552f234e46e1d",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cost_us": 207.1849926557935,
+      "cross_device": true,
+      "rank_before": 9
+    }
+  ],
+  "compute_coverage": {
+    "plans_with_all_compute_measured": 48,
+    "remaining_analytic_sources": []
+  },
+  "communication": "analytic_ffn_link_proxy; default SDMA unstable (data/ffn_comm_instability_v1)",
+  "plans_final": [
+    {
+      "plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": false,
+      "cost_us": 78.57267767190933,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:ee030cf7b961ca4136ce9a1d44303869e2c3f699a48d62b43afdffb9369b5aa0",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": false,
+      "cost_us": 86.21105790138245,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_group_kernel"
+      ]
+    },
+    {
+      "plan_id": "sha256:66241454a93046d0d4036841592bba21774b9a000ff8ae5891e748741c4f8efa",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 173.1085986443499,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:dc70bfd0a20d0afe0f59df749b81fd2dae3e1234647b9abaf67523ffdb07f899",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 179.21739822110922,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:59763edbbe1d93991352b7936b2024cfafcaef6d2e64ff99013a4e221e0acddd",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 180.04295831403527,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:900fa0d8f11c0d44bead60b26c3d1b225071b2f5c36753347eff7ca4bd72ca50",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 186.09309239609132,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:abbb2b1879a950b0bee7b2993495b5409ce4b4d5cf8fe55c42c3231271961f45",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 186.85577845058236,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_group_kernel"
+      ]
+    },
+    {
+      "plan_id": "sha256:eb7d55623c244817a97bdb7f247422d1b52df320addf162680ce262de58e0cbb",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 187.2845790334681,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_group_kernel"
+      ]
+    },
+    {
+      "plan_id": "sha256:f11a17d1e76082b23dd6911de696454fa8a71d6d8bb7c131a84fcc90ae8675bf",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 199.5466124263204,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:1ebcc9e919bbbaebe93edd96dcd2fbc1987c252ef098efd81f8552f234e46e1d",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 207.1849926557935,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_group_kernel"
+      ]
+    },
+    {
+      "plan_id": "sha256:a739a510e084f6af7cd1b15a766a994c344da29edb1928ce57501b8ab4906ba9",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 230.4332266398047,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:0baf13c6bbeee47438b9fc3f0b61db5238c21d4eaa30c190c64ede31a140fd1e",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 232.191053664049,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:bcfbda9dbf21e238726d43b81e65df3cc730b6fb17b0cdc835fbf518f6307ec2",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 236.62770541939008,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:acaa0b2bbcbc72b788f65ca9fa9f3e9f3d644216a55af6c53e9df00bef9c7b06",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 236.98682707029332,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:5a0f85b062b6deb798f61aa1691a2d8837b95378db08f366ae9d1e68ec7003cf",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 237.8123871632193,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:c4253a8e0ee2d6060b0967efbd5341f3d720124408a78906de173ee8afcf43ba",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 238.3855324436344,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:77943fb198765c960170d944883c35026c260f53d1e31e72fef20f8b72698759",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 239.95429310735113,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_lightop_complete_call"
+      ]
+    },
+    {
+      "plan_id": "sha256:83212c09a4d07c13e4a034bf1389f2f63807bd6f23a1cb5c2a1bc0c2fe46bc21",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 243.18130584987867,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:b70d1acd3515d74c76a93b8a1c809d413d64ff9db57c8b256503875047610c2e",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 244.0068659428047,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:d9c4b9bc4e849ab509e0683c5b7554a9c2d012c44b4d4d811484bbeba80d8895",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 245.55962633567793,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_lightop_complete_call"
+      ]
+    },
+    {
+      "plan_id": "sha256:27574f685bb8f71cea66015d118a707f605e177b0325635d64ca31f0e25b2b74",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 245.57562660652144,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_lightop_complete_call"
+      ]
+    },
+    {
+      "plan_id": "sha256:08f3eebf3a5e7bb9924a940a52dde151c1809b3fadaae0a4ed4ffba507f062bb",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 246.1487718869365,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_lightop_complete_call"
+      ]
+    },
+    {
+      "plan_id": "sha256:249492c2ef05804204b1aed7d1c9a9ebb7ccbf0c9858835f946a452f21e27640",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 251.75410511526331,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_lightop_complete_call"
+      ]
+    },
+    {
+      "plan_id": "sha256:5bb236db96598ca8ab922e48c51aa66b34f0976c009b82c03a762008a12a81ce",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 251.77010538610682,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_lightop_complete_call"
+      ]
+    },
+    {
+      "plan_id": "sha256:dc7bbd4b3e54e7e9225d685d5aae4d0f94a603bdbd02cc4890263c2ee37c3148",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 256.8225206873759,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:efd9edb596dfe952c49d411314efe1a6370a66375c397a7fab2746b86f9bb641",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 263.01699946696124,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:938d2f7bcf7bc90be953ec649ba4cfee497187dde0ea030e38925393a073630b",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 263.360120847021,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:eddd0e4b68a6696ea14f89aaf67679b1335ae030bf495caa4b02121eca68b513",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 269.5545996266064,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:ae5dd257c8b3fd9d9e8080c844075f9287895b579a198bf80601cdb4ab2f2957",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 271.9489203832492,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_lightop_complete_call"
+      ]
+    },
+    {
+      "plan_id": "sha256:e9582aeab90b9cbfbca46bde49ea14286f304d4a39cacbcccf690e7bee3932a4",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 278.1433991628345,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_lightop_complete_call"
+      ]
+    },
+    {
+      "plan_id": "sha256:223202b48f85d62ce014795926f687b42ef64d5c24f359849efa944c90d2dda5",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 294.082533398761,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:785df71809a6083080ca46af37df74908f2e8a9204002bd6da83e11a24414c27",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 294.3772773043591,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:e53f46db20020d2073453cf9f598cb8b983ed1d3e36de8b3454852c316d61956",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 300.19133297552025,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:c15792ae2c7c7b5ad5bf8a180193dac5ee7a6d4017957390008a3e86cbfea80a",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 301.01689306844634,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:8ced04122a87e5c747aa11421a1e09cbb6665467b4a28144911a444125862567",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 301.74043755693026,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:6ce5a30e7b3031355247d9abc30f9b3d601859bed5d533574ccfc743c3b8fd52",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 307.0670271505023,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:30ee8ff8f1a9835f693241716f23d66c3de7a068aaba2684ad5987c1891409a9",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 307.36177105610057,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:4b8d14936d934c908cdc95a3812e0249c24258cc483ae6ab52d7bf75d4f0bd3d",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 307.8297132049934,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_group_kernel"
+      ]
+    },
+    {
+      "plan_id": "sha256:d367dccf10b19d642f71e9abce1c00142a4053d7fa7b8d728ae7b39b5a308b14",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 308.25851378787917,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_group_kernel"
+      ]
+    },
+    {
+      "plan_id": "sha256:b58f60532685296dd0aecf0179b9e53a989b42b51fcccbb47fe430bb62a9a527",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 308.55325769347724,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_group_kernel"
+      ]
+    },
+    {
+      "plan_id": "sha256:ec6ed93b3e0b9b8bc8a6d4c940248e3291508c50d6032e76e909c8ecf86194a3",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 337.7659465567185,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:76ad61299d4762f7ceffc7f9fcfa0e06fb85b48a8fefbbbf1b921725ce56bf99",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 343.96042533630384,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:923c8e1202c1d65bd69b9ca69f2c11a904823a97392bd9557fda84f4127a17bc",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 364.00484139622085,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:7771924b762249ae7c5a9d30eb14e35d10d3a2a83bfb01920ea786ba2f330781",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 1,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": true,
+      "cost_us": 370.19932017580624,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:dcc3d3fafcc19e2784007150f484f11fb283acf0f80cec5d5b09a0fa8ffd768c",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 415.3512120587701,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:859b49c9d1bc80f262819b0893b24fb06a501aefa5c7a9061dba7eeaffb528d1",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 422.7143723113413,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:c33234de66dea14221c516b5cedad6d992c930570789f2dba05c5738f4b3a071",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 428.3357058105116,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_gpu1_isolated_stage",
+        "measured_native_isolated_stage"
+      ]
+    },
+    {
+      "plan_id": "sha256:61dba8f40c19e556629f133b0cc2c83e421c2de7b5706fb568d0ca285932514e",
+      "fused": true,
+      "placement": {
+        "L000.mlp.gate_proj": 1,
+        "L000.mlp.up_proj": 1,
+        "L000.mlp.silu": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 1
+      },
+      "cross_device": true,
+      "cost_us": 429.5271924478883,
+      "sources": [
+        "logical_boundary",
+        "measured_gemm_projection",
+        "measured_group_kernel"
+      ]
+    }
+  ],
+  "best_unchanged_is_not_accuracy_evidence": true,
+  "mcts_logic_changed": false,
+  "measured_ffn_reference_plans": 0
+}

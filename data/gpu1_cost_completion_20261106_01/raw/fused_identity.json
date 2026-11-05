@@ -1,0 +1,295 @@
+{
+  "kernel_key": {
+    "external_inputs": [
+      {
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "strides": [
+          786432,
+          3072,
+          1
+        ]
+      },
+      {
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "strides": [
+          786432,
+          3072,
+          1
+        ]
+      }
+    ],
+    "hardware": {
+      "class": "BW1000",
+      "device_index": 1,
+      "name": "BW",
+      "physical_index": 1,
+      "source": {
+        "architecture": "gfx936:sramecc+:xnack-",
+        "kind": "runtime_observation"
+      }
+    },
+    "implementation": {
+      "entrypoint": "lightop.op.silu_and_mul_opt",
+      "id": "lightop.silu_mul.split_pack_preallocated.v1",
+      "loaded_source_sha256": {
+        "adapter": "de47e663131182d7832b71488a11548e2326aeb2e654ee10f3e5aecf2f4e8b3a",
+        "native": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+        "package": "b8401d80c6fbd2407a336cbce506bd414cc2f2a2ef9cd3f647b4a9f926786236"
+      },
+      "op_so_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+      "packed_tensor": {
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "shape": [
+          256,
+          6144
+        ],
+        "strides": [
+          6144,
+          1
+        ]
+      },
+      "provider_version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+      "semantics": {
+        "buffer_ownership": "one packed input and one output per prepared call; retain through GPU completion",
+        "capture_support": "unverified_on_GPU",
+        "id": "lightop.silu_mul.split_pack_preallocated.v1",
+        "input_semantics": "gate and up read-only; no restoration between replays",
+        "output_semantics": "independent preallocated output; not an alias of either input",
+        "outside_timing": [
+          "validate graph and tensors",
+          "allocate packed input and output",
+          "create reshape views"
+        ],
+        "scheduling": "caller owns stream, dependencies, synchronization and timing events",
+        "timed_body": [
+          "torch.cat((gate_2d, up_2d), dim=-1, out=packed)",
+          "lightop.op.silu_and_mul_opt(output_2d, packed)"
+        ]
+      },
+      "storage_overlap": {
+        "gate_up": false,
+        "output_gate": false,
+        "output_up": false
+      },
+      "version": "sha256:de47e663131182d7832b71488a11548e2326aeb2e654ee10f3e5aecf2f4e8b3a"
+    },
+    "key_version": "fusion-group-kernel.v1",
+    "operators": [
+      {
+        "attributes": {
+          "bwd_flops": 6291456.0,
+          "collective": null,
+          "dtype": "bf16",
+          "fwd_flops": 3145728.0,
+          "layout": {
+            "materialization": "internal_fused_expression"
+          },
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "phase": "forward",
+          "recompute_eligible": true,
+          "saved_activation_bytes": 1572864.0,
+          "shape": {
+            "n": 786432
+          },
+          "strides": null
+        },
+        "inputs": [
+          {
+            "attributes": {
+              "dtype": "bf16",
+              "shape": [
+                1,
+                256,
+                3072
+              ]
+            },
+            "bytes": 1572864.0,
+            "external": 0
+          }
+        ],
+        "operator": "silu",
+        "output": {
+          "dtype": "bf16",
+          "layout": {
+            "materialization": "internal_fused_expression"
+          },
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "strides": null
+        },
+        "parameter_bytes": 0.0
+      },
+      {
+        "attributes": {
+          "bwd_flops": 1572864.0,
+          "collective": null,
+          "dtype": "bf16",
+          "fwd_flops": 786432.0,
+          "layout": "contiguous",
+          "layout_provenance": {
+            "device": "cuda:1",
+            "kind": "runtime_tensor",
+            "observer": "Tensor.shape/dtype/stride/is_contiguous"
+          },
+          "output_shape": [
+            1,
+            256,
+            3072
+          ],
+          "phase": "forward",
+          "recompute_eligible": true,
+          "saved_activation_bytes": 1572864.0,
+          "shape": {
+            "n": 786432
+          },
+          "strides": [
+            786432,
+            3072,
+            1
+          ]
+        },
+        "inputs": [
+          {
+            "attributes": {
+              "dtype": "bf16",
+              "shape": [
+                1,
+                256,
+                3072
+              ]
+            },
+            "bytes": 1572864.0,
+            "internal": 0
+          },
+          {
+            "attributes": {
+              "dtype": "bf16",
+              "shape": [
+                1,
+                256,
+                3072
+              ]
+            },
+            "bytes": 1572864.0,
+            "external": 1
+          }
+        ],
+        "operator": "mul",
+        "output": {
+          "dtype": "bf16",
+          "layout": "contiguous",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "strides": [
+            786432,
+            3072,
+            1
+          ]
+        },
+        "parameter_bytes": 0.0
+      }
+    ],
+    "outputs": [
+      1
+    ],
+    "pattern_id": "silu_mul",
+    "runtime": {
+      "accelerator": "HIP",
+      "accelerator_version": "6.3.26113",
+      "driver_version": "60326113",
+      "execution_device": "cuda:1",
+      "flags": {
+        "cuda_autocast_enabled": false,
+        "deterministic_algorithms": false,
+        "grad_enabled": false
+      },
+      "framework": "torch",
+      "framework_version": "2.9.0",
+      "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+      "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+      "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+      "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370"
+    }
+  },
+  "kernel_key_id": "sha256:4ad32b4d48d4fd6cdbaafcef6a3c56d685399ef734c619ff0e908ca156391ea1",
+  "identity_gaps": [],
+  "measurement_contract": {
+    "executor": "placed_lightop_split_pack_graph_replay",
+    "purpose": "calibration",
+    "submission_included": false,
+    "allocation_included": false,
+    "granularity": "graph_batch_amortized_complete_adapter_call",
+    "unit": "us/call",
+    "mode": "graph_replay",
+    "calls_per_round": 50,
+    "rounds": 7,
+    "extra_attempts": 0,
+    "eager_warmup_calls": 50,
+    "warmup_replays": 10,
+    "statistic": "median",
+    "timing_boundary": "start Event -> one Graph replay -> end Event; same device and stream",
+    "synchronization": "end Event and device synchronized outside Event interval",
+    "input_reuse": "shared read-only gate/up; 50 distinct packed/output buffer pairs",
+    "buffer_preparation": "fill packed/output with NaN before checked replay; outside Event interval on same stream",
+    "recipe": {
+      "id": "lightop.silu_mul.split_pack_preallocated.v1",
+      "outside_timing": [
+        "validate graph and tensors",
+        "allocate packed input and output",
+        "create reshape views"
+      ],
+      "timed_body": [
+        "torch.cat((gate_2d, up_2d), dim=-1, out=packed)",
+        "lightop.op.silu_and_mul_opt(output_2d, packed)"
+      ],
+      "input_semantics": "gate and up read-only; no restoration between replays",
+      "output_semantics": "independent preallocated output; not an alias of either input",
+      "buffer_ownership": "one packed input and one output per prepared call; retain through GPU completion",
+      "scheduling": "caller owns stream, dependencies, synchronization and timing events",
+      "capture_support": "unverified_on_GPU"
+    },
+    "correctness": {
+      "rtol": 0.01,
+      "atol": 0.001,
+      "check_all_outputs": true,
+      "input_check": "bytewise unchanged",
+      "output_alias_input": false
+    },
+    "environment": {
+      "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+      "hip": "6.3.26113",
+      "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+      "device_model": "BW",
+      "device_architecture": "gfx936:sramecc+:xnack-",
+      "runtime_device": "cuda:1",
+      "driver_version": "60326113",
+      "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea"
+    },
+    "automatic_admission": false
+  },
+  "measurement_contract_id": "sha256:f2f2bdc39f04489f9c51a4314e57291d4dda006b1972333bd2c732906a9d5ea2",
+  "group_index": 18
+}

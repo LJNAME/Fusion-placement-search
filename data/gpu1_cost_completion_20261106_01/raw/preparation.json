@@ -1,0 +1,447 @@
+{
+  "stage/silu/gpu1": {
+    "recipe": {
+      "id": "aten.silu.out.preallocated_stage.v1",
+      "timed_body": "aten.silu.out(gate, out=output)",
+      "operands": [
+        "gate"
+      ]
+    },
+    "schema": "aten::silu.out(Tensor self, *, Tensor(a!) out) -> Tensor(a!)",
+    "tensors": {
+      "gate": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:1",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "up": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:1",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "left": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:1",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "output": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:1",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      }
+    },
+    "source_sha256": "5e4310f89ebef182555b0d3abe07e31d9e761d2d5c7f5528ee7f6977fac2c71e"
+  },
+  "stage/mul/gpu1": {
+    "recipe": {
+      "id": "aten.mul.out.preallocated_derived_left_stage.v1",
+      "timed_body": "aten.mul.out(left, up, out=output)",
+      "operands": [
+        "left",
+        "up"
+      ],
+      "left_origin": "aten.silu.out(gate, out=left), outside capture and timing"
+    },
+    "schema": "aten::mul.out(Tensor self, Tensor other, *, Tensor(a!) out) -> Tensor(a!)",
+    "tensors": {
+      "gate": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:1",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "up": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:1",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "left": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:1",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "output": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:1",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      }
+    },
+    "source_sha256": "5e4310f89ebef182555b0d3abe07e31d9e761d2d5c7f5528ee7f6977fac2c71e"
+  },
+  "fused/silu_mul/gpu1": {
+    "one_call": {
+      "scope": "execution_preparation_not_profile_admission",
+      "implementation": {
+        "id": "lightop.silu_mul.split_pack_preallocated.v1",
+        "version": "sha256:de47e663131182d7832b71488a11548e2326aeb2e654ee10f3e5aecf2f4e8b3a",
+        "entrypoint": "lightop.op.silu_and_mul_opt",
+        "provider_version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+        "op_so_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+        "semantics": {
+          "id": "lightop.silu_mul.split_pack_preallocated.v1",
+          "outside_timing": [
+            "validate graph and tensors",
+            "allocate packed input and output",
+            "create reshape views"
+          ],
+          "timed_body": [
+            "torch.cat((gate_2d, up_2d), dim=-1, out=packed)",
+            "lightop.op.silu_and_mul_opt(output_2d, packed)"
+          ],
+          "input_semantics": "gate and up read-only; no restoration between replays",
+          "output_semantics": "independent preallocated output; not an alias of either input",
+          "buffer_ownership": "one packed input and one output per prepared call; retain through GPU completion",
+          "scheduling": "caller owns stream, dependencies, synchronization and timing events",
+          "capture_support": "unverified_on_GPU"
+        }
+      },
+      "recipe": {
+        "id": "lightop.silu_mul.split_pack_preallocated.v1",
+        "outside_timing": [
+          "validate graph and tensors",
+          "allocate packed input and output",
+          "create reshape views"
+        ],
+        "timed_body": [
+          "torch.cat((gate_2d, up_2d), dim=-1, out=packed)",
+          "lightop.op.silu_and_mul_opt(output_2d, packed)"
+        ],
+        "input_semantics": "gate and up read-only; no restoration between replays",
+        "output_semantics": "independent preallocated output; not an alias of either input",
+        "buffer_ownership": "one packed input and one output per prepared call; retain through GPU completion",
+        "scheduling": "caller owns stream, dependencies, synchronization and timing events",
+        "capture_support": "unverified_on_GPU"
+      },
+      "tensors": {
+        "gate": {
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "layout": "contiguous",
+          "strides": [
+            786432,
+            3072,
+            1
+          ],
+          "layout_provenance": {
+            "kind": "runtime_tensor",
+            "device": "cuda:1",
+            "observer": "Tensor.shape/dtype/stride/is_contiguous"
+          }
+        },
+        "up": {
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "layout": "contiguous",
+          "strides": [
+            786432,
+            3072,
+            1
+          ],
+          "layout_provenance": {
+            "kind": "runtime_tensor",
+            "device": "cuda:1",
+            "observer": "Tensor.shape/dtype/stride/is_contiguous"
+          }
+        },
+        "packed": {
+          "shape": [
+            256,
+            6144
+          ],
+          "dtype": "bf16",
+          "layout": "contiguous",
+          "strides": [
+            6144,
+            1
+          ],
+          "layout_provenance": {
+            "kind": "runtime_tensor",
+            "device": "cuda:1",
+            "observer": "Tensor.shape/dtype/stride/is_contiguous"
+          }
+        },
+        "output": {
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16",
+          "layout": "contiguous",
+          "strides": [
+            786432,
+            3072,
+            1
+          ],
+          "layout_provenance": {
+            "kind": "runtime_tensor",
+            "device": "cuda:1",
+            "observer": "Tensor.shape/dtype/stride/is_contiguous"
+          }
+        }
+      },
+      "storage_overlap": {
+        "gate_up": false,
+        "output_gate": false,
+        "output_up": false
+      },
+      "explicit_buffer_bytes": 4718592,
+      "gpu_execution_verified": false,
+      "profile_accepted": false
+    },
+    "call_count": 50
+  },
+  "gemm/down/gpu1": {
+    "recipe": {
+      "id": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+      "timed_body": "aten.mm.out(x2d, weight.t(), out=output)",
+      "weight_layout": "nn.Linear [out, in] contiguous; transposed view, no copy",
+      "operands": [
+        "x",
+        "weight"
+      ],
+      "bias": null,
+      "layout_status": "declared FFN execution contract; not captured from a running FFN"
+    },
+    "source_sha256": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+    "tensors": {
+      "x": {
+        "shape": [
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:1",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "weight": {
+        "shape": [
+          1024,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:1",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "output": {
+        "shape": [
+          256,
+          1024
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          1024,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:1",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      }
+    }
+  },
+  "gemm/down/gpu0": {
+    "recipe": {
+      "id": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+      "timed_body": "aten.mm.out(x2d, weight.t(), out=output)",
+      "weight_layout": "nn.Linear [out, in] contiguous; transposed view, no copy",
+      "operands": [
+        "x",
+        "weight"
+      ],
+      "bias": null,
+      "layout_status": "declared FFN execution contract; not captured from a running FFN"
+    },
+    "source_sha256": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+    "tensors": {
+      "x": {
+        "shape": [
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "weight": {
+        "shape": [
+          1024,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "output": {
+        "shape": [
+          256,
+          1024
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          1024,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      }
+    }
+  }
+}

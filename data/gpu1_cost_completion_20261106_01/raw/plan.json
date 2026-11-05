@@ -1,0 +1,300 @@
+{
+  "scope": "gpu1_ffn_cost_completion_v1",
+  "architecture": "gfx936",
+  "seed": 20261113,
+  "dtype": "bf16",
+  "cases": {
+    "stage/silu/gpu1": {
+      "kind": "stage",
+      "stage": "silu",
+      "nodes": [
+        "L000.mlp.silu"
+      ],
+      "device": 1,
+      "timing_device": "cuda:1",
+      "role": "gpu1_cost_candidate",
+      "shape": [
+        1,
+        256,
+        3072
+      ]
+    },
+    "stage/mul/gpu1": {
+      "kind": "stage",
+      "stage": "mul",
+      "nodes": [
+        "L000.mlp.gated_mul"
+      ],
+      "device": 1,
+      "timing_device": "cuda:1",
+      "role": "gpu1_cost_candidate",
+      "shape": [
+        1,
+        256,
+        3072
+      ]
+    },
+    "fused/silu_mul/gpu1": {
+      "kind": "fused",
+      "nodes": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "device": 1,
+      "timing_device": "cuda:1",
+      "role": "gpu1_cost_candidate",
+      "shape": [
+        1,
+        256,
+        3072
+      ]
+    },
+    "gemm/down/gpu1": {
+      "kind": "gemm",
+      "projection": "down",
+      "nodes": [
+        "L000.mlp.down_proj"
+      ],
+      "device": 1,
+      "timing_device": "cuda:1",
+      "role": "gpu1_cost_candidate",
+      "m": 256,
+      "k": 3072,
+      "n": 1024,
+      "x_shape": [
+        256,
+        3072
+      ],
+      "weight_shape": [
+        1024,
+        3072
+      ],
+      "output_shape": [
+        256,
+        1024
+      ],
+      "flops": 1610612736
+    },
+    "gemm/down/gpu0": {
+      "kind": "gemm",
+      "projection": "down",
+      "nodes": [
+        "L000.mlp.down_proj"
+      ],
+      "device": 0,
+      "role": "same_batch_reference_not_a_new_profile",
+      "timing_device": "cuda:0",
+      "m": 256,
+      "k": 3072,
+      "n": 1024,
+      "x_shape": [
+        256,
+        3072
+      ],
+      "weight_shape": [
+        1024,
+        3072
+      ],
+      "output_shape": [
+        256,
+        1024
+      ],
+      "flops": 1610612736
+    }
+  },
+  "recipes": {
+    "stage": {
+      "silu": {
+        "id": "aten.silu.out.preallocated_stage.v1",
+        "timed_body": "aten.silu.out(gate, out=output)",
+        "operands": [
+          "gate"
+        ]
+      },
+      "mul": {
+        "id": "aten.mul.out.preallocated_derived_left_stage.v1",
+        "timed_body": "aten.mul.out(left, up, out=output)",
+        "operands": [
+          "left",
+          "up"
+        ],
+        "left_origin": "aten.silu.out(gate, out=left), outside capture and timing"
+      }
+    },
+    "gemm": {
+      "id": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+      "timed_body": "aten.mm.out(x2d, weight.t(), out=output)",
+      "weight_layout": "nn.Linear [out, in] contiguous; transposed view, no copy",
+      "operands": [
+        "x",
+        "weight"
+      ],
+      "bias": null,
+      "layout_status": "declared FFN execution contract; not captured from a running FFN"
+    },
+    "fused": "integration/lightop/silu_mul.py RECIPE (complete split-input adapter call)"
+  },
+  "order": [
+    [
+      "stage/silu/gpu1",
+      "stage/mul/gpu1",
+      "fused/silu_mul/gpu1",
+      "gemm/down/gpu1",
+      "gemm/down/gpu0"
+    ],
+    [
+      "gemm/down/gpu0",
+      "gemm/down/gpu1",
+      "fused/silu_mul/gpu1",
+      "stage/mul/gpu1",
+      "stage/silu/gpu1"
+    ],
+    [
+      "stage/silu/gpu1",
+      "stage/mul/gpu1",
+      "fused/silu_mul/gpu1",
+      "gemm/down/gpu1",
+      "gemm/down/gpu0"
+    ],
+    [
+      "gemm/down/gpu0",
+      "gemm/down/gpu1",
+      "fused/silu_mul/gpu1",
+      "stage/mul/gpu1",
+      "stage/silu/gpu1"
+    ],
+    [
+      "stage/silu/gpu1",
+      "stage/mul/gpu1",
+      "fused/silu_mul/gpu1",
+      "gemm/down/gpu1",
+      "gemm/down/gpu0"
+    ],
+    [
+      "gemm/down/gpu0",
+      "gemm/down/gpu1",
+      "fused/silu_mul/gpu1",
+      "stage/mul/gpu1",
+      "stage/silu/gpu1"
+    ],
+    [
+      "stage/silu/gpu1",
+      "stage/mul/gpu1",
+      "fused/silu_mul/gpu1",
+      "gemm/down/gpu1",
+      "gemm/down/gpu0"
+    ]
+  ],
+  "contracts": {
+    "stage": {
+      "mode": "graph_replay",
+      "granularity": "batch_amortized",
+      "calls_per_replay": 50,
+      "rounds": 7,
+      "extra_attempts": 0,
+      "eager_preparation_calls": 50,
+      "warmup_replays": 10,
+      "unit": "us/call",
+      "statistic": "median",
+      "correctness": {
+        "rtol": 0.01,
+        "atol": 0.001
+      },
+      "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+      "synchronization": "all involved devices synchronized outside the Event interval",
+      "excluded": [
+        "allocation",
+        "input generation",
+        "left generation",
+        "validation",
+        "host submission"
+      ],
+      "buffers": "shared read-only inputs; independent preallocated outputs per call",
+      "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+    },
+    "gemm": {
+      "mode": "graph_replay",
+      "granularity": "batch_amortized",
+      "calls_per_replay": 50,
+      "rounds": 7,
+      "extra_attempts": 0,
+      "eager_preparation_calls": 50,
+      "warmup_replays": 10,
+      "unit": "us/call",
+      "statistic": "median",
+      "correctness": {
+        "rtol": 0.02,
+        "atol": 0.02
+      },
+      "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+      "synchronization": "all involved devices synchronized outside the Event interval",
+      "excluded": [
+        "allocation",
+        "input generation",
+        "left generation",
+        "validation",
+        "host submission"
+      ],
+      "buffers": "shared read-only x and weight per case; 50 independent outputs",
+      "cache_context": "same weight reused by 50 calls per replay; no cold-weight claim"
+    },
+    "fused": "cost_model.lightop_profile.measurement_contract(observed environment, purpose='calibration')"
+  },
+  "quality_policy": {
+    "attempts": 7,
+    "extra_attempts": 0,
+    "sample_replacement": false,
+    "iqr_method": "inclusive",
+    "max_iqr_over_median": 0.1,
+    "anchor_policy": "none; same rule as native_stage_calibration_20261105_01"
+  },
+  "pool": {
+    "pool_argument": null,
+    "selection": "default_private_pool",
+    "shared_with_other_graphs": false
+  },
+  "frozen_proxy_predictions": {
+    "stage/silu/gpu1": {
+      "predicted_us": 18.801504,
+      "source": "analytic_ffn_stage_proxy"
+    },
+    "stage/mul/gpu1": {
+      "predicted_us": 6.527005733739186,
+      "source": "analytic_ffn_stage_proxy"
+    },
+    "fused/silu_mul/gpu1": {
+      "predicted_us": 28.07704231165225,
+      "source": "analytic_ffn_fused_proxy"
+    },
+    "gemm/down/gpu1": {
+      "predicted_us": 22.902725699947528,
+      "source": "analytic_ffn_gemm_proxy"
+    },
+    "gemm/down/gpu0": {
+      "predicted_us": 22.888162683225087,
+      "source": "analytic_ffn_gemm_proxy"
+    }
+  },
+  "known_gaps": [
+    "no GPU1 LightOP dispatch trace in this collection; kernel identity rests on loaded source hashes"
+  ],
+  "collector": {
+    "git_revision": "f9e7012bb40508e752afaf9ecf674a2a81a799de",
+    "source_sha256": {
+      "calibration/gpu1_cost_completion.py": "d26ba773bc9501114884659ffbcff66ce5afbec5c695a3a626b396fa413ed6cb",
+      "tools/run_gpu1_cost_completion.sh": "7710f92cdfc2be38e8cfbe5c77299ca35ed6ace7dc1e64f3fc4dc9479f22fe33",
+      "calibration/native_stage_calibration.py": "5e4310f89ebef182555b0d3abe07e31d9e761d2d5c7f5528ee7f6977fac2c71e",
+      "calibration/gemm_projection_calibration.py": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+      "calibration/stage_size_calibration.py": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+      "calibration/lightop_profile_smoke.py": "caa6724246c1e559230cc2dc6ccdefaae72468cf7d7d385d760528a021a931d3",
+      "integration/lightop/silu_mul.py": "de47e663131182d7832b71488a11548e2326aeb2e654ee10f3e5aecf2f4e8b3a",
+      "integration/lightop/profile_identity.py": "80d3670890c9b6954adb73958075d596450a44ea049b8890c5b0a9e63be4c6ea",
+      "cost_model/lightop_profile.py": "770d13519a8f42f54fc75a2376f31189010c824df709f28c633f6fb584d95829",
+      "execution/reference_identity.py": "a6268c198a32ada680d9caea01ebd619e6bb958c6cfb728dfec4b8b80c08ee68",
+      "cost_model/fusion_kernel_profile.py": "a308ed3912ec79a4eb5b60d9276d91c031cb72536095ce2af7efcb6b270c4906",
+      "cost_model/measurement_labels.py": "45f7da5636c6677df65c6b32fe73eb333076f7fe103f0e3571da2d322aae9340"
+    }
+  },
+  "automatic_admission": false,
+  "model_parameters_updated": false
+}

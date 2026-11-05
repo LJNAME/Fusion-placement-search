@@ -1,0 +1,164 @@
+{
+  "scope": "gpu1_ffn_cost_completion_v1",
+  "cases": {
+    "stage/silu/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 7.363160252571106,
+        "min_us": 6.55676007270813,
+        "max_us": 7.542359828948975,
+        "iqr_us": 0.5344003438949585,
+        "iqr_over_median": 0.072577578860701,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        7.542359828948975,
+        7.32155978679657,
+        6.55676007270813,
+        6.575959920883179,
+        7.4943602085113525,
+        7.471960186958313,
+        7.363160252571106
+      ]
+    },
+    "stage/mul/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 3.852759897708893,
+        "min_us": 3.532800078392029,
+        "max_us": 4.0127599239349365,
+        "iqr_us": 0.31836003065109253,
+        "iqr_over_median": 0.08263168198994456,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        3.683199882507324,
+        3.926360011100769,
+        3.532800078392029,
+        3.577600121498108,
+        3.852759897708893,
+        3.971160054206848,
+        4.0127599239349365
+      ]
+    },
+    "fused/silu_mul/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 18.979159593582153,
+        "min_us": 17.731200456619263,
+        "max_us": 19.427160024642944,
+        "iqr_us": 1.1887800693511963,
+        "iqr_over_median": 0.06263607529561978,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        17.849559783935547,
+        17.731200456619263,
+        19.04636025428772,
+        19.427160024642944,
+        17.84000039100647,
+        18.979159593582153,
+        19.02076005935669
+      ]
+    },
+    "gemm/down/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 27.126359939575195,
+        "min_us": 26.92795991897583,
+        "max_us": 27.276759147644043,
+        "iqr_us": 0.18880009651184082,
+        "iqr_over_median": 0.006960023273760242,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        27.276759147644043,
+        27.08156108856201,
+        27.126359939575195,
+        27.267160415649414,
+        27.052760124206543,
+        26.92795991897583,
+        27.244760990142822
+      ]
+    },
+    "gemm/down/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 27.004759311676025,
+        "min_us": 26.822359561920166,
+        "max_us": 27.113559246063232,
+        "iqr_us": 0.12800097465515137,
+        "iqr_over_median": 0.004739941325816879,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        27.004759311676025,
+        27.043159008026123,
+        26.822359561920166,
+        26.844758987426758,
+        26.96955919265747,
+        27.113559246063232,
+        27.027161121368408
+      ]
+    }
+  },
+  "automatic_admission": false,
+  "status": "calibration_candidates_ready",
+  "quality_passed": [
+    "fused/silu_mul/gpu1",
+    "gemm/down/gpu0",
+    "gemm/down/gpu1",
+    "stage/mul/gpu1",
+    "stage/silu/gpu1"
+  ],
+  "quality_failed": [],
+  "data_role": "GPU1 calibration candidates; Down GPU0 same-batch reference",
+  "model_parameters_updated": false,
+  "proxy_error": {
+    "stage/silu/gpu1": {
+      "predicted_us": 18.801504,
+      "proxy_source": "analytic_ffn_stage_proxy",
+      "measured_us": 7.363160252571106,
+      "quality": "quality_passed",
+      "signed_error": 1.5534557656048293
+    },
+    "stage/mul/gpu1": {
+      "predicted_us": 6.527005733739186,
+      "proxy_source": "analytic_ffn_stage_proxy",
+      "measured_us": 3.852759897708893,
+      "quality": "quality_passed",
+      "signed_error": 0.6941117295216287
+    },
+    "fused/silu_mul/gpu1": {
+      "predicted_us": 28.07704231165225,
+      "proxy_source": "analytic_ffn_fused_proxy",
+      "measured_us": 18.979159593582153,
+      "quality": "quality_passed",
+      "signed_error": 0.4793617269094763
+    },
+    "gemm/down/gpu1": {
+      "predicted_us": 22.902725699947528,
+      "proxy_source": "analytic_ffn_gemm_proxy",
+      "measured_us": 27.126359939575195,
+      "quality": "quality_passed",
+      "signed_error": -0.155702211761399
+    },
+    "gemm/down/gpu0": {
+      "predicted_us": 22.888162683225087,
+      "proxy_source": "analytic_ffn_gemm_proxy",
+      "measured_us": 27.004759311676025,
+      "quality": "quality_passed",
+      "signed_error": -0.15243967113126794
+    }
+  }
+}

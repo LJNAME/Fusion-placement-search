@@ -1,0 +1,81 @@
+{
+  "implementation": {
+    "id": "lightop.silu_mul.split_pack_preallocated.v1",
+    "version": "sha256:de47e663131182d7832b71488a11548e2326aeb2e654ee10f3e5aecf2f4e8b3a",
+    "entrypoint": "lightop.op.silu_and_mul_opt",
+    "provider_version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+    "op_so_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+    "semantics": {
+      "id": "lightop.silu_mul.split_pack_preallocated.v1",
+      "outside_timing": [
+        "validate graph and tensors",
+        "allocate packed input and output",
+        "create reshape views"
+      ],
+      "timed_body": [
+        "torch.cat((gate_2d, up_2d), dim=-1, out=packed)",
+        "lightop.op.silu_and_mul_opt(output_2d, packed)"
+      ],
+      "input_semantics": "gate and up read-only; no restoration between replays",
+      "output_semantics": "independent preallocated output; not an alias of either input",
+      "buffer_ownership": "one packed input and one output per prepared call; retain through GPU completion",
+      "scheduling": "caller owns stream, dependencies, synchronization and timing events",
+      "capture_support": "unverified_on_GPU"
+    }
+  },
+  "loaded_source": {
+    "installed": {
+      "version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+      "op_so_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+      "checked_files": 21
+    },
+    "source_sha256": {
+      "package": "b8401d80c6fbd2407a336cbce506bd414cc2f2a2ef9cd3f647b4a9f926786236",
+      "native": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+      "adapter": "de47e663131182d7832b71488a11548e2326aeb2e654ee10f3e5aecf2f4e8b3a"
+    },
+    "paths": {
+      "package": "/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/site-packages/lightop/__init__.py",
+      "native": "/root/private_data/LJ/dcu-kernel310-20261031/venv/lib/python3.10/site-packages/lightop/op.cpython-310-x86_64-linux-gnu.so",
+      "adapter": "/root/private_data/LJ/Fusion-placement-search/integration/lightop/silu_mul.py"
+    }
+  },
+  "runtime": {
+    "framework": "torch",
+    "framework_version": "2.9.0",
+    "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+    "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+    "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+    "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+    "accelerator": "HIP",
+    "accelerator_version": "6.3.26113",
+    "driver_version": "60326113",
+    "flags": {
+      "grad_enabled": false,
+      "cuda_autocast_enabled": false,
+      "deterministic_algorithms": false
+    },
+    "execution_device": "cuda:1"
+  },
+  "device": {
+    "name": "BW",
+    "total_memory": 68702699520,
+    "architecture": "gfx936:sramecc+:xnack-",
+    "physical_index": 1,
+    "uuid": "30303134-6261-3537-6132-316132386531"
+  },
+  "environment": {
+    "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+    "hip": "6.3.26113",
+    "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+    "device_model": "BW",
+    "device_architecture": "gfx936:sramecc+:xnack-",
+    "runtime_device": "cuda:1",
+    "driver_version": "60326113",
+    "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea"
+  },
+  "provenance": {
+    "torch_extension_path": "/root/private_data/LJ/dcu-kernel310-20261031/vendor/site-packages/torch/_C.cpython-310-x86_64-linux-gnu.so",
+    "device_uuid": "30303134-6261-3537-6132-316132386531"
+  }
+}
