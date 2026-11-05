@@ -66,18 +66,37 @@ def main(argv=None):
     parser.add_argument("--scope", choices=("medium", "model", "all"), default="all")
     parser.add_argument("--budgets", default="16,64,256")
     parser.add_argument("--seeds", default="0,7,23")
+    parser.add_argument("--model-caps", default="actual_capacity",
+                        help="capacity variants for the full model (no Exact gate there)")
+    parser.add_argument("--model-modes", default=None,
+                        help="restrict modes on the full model, e.g. placement_then_fusion")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
     args.output.mkdir(parents=True, exist_ok=False)
     rows, task_info = [], {}
     for task_id, graph, hw in tasks(args.scope):
+        if len(graph.nodes) > 15 and task_id.split(":")[1] not in args.model_caps.split(","):
+            continue
         profile = AnalyticHardwareProfile(hw)
         scorer = _CachedScorer(graph, profile)
         exact_allowed = len(graph.nodes) <= 15
         multi = [c for c in enumerate_fusion_candidates(graph, all_modes()[-1].registry) if len(c.node_ids) > 1]
         task_info[task_id] = {"nodes": len(graph.nodes), "multi_node_candidates": len(multi),
                               "capacity_gib": [d.max_mem / 2**30 for d in hw.devices]}
-        for mode in all_modes():
+        if exact_allowed:
+            joint = next(m for m in all_modes() if m.name == "joint")
+            gate, _, gate_info = _run_search("exact", graph, scorer, joint, seed=0, beam=8, rollouts=3,
+                                             mcts_iterations=2, top_k=1)
+            task_info[task_id]["joint_space_size"] = gate_info["stages"][0]["search_space_size"]
+            if not gate:
+                # Joint space contains every mode's space, so nothing below can be feasible.
+                task_info[task_id]["status"] = "infeasible_whole_joint_space"
+                print(json.dumps({"task": task_id, "status": "infeasible_whole_joint_space"}), flush=True)
+                continue
+        task_info[task_id]["status"] = "searched"
+        selected = [m for m in all_modes() if args.model_modes is None or exact_allowed
+                    or m.name in args.model_modes.split(",")]
+        for mode in selected:
             runs = ([("exact", 0, None)] if exact_allowed else []) + [
                 ("mcts", seed, budget) for seed in map(int, args.seeds.split(","))
                 for budget in map(int, args.budgets.split(","))]
