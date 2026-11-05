@@ -1,5 +1,7 @@
 # 小型FFN的混合成本与搜索检查
 
+后续CPU调度审计已完成，见 [FFN调度评分审计](FFN_SCHEDULING_AUDIT.md)。本文数值及data/ffn_profile_search_v1保留为旧顺序策略记录；当前入口采用明确的依赖层级/节点ID策略，新结果在data/ffn_schedule_audit_v1。
+
 2026-11-05。固定第0层Gate/Up Projection、SiLU→Mul或LightOP、Down Projection。入口和出口驻留GPU0，内部5个算子可独立放到GPU0/1，融合组不可拆分。只做CPU预测与开发检查，原GPU数据和搜索算法不改。
 
 入口：`python -X utf8 -m cost_model.ffn_profile_search --output /fresh/ffn_profile_search`。配置 `configs/ffn_profile_search.json`，结果 `data/ffn_profile_search_v1/report.json`。
@@ -60,4 +62,4 @@ Projection的Graph开销显式假设1.5 μs；旧eager launch 7.7704 μs没有�
 
 已具备固定FFN的成本来源清单、48方案预测、缺项敏感性、Exact/MCTS对照及逐方案追溯。真实完整FFN成本准确性仍未验证，设备分配受未校准通信代理影响，部分排序也受固定组顺序影响。
 
-下一项先在CPU上核对调度顺序对评分的作用与下游执行契约，并审查已有通信记录能否合法收窄代理；当前不增加GPU测量。只有确认缺失成本会在合理范围内影响决策，再安排最小补测。SROP仍冻结，不隐藏Profile制造新收益，也不返回Mul单点拟合。
+后续调度审计已消除本实验输入表示的评分差异，48方案重新评分与15次Exact/MCTS对照见上述审计。下一项核查成本预测有效性的现有参照与缺项；SROP仍冻结，不因本次CPU结果增加GPU测量或返回Mul单点拟合。

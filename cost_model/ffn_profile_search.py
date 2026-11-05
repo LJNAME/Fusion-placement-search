@@ -22,6 +22,7 @@ from cost_model.structural import StructuralCostModel
 from simulator import FusionGroup, OpGraph, Plan
 
 CONFIG = ROOT / "configs/ffn_profile_search.json"
+SCHEDULING_POLICY = "dependency_level_node_id_v1"
 
 
 def build_case(config):
@@ -108,7 +109,7 @@ def build_report(config_path=CONFIG, seeds=(0, 1, 7)):
     config = json.loads(Path(config_path).read_text(encoding="utf-8"))
     search, full, hardware, measured, identity = build_case(config)
     registry = adapter_registry()
-    model = StructuralCostModel(registry=registry)
+    model = StructuralCostModel(registry=registry, scheduling_policy=SCHEDULING_POLICY)
     hardware_source = identity["fused_source"] + "/placed.json"
     input_hashes = {"hardware_snapshot_sha256": hashlib.sha256((ROOT / hardware_source).read_bytes()).hexdigest(),
         "activation_assumptions_sha256": hashlib.sha256((ROOT / config["activation_assumptions_source"]).read_bytes()).hexdigest()}
@@ -167,16 +168,22 @@ def build_report(config_path=CONFIG, seeds=(0, 1, 7)):
         pairs = [(p, native_by_placement[tuple(sorted(p["placement"].items()))]) for p in plans if p["fused"]]
         priority_diagnostic = None
         for fused_plan, native_plan in pairs:
-            if fused_plan["cost_us"] >= native_plan["cost_us"]:
+            if native_plan["placement"] != {node: int(node == COMPUTE[0]) for node in COMPUTE}:
                 continue
-            # One legal ordering diagnostic, outside the 48 canonical plans.
-            # It does not alter either search algorithm or the Exact domain.
+            # Preserve the old representation-order counterexample, then score
+            # both Native representations under the explicit fixed policy.
             reordered = Plan(groups=[FusionGroup([node], native_plan["placement"][node],
                                                   {"pattern_id": "unfused"}) for node in COMPUTE])
             alternative = model.predict(full, with_boundaries(reordered), profile)
+            original_native = next(p for p in exact.plans if key_id(signature(p)) == native_plan["plan_id"])
+            original_fused = next(p for p in exact.plans if key_id(signature(p)) == fused_plan["plan_id"])
+            legacy = StructuralCostModel(registry=registry)
             priority_diagnostic = {"placement": native_plan["placement"],
-                "native_canonical_us": native_plan["cost_us"], "fused_canonical_us": fused_plan["cost_us"],
-                "native_gate_up_before_activation_us": alternative.makespan * 1e6,
+                "legacy_native_us": legacy.predict(full, with_boundaries(original_native), profile).makespan * 1e6,
+                "legacy_fused_us": legacy.predict(full, with_boundaries(original_fused), profile).makespan * 1e6,
+                "legacy_reordered_native_us": legacy.predict(full, with_boundaries(reordered), profile).makespan * 1e6,
+                "native_fixed_policy_us": native_plan["cost_us"], "fused_fixed_policy_us": fused_plan["cost_us"],
+                "reordered_native_fixed_policy_us": alternative.makespan * 1e6,
                 "same_cost_sources_and_placement": True, "added_to_search_space": False}
             break
         communication = {}
@@ -195,7 +202,7 @@ def build_report(config_path=CONFIG, seeds=(0, 1, 7)):
                 "communication_types": len(communication), "current_contract_measured_communication_types": 0},
             "communication_union": [communication[k] for k in sorted(communication)],
             "same_placement_fusion_pairs": {"count": len(pairs),
-                "fused_lower_under_canonical_order": sum(f["cost_us"] < n["cost_us"] for f, n in pairs)},
+                "fused_lower_under_fixed_policy": sum(f["cost_us"] < n["cost_us"] for f, n in pairs)},
             "priority_order_diagnostic": priority_diagnostic,
             "profile_only_plans": sum(p["profile_only"] for p in plans),
             "all_gpu0_comparison": {"native_us": gpu0["native"]["cost_us"], "fused_us": gpu0["fused"]["cost_us"],
@@ -204,6 +211,7 @@ def build_report(config_path=CONFIG, seeds=(0, 1, 7)):
     return {"scope": "FFN CPU mixed-cost exploration, not GPU accuracy or joint-search benefit validation",
         "boundary_residency": {INPUT: 0, OUTPUT: 0}, "compute_nodes": list(COMPUTE),
         "identity": identity, "configuration": config,
+        "scheduling_policy": SCHEDULING_POLICY,
         "search_parameters": {"exact_evaluations_per_scenario": 48, "mcts_iterations": 128,
                               "mcts_rollouts": 2, "mcts_seeds": list(seeds), "mcts_uses_exact_cache": False},
         "source_inputs": {"hardware_rate_snapshot": hardware_source, **input_hashes,
@@ -218,7 +226,8 @@ def build_report(config_path=CONFIG, seeds=(0, 1, 7)):
         "new_gpu_execution": False, "trusted_end_to_end_reference": None,
         "srop_enabled": False, "independent_regret": None,
         "execution_assumptions": ["Projection weights resident on each candidate device",
-            "Existing canonical group priority; Exact does not enumerate alternative legal schedules",
+            "Fixed dependency-level then node-ID priority; per-device serial resource reservation, no gap filling",
+            "Exact enumerates fusion and placement under that policy, not all possible schedules",
             "Projection outputs preallocated contiguous by planning declaration, not captured runtime evidence",
             "Each cross-device edge transfers separately, including ingress/egress; no communication reuse proof",
             "Historical GEMM/copy/link rates and explicit Graph assumptions remain prediction proxies",

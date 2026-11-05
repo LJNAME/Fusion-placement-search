@@ -47,4 +47,4 @@ StructuralCostModel已能消费上述来源并调度。两个独立阶段在加�
 
 ## FFN开发检查
 
-固定FFN的48方案混合成本与Exact/MCTS对照已完成，见 [FFN成本与搜索检查](FFN_PROFILE_SEARCH.md)。全实测方案仍为0/48，通信假设和规范调度顺序会影响部分排名；没有新GPU测量或SROP实验。
+固定FFN的48方案混合成本与Exact/MCTS对照已完成，见 [FFN成本与搜索检查](FFN_PROFILE_SEARCH.md)。全实测方案仍为0/48，通信假设仍影响放置；输入顺序评分问题已完成 [CPU调度审计](FFN_SCHEDULING_AUDIT.md)，固定策略后最优方案不变。没有新GPU测量或SROP实验。

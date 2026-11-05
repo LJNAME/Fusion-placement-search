@@ -72,8 +72,10 @@ def test_scheduling_priority_is_not_confused_with_intrinsic_fusion_gain(report):
     scenario = report["scenario_results"][0]
     assert scenario["same_placement_fusion_pairs"]["count"] == 16
     diagnostic = scenario["priority_order_diagnostic"]
-    assert diagnostic["fused_canonical_us"] < diagnostic["native_canonical_us"]
-    assert diagnostic["native_gate_up_before_activation_us"] < diagnostic["fused_canonical_us"]
+    assert diagnostic["legacy_fused_us"] < diagnostic["legacy_native_us"]
+    assert diagnostic["legacy_reordered_native_us"] < diagnostic["legacy_fused_us"]
+    assert diagnostic["native_fixed_policy_us"] == diagnostic["reordered_native_fixed_policy_us"]
+    assert diagnostic["native_fixed_policy_us"] < diagnostic["fused_fixed_policy_us"]
     assert diagnostic["same_cost_sources_and_placement"]
     assert not diagnostic["added_to_search_space"]
 

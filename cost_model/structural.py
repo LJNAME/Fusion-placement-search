@@ -119,7 +119,14 @@ def _peak_memory(
 
 
 class StructuralCostModel:
-    """M3a reference model: common structure plus a replaceable hardware profile."""
+    """Resource-constrained makespan with a replaceable hardware profile.
+
+    plan_order_v1 preserves historical priority semantics. The opt-in
+    dependency_level_node_id_v1 policy orders groups by longest dependency
+    depth, then sorted node IDs, and orders sends by destination node IDs.
+    Both reserve one compute resource per device and the profile's links;
+    neither fills idle gaps or optimizes execution schedules.
+    """
 
     def __init__(
         self,
@@ -127,10 +134,14 @@ class StructuralCostModel:
         strict_fusion: bool = True,
         registry: Optional[FusionPatternRegistry] = None,
         name: str = "structural-v1",
+        scheduling_policy: str = "plan_order_v1",
     ) -> None:
+        if scheduling_policy not in ("plan_order_v1", "dependency_level_node_id_v1"):
+            raise ValueError(f"unknown scheduling policy: {scheduling_policy}")
         self.strict_fusion = bool(strict_fusion)
         self.registry = registry
         self.name = name
+        self.scheduling_policy = scheduling_policy
 
     def predict(
         self,
@@ -174,9 +185,24 @@ class StructuralCostModel:
         if profile.n_devs != structure.n_devs:
             raise ValueError("prepared plan and profile device counts differ")
         incoming, outgoing = prepared.incoming, prepared.outgoing
+        # The validated plan is topological. Compute levels without changing its
+        # group IDs, profile keys or caller-owned representation.
+        group_key = {g.index: tuple(sorted(g.node_ids)) for g in structure.groups}
+        levels = [0] * len(structure.groups)
+        for group in structure.groups:
+            levels[group.index] = max(
+                (levels[structure.dependencies[i].src_group] + 1
+                 for i in incoming[group.index]), default=0,
+            )
+        schedule = list(structure.groups)
+        if self.scheduling_policy == "dependency_level_node_id_v1":
+            schedule.sort(key=lambda g: (levels[g.index], group_key[g.index]))
 
         starts = [0.0] * len(structure.groups)
         ends = [0.0] * len(structure.groups)
+        device_ready = [0.0] * len(structure.groups)
+        local_ready = [0.0] * len(structure.groups)
+        communication_ready = [0.0] * len(structure.groups)
         causes: list[Optional[int]] = [None] * len(structure.groups)
         device_free = [0.0] * profile.n_devs
         device_last: list[Optional[int]] = [None] * profile.n_devs
@@ -187,11 +213,12 @@ class StructuralCostModel:
         active_sends: list[list[tuple[float, float]]] = [
             [] for _ in range(profile.n_devs)
         ]
-        group_costs = []
+        group_costs = [None] * len(structure.groups)
         all_confidence = []
         ood_reasons: set[str] = set()
 
-        for group in structure.groups:
+        for group in schedule:
+            device_ready[group.index] = device_free[group.device]
             candidates: list[tuple[float, int, Optional[int]]] = [
                 (device_free[group.device], 0, device_last[group.device])
             ]
@@ -199,18 +226,23 @@ class StructuralCostModel:
                 dep = structure.dependencies[dep_index]
                 if dep.cross_device:
                     transfer = transfers[dep_index]
+                    communication_ready[group.index] = max(communication_ready[group.index], transfer.end)
                     candidates.append((transfer.end, 2, transfer.cause_group))
                 else:
+                    local_ready[group.index] = max(local_ready[group.index], ends[dep.src_group])
                     candidates.append((ends[dep.src_group], 1, dep.src_group))
             ready_time, _priority, cause = max(
                 candidates,
-                key=lambda item: (item[0], item[1], -1 if item[2] is None else item[2]),
+                key=lambda item: (item[0], item[1],
+                    ("",) if item[2] is None else group_key[item[2]])
+                if self.scheduling_policy != "plan_order_v1" else
+                    (item[0], item[1], -1 if item[2] is None else item[2]),
             )
             starts[group.index] = ready_time
             causes[group.index] = cause
 
             cost = profile.estimate_group(graph, group)
-            group_costs.append(cost)
+            group_costs[group.index] = cost
             all_confidence.append(cost.confidence)
             ood_reasons.update(cost.ood_reasons)
             overlap_count = sum(
@@ -226,7 +258,15 @@ class StructuralCostModel:
             device_free[group.device] = ends[group.index]
             device_last[group.device] = group.index
 
-            for dep_index in outgoing[group.index]:
+            send_order = outgoing[group.index]
+            if self.scheduling_policy != "plan_order_v1":
+                send_order = sorted(send_order, key=lambda i: (
+                    group_key[structure.dependencies[i].dst_group],
+                    structure.dependencies[i].src_node,
+                    structure.dependencies[i].dst_node,
+                    structure.dependencies[i].bytes,
+                ))
+            for dep_index in send_order:
                 dep = structure.dependencies[dep_index]
                 if not dep.cross_device:
                     continue
@@ -287,7 +327,8 @@ class StructuralCostModel:
 
         critical_indices = []
         current: Optional[int] = (
-            max(range(len(ends)), key=lambda index: (ends[index], index))
+            max(range(len(ends)), key=lambda index: (ends[index], group_key[index])
+                if self.scheduling_policy != "plan_order_v1" else (ends[index], index))
             if ends
             else None
         )
@@ -299,7 +340,7 @@ class StructuralCostModel:
         critical_indices.reverse()
 
         communication_time = sum(item.duration for item in transfers.values())
-        computation_time = sum(item.duration for item in group_costs)
+        computation_time = sum(group_costs[group.index].duration for group in schedule)
         confidence = min(all_confidence, default=1.0)
         reasons = tuple(sorted(ood_reasons))
         return CostEstimate(
@@ -318,6 +359,8 @@ class StructuralCostModel:
             model_name=self.name,
             details={
                 "structure_version": "plan-structure-v1",
+                "scheduling_policy": self.scheduling_policy,
+                "schedule_order": [group.group_id for group in schedule],
                 "overflow_devices": list(overflow_devices),
                 "groups": [
                     {
@@ -327,6 +370,15 @@ class StructuralCostModel:
                         "start": starts[group.index],
                         "end": ends[group.index],
                         "duration": ends[group.index] - starts[group.index],
+                        "dependency_ready": max((
+                            transfers[i].end if structure.dependencies[i].cross_device
+                            else ends[structure.dependencies[i].src_group]
+                            for i in incoming[group.index]), default=0.0),
+                        "device_ready": device_ready[group.index],
+                        "local_dependency_ready": local_ready[group.index],
+                        "communication_ready": communication_ready[group.index],
+                        "communication_wait": max(0.0, communication_ready[group.index]
+                            - max(device_ready[group.index], local_ready[group.index])),
                         "compute_time": group_costs[group.index].compute_time,
                         "memory_time": group_costs[group.index].memory_time,
                         "launch_time": group_costs[group.index].launch_time,
