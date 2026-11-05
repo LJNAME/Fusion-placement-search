@@ -1,0 +1,95 @@
+{
+ "scope": "full model, executable registry, require_executable, layer-invariant measured-first profile over analytic base, 64 iterations seed 0",
+ "store_records": 10,
+ "rows": {
+  "unfused_gpu0": {
+   "makespan_ms": 9.339470215079002,
+   "sources": {
+    "rmsnorm_reference|analytic_roofline": 113,
+    "unfused|analytic_roofline": 310,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 140
+   }
+  },
+  "joint": {
+   "makespan_ms": 9.324831040781675,
+   "elapsed_s": 13.970533366780728,
+   "evals": 192,
+   "patterns": {
+    "unfused": 394,
+    "rmsnorm_reference": 85,
+    "add_rmsnorm": 28,
+    "silu_mul": 28
+   },
+   "devices": [
+    0
+   ],
+   "feasible": true,
+   "sources": {
+    "add_rmsnorm|analytic_roofline": 28,
+    "rmsnorm_reference|analytic_roofline": 85,
+    "silu_mul|measured_layer_invariant": 28,
+    "unfused|analytic_roofline": 282,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 84
+   },
+   "export": {
+    "nodes": 591,
+    "groups": 535,
+    "fused_groups": 56,
+    "cross_device_dependencies": 0,
+    "groups_per_device": {
+     "0": 535,
+     "1": 0
+    },
+    "deployable": true
+   }
+  },
+  "sequential": {
+   "makespan_ms": 9.25001572144737,
+   "elapsed_s": 13.790643837768584,
+   "evals": 192,
+   "patterns": {
+    "unfused": 423,
+    "rmsnorm_reference": 88,
+    "add_rmsnorm": 25,
+    "silu_mul": 15
+   },
+   "devices": [
+    0
+   ],
+   "feasible": true,
+   "sources": {
+    "add_rmsnorm|analytic_roofline": 25,
+    "rmsnorm_reference|analytic_roofline": 88,
+    "silu_mul|measured_layer_invariant": 15,
+    "unfused|analytic_roofline": 285,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 110
+   }
+  },
+  "placement_then_fusion": {
+   "makespan_ms": 9.25001572144737,
+   "elapsed_s": 13.8370425933972,
+   "evals": 192,
+   "patterns": {
+    "unfused": 423,
+    "rmsnorm_reference": 88,
+    "add_rmsnorm": 25,
+    "silu_mul": 15
+   },
+   "devices": [
+    0
+   ],
+   "feasible": true,
+   "sources": {
+    "add_rmsnorm|analytic_roofline": 25,
+    "rmsnorm_reference|analytic_roofline": 88,
+    "silu_mul|measured_layer_invariant": 15,
+    "unfused|analytic_roofline": 285,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 110
+   }
+  }
+ }
+}
