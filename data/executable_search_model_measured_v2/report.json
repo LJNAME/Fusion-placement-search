@@ -1,0 +1,354 @@
+{
+ "scope": "full model; executable registry; cross-layer measured Profiles over analytic base; existing MCTS",
+ "store_records": 13,
+ "references": {
+  "none": {
+   "makespan_ms": 8.773035642727065,
+   "feasible": true,
+   "fused": {},
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 196
+   }
+  },
+  "add_rmsnorm_only": {
+   "makespan_ms": 8.851974352820564,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 28
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 28,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 29,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 168
+   }
+  },
+  "silu_mul_only": {
+   "makespan_ms": 8.986910289152322,
+   "feasible": true,
+   "fused": {
+    "silu_mul": 28
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "silu_mul|measured_layer_invariant": 28,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 140
+   }
+  },
+  "both": {
+   "makespan_ms": 9.06584899924582,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 28,
+    "silu_mul": 28
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 28,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 29,
+    "silu_mul|measured_layer_invariant": 28,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 112
+   }
+  }
+ },
+ "runs": [
+  {
+   "mode": "joint",
+   "seed": 0,
+   "iterations": 256,
+   "elapsed_s": 59.055447003338486,
+   "cost_model_evaluations": 768,
+   "makespan_ms": 9.06584899924582,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 28,
+    "silu_mul": 28
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 28,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 29,
+    "silu_mul|measured_layer_invariant": 28,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 112
+   },
+   "gap_to_best_reference": 0.03337651509047498
+  },
+  {
+   "mode": "joint",
+   "seed": 7,
+   "iterations": 256,
+   "elapsed_s": 58.120889930054545,
+   "cost_model_evaluations": 768,
+   "makespan_ms": 9.06584899924582,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 28,
+    "silu_mul": 28
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 28,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 29,
+    "silu_mul|measured_layer_invariant": 28,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 112
+   },
+   "gap_to_best_reference": 0.03337651509047498
+  },
+  {
+   "mode": "joint",
+   "seed": 23,
+   "iterations": 256,
+   "elapsed_s": 57.99761510640383,
+   "cost_model_evaluations": 768,
+   "makespan_ms": 9.06584899924582,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 28,
+    "silu_mul": 28
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 28,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 29,
+    "silu_mul|measured_layer_invariant": 28,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 112
+   },
+   "gap_to_best_reference": 0.03337651509047498
+  },
+  {
+   "mode": "sequential",
+   "seed": 0,
+   "iterations": 256,
+   "elapsed_s": 57.65795610798523,
+   "cost_model_evaluations": 768,
+   "makespan_ms": 8.90980403981989,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 16,
+    "silu_mul": 12
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 16,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 41,
+    "silu_mul|measured_layer_invariant": 12,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 156
+   },
+   "gap_to_best_reference": 0.015589631988581805
+  },
+  {
+   "mode": "sequential",
+   "seed": 7,
+   "iterations": 256,
+   "elapsed_s": 57.79346774192527,
+   "cost_model_evaluations": 768,
+   "makespan_ms": 8.923080899341757,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 18,
+    "silu_mul": 13
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 18,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 39,
+    "silu_mul|measured_layer_invariant": 13,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 152
+   },
+   "gap_to_best_reference": 0.017103003193550414
+  },
+  {
+   "mode": "sequential",
+   "seed": 23,
+   "iterations": 256,
+   "elapsed_s": 57.620151033159345,
+   "cost_model_evaluations": 768,
+   "makespan_ms": 8.908623477591926,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 21,
+    "silu_mul": 10
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 21,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 36,
+    "silu_mul|measured_layer_invariant": 10,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 155
+   },
+   "gap_to_best_reference": 0.015455064858566328
+  },
+  {
+   "mode": "placement_then_fusion",
+   "seed": 0,
+   "iterations": 256,
+   "elapsed_s": 57.43139359494671,
+   "cost_model_evaluations": 768,
+   "makespan_ms": 8.90980403981989,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 16,
+    "silu_mul": 12
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 16,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 41,
+    "silu_mul|measured_layer_invariant": 12,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 156
+   },
+   "gap_to_best_reference": 0.015589631988581805
+  },
+  {
+   "mode": "placement_then_fusion",
+   "seed": 7,
+   "iterations": 256,
+   "elapsed_s": 57.8679017261602,
+   "cost_model_evaluations": 768,
+   "makespan_ms": 8.923080899341757,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 18,
+    "silu_mul": 13
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 18,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 39,
+    "silu_mul|measured_layer_invariant": 13,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 152
+   },
+   "gap_to_best_reference": 0.017103003193550414
+  },
+  {
+   "mode": "placement_then_fusion",
+   "seed": 23,
+   "iterations": 256,
+   "elapsed_s": 57.34702417580411,
+   "cost_model_evaluations": 768,
+   "makespan_ms": 8.908623477591926,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 21,
+    "silu_mul": 10
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 21,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 36,
+    "silu_mul|measured_layer_invariant": 10,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 155
+   },
+   "gap_to_best_reference": 0.015455064858566328
+  }
+ ],
+ "search_code_changed": false,
+ "cost_model_formula_changed": false
+}
