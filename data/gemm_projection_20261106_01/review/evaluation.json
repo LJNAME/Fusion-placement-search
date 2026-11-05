@@ -1,0 +1,1109 @@
+{
+  "scope": "ffn_projection_gemm_gpu0_gpu1_v1",
+  "cases": {
+    "gemm/gate/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 20.489559173583984,
+        "min_us": 18.259199857711792,
+        "max_us": 20.80955982208252,
+        "iqr_us": 1.3231796026229858,
+        "iqr_over_median": 0.0645782367211143,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        20.460760593414307,
+        20.489559173583984,
+        18.259199857711792,
+        20.671958923339844,
+        20.76796054840088,
+        20.80955982208252,
+        18.332799673080444
+      ]
+    },
+    "gemm/gate/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 20.339159965515137,
+        "min_us": 18.48955988883972,
+        "max_us": 20.92155933380127,
+        "iqr_us": 0.4735994338989258,
+        "iqr_over_median": 0.0232851029591148,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        20.92155933380127,
+        20.339159965515137,
+        20.243160724639893,
+        20.793559551239014,
+        20.652759075164795,
+        18.48955988883972,
+        20.255959033966064
+      ]
+    },
+    "gemm/up/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 20.47355890274048,
+        "min_us": 18.307160139083862,
+        "max_us": 20.67836046218872,
+        "iqr_us": 0.1903986930847168,
+        "iqr_over_median": 0.009299736015081925,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        20.425560474395752,
+        20.47355890274048,
+        20.563158988952637,
+        20.537559986114502,
+        20.294361114501953,
+        18.307160139083862,
+        20.67836046218872
+      ]
+    },
+    "gemm/up/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 20.76796054840088,
+        "min_us": 20.553560256958008,
+        "max_us": 21.25756025314331,
+        "iqr_us": 0.36480069160461426,
+        "iqr_over_median": 0.017565552031670425,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        20.76796054840088,
+        20.59515953063965,
+        21.036760807037354,
+        21.25756025314331,
+        20.937559604644775,
+        20.649559497833252,
+        20.553560256958008
+      ]
+    },
+    "gemm/down/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 27.43675947189331,
+        "min_us": 27.135961055755615,
+        "max_us": 27.929561138153076,
+        "iqr_us": 0.37759900093078613,
+        "iqr_over_median": 0.01376252182104833,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        27.42716073989868,
+        27.929561138153076,
+        27.247960567474365,
+        27.43675947189331,
+        27.135961055755615,
+        27.75995969772339,
+        27.67035961151123
+      ]
+    },
+    "gemm/down/gpu1": {
+      "status": "quality_failed",
+      "reasons": [
+        "iqr_over_median_exceeds_10_percent"
+      ],
+      "statistics": {
+        "median_us": 27.35356092453003,
+        "min_us": 24.467179775238037,
+        "max_us": 27.8847599029541,
+        "iqr_us": 2.979191541671753,
+        "iqr_over_median": 0.10891421229914107,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        27.35356092453003,
+        24.467179775238037,
+        27.73116111755371,
+        27.8847599029541,
+        24.47995901107788,
+        24.687979221343994,
+        27.39516019821167
+      ]
+    }
+  },
+  "automatic_admission": false,
+  "status": "partial_quality_failed",
+  "quality_passed": [
+    "gemm/down/gpu0",
+    "gemm/gate/gpu0",
+    "gemm/gate/gpu1",
+    "gemm/up/gpu0",
+    "gemm/up/gpu1"
+  ],
+  "quality_failed": [
+    "gemm/down/gpu1"
+  ],
+  "data_role": "per-GPU GEMM calibration candidates",
+  "model_parameters_updated": false,
+  "identity": {
+    "scope": "ffn_projection_gemm_gpu0_gpu1_v1",
+    "cases": {
+      "gemm/gate/gpu0": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+              "timed_body": "aten.mm.out(x2d, weight.t(), out=output)",
+              "weight_layout": "nn.Linear [out, in] contiguous; transposed view, no copy",
+              "operands": [
+                "x",
+                "weight"
+              ],
+              "bias": null,
+              "layout_status": "declared FFN execution contract; not captured from a running FFN"
+            },
+            "source_sha256": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+            "tensors": {
+              "x": {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "weight": {
+                "shape": [
+                  3072,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "output": {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "gpu": {
+            "device": {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 0
+            },
+            "runtime": {
+              "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+              "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+              "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+              "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+              "hip": "6.3.26113",
+              "driver": "60326113"
+            }
+          },
+          "case": {
+            "kind": "gemm",
+            "projection": "gate",
+            "node": "L000.mlp.gate_proj",
+            "device": 0,
+            "m": 256,
+            "k": 1024,
+            "n": 3072,
+            "x_shape": [
+              256,
+              1024
+            ],
+            "weight_shape": [
+              3072,
+              1024
+            ],
+            "output_shape": [
+              256,
+              3072
+            ],
+            "flops": 1610612736,
+            "timing_device": "cuda:0"
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.02,
+              "atol": 0.02
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only x and weight per case; 50 independent outputs",
+            "cache_context": "same weight reused by 50 calls per replay; no cold-weight claim"
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:342ee6d96c9f3d1278ad26891212488a7d1e112d7ec917a207a033f262bf98ce",
+        "gpu_key_id": "sha256:72b22f6ae3a931c6bc06e790005cee2fc3bd9b806da845a313179425a486e532",
+        "contract_id": "sha256:ff33bd1924e2911d8304d0b7f46c313f164088b53568bc2e0a1a9e4bd315a99c"
+      },
+      "gemm/gate/gpu1": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+              "timed_body": "aten.mm.out(x2d, weight.t(), out=output)",
+              "weight_layout": "nn.Linear [out, in] contiguous; transposed view, no copy",
+              "operands": [
+                "x",
+                "weight"
+              ],
+              "bias": null,
+              "layout_status": "declared FFN execution contract; not captured from a running FFN"
+            },
+            "source_sha256": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+            "tensors": {
+              "x": {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "weight": {
+                "shape": [
+                  3072,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "output": {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "gpu": {
+            "device": {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 1
+            },
+            "runtime": {
+              "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+              "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+              "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+              "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+              "hip": "6.3.26113",
+              "driver": "60326113"
+            }
+          },
+          "case": {
+            "kind": "gemm",
+            "projection": "gate",
+            "node": "L000.mlp.gate_proj",
+            "device": 1,
+            "m": 256,
+            "k": 1024,
+            "n": 3072,
+            "x_shape": [
+              256,
+              1024
+            ],
+            "weight_shape": [
+              3072,
+              1024
+            ],
+            "output_shape": [
+              256,
+              3072
+            ],
+            "flops": 1610612736,
+            "timing_device": "cuda:1"
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.02,
+              "atol": 0.02
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only x and weight per case; 50 independent outputs",
+            "cache_context": "same weight reused by 50 calls per replay; no cold-weight claim"
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:546dab567b49361e18ffb834ef4082c987d8ca75d6d50c9126242b37c90fe979",
+        "gpu_key_id": "sha256:ea017934705338cd3fb8b53a21d53f2b42a1084dcb3291f6d85e3ecb87d90659",
+        "contract_id": "sha256:ff33bd1924e2911d8304d0b7f46c313f164088b53568bc2e0a1a9e4bd315a99c"
+      },
+      "gemm/up/gpu0": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+              "timed_body": "aten.mm.out(x2d, weight.t(), out=output)",
+              "weight_layout": "nn.Linear [out, in] contiguous; transposed view, no copy",
+              "operands": [
+                "x",
+                "weight"
+              ],
+              "bias": null,
+              "layout_status": "declared FFN execution contract; not captured from a running FFN"
+            },
+            "source_sha256": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+            "tensors": {
+              "x": {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "weight": {
+                "shape": [
+                  3072,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "output": {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "gpu": {
+            "device": {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 0
+            },
+            "runtime": {
+              "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+              "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+              "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+              "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+              "hip": "6.3.26113",
+              "driver": "60326113"
+            }
+          },
+          "case": {
+            "kind": "gemm",
+            "projection": "up",
+            "node": "L000.mlp.up_proj",
+            "device": 0,
+            "m": 256,
+            "k": 1024,
+            "n": 3072,
+            "x_shape": [
+              256,
+              1024
+            ],
+            "weight_shape": [
+              3072,
+              1024
+            ],
+            "output_shape": [
+              256,
+              3072
+            ],
+            "flops": 1610612736,
+            "timing_device": "cuda:0"
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.02,
+              "atol": 0.02
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only x and weight per case; 50 independent outputs",
+            "cache_context": "same weight reused by 50 calls per replay; no cold-weight claim"
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:38e28458df82649cabff5bf40267280c350ad9e331aa0a951ad05e2bbec3bbcd",
+        "gpu_key_id": "sha256:72b22f6ae3a931c6bc06e790005cee2fc3bd9b806da845a313179425a486e532",
+        "contract_id": "sha256:ff33bd1924e2911d8304d0b7f46c313f164088b53568bc2e0a1a9e4bd315a99c"
+      },
+      "gemm/up/gpu1": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+              "timed_body": "aten.mm.out(x2d, weight.t(), out=output)",
+              "weight_layout": "nn.Linear [out, in] contiguous; transposed view, no copy",
+              "operands": [
+                "x",
+                "weight"
+              ],
+              "bias": null,
+              "layout_status": "declared FFN execution contract; not captured from a running FFN"
+            },
+            "source_sha256": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+            "tensors": {
+              "x": {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "weight": {
+                "shape": [
+                  3072,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "output": {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "gpu": {
+            "device": {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 1
+            },
+            "runtime": {
+              "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+              "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+              "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+              "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+              "hip": "6.3.26113",
+              "driver": "60326113"
+            }
+          },
+          "case": {
+            "kind": "gemm",
+            "projection": "up",
+            "node": "L000.mlp.up_proj",
+            "device": 1,
+            "m": 256,
+            "k": 1024,
+            "n": 3072,
+            "x_shape": [
+              256,
+              1024
+            ],
+            "weight_shape": [
+              3072,
+              1024
+            ],
+            "output_shape": [
+              256,
+              3072
+            ],
+            "flops": 1610612736,
+            "timing_device": "cuda:1"
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.02,
+              "atol": 0.02
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only x and weight per case; 50 independent outputs",
+            "cache_context": "same weight reused by 50 calls per replay; no cold-weight claim"
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:43c495d402df075b8b13e93f8f8f8a4f41772a7603930432f4337e693c14536a",
+        "gpu_key_id": "sha256:ea017934705338cd3fb8b53a21d53f2b42a1084dcb3291f6d85e3ecb87d90659",
+        "contract_id": "sha256:ff33bd1924e2911d8304d0b7f46c313f164088b53568bc2e0a1a9e4bd315a99c"
+      },
+      "gemm/down/gpu0": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+              "timed_body": "aten.mm.out(x2d, weight.t(), out=output)",
+              "weight_layout": "nn.Linear [out, in] contiguous; transposed view, no copy",
+              "operands": [
+                "x",
+                "weight"
+              ],
+              "bias": null,
+              "layout_status": "declared FFN execution contract; not captured from a running FFN"
+            },
+            "source_sha256": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+            "tensors": {
+              "x": {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "weight": {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "output": {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "gpu": {
+            "device": {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 0
+            },
+            "runtime": {
+              "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+              "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+              "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+              "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+              "hip": "6.3.26113",
+              "driver": "60326113"
+            }
+          },
+          "case": {
+            "kind": "gemm",
+            "projection": "down",
+            "node": "L000.mlp.down_proj",
+            "device": 0,
+            "m": 256,
+            "k": 3072,
+            "n": 1024,
+            "x_shape": [
+              256,
+              3072
+            ],
+            "weight_shape": [
+              1024,
+              3072
+            ],
+            "output_shape": [
+              256,
+              1024
+            ],
+            "flops": 1610612736,
+            "timing_device": "cuda:0"
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.02,
+              "atol": 0.02
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only x and weight per case; 50 independent outputs",
+            "cache_context": "same weight reused by 50 calls per replay; no cold-weight claim"
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:74ba64808e6920496037ea8cbace2f2a45f7be95d07a0d45381edd9ed9756053",
+        "gpu_key_id": "sha256:72b22f6ae3a931c6bc06e790005cee2fc3bd9b806da845a313179425a486e532",
+        "contract_id": "sha256:ff33bd1924e2911d8304d0b7f46c313f164088b53568bc2e0a1a9e4bd315a99c"
+      },
+      "gemm/down/gpu1": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+              "timed_body": "aten.mm.out(x2d, weight.t(), out=output)",
+              "weight_layout": "nn.Linear [out, in] contiguous; transposed view, no copy",
+              "operands": [
+                "x",
+                "weight"
+              ],
+              "bias": null,
+              "layout_status": "declared FFN execution contract; not captured from a running FFN"
+            },
+            "source_sha256": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+            "tensors": {
+              "x": {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "weight": {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "output": {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "gpu": {
+            "device": {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 1
+            },
+            "runtime": {
+              "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+              "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+              "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+              "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+              "hip": "6.3.26113",
+              "driver": "60326113"
+            }
+          },
+          "case": {
+            "kind": "gemm",
+            "projection": "down",
+            "node": "L000.mlp.down_proj",
+            "device": 1,
+            "m": 256,
+            "k": 3072,
+            "n": 1024,
+            "x_shape": [
+              256,
+              3072
+            ],
+            "weight_shape": [
+              1024,
+              3072
+            ],
+            "output_shape": [
+              256,
+              1024
+            ],
+            "flops": 1610612736,
+            "timing_device": "cuda:1"
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.02,
+              "atol": 0.02
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only x and weight per case; 50 independent outputs",
+            "cache_context": "same weight reused by 50 calls per replay; no cold-weight claim"
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:2d42f7d576db4f9bf99e1bc9439d945f481e00bc828e8ca7224b508ad53f5563",
+        "gpu_key_id": "sha256:ea017934705338cd3fb8b53a21d53f2b42a1084dcb3291f6d85e3ecb87d90659",
+        "contract_id": "sha256:ff33bd1924e2911d8304d0b7f46c313f164088b53568bc2e0a1a9e4bd315a99c"
+      }
+    },
+    "uuid_is_provenance_only": true
+  },
+  "plan_sha256": "5ea4f355752c0153bcd439333e09e589f7d2e4cada418a6d83d7e46d9374b5d2",
+  "raw_sha256": {
+    "attempt_000.json": "b6d14296a8cfdb2292497f7f84f4ba13f72f23e0ee91315806b21f58fcd94499",
+    "attempt_001.json": "82943bfafc00ce75cd55ca193d1d3b4581104dc26c83464cc03138f7a708771f",
+    "attempt_002.json": "4c1ac68f7564fbe9cfa43245f5a91e5dd91e5d899e1cd018cf288e3ab5228522",
+    "attempt_003.json": "3f9474daf1fe0ac662466f3bbffe5bc186bca46157d65d3b98ad708e7117e5e5",
+    "attempt_004.json": "63bcb883ed29deb2be534d2ef7c1b0e17f9f74d1364c0bc600fe0c2542024dc0",
+    "attempt_005.json": "f0945f11e5fc03e51a44eb0bbafbf6c052fbafefc9a1ea66bf0f41603d698431",
+    "attempt_006.json": "a2458d33d084dc07c6e2c05649114c6c27fc9b575625880e5fdc28adf3140eee",
+    "attempt_007.json": "1e669eeaee9b9f3b9752fcdf7cd20cf61bb7401aece66aa813f403c23fdbf09f",
+    "attempt_008.json": "4105dc079b3b79ec80c13591dff33bcd4ed16554a77f8511eb0916411cb36a56",
+    "attempt_009.json": "8fbb40a811e2aa47589f9d4d2974cfd9ab3a1a84904479784a44e4e437bc36f0",
+    "attempt_010.json": "2b583c187bfc72225e3e2b879e8ddaf1642b0560e35ac13d0363cfa064dc4573",
+    "attempt_011.json": "a967509c699627a72e10c4d014797e127c26383ffc5ab391f7e2d4e93ea4e572",
+    "attempt_012.json": "0d3cdba46071a4a9b00dbc3eb824e3f213fa7137116c94b3e9da7867640f7a4e",
+    "attempt_013.json": "76f2c9c289aee5554182533cc05e2c1c1189b50454563986ba89530daa8c2691",
+    "attempt_014.json": "b9934bde2745697e8124f253bacaa11228f679a058ce1dfaa961e0283a84e826",
+    "attempt_015.json": "9e27737e9eea63d7bdc57812a12c35de25f6bbad9b948e45890d2dc67737a275",
+    "attempt_016.json": "4099042dff335ecebc3d93b997aac0a749134605219e12304a13b186456aa0b4",
+    "attempt_017.json": "a830f3796ce44bf7be030dac4f3bc205d54c2b7468f6d4b444830c9e932619af",
+    "attempt_018.json": "74e870f280e2e22311f9137aa291d6c18bdd8287c8b621df2154047881352fc8",
+    "attempt_019.json": "1023e58c67323b509175bb11117108c6d858dcf9f12ae22200eec0f92ec714af",
+    "attempt_020.json": "9977cb883e0ff501e778b55a646a4be9e4399102e906280175e83e2c115015f2",
+    "attempt_021.json": "e2aacab7916c7405dbb572b2a8f1ce4f94f8ccba8390bc27fa124655718d26bd",
+    "attempt_022.json": "42e0af64c2fa8bf763332e563aeac38597527996441432ff3bf440d7fde909ac",
+    "attempt_023.json": "c87ea48d1d5f0a2bdfeb50895c7e60b519178037c4734047c0fa9f33eecfc45b",
+    "attempt_024.json": "3d6d32815d36fdefc10ecb83062449b212d39b1cd4c3050c0d47d5a0a786e360",
+    "attempt_025.json": "cf1b7c8800f3164b8e9f03cb6c0be03cd8fca16c793ceb8707f582ec10d08c16",
+    "attempt_026.json": "b5761168d36bed28b2eba1278c6faa9695f964b18f218052c0d36a4a50197792",
+    "attempt_027.json": "4d811aad61c333102fa5736d2d25e018de128f06546aafdcb4913b95428d72c8",
+    "attempt_028.json": "132837834e386b0745bbcf01c7df8a01fccb6d02401a20d0bc891ad5890f6f23",
+    "attempt_029.json": "d7974181aa17bfb42c199ca21118f820f36c61374bccf0a4295a8d5c8bf9a394",
+    "attempt_030.json": "b9e61725b9caf27c5eb4f00408248377f499498d1c6c728945bbe843d8ed064a",
+    "attempt_031.json": "62bf051680e42bcc6a8e3c78fdffb5e41039544002b841613f6839485278d4d7",
+    "attempt_032.json": "b301e6ca7a01c6d7e0877b57ed24edb44705b6cd78e25550853d8656e08007c2",
+    "attempt_033.json": "789d6dfbb1c0d1925e8c463490eef1753b5a3a7e7f6d3a33bcb09b624b2d5646",
+    "attempt_034.json": "a01c9c68371073438fc14f4f2e00c7fd2be207b573f05c574d14e30aa81f0597",
+    "attempt_035.json": "d7ad7d7101672fa414bfe0bae752eafec52b7a7667168341a16b7bd73d4a2246",
+    "attempt_036.json": "a7a34ea6da39fef9b3ab81092292ccb058856a324c15dfdb9bfc70f204058c82",
+    "attempt_037.json": "148d5b2b6124d1fe12c5db36eb5d14c84fb4163b0ce31b175ea0d373aeaf04b0",
+    "attempt_038.json": "2fc5eb674b337030ea709499a8178f512c9f3c97329380e29a3eb3d5a27e6d9d",
+    "attempt_039.json": "7836a8d1a576e04124ff37467d62113c41eeffd6cb5c361627aa9fb6c34c60cd",
+    "attempt_040.json": "250f280c900b047edccd7ad3d972def256d16322a598527dca2a2ecee9276d75",
+    "attempt_041.json": "39e2bc4d26f461d125d899a8c2afbcd9b7df1e2cf2d68f956a2b6755497ec77f",
+    "collection_quality.json": "a645ebba3b54a4e0011eee6478160dcca7176180cec4761bb9724841a88594fe",
+    "identity.json": "f6e1794fe60440718ed07ce655335384644a2c896a7065763565f714012fa213",
+    "last_stage.json": "bcd3ce5f711225385f86e7e60997f859cea28580c586b0711ea1c0a2cdb67afe",
+    "plan.json": "5ea4f355752c0153bcd439333e09e589f7d2e4cada418a6d83d7e46d9374b5d2",
+    "preparation.json": "e9ef6b44459e99529ede4c168a9911c333a9f6d8f97389be1087f29ad2f2e2c1",
+    "process.json": "9a7587d3de4c6cde188c75a87e39ddeff8210d9e2ca89526673454b9ab5d295b",
+    "result.json": "9c434493eeab04b1247f382e3b57d1278d4e8988d9688edd8c471ebf51694e97",
+    "runtime.json": "48fba01f3121f661ca34808b955aa1ebaf04ebfd433b143261191dd0a56650db",
+    "warmup.json": "56ad58f48d290cc8fb8ab94d7e3e9c10d7efa8059bdd37fdc83e54007f6016e2"
+  },
+  "prediction_error": {
+    "gemm/gate/gpu0": {
+      "predicted_us": 22.884743841557214,
+      "measured_us": 20.489559173583984,
+      "quality": "quality_passed",
+      "signed_error": 0.1168978135489222
+    },
+    "gemm/gate/gpu1": {
+      "predicted_us": 22.899304530419656,
+      "measured_us": 20.339159965515137,
+      "quality": "quality_passed",
+      "signed_error": 0.12587267956224452
+    },
+    "gemm/up/gpu0": {
+      "predicted_us": 22.884743841557214,
+      "measured_us": 20.47355890274048,
+      "quality": "quality_passed",
+      "signed_error": 0.11777067925860155
+    },
+    "gemm/up/gpu1": {
+      "predicted_us": 22.899304530419656,
+      "measured_us": 20.76796054840088,
+      "quality": "quality_passed",
+      "signed_error": 0.10262654231509935
+    },
+    "gemm/down/gpu0": {
+      "predicted_us": 22.888162683225087,
+      "measured_us": 27.43675947189331,
+      "quality": "quality_passed",
+      "signed_error": -0.1657847674514144
+    },
+    "gemm/down/gpu1": {
+      "predicted_us": 22.902725699947528,
+      "measured_us": 27.35356092453003,
+      "quality": "quality_failed",
+      "signed_error": -0.16271502042686872
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "scope": "ffn_projection_gemm_gpu0_gpu1_v1",
+  "cases": {
+    "gemm/gate/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 20.489559173583984,
+        "min_us": 18.259199857711792,
+        "max_us": 20.80955982208252,
+        "iqr_us": 1.3231796026229858,
+        "iqr_over_median": 0.0645782367211143,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        20.460760593414307,
+        20.489559173583984,
+        18.259199857711792,
+        20.671958923339844,
+        20.76796054840088,
+        20.80955982208252,
+        18.332799673080444
+      ]
+    },
+    "gemm/gate/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 20.339159965515137,
+        "min_us": 18.48955988883972,
+        "max_us": 20.92155933380127,
+        "iqr_us": 0.4735994338989258,
+        "iqr_over_median": 0.0232851029591148,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        20.92155933380127,
+        20.339159965515137,
+        20.243160724639893,
+        20.793559551239014,
+        20.652759075164795,
+        18.48955988883972,
+        20.255959033966064
+      ]
+    },
+    "gemm/up/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 20.47355890274048,
+        "min_us": 18.307160139083862,
+        "max_us": 20.67836046218872,
+        "iqr_us": 0.1903986930847168,
+        "iqr_over_median": 0.009299736015081925,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        20.425560474395752,
+        20.47355890274048,
+        20.563158988952637,
+        20.537559986114502,
+        20.294361114501953,
+        18.307160139083862,
+        20.67836046218872
+      ]
+    },
+    "gemm/up/gpu1": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 20.76796054840088,
+        "min_us": 20.553560256958008,
+        "max_us": 21.25756025314331,
+        "iqr_us": 0.36480069160461426,
+        "iqr_over_median": 0.017565552031670425,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        20.76796054840088,
+        20.59515953063965,
+        21.036760807037354,
+        21.25756025314331,
+        20.937559604644775,
+        20.649559497833252,
+        20.553560256958008
+      ]
+    },
+    "gemm/down/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 27.43675947189331,
+        "min_us": 27.135961055755615,
+        "max_us": 27.929561138153076,
+        "iqr_us": 0.37759900093078613,
+        "iqr_over_median": 0.01376252182104833,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        27.42716073989868,
+        27.929561138153076,
+        27.247960567474365,
+        27.43675947189331,
+        27.135961055755615,
+        27.75995969772339,
+        27.67035961151123
+      ]
+    },
+    "gemm/down/gpu1": {
+      "status": "quality_failed",
+      "reasons": [
+        "iqr_over_median_exceeds_10_percent"
+      ],
+      "statistics": {
+        "median_us": 27.35356092453003,
+        "min_us": 24.467179775238037,
+        "max_us": 27.8847599029541,
+        "iqr_us": 2.979191541671753,
+        "iqr_over_median": 0.10891421229914107,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        27.35356092453003,
+        24.467179775238037,
+        27.73116111755371,
+        27.8847599029541,
+        24.47995901107788,
+        24.687979221343994,
+        27.39516019821167
+      ]
+    }
+  },
+  "automatic_admission": false,
+  "status": "partial_quality_failed",
+  "quality_passed": [
+    "gemm/down/gpu0",
+    "gemm/gate/gpu0",
+    "gemm/gate/gpu1",
+    "gemm/up/gpu0",
+    "gemm/up/gpu1"
+  ],
+  "quality_failed": [
+    "gemm/down/gpu1"
+  ],
+  "data_role": "per-GPU GEMM calibration candidates",
+  "model_parameters_updated": false
+}
