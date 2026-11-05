@@ -1,0 +1,62 @@
+# 实验结果索引（2026-11-05 一轮）
+
+本轮所有实验产物都在 `data/` 下，一个目录对应一次采集或一次CPU分析。说明文档：[标定记录](../calibration/STAGE_SIZE_CALIBRATION.md)、[搜索日志](../cost_model/FUSION_PLACEMENT_SEARCH_LOG.md)。
+
+目录约定：
+
+- `raw/`：服务器上原始输出目录的逐字节副本，含 `plan.json`、`attempt_*.json`、`process.log`。
+- `review/evaluation.json`：CPU复核结果，按原始数据重算质量与身份。
+- 其余子目录（`fit/`、`validation/`、`diagnose/`、`ffn_search/`）：基于该批数据的后续CPU分析。
+
+"采集提交"即 `plan.json` 中记录的 git revision。stage_size batch-01 采集于未提交的源码，以 `plan.json` 中逐文件 SHA256 溯源，与提交 `a147a8ac` 一致。
+
+## GPU采集
+
+| 目录 | 内容 | 采集提交 | 质量 | 用途 |
+| --- | --- | --- | --- | --- |
+| `native_stage_calibration_20261105_01` | GPU0 SiLU、Mul独立阶段，S=256 | 50340281 | 2/2 通过 | 实测Profile（跨层复用） |
+| `stage_size_calibration_20261106_01` | batch-01：SiLU/Mul/整链五尺寸，四组Copy | cab527d8＋未提交源码 | 16/19，Copy 3组失败 | `T(N)=a+bN`拟合与留出验证 |
+| `stage_size_followup_mul_20261106_01` | batch-02：Mul S=192/256/384/768 | 54383825 | 5/8 | 偏差诊断；噪声批次，不进拟合 |
+| `stage_size_batch03_mul_20261106_01` | batch-03：S=256/384/448/512，负载门槛 | 77028772 | 8/8 | 确认Mul跳变位于448～512 |
+| `mul_holdout_20261106_01` | Mul独立留出 S=320/416/640/896 | ccd61424 | 4/4 | 两段模型留出验证 |
+| `copy_sdma_default_20261106_01` | 四组Copy，默认SDMA（主契约） | a4af9f84 | 0/4 | 标记unstable，不作Profile |
+| `copy_sdma_disabled_20261106_01` | 四组Copy，HSA_ENABLE_SDMA=0（对照契约） | a4af9f84 | 4/4 | 仅对照，不替换默认通信成本 |
+| `gemm_projection_20261106_01` | Gate/Up/Down × GPU0/GPU1 | c863d286 | 5/6，Down GPU1失败 | 实测Profile |
+| `gpu1_cost_completion_20261106_01` | GPU1 SiLU/Mul/LightOP SiLU×Mul/Down；Down GPU0同批参照 | f9e7012b | 5/5 | 实测Profile（Down GPU0仅参照） |
+| `add_rmsnorm_calibration_20261106_01` | GPU0 LightOP Add＋RMSNorm完整调用、Native Add、RMSNorm、Native整链 | 30e54e52 | 4/4 | 实测Profile（整链仅对照） |
+
+## GPU诊断与检查（非标定数据）
+
+| 目录 | 内容 |
+| --- | --- |
+| `copy_warmup_diagnostic_20261106_01` | Copy每轮6次Replay诊断，默认SDMA及 `sdma0/`（SDMA关闭）；含探针脚本 `probe_source.py` |
+| `add_rmsnorm_numerics_20261106_01` | LightOP Add＋RMSNorm在GPU0/GPU1的正确性检查，不计时 |
+| `plan_previews_20261106/` | 采集前的计划预览（plan阶段输出），无GPU执行 |
+
+## CPU分析与搜索结果
+
+| 目录 | 内容 | 产生提交 |
+| --- | --- | --- |
+| `ffn_comm_instability_v1` | 默认SDMA通信不稳定性对48方案的影响 | 28dd024b |
+| `ffn_gemm_rescoring_v1` | 接入GEMM实测后的48方案Exact/MCTS | f71a264c |
+| `ffn_gpu1_rescoring_v1` | 计算成本全部实测后的48方案Exact/MCTS | 2a9bfcfe |
+| `mul_piecewise_v1` | Mul两段拟合与冻结的留出预测 | f71a264c |
+| `search_scale_model_v1` | 整模型搜索规模（MCTS/Beam，解析代价） | d2545f46 |
+| `joint_vs_staged_v1` | 联合 vs 两种顺序搜索；中等子图含Exact | d2545f46 |
+| `fused_placed_export_v1` | 整模型方案导出示例（默认规则；含不可部署方案） | d2545f46 |
+| `executable_search_model_v1` | 只用可执行融合，解析代价 | 3963f2e6 |
+| `executable_search_model_measured_v1` | 跨层实测Profile，64次迭代，单种子 | bff25764 |
+| `executable_search_model_measured_v2` | 加入Add＋RMSNorm实测，256×3，修复前 | 751946c5 |
+| `executable_search_model_measured_v3` | 修复rollout偏差与顺序搜索后，256×3；含各模式导出图 | 45211004 |
+
+`executable_search_model_measured_v3` 是当前结论所依据的结果：三种模式均返回已知最佳参考方案（不融合、全GPU0、8.7730 ms）。`v1`、`v2` 保留为修复前对照。
+
+## 仓库外副本
+
+服务器 `~/private_data/LJ/` 下保留着各采集的原始输出目录，以及 `/tmp` 下的运行日志。2026-11-05核对结果：
+
+- 11个GPU采集目录与本仓库 `data/*/raw` 逐字节一致。
+- `/tmp` 下9个GPU运行日志与对应 `process.log` 一致，4个搜索日志已作为 `process.log` 归档。
+- 3个原先未归档的目录（Copy诊断、两个计划预览）已复制入库。
+
+这些仓库外副本均可删除，但未删除，由用户决定。`/tmp/start.log` 是Jupyter启动日志，与实验无关；`/tmp/jvs_smoke*`、`/tmp/arp` 等是冒烟测试的临时目录，不含结果。

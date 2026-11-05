@@ -1,6 +1,6 @@
 # 融合—放置搜索实验日志（2026-11-05）
 
-本轮从代价模型标定转向融合与设备放置搜索。标定部分的逐批记录见 [STAGE_SIZE_CALIBRATION.md](../calibration/STAGE_SIZE_CALIBRATION.md)，本文不重复，只记录与搜索相关的工作与结论。
+本轮从代价模型标定转向融合与设备放置搜索。所有结果目录的索引见 [data/RESULTS_INDEX_20261105.md](../data/RESULTS_INDEX_20261105.md)。标定部分的逐批记录见 [STAGE_SIZE_CALIBRATION.md](../calibration/STAGE_SIZE_CALIBRATION.md)，本文不重复，只记录与搜索相关的工作与结论。
 
 全程约定：先冻结计划/预测再采集；原始数据全部保留，不剔除异常值、不补测；新批次使用新目录；GPU专属参数与通用解析模型分离；代价模型公式与MCTS选择/回传公式不改。服务器上的提交统一使用仓库作者身份。
 
