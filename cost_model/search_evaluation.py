@@ -185,6 +185,26 @@ def _freeze_placement(placement):
     return expand, devices
 
 
+def _with_stage_one_incumbent(scorer, plans, incumbent, top_k, log):
+    """Final staged result = better of stage-two results and the stage-one plan.
+
+    The stage-one plan is a complete plan; it competes only if memory-feasible.
+    Scoring it is one extra scorer call, which is counted in the budget.
+    """
+    value = scorer(incumbent)
+    feasible = scorer.last_feasible
+    log.update(makespan_s=scorer.last_makespan, feasible=feasible, selected=False)
+    if not feasible:
+        return plans
+    scored = [(scorer(p), i, p) for i, p in enumerate(plans)]
+    keys = {_plan_key(p) for p in plans}
+    if _plan_key(incumbent) not in keys:
+        scored.append((value, len(scored), incumbent))
+    scored.sort(key=lambda item: (item[0], item[1]))
+    log["selected"] = bool(scored) and scored[0][2] is incumbent
+    return [p for _, _, p in scored[:top_k]]
+
+
 def _plan_key(plan: Plan) -> tuple:
     return tuple(
         (
@@ -335,6 +355,7 @@ def _run_search(
     rollouts: int,
     mcts_iterations: int,
     top_k: int,
+    unfused_guided_rollout: bool = False,
 ) -> tuple[list[Plan], float, dict[str, object]]:
     if method not in {"exact", "beam", "mcts"}:
         raise ValueError(f"unknown search method: {method}")
@@ -390,8 +411,10 @@ def _run_search(
                     reference_candidates=len(devices))
             else:
                 plans = legal_mcts_search(**common, iterations=iterations, rollouts=rollouts,
-                                         fusion_probability=.7, seed=seed, n_best=count)
-                details.update(iterations=iterations, rollouts=rollouts)
+                                         fusion_probability=.7, seed=seed, n_best=count,
+                                         unfused_guided_rollout=unfused_guided_rollout)
+                details.update(iterations=iterations, rollouts=rollouts,
+                               unfused_guided_rollout=unfused_guided_rollout)
         finally:
             scorer.bind_capacity = previous_binding
         # A finite search penalty guides exploration; final admission is strict.
@@ -412,6 +435,7 @@ def _run_search(
         stages.append(details)
         return plans
 
+    incumbent_log: dict[str, object] = {}
     if mode.name == "sequential":
         first = mcts_iterations // 2
         # This is a partition proposal, not the final single-device placement.
@@ -421,6 +445,7 @@ def _run_search(
                       mcts_iterations-first, top_k, expand)
         if any(_partition_key(plan) != _partition_key(template) for plan in plans):
             raise AssertionError("sequential placement changed the frozen fusion partition")
+        plans = _with_stage_one_incumbent(scorer, plans, template, top_k, incumbent_log)
     elif mode.name == "placement_then_fusion":
         first = mcts_iterations // 2
         # Same split as sequential; stage one is the placement_only space.
@@ -433,6 +458,7 @@ def _run_search(
             plans = stage("fusion", graph, mode.registry, (0,), mcts_iterations-first, top_k, expand)
             if any(g.device != frozen_devices[n] for p in plans for g in p.groups for n in g.node_ids):
                 raise AssertionError("placement_then_fusion fusion stage moved a node")
+            plans = _with_stage_one_incumbent(scorer, plans, placed[0], top_k, incumbent_log)
     else:
         plans = stage(mode.name, graph, mode.registry, mode.allowed_devices, mcts_iterations, top_k)
     elapsed = time.perf_counter() - started
@@ -452,6 +478,8 @@ def _run_search(
                                        for p,nodes in _partition_key(template)]
     if mode.name == "placement_then_fusion" and placed:
         budget["frozen_placement"] = {n: d for n, d in sorted(frozen_devices.items())}
+    if incumbent_log:
+        budget["stage_one_incumbent"] = incumbent_log
     return plans, elapsed, budget
 
 

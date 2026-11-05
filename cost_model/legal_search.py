@@ -288,6 +288,39 @@ def _guided_rollout_legal_plan(
     return space.to_plan(current, name=name, validate=False)
 
 
+def _unfused_guided_rollout_legal_plan(
+    space: LegalFusionSearchSpace,
+    state: LegalPartialState,
+    name: str = "legal-unfused-guided-rollout",
+) -> Plan:
+    """Deterministic counterpart of the fuse-and-colocate completion.
+
+    It prefers the smallest legal candidate (a singleton whenever one exists)
+    and keeps the most recently selected device. Every action comes from
+    ``space.actions``, so the completion is legal by construction.
+    """
+
+    current = state
+    preferred_device = current.choices[-1].device if current.choices else 0
+    while not space.is_terminal(current):
+        actions = space.actions(current)
+        if not actions:
+            raise RuntimeError(f"no legal action at anchor {space.anchor(current)}")
+        action = min(
+            actions,
+            key=lambda choice: (
+                len(choice.candidate.node_ids),
+                choice.device != preferred_device,
+                choice.candidate.pattern_id,
+                choice.candidate.node_ids,
+                choice.device,
+            ),
+        )
+        current = space.apply(current, action)
+        preferred_device = action.device
+    return space.to_plan(current, name=name, validate=False)
+
+
 def _plan_key(plan: Plan) -> tuple:
     return tuple(
         (
@@ -492,6 +525,7 @@ def legal_mcts_search(
     value_mix: float = 0.0,
     require_executable: bool = True,
     allowed_devices: Optional[Sequence[int]] = None,
+    unfused_guided_rollout: bool = False,
 ) -> List[Plan]:
     """MCTS over legal fusion candidates and device choices.
 
@@ -499,6 +533,11 @@ def legal_mcts_search(
     a deterministic fuse-and-colocate baseline; remaining completions are
     stochastic.  The best completion is backed up because search minimises the
     best plan in a subtree rather than the mean random completion cost.
+
+    ``unfused_guided_rollout=True`` (default off, so earlier runs reproduce)
+    adds one more deterministic completion per leaf: no fusion, colocated. It
+    is scored in addition to ``rollouts``, so each non-terminal leaf costs one
+    extra scorer call. Selection and backup rules are unchanged.
     """
 
     if iterations <= 0 or rollouts <= 0 or n_best <= 0:
@@ -564,6 +603,11 @@ def legal_mcts_search(
                         name="legal-mcts-rollout",
                         validate=False,
                     )
+                score = float(scorer(plan))
+                remember(plan, score)
+                rollout_scores.append(score)
+            if unfused_guided_rollout:
+                plan = _unfused_guided_rollout_legal_plan(space, node.state)
                 score = float(scorer(plan))
                 remember(plan, score)
                 rollout_scores.append(score)
