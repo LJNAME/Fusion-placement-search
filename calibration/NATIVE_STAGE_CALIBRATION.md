@@ -88,3 +88,7 @@ python -X utf8 -m calibration.native_stage_calibration review \
 原729探索场景在“独立阶段=core+h+c”的条件映射下全部高估Mul，预测最小4.1172235403 μs，仍比观测中位数高13.2599%。原网格无缓存等假设和开销范围没有覆盖本次观测；不能据此拒绝质量通过的数据，也不能挑选最好的一格当作校准结果。所有场景残差保存在 `review/hypothesis_residuals.csv`，没有筛选或拟合参数。
 
 本批是两条有效阶段校准候选，新增accepted Profile仍为0。旧完整Profile、整链评价和模型参数保留。下一项仅CPU核对原假设范围与独立阶段/链路映射，不扩大GPU测量；先解释已有数据，再决定是否需要新的校准或独立验证。
+
+## 实测数据使用更新
+
+当前通过 [实测优先接口](../cost_model/NATIVE_MEASURED_FIRST.md) 直接查询已复核的两个独立阶段；未命中由调用者的解析Profile补缺。旧raw/review状态不改，不再以729网格分析或内部参数唯一识别作为成本使用前置。Mul只保留一次有限口径检查，后续转向方案级预测与搜索验证。

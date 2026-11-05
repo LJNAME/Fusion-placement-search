@@ -6,7 +6,7 @@
 
 方法差异、当前缺项与下一步见 [解析方法适配审计](ANALYTICAL_COST_MODEL_AUDIT.md)。本次修订记录为 `data/cost_model_selection_v2/report.json`；`data/cost_model_selection_v1/`保留首轮选型与固定源码清单，不覆盖为新结论。
 
-CPU阶段分解已实现：见 [Graph解析适配v1](GRAPH_ANALYTIC.md)，包含未知传播、完整Profile替代、参数来源和729场景敏感性。适用范围与模式A/B已按 [冻结规范](GRAPH_ANALYTIC_FROZEN_SPEC.md) 固定，参数来源审计和起步标定设计见data/graph_analytic_freeze_v1/；当前可信参数范围未闭合，不把探索网格视为硬件边界。独立Native阶段入口和CPU计划校验已完成，见 [阶段校准入口](../calibration/NATIVE_STAGE_CALIBRATION.md)；GPU路径未验证，尚无新测量，不拟合通用预测器。
+CPU阶段分解已实现：见 [Graph解析适配v1](GRAPH_ANALYTIC.md)，包含未知传播、完整Profile替代、参数来源和729场景敏感性。适用范围与模式A/B已按 [冻结规范](GRAPH_ANALYTIC_FROZEN_SPEC.md) 固定，参数来源审计和起步标定设计见data/graph_analytic_freeze_v1/；当前可信参数范围未闭合，不把探索网格视为硬件边界。独立Native阶段GPU测量及复核已完成，SiLU/Mul可经 [实测优先接口](NATIVE_MEASURED_FIRST.md) 在完整条件匹配时直接查值；其余成本交给配置的解析Profile。729网格仅保留历史开发诊断，不再围绕Mul单点扩大测量或参数分析。后续转向有限方案域的成本来源、预测排序与搜索验证。
 
 LightOP已有严格Profile继续精确查询；解析估计、校准数据和独立参考分别标来源。当前local_pair已参与设计，后续不作为新模型独立测试。MCTS、SROP、正式测量与冻结源不改。
 

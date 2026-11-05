@@ -35,6 +35,7 @@ from .structure import (
 )
 from .structural import StructuralCostModel
 from .measured_profile import MeasuredHardwareProfile
+from .native_stage_profile import NativeMeasuredFirstProfile, ReviewedStageStore
 from .exact_search import (
     ExactSearchLimitExceeded,
     ExactSearchResult,
@@ -79,6 +80,8 @@ __all__ = [
     "analyze_plan_structure",
     "StructuralCostModel",
     "MeasuredHardwareProfile",
+    "NativeMeasuredFirstProfile",
+    "ReviewedStageStore",
     "ExactSearchLimitExceeded",
     "ExactSearchResult",
     "OptimalityGap",

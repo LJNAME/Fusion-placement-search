@@ -78,3 +78,7 @@ python -X utf8 -m pytest cost_model/tests/test_graph_analytic.py -q
 公式、固定Case与模式A/B已按 [冻结规范](GRAPH_ANALYTIC_FROZEN_SPEC.md) 固定；机器记录为 data/graph_analytic_freeze_v1/。本轮未改变解析实现与729探索范围，参数可信区间仍未闭合；2条Native路径及条件性的2条Fused路径仅为起步标定设计，不是已证明充分的参数集。
 
 独立Native阶段采集入口与CPU复核已实现，见 [阶段校准入口](../calibration/NATIVE_STAGE_CALIBRATION.md)。GPU路径尚未验证，已有正式完整Profile和历史整链数据继续保留使用。
+
+## 当前使用顺序
+
+匹配的已复核Profile直接查值，未测项由解析模型补缺；见 [Native实测优先接口](NATIVE_MEASURED_FIRST.md)。729场景保留作历史开发诊断，不作为单算子测时或Profile使用的准入前置。暂停围绕Mul单点扩大参数分析，转向有限方案域的成本来源与排序验证。
