@@ -1,0 +1,1279 @@
+{
+  "scope": "gpu0_stage_size_linear_calibration_and_copy_v1",
+  "cases": {
+    "silu/S256": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "aten.silu.out.preallocated_stage.sized.v1",
+            "timed_body": "aten.silu.out(gate, out=output)",
+            "operands": [
+              "gate"
+            ]
+          },
+          "tensors": {
+            "gate": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "up": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "left": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d"
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          }
+        ],
+        "case": {
+          "kind": "stage",
+          "stage": "silu",
+          "S": 256,
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "elements": 786432,
+          "role": "drift_repeat",
+          "timing_device": "cuda:0"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:559a9d8802e6e318433a9b0f9351a029fcf71e8738fe9f99a19e6a538698d180",
+      "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2"
+    },
+    "mul/S256": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "aten.mul.out.preallocated_derived_left_stage.sized.v1",
+            "timed_body": "aten.mul.out(left, up, out=output)",
+            "operands": [
+              "left",
+              "up"
+            ],
+            "left_origin": "aten.silu.out(gate, out=left), outside capture and timing"
+          },
+          "tensors": {
+            "gate": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "up": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "left": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d"
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          }
+        ],
+        "case": {
+          "kind": "stage",
+          "stage": "mul",
+          "S": 256,
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "elements": 786432,
+          "role": "drift_repeat",
+          "timing_device": "cuda:0"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:a9b52c8e459f172dc14225cb4bba943e6a75a39832029ba68d7be750807c0997",
+      "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2"
+    },
+    "silu/S384": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "aten.silu.out.preallocated_stage.sized.v1",
+            "timed_body": "aten.silu.out(gate, out=output)",
+            "operands": [
+              "gate"
+            ]
+          },
+          "tensors": {
+            "gate": {
+              "shape": [
+                1,
+                384,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1179648,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "up": {
+              "shape": [
+                1,
+                384,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1179648,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "left": {
+              "shape": [
+                1,
+                384,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1179648,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "output": {
+              "shape": [
+                1,
+                384,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1179648,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d"
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          }
+        ],
+        "case": {
+          "kind": "stage",
+          "stage": "silu",
+          "S": 384,
+          "shape": [
+            1,
+            384,
+            3072
+          ],
+          "elements": 1179648,
+          "role": "drift_repeat",
+          "timing_device": "cuda:0"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:7f03bf96a4133b8e2ebba1e4152a7ef18c641692010da717625664dbc9f0baee",
+      "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2"
+    },
+    "mul/S384": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "aten.mul.out.preallocated_derived_left_stage.sized.v1",
+            "timed_body": "aten.mul.out(left, up, out=output)",
+            "operands": [
+              "left",
+              "up"
+            ],
+            "left_origin": "aten.silu.out(gate, out=left), outside capture and timing"
+          },
+          "tensors": {
+            "gate": {
+              "shape": [
+                1,
+                384,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1179648,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "up": {
+              "shape": [
+                1,
+                384,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1179648,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "left": {
+              "shape": [
+                1,
+                384,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1179648,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "output": {
+              "shape": [
+                1,
+                384,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1179648,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d"
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          }
+        ],
+        "case": {
+          "kind": "stage",
+          "stage": "mul",
+          "S": 384,
+          "shape": [
+            1,
+            384,
+            3072
+          ],
+          "elements": 1179648,
+          "role": "drift_repeat",
+          "timing_device": "cuda:0"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:73fdb149770340ee289f133f53c2e900710841c36e56463abc74feb123c543ff",
+      "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2"
+    },
+    "silu/S448": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "aten.silu.out.preallocated_stage.sized.v1",
+            "timed_body": "aten.silu.out(gate, out=output)",
+            "operands": [
+              "gate"
+            ]
+          },
+          "tensors": {
+            "gate": {
+              "shape": [
+                1,
+                448,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1376256,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "up": {
+              "shape": [
+                1,
+                448,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1376256,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "left": {
+              "shape": [
+                1,
+                448,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1376256,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "output": {
+              "shape": [
+                1,
+                448,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1376256,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d"
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          }
+        ],
+        "case": {
+          "kind": "stage",
+          "stage": "silu",
+          "S": 448,
+          "shape": [
+            1,
+            448,
+            3072
+          ],
+          "elements": 1376256,
+          "role": "diagnostic",
+          "timing_device": "cuda:0"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:8ef3bc35f8db12edd549e93167b467ad7e0dda10089f5528df73f0ad3f05db6e",
+      "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2"
+    },
+    "mul/S448": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "aten.mul.out.preallocated_derived_left_stage.sized.v1",
+            "timed_body": "aten.mul.out(left, up, out=output)",
+            "operands": [
+              "left",
+              "up"
+            ],
+            "left_origin": "aten.silu.out(gate, out=left), outside capture and timing"
+          },
+          "tensors": {
+            "gate": {
+              "shape": [
+                1,
+                448,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1376256,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "up": {
+              "shape": [
+                1,
+                448,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1376256,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "left": {
+              "shape": [
+                1,
+                448,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1376256,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "output": {
+              "shape": [
+                1,
+                448,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1376256,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d"
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          }
+        ],
+        "case": {
+          "kind": "stage",
+          "stage": "mul",
+          "S": 448,
+          "shape": [
+            1,
+            448,
+            3072
+          ],
+          "elements": 1376256,
+          "role": "diagnostic",
+          "timing_device": "cuda:0"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:eabbd65fdb8ff88752704341a634f5be010a390af8974a6e580b7d244d30c3b1",
+      "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2"
+    },
+    "silu/S512": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "aten.silu.out.preallocated_stage.sized.v1",
+            "timed_body": "aten.silu.out(gate, out=output)",
+            "operands": [
+              "gate"
+            ]
+          },
+          "tensors": {
+            "gate": {
+              "shape": [
+                1,
+                512,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1572864,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "up": {
+              "shape": [
+                1,
+                512,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1572864,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "left": {
+              "shape": [
+                1,
+                512,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1572864,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "output": {
+              "shape": [
+                1,
+                512,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1572864,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d"
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          }
+        ],
+        "case": {
+          "kind": "stage",
+          "stage": "silu",
+          "S": 512,
+          "shape": [
+            1,
+            512,
+            3072
+          ],
+          "elements": 1572864,
+          "role": "drift_repeat",
+          "timing_device": "cuda:0"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:28a9ff87cbae350dfc559e42ee5b2cc9ce33a12fbe39cc8ce6d89822b80ea11b",
+      "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2"
+    },
+    "mul/S512": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "aten.mul.out.preallocated_derived_left_stage.sized.v1",
+            "timed_body": "aten.mul.out(left, up, out=output)",
+            "operands": [
+              "left",
+              "up"
+            ],
+            "left_origin": "aten.silu.out(gate, out=left), outside capture and timing"
+          },
+          "tensors": {
+            "gate": {
+              "shape": [
+                1,
+                512,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1572864,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "up": {
+              "shape": [
+                1,
+                512,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1572864,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "left": {
+              "shape": [
+                1,
+                512,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1572864,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "output": {
+              "shape": [
+                1,
+                512,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1572864,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d"
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          }
+        ],
+        "case": {
+          "kind": "stage",
+          "stage": "mul",
+          "S": 512,
+          "shape": [
+            1,
+            512,
+            3072
+          ],
+          "elements": 1572864,
+          "role": "drift_repeat",
+          "timing_device": "cuda:0"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:cd56d7a8e0e34ba96e5c46cbd67d539aa92ff1893611bd11bae5dca56f5290c0",
+      "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2"
+    }
+  },
+  "uuid_is_provenance_only": true,
+  "peer_capability_is_not_route_certificate": true
+}

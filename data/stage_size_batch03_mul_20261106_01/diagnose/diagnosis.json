@@ -1,0 +1,321 @@
+{
+  "scope": "diagnostic; batch-01 fit and holdout validation unchanged",
+  "batch01_fit_prediction_id": "sha256:e86ab69188d0688c5c1bbd8862abe95d70942ffe9a5fa3ff83ab87657c970a85",
+  "stages": {
+    "silu": {
+      "rows": [
+        {
+          "batch": "batch01",
+          "S": 64,
+          "status": "quality_passed",
+          "median_us": 3.7599998712539673,
+          "iqr_over_median": 0.013627667208868157,
+          "line_us": 3.4920950446810037,
+          "relative_residual": 0.07671750715405747,
+          "us_per_element": 1.9124348303497147e-05
+        },
+        {
+          "batch": "batch01",
+          "S": 128,
+          "status": "quality_passed",
+          "median_us": 4.684799909591675,
+          "iqr_over_median": 0.02220797247763617,
+          "line_us": 4.628477039791289,
+          "relative_residual": 0.012168769406475419,
+          "us_per_element": 1.191406227007974e-05
+        },
+        {
+          "batch": "batch02",
+          "S": 192,
+          "status": "quality_passed",
+          "median_us": 6.217560172080994,
+          "iqr_over_median": 0.08286211688149216,
+          "line_us": 5.764859034901573,
+          "relative_residual": 0.07852770283517439,
+          "us_per_element": 1.0541382127687231e-05
+        },
+        {
+          "batch": "batch01",
+          "S": 256,
+          "status": "quality_passed",
+          "median_us": 6.566359996795654,
+          "iqr_over_median": 0.004879397530473314,
+          "line_us": 6.901241030011858,
+          "relative_residual": -0.04852475544034548,
+          "us_per_element": 8.349558508295255e-06
+        },
+        {
+          "batch": "batch02",
+          "S": 256,
+          "status": "quality_passed",
+          "median_us": 7.2799599170684814,
+          "iqr_over_median": 0.0773589445858789,
+          "line_us": 6.901241030011858,
+          "relative_residual": 0.05487692509356873,
+          "us_per_element": 9.256947729833579e-06
+        },
+        {
+          "batch": "batch03",
+          "S": 256,
+          "status": "quality_passed",
+          "median_us": 6.56000018119812,
+          "iqr_over_median": 0.0017042294037336856,
+          "line_us": 6.901241030011858,
+          "relative_residual": -0.04944630209693621,
+          "us_per_element": 8.341471584571991e-06
+        },
+        {
+          "batch": "batch02",
+          "S": 384,
+          "status": "quality_failed",
+          "median_us": 9.615979790687561,
+          "iqr_over_median": 0.10465701316505482,
+          "line_us": 9.174005020232428,
+          "relative_residual": 0.0481768616302692,
+          "us_per_element": 8.151567069742467e-06
+        },
+        {
+          "batch": "batch03",
+          "S": 384,
+          "status": "quality_passed",
+          "median_us": 9.404799938201904,
+          "iqr_over_median": 0.0015311209409989558,
+          "line_us": 9.174005020232428,
+          "relative_residual": 0.025157487646941423,
+          "us_per_element": 7.97254769066866e-06
+        },
+        {
+          "batch": "batch03",
+          "S": 448,
+          "status": "quality_passed",
+          "median_us": 10.335979461669922,
+          "iqr_over_median": 0.0013950836219766268,
+          "line_us": 10.310387015342712,
+          "relative_residual": 0.002482200356701042,
+          "us_per_element": 7.510215731426364e-06
+        },
+        {
+          "batch": "batch01",
+          "S": 512,
+          "status": "quality_passed",
+          "median_us": 11.331160068511963,
+          "iqr_over_median": 0.01143834375597695,
+          "line_us": 11.446769010452996,
+          "relative_residual": -0.010099700783291898,
+          "us_per_element": 7.204157554951962e-06
+        },
+        {
+          "batch": "batch03",
+          "S": 512,
+          "status": "quality_passed",
+          "median_us": 11.263999938964844,
+          "iqr_over_median": 0.0014231773170459126,
+          "line_us": 11.446769010452996,
+          "relative_residual": -0.015966869893264297,
+          "us_per_element": 7.161458294528226e-06
+        },
+        {
+          "batch": "batch02",
+          "S": 768,
+          "status": "quality_passed",
+          "median_us": 17.6447594165802,
+          "iqr_over_median": 0.05939385725646534,
+          "line_us": 15.992296990894136,
+          "relative_residual": 0.10332864795013254,
+          "us_per_element": 7.478823944337718e-06
+        },
+        {
+          "batch": "batch01",
+          "S": 1024,
+          "status": "quality_passed",
+          "median_us": 20.604801177978516,
+          "iqr_over_median": 0.00543652832354425,
+          "line_us": 20.537824971335276,
+          "relative_residual": 0.0032611148812845925,
+          "us_per_element": 6.550089892698452e-06
+        }
+      ],
+      "drift": {
+        "S256:batch01->batch03": {
+          "relative": -0.0009685450692069608,
+          "both_quality_passed": true
+        },
+        "S256:batch02->batch03": {
+          "relative": -0.09889611262588893,
+          "both_quality_passed": true
+        },
+        "S384:batch02->batch03": {
+          "relative": -0.02196134529007332,
+          "both_quality_passed": false
+        },
+        "S512:batch01->batch03": {
+          "relative": -0.00592703034296993,
+          "both_quality_passed": true
+        }
+      }
+    },
+    "mul": {
+      "rows": [
+        {
+          "batch": "batch01",
+          "S": 64,
+          "status": "quality_passed",
+          "median_us": 2.316800057888031,
+          "iqr_over_median": 0.03038671368044651,
+          "line_us": 1.553352432591575,
+          "relative_residual": 0.49148384441175313,
+          "us_per_element": 1.1783854461100418e-05
+        },
+        {
+          "batch": "batch01",
+          "S": 128,
+          "status": "quality_passed",
+          "median_us": 2.761560082435608,
+          "iqr_over_median": 0.028983598341423257,
+          "line_us": 2.5557914518174676,
+          "relative_residual": 0.08051072808456836,
+          "us_per_element": 7.023010463550842e-06
+        },
+        {
+          "batch": "batch02",
+          "S": 192,
+          "status": "quality_failed",
+          "median_us": 3.5583600401878357,
+          "iqr_over_median": 0.1465787539651797,
+          "line_us": 3.55823047104336,
+          "relative_residual": 3.6413926958987404e-05,
+          "us_per_element": 6.032918362406134e-06
+        },
+        {
+          "batch": "batch01",
+          "S": 256,
+          "status": "quality_passed",
+          "median_us": 3.6063599586486816,
+          "iqr_over_median": 0.002661942844751844,
+          "line_us": 4.560669490269253,
+          "relative_residual": -0.2092476847218829,
+          "us_per_element": 4.585723824372205e-06
+        },
+        {
+          "batch": "batch02",
+          "S": 256,
+          "status": "quality_failed",
+          "median_us": 3.9359599351882935,
+          "iqr_over_median": 0.12113430943999685,
+          "line_us": 4.560669490269253,
+          "relative_residual": -0.13697759866481304,
+          "us_per_element": 5.004831867457445e-06
+        },
+        {
+          "batch": "batch03",
+          "S": 256,
+          "status": "quality_passed",
+          "median_us": 3.551959991455078,
+          "iqr_over_median": 0.003614914753658209,
+          "line_us": 4.560669490269253,
+          "relative_residual": -0.22117575083359578,
+          "us_per_element": 4.516550689004362e-06
+        },
+        {
+          "batch": "batch02",
+          "S": 384,
+          "status": "quality_passed",
+          "median_us": 5.158360004425049,
+          "iqr_over_median": 0.03690712076736029,
+          "line_us": 6.565547528721037,
+          "relative_residual": -0.21432904386728388,
+          "us_per_element": 4.372795956442133e-06
+        },
+        {
+          "batch": "batch03",
+          "S": 384,
+          "status": "quality_passed",
+          "median_us": 4.838399887084961,
+          "iqr_over_median": 0.007936506958803019,
+          "line_us": 6.565547528721037,
+          "relative_residual": -0.2630622402900376,
+          "us_per_element": 4.101562404280736e-06
+        },
+        {
+          "batch": "batch03",
+          "S": 448,
+          "status": "quality_passed",
+          "median_us": 6.166399717330933,
+          "iqr_over_median": 0.004151466018758683,
+          "line_us": 7.56798654794693,
+          "relative_residual": -0.18519943471572697,
+          "us_per_element": 4.480561550562492e-06
+        },
+        {
+          "batch": "batch01",
+          "S": 512,
+          "status": "quality_passed",
+          "median_us": 9.42076027393341,
+          "iqr_over_median": 0.03175753774988354,
+          "line_us": 8.570425567172823,
+          "relative_residual": 0.09921732591875165,
+          "us_per_element": 5.989558076180401e-06
+        },
+        {
+          "batch": "batch03",
+          "S": 512,
+          "status": "quality_passed",
+          "median_us": 9.436799883842468,
+          "iqr_over_median": 0.038313834299616045,
+          "line_us": 8.570425567172823,
+          "relative_residual": 0.10108883273989411,
+          "us_per_element": 5.99975578552403e-06
+        },
+        {
+          "batch": "batch02",
+          "S": 768,
+          "status": "quality_passed",
+          "median_us": 12.355200052261353,
+          "iqr_over_median": 0.024087026486032382,
+          "line_us": 12.580181644076392,
+          "relative_residual": -0.017883811075253907,
+          "us_per_element": 5.236816428401249e-06
+        },
+        {
+          "batch": "batch01",
+          "S": 1024,
+          "status": "quality_passed",
+          "median_us": 16.780799627304077,
+          "iqr_over_median": 0.021931013220021233,
+          "line_us": 16.58993772097996,
+          "relative_residual": 0.01150467889235946,
+          "us_per_element": 5.3344725377731566e-06
+        }
+      ],
+      "drift": {
+        "S256:batch01->batch03": {
+          "relative": -0.01508445297124128,
+          "both_quality_passed": true
+        },
+        "S256:batch02->batch03": {
+          "relative": -0.09756195440410276,
+          "both_quality_passed": false
+        },
+        "S384:batch02->batch03": {
+          "relative": -0.06202748878822206,
+          "both_quality_passed": true
+        },
+        "S512:batch01->batch03": {
+          "relative": 0.001702581261242564,
+          "both_quality_passed": true
+        }
+      }
+    }
+  },
+  "same_batch_mul_jump": {
+    "us_per_element": {
+      "384": 4.101562404280736e-06,
+      "448": 4.480561550562492e-06,
+      "512": 5.99975578552403e-06
+    },
+    "time_ratio_512_over_384": 1.9503968469063335,
+    "element_ratio_512_over_384": 1.3333333333333333,
+    "all_quality_passed": true
+  },
+  "refit": false
+}
