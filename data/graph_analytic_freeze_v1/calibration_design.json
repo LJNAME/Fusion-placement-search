@@ -1,0 +1,62 @@
+{
+  "scope": "calibration_design_only_not_executable_gpu_plan",
+  "cases": [
+    {
+      "id": "C_N1",
+      "path": "aten.silu.out",
+      "modes": [
+        "A",
+        "B"
+      ],
+      "target": "effective nonlinear + memory + Graph service"
+    },
+    {
+      "id": "C_N2",
+      "path": "aten.mul.out; left produced by silu outside timing",
+      "modes": [
+        "A",
+        "B"
+      ],
+      "target": "effective Mul service under actual operand path"
+    },
+    {
+      "id": "C_F1",
+      "path": "preallocated cat(out=packed)",
+      "modes": [
+        "A"
+      ],
+      "target": "Pack composite service",
+      "conditional": "only if mode A without complete Profile needs validation"
+    },
+    {
+      "id": "C_F2",
+      "path": "LightOP with prepacked input",
+      "modes": [
+        "A"
+      ],
+      "target": "vendor composite service, not complete Adapter latency",
+      "conditional": "only if mode A without complete Profile needs validation"
+    }
+  ],
+  "mode_B_starting_cases": 2,
+  "mode_A_additional_conditional_cases": 2,
+  "minimum_sufficiency_proven": false,
+  "collector_implemented": false,
+  "execute_gpu_now": false,
+  "fit_individual_hidden_parameters": false,
+  "reuse_audit_required_before_new_measurement": true,
+  "validation": {
+    "development": "existing local_pair diagnostic only",
+    "calibration": "new C_* records",
+    "test": "new isolated batch, frozen predictions before labels; same shape only claims repeatability",
+    "metrics": [
+      "absolute and relative latency error",
+      "cost-difference error",
+      "ranking",
+      "single-case choice match",
+      "local absolute regret"
+    ],
+    "no_random_round_split": true,
+    "no_claim_full_ffn_regret": true
+  }
+}

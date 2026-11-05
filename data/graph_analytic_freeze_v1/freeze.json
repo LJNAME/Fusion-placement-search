@@ -1,0 +1,67 @@
+{
+  "scope": "graph_analytical_v1_formula_and_protocol_freeze_not_accuracy_admission",
+  "date": "2026-11-04",
+  "specification": "cost_model/GRAPH_ANALYTIC_FROZEN_SPEC.md",
+  "source_sha256": {
+    "cost_model/graph_analytic.py": "2d2e404bd10404cbe5ee2a9b6a9fdffc2c3106c40da7692dc899e3e300f0004a",
+    "tools/analyze_graph_cost.py": "22d5f43eccd1e33cae7c3f4567be56ccfdbc28dacd4376762605c953c8e6867a",
+    "configs/graph_analytic_scenarios.json": "80dea17235baffe709d7be59d0720fe08bc5f4a56eea4c46c882fac063762b7e",
+    "cost_model/GRAPH_ANALYTIC_FROZEN_SPEC.md": "55c3d2a9e1910993d29bacacadd0feaa076e703019e5f69628eaeeb3afb236e2",
+    "data/graph_analytic_v1/report.json": "c707a644df0902f92d5a53cecfb68f805aa6159929f8890bb6dbda3227743739",
+    "data/bw1000_2card/raw_measurements.json": "1f772418437bc941332bddd4d0a12e138ee34ae472312b0d18c5e6e3009b7ec9",
+    "calibration/calibrate_bw1000.py": "dc6b75d4419c47c1a26fa12a6c38e91c8580181fedc7b3c4941a9b2fcd4bef01",
+    "data/lightop_profile_calibration_20261104_01/raw/runtime.json": "d3cb83a26f55f703ad8703670125f36ea67cdf0a062b2f06252f3fca8562bf6f",
+    "data/ffn_b4_run05_review/report.json": "0967049a35f3354056cf9ade7c8c301611bcbd86733aed574d51ef612afc0856",
+    "data/ffn_anchor_conditioning01_review/report.json": "694db2fdc12fceec0f243f037b6cf34f6e78d0ab3ef3414b70cb7ff5b024203e"
+  },
+  "case": {
+    "device": 0,
+    "shape": [
+      1,
+      256,
+      3072
+    ],
+    "dtype": "bf16",
+    "layout": "explicit_contiguous",
+    "mode": "graph_replay",
+    "calls_per_round": 50,
+    "rounds": 7,
+    "extra_attempts": 0,
+    "warmup_replays": 10,
+    "eager_preparation_calls": 50
+  },
+  "modes": {
+    "A": "native analytical; fused analytical; missing parameters remain unknown",
+    "B": "native analytical; fused exact complete-call strict Profile; mismatch is explicit failure"
+  },
+  "strict_fused_identity": {
+    "duration_us": 17.811180353164673,
+    "source": "measured_group_kernel",
+    "kernel_key_id": "sha256:218e38d370d950669c6cb66bcfe0a0ee183b018c66bece018cb8b582109f0298",
+    "measurement_contract_id": "sha256:082daa2882acc37959d20f5487b32908b3c7810749d4ec0023433bb56f1ab72d",
+    "admission_id": "sha256:c97f9650775e5f9f5e8b9321eb9a927d7e6cccb87c2b81a04911d59a83ebb429",
+    "scope": "existing observed GPU0 implementation/case/contract only",
+    "additional_pack_us": 0.0,
+    "additional_launch_us": 0.0
+  },
+  "identifiable_combinations": [
+    "U=vector_flops_per_s*compute_utilization",
+    "V=silu_elements_per_s*compute_utilization",
+    "G=2*graph_stage_overhead_us+graph_call_overhead_us"
+  ],
+  "constraints": {
+    "baseline_ranges": "exploration hypotheses only, unchanged",
+    "reliable_new_parameter_intervals_established": false,
+    "two_stage_common_graph_term_cancels_only_in_mode_A": true,
+    "no_h_or_c_identification_from_complete_call_subtraction": true
+  },
+  "status": {
+    "formula_and_scope_frozen": true,
+    "parameter_values_calibrated": false,
+    "dcu_accuracy_verified": false,
+    "mcts_default_integrated": false,
+    "new_gpu_execution": false,
+    "model_structure_changed": false
+  },
+  "next_step": "Implement CPU-checked standalone Native stage collection design, then determine whether to execute calibration."
+}

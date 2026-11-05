@@ -1,0 +1,43 @@
+{
+  "scope": "training_free_method_selection_revision_not_predictor_validation",
+  "date": "2026-11-04",
+  "supersedes_decision": "data/cost_model_selection_v1/report.json",
+  "historical_v1_preserved": true,
+  "decision": {
+    "primary": "training-free analytical methods, OpenXLA design as reference",
+    "fusion": "canonical exact implementation Profile, packing included",
+    "graph": "retain StructuralCostModel",
+    "neusight": "deferred optional candidate; target BF16/DCU/Graph validation absent",
+    "nn_meter": "no automatic regression fallback without suitable target data",
+    "large_training_dataset_required": false,
+    "dcu_accuracy_verified": false
+  },
+  "evidence": {
+    "local_code": [
+      "cost_model/hardware_profile.py:95",
+      "simulator/shape_model.py:40",
+      "cost_model/structural.py:212",
+      "calibration/lightop_local_pair.py:57"
+    ],
+    "official_sources": [
+      "https://github.com/openxla/xla/discussions/10065",
+      "https://github.com/calculon-ai/calculon",
+      "https://github.com/PrincetonUniversity/LLMCompass",
+      "https://arxiv.org/abs/2607.22432v1"
+    ],
+    "review_depth": "official design/README/abstract; not a fixed-revision source reproduction",
+    "native_reference_us": 10.092799663543701,
+    "fused_complete_reference_us": 18.847960233688354,
+    "native_two_legacy_launch_proxy_us": 15.540810534730554,
+    "local_pair_role": "development/diagnostic; original frozen evaluation preserved"
+  },
+  "changes": {
+    "production_cost_model_changed": false,
+    "third_party_code_executed": false,
+    "new_gpu_execution": false,
+    "mcts_changed": false,
+    "profile_admission_changed": false
+  },
+  "next_step": "CPU-only execution-stage and parameter-provenance implementation; no silent zero Graph overhead; no duplicated complete-call Profile cost",
+  "audit": "cost_model/ANALYTICAL_COST_MODEL_AUDIT.md"
+}

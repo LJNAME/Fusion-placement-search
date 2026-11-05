@@ -1,4 +1,19 @@
-# 代价模型选型：NeuSight、nn-Meter、Proteus
+# 代价模型选型：免训练解析方法优先
+
+2026-11-04修订。当前没有可用的BW1000/BF16训练集，不以新建训练集或重训预测器作为搜索实验前置。
+
+当前路线：**参考OpenXLA解析建模细节＋实现专属实测Profile＋现有StructuralCostModel调度**。OpenXLA仅为方法参考，尚未移植或验证DCU精度；NeuSight降为后续备选，nn-Meter回归不再是适配失败后的自动替代。
+
+方法差异、当前缺项与下一步见 [解析方法适配审计](ANALYTICAL_COST_MODEL_AUDIT.md)。本次修订记录为 `data/cost_model_selection_v2/report.json`；`data/cost_model_selection_v1/`保留首轮选型与固定源码清单，不覆盖为新结论。
+
+CPU阶段分解已实现：见 [Graph解析适配v1](GRAPH_ANALYTIC.md)，包含未知传播、完整Profile替代、参数来源和729场景敏感性。适用范围与模式A/B已按 [冻结规范](GRAPH_ANALYTIC_FROZEN_SPEC.md) 固定，参数来源审计和起步标定设计见data/graph_analytic_freeze_v1/；当前可信参数范围未闭合，不把探索网格视为硬件边界。独立Native阶段入口和CPU计划校验已完成，见 [阶段校准入口](../calibration/NATIVE_STAGE_CALIBRATION.md)；GPU路径未验证，尚无新测量，不拟合通用预测器。
+
+LightOP已有严格Profile继续精确查询；解析估计、校准数据和独立参考分别标来源。当前local_pair已参与设计，后续不作为新模型独立测试。MCTS、SROP、正式测量与冻结源不改。
+
+---
+
+## 首轮选型记录（已被上方路线修订，以下开发顺序不再执行）
+
 
 2026-11-04。先评估已有预测器，暂停继续补测Native/Fused和修补当前效率曲线；MCTS不改。现有Adapter、身份查询、Profile准入及冻结实验保留。
 

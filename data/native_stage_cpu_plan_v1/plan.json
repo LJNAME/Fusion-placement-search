@@ -1,0 +1,130 @@
+{
+  "scope": "native_stage_effective_cost_calibration_not_profile_admission_v1",
+  "device": "cuda:0",
+  "architecture": "gfx936",
+  "seed": 20261106,
+  "shape": [
+    1,
+    256,
+    3072
+  ],
+  "dtype": "bf16",
+  "layout": "explicit_contiguous",
+  "recipes": {
+    "silu": {
+      "id": "aten.silu.out.preallocated_stage.v1",
+      "timed_body": "aten.silu.out(gate, out=output)",
+      "operands": [
+        "gate"
+      ]
+    },
+    "mul": {
+      "id": "aten.mul.out.preallocated_derived_left_stage.v1",
+      "timed_body": "aten.mul.out(left, up, out=output)",
+      "operands": [
+        "left",
+        "up"
+      ],
+      "left_origin": "aten.silu.out(gate, out=left), outside capture and timing"
+    }
+  },
+  "order": [
+    [
+      "silu",
+      "mul"
+    ],
+    [
+      "mul",
+      "silu"
+    ],
+    [
+      "silu",
+      "mul"
+    ],
+    [
+      "mul",
+      "silu"
+    ],
+    [
+      "silu",
+      "mul"
+    ],
+    [
+      "mul",
+      "silu"
+    ],
+    [
+      "silu",
+      "mul"
+    ]
+  ],
+  "contract": {
+    "mode": "graph_replay",
+    "granularity": "isolated_stage_batch_amortized",
+    "calls_per_round": 50,
+    "rounds": 7,
+    "extra_attempts": 0,
+    "eager_preparation_calls": 50,
+    "warmup_replays": 10,
+    "unit": "us/call",
+    "statistic": "median",
+    "correctness": {
+      "rtol": 0.01,
+      "atol": 0.001
+    },
+    "timing_boundary": "start Event -> one Graph replay -> end Event; same device and stream",
+    "synchronization": "device synchronized outside Event interval",
+    "excluded": [
+      "allocation",
+      "input generation",
+      "left generation",
+      "validation",
+      "host submission"
+    ],
+    "buffers": "shared read-only gate/up/derived-left; 50 independent outputs per stage",
+    "cache_context": "isolated stages; no claim of Native chain cache equivalence"
+  },
+  "quality_policy": {
+    "attempts": 7,
+    "extra_attempts": 0,
+    "sample_replacement": false,
+    "iqr_method": "inclusive",
+    "max_iqr_over_median": 0.1,
+    "anchor_policy": "no separate anchors; no cross-window drift certification",
+    "performance_gain_required": false
+  },
+  "pool": {
+    "pool_argument": null,
+    "selection": "default_private_pool",
+    "shared_with_other_graphs": false
+  },
+  "buffer_plan": {
+    "output_buffers": 100,
+    "output_bytes": 157286400,
+    "inputs": [
+      "gate",
+      "up",
+      "left"
+    ],
+    "graph_pool_bytes": "runtime observed"
+  },
+  "collector": {
+    "git_revision": "f93f5d2d2fe3bf31970cf1eda8c94a239d1a4815",
+    "source_sha256": {
+      "calibration/native_stage_calibration.py": "5e4310f89ebef182555b0d3abe07e31d9e761d2d5c7f5528ee7f6977fac2c71e",
+      "tools/run_native_stage_calibration.sh": "87918df5f50576f25fdc9e71df9f4b5e98f23e182582aa233c1ddf2090532c92",
+      "calibration/lightop_profile_calibration.py": "ee33044d80c43270c1dd1a4c4ca37cb558fa4e7fecda0a927e7515d84cf3723b",
+      "calibration/lightop_profile_smoke.py": "caa6724246c1e559230cc2dc6ccdefaae72468cf7d7d385d760528a021a931d3",
+      "execution/reference_identity.py": "a6268c198a32ada680d9caea01ebd619e6bb958c6cfb728dfec4b8b80c08ee68",
+      "integration/flagscale/kerv_profile_runtime.py": "1fabeaa9fdf149d0b37bab1b65914fbd9a3bda17f5b7f41f3198f88963529bb2",
+      "cost_model/fusion_kernel_profile.py": "a308ed3912ec79a4eb5b60d9276d91c031cb72536095ce2af7efcb6b270c4906",
+      "cost_model/measurement_labels.py": "45f7da5636c6677df65c6b32fe73eb333076f7fe103f0e3571da2d322aae9340",
+      "data/graph_analytic_freeze_v1/freeze.json": "5f00c214ead44fbf65091c70eea81df79cd7684a31ba5def9af2d954ac0a4144"
+    }
+  },
+  "existing_measurements_preserved": true,
+  "automatic_admission": false,
+  "whole_chain_measured": false,
+  "model_parameters_updated": false,
+  "pure_graph_overhead_identified": false
+}
