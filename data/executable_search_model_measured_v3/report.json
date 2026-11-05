@@ -1,0 +1,387 @@
+{
+ "scope": "full model; executable registry; cross-layer measured Profiles over analytic base; existing MCTS",
+ "store_records": 13,
+ "references": {
+  "none": {
+   "makespan_ms": 8.773035642727065,
+   "feasible": true,
+   "fused": {},
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 196
+   }
+  },
+  "add_rmsnorm_only": {
+   "makespan_ms": 8.851974352820564,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 28
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 28,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 29,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 168
+   }
+  },
+  "silu_mul_only": {
+   "makespan_ms": 8.986910289152322,
+   "feasible": true,
+   "fused": {
+    "silu_mul": 28
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "silu_mul|measured_layer_invariant": 28,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 140
+   }
+  },
+  "both": {
+   "makespan_ms": 9.06584899924582,
+   "feasible": true,
+   "fused": {
+    "add_rmsnorm": 28,
+    "silu_mul": 28
+   },
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "add_rmsnorm|measured_layer_invariant": 28,
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 29,
+    "silu_mul|measured_layer_invariant": 28,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 112
+   }
+  }
+ },
+ "runs": [
+  {
+   "mode": "joint",
+   "seed": 0,
+   "iterations": 256,
+   "elapsed_s": 74.63655211078003,
+   "cost_model_evaluations": 1024,
+   "makespan_ms": 8.773035642727065,
+   "feasible": true,
+   "fused": {},
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 196
+   },
+   "gap_to_best_known_reference": 0.0,
+   "scorer_requests": 1024,
+   "stage_one_incumbent": null,
+   "export": {
+    "nodes": 591,
+    "groups": 591,
+    "fused_groups": 0,
+    "cross_device_dependencies": 0,
+    "groups_per_device": {
+     "0": 591,
+     "1": 0
+    },
+    "deployable": true
+   }
+  },
+  {
+   "mode": "joint",
+   "seed": 7,
+   "iterations": 256,
+   "elapsed_s": 73.6257841498591,
+   "cost_model_evaluations": 1024,
+   "makespan_ms": 8.773035642727065,
+   "feasible": true,
+   "fused": {},
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 196
+   },
+   "gap_to_best_known_reference": 0.0,
+   "scorer_requests": 1024,
+   "stage_one_incumbent": null
+  },
+  {
+   "mode": "joint",
+   "seed": 23,
+   "iterations": 256,
+   "elapsed_s": 74.20153701631352,
+   "cost_model_evaluations": 1024,
+   "makespan_ms": 8.773035642727065,
+   "feasible": true,
+   "fused": {},
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 196
+   },
+   "gap_to_best_known_reference": 0.0,
+   "scorer_requests": 1024,
+   "stage_one_incumbent": null
+  },
+  {
+   "mode": "sequential",
+   "seed": 0,
+   "iterations": 256,
+   "elapsed_s": 74.85426879255101,
+   "cost_model_evaluations": 1026,
+   "makespan_ms": 8.773035642727065,
+   "feasible": true,
+   "fused": {},
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 196
+   },
+   "gap_to_best_known_reference": 0.0,
+   "scorer_requests": 1026,
+   "stage_one_incumbent": {
+    "makespan_s": 0.008773035642727064,
+    "feasible": true,
+    "selected": false
+   },
+   "export": {
+    "nodes": 591,
+    "groups": 591,
+    "fused_groups": 0,
+    "cross_device_dependencies": 0,
+    "groups_per_device": {
+     "0": 591,
+     "1": 0
+    },
+    "deployable": true
+   }
+  },
+  {
+   "mode": "sequential",
+   "seed": 7,
+   "iterations": 256,
+   "elapsed_s": 75.50064750108868,
+   "cost_model_evaluations": 1026,
+   "makespan_ms": 8.773035642727065,
+   "feasible": true,
+   "fused": {},
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 196
+   },
+   "gap_to_best_known_reference": 0.0,
+   "scorer_requests": 1026,
+   "stage_one_incumbent": {
+    "makespan_s": 0.008773035642727064,
+    "feasible": true,
+    "selected": false
+   }
+  },
+  {
+   "mode": "sequential",
+   "seed": 23,
+   "iterations": 256,
+   "elapsed_s": 75.14912018273026,
+   "cost_model_evaluations": 1026,
+   "makespan_ms": 8.773035642727065,
+   "feasible": true,
+   "fused": {},
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 196
+   },
+   "gap_to_best_known_reference": 0.0,
+   "scorer_requests": 1026,
+   "stage_one_incumbent": {
+    "makespan_s": 0.008773035642727064,
+    "feasible": true,
+    "selected": false
+   }
+  },
+  {
+   "mode": "placement_then_fusion",
+   "seed": 0,
+   "iterations": 256,
+   "elapsed_s": 75.03253447869793,
+   "cost_model_evaluations": 1026,
+   "makespan_ms": 8.773035642727065,
+   "feasible": true,
+   "fused": {},
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 196
+   },
+   "gap_to_best_known_reference": 0.0,
+   "scorer_requests": 1026,
+   "stage_one_incumbent": {
+    "makespan_s": 0.008773035642727064,
+    "feasible": true,
+    "selected": false
+   },
+   "export": {
+    "nodes": 591,
+    "groups": 591,
+    "fused_groups": 0,
+    "cross_device_dependencies": 0,
+    "groups_per_device": {
+     "0": 591,
+     "1": 0
+    },
+    "deployable": true
+   }
+  },
+  {
+   "mode": "placement_then_fusion",
+   "seed": 7,
+   "iterations": 256,
+   "elapsed_s": 75.09565518517047,
+   "cost_model_evaluations": 1026,
+   "makespan_ms": 8.773035642727065,
+   "feasible": true,
+   "fused": {},
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 196
+   },
+   "gap_to_best_known_reference": 0.0,
+   "scorer_requests": 1026,
+   "stage_one_incumbent": {
+    "makespan_s": 0.008773035642727064,
+    "feasible": true,
+    "selected": false
+   }
+  },
+  {
+   "mode": "placement_then_fusion",
+   "seed": 23,
+   "iterations": 256,
+   "elapsed_s": 74.7073531509377,
+   "cost_model_evaluations": 1026,
+   "makespan_ms": 8.773035642727065,
+   "feasible": true,
+   "fused": {},
+   "devices": [
+    0
+   ],
+   "nodes_per_device": {
+    "0": 591
+   },
+   "cost_sources": {
+    "rmsnorm_reference|analytic_roofline": 56,
+    "rmsnorm_reference|measured_layer_invariant": 57,
+    "unfused|analytic_roofline": 254,
+    "unfused|logical_input": 28,
+    "unfused|measured_layer_invariant": 196
+   },
+   "gap_to_best_known_reference": 0.0,
+   "scorer_requests": 1026,
+   "stage_one_incumbent": {
+    "makespan_s": 0.008773035642727064,
+    "feasible": true,
+    "selected": false
+   }
+  }
+ ],
+ "best_known_reference_ms": 8.773035642727065,
+ "unfused_guided_rollout": true,
+ "note": "best known reference is the best of the listed plans, not a proven global optimum",
+ "search_code_changed": false,
+ "cost_model_formula_changed": false
+}
