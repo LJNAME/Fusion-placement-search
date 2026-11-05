@@ -68,3 +68,5 @@ Exact与原MCTS再次运行。5场景×3 seed全部模型gap=0，每次MCTS仍�
 67项相关CPU测试通过，其中4项为本次审计测试；包含已有prepared scheduler回归。未修改冻结采集器、Profile原始记录、解析模型参数或MCTS。
 
 调度表示一致性审计到此结束。下一项为已有成本与参考证据的有效性检查：区分可验证的局部排序和仍无独立参照的FFN预测，不把模型Exact当作真机最优，也不继续扩大调度器或单点测时。
+
+后续P0/P1/P2已有数据复核与通信翻转阈值见 [成本预测验证](COST_PREDICTION_VALIDATION.md)。旧eager标签与当前Graph分列，未获得新的独立Graph泛化证据；没有新GPU测量。
