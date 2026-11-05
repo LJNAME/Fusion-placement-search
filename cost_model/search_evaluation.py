@@ -156,6 +156,35 @@ def _modes(n_devs: int) -> tuple[_Mode, ...]:
     )
 
 
+def placement_then_fusion_mode(n_devs: int) -> _Mode:
+    """Staged baseline: placement first (unfused), then fusion with devices frozen.
+
+    Kept outside _modes() so existing four-mode reports are unchanged.
+    """
+    return _Mode("placement_then_fusion", default_fusion_registry(), False, tuple(range(n_devs)))
+
+
+def _freeze_placement(placement):
+    """Stage-two expand: each group takes its nodes' frozen device.
+
+    A fused group whose nodes were placed on different devices is not
+    representable without moving a node, so it is rejected (None).
+    """
+    devices = {n: g.device for g in placement.groups for n in g.node_ids}
+
+    def expand(plan):
+        result = copy.deepcopy(plan)
+        result.name = "placement-then-fusion"
+        for group in result.groups:
+            targets = {devices[n] for n in group.node_ids}
+            if len(targets) != 1:
+                return None
+            group.device = targets.pop()
+        return result
+
+    return expand, devices
+
+
 def _plan_key(plan: Plan) -> tuple:
     return tuple(
         (
@@ -318,11 +347,15 @@ def _run_search(
     def stage(name, search_graph, rules, devices, iterations, count, expand=lambda p: p,
               enforce_capacity=True):
         before = scorer.run_metrics()
+        conflicts = [0]
         requested = {}
         feasible_keys = set()
         retained = {}
         def score(plan):
             original = expand(plan)
+            if original is None:  # placement_then_fusion: fusion across frozen devices
+                conflicts[0] += 1
+                return 2 * INFEASIBLE_PENALTY_S
             key = _plan_key(original)
             value = scorer(original)
             requested[key] = scorer.last_makespan
@@ -363,7 +396,7 @@ def _run_search(
             scorer.bind_capacity = previous_binding
         # A finite search penalty guides exploration; final admission is strict.
         # Include feasible rollouts even if the engine returned only invalid plans.
-        expanded = [expand(p) for p in plans]
+        expanded = [e for e in (expand(p) for p in plans) if e is not None]
         selected = { _plan_key(p): p for p in expanded
                      if not enforce_capacity or _plan_key(p) in feasible_keys }
         selected.update({k: p for k, (_, p) in retained.items() if k not in selected})
@@ -372,7 +405,7 @@ def _run_search(
         details.update(elapsed_s=time.perf_counter()-stage_started,
             scorer_requests=after["scorer_requests"]-before["scorer_requests"],
             unique_requested_plans=len(requested),
-            unique_feasible_plans=len(feasible_keys),
+            unique_feasible_plans=len(feasible_keys), frozen_device_conflicts=conflicts[0],
             cost_model_evaluations=after["cost_model_evaluations"]-before["cost_model_evaluations"])
         details["reason"] = None if plans else (
             "no_feasible_in_space" if method == "exact" else "evaluated_no_feasible")
@@ -388,6 +421,18 @@ def _run_search(
                       mcts_iterations-first, top_k, expand)
         if any(_partition_key(plan) != _partition_key(template) for plan in plans):
             raise AssertionError("sequential placement changed the frozen fusion partition")
+    elif mode.name == "placement_then_fusion":
+        first = mcts_iterations // 2
+        # Same split as sequential; stage one is the placement_only space.
+        placed = stage("placement", graph, _singleton_registry(), mode.allowed_devices, first, 1)
+        if not placed:
+            plans = []
+        else:
+            expand, frozen_devices = _freeze_placement(placed[0])
+            # Device choice is fixed by expand, so stage two only explores fusion.
+            plans = stage("fusion", graph, mode.registry, (0,), mcts_iterations-first, top_k, expand)
+            if any(g.device != frozen_devices[n] for p in plans for g in p.groups for n in g.node_ids):
+                raise AssertionError("placement_then_fusion fusion stage moved a node")
     else:
         plans = stage(mode.name, graph, mode.registry, mode.allowed_devices, mcts_iterations, top_k)
     elapsed = time.perf_counter() - started
@@ -405,6 +450,8 @@ def _run_search(
     if mode.name == "sequential":
         budget["frozen_partition"] = [dict(pattern_id=p, node_ids=list(nodes))
                                        for p,nodes in _partition_key(template)]
+    if mode.name == "placement_then_fusion" and placed:
+        budget["frozen_placement"] = {n: d for n, d in sorted(frozen_devices.items())}
     return plans, elapsed, budget
 
 
