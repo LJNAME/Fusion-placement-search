@@ -1,0 +1,151 @@
+{
+  "scope": "CPU review of returned Native stage GPU evidence; not parameter fitting or Profile admission",
+  "date": "2026-11-05",
+  "archive": {
+    "bytes": 6129,
+    "sha256": "64b60887c821591d3f138948730965ee7c6f94f50683aa100d0e9c4c072adf27",
+    "gzip_integrity_verified": true,
+    "member_path_and_type_checks_passed": true
+  },
+  "collector_revision": "50340281771037aa59ea8e561ca457ff8bbf30f9",
+  "collector_source_hashes_match_git": {
+    "calibration/native_stage_calibration.py": true,
+    "tools/run_native_stage_calibration.sh": true,
+    "calibration/lightop_profile_calibration.py": true,
+    "calibration/lightop_profile_smoke.py": true,
+    "execution/reference_identity.py": true,
+    "integration/flagscale/kerv_profile_runtime.py": true,
+    "cost_model/fusion_kernel_profile.py": true,
+    "cost_model/measurement_labels.py": true,
+    "data/graph_analytic_freeze_v1/freeze.json": true
+  },
+  "raw_files": 24,
+  "raw_sha256": {
+    "attempt_00.json": "9487e86b14c7b4160efd63eaf6399e0c2a96745e3dcb536c01bc35940e6ae903",
+    "attempt_01.json": "24f207980bcce43cfaff7074209993cfe52e7ae79d72d7177f11bbd7e39387dc",
+    "attempt_02.json": "4336970ea93d66fa216128af67d607f3c5007615fae821f48ed44a75558a29c6",
+    "attempt_03.json": "9994fc911f9d28aa9d420e3f7d96d482f47cfc77224ddbd5e35372e6e9adddf1",
+    "attempt_04.json": "ee4a4abfd038ba63534ca5f075a4704b4d2506a56d977737a4a134a7c2f1ea62",
+    "attempt_05.json": "2a36f16adc88787c267224ff9bcc84e074ded15da6c6c5332073c1fcbdce4f0c",
+    "attempt_06.json": "1f40a22fa46881b56d6201a4f3bcc5c786c2054ead587dfacc5826a44015502d",
+    "attempt_07.json": "548f3f5e064a2fcaaef8d593d82b2fd4c7bfb88d200835db1263de267d28a333",
+    "attempt_08.json": "591fa28ef37d5f8950d661c9e19651f4b0d1432d3259a23799ca14fc567e9688",
+    "attempt_09.json": "43122b151635b1b6593edde2daf1b4788f60aaab1d9abe0e0baa840ea58b533f",
+    "attempt_10.json": "e009e47b01aa7a9c74fb7754ad76cec3ec4b26ac89ee42e67a4d141b56821bdd",
+    "attempt_11.json": "5d45bd1554078ff2f7013ed0f2f5900f8df1f79ec48d06f31664b67019a1c002",
+    "attempt_12.json": "91b6898197987435fc10eac683c7e7a6d393be92f15ffd4c69ec976fc6698fb8",
+    "attempt_13.json": "4d619a8f09ba8576fc98da125d4e800db3f29c8f4105bd27f078bd9b1016aeed",
+    "collection_quality.json": "32c07a3fc7bed1bf58e62aa6566fbe7290e746f6ba081ba723734bc045dc1fd1",
+    "identity.json": "37f672181852c33d5645cd08c47b466af68034dd0e525c5d886f6578dba91245",
+    "last_stage.json": "5e1b7647c588cc36c0f961c829a4eeadb3b1d5872d54d2760d017a6e97490a54",
+    "plan.json": "cc5b9d0f1fad460654ad1190677145f32a1f5e8b081afa706eaa19183f74cc8c",
+    "preparation.json": "d5e7c2519562577ce2d7f969a4c229fbd50634a40a144d33659386955db9481d",
+    "process.json": "6e4eac7e903097a8e846bc232d66f1a9148eba8bd28fc7bd10b8b6e36a977f46",
+    "process.log": "a40934fadd33bda28cd2e835855e1202618f3a1cf71e8f7e7f8773e5c55ed4f0",
+    "result.json": "4d02670e5b5c78a70b32e08b5f34d88a66d15f529ec3f085555e9b10702d1599",
+    "runtime.json": "ae77bbeb619726b86b354920cede5d98374bc75015aab8226cf81a543a652b95",
+    "warmup.json": "e3b8782f41c44d431b726ff0682816004cef9f7d070849693c224da6686133f1"
+  },
+  "frozen_review_status": "calibration_candidates_ready",
+  "archive_replay_identical_to_received_replay": true,
+  "independent_statistic_recomputation_passed": true,
+  "stage_statistics": {
+    "silu": {
+      "median_us": 6.537600159645081,
+      "min_us": 6.53439998626709,
+      "max_us": 6.723200082778931,
+      "iqr_us": 0.03519982099533081,
+      "iqr_over_median": 0.005384211352142675,
+      "rounds": 7,
+      "calls_per_round": 50,
+      "calls": 350,
+      "samples_us": [
+        6.588799953460693,
+        6.556800007820129,
+        6.723200082778931,
+        6.537600159645081,
+        6.537600159645081,
+        6.53439998626709,
+        6.537600159645081
+      ]
+    },
+    "mul": {
+      "median_us": 3.6351999640464783,
+      "min_us": 3.6191999912261963,
+      "max_us": 3.657599985599518,
+      "iqr_us": 0.02079993486404419,
+      "iqr_over_median": 0.005721813124384772,
+      "rounds": 7,
+      "calls_per_round": 50,
+      "calls": 350,
+      "samples_us": [
+        3.641600012779236,
+        3.657599985599518,
+        3.6447998881340027,
+        3.6191999912261963,
+        3.6351999640464783,
+        3.6191999912261963,
+        3.625600039958954
+      ]
+    }
+  },
+  "runtime_fields_match_prior_formal_fused": {
+    "torch_distribution": true,
+    "torch_git_revision": true,
+    "torch_extension_sha256": true,
+    "torch_build_sha256": true,
+    "hip": true,
+    "driver": true,
+    "architecture": true,
+    "ordinal": true,
+    "grad_enabled": true,
+    "autocast_enabled": true,
+    "deterministic_algorithms": true
+  },
+  "runtime_match_does_not_prove_chain_cache_equivalence": true,
+  "uuid_changed_and_ignored_as_provenance": true,
+  "correctness": "CPU verified all reported checks and frozen source; original GPU tensors are not archived and were not recomputed on CPU",
+  "historical_additivity_diagnostic": {
+    "sum_stage_medians_us": 10.172800123691559,
+    "historical_chain_us": 10.092799663543701,
+    "sum_minus_historical_chain_us": 0.08000046014785767,
+    "relative_difference": 0.007926488468489878,
+    "cross_batch": true,
+    "is_new_chain_measurement": false,
+    "is_pure_graph_overhead": false,
+    "identifies_additivity_model": false
+  },
+  "hypothesis_diagnostic": {
+    "scenario_count": 729,
+    "model_source_unchanged": true,
+    "all_scenarios_retained": true,
+    "no_best_scenario_selected": true,
+    "assumption": "predicted isolated stage = stage core + h + c; mapping not independently validated",
+    "statistics": {
+      "silu": {
+        "hypothesis_min_us": 2.959296,
+        "hypothesis_max_us": 164.93212799999998,
+        "observed_median_us": 6.537600159645081,
+        "predictions_in_observed_min_max_count": 0,
+        "all_predictions_above_observed_max": false,
+        "minimum_absolute_relative_error": 0.04879591162736374
+      },
+      "mul": {
+        "hypothesis_min_us": 4.117223540256964,
+        "hypothesis_max_us": 16.224078467523213,
+        "observed_median_us": 3.6351999640464783,
+        "predictions_in_observed_min_max_count": 0,
+        "all_predictions_above_observed_max": true,
+        "minimum_absolute_relative_error": 0.13259891642217303
+      }
+    },
+    "interpretation": "original no-cache grid and overhead assumptions do not cover stage observations; not a reason to reject measurement quality",
+    "input_analysis_sha256": "c707a644df0902f92d5a53cecfb68f805aa6159929f8890bb6dbda3227743739",
+    "csv_sha256": "e4bdccbe911ede20b6ce860accf8701769fc3bedb6cc6368a62542368613e234"
+  },
+  "new_accepted_profiles": 0,
+  "model_parameters_updated": false,
+  "mcts_changed": false,
+  "new_gpu_execution_on_reviewer": false,
+  "next_step": "CPU-only revisit existing hypothesis bounds and isolated-stage to chain contract mapping; preserve unknown parameters and all old evidence; no additional GPU task scheduled"
+}

@@ -1,0 +1,182 @@
+{
+  "silu": {
+    "recipe": {
+      "id": "aten.silu.out.preallocated_stage.v1",
+      "timed_body": "aten.silu.out(gate, out=output)",
+      "operands": [
+        "gate"
+      ]
+    },
+    "schema": "aten::silu.out(Tensor self, *, Tensor(a!) out) -> Tensor(a!)",
+    "tensors": {
+      "gate": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "up": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "left": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "output": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      }
+    },
+    "source_sha256": "5e4310f89ebef182555b0d3abe07e31d9e761d2d5c7f5528ee7f6977fac2c71e"
+  },
+  "mul": {
+    "recipe": {
+      "id": "aten.mul.out.preallocated_derived_left_stage.v1",
+      "timed_body": "aten.mul.out(left, up, out=output)",
+      "operands": [
+        "left",
+        "up"
+      ],
+      "left_origin": "aten.silu.out(gate, out=left), outside capture and timing"
+    },
+    "schema": "aten::mul.out(Tensor self, Tensor other, *, Tensor(a!) out) -> Tensor(a!)",
+    "tensors": {
+      "gate": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "up": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "left": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "output": {
+        "shape": [
+          1,
+          256,
+          3072
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          786432,
+          3072,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      }
+    },
+    "source_sha256": "5e4310f89ebef182555b0d3abe07e31d9e761d2d5c7f5528ee7f6977fac2c71e"
+  }
+}
