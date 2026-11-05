@@ -1,0 +1,703 @@
+{
+  "scope": "cross_gpu_copy_sdma_modes_v1",
+  "cases": {
+    "copy/524288/0->1": {
+      "status": "quality_failed",
+      "reasons": [
+        "iqr_over_median_exceeds_10_percent"
+      ],
+      "statistics": {
+        "median_us": 35.427141189575195,
+        "min_us": 34.310340881347656,
+        "max_us": 1431.2570190429688,
+        "iqr_us": 4.788789749145508,
+        "iqr_over_median": 0.13517290947977081,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        40.72954177856445,
+        35.427141189575195,
+        1431.2570190429688,
+        38.060739040374756,
+        34.310340881347656,
+        34.319961071014404,
+        34.89274024963379
+      ],
+      "outliers": {
+        "n": 7,
+        "over_3x_median": 1,
+        "over_1ms": 1,
+        "max_us": 1431.2570190429688
+      }
+    },
+    "copy/524288/1->0": {
+      "status": "quality_failed",
+      "reasons": [
+        "iqr_over_median_exceeds_10_percent"
+      ],
+      "statistics": {
+        "median_us": 36.313560009002686,
+        "min_us": 34.380760192871094,
+        "max_us": 46.55995845794678,
+        "iqr_us": 3.697599172592163,
+        "iqr_over_median": 0.10182419932596727,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        34.380760192871094,
+        46.55995845794678,
+        35.855960845947266,
+        37.75036096572876,
+        36.313560009002686,
+        35.6031608581543,
+        41.10395908355713
+      ],
+      "outliers": {
+        "n": 7,
+        "over_3x_median": 0,
+        "over_1ms": 0,
+        "max_us": 46.55995845794678
+      }
+    },
+    "copy/1572864/0->1": {
+      "status": "quality_failed",
+      "reasons": [
+        "iqr_over_median_exceeds_10_percent"
+      ],
+      "statistics": {
+        "median_us": 47.603139877319336,
+        "min_us": 45.07515907287598,
+        "max_us": 1380.8984375,
+        "iqr_us": 6.17919921875,
+        "iqr_over_median": 0.12980654710329514,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        47.603139877319336,
+        49.238338470458984,
+        45.83993911743164,
+        45.07833957672119,
+        45.07515907287598,
+        54.03833866119385,
+        1380.8984375
+      ],
+      "outliers": {
+        "n": 7,
+        "over_3x_median": 1,
+        "over_1ms": 1,
+        "max_us": 1380.8984375
+      }
+    },
+    "copy/1572864/1->0": {
+      "status": "quality_failed",
+      "reasons": [
+        "iqr_over_median_exceeds_10_percent"
+      ],
+      "statistics": {
+        "median_us": 53.81115913391113,
+        "min_us": 46.911959648132324,
+        "max_us": 57.65116214752197,
+        "iqr_us": 7.2512006759643555,
+        "iqr_over_median": 0.13475273145333042,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        51.57115936279297,
+        57.65116214752197,
+        55.75675964355469,
+        47.3119592666626,
+        53.81115913391113,
+        46.911959648132324,
+        57.62876033782959
+      ],
+      "outliers": {
+        "n": 7,
+        "over_3x_median": 0,
+        "over_1ms": 0,
+        "max_us": 57.65116214752197
+      }
+    }
+  },
+  "automatic_admission": false,
+  "status": "partial_quality_failed",
+  "quality_passed": [],
+  "quality_failed": [
+    "copy/1572864/0->1",
+    "copy/1572864/1->0",
+    "copy/524288/0->1",
+    "copy/524288/1->0"
+  ],
+  "data_role": "mode-specific calibration candidates; modes never pooled",
+  "model_parameters_updated": false,
+  "mode": "sdma_default",
+  "role": "primary",
+  "contract_id": "sha256:7eec3c3e043f512cad0473884826839111f5475be77bad83e9ac4ec855662ab4",
+  "mode_outliers": {
+    "over_3x_case_median": 2,
+    "over_1ms": 2,
+    "samples": 28
+  },
+  "identity": {
+    "scope": "gpu0_stage_size_linear_calibration_and_copy_v1",
+    "cases": {
+      "copy/524288/0->1": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "torch.Tensor.copy_.preallocated_cross_gpu.v1",
+              "timed_body": "destination.copy_(source, non_blocking=True) on destination stream",
+              "operands": [
+                "source"
+              ],
+              "binding": "execution/ffn_transfer.py:BoundTransfer",
+              "streams": "destination stream forks/joins a source-side stream inside capture"
+            },
+            "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+            "tensors": {
+              "source": {
+                "shape": [
+                  1,
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  262144,
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "destination": {
+                "shape": [
+                  1,
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  262144,
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "runtime": {
+            "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+            "torch_module_version": "2.9.0",
+            "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+            "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+            "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+            "accelerator": "HIP",
+            "hip": "6.3.26113",
+            "driver": "60326113",
+            "grad_enabled": false,
+            "autocast_enabled": false,
+            "deterministic_algorithms": false
+          },
+          "devices": [
+            {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 0
+            },
+            {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 1
+            }
+          ],
+          "case": {
+            "kind": "copy",
+            "bytes": 524288,
+            "source": 0,
+            "destination": 1,
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "timing_device": "cuda:1"
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.01,
+              "atol": 0.001
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only inputs; independent preallocated outputs per call",
+            "cache_context": "four Copies interleaved per round; one SDMA mode per process",
+            "sdma_mode": "sdma_default",
+            "HSA_ENABLE_SDMA": null
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:2b85885b88ffc2925d7abb746b72e7baecd85b134a50648342ffe586aeeb7b30",
+        "contract_id": "sha256:7eec3c3e043f512cad0473884826839111f5475be77bad83e9ac4ec855662ab4"
+      },
+      "copy/524288/1->0": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "torch.Tensor.copy_.preallocated_cross_gpu.v1",
+              "timed_body": "destination.copy_(source, non_blocking=True) on destination stream",
+              "operands": [
+                "source"
+              ],
+              "binding": "execution/ffn_transfer.py:BoundTransfer",
+              "streams": "destination stream forks/joins a source-side stream inside capture"
+            },
+            "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+            "tensors": {
+              "source": {
+                "shape": [
+                  1,
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  262144,
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "destination": {
+                "shape": [
+                  1,
+                  256,
+                  1024
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  262144,
+                  1024,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "runtime": {
+            "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+            "torch_module_version": "2.9.0",
+            "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+            "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+            "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+            "accelerator": "HIP",
+            "hip": "6.3.26113",
+            "driver": "60326113",
+            "grad_enabled": false,
+            "autocast_enabled": false,
+            "deterministic_algorithms": false
+          },
+          "devices": [
+            {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 1
+            },
+            {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 0
+            }
+          ],
+          "case": {
+            "kind": "copy",
+            "bytes": 524288,
+            "source": 1,
+            "destination": 0,
+            "shape": [
+              1,
+              256,
+              1024
+            ],
+            "timing_device": "cuda:0"
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.01,
+              "atol": 0.001
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only inputs; independent preallocated outputs per call",
+            "cache_context": "four Copies interleaved per round; one SDMA mode per process",
+            "sdma_mode": "sdma_default",
+            "HSA_ENABLE_SDMA": null
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:b61a7056d4addedb8d52cef97ac391c199f625c993d97c8a867cc071c6d07cf8",
+        "contract_id": "sha256:7eec3c3e043f512cad0473884826839111f5475be77bad83e9ac4ec855662ab4"
+      },
+      "copy/1572864/0->1": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "torch.Tensor.copy_.preallocated_cross_gpu.v1",
+              "timed_body": "destination.copy_(source, non_blocking=True) on destination stream",
+              "operands": [
+                "source"
+              ],
+              "binding": "execution/ffn_transfer.py:BoundTransfer",
+              "streams": "destination stream forks/joins a source-side stream inside capture"
+            },
+            "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+            "tensors": {
+              "source": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "destination": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "runtime": {
+            "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+            "torch_module_version": "2.9.0",
+            "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+            "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+            "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+            "accelerator": "HIP",
+            "hip": "6.3.26113",
+            "driver": "60326113",
+            "grad_enabled": false,
+            "autocast_enabled": false,
+            "deterministic_algorithms": false
+          },
+          "devices": [
+            {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 0
+            },
+            {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 1
+            }
+          ],
+          "case": {
+            "kind": "copy",
+            "bytes": 1572864,
+            "source": 0,
+            "destination": 1,
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "timing_device": "cuda:1"
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.01,
+              "atol": 0.001
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only inputs; independent preallocated outputs per call",
+            "cache_context": "four Copies interleaved per round; one SDMA mode per process",
+            "sdma_mode": "sdma_default",
+            "HSA_ENABLE_SDMA": null
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:8d11eb1374afff43b6533e2f1ec72542da5ec2e48ac1cec9242c34c72c80b357",
+        "contract_id": "sha256:7eec3c3e043f512cad0473884826839111f5475be77bad83e9ac4ec855662ab4"
+      },
+      "copy/1572864/1->0": {
+        "case_identity": {
+          "implementation": {
+            "recipe": {
+              "id": "torch.Tensor.copy_.preallocated_cross_gpu.v1",
+              "timed_body": "destination.copy_(source, non_blocking=True) on destination stream",
+              "operands": [
+                "source"
+              ],
+              "binding": "execution/ffn_transfer.py:BoundTransfer",
+              "streams": "destination stream forks/joins a source-side stream inside capture"
+            },
+            "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+            "tensors": {
+              "source": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:1",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              },
+              "destination": {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "dtype": "bf16",
+                "layout": "contiguous",
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout_provenance": {
+                  "kind": "runtime_tensor",
+                  "device": "cuda:0",
+                  "observer": "Tensor.shape/dtype/stride/is_contiguous"
+                }
+              }
+            }
+          },
+          "runtime": {
+            "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+            "torch_module_version": "2.9.0",
+            "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+            "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+            "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+            "accelerator": "HIP",
+            "hip": "6.3.26113",
+            "driver": "60326113",
+            "grad_enabled": false,
+            "autocast_enabled": false,
+            "deterministic_algorithms": false
+          },
+          "devices": [
+            {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 1
+            },
+            {
+              "name": "BW",
+              "architecture": "gfx936:sramecc+:xnack-",
+              "ordinal": 0
+            }
+          ],
+          "case": {
+            "kind": "copy",
+            "bytes": 1572864,
+            "source": 1,
+            "destination": 0,
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "timing_device": "cuda:0"
+          },
+          "contract": {
+            "mode": "graph_replay",
+            "granularity": "batch_amortized",
+            "calls_per_replay": 50,
+            "rounds": 7,
+            "extra_attempts": 0,
+            "eager_preparation_calls": 50,
+            "warmup_replays": 10,
+            "unit": "us/call",
+            "statistic": "median",
+            "correctness": {
+              "rtol": 0.01,
+              "atol": 0.001
+            },
+            "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+            "synchronization": "all involved devices synchronized outside the Event interval",
+            "excluded": [
+              "allocation",
+              "input generation",
+              "left generation",
+              "validation",
+              "host submission"
+            ],
+            "buffers": "shared read-only inputs; independent preallocated outputs per call",
+            "cache_context": "four Copies interleaved per round; one SDMA mode per process",
+            "sdma_mode": "sdma_default",
+            "HSA_ENABLE_SDMA": null
+          },
+          "pool": {
+            "pool_argument": null,
+            "selection": "default_private_pool",
+            "shared_with_other_graphs": false
+          }
+        },
+        "case_identity_id": "sha256:eea2ea49d77ec383d7cc2072dd057f0d0ff3294af22a0484aef99c7f7f2abda6",
+        "contract_id": "sha256:7eec3c3e043f512cad0473884826839111f5475be77bad83e9ac4ec855662ab4"
+      }
+    },
+    "uuid_is_provenance_only": true,
+    "peer_capability_is_not_route_certificate": true
+  },
+  "plan_sha256": "9b9db03965431e188c397d3ff2c2f4bfc2e05a285e1a9e61603907953c198911",
+  "raw_sha256": {
+    "attempt_000.json": "573edc1dbe5a44caea856681b725b39e2bc961e555746bd99b15c2cfa3ee7af8",
+    "attempt_001.json": "ad344c2e96385148fdc90797799c3397a0e47125fa8627dc20839d6d381af35e",
+    "attempt_002.json": "eee76e113bbe343e0065b9234a2b14689364d4a8b5666073d4c57019ca272226",
+    "attempt_003.json": "46bbdeeebe512611a7af0d60d4245c135662f8e4cc82c58b171a14fd0c1fde04",
+    "attempt_004.json": "0214f2545dec8c56c12f574c1827329e7cf9ecbe9df9df499eb01e67fd21a8c7",
+    "attempt_005.json": "af47f4bb0e77fc3afe6e1534536a31faa97ca162b285a780ab50798e73a92b30",
+    "attempt_006.json": "e0c56bed4467bf4342b00e6291591c694a7aca2a6a377389a8add674da7e635d",
+    "attempt_007.json": "4e674ffafd7650b7d310b9c03a25c0f815cbad75ee9c5393d20092d4db5bef44",
+    "attempt_008.json": "eeb6d4cfd6b1f6ffbb78bb2aaf1982ca941403b010f99ee4c74978877fd93df5",
+    "attempt_009.json": "ad8cb021f4fdf6eee1ab3d28cf4237890ca426b1012eb5c2ad60a71f314cf72d",
+    "attempt_010.json": "91f3f76bfaaa313efc6abcc7694fb7af2d1e6b07b55a36816baff6a0d4ef01a4",
+    "attempt_011.json": "a5543098d793e38e349ce8e01b5f482705050cad222eaf163d9f46a9dba49b4c",
+    "attempt_012.json": "c3a59e54d665ea09a77c3172d276a9bda1e262cd763b82d235cc84e7069ebdab",
+    "attempt_013.json": "92a0bda5a985e50f25c069e766f6e1fa63a6be0f06aec513a3bbc62498b10615",
+    "attempt_014.json": "ae89255585c667f7ccc53f96d01b5c3d163bd1a66dc27e5a7e295ff3792b1c5e",
+    "attempt_015.json": "1fdace7af03e22f83f03ceab51bad4623e5b1fac3b4aff121eccefaa196113a2",
+    "attempt_016.json": "982aa22fb77978806e179618ba2e3b56f8622bf554f4f9f994bf0aba77a09493",
+    "attempt_017.json": "d5a6c98bc2c94e300ce1b8c9cdfe4837328d3eeaedfced286e68fe1f52180f9e",
+    "attempt_018.json": "42ad05ceb3bb003b464358729825ec61b8013a1fae30c518cc50158f8da2feca",
+    "attempt_019.json": "01d7d9ab61230abc31e1fab14690585d5f16510305ff5a38040ce70f728449f7",
+    "attempt_020.json": "34dad7657b6b6a8771311c229b1e02961f4260020cd0afb83d400f6c3816232d",
+    "attempt_021.json": "d68917726d63c8abfd194d5c999728220511d82bfecb3e987d7e29b23c1e3071",
+    "attempt_022.json": "f4ebbec143a5fe88f0ed6dc9cc5306e342ec7e0ac32b9dee29164bf394387e4d",
+    "attempt_023.json": "be7338ee017d91377a28f785a2ff5599e8b800acbd6e7d7aa4e0980d72c4cb5f",
+    "attempt_024.json": "30f19e185272e6d8350a8db294dca5b1bd48187c618228526b9ba10ae69fbe5f",
+    "attempt_025.json": "8a9cb4f27299bad0aa3b91e6a5945450b31300a9f0ed1734968ea34625ad682b",
+    "attempt_026.json": "95d35e6e11117e3a7f62ca57c56761c306fae390574b203197dc541b678d9aba",
+    "attempt_027.json": "24ef35ac6171858d58a54e0064b6a74e73aa1f530806afea24ee2b25ae233409",
+    "collection_quality.json": "c52497204bfc1dcc919de0d1be50f039d2fad26908132f9bee76d130f0e39970",
+    "identity.json": "ce323185fdb7cc4465df70d0ed30f507974eb0e0eeffbca2f01a2c6652a38fa5",
+    "last_stage.json": "aa3e8ab6082da3eda1884cdd716ffcd7d60bd2e7082a6fb7de08e78cc95a9110",
+    "plan.json": "9b9db03965431e188c397d3ff2c2f4bfc2e05a285e1a9e61603907953c198911",
+    "preparation.json": "b933e014744fddf9e54284455e2d04c37e2d8d734bbb26338f3107fe55e11429",
+    "process.json": "9a7587d3de4c6cde188c75a87e39ddeff8210d9e2ca89526673454b9ab5d295b",
+    "result.json": "c1495a1d1737a615b6ff96d2729ee46e302ed9f8c079beea606bcddf51951296",
+    "runtime.json": "5735b8824aeba5944fea78d120c724c48480f8e0891f6044ca1b388fc82a8504",
+    "warmup.json": "4b80e05a36e53ea467716f1f6d9d0534a690a49c6c75a46e2d6284c1de996a7b"
+  }
+}

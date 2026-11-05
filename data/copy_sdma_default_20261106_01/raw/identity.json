@@ -1,0 +1,519 @@
+{
+  "scope": "gpu0_stage_size_linear_calibration_and_copy_v1",
+  "cases": {
+    "copy/524288/0->1": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "torch.Tensor.copy_.preallocated_cross_gpu.v1",
+            "timed_body": "destination.copy_(source, non_blocking=True) on destination stream",
+            "operands": [
+              "source"
+            ],
+            "binding": "execution/ffn_transfer.py:BoundTransfer",
+            "streams": "destination stream forks/joins a source-side stream inside capture"
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+          "tensors": {
+            "source": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "destination": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:1",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          }
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          },
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 1
+          }
+        ],
+        "case": {
+          "kind": "copy",
+          "bytes": 524288,
+          "source": 0,
+          "destination": 1,
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "timing_device": "cuda:1"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "four Copies interleaved per round; one SDMA mode per process",
+          "sdma_mode": "sdma_default",
+          "HSA_ENABLE_SDMA": null
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:2b85885b88ffc2925d7abb746b72e7baecd85b134a50648342ffe586aeeb7b30",
+      "contract_id": "sha256:7eec3c3e043f512cad0473884826839111f5475be77bad83e9ac4ec855662ab4"
+    },
+    "copy/524288/1->0": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "torch.Tensor.copy_.preallocated_cross_gpu.v1",
+            "timed_body": "destination.copy_(source, non_blocking=True) on destination stream",
+            "operands": [
+              "source"
+            ],
+            "binding": "execution/ffn_transfer.py:BoundTransfer",
+            "streams": "destination stream forks/joins a source-side stream inside capture"
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+          "tensors": {
+            "source": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:1",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "destination": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          }
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 1
+          },
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          }
+        ],
+        "case": {
+          "kind": "copy",
+          "bytes": 524288,
+          "source": 1,
+          "destination": 0,
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "timing_device": "cuda:0"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "four Copies interleaved per round; one SDMA mode per process",
+          "sdma_mode": "sdma_default",
+          "HSA_ENABLE_SDMA": null
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:b61a7056d4addedb8d52cef97ac391c199f625c993d97c8a867cc071c6d07cf8",
+      "contract_id": "sha256:7eec3c3e043f512cad0473884826839111f5475be77bad83e9ac4ec855662ab4"
+    },
+    "copy/1572864/0->1": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "torch.Tensor.copy_.preallocated_cross_gpu.v1",
+            "timed_body": "destination.copy_(source, non_blocking=True) on destination stream",
+            "operands": [
+              "source"
+            ],
+            "binding": "execution/ffn_transfer.py:BoundTransfer",
+            "streams": "destination stream forks/joins a source-side stream inside capture"
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+          "tensors": {
+            "source": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "destination": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:1",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          }
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          },
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 1
+          }
+        ],
+        "case": {
+          "kind": "copy",
+          "bytes": 1572864,
+          "source": 0,
+          "destination": 1,
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "timing_device": "cuda:1"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "four Copies interleaved per round; one SDMA mode per process",
+          "sdma_mode": "sdma_default",
+          "HSA_ENABLE_SDMA": null
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:8d11eb1374afff43b6533e2f1ec72542da5ec2e48ac1cec9242c34c72c80b357",
+      "contract_id": "sha256:7eec3c3e043f512cad0473884826839111f5475be77bad83e9ac4ec855662ab4"
+    },
+    "copy/1572864/1->0": {
+      "case_identity": {
+        "implementation": {
+          "recipe": {
+            "id": "torch.Tensor.copy_.preallocated_cross_gpu.v1",
+            "timed_body": "destination.copy_(source, non_blocking=True) on destination stream",
+            "operands": [
+              "source"
+            ],
+            "binding": "execution/ffn_transfer.py:BoundTransfer",
+            "streams": "destination stream forks/joins a source-side stream inside capture"
+          },
+          "source_sha256": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+          "tensors": {
+            "source": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:1",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "destination": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                786432,
+                3072,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          }
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_module_version": "2.9.0",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "accelerator": "HIP",
+          "hip": "6.3.26113",
+          "driver": "60326113",
+          "grad_enabled": false,
+          "autocast_enabled": false,
+          "deterministic_algorithms": false
+        },
+        "devices": [
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 1
+          },
+          {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          }
+        ],
+        "case": {
+          "kind": "copy",
+          "bytes": 1572864,
+          "source": 1,
+          "destination": 0,
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "timing_device": "cuda:0"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "rtol": 0.01,
+            "atol": 0.001
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only inputs; independent preallocated outputs per call",
+          "cache_context": "four Copies interleaved per round; one SDMA mode per process",
+          "sdma_mode": "sdma_default",
+          "HSA_ENABLE_SDMA": null
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:eea2ea49d77ec383d7cc2072dd057f0d0ff3294af22a0484aef99c7f7f2abda6",
+      "contract_id": "sha256:7eec3c3e043f512cad0473884826839111f5475be77bad83e9ac4ec855662ab4"
+    }
+  },
+  "uuid_is_provenance_only": true,
+  "peer_capability_is_not_route_certificate": true
+}

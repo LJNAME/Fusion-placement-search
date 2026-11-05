@@ -1,0 +1,281 @@
+{
+  "scope": "gpu0_stage_size_mul_diagnostic_v1",
+  "primary_device": "cuda:0",
+  "architecture": "gfx936",
+  "seed": 20261108,
+  "dtype": "bf16",
+  "layout": "explicit_contiguous",
+  "hidden": 3072,
+  "sizes": [
+    192,
+    256,
+    384,
+    768
+  ],
+  "cases": {
+    "silu/S192": {
+      "kind": "stage",
+      "stage": "silu",
+      "S": 192,
+      "shape": [
+        1,
+        192,
+        3072
+      ],
+      "elements": 589824,
+      "role": "diagnostic",
+      "timing_device": "cuda:0"
+    },
+    "mul/S192": {
+      "kind": "stage",
+      "stage": "mul",
+      "S": 192,
+      "shape": [
+        1,
+        192,
+        3072
+      ],
+      "elements": 589824,
+      "role": "diagnostic",
+      "timing_device": "cuda:0"
+    },
+    "silu/S256": {
+      "kind": "stage",
+      "stage": "silu",
+      "S": 256,
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "elements": 786432,
+      "role": "anchor",
+      "timing_device": "cuda:0"
+    },
+    "mul/S256": {
+      "kind": "stage",
+      "stage": "mul",
+      "S": 256,
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "elements": 786432,
+      "role": "anchor",
+      "timing_device": "cuda:0"
+    },
+    "silu/S384": {
+      "kind": "stage",
+      "stage": "silu",
+      "S": 384,
+      "shape": [
+        1,
+        384,
+        3072
+      ],
+      "elements": 1179648,
+      "role": "diagnostic",
+      "timing_device": "cuda:0"
+    },
+    "mul/S384": {
+      "kind": "stage",
+      "stage": "mul",
+      "S": 384,
+      "shape": [
+        1,
+        384,
+        3072
+      ],
+      "elements": 1179648,
+      "role": "diagnostic",
+      "timing_device": "cuda:0"
+    },
+    "silu/S768": {
+      "kind": "stage",
+      "stage": "silu",
+      "S": 768,
+      "shape": [
+        1,
+        768,
+        3072
+      ],
+      "elements": 2359296,
+      "role": "diagnostic",
+      "timing_device": "cuda:0"
+    },
+    "mul/S768": {
+      "kind": "stage",
+      "stage": "mul",
+      "S": 768,
+      "shape": [
+        1,
+        768,
+        3072
+      ],
+      "elements": 2359296,
+      "role": "diagnostic",
+      "timing_device": "cuda:0"
+    }
+  },
+  "recipes": {
+    "silu": {
+      "id": "aten.silu.out.preallocated_stage.sized.v1",
+      "timed_body": "aten.silu.out(gate, out=output)",
+      "operands": [
+        "gate"
+      ]
+    },
+    "mul": {
+      "id": "aten.mul.out.preallocated_derived_left_stage.sized.v1",
+      "timed_body": "aten.mul.out(left, up, out=output)",
+      "operands": [
+        "left",
+        "up"
+      ],
+      "left_origin": "aten.silu.out(gate, out=left), outside capture and timing"
+    }
+  },
+  "order": [
+    [
+      "silu/S192",
+      "mul/S192",
+      "silu/S256",
+      "mul/S256",
+      "silu/S384",
+      "mul/S384",
+      "silu/S768",
+      "mul/S768"
+    ],
+    [
+      "mul/S768",
+      "silu/S768",
+      "mul/S384",
+      "silu/S384",
+      "mul/S256",
+      "silu/S256",
+      "mul/S192",
+      "silu/S192"
+    ],
+    [
+      "silu/S192",
+      "mul/S192",
+      "silu/S256",
+      "mul/S256",
+      "silu/S384",
+      "mul/S384",
+      "silu/S768",
+      "mul/S768"
+    ],
+    [
+      "mul/S768",
+      "silu/S768",
+      "mul/S384",
+      "silu/S384",
+      "mul/S256",
+      "silu/S256",
+      "mul/S192",
+      "silu/S192"
+    ],
+    [
+      "silu/S192",
+      "mul/S192",
+      "silu/S256",
+      "mul/S256",
+      "silu/S384",
+      "mul/S384",
+      "silu/S768",
+      "mul/S768"
+    ],
+    [
+      "mul/S768",
+      "silu/S768",
+      "mul/S384",
+      "silu/S384",
+      "mul/S256",
+      "silu/S256",
+      "mul/S192",
+      "silu/S192"
+    ],
+    [
+      "silu/S192",
+      "mul/S192",
+      "silu/S256",
+      "mul/S256",
+      "silu/S384",
+      "mul/S384",
+      "silu/S768",
+      "mul/S768"
+    ]
+  ],
+  "contract": {
+    "mode": "graph_replay",
+    "granularity": "batch_amortized",
+    "calls_per_replay": 50,
+    "rounds": 7,
+    "extra_attempts": 0,
+    "eager_preparation_calls": 50,
+    "warmup_replays": 10,
+    "unit": "us/call",
+    "statistic": "median",
+    "correctness": {
+      "rtol": 0.01,
+      "atol": 0.001
+    },
+    "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+    "synchronization": "all involved devices synchronized outside the Event interval",
+    "excluded": [
+      "allocation",
+      "input generation",
+      "left generation",
+      "validation",
+      "host submission"
+    ],
+    "buffers": "shared read-only inputs; independent preallocated outputs per call",
+    "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+  },
+  "quality_policy": {
+    "attempts": 7,
+    "extra_attempts": 0,
+    "sample_replacement": false,
+    "iqr_method": "inclusive",
+    "max_iqr_over_median": 0.1,
+    "anchor_policy": "none; same rule as native_stage_calibration_20261105_01"
+  },
+  "pool": {
+    "pool_argument": null,
+    "selection": "default_private_pool",
+    "shared_with_other_graphs": false
+  },
+  "diagnostic_protocol": {
+    "purpose": "test whether batch-01 line residuals vary systematically with S; Mul primary, SiLU comparison",
+    "batch01_line": "frozen fit.json; no refit, no addition to its fit set",
+    "anchor": "S=256 re-measured to separate cross-batch drift from size effects; not a correction",
+    "reported": [
+      "signed residual vs batch-01 line per size",
+      "anchor drift vs batch-01 S=256",
+      "residual sign pattern over all 8 sizes (5 batch-01 + 3 new)"
+    ],
+    "piecewise_fit": "not performed here; considered only if a clear nonlinear trend is reported",
+    "holdout_validation_unchanged": true
+  },
+  "batch01_fit_sha256": "9d457ff282b1d305df85d92247798081ce16f65e6b5322d6c917af348af7177d",
+  "collector": {
+    "git_revision": "54383825f13de4e67ee42d403fb63ece0dca7629",
+    "source_sha256": {
+      "calibration/stage_size_followup.py": "e2ceb762bc2dc5daf93e2bb5e6940a23324a71c5bc81fdd166efb70d1aecd218",
+      "tools/run_stage_size_followup.sh": "d27acdda632dd320f07c52499a6039ee34e8bb5ce9850c918e662f87d3edb28b",
+      "calibration/stage_size_calibration.py": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+      "tools/run_stage_size_calibration.sh": "dc5fa2c3218cdaff59e9adea4f45b6a76827f3cca68c002b87b0f2814939f6cd",
+      "calibration/lightop_profile_smoke.py": "caa6724246c1e559230cc2dc6ccdefaae72468cf7d7d385d760528a021a931d3",
+      "execution/reference_identity.py": "a6268c198a32ada680d9caea01ebd619e6bb958c6cfb728dfec4b8b80c08ee68",
+      "execution/ffn_transfer.py": "44dd9e86217f727bd7357d77dbf6edcec1bd5ac90c6b3e8360627d860c61a6b6",
+      "integration/flagscale/kerv_profile_runtime.py": "1fabeaa9fdf149d0b37bab1b65914fbd9a3bda17f5b7f41f3198f88963529bb2",
+      "cost_model/fusion_kernel_profile.py": "a308ed3912ec79a4eb5b60d9276d91c031cb72536095ce2af7efcb6b270c4906",
+      "cost_model/measurement_labels.py": "45f7da5636c6677df65c6b32fe73eb333076f7fe103f0e3571da2d322aae9340"
+    }
+  },
+  "existing_measurements_preserved": true,
+  "automatic_admission": false,
+  "model_parameters_updated": false
+}
