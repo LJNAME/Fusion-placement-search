@@ -1,0 +1,285 @@
+{
+  "scope": "CPU development check of local measured-cost search, not independent validation",
+  "identity": {
+    "matching_runtime_fields": {
+      "torch_distribution": true,
+      "torch_git_revision": true,
+      "torch_extension_sha256": true,
+      "torch_build_sha256": true,
+      "hip": true,
+      "driver": true,
+      "device": true,
+      "architecture": true,
+      "flags": true
+    },
+    "native_stage_identities": {
+      "silu": "sha256:74dd42e1bb9ce19b5e9e5d1d4e605af2d0eba42f23538f985fb064c33b2a94d5",
+      "mul": "sha256:21ae2387392b4d4e2896294c2aa29a10a8a5c9b6fd788126532b6434e34d4c68"
+    },
+    "native_stage_provenance": {
+      "silu": "sha256:3277749abe5da5922bd01680980f8e46954072895cbe4a9b7f571ca3a499571d",
+      "mul": "sha256:3277749abe5da5922bd01680980f8e46954072895cbe4a9b7f571ca3a499571d"
+    },
+    "native_stage_source": "data/native_stage_calibration_20261105_01/raw",
+    "fused_kernel_key_id": "sha256:218e38d370d950669c6cb66bcfe0a0ee183b018c66bece018cb8b582109f0298",
+    "fused_source": "data/lightop_profile_calibration_20261104_01/raw",
+    "fused_measurement_contract_id": "sha256:082daa2882acc37959d20f5487b32908b3c7810749d4ec0023433bb56f1ab72d",
+    "case": "layer0 activation slice with observed gate/up boundary tensors, not complete FFN"
+  },
+  "graph_fingerprint": "sha256:4b2db9db5aae0c053eed438d1a49460c11bab59bf153e1e0a17b26763720cbd1",
+  "allowed_devices": [
+    0
+  ],
+  "search_space_size": 2,
+  "candidates": [
+    {
+      "choice": "native",
+      "profile_identity_ids": [
+        "sha256:74dd42e1bb9ce19b5e9e5d1d4e605af2d0eba42f23538f985fb064c33b2a94d5",
+        "sha256:21ae2387392b4d4e2896294c2aa29a10a8a5c9b6fd788126532b6434e34d4c68"
+      ],
+      "plan": [
+        {
+          "nodes": [
+            "L000.mlp.gate_proj"
+          ],
+          "device": 0,
+          "pattern": "unfused"
+        },
+        {
+          "nodes": [
+            "L000.mlp.silu"
+          ],
+          "device": 0,
+          "pattern": "unfused"
+        },
+        {
+          "nodes": [
+            "L000.mlp.up_proj"
+          ],
+          "device": 0,
+          "pattern": "unfused"
+        },
+        {
+          "nodes": [
+            "L000.mlp.gated_mul"
+          ],
+          "device": 0,
+          "pattern": "unfused"
+        }
+      ],
+      "cost_us": 10.172800123691559,
+      "estimate": {
+        "makespan": 1.017280012369156e-05,
+        "peak_memory": [
+          4718592.0,
+          0.0
+        ],
+        "critical_path": [
+          "fg0000",
+          "fg0001",
+          "fg0002",
+          "fg0003"
+        ],
+        "communication_time": 0.0,
+        "computation_time": 1.017280012369156e-05,
+        "per_device_time": [
+          1.017280012369156e-05,
+          0.0
+        ],
+        "cross_device_bytes": 0.0,
+        "confidence": 0.95,
+        "out_of_distribution": true,
+        "ood_reasons": [
+          "measurement_context:isolated_stage"
+        ],
+        "model_name": "structural-v1",
+        "details": {
+          "structure_version": "plan-structure-v1",
+          "overflow_devices": [],
+          "groups": [
+            {
+              "group_id": "fg0000",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0,
+              "end": 0.0,
+              "duration": 0.0,
+              "compute_time": 0.0,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "logical_input"
+            },
+            {
+              "group_id": "fg0001",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0,
+              "end": 6.537600159645081e-06,
+              "duration": 6.537600159645081e-06,
+              "compute_time": 6.537600159645081e-06,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "measured_native_isolated_stage"
+            },
+            {
+              "group_id": "fg0002",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 6.537600159645081e-06,
+              "end": 6.537600159645081e-06,
+              "duration": 0.0,
+              "compute_time": 0.0,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "logical_input"
+            },
+            {
+              "group_id": "fg0003",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 6.537600159645081e-06,
+              "end": 1.017280012369156e-05,
+              "duration": 3.635199964046478e-06,
+              "compute_time": 3.635199964046478e-06,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "measured_native_isolated_stage"
+            }
+          ],
+          "transfers": []
+        }
+      }
+    },
+    {
+      "choice": "fused",
+      "profile_identity_ids": [
+        "sha256:218e38d370d950669c6cb66bcfe0a0ee183b018c66bece018cb8b582109f0298"
+      ],
+      "plan": [
+        {
+          "nodes": [
+            "L000.mlp.gate_proj"
+          ],
+          "device": 0,
+          "pattern": "unfused"
+        },
+        {
+          "nodes": [
+            "L000.mlp.up_proj"
+          ],
+          "device": 0,
+          "pattern": "unfused"
+        },
+        {
+          "nodes": [
+            "L000.mlp.silu",
+            "L000.mlp.gated_mul"
+          ],
+          "device": 0,
+          "pattern": "silu_mul"
+        }
+      ],
+      "cost_us": 17.811180353164673,
+      "estimate": {
+        "makespan": 1.7811180353164673e-05,
+        "peak_memory": [
+          4718592.0,
+          0.0
+        ],
+        "critical_path": [
+          "fg0000",
+          "fg0001",
+          "fg0002"
+        ],
+        "communication_time": 0.0,
+        "computation_time": 1.7811180353164673e-05,
+        "per_device_time": [
+          1.7811180353164673e-05,
+          0.0
+        ],
+        "cross_device_bytes": 0.0,
+        "confidence": 0.95,
+        "out_of_distribution": false,
+        "ood_reasons": [],
+        "model_name": "structural-v1",
+        "details": {
+          "structure_version": "plan-structure-v1",
+          "overflow_devices": [],
+          "groups": [
+            {
+              "group_id": "fg0000",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0,
+              "end": 0.0,
+              "duration": 0.0,
+              "compute_time": 0.0,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "logical_input"
+            },
+            {
+              "group_id": "fg0001",
+              "device": 0,
+              "pattern_id": "unfused",
+              "start": 0.0,
+              "end": 0.0,
+              "duration": 0.0,
+              "compute_time": 0.0,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "logical_input"
+            },
+            {
+              "group_id": "fg0002",
+              "device": 0,
+              "pattern_id": "silu_mul",
+              "start": 0.0,
+              "end": 1.7811180353164673e-05,
+              "duration": 1.7811180353164673e-05,
+              "compute_time": 1.7811180353164673e-05,
+              "memory_time": 0.0,
+              "launch_time": 0.0,
+              "source": "measured_group_kernel"
+            }
+          ],
+          "transfers": []
+        }
+      }
+    }
+  ],
+  "exact_choice": "native",
+  "mcts": [
+    {
+      "seed": 0,
+      "best_cost_us": 10.172800123691559,
+      "best_matches_exact": true,
+      "cost_model_gap_us": 0.0
+    },
+    {
+      "seed": 1,
+      "best_cost_us": 10.172800123691559,
+      "best_matches_exact": true,
+      "cost_model_gap_us": 0.0
+    },
+    {
+      "seed": 7,
+      "best_cost_us": 10.172800123691559,
+      "best_matches_exact": true,
+      "cost_model_gap_us": 0.0
+    }
+  ],
+  "all_candidates_have_recorded_cost_sources": true,
+  "analytic_fallback_used": false,
+  "new_gpu_execution": false,
+  "full_ffn_coverage": false,
+  "placement_benefit_tested": false,
+  "mcts_efficiency_or_superiority_tested": false,
+  "independent_reference_regret_us": null,
+  "limitations": [
+    "Native is a scheduled sum of isolated-stage costs; Fused is a measured complete call",
+    "Only two candidates; the singleton baseline is available to MCTS",
+    "Existing historical chain data participated in development; no new holdout claims"
+  ]
+}
