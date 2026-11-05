@@ -1,0 +1,355 @@
+{
+  "scope": "search check after prediction validation; not a measured FFN reference",
+  "order": [
+    "prediction accuracy (validation.json)",
+    "this 48-plan rescoring"
+  ],
+  "inputs": {
+    "gpu0_stage_us": {
+      "silu": 6.566359996795654,
+      "mul": 3.6063599586486816
+    },
+    "measured_copy_us": {
+      "copy/524288/0->1": 34.463961124420166
+    },
+    "copies_left_as_proxy": [
+      "copy/1572864/0->1",
+      "copy/1572864/1->0",
+      "copy/524288/1->0"
+    ]
+  },
+  "cost_sources_after": {
+    "L000.pre_mlp_norm@gpu0": "logical_boundary",
+    "L000.mlp.gate_proj@gpu0": "analytic_ffn_gemm_proxy",
+    "L000.mlp.silu@gpu0": "measured_stage_size_batch",
+    "L000.mlp.up_proj@gpu0": "analytic_ffn_gemm_proxy",
+    "L000.mlp.gated_mul@gpu0": "measured_stage_size_batch",
+    "L000.mlp.down_proj@gpu0": "analytic_ffn_gemm_proxy",
+    "L000.residual_add_2@gpu0": "logical_boundary",
+    "L000.mlp.silu+L000.mlp.gated_mul@gpu0": "measured_group_kernel",
+    "L000.mlp.up_proj@gpu1": "analytic_ffn_gemm_proxy",
+    "L000.mlp.gate_proj@gpu1": "analytic_ffn_gemm_proxy",
+    "L000.mlp.silu@gpu1": "analytic_ffn_stage_proxy",
+    "L000.mlp.down_proj@gpu1": "analytic_ffn_gemm_proxy",
+    "L000.mlp.gated_mul@gpu1": "analytic_ffn_stage_proxy",
+    "L000.mlp.silu+L000.mlp.gated_mul@gpu1": "analytic_ffn_fused_proxy",
+    "copy/1572864/1->0": "analytic_ffn_link_proxy",
+    "copy/524288/0->1": "measured_graph_copy_batch",
+    "copy/1572864/0->1": "analytic_ffn_link_proxy",
+    "copy/524288/1->0": "analytic_ffn_link_proxy"
+  },
+  "before": {
+    "best": {
+      "plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": false,
+      "cost_us": 78.83045049003108
+    },
+    "best_zero_communication_us": 78.83045049003108,
+    "best_cross_device_us": 170.69134583770042,
+    "cross_minus_local_us": 91.86089534766934
+  },
+  "after": {
+    "best": {
+      "plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+      "fused": false,
+      "placement": {
+        "L000.mlp.gate_proj": 0,
+        "L000.mlp.silu": 0,
+        "L000.mlp.up_proj": 0,
+        "L000.mlp.gated_mul": 0,
+        "L000.mlp.down_proj": 0
+      },
+      "cross_device": false,
+      "cost_us": 78.83037032178385
+    },
+    "best_zero_communication_us": 78.83037032178385,
+    "best_cross_device_us": 147.43025334367184,
+    "cross_minus_local_us": 68.59988302188799
+  },
+  "best_plan_changed": false,
+  "ranking_after": [
+    {
+      "plan_id": "sha256:b2780550db20b9cfcd7df33ef41f705d39b4458fd590330a5ff0395fa431b09f",
+      "cost_us": 78.83037032178385,
+      "cross_device": false
+    },
+    {
+      "plan_id": "sha256:ee030cf7b961ca4136ce9a1d44303869e2c3f699a48d62b43afdffb9369b5aa0",
+      "cost_us": 86.46883071950418,
+      "cross_device": false
+    },
+    {
+      "plan_id": "sha256:66241454a93046d0d4036841592bba21774b9a000ff8ae5891e748741c4f8efa",
+      "cost_us": 147.43025334367184,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:dc70bfd0a20d0afe0f59df749b81fd2dae3e1234647b9abaf67523ffdb07f899",
+      "cost_us": 153.9966133404675,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:abbb2b1879a950b0bee7b2993495b5409ce4b4d5cf8fe55c42c3231271961f45",
+      "cost_us": 161.63507373818786,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:eb7d55623c244817a97bdb7f247422d1b52df320addf162680ce262de58e0cbb",
+      "cost_us": 161.63507373818786,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:59763edbbe1d93991352b7936b2024cfafcaef6d2e64ff99013a4e221e0acddd",
+      "cost_us": 166.23175734367186,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:900fa0d8f11c0d44bead60b26c3d1b225071b2f5c36753347eff7ca4bd72ca50",
+      "cost_us": 195.34918401742743,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:0baf13c6bbeee47438b9fc3f0b61db5238c21d4eaa30c190c64ede31a140fd1e",
+      "cost_us": 197.7468480126377,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:f11a17d1e76082b23dd6911de696454fa8a71d6d8bb7c131a84fcc90ae8675bf",
+      "cost_us": 200.12926762523546,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:77943fb198765c960170d944883c35026c260f53d1e31e72fef20f8b72698759",
+      "cost_us": 200.49538059055075,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:c4253a8e0ee2d6060b0967efbd5341f3d720124408a78906de173ee8afcf43ba",
+      "cost_us": 203.61636424318252,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:08f3eebf3a5e7bb9924a940a52dde151c1809b3fadaae0a4ed4ffba507f062bb",
+      "cost_us": 206.36489682109558,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:1ebcc9e919bbbaebe93edd96dcd2fbc1987c252ef098efd81f8552f234e46e1d",
+      "cost_us": 207.7677280229558,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:a739a510e084f6af7cd1b15a766a994c344da29edb1928ce57501b8ab4906ba9",
+      "cost_us": 208.06277068639326,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:bcfbda9dbf21e238726d43b81e65df3cc730b6fb17b0cdc835fbf518f6307ec2",
+      "cost_us": 213.9322869169381,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:acaa0b2bbcbc72b788f65ca9fa9f3e9f3d644216a55af6c53e9df00bef9c7b06",
+      "cost_us": 214.62913068318892,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:83212c09a4d07c13e4a034bf1389f2f63807bd6f23a1cb5c2a1bc0c2fe46bc21",
+      "cost_us": 220.49864691373372,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:5a0f85b062b6deb798f61aa1691a2d8837b95378db08f366ae9d1e68ec7003cf",
+      "cost_us": 226.86427468639326,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:27574f685bb8f71cea66015d118a707f605e177b0325635d64ca31f0e25b2b74",
+      "cost_us": 229.61280726430633,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:d9c4b9bc4e849ab509e0683c5b7554a9c2d012c44b4d4d811484bbeba80d8895",
+      "cost_us": 229.61280726430633,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:b70d1acd3515d74c76a93b8a1c809d413d64ff9db57c8b256503875047610c2e",
+      "cost_us": 232.7337909169381,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:249492c2ef05804204b1aed7d1c9a9ebb7ccbf0c9858835f946a452f21e27640",
+      "cost_us": 235.48232349485113,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:5bb236db96598ca8ab922e48c51aa66b34f0976c009b82c03a762008a12a81ce",
+      "cost_us": 235.48232349485113,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:785df71809a6083080ca46af37df74908f2e8a9204002bd6da83e11a24414c27",
+      "cost_us": 245.46667951505032,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:b58f60532685296dd0aecf0179b9e53a989b42b51fcccbb47fe430bb62a9a527",
+      "cost_us": 259.67149990956625,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:dc7bbd4b3e54e7e9225d685d5aae4d0f94a603bdbd02cc4890263c2ee37c3148",
+      "cost_us": 260.07950189056845,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:8ced04122a87e5c747aa11421a1e09cbb6665467b4a28144911a444125862567",
+      "cost_us": 264.2681835150503,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:efd9edb596dfe952c49d411314efe1a6370a66375c397a7fab2746b86f9bb641",
+      "cost_us": 265.94901812111334,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:938d2f7bcf7bc90be953ec649ba4cfee497187dde0ea030e38925393a073630b",
+      "cost_us": 266.64586188736416,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:223202b48f85d62ce014795926f687b42ef64d5c24f359849efa944c90d2dda5",
+      "cost_us": 268.72915064712345,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:eddd0e4b68a6696ea14f89aaf67679b1335ae030bf495caa4b02121eca68b513",
+      "cost_us": 272.51537811790894,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:e53f46db20020d2073453cf9f598cb8b983ed1d3e36de8b3454852c316d61956",
+      "cost_us": 275.2955106439191,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:ae5dd257c8b3fd9d9e8080c844075f9287895b579a198bf80601cdb4ab2f2957",
+      "cost_us": 281.62953846848154,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:4b8d14936d934c908cdc95a3812e0249c24258cc483ae6ab52d7bf75d4f0bd3d",
+      "cost_us": 282.93397104163944,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:d367dccf10b19d642f71e9abce1c00142a4053d7fa7b8d728ae7b39b5a308b14",
+      "cost_us": 282.93397104163944,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:e9582aeab90b9cbfbca46bde49ea14286f304d4a39cacbcccf690e7bee3932a4",
+      "cost_us": 287.49905469902643,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:c15792ae2c7c7b5ad5bf8a180193dac5ee7a6d4017957390008a3e86cbfea80a",
+      "cost_us": 287.5306546471234,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:ec6ed93b3e0b9b8bc8a6d4c940248e3291508c50d6032e76e909c8ecf86194a3",
+      "cost_us": 289.7808130130101,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:30ee8ff8f1a9835f693241716f23d66c3de7a068aaba2684ad5987c1891409a9",
+      "cost_us": 293.3856101888058,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:76ad61299d4762f7ceffc7f9fcfa0e06fb85b48a8fefbbbf1b921725ce56bf99",
+      "cost_us": 295.6503292435549,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:6ce5a30e7b3031355247d9abc30f9b3d601859bed5d533574ccfc743c3b8fd52",
+      "cost_us": 316.64808132087904,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:923c8e1202c1d65bd69b9ca69f2c11a904823a97392bd9557fda84f4127a17bc",
+      "cost_us": 341.81210490604775,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:7771924b762249ae7c5a9d30eb14e35d10d3a2a83bfb01920ea786ba2f330781",
+      "cost_us": 347.68162113659264,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:dcc3d3fafcc19e2784007150f484f11fb283acf0f80cec5d5b09a0fa8ffd768c",
+      "cost_us": 366.7655768185018,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:61dba8f40c19e556629f133b0cc2c83e421c2de7b5706fb568d0ca285932514e",
+      "cost_us": 380.9703972130179,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:859b49c9d1bc80f262819b0893b24fb06a501aefa5c7a9061dba7eeaffb528d1",
+      "cost_us": 385.56708081850184,
+      "cross_device": true
+    },
+    {
+      "plan_id": "sha256:c33234de66dea14221c516b5cedad6d992c930570789f2dba05c5738f4b3a071",
+      "cost_us": 414.6845074922574,
+      "cross_device": true
+    }
+  ],
+  "communication_threshold": {
+    "before_all_communication_scale": [
+      0.2425010615870633,
+      0.24250106158729068
+    ],
+    "after_all_communication_scale_relative_to_measured": [
+      0.30026128347458325,
+      0.3002612834748106
+    ],
+    "after_endpoints": {
+      "0.0": -22.88474384155721,
+      "1.0": 68.59988302188799
+    },
+    "old_critical_transfer_us": {
+      "copy/524288/0->1": 13.99139,
+      "copy/1572864/1->0": 15.41639
+    },
+    "measured_vs_old_critical": {
+      "copy/524288/0->1": [
+        34.463961124420166,
+        true
+      ],
+      "copy/1572864/1->0": [
+        null,
+        null
+      ]
+    }
+  },
+  "unchanged_proxies": [
+    "GPU0/GPU1 GEMM",
+    "GPU1 SiLU/Mul/Fused",
+    "GPU0 Fused exact Profile kept"
+  ],
+  "best_unchanged_is_not_accuracy_evidence": true,
+  "measured_ffn_reference_plans": 0
+}

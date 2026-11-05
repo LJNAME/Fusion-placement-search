@@ -1,0 +1,398 @@
+{
+  "schema": "stage_linear_params_v1",
+  "scope": "holdout prediction accuracy first; search effects reported separately",
+  "prediction_id_checked": "sha256:e86ab69188d0688c5c1bbd8862abe95d70942ffe9a5fa3ff83ab87657c970a85",
+  "linear_fit": {
+    "lines": {
+      "silu": {
+        "status": "fitted",
+        "fit_cases": [
+          "silu/S64",
+          "silu/S256",
+          "silu/S1024"
+        ],
+        "fit_medians_us": [
+          3.7599998712539673,
+          6.566359996795654,
+          20.604801177978516
+        ],
+        "residuals_us": [
+          0.26790482657296355,
+          -0.3348810332162033,
+          0.06697620664323978
+        ],
+        "a_round_sensitivity_us": [
+          2.2991734743118286,
+          2.9247598846753444
+        ],
+        "b_round_sensitivity_us_per_element": [
+          5.567181644783843e-06,
+          5.852796545825965e-06
+        ],
+        "a_separately_identified": true,
+        "b_identified": true,
+        "holdout_predictions": {
+          "silu/S128": {
+            "elements": 393216,
+            "predicted_us": 4.628477039791289
+          },
+          "silu/S512": {
+            "elements": 1572864,
+            "predicted_us": 11.446769010452996
+          }
+        }
+      },
+      "mul": {
+        "status": "fitted",
+        "fit_cases": [
+          "mul/S64",
+          "mul/S256",
+          "mul/S1024"
+        ],
+        "fit_medians_us": [
+          2.316800057888031,
+          3.6063599586486816,
+          16.780799627304077
+        ],
+        "residuals_us": [
+          0.7634476252964559,
+          -0.954309531620571,
+          0.19086190632411615
+        ],
+        "a_round_sensitivity_us": [
+          0.46185667316118817,
+          0.9461068113644915
+        ],
+        "b_round_sensitivity_us_per_element": [
+          4.901423186051293e-06,
+          5.217631576034899e-06
+        ],
+        "a_separately_identified": true,
+        "b_identified": true,
+        "holdout_predictions": {
+          "mul/S128": {
+            "elements": 393216,
+            "predicted_us": 2.5557914518174676
+          },
+          "mul/S512": {
+            "elements": 1572864,
+            "predicted_us": 8.570425567172823
+          }
+        }
+      }
+    },
+    "holdout_rows": [
+      {
+        "case": "silu/S128",
+        "predicted_us": 4.628477039791289,
+        "measured_us": 4.684799909591675,
+        "quality": "quality_passed",
+        "signed_error": -0.012022470732436301,
+        "ape": 0.012022470732436301
+      },
+      {
+        "case": "silu/S512",
+        "predicted_us": 11.446769010452996,
+        "measured_us": 11.331160068511963,
+        "quality": "quality_passed",
+        "signed_error": 0.010202745459601967,
+        "ape": 0.010202745459601967
+      },
+      {
+        "case": "mul/S128",
+        "predicted_us": 2.5557914518174676,
+        "measured_us": 2.761560082435608,
+        "quality": "quality_passed",
+        "signed_error": -0.07451173411974399,
+        "ape": 0.07451173411974399
+      },
+      {
+        "case": "mul/S512",
+        "predicted_us": 8.570425567172823,
+        "measured_us": 9.42076027393341,
+        "quality": "quality_passed",
+        "signed_error": -0.09026179225825383,
+        "ape": 0.09026179225825383
+      }
+    ],
+    "metrics": {
+      "coverage": "4/4",
+      "mape": 0.046749685642509024,
+      "signed_bias": -0.04164831291270804,
+      "max_ape": 0.09026179225825383
+    },
+    "ordering": {
+      "pairs": 6,
+      "misordered_pairs": []
+    }
+  },
+  "analytic_baseline_frozen_assumptions": {
+    "rows": [
+      {
+        "case": "silu/S128",
+        "predicted_us": 10.150752,
+        "measured_us": 4.684799909591675,
+        "signed_error": 1.1667418450929607,
+        "ape": 1.1667418450929607
+      },
+      {
+        "case": "silu/S512",
+        "predicted_us": 36.103008,
+        "measured_us": 11.331160068511963,
+        "signed_error": 2.186170505200633,
+        "ape": 2.186170505200633
+      },
+      {
+        "case": "mul/S128",
+        "predicted_us": 4.012302528754974,
+        "measured_us": 2.761560082435608,
+        "signed_error": 0.45291154600418876,
+        "ape": 0.45291154600418876
+      },
+      {
+        "case": "mul/S512",
+        "predicted_us": 11.549210115019898,
+        "measured_us": 9.42076027393341,
+        "signed_error": 0.22593185466949628,
+        "ape": 0.22593185466949628
+      }
+    ],
+    "metrics": {
+      "coverage": "4/4",
+      "mape": 1.0079389377418198,
+      "signed_bias": 1.0079389377418198,
+      "max_ape": 2.186170505200633
+    },
+    "ordering": {
+      "pairs": 6,
+      "misordered_pairs": []
+    },
+    "refit": false
+  },
+  "chain_check": {
+    "rows": [
+      {
+        "S": 64,
+        "role_of_stage_sizes": "fit",
+        "chain_measured_us": 5.779160261154175,
+        "silu_plus_mul_measured_us": 6.076799929141998,
+        "delta_add_us": 0.2976396679878235,
+        "delta_add_relative": 0.05150223467386262,
+        "fitted_sum_us": 5.045447477272579,
+        "fitted_sum_signed_error": -0.12695837296871632,
+        "analytic_chain_us": 8.081527264377488
+      },
+      {
+        "S": 128,
+        "role_of_stage_sizes": "holdout",
+        "chain_measured_us": 7.11359977722168,
+        "silu_plus_mul_measured_us": 7.446359992027283,
+        "delta_add_us": 0.332760214805603,
+        "delta_add_relative": 0.04677803436048343,
+        "fitted_sum_us": 7.184268491608757,
+        "fitted_sum_signed_error": 0.00993431126296477,
+        "analytic_chain_us": 13.663054528754975
+      },
+      {
+        "S": 256,
+        "role_of_stage_sizes": "fit",
+        "chain_measured_us": 10.166360139846802,
+        "silu_plus_mul_measured_us": 10.172719955444336,
+        "delta_add_us": 0.00635981559753418,
+        "delta_add_relative": 0.0006255744937273111,
+        "fitted_sum_us": 11.46191052028111,
+        "fitted_sum_signed_error": 0.12743502714963148,
+        "analytic_chain_us": 24.82610905750995
+      },
+      {
+        "S": 512,
+        "role_of_stage_sizes": "holdout",
+        "chain_measured_us": 19.289560317993164,
+        "silu_plus_mul_measured_us": 20.751920342445374,
+        "delta_add_us": 1.4623600244522095,
+        "delta_add_relative": 0.07581095682560118,
+        "fitted_sum_us": 20.01719457762582,
+        "fitted_sum_signed_error": 0.03772166123216002,
+        "analytic_chain_us": 47.1522181150199
+      },
+      {
+        "S": 1024,
+        "role_of_stage_sizes": "fit",
+        "chain_measured_us": 37.2735595703125,
+        "silu_plus_mul_measured_us": 37.38560080528259,
+        "delta_add_us": 0.11204123497009277,
+        "delta_add_relative": 0.0030059172309191244,
+        "fitted_sum_us": 37.12776269231524,
+        "fitted_sum_signed_error": -0.003911536211673942,
+        "analytic_chain_us": 91.8044362300398
+      }
+    ],
+    "role": "validation only; no chain discount is fitted",
+    "historical_S256_chain_us": 10.092799663543701
+  },
+  "copies": {
+    "copy/524288/0->1": {
+      "median_us": 34.463961124420166,
+      "status": "quality_passed",
+      "statistics": {
+        "median_us": 34.463961124420166,
+        "min_us": 33.0431604385376,
+        "max_us": 45.24796009063721,
+        "iqr_us": 3.019200563430786,
+        "iqr_over_median": 0.08760457199133352,
+        "n_rounds": 7,
+        "n_calls": 350
+      }
+    },
+    "copy/524288/1->0": {
+      "median_us": null,
+      "status": "quality_failed",
+      "statistics": {
+        "median_us": 39.65116024017334,
+        "min_us": 35.753560066223145,
+        "max_us": 1201.9483947753906,
+        "iqr_us": 10.232000350952148,
+        "iqr_over_median": 0.25805046533254783,
+        "n_rounds": 7,
+        "n_calls": 350
+      }
+    },
+    "copy/1572864/0->1": {
+      "median_us": null,
+      "status": "quality_failed",
+      "statistics": {
+        "median_us": 50.2431583404541,
+        "min_us": 45.305538177490234,
+        "max_us": 123.83031845092773,
+        "iqr_us": 11.924810409545898,
+        "iqr_over_median": 0.23734197457774947,
+        "n_rounds": 7,
+        "n_calls": 350
+      }
+    },
+    "copy/1572864/1->0": {
+      "median_us": null,
+      "status": "quality_failed",
+      "statistics": {
+        "median_us": 55.884761810302734,
+        "min_us": 46.748762130737305,
+        "max_us": 1369.7947692871094,
+        "iqr_us": 8.350398540496826,
+        "iqr_over_median": 0.14942174342339906,
+        "n_rounds": 7,
+        "n_calls": 350
+      }
+    }
+  },
+  "stage_medians_us": {
+    "silu/S64": 3.7599998712539673,
+    "mul/S64": 2.316800057888031,
+    "chain/S64": 5.779160261154175,
+    "silu/S128": 4.684799909591675,
+    "mul/S128": 2.761560082435608,
+    "chain/S128": 7.11359977722168,
+    "silu/S256": 6.566359996795654,
+    "mul/S256": 3.6063599586486816,
+    "chain/S256": 10.166360139846802,
+    "silu/S512": 11.331160068511963,
+    "mul/S512": 9.42076027393341,
+    "chain/S512": 19.289560317993164,
+    "silu/S1024": 20.604801177978516,
+    "mul/S1024": 16.780799627304077,
+    "chain/S1024": 37.2735595703125
+  },
+  "entries_after_holdout": [
+    {
+      "stage": "silu",
+      "recipe_id": "aten.silu.out.preallocated_stage.sized.v1",
+      "gpu_key": {
+        "device": {
+          "name": "BW",
+          "architecture": "gfx936:sramecc+:xnack-",
+          "ordinal": 0
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "hip": "6.3.26113",
+          "driver": "60326113"
+        }
+      },
+      "gpu_key_id": "sha256:72b22f6ae3a931c6bc06e790005cee2fc3bd9b806da845a313179425a486e532",
+      "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2",
+      "model": "T_stage(N) = a_stage + b_stage * N; N = output elements = S * 3072",
+      "a_us": 2.355713049570719,
+      "a_us_composite_for_prediction": 2.355713049570719,
+      "b_us_per_element": 5.779937719270247e-06,
+      "validated_elements_range": null,
+      "fit_elements_range": [
+        196608,
+        3145728
+      ],
+      "status": "holdout_evaluated",
+      "holdout": [
+        {
+          "case": "silu/S128",
+          "predicted_us": 4.628477039791289,
+          "measured_us": 4.684799909591675,
+          "signed_error": -0.012022470732436301
+        },
+        {
+          "case": "silu/S512",
+          "predicted_us": 11.446769010452996,
+          "measured_us": 11.331160068511963,
+          "signed_error": 0.010202745459601967
+        }
+      ]
+    },
+    {
+      "stage": "mul",
+      "recipe_id": "aten.mul.out.preallocated_derived_left_stage.sized.v1",
+      "gpu_key": {
+        "device": {
+          "name": "BW",
+          "architecture": "gfx936:sramecc+:xnack-",
+          "ordinal": 0
+        },
+        "runtime": {
+          "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+          "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+          "hip": "6.3.26113",
+          "driver": "60326113"
+        }
+      },
+      "gpu_key_id": "sha256:72b22f6ae3a931c6bc06e790005cee2fc3bd9b806da845a313179425a486e532",
+      "contract_id": "sha256:fbd03583179ca1a1a89f3c064040c8e490ce88e7269ca27bebd640a2e1a750f2",
+      "model": "T_stage(N) = a_stage + b_stage * N; N = output elements = S * 3072",
+      "a_us": 0.5509134133656826,
+      "a_us_composite_for_prediction": 0.5509134133656826,
+      "b_us_per_element": 5.098668514129092e-06,
+      "validated_elements_range": null,
+      "fit_elements_range": [
+        196608,
+        3145728
+      ],
+      "status": "holdout_evaluated",
+      "holdout": [
+        {
+          "case": "mul/S128",
+          "predicted_us": 2.5557914518174676,
+          "measured_us": 2.761560082435608,
+          "signed_error": -0.07451173411974399
+        },
+        {
+          "case": "mul/S512",
+          "predicted_us": 8.570425567172823,
+          "measured_us": 9.42076027393341,
+          "signed_error": -0.09026179225825383
+        }
+      ]
+    }
+  ],
+  "holdout_error_threshold": null,
+  "extrapolation_validated": false
+}

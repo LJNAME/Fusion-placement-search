@@ -1,0 +1,538 @@
+{
+  "scope": "gpu0_stage_size_linear_calibration_and_copy_v1",
+  "primary_device": "cuda:0",
+  "architecture": "gfx936",
+  "seed": 20261107,
+  "dtype": "bf16",
+  "layout": "explicit_contiguous",
+  "hidden": 3072,
+  "sizes": [
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "cases": {
+    "silu/S64": {
+      "kind": "stage",
+      "stage": "silu",
+      "S": 64,
+      "shape": [
+        1,
+        64,
+        3072
+      ],
+      "elements": 196608,
+      "role": "fit",
+      "timing_device": "cuda:0"
+    },
+    "mul/S64": {
+      "kind": "stage",
+      "stage": "mul",
+      "S": 64,
+      "shape": [
+        1,
+        64,
+        3072
+      ],
+      "elements": 196608,
+      "role": "fit",
+      "timing_device": "cuda:0"
+    },
+    "chain/S64": {
+      "kind": "stage",
+      "stage": "chain",
+      "S": 64,
+      "shape": [
+        1,
+        64,
+        3072
+      ],
+      "elements": 196608,
+      "role": "chain_validation",
+      "timing_device": "cuda:0"
+    },
+    "silu/S128": {
+      "kind": "stage",
+      "stage": "silu",
+      "S": 128,
+      "shape": [
+        1,
+        128,
+        3072
+      ],
+      "elements": 393216,
+      "role": "holdout",
+      "timing_device": "cuda:0"
+    },
+    "mul/S128": {
+      "kind": "stage",
+      "stage": "mul",
+      "S": 128,
+      "shape": [
+        1,
+        128,
+        3072
+      ],
+      "elements": 393216,
+      "role": "holdout",
+      "timing_device": "cuda:0"
+    },
+    "chain/S128": {
+      "kind": "stage",
+      "stage": "chain",
+      "S": 128,
+      "shape": [
+        1,
+        128,
+        3072
+      ],
+      "elements": 393216,
+      "role": "chain_validation",
+      "timing_device": "cuda:0"
+    },
+    "silu/S256": {
+      "kind": "stage",
+      "stage": "silu",
+      "S": 256,
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "elements": 786432,
+      "role": "fit",
+      "timing_device": "cuda:0"
+    },
+    "mul/S256": {
+      "kind": "stage",
+      "stage": "mul",
+      "S": 256,
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "elements": 786432,
+      "role": "fit",
+      "timing_device": "cuda:0"
+    },
+    "chain/S256": {
+      "kind": "stage",
+      "stage": "chain",
+      "S": 256,
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "elements": 786432,
+      "role": "chain_validation",
+      "timing_device": "cuda:0"
+    },
+    "silu/S512": {
+      "kind": "stage",
+      "stage": "silu",
+      "S": 512,
+      "shape": [
+        1,
+        512,
+        3072
+      ],
+      "elements": 1572864,
+      "role": "holdout",
+      "timing_device": "cuda:0"
+    },
+    "mul/S512": {
+      "kind": "stage",
+      "stage": "mul",
+      "S": 512,
+      "shape": [
+        1,
+        512,
+        3072
+      ],
+      "elements": 1572864,
+      "role": "holdout",
+      "timing_device": "cuda:0"
+    },
+    "chain/S512": {
+      "kind": "stage",
+      "stage": "chain",
+      "S": 512,
+      "shape": [
+        1,
+        512,
+        3072
+      ],
+      "elements": 1572864,
+      "role": "chain_validation",
+      "timing_device": "cuda:0"
+    },
+    "silu/S1024": {
+      "kind": "stage",
+      "stage": "silu",
+      "S": 1024,
+      "shape": [
+        1,
+        1024,
+        3072
+      ],
+      "elements": 3145728,
+      "role": "fit",
+      "timing_device": "cuda:0"
+    },
+    "mul/S1024": {
+      "kind": "stage",
+      "stage": "mul",
+      "S": 1024,
+      "shape": [
+        1,
+        1024,
+        3072
+      ],
+      "elements": 3145728,
+      "role": "fit",
+      "timing_device": "cuda:0"
+    },
+    "chain/S1024": {
+      "kind": "stage",
+      "stage": "chain",
+      "S": 1024,
+      "shape": [
+        1,
+        1024,
+        3072
+      ],
+      "elements": 3145728,
+      "role": "chain_validation",
+      "timing_device": "cuda:0"
+    },
+    "copy/524288/0->1": {
+      "kind": "copy",
+      "bytes": 524288,
+      "source": 0,
+      "destination": 1,
+      "shape": [
+        1,
+        256,
+        1024
+      ],
+      "timing_device": "cuda:1"
+    },
+    "copy/524288/1->0": {
+      "kind": "copy",
+      "bytes": 524288,
+      "source": 1,
+      "destination": 0,
+      "shape": [
+        1,
+        256,
+        1024
+      ],
+      "timing_device": "cuda:0"
+    },
+    "copy/1572864/0->1": {
+      "kind": "copy",
+      "bytes": 1572864,
+      "source": 0,
+      "destination": 1,
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "timing_device": "cuda:1"
+    },
+    "copy/1572864/1->0": {
+      "kind": "copy",
+      "bytes": 1572864,
+      "source": 1,
+      "destination": 0,
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "timing_device": "cuda:0"
+    }
+  },
+  "recipes": {
+    "silu": {
+      "id": "aten.silu.out.preallocated_stage.sized.v1",
+      "timed_body": "aten.silu.out(gate, out=output)",
+      "operands": [
+        "gate"
+      ]
+    },
+    "mul": {
+      "id": "aten.mul.out.preallocated_derived_left_stage.sized.v1",
+      "timed_body": "aten.mul.out(left, up, out=output)",
+      "operands": [
+        "left",
+        "up"
+      ],
+      "left_origin": "aten.silu.out(gate, out=left), outside capture and timing"
+    },
+    "chain": {
+      "id": "aten.silu_mul.out.preallocated_native_chain.sized.v1",
+      "timed_body": "aten.silu.out(gate, out=mid); aten.mul.out(mid, up, out=output)",
+      "operands": [
+        "gate",
+        "up"
+      ],
+      "intermediate": "per-call preallocated mid"
+    },
+    "copy": {
+      "id": "torch.Tensor.copy_.preallocated_cross_gpu.v1",
+      "timed_body": "destination.copy_(source, non_blocking=True) on destination stream",
+      "operands": [
+        "source"
+      ],
+      "binding": "execution/ffn_transfer.py:BoundTransfer",
+      "streams": "destination stream forks/joins a source-side stream inside capture"
+    }
+  },
+  "order": [
+    [
+      "silu/S64",
+      "mul/S64",
+      "chain/S64",
+      "silu/S128",
+      "mul/S128",
+      "chain/S128",
+      "silu/S256",
+      "mul/S256",
+      "chain/S256",
+      "silu/S512",
+      "mul/S512",
+      "chain/S512",
+      "silu/S1024",
+      "mul/S1024",
+      "chain/S1024",
+      "copy/524288/0->1",
+      "copy/524288/1->0",
+      "copy/1572864/0->1",
+      "copy/1572864/1->0"
+    ],
+    [
+      "copy/1572864/1->0",
+      "copy/1572864/0->1",
+      "copy/524288/1->0",
+      "copy/524288/0->1",
+      "chain/S1024",
+      "mul/S1024",
+      "silu/S1024",
+      "chain/S512",
+      "mul/S512",
+      "silu/S512",
+      "chain/S256",
+      "mul/S256",
+      "silu/S256",
+      "chain/S128",
+      "mul/S128",
+      "silu/S128",
+      "chain/S64",
+      "mul/S64",
+      "silu/S64"
+    ],
+    [
+      "silu/S64",
+      "mul/S64",
+      "chain/S64",
+      "silu/S128",
+      "mul/S128",
+      "chain/S128",
+      "silu/S256",
+      "mul/S256",
+      "chain/S256",
+      "silu/S512",
+      "mul/S512",
+      "chain/S512",
+      "silu/S1024",
+      "mul/S1024",
+      "chain/S1024",
+      "copy/524288/0->1",
+      "copy/524288/1->0",
+      "copy/1572864/0->1",
+      "copy/1572864/1->0"
+    ],
+    [
+      "copy/1572864/1->0",
+      "copy/1572864/0->1",
+      "copy/524288/1->0",
+      "copy/524288/0->1",
+      "chain/S1024",
+      "mul/S1024",
+      "silu/S1024",
+      "chain/S512",
+      "mul/S512",
+      "silu/S512",
+      "chain/S256",
+      "mul/S256",
+      "silu/S256",
+      "chain/S128",
+      "mul/S128",
+      "silu/S128",
+      "chain/S64",
+      "mul/S64",
+      "silu/S64"
+    ],
+    [
+      "silu/S64",
+      "mul/S64",
+      "chain/S64",
+      "silu/S128",
+      "mul/S128",
+      "chain/S128",
+      "silu/S256",
+      "mul/S256",
+      "chain/S256",
+      "silu/S512",
+      "mul/S512",
+      "chain/S512",
+      "silu/S1024",
+      "mul/S1024",
+      "chain/S1024",
+      "copy/524288/0->1",
+      "copy/524288/1->0",
+      "copy/1572864/0->1",
+      "copy/1572864/1->0"
+    ],
+    [
+      "copy/1572864/1->0",
+      "copy/1572864/0->1",
+      "copy/524288/1->0",
+      "copy/524288/0->1",
+      "chain/S1024",
+      "mul/S1024",
+      "silu/S1024",
+      "chain/S512",
+      "mul/S512",
+      "silu/S512",
+      "chain/S256",
+      "mul/S256",
+      "silu/S256",
+      "chain/S128",
+      "mul/S128",
+      "silu/S128",
+      "chain/S64",
+      "mul/S64",
+      "silu/S64"
+    ],
+    [
+      "silu/S64",
+      "mul/S64",
+      "chain/S64",
+      "silu/S128",
+      "mul/S128",
+      "chain/S128",
+      "silu/S256",
+      "mul/S256",
+      "chain/S256",
+      "silu/S512",
+      "mul/S512",
+      "chain/S512",
+      "silu/S1024",
+      "mul/S1024",
+      "chain/S1024",
+      "copy/524288/0->1",
+      "copy/524288/1->0",
+      "copy/1572864/0->1",
+      "copy/1572864/1->0"
+    ]
+  ],
+  "contract": {
+    "mode": "graph_replay",
+    "granularity": "batch_amortized",
+    "calls_per_replay": 50,
+    "rounds": 7,
+    "extra_attempts": 0,
+    "eager_preparation_calls": 50,
+    "warmup_replays": 10,
+    "unit": "us/call",
+    "statistic": "median",
+    "correctness": {
+      "rtol": 0.01,
+      "atol": 0.001
+    },
+    "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+    "synchronization": "all involved devices synchronized outside the Event interval",
+    "excluded": [
+      "allocation",
+      "input generation",
+      "left generation",
+      "validation",
+      "host submission"
+    ],
+    "buffers": "shared read-only inputs; independent preallocated outputs per call",
+    "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+  },
+  "quality_policy": {
+    "attempts": 7,
+    "extra_attempts": 0,
+    "sample_replacement": false,
+    "iqr_method": "inclusive",
+    "max_iqr_over_median": 0.1,
+    "anchor_policy": "none; same rule as native_stage_calibration_20261105_01"
+  },
+  "pool": {
+    "pool_argument": null,
+    "selection": "default_private_pool",
+    "shared_with_other_graphs": false
+  },
+  "fit_protocol": {
+    "model": "T_stage(N) = a_stage + b_stage * N; N = output elements = S * 3072",
+    "relation_to_analytic_model": "local per-GPU/per-contract calibration layer; graph_analytic.py unchanged",
+    "fit_sizes": [
+      64,
+      256,
+      1024
+    ],
+    "holdout_sizes": [
+      128,
+      512
+    ],
+    "point_estimate": "ordinary least squares on the per-size medians (us/call) of fit sizes",
+    "round_sensitivity": "OLS over all 7^3 combinations of per-round fit values; min/max reported, not a confidence interval",
+    "identification": {
+      "b": "identified iff every round-combination slope > 0",
+      "a": "separately identified iff the round-combination range excludes 0"
+    },
+    "fit_admission": "every fit size quality_passed; otherwise the stage is not fitted and no substitute is used",
+    "holdout_rule": "predictions written before holdout labels are read; holdout never refits",
+    "holdout_error_threshold": null,
+    "holdout_reports": [
+      "per-case APE and signed error",
+      "signed bias",
+      "pairwise ordering of all holdout cases"
+    ],
+    "extrapolation": "outside [64,1024] reported as unvalidated",
+    "chain_check": "same-batch chain vs silu+mul measured and vs fitted sum; validation only, never fitted",
+    "analytic_baseline": "frozen configs/graph_analytic_scenarios.json assumptions, stage core+h+c, no refit",
+    "search_check_after_prediction": "48 FFN plans with measured copies; best plan unchanged is not accuracy evidence"
+  },
+  "collector": {
+    "git_revision": "cab527d88ae0f08d244933b06f8c52df09f9c805",
+    "source_sha256": {
+      "calibration/stage_size_calibration.py": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+      "tools/run_stage_size_calibration.sh": "dc5fa2c3218cdaff59e9adea4f45b6a76827f3cca68c002b87b0f2814939f6cd",
+      "calibration/lightop_profile_smoke.py": "caa6724246c1e559230cc2dc6ccdefaae72468cf7d7d385d760528a021a931d3",
+      "execution/reference_identity.py": "a6268c198a32ada680d9caea01ebd619e6bb958c6cfb728dfec4b8b80c08ee68",
+      "execution/ffn_transfer.py": "44dd9e86217f727bd7357d77dbf6edcec1bd5ac90c6b3e8360627d860c61a6b6",
+      "integration/flagscale/kerv_profile_runtime.py": "1fabeaa9fdf149d0b37bab1b65914fbd9a3bda17f5b7f41f3198f88963529bb2",
+      "cost_model/fusion_kernel_profile.py": "a308ed3912ec79a4eb5b60d9276d91c031cb72536095ce2af7efcb6b270c4906",
+      "cost_model/measurement_labels.py": "45f7da5636c6677df65c6b32fe73eb333076f7fe103f0e3571da2d322aae9340"
+    }
+  },
+  "out_of_scope": [
+    "GEMM",
+    "GPU1 stage calibration",
+    "Fused multi-size prediction",
+    "cross-GPU validation"
+  ],
+  "existing_measurements_preserved": true,
+  "automatic_admission": false,
+  "model_parameters_updated": false
+}
