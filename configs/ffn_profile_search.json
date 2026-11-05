@@ -1,0 +1,12 @@
+{
+  "scope": "CPU exploration assumptions, not calibrated Graph parameters",
+  "projection_graph_overhead_us": 1.5,
+  "activation_assumptions_source": "configs/graph_analytic_scenarios.json",
+  "scenarios": [
+    {"name": "baseline", "projection_scale": 1.0, "gpu1_projection_scale": 1.0, "link_scale": 1.0},
+    {"name": "shared_projection_x4", "projection_scale": 4.0, "gpu1_projection_scale": 1.0, "link_scale": 1.0},
+    {"name": "links_x0_1", "projection_scale": 1.0, "gpu1_projection_scale": 1.0, "link_scale": 0.1},
+    {"name": "gpu1_projection_x0_8", "projection_scale": 1.0, "gpu1_projection_scale": 0.8, "link_scale": 1.0},
+    {"name": "links_x0_1_gpu1_projection_x0_8", "projection_scale": 1.0, "gpu1_projection_scale": 0.8, "link_scale": 0.1}
+  ]
+}

@@ -44,3 +44,7 @@ StructuralCostModel已能消费上述来源并调度。两个独立阶段在加�
 ## 局部搜索复核
 
 同卡Native/Fused两候选已通过现有Exact与MCTS入口核对，成本身份与评分明细见 [局部搜索检查](LOCAL_PROFILE_SEARCH.md)。该结果是开发检查，不替代新独立批次的完整方案实测。
+
+## FFN开发检查
+
+固定FFN的48方案混合成本与Exact/MCTS对照已完成，见 [FFN成本与搜索检查](FFN_PROFILE_SEARCH.md)。全实测方案仍为0/48，通信假设和规范调度顺序会影响部分排名；没有新GPU测量或SROP实验。
