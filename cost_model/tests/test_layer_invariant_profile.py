@@ -59,7 +59,14 @@ def test_fused_and_add_rmsnorm_sources_are_explicit(setup):
     fused = prof.estimate_group(graph, g[("L005.mlp.silu", "L005.mlp.gated_mul")])
     assert fused.source == "measured_layer_invariant" and fused.duration == pytest.approx(18.9792e-6, rel=1e-4)
     norm = prof.estimate_group(graph, g[("L005.residual_add_1", "L005.pre_mlp_norm")])
-    assert norm.source != "measured_layer_invariant" and "measured_profile_miss:add_rmsnorm_not_measured" in norm.ood_reasons
+    # Add+RMSNorm was measured on GPU0 only; GPU1 keeps the labelled analytic cost.
+    assert norm.source != "measured_layer_invariant" and "measured_profile_miss:no_record:fused:add_rmsnorm:gpu1" in norm.ood_reasons
+    g0 = groups_for(graph, reg, 5, 0, fuse=(("residual_add_1", "pre_mlp_norm"),))
+    fused0 = prof.estimate_group(graph, g0[("L005.residual_add_1", "L005.pre_mlp_norm")])
+    assert fused0.source == "measured_layer_invariant" and fused0.duration == pytest.approx(10.2624e-6, rel=1e-4)
+    for node in ("L005.residual_add_2", "L005.input_norm"):
+        assert prof.estimate_group(graph, g0[(node,)]).source == "measured_layer_invariant"
+    assert prof.estimate_group(graph, g0[("L005.self_attention.q_norm",)]).source != "measured_layer_invariant"
     attention = prof.estimate_group(graph, g[("L005.self_attention.q_proj",)])
     assert attention.source != "measured_layer_invariant"  # different m/n/k: no measurement
 

@@ -45,8 +45,9 @@ SOURCES = {
     "fused_gpu0": "data/lightop_profile_calibration_20261104_01",
     "gemm": "data/gemm_projection_20261106_01",
     "gpu1": "data/gpu1_cost_completion_20261106_01",
+    "add_rmsnorm_gpu0": "data/add_rmsnorm_calibration_20261106_01",
 }
-REFERENCE_ONLY = {("gpu1", "gemm/down/gpu0")}
+REFERENCE_ONLY = {("gpu1", "gemm/down/gpu0"), ("add_rmsnorm_gpu0", "chain/add_rmsnorm_native/gpu0")}
 REPLICATE_SPREAD_LIMIT = .10  # same threshold as the per-record IQR/Median quality rule
 
 
@@ -84,16 +85,23 @@ def contract_class(contract):
 
 def execution_declaration():
     from calibration import gemm_projection_calibration as gp
+    from calibration import add_rmsnorm_calibration as addnorm
     from calibration import native_stage_calibration as native
+    from integration.lightop import add_rmsnorm as add_rmsnorm_adapter
     from integration.lightop import catalog as lightop_catalog
     data = lightop_catalog.catalog()
     return {
-        "stage": {op: {"id": native.RECIPES[op]["id"], "version": _sha("calibration/native_stage_calibration.py")}
-                  for op in ("silu", "mul")},
+        "stage": {**{op: {"id": native.RECIPES[op]["id"], "version": _sha("calibration/native_stage_calibration.py")}
+                     for op in ("silu", "mul")},
+                  **{op: {"id": addnorm.RECIPES[op]["id"], "version": _sha("calibration/add_rmsnorm_calibration.py")}
+                     for op in ("add", "rmsnorm")}},
         "gemm": {"id": gp.RECIPE["id"], "version": _sha("calibration/gemm_projection_calibration.py")},
         "fused": {"silu_mul": {"id": "lightop.silu_mul.split_pack_preallocated.v1",
                                "adapter": _sha("integration/lightop/silu_mul.py"),
-                               "native": data["op_so_sha256"], "package": data["init_sha256"]}},
+                               "native": data["op_so_sha256"], "package": data["init_sha256"]},
+                  "add_rmsnorm": {"id": add_rmsnorm_adapter.RECIPE["id"],
+                                  "adapter": _sha("integration/lightop/add_rmsnorm.py"),
+                                  "native": data["op_so_sha256"], "package": data["init_sha256"]}},
         "layout": "contiguous_preallocated", "contract_class": contract_class(
             {"mode": "graph_replay", "calls_per_replay": 50, "statistic": "median", "unit": "us/call"}),
     }
@@ -115,6 +123,11 @@ def _fused_sig(ordinal, stack, key):
     return ("fused", key["pattern_id"], ordinal, json.dumps(stack, sort_keys=True), impl["id"],
             impl["loaded_source_sha256"]["adapter"], impl["loaded_source_sha256"]["native"],
             impl["loaded_source_sha256"]["package"], inputs)
+
+
+def _lightop_package_sha():
+    from integration.lightop import catalog as lightop_catalog
+    return lightop_catalog.catalog()["init_sha256"]
 
 
 class LayerInvariantStore:
@@ -186,6 +199,34 @@ class LayerInvariantStore:
                 add(_fused_sig(ordinal, stack, fused_identity["kernel_key"]), record["duration_s"],
                     source + f":kernel_key={fused_identity['kernel_key_id']}",
                     fused_identity["measurement_contract"], stack, ordinal)
+        src = sources["add_rmsnorm_gpu0"]
+        review = _read(src + "/review/evaluation.json")
+        for name, expected in review["raw_sha256"].items():
+            if Path(name).name != name or _sha(f"{src}/raw/{name}") != expected:
+                raise ValueError("Reviewed Add+RMSNorm receipt changed: " + name)
+        if _read(src + "/raw/identity.json") != review["identity"]:
+            raise ValueError("Reviewed Add+RMSNorm identities differ")
+        runtime = _read(src + "/raw/runtime.json")
+        for case_id, quality in review["cases"].items():
+            if quality["status"] != "quality_passed" or ("add_rmsnorm_gpu0", case_id) in REFERENCE_ONLY:
+                continue
+            ident = review["identity"]["cases"][case_id]["case_identity"]
+            case, impl, ordinal = ident["case"], ident["implementation"], ident["case"]["device"]
+            stack = normalize_stack(runtime, ordinal)
+            duration, source = quality["statistics"]["median_us"] / 1e6, f"{src}:{case_id}"
+            if case["kind"] == "stage":
+                out = {"shape": case["shape"], "dtype": case["dtype"],
+                       "strides": list(LayerInvariantMeasuredProfile._contiguous(case["shape"]))}
+                add(_stage_sig(case["name"], ordinal, stack, impl["implementation"], out), duration, source, ident["contract"],
+                    stack, ordinal)
+            else:
+                version = impl["implementation"]
+                key = {"pattern_id": "add_rmsnorm", "implementation": {"id": version["id"], "loaded_source_sha256": {
+                           "adapter": version["version"].split(":")[1], "native": version["op_so_sha256"],
+                           "package": _lightop_package_sha()}},
+                       "external_inputs": [{"shape": impl["tensors"][r]["shape"], "dtype": impl["tensors"][r]["dtype"]}
+                                           for r in ("x", "residual")]}
+                add(_fused_sig(ordinal, stack, key), duration, source, ident["contract"], stack, ordinal)
         for sig, values in replicates.items():
             durations = [d for d, _ in values]
             spread = (max(durations) - min(durations)) / min(durations)
@@ -232,7 +273,7 @@ class LayerInvariantMeasuredProfile:
             return None, "no_records_for_gpu"
         stack = json.dumps(stack, sort_keys=True)
         pattern = group.pattern_id if hasattr(group, "pattern_id") else group.extra.get("pattern_id")
-        if len(nodes) == 1 and nodes[0].op_type in ("silu", "mul"):
+        if len(nodes) == 1 and nodes[0].op_type in ("silu", "mul", "add", "rmsnorm"):
             node = nodes[0]
             if node.extra.get("dtype") != "bf16" or not self._declared_layout_ok(node):
                 return None, "dtype_or_layout_outside_contract"
@@ -240,6 +281,13 @@ class LayerInvariantMeasuredProfile:
                 producers = [graph.nodes[e.src].op_type for e in graph.in_edges(group.node_ids[0])]
                 if "silu" not in producers:
                     return None, "mul_left_operand_not_silu"
+            if node.op_type in ("add", "rmsnorm"):
+                incoming = [graph.nodes[e.src] for e in graph.in_edges(group.node_ids[0])]
+                if (len(incoming) != (2 if node.op_type == "add" else 1)
+                        or any(tuple(i.extra.get("output_shape") or ()) != tuple(node.extra["output_shape"]) for i in incoming)):
+                    return None, node.op_type + "_operands_outside_recipe"
+                if node.op_type == "rmsnorm" and node.param_bytes != 2 * node.extra["output_shape"][-1]:
+                    return None, "rmsnorm_weight_outside_recipe"
             decl = self.declaration["stage"][node.op_type]
             shape = tuple(node.extra["output_shape"])
             return ("stage", node.op_type, device, stack, decl["id"], decl["version"], shape, "bf16",
@@ -258,8 +306,12 @@ class LayerInvariantMeasuredProfile:
                                   for n in group.node_ids for e in graph.in_edges(n) if e.src not in members))
             return ("fused", "silu_mul", device, stack, decl["id"], decl["adapter"], decl["native"],
                     decl["package"], inputs), None
-        if pattern == "add_rmsnorm":
-            return None, "add_rmsnorm_not_measured"
+        if pattern == "add_rmsnorm" and [n.op_type for n in nodes] == ["add", "rmsnorm"]:
+            decl = self.declaration["fused"]["add_rmsnorm"]
+            add_inputs = tuple(sorted((tuple(graph.nodes[e.src].extra["output_shape"]), graph.nodes[e.src].extra["dtype"])
+                                      for e in graph.in_edges(group.node_ids[0])))
+            return ("fused", "add_rmsnorm", device, stack, decl["id"], decl["adapter"], decl["native"],
+                    decl["package"], add_inputs), None
         if all(n.op_type == "input" for n in nodes):
             return None, "logical_input"
         return None, "no_measured_recipe_for_group"
@@ -272,7 +324,8 @@ class LayerInvariantMeasuredProfile:
             self.hits[record["provenance"]] = self.hits.get(record["provenance"], 0) + 1
             return GroupCost(d, d, 0., 0., .95, "measured_layer_invariant",
                              ("measurement_context:isolated_case", "profile:" + record["provenance"]))
-        reason = reason or "condition_signature_miss"
+        if reason is None:
+            reason = f"no_record:{signature[0]}:{signature[1]}:gpu{group.device}"
         self.misses[reason] = self.misses.get(reason, 0) + 1
         cost = self.base.estimate_group(graph, group)
         return replace(cost, ood_reasons=tuple(sorted(set(cost.ood_reasons) | {"measured_profile_miss:" + reason})))

@@ -1,0 +1,133 @@
+{
+  "scope": "gpu0_add_rmsnorm_fused_vs_native_v1",
+  "cases": {
+    "fused/add_rmsnorm/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 10.262399911880493,
+        "min_us": 10.21116018295288,
+        "max_us": 10.371160507202148,
+        "iqr_us": 0.03201007843017578,
+        "iqr_over_median": 0.0031191610836680227,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        10.371160507202148,
+        10.268800258636475,
+        10.23036003112793,
+        10.249580144882202,
+        10.21116018295288,
+        10.262399911880493,
+        10.275160074234009
+      ]
+    },
+    "stage/add/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 2.3455600440502167,
+        "min_us": 2.329600006341934,
+        "max_us": 2.3744000494480133,
+        "iqr_us": 0.025639981031417847,
+        "iqr_over_median": 0.010931283169005464,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        2.3744000494480133,
+        2.342360019683838,
+        2.329600006341934,
+        2.3455600440502167,
+        2.3583999276161194,
+        2.339159995317459,
+        2.3744000494480133
+      ]
+    },
+    "stage/rmsnorm/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 5.097600221633911,
+        "min_us": 5.078359842300415,
+        "max_us": 5.145559906959534,
+        "iqr_us": 0.014359652996063232,
+        "iqr_over_median": 0.002816943732684592,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        5.145559906959534,
+        5.088000297546387,
+        5.078359842300415,
+        5.097600221633911,
+        5.100759863853455,
+        5.097600221633911,
+        5.11355996131897
+      ]
+    },
+    "chain/add_rmsnorm_native/gpu0": {
+      "status": "quality_passed",
+      "reasons": [],
+      "statistics": {
+        "median_us": 7.123200297355652,
+        "min_us": 7.081599831581116,
+        "max_us": 7.151960134506226,
+        "iqr_us": 0.03839999437332153,
+        "iqr_over_median": 0.0053908345645673865,
+        "n_rounds": 7,
+        "n_calls": 350
+      },
+      "samples_us": [
+        7.120000123977661,
+        7.142360210418701,
+        7.081599831581116,
+        7.087960243225098,
+        7.123200297355652,
+        7.151960134506226,
+        7.142400145530701
+      ]
+    }
+  },
+  "automatic_admission": false,
+  "status": "calibration_candidates_ready",
+  "quality_passed": [
+    "chain/add_rmsnorm_native/gpu0",
+    "fused/add_rmsnorm/gpu0",
+    "stage/add/gpu0",
+    "stage/rmsnorm/gpu0"
+  ],
+  "quality_failed": [],
+  "data_role": "GPU0 Add+RMSNorm calibration candidates; chain is comparison only",
+  "model_parameters_updated": false,
+  "analytic_error": {
+    "stage/add/gpu0": {
+      "predicted_us": 8.942813114117598,
+      "measured_us": 2.3455600440502167,
+      "signed_error": 2.81265580337714
+    },
+    "stage/rmsnorm/gpu0": {
+      "predicted_us": 8.553537071250618,
+      "measured_us": 5.097600221633911,
+      "signed_error": 0.6779536839609189
+    },
+    "fused/add_rmsnorm/gpu0": {
+      "predicted_us": 9.33514230241883,
+      "measured_us": 10.262399911880493,
+      "signed_error": -0.0903548504661373
+    },
+    "chain/add_rmsnorm_native/gpu0": {
+      "predicted_us": 17.496350185368215,
+      "measured_us": 7.123200297355652,
+      "signed_error": 1.4562485196244435
+    }
+  },
+  "comparison": {
+    "fused_us": 10.262399911880493,
+    "native_add_plus_rmsnorm_stages_us": 7.443160265684128,
+    "native_chain_us": 7.123200297355652,
+    "fused_minus_native_chain_us": 3.1391996145248413,
+    "fused_over_native_chain": 1.440700736112981
+  }
+}

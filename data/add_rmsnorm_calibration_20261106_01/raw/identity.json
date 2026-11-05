@@ -1,0 +1,585 @@
+{
+  "scope": "gpu0_add_rmsnorm_fused_vs_native_v1",
+  "cases": {
+    "fused/add_rmsnorm/gpu0": {
+      "case_identity": {
+        "implementation": {
+          "implementation": {
+            "id": "lightop.add_rmsnorm.copy_inplace_preallocated.v1",
+            "version": "sha256:f29013244ba7e073b902222a1d857486084292b609165d14fd7bbe8870e02ade",
+            "entrypoint": "lightop.fused_add_rms_norm",
+            "provider_version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+            "op_so_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+            "semantics": {
+              "id": "lightop.add_rmsnorm.copy_inplace_preallocated.v1",
+              "timed_body": [
+                "x_buf.copy_(x)",
+                "res_buf.copy_(residual)",
+                "lightop.op.fused_add_rms_norm_opt(x_buf, res_buf, weight, eps)"
+              ],
+              "outputs": {
+                "add": "res_buf (x + residual)",
+                "rmsnorm": "x_buf (RMSNorm(x + residual) * weight)"
+              },
+              "input_semantics": "graph inputs read-only; vendor in-place writes go to private buffers",
+              "eps": {
+                "value": 1e-06,
+                "source": "declared Qwen3 rms_norm_eps; not recorded in the graph"
+              },
+              "capture_support": "unverified_on_GPU"
+            }
+          },
+          "tensors": {
+            "x": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "residual": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "weight": {
+              "shape": [
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "add_output": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "rmsnorm_output": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          }
+        },
+        "gpu": {
+          "device": {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          },
+          "runtime": {
+            "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+            "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+            "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+            "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+            "hip": "6.3.26113",
+            "driver": "60326113"
+          }
+        },
+        "case": {
+          "kind": "fused",
+          "name": "add_rmsnorm",
+          "device": 0,
+          "timing_device": "cuda:0",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "role": "profile_candidate"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "add": {
+              "rtol": 0.01,
+              "atol": 0.01
+            },
+            "rmsnorm": {
+              "rtol": 0.02,
+              "atol": 0.02
+            }
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only x/residual/weight; per-call outputs (fused: per-call x/res copies)",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:eceae599dd1eeeae444712133d0f6549c45a1a0d6b9ab6c9cc57ae45f6323d0b",
+      "gpu_key_id": "sha256:72b22f6ae3a931c6bc06e790005cee2fc3bd9b806da845a313179425a486e532",
+      "contract_id": "sha256:912196d53152333676768e922cc9eddf89687fad9eb96318ea272adbb2e0c59f"
+    },
+    "stage/add/gpu0": {
+      "case_identity": {
+        "implementation": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.add.out.preallocated_stage.v1",
+              "timed_body": "aten.add.out(x, residual, out=s)",
+              "operands": [
+                "x",
+                "residual"
+              ]
+            },
+            "source_sha256": "e2d917a2a85e06dc95b2606dee17de8a723fd0a215abae4f4727b0062b3c3044"
+          },
+          "tensors": {
+            "x": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "residual": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "output": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          }
+        },
+        "gpu": {
+          "device": {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          },
+          "runtime": {
+            "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+            "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+            "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+            "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+            "hip": "6.3.26113",
+            "driver": "60326113"
+          }
+        },
+        "case": {
+          "kind": "stage",
+          "name": "add",
+          "device": 0,
+          "timing_device": "cuda:0",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "role": "profile_candidate"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "add": {
+              "rtol": 0.01,
+              "atol": 0.01
+            },
+            "rmsnorm": {
+              "rtol": 0.02,
+              "atol": 0.02
+            }
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only x/residual/weight; per-call outputs (fused: per-call x/res copies)",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:a00ab1d18a96b2c0419d894ac0fe00d65a3d8110b288a15bc566564643cac795",
+      "gpu_key_id": "sha256:72b22f6ae3a931c6bc06e790005cee2fc3bd9b806da845a313179425a486e532",
+      "contract_id": "sha256:912196d53152333676768e922cc9eddf89687fad9eb96318ea272adbb2e0c59f"
+    },
+    "stage/rmsnorm/gpu0": {
+      "case_identity": {
+        "implementation": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.rms_norm.functional_graph_pool_stage.v1",
+              "timed_body": "aten.rms_norm(s, [1024], weight, eps)",
+              "operands": [
+                "s",
+                "weight"
+              ],
+              "output": "allocated from the captured graph's private pool (no out= overload)",
+              "eps": 1e-06
+            },
+            "source_sha256": "e2d917a2a85e06dc95b2606dee17de8a723fd0a215abae4f4727b0062b3c3044"
+          },
+          "tensors": {
+            "s": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "weight": {
+              "shape": [
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          }
+        },
+        "gpu": {
+          "device": {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          },
+          "runtime": {
+            "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+            "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+            "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+            "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+            "hip": "6.3.26113",
+            "driver": "60326113"
+          }
+        },
+        "case": {
+          "kind": "stage",
+          "name": "rmsnorm",
+          "device": 0,
+          "timing_device": "cuda:0",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "role": "profile_candidate"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "add": {
+              "rtol": 0.01,
+              "atol": 0.01
+            },
+            "rmsnorm": {
+              "rtol": 0.02,
+              "atol": 0.02
+            }
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only x/residual/weight; per-call outputs (fused: per-call x/res copies)",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:f34d6bb45c9598c10834588a0ac884a0aba7e5b546e3cd4e877f9087217adc0c",
+      "gpu_key_id": "sha256:72b22f6ae3a931c6bc06e790005cee2fc3bd9b806da845a313179425a486e532",
+      "contract_id": "sha256:912196d53152333676768e922cc9eddf89687fad9eb96318ea272adbb2e0c59f"
+    },
+    "chain/add_rmsnorm_native/gpu0": {
+      "case_identity": {
+        "implementation": {
+          "implementation": {
+            "recipe": {
+              "id": "aten.add_rmsnorm.native_chain.v1",
+              "timed_body": "aten.add.out(x, residual, out=s); aten.rms_norm(s, [1024], weight, eps)"
+            },
+            "source_sha256": "e2d917a2a85e06dc95b2606dee17de8a723fd0a215abae4f4727b0062b3c3044"
+          },
+          "tensors": {
+            "x": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            },
+            "residual": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "dtype": "bf16",
+              "layout": "contiguous",
+              "strides": [
+                262144,
+                1024,
+                1
+              ],
+              "layout_provenance": {
+                "kind": "runtime_tensor",
+                "device": "cuda:0",
+                "observer": "Tensor.shape/dtype/stride/is_contiguous"
+              }
+            }
+          }
+        },
+        "gpu": {
+          "device": {
+            "name": "BW",
+            "architecture": "gfx936:sramecc+:xnack-",
+            "ordinal": 0
+          },
+          "runtime": {
+            "torch_distribution": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+            "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+            "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+            "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+            "hip": "6.3.26113",
+            "driver": "60326113"
+          }
+        },
+        "case": {
+          "kind": "chain",
+          "name": "add_rmsnorm_native",
+          "device": 0,
+          "timing_device": "cuda:0",
+          "shape": [
+            1,
+            256,
+            1024
+          ],
+          "dtype": "bf16",
+          "role": "comparison_only_not_a_profile"
+        },
+        "contract": {
+          "mode": "graph_replay",
+          "granularity": "batch_amortized",
+          "calls_per_replay": 50,
+          "rounds": 7,
+          "extra_attempts": 0,
+          "eager_preparation_calls": 50,
+          "warmup_replays": 10,
+          "unit": "us/call",
+          "statistic": "median",
+          "correctness": {
+            "add": {
+              "rtol": 0.01,
+              "atol": 0.01
+            },
+            "rmsnorm": {
+              "rtol": 0.02,
+              "atol": 0.02
+            }
+          },
+          "timing_boundary": "start Event -> one Graph replay -> end Event on the timing stream",
+          "synchronization": "all involved devices synchronized outside the Event interval",
+          "excluded": [
+            "allocation",
+            "input generation",
+            "left generation",
+            "validation",
+            "host submission"
+          ],
+          "buffers": "shared read-only x/residual/weight; per-call outputs (fused: per-call x/res copies)",
+          "cache_context": "isolated cases interleaved per round; no chain cache equivalence claimed"
+        },
+        "pool": {
+          "pool_argument": null,
+          "selection": "default_private_pool",
+          "shared_with_other_graphs": false
+        }
+      },
+      "case_identity_id": "sha256:bf8527657f5a4489bcc6f582a66f4c2ff567153fdcc2222ff10f0ca2a11b6b9a",
+      "gpu_key_id": "sha256:72b22f6ae3a931c6bc06e790005cee2fc3bd9b806da845a313179425a486e532",
+      "contract_id": "sha256:912196d53152333676768e922cc9eddf89687fad9eb96318ea272adbb2e0c59f"
+    }
+  }
+}
