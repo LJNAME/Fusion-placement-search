@@ -283,3 +283,7 @@ SiLU、Mul沿用 `native_stage_calibration.StageCall`（FFN节点声明的同一
 48/48方案的计算成本全部来自审核后的实测Profile，剩余解析来源为0；通信仍为代理（默认SDMA unstable）。最优融合、放置不变；第5～8名有交换（GPU1激活改为实测后，含GPU1激活的方案普遍变便宜）。最优跨卡方案（仅Up放GPU1）不含GPU1激活，所以第三步不变。
 
 边界：计算成本是各算子独立测量后由调度模型组合，Native整链相加偏差在0.06%～7.58%（batch-01）；完整FFN实测参考仍为0/48，最优不变不作为预测准确的证据。
+
+## 后续：融合—放置搜索
+
+Add＋RMSNorm测量、实测Profile跨层复用及整模型搜索记录见 [融合—放置搜索实验日志](../cost_model/FUSION_PLACEMENT_SEARCH_LOG.md)。
