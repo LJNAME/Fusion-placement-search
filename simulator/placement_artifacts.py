@@ -376,9 +376,12 @@ def load_search_result(
     return result
 
 
-def placed_op_graph_artifact(placed: PlacedOpGraph) -> dict[str, Any]:
-    validate_placed_op_graph(placed)
-    rules = default_fusion_registry()
+def placed_op_graph_artifact(
+    placed: PlacedOpGraph,
+    registry: Optional[FusionPatternRegistry] = None,
+) -> dict[str, Any]:
+    validate_placed_op_graph(placed, registry=registry)
+    rules = registry or default_fusion_registry()
     graph_data = graph_to_dict(placed.graph)
     node_by_id = {node["id"]: node for node in graph_data["nodes"]}
     groups = []
@@ -422,8 +425,12 @@ def placed_op_graph_artifact(placed: PlacedOpGraph) -> dict[str, Any]:
     }
 
 
-def save_placed_op_graph(path: str | Path, placed: PlacedOpGraph) -> None:
-    artifact = placed_op_graph_artifact(placed)
+def save_placed_op_graph(
+    path: str | Path,
+    placed: PlacedOpGraph,
+    registry: Optional[FusionPatternRegistry] = None,
+) -> None:
+    artifact = placed_op_graph_artifact(placed, registry=registry)
     output = Path(path)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(

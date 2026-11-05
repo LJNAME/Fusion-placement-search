@@ -1,0 +1,63 @@
+{
+ "scope": "full model, executable registry (LightOP silu_mul + add_rmsnorm), require_executable, analytic profile, 64 iterations seed 0",
+ "rows": {
+  "unfused_gpu0_ms": 10.18784328649951,
+  "joint": {
+   "makespan_ms": 9.67610327887258,
+   "elapsed_s": 10.579328161664307,
+   "evals": 192,
+   "patterns": {
+    "unfused": 394,
+    "rmsnorm_reference": 85,
+    "add_rmsnorm": 28,
+    "silu_mul": 28
+   },
+   "devices": [
+    0
+   ],
+   "feasible": true,
+   "export": {
+    "nodes": 591,
+    "groups": 535,
+    "fused_groups": 56,
+    "cross_device_dependencies": 0,
+    "groups_per_device": {
+     "0": 535,
+     "1": 0
+    },
+    "deployable": true,
+    "non_executable": []
+   }
+  },
+  "sequential": {
+   "makespan_ms": 9.67610327887258,
+   "elapsed_s": 11.00180648593232,
+   "evals": 192,
+   "patterns": {
+    "unfused": 394,
+    "rmsnorm_reference": 85,
+    "add_rmsnorm": 28,
+    "silu_mul": 28
+   },
+   "devices": [
+    0
+   ],
+   "feasible": true
+  },
+  "placement_then_fusion": {
+   "makespan_ms": 9.67610327887258,
+   "elapsed_s": 10.84342535212636,
+   "evals": 192,
+   "patterns": {
+    "unfused": 394,
+    "rmsnorm_reference": 85,
+    "add_rmsnorm": 28,
+    "silu_mul": 28
+   },
+   "devices": [
+    0
+   ],
+   "feasible": true
+  }
+ }
+}

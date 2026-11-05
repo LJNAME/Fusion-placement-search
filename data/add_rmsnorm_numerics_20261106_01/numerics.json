@@ -1,0 +1,259 @@
+{
+ "scope": "correctness only; no timing, no Profile",
+ "group": [
+  "L000.residual_add_1",
+  "L000.pre_mlp_norm"
+ ],
+ "implementation": {
+  "id": "lightop.add_rmsnorm.copy_inplace_preallocated.v1",
+  "version": "sha256:f29013244ba7e073b902222a1d857486084292b609165d14fd7bbe8870e02ade",
+  "entrypoint": "lightop.fused_add_rms_norm",
+  "provider_version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+  "op_so_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+  "semantics": {
+   "id": "lightop.add_rmsnorm.copy_inplace_preallocated.v1",
+   "timed_body": [
+    "x_buf.copy_(x)",
+    "res_buf.copy_(residual)",
+    "lightop.op.fused_add_rms_norm_opt(x_buf, res_buf, weight, eps)"
+   ],
+   "outputs": {
+    "add": "res_buf (x + residual)",
+    "rmsnorm": "x_buf (RMSNorm(x + residual) * weight)"
+   },
+   "input_semantics": "graph inputs read-only; vendor in-place writes go to private buffers",
+   "eps": {
+    "value": 1e-06,
+    "source": "declared Qwen3 rms_norm_eps; not recorded in the graph"
+   },
+   "capture_support": "unverified_on_GPU"
+  }
+ },
+ "devices": {
+  "0": {
+   "inputs_unchanged": true,
+   "deterministic_repeat": true,
+   "add_max_abs_err_vs_fp32": 0.015625,
+   "add_max_abs_err_vs_bf16": 0.0,
+   "norm_max_abs_err_vs_fp32": 0.024745464324951172,
+   "norm_max_abs_err_vs_bf16_eager": 0.015288829803466797,
+   "within_bf16_tolerance": true,
+   "tolerance": {
+    "add": {
+     "rtol": 0.01,
+     "atol": 0.01
+    },
+    "rmsnorm": {
+     "rtol": 0.02,
+     "atol": 0.02
+    }
+   },
+   "observation": {
+    "x": {
+     "shape": [
+      1,
+      256,
+      1024
+     ],
+     "dtype": "bf16",
+     "layout": "contiguous",
+     "strides": [
+      262144,
+      1024,
+      1
+     ],
+     "layout_provenance": {
+      "kind": "runtime_tensor",
+      "device": "cuda:0",
+      "observer": "Tensor.shape/dtype/stride/is_contiguous"
+     }
+    },
+    "residual": {
+     "shape": [
+      1,
+      256,
+      1024
+     ],
+     "dtype": "bf16",
+     "layout": "contiguous",
+     "strides": [
+      262144,
+      1024,
+      1
+     ],
+     "layout_provenance": {
+      "kind": "runtime_tensor",
+      "device": "cuda:0",
+      "observer": "Tensor.shape/dtype/stride/is_contiguous"
+     }
+    },
+    "weight": {
+     "shape": [
+      1024
+     ],
+     "dtype": "bf16",
+     "layout": "contiguous",
+     "strides": [
+      1
+     ],
+     "layout_provenance": {
+      "kind": "runtime_tensor",
+      "device": "cuda:0",
+      "observer": "Tensor.shape/dtype/stride/is_contiguous"
+     }
+    },
+    "add_output": {
+     "shape": [
+      1,
+      256,
+      1024
+     ],
+     "dtype": "bf16",
+     "layout": "contiguous",
+     "strides": [
+      262144,
+      1024,
+      1
+     ],
+     "layout_provenance": {
+      "kind": "runtime_tensor",
+      "device": "cuda:0",
+      "observer": "Tensor.shape/dtype/stride/is_contiguous"
+     }
+    },
+    "rmsnorm_output": {
+     "shape": [
+      1,
+      256,
+      1024
+     ],
+     "dtype": "bf16",
+     "layout": "contiguous",
+     "strides": [
+      262144,
+      1024,
+      1
+     ],
+     "layout_provenance": {
+      "kind": "runtime_tensor",
+      "device": "cuda:0",
+      "observer": "Tensor.shape/dtype/stride/is_contiguous"
+     }
+    }
+   }
+  },
+  "1": {
+   "inputs_unchanged": true,
+   "deterministic_repeat": true,
+   "add_max_abs_err_vs_fp32": 0.015625,
+   "add_max_abs_err_vs_bf16": 0.0,
+   "norm_max_abs_err_vs_fp32": 0.023594379425048828,
+   "norm_max_abs_err_vs_bf16_eager": 0.014294624328613281,
+   "within_bf16_tolerance": true,
+   "tolerance": {
+    "add": {
+     "rtol": 0.01,
+     "atol": 0.01
+    },
+    "rmsnorm": {
+     "rtol": 0.02,
+     "atol": 0.02
+    }
+   },
+   "observation": {
+    "x": {
+     "shape": [
+      1,
+      256,
+      1024
+     ],
+     "dtype": "bf16",
+     "layout": "contiguous",
+     "strides": [
+      262144,
+      1024,
+      1
+     ],
+     "layout_provenance": {
+      "kind": "runtime_tensor",
+      "device": "cuda:1",
+      "observer": "Tensor.shape/dtype/stride/is_contiguous"
+     }
+    },
+    "residual": {
+     "shape": [
+      1,
+      256,
+      1024
+     ],
+     "dtype": "bf16",
+     "layout": "contiguous",
+     "strides": [
+      262144,
+      1024,
+      1
+     ],
+     "layout_provenance": {
+      "kind": "runtime_tensor",
+      "device": "cuda:1",
+      "observer": "Tensor.shape/dtype/stride/is_contiguous"
+     }
+    },
+    "weight": {
+     "shape": [
+      1024
+     ],
+     "dtype": "bf16",
+     "layout": "contiguous",
+     "strides": [
+      1
+     ],
+     "layout_provenance": {
+      "kind": "runtime_tensor",
+      "device": "cuda:1",
+      "observer": "Tensor.shape/dtype/stride/is_contiguous"
+     }
+    },
+    "add_output": {
+     "shape": [
+      1,
+      256,
+      1024
+     ],
+     "dtype": "bf16",
+     "layout": "contiguous",
+     "strides": [
+      262144,
+      1024,
+      1
+     ],
+     "layout_provenance": {
+      "kind": "runtime_tensor",
+      "device": "cuda:1",
+      "observer": "Tensor.shape/dtype/stride/is_contiguous"
+     }
+    },
+    "rmsnorm_output": {
+     "shape": [
+      1,
+      256,
+      1024
+     ],
+     "dtype": "bf16",
+     "layout": "contiguous",
+     "strides": [
+      262144,
+      1024,
+      1
+     ],
+     "layout_provenance": {
+      "kind": "runtime_tensor",
+      "device": "cuda:1",
+      "observer": "Tensor.shape/dtype/stride/is_contiguous"
+     }
+    }
+   }
+  }
+ },
+ "passed": true
+}
