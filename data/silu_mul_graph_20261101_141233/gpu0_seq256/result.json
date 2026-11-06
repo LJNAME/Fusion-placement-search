@@ -1,0 +1,340 @@
+{
+  "case_id": "gpu0_seq256",
+  "shape": [
+    1,
+    256,
+    3072
+  ],
+  "dtype": "bf16",
+  "gate_pool_bytes": 78643200,
+  "captures": {
+    "fused": {
+      "capture_wall_s": 0.01015830785036087,
+      "memory_before_capture": {
+        "memory_allocated": 85983232,
+        "memory_reserved": 104857600,
+        "max_memory_allocated": 85983232,
+        "max_memory_reserved": 104857600
+      },
+      "memory_after_capture": {
+        "memory_allocated": 85984256,
+        "memory_reserved": 102760448,
+        "max_memory_allocated": 85984256,
+        "max_memory_reserved": 104857600
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "retained_outputs": "last_final_output_only",
+      "single_stream": true
+    },
+    "unfused": {
+      "capture_wall_s": 0.0016052043065428734,
+      "memory_before_capture": {
+        "memory_allocated": 85984256,
+        "memory_reserved": 123731968,
+        "max_memory_allocated": 85984256,
+        "max_memory_reserved": 123731968
+      },
+      "memory_after_capture": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 123731968,
+        "max_memory_allocated": 90702848,
+        "max_memory_reserved": 123731968
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "retained_outputs": "last_final_output_only",
+      "single_stream": true
+    }
+  },
+  "rows": [
+    {
+      "round": 0,
+      "method": "fused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.00035936000943183896,
+      "graph_batch_amortized_per_call_us": 7.18720018863678,
+      "graph_submission_wall_s": 0.00010043103247880936,
+      "graph_completion_wall_s": 0.0004207240417599678,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 524288000,
+        "max_memory_allocated": 486016000,
+        "max_memory_reserved": 524288000
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "all_50_gate_outputs"
+    },
+    {
+      "round": 0,
+      "method": "unfused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0005772780179977417,
+      "graph_batch_amortized_per_call_us": 11.545560359954834,
+      "graph_submission_wall_s": 0.0001788809895515442,
+      "graph_completion_wall_s": 0.0006493153050541878,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 95421440,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_only"
+    },
+    {
+      "round": 1,
+      "method": "unfused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0005863980054855347,
+      "graph_batch_amortized_per_call_us": 11.727960109710693,
+      "graph_submission_wall_s": 0.00019963225349783897,
+      "graph_completion_wall_s": 0.0006698863580822945,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 95421440,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_only"
+    },
+    {
+      "round": 1,
+      "method": "fused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.00040623798966407773,
+      "graph_batch_amortized_per_call_us": 8.124759793281555,
+      "graph_submission_wall_s": 0.00016282126307487488,
+      "graph_completion_wall_s": 0.0004758141003549099,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 486016000,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "all_50_gate_outputs"
+    },
+    {
+      "round": 2,
+      "method": "fused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0003971180021762848,
+      "graph_batch_amortized_per_call_us": 7.942360043525696,
+      "graph_submission_wall_s": 0.00010185083374381065,
+      "graph_completion_wall_s": 0.00045476388186216354,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 486016000,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "all_50_gate_outputs"
+    },
+    {
+      "round": 2,
+      "method": "unfused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.000514719009399414,
+      "graph_batch_amortized_per_call_us": 10.294380187988281,
+      "graph_submission_wall_s": 0.00014803186058998108,
+      "graph_completion_wall_s": 0.0005706250667572021,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 95421440,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_only"
+    },
+    {
+      "round": 3,
+      "method": "unfused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0005145599842071533,
+      "graph_batch_amortized_per_call_us": 10.291199684143066,
+      "graph_submission_wall_s": 0.00013942085206508636,
+      "graph_completion_wall_s": 0.0005696248263120651,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 95421440,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_only"
+    },
+    {
+      "round": 3,
+      "method": "fused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.00036239999532699586,
+      "graph_batch_amortized_per_call_us": 7.247999906539917,
+      "graph_submission_wall_s": 0.00011748075485229492,
+      "graph_completion_wall_s": 0.0004228837788105011,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 486016000,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "all_50_gate_outputs"
+    },
+    {
+      "round": 4,
+      "method": "fused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0003632000088691711,
+      "graph_batch_amortized_per_call_us": 7.264000177383423,
+      "graph_submission_wall_s": 9.730085730552673e-05,
+      "graph_completion_wall_s": 0.0004217531532049179,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 486016000,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "all_50_gate_outputs"
+    },
+    {
+      "round": 4,
+      "method": "unfused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0005132799744606018,
+      "graph_batch_amortized_per_call_us": 10.265599489212036,
+      "graph_submission_wall_s": 0.0001431708224117756,
+      "graph_completion_wall_s": 0.0005712048150599003,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 95421440,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_only"
+    },
+    {
+      "round": 5,
+      "method": "unfused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0005132799744606018,
+      "graph_batch_amortized_per_call_us": 10.265599489212036,
+      "graph_submission_wall_s": 0.000140300951898098,
+      "graph_completion_wall_s": 0.0005683950148522854,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 95421440,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_only"
+    },
+    {
+      "round": 5,
+      "method": "fused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0003612799942493439,
+      "graph_batch_amortized_per_call_us": 7.225599884986877,
+      "graph_submission_wall_s": 9.836116805672646e-05,
+      "graph_completion_wall_s": 0.0004167943261563778,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 486016000,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "all_50_gate_outputs"
+    },
+    {
+      "round": 6,
+      "method": "fused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.00036287999153137207,
+      "graph_batch_amortized_per_call_us": 7.257599830627441,
+      "graph_submission_wall_s": 9.641097858548164e-05,
+      "graph_completion_wall_s": 0.0004184842109680176,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 486016000,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "all_50_gate_outputs"
+    },
+    {
+      "round": 6,
+      "method": "unfused",
+      "graph_calls": 50,
+      "graph_event_total_s": 0.0005137580037117004,
+      "graph_batch_amortized_per_call_us": 10.275160074234009,
+      "graph_submission_wall_s": 0.00013788091018795967,
+      "graph_completion_wall_s": 0.0005684052594006062,
+      "memory_after_replay": {
+        "memory_allocated": 87557120,
+        "memory_reserved": 526385152,
+        "max_memory_allocated": 95421440,
+        "max_memory_reserved": 526385152
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_only"
+    }
+  ],
+  "measurement_contract": {
+    "executor": "graph_replay",
+    "submission_included": true,
+    "allocation_included": false,
+    "granularity": "graph_replay",
+    "unit": "throughput_per_call",
+    "environment": {
+      "torch": "2.9.0",
+      "hip": "6.3.26113",
+      "triton": "3.5.1",
+      "device_model": "BW"
+    }
+  },
+  "measurement_contract_id": "sha256:98e382f8599c6556e30912ea26ce9cc44654af2e74d88e1831deaa119580bd2a",
+  "admission": "conditional_dev",
+  "submission_scope": "one graph-launch boundary remains inside each Event interval",
+  "allocation_scope": "allocator work occurs at capture, outside replay timing; device writes are included",
+  "summary": {
+    "graph_batch_amortized_per_call_us": {
+      "fused": 7.257599830627441,
+      "unfused": 10.291199684143066
+    },
+    "paired_differences_us": [
+      -4.358360171318054,
+      -3.603200316429138,
+      -2.3520201444625854,
+      -3.0431997776031494,
+      -3.0015993118286133,
+      -3.0399996042251587,
+      -3.0175602436065674
+    ],
+    "paired_relative_differences": [
+      -0.37749230313972426,
+      -0.30723163130864556,
+      -0.2284761298409181,
+      -0.2957089426893724,
+      -0.29239396247466587,
+      -0.2961346395229863,
+      -0.2936752538944285
+    ],
+    "preference": "fused_under_this_graph_contract",
+    "statistical_significance_claim": false,
+    "automatic_model_writeback": false
+  }
+}

@@ -1,0 +1,4601 @@
+{
+  "format": "fusion-placement-search.group-key-collection",
+  "version": "1.0",
+  "scope": "development_isolated_kernels",
+  "draft_id": "sha256:685a5c166b0557593bf8688c2f34273ffb8b747494878f1d21191ce75af5b4e8",
+  "draft": {
+    "format": "fusion-placement-search.group-key-remeasurement-draft",
+    "version": "1.0",
+    "status": "draft_not_collection_ready",
+    "scope": "Qwen3-0.6B_MLP_BF16_seq256_batch1_development_only",
+    "purpose": "Remeasure directly under group-Key identities instead of migrating old labels.",
+    "original_graph_hash": "sha256:4b573875891a2f919c4c1b9a3541d80cbfd8f12fc3b78458da9331f4492f6e9f",
+    "measurement_graph_hash": "sha256:72dc903ab9c9050927fe97d3ba258a9852a29c7cf46224f1b47e2b4d760ebbff",
+    "capability_id": "sha256:225560cdfed78c2d93e8b9e1262f3ebcd9f490ba199c436d91b714f44472df3f",
+    "hardware_snapshot_role": "BW1000_two_card_target_template_not_live_discovery",
+    "environment_to_bind_before_any_labels": [
+      "hardware/device source identity",
+      "physical/logical mapping",
+      "torch version",
+      "HIP version",
+      "Triton/compiler version",
+      "device name and properties",
+      "collector source hash",
+      "measurement recipe hash"
+    ],
+    "key_binding_rule": "Finalize and hash every Kernel Key before obtaining its latency; specification_id is not a measurement Kernel ID.",
+    "slot_count": 12,
+    "key_templates_per_device": 6,
+    "total_finalized_kernel_keys": 0,
+    "measurement_recipe": {
+      "input_seed": 1234,
+      "layout": "contiguous_row_major",
+      "dtype": "bf16",
+      "restore_mutating_gate_before_each_invocation": true,
+      "gate_restore_in_kernel_event_region": false,
+      "gate_restore_in_profiling_wall": true,
+      "smoke": {
+        "warmup": 10,
+        "samples": 3,
+        "iterations_per_sample": 20
+      },
+      "formal_development_proposal": {
+        "warmup": 10,
+        "samples": 7,
+        "iterations_per_sample": 50
+      },
+      "order": "predeclare order_seed; alternate device and implementation block order; retain all observations",
+      "kernel_timing": "GPU_event_duration; no CPU/native fallback for the fused label",
+      "cost_timing": "record setup, compile/warmup, numeric validation, restore and formal sampling wall separately and retain total; two-method diagnostics are not a one-query cost",
+      "invalid_or_drifted_samples": "retain original records and report status; do not rerun until success or silently discard"
+    },
+    "data_policy": {
+      "old_datasets": "retain unchanged as development/historical controls",
+      "new_same_shape_samples": "not an independent unseen-task evaluation",
+      "automatic_profile_writeback": false,
+      "online_SROP_query_interface": "not implemented by this draft",
+      "raw_records_required": true,
+      "profile_ingestion": "Validate raw-record lineage and matching finalized Kernel identity before ingestion."
+    },
+    "source_sha256": {
+      "calibration/profile_e2_bw1000.py": "a915f59d2ff06f7a2de52f8a053959bbe5dff4f3d68d5c00b8b7cea55cf9b9a2",
+      "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+      "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+      "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b",
+      "cost_model/search_evaluation.py": "0dc4a3dff1f7217fff08c92bd13a1f8e2f46a520db455e834f14fb91343f7b28",
+      "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead"
+    },
+    "input_sha256": {
+      "data/kerv_silu_mul_proxy_v1/capability.json": "74bfa16c961107844a50f44fdf5a9aaf7439ea471a7be1a7cdb6f2fc82ee1ba6"
+    },
+    "entries": [
+      {
+        "slot_id": "mlp.gate_proj@gpu0",
+        "candidate_nodes": [
+          "L000.mlp.gate_proj"
+        ],
+        "device_index": 0,
+        "pattern_id": "unfused",
+        "specification_id": "sha256:d1e8ae3f3f52844fb2b371bb1bb6d11af553313b3cd54b0acdfe66a9bac005b7",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 0,
+            "name": "BW",
+            "physical_index": 0,
+            "source": null
+          },
+          "implementation": {
+            "id": "torch.mm.reference",
+            "runtime_flags": {
+              "inplace": false
+            },
+            "source_contract": "calibration.profile_e2_bw1000._prepare_operation",
+            "version": "sha256:a915f59d2ff06f7a2de52f8a053959bbe5dff4f3d68d5c00b8b7cea55cf9b9a2"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 3221225472,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1610612736,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "semantic_slice": "gate",
+                "shape": {
+                  "k": 1024,
+                  "m": 256,
+                  "n": 3072
+                },
+                "sharding_rule": "column"
+              },
+              "inputs": [],
+              "operator": "matmul",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 6291456
+            }
+          ],
+          "outputs": [
+            0
+          ],
+          "pattern_id": "unfused",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false
+      },
+      {
+        "slot_id": "mlp.gate_proj@gpu1",
+        "candidate_nodes": [
+          "L000.mlp.gate_proj"
+        ],
+        "device_index": 1,
+        "pattern_id": "unfused",
+        "specification_id": "sha256:8d2c7f17a3266bc482b1d4a12582c37e436d95abe3c07cf2566b8e80c76a4be0",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 1,
+            "name": "BW",
+            "physical_index": 1,
+            "source": null
+          },
+          "implementation": {
+            "id": "torch.mm.reference",
+            "runtime_flags": {
+              "inplace": false
+            },
+            "source_contract": "calibration.profile_e2_bw1000._prepare_operation",
+            "version": "sha256:a915f59d2ff06f7a2de52f8a053959bbe5dff4f3d68d5c00b8b7cea55cf9b9a2"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 3221225472,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1610612736,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "semantic_slice": "gate",
+                "shape": {
+                  "k": 1024,
+                  "m": 256,
+                  "n": 3072
+                },
+                "sharding_rule": "column"
+              },
+              "inputs": [],
+              "operator": "matmul",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 6291456
+            }
+          ],
+          "outputs": [
+            0
+          ],
+          "pattern_id": "unfused",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false
+      },
+      {
+        "slot_id": "mlp.silu@gpu0",
+        "candidate_nodes": [
+          "L000.mlp.silu"
+        ],
+        "device_index": 0,
+        "pattern_id": "unfused",
+        "specification_id": "sha256:6e768274369fe82410042106dbc7449b9e426e887be263cd6ecc2df474fde11f",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            }
+          ],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 0,
+            "name": "BW",
+            "physical_index": 0,
+            "source": null
+          },
+          "implementation": {
+            "id": "torch.silu.reference",
+            "runtime_flags": {
+              "inplace": false
+            },
+            "source_contract": "calibration.profile_e2_bw1000._prepare_operation",
+            "version": "sha256:a915f59d2ff06f7a2de52f8a053959bbe5dff4f3d68d5c00b8b7cea55cf9b9a2"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 6291456,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 3145728,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "shape": {
+                  "n": 786432
+                }
+              },
+              "inputs": [
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 0
+                }
+              ],
+              "operator": "silu",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 0
+            }
+          ],
+          "outputs": [
+            0
+          ],
+          "pattern_id": "unfused",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false
+      },
+      {
+        "slot_id": "mlp.silu@gpu1",
+        "candidate_nodes": [
+          "L000.mlp.silu"
+        ],
+        "device_index": 1,
+        "pattern_id": "unfused",
+        "specification_id": "sha256:9d545575cfb00f2f23eee034ef3f9dc2e8e22926454c09c308d34e9a0fa5b105",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            }
+          ],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 1,
+            "name": "BW",
+            "physical_index": 1,
+            "source": null
+          },
+          "implementation": {
+            "id": "torch.silu.reference",
+            "runtime_flags": {
+              "inplace": false
+            },
+            "source_contract": "calibration.profile_e2_bw1000._prepare_operation",
+            "version": "sha256:a915f59d2ff06f7a2de52f8a053959bbe5dff4f3d68d5c00b8b7cea55cf9b9a2"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 6291456,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 3145728,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "shape": {
+                  "n": 786432
+                }
+              },
+              "inputs": [
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 0
+                }
+              ],
+              "operator": "silu",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 0
+            }
+          ],
+          "outputs": [
+            0
+          ],
+          "pattern_id": "unfused",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false
+      },
+      {
+        "slot_id": "kerv_silu_mul@gpu0",
+        "candidate_nodes": [
+          "L000.mlp.silu",
+          "L000.mlp.gated_mul"
+        ],
+        "device_index": 0,
+        "pattern_id": "silu_mul",
+        "specification_id": "sha256:fd728d1195c3fff7ada09b215a88da057eed2b72c772ced85955921772ecbaa4",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            }
+          ],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 0,
+            "name": "BW",
+            "physical_index": 0,
+            "source": null
+          },
+          "implementation": {
+            "backend": "flagscale_kerv_triton",
+            "compile_flags": {},
+            "id": "flagos_embodied.kerv_silu_mul.triton",
+            "public_operator": "torch.ops.flagos_embodied.kerv_silu_mul",
+            "runtime_flags": {
+              "backend": "triton",
+              "enabled_operator": "kerv_silu_mul",
+              "inplace": true,
+              "output_alias_input": "gate"
+            },
+            "version": "sha256:05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 6291456,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 3145728,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "shape": {
+                  "n": 786432
+                }
+              },
+              "inputs": [
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 0
+                }
+              ],
+              "operator": "silu",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 0
+            },
+            {
+              "attributes": {
+                "bwd_flops": 1572864,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 786432,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "shape": {
+                  "n": 786432
+                }
+              },
+              "inputs": [
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "internal": 0
+                },
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 1
+                }
+              ],
+              "operator": "mul",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 0
+            }
+          ],
+          "outputs": [
+            1
+          ],
+          "pattern_id": "silu_mul",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false,
+        "numeric_rtol": 0.01,
+        "numeric_atol": 0.001,
+        "applicability_under_measurement_layout": {
+          "eligible": true,
+          "reasons": [],
+          "requirements": [],
+          "gate_node": "L000.mlp.gate_proj",
+          "up_node": "L000.mlp.up_proj",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "slot_id": "kerv_silu_mul@gpu1",
+        "candidate_nodes": [
+          "L000.mlp.silu",
+          "L000.mlp.gated_mul"
+        ],
+        "device_index": 1,
+        "pattern_id": "silu_mul",
+        "specification_id": "sha256:4bb38b6332a097c5921c26404a8dce388283a89b0ba41158e5fcb5c695a5098c",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            }
+          ],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 1,
+            "name": "BW",
+            "physical_index": 1,
+            "source": null
+          },
+          "implementation": {
+            "backend": "flagscale_kerv_triton",
+            "compile_flags": {},
+            "id": "flagos_embodied.kerv_silu_mul.triton",
+            "public_operator": "torch.ops.flagos_embodied.kerv_silu_mul",
+            "runtime_flags": {
+              "backend": "triton",
+              "enabled_operator": "kerv_silu_mul",
+              "inplace": true,
+              "output_alias_input": "gate"
+            },
+            "version": "sha256:05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 6291456,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 3145728,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "shape": {
+                  "n": 786432
+                }
+              },
+              "inputs": [
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 0
+                }
+              ],
+              "operator": "silu",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 0
+            },
+            {
+              "attributes": {
+                "bwd_flops": 1572864,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 786432,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "shape": {
+                  "n": 786432
+                }
+              },
+              "inputs": [
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "internal": 0
+                },
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 1
+                }
+              ],
+              "operator": "mul",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 0
+            }
+          ],
+          "outputs": [
+            1
+          ],
+          "pattern_id": "silu_mul",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false,
+        "numeric_rtol": 0.01,
+        "numeric_atol": 0.001,
+        "applicability_under_measurement_layout": {
+          "eligible": true,
+          "reasons": [],
+          "requirements": [],
+          "gate_node": "L000.mlp.gate_proj",
+          "up_node": "L000.mlp.up_proj",
+          "shape": [
+            1,
+            256,
+            3072
+          ],
+          "dtype": "bf16"
+        }
+      },
+      {
+        "slot_id": "mlp.up_proj@gpu0",
+        "candidate_nodes": [
+          "L000.mlp.up_proj"
+        ],
+        "device_index": 0,
+        "pattern_id": "unfused",
+        "specification_id": "sha256:a0d3d44835f6d1e78fd70807f41744afccf74f7cd794f34ecb875c5b2958df6d",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 0,
+            "name": "BW",
+            "physical_index": 0,
+            "source": null
+          },
+          "implementation": {
+            "id": "torch.mm.reference",
+            "runtime_flags": {
+              "inplace": false
+            },
+            "source_contract": "calibration.profile_e2_bw1000._prepare_operation",
+            "version": "sha256:a915f59d2ff06f7a2de52f8a053959bbe5dff4f3d68d5c00b8b7cea55cf9b9a2"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 3221225472,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1610612736,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "semantic_slice": "up",
+                "shape": {
+                  "k": 1024,
+                  "m": 256,
+                  "n": 3072
+                },
+                "sharding_rule": "column"
+              },
+              "inputs": [],
+              "operator": "matmul",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 6291456
+            }
+          ],
+          "outputs": [
+            0
+          ],
+          "pattern_id": "unfused",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false
+      },
+      {
+        "slot_id": "mlp.up_proj@gpu1",
+        "candidate_nodes": [
+          "L000.mlp.up_proj"
+        ],
+        "device_index": 1,
+        "pattern_id": "unfused",
+        "specification_id": "sha256:f7a38eddb657881724d6c8ca2ec58a46ed1917e962efac03a1344ab98f20c2ed",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 1,
+            "name": "BW",
+            "physical_index": 1,
+            "source": null
+          },
+          "implementation": {
+            "id": "torch.mm.reference",
+            "runtime_flags": {
+              "inplace": false
+            },
+            "source_contract": "calibration.profile_e2_bw1000._prepare_operation",
+            "version": "sha256:a915f59d2ff06f7a2de52f8a053959bbe5dff4f3d68d5c00b8b7cea55cf9b9a2"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 3221225472,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1610612736,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "semantic_slice": "up",
+                "shape": {
+                  "k": 1024,
+                  "m": 256,
+                  "n": 3072
+                },
+                "sharding_rule": "column"
+              },
+              "inputs": [],
+              "operator": "matmul",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 6291456
+            }
+          ],
+          "outputs": [
+            0
+          ],
+          "pattern_id": "unfused",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false
+      },
+      {
+        "slot_id": "mlp.gated_mul@gpu0",
+        "candidate_nodes": [
+          "L000.mlp.gated_mul"
+        ],
+        "device_index": 0,
+        "pattern_id": "unfused",
+        "specification_id": "sha256:2f1d7be2b7cfff8268042f0818a4415ce0be91e9b4aa7c12c197bc255f0fb95e",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            }
+          ],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 0,
+            "name": "BW",
+            "physical_index": 0,
+            "source": null
+          },
+          "implementation": {
+            "id": "torch.mul.reference",
+            "runtime_flags": {
+              "inplace": false
+            },
+            "source_contract": "calibration.profile_e2_bw1000._prepare_operation",
+            "version": "sha256:a915f59d2ff06f7a2de52f8a053959bbe5dff4f3d68d5c00b8b7cea55cf9b9a2"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 1572864,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 786432,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "shape": {
+                  "n": 786432
+                }
+              },
+              "inputs": [
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 0
+                },
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 1
+                }
+              ],
+              "operator": "mul",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 0
+            }
+          ],
+          "outputs": [
+            0
+          ],
+          "pattern_id": "unfused",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false
+      },
+      {
+        "slot_id": "mlp.gated_mul@gpu1",
+        "candidate_nodes": [
+          "L000.mlp.gated_mul"
+        ],
+        "device_index": 1,
+        "pattern_id": "unfused",
+        "specification_id": "sha256:23319b80061a13d432a54e0fb5421de9a93f43d4e9659b6f05a964be661f49ea",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            },
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            }
+          ],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 1,
+            "name": "BW",
+            "physical_index": 1,
+            "source": null
+          },
+          "implementation": {
+            "id": "torch.mul.reference",
+            "runtime_flags": {
+              "inplace": false
+            },
+            "source_contract": "calibration.profile_e2_bw1000._prepare_operation",
+            "version": "sha256:a915f59d2ff06f7a2de52f8a053959bbe5dff4f3d68d5c00b8b7cea55cf9b9a2"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 1572864,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 786432,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 1572864,
+                "shape": {
+                  "n": 786432
+                }
+              },
+              "inputs": [
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 0
+                },
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 1
+                }
+              ],
+              "operator": "mul",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 0
+            }
+          ],
+          "outputs": [
+            0
+          ],
+          "pattern_id": "unfused",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false
+      },
+      {
+        "slot_id": "mlp.down_proj@gpu0",
+        "candidate_nodes": [
+          "L000.mlp.down_proj"
+        ],
+        "device_index": 0,
+        "pattern_id": "unfused",
+        "specification_id": "sha256:66f4d099806e026831086011953bf47dec4901acc04c9b982e7ab6a933215b5f",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            }
+          ],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 0,
+            "name": "BW",
+            "physical_index": 0,
+            "source": null
+          },
+          "implementation": {
+            "id": "torch.mm.reference",
+            "runtime_flags": {
+              "inplace": false
+            },
+            "source_contract": "calibration.profile_e2_bw1000._prepare_operation",
+            "version": "sha256:a915f59d2ff06f7a2de52f8a053959bbe5dff4f3d68d5c00b8b7cea55cf9b9a2"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 3221225472,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1610612736,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 524288,
+                "shape": {
+                  "k": 3072,
+                  "m": 256,
+                  "n": 1024
+                },
+                "sharding_rule": "row"
+              },
+              "inputs": [
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 0
+                }
+              ],
+              "operator": "matmul",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  1024
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 6291456
+            }
+          ],
+          "outputs": [
+            0
+          ],
+          "pattern_id": "unfused",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false
+      },
+      {
+        "slot_id": "mlp.down_proj@gpu1",
+        "candidate_nodes": [
+          "L000.mlp.down_proj"
+        ],
+        "device_index": 1,
+        "pattern_id": "unfused",
+        "specification_id": "sha256:73a92cc573b8787904ba6a5b85402be0e9f1b93556faf80dcbf55d4bdab3a8b3",
+        "kernel_key": null,
+        "kernel_id": null,
+        "kernel_key_template": {
+          "external_inputs": [
+            {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": null
+            }
+          ],
+          "hardware": {
+            "class": "BW1000",
+            "device_index": 1,
+            "name": "BW",
+            "physical_index": 1,
+            "source": null
+          },
+          "implementation": {
+            "id": "torch.mm.reference",
+            "runtime_flags": {
+              "inplace": false
+            },
+            "source_contract": "calibration.profile_e2_bw1000._prepare_operation",
+            "version": "sha256:a915f59d2ff06f7a2de52f8a053959bbe5dff4f3d68d5c00b8b7cea55cf9b9a2"
+          },
+          "key_version": "fusion-group-kernel.v1",
+          "operators": [
+            {
+              "attributes": {
+                "bwd_flops": 3221225472,
+                "collective": null,
+                "dtype": "bf16",
+                "fwd_flops": 1610612736,
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "output_shape": [
+                  1,
+                  256,
+                  1024
+                ],
+                "phase": "forward",
+                "recompute_eligible": true,
+                "saved_activation_bytes": 524288,
+                "shape": {
+                  "k": 3072,
+                  "m": 256,
+                  "n": 1024
+                },
+                "sharding_rule": "row"
+              },
+              "inputs": [
+                {
+                  "attributes": {
+                    "dtype": "bf16",
+                    "shape": [
+                      1,
+                      256,
+                      3072
+                    ]
+                  },
+                  "bytes": 1572864,
+                  "external": 0
+                }
+              ],
+              "operator": "matmul",
+              "output": {
+                "dtype": "bf16",
+                "layout": {
+                  "contiguity": "contiguous",
+                  "order": "row_major"
+                },
+                "shape": [
+                  1,
+                  256,
+                  1024
+                ],
+                "strides": null
+              },
+              "parameter_bytes": 6291456
+            }
+          ],
+          "outputs": [
+            0
+          ],
+          "pattern_id": "unfused",
+          "runtime": {
+            "accelerator": "hip",
+            "accelerator_version": null,
+            "framework": "pytorch",
+            "framework_version": null,
+            "triton_version": null
+          }
+        },
+        "unresolved_identity_fields": [
+          "hardware.source",
+          "runtime.accelerator_version",
+          "runtime.framework_version"
+        ],
+        "measurement_scope": "isolated_kernel_not_full_graph",
+        "label_role": "development_calibration",
+        "latency_s": null,
+        "raw_record_ids": [],
+        "measurement_input_layout": "contiguous_row_major",
+        "layout_is_an_upstream_fact": false
+      }
+    ],
+    "identity_hashing": {
+      "specification_id": "cost_model.fusion_kernel_profile.key_id(kernel_key_template); incomplete draft identity only",
+      "draft_id": "cost_model.fusion_kernel_profile.key_id(manifest excluding draft_id)"
+    },
+    "draft_id": "sha256:685a5c166b0557593bf8688c2f34273ffb8b747494878f1d21191ce75af5b4e8"
+  },
+  "capability_id": "sha256:225560cdfed78c2d93e8b9e1262f3ebcd9f490ba199c436d91b714f44472df3f",
+  "environment": {
+    "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+    "platform": "Linux-5.15.0-25-generic-x86_64-with-glibc2.39",
+    "runtime": {
+      "framework": "pytorch",
+      "framework_version": "2.9.0",
+      "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+      "accelerator": "hip",
+      "accelerator_version": "6.3.26113",
+      "triton_version": "3.5.1",
+      "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+      "python_version": "3.10.22",
+      "float32_matmul_precision": "highest",
+      "allow_tf32": false,
+      "deterministic_algorithms": false
+    },
+    "torch_build_config": "PyTorch built with:\n  - GCC 10.3\n  - C++ Version: 201703\n  - Intel(R) Math Kernel Library Version 2020.0.4 Product Build 20200917 for Intel(R) 64 architecture applications\n  - OpenMP 201511 (a.k.a. OpenMP 4.5)\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: AVX512\n  - HIP Runtime 6.3.26113\n  - MIOpen 2.18.0\n  - Magma 2.8.0\n  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, COMMIT_SHA=cbed15cda33969a3483b92a448b135bf19d9b370, CXX_COMPILER=/opt/rh/gcc-toolset-10/root/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOXPUPTI=ON -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=old-style-cast -faligned-new -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, FORCE_FALLBACK_CUDA_MPI=1, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, TORCH_VERSION=2.9.0, USE_CUDA=0, USE_CUDNN=OFF, USE_CUSPARSELT=OFF, USE_GFLAGS=1, USE_GLOG=1, USE_GLOO=1, USE_MKL=ON, USE_MKLDNN=0, USE_MPI=1, USE_NCCL=1, USE_NNPACK=ON, USE_OPENMP=1, USE_ROCM=ON, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n",
+    "devices": [
+      {
+        "device_index": 0,
+        "name": "BW",
+        "class": "BW",
+        "physical_index": null,
+        "uuid": "30303134-6332-3666-6533-383831393231",
+        "pci_bus_id": "9",
+        "total_memory": 68702699520,
+        "multiprocessors": 80,
+        "architecture": "gfx936:sramecc+:xnack-",
+        "locator": {
+          "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+          "torch_logical_index": 0,
+          "visibility": {
+            "CUDA_VISIBLE_DEVICES": null,
+            "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+            "ROCR_VISIBLE_DEVICES": null
+          }
+        },
+        "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index"
+      },
+      {
+        "device_index": 1,
+        "name": "BW",
+        "class": "BW",
+        "physical_index": null,
+        "uuid": "30303134-6261-3537-6132-323632383631",
+        "pci_bus_id": "245",
+        "total_memory": 68702699520,
+        "multiprocessors": 80,
+        "architecture": "gfx936:sramecc+:xnack-",
+        "locator": {
+          "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+          "torch_logical_index": 1,
+          "visibility": {
+            "CUDA_VISIBLE_DEVICES": null,
+            "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+            "ROCR_VISIBLE_DEVICES": null
+          }
+        },
+        "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index"
+      }
+    ],
+    "environment_id": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+  },
+  "collector_source_sha256": {
+    "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+    "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+    "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+    "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+  },
+  "recipe": {
+    "warmup": 10,
+    "samples": 7,
+    "iterations_per_sample": 50,
+    "mode": "formal",
+    "order_seed": 0,
+    "input_seed": 1234,
+    "timing": "one event pair per invocation; restore outside events; GPU synchronization per block",
+    "context": "resident warm inputs; Torch output allocation included; no graph execution",
+    "numeric": {
+      "mm": {
+        "rtol": 0.02,
+        "atol": 0.05
+      },
+      "elementwise": {
+        "rtol": 0.01,
+        "atol": 0.001
+      }
+    },
+    "quality": "retain every sample; report median, IQR, drift; no outlier trimming"
+  },
+  "entries": [
+    {
+      "slot_id": "mlp.gate_proj@gpu0",
+      "specification_id": "sha256:d1e8ae3f3f52844fb2b371bb1bb6d11af553313b3cd54b0acdfe66a9bac005b7",
+      "candidate_nodes": [
+        "L000.mlp.gate_proj"
+      ],
+      "device_index": 0,
+      "pattern_id": "unfused",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "semantic_slice": "gate",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:3f36a3e984928fd1d1788b5dc335493ebfe8a9c05f18171d3ec3f646a35ad116"
+    },
+    {
+      "slot_id": "mlp.gate_proj@gpu1",
+      "specification_id": "sha256:8d2c7f17a3266bc482b1d4a12582c37e436d95abe3c07cf2566b8e80c76a4be0",
+      "candidate_nodes": [
+        "L000.mlp.gate_proj"
+      ],
+      "device_index": 1,
+      "pattern_id": "unfused",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "semantic_slice": "gate",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:89432dca497719622f08bb4f95817a1b171ccce4cf793b5a41ca20c01ad4b5b6"
+    },
+    {
+      "slot_id": "mlp.silu@gpu0",
+      "specification_id": "sha256:6e768274369fe82410042106dbc7449b9e426e887be263cd6ecc2df474fde11f",
+      "candidate_nodes": [
+        "L000.mlp.silu"
+      ],
+      "device_index": 0,
+      "pattern_id": "unfused",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.silu.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "silu",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:1fef25119cdadab04527eefaa636f01647c095129a9deec1a77b386875430938"
+    },
+    {
+      "slot_id": "mlp.silu@gpu1",
+      "specification_id": "sha256:9d545575cfb00f2f23eee034ef3f9dc2e8e22926454c09c308d34e9a0fa5b105",
+      "candidate_nodes": [
+        "L000.mlp.silu"
+      ],
+      "device_index": 1,
+      "pattern_id": "unfused",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.silu.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "silu",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:8461d971cccc1e3aaa1cd4f0981c65c7f09162d1092c0dd8de3f08b6685d7229"
+    },
+    {
+      "slot_id": "kerv_silu_mul@gpu0",
+      "specification_id": "sha256:fd728d1195c3fff7ada09b215a88da057eed2b72c772ced85955921772ecbaa4",
+      "candidate_nodes": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "device_index": 0,
+      "pattern_id": "silu_mul",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "backend": "flagscale_kerv_triton",
+          "compile_flags": {},
+          "id": "flagos_embodied.kerv_silu_mul.triton",
+          "public_operator": "torch.ops.flagos_embodied.kerv_silu_mul",
+          "runtime_flags": {
+            "backend": "triton",
+            "enabled_operator": "kerv_silu_mul",
+            "inplace": true,
+            "output_alias_input": "gate"
+          },
+          "version": "sha256:05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60",
+          "measurement_contract": {
+            "kind": "kerv_silu_mul",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": true
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          },
+          {
+            "attributes": {
+              "bwd_flops": 1572864,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "internal": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          1
+        ],
+        "pattern_id": "silu_mul",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:c02d1616c4ca4065300b74a91a9cfa07d4f92ad12af5d1c5631499b6e4852fa9"
+    },
+    {
+      "slot_id": "kerv_silu_mul@gpu1",
+      "specification_id": "sha256:4bb38b6332a097c5921c26404a8dce388283a89b0ba41158e5fcb5c695a5098c",
+      "candidate_nodes": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "device_index": 1,
+      "pattern_id": "silu_mul",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "backend": "flagscale_kerv_triton",
+          "compile_flags": {},
+          "id": "flagos_embodied.kerv_silu_mul.triton",
+          "public_operator": "torch.ops.flagos_embodied.kerv_silu_mul",
+          "runtime_flags": {
+            "backend": "triton",
+            "enabled_operator": "kerv_silu_mul",
+            "inplace": true,
+            "output_alias_input": "gate"
+          },
+          "version": "sha256:05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60",
+          "measurement_contract": {
+            "kind": "kerv_silu_mul",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": true
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          },
+          {
+            "attributes": {
+              "bwd_flops": 1572864,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "internal": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          1
+        ],
+        "pattern_id": "silu_mul",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:5a0283a6843e054e0f23f2d207f5f8c56dc54b2bba12e129c37d6b9d0590b75c"
+    },
+    {
+      "slot_id": "mlp.up_proj@gpu0",
+      "specification_id": "sha256:a0d3d44835f6d1e78fd70807f41744afccf74f7cd794f34ecb875c5b2958df6d",
+      "candidate_nodes": [
+        "L000.mlp.up_proj"
+      ],
+      "device_index": 0,
+      "pattern_id": "unfused",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "semantic_slice": "up",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:a42723a6cc015de01927f58316d353f2283f0ed24f7f19ef06de0fab85db95d5"
+    },
+    {
+      "slot_id": "mlp.up_proj@gpu1",
+      "specification_id": "sha256:f7a38eddb657881724d6c8ca2ec58a46ed1917e962efac03a1344ab98f20c2ed",
+      "candidate_nodes": [
+        "L000.mlp.up_proj"
+      ],
+      "device_index": 1,
+      "pattern_id": "unfused",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "semantic_slice": "up",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:3d8c4e4bcb0de38d55ea7b642e49db664efd8f1c058fda0635a18ac0b9385d42"
+    },
+    {
+      "slot_id": "mlp.gated_mul@gpu0",
+      "specification_id": "sha256:2f1d7be2b7cfff8268042f0818a4415ce0be91e9b4aa7c12c197bc255f0fb95e",
+      "candidate_nodes": [
+        "L000.mlp.gated_mul"
+      ],
+      "device_index": 0,
+      "pattern_id": "unfused",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mul.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mul",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 1572864,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:5ad26bff9e20fb605262aaba396f29b34bca9b890cb2db4a8ee97a3cb6b6cff8"
+    },
+    {
+      "slot_id": "mlp.gated_mul@gpu1",
+      "specification_id": "sha256:23319b80061a13d432a54e0fb5421de9a93f43d4e9659b6f05a964be661f49ea",
+      "candidate_nodes": [
+        "L000.mlp.gated_mul"
+      ],
+      "device_index": 1,
+      "pattern_id": "unfused",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mul.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mul",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 1572864,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:d31e527fc7183859280e5b4e99ff7752811845ae93ca92de49942515911e9898"
+    },
+    {
+      "slot_id": "mlp.down_proj@gpu0",
+      "specification_id": "sha256:66f4d099806e026831086011953bf47dec4901acc04c9b982e7ab6a933215b5f",
+      "candidate_nodes": [
+        "L000.mlp.down_proj"
+      ],
+      "device_index": 0,
+      "pattern_id": "unfused",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  3072,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": [
+                262144,
+                1024,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                1024
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 524288,
+              "shape": {
+                "k": 3072,
+                "m": 256,
+                "n": 1024
+              },
+              "sharding_rule": "row"
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": [
+                262144,
+                1024,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:f1ca314307aacfd7481d94e429273f2abadfbd607ac8fafa7b326e17ec22fc9d"
+    },
+    {
+      "slot_id": "mlp.down_proj@gpu1",
+      "specification_id": "sha256:73a92cc573b8787904ba6a5b85402be0e9f1b93556faf80dcbf55d4bdab3a8b3",
+      "candidate_nodes": [
+        "L000.mlp.down_proj"
+      ],
+      "device_index": 1,
+      "pattern_id": "unfused",
+      "label_role": "development_calibration",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  3072,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": [
+                262144,
+                1024,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                1024
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 524288,
+              "shape": {
+                "k": 3072,
+                "m": 256,
+                "n": 1024
+              },
+              "sharding_rule": "row"
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": [
+                262144,
+                1024,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kernel_id": "sha256:b7f77400efc201e54330f42caa8edf1cb96291cceb3d7b4396d592321a31b360"
+    }
+  ],
+  "schedule": [
+    {
+      "block_index": 0,
+      "sample": 0,
+      "slot_id": "mlp.silu@gpu0"
+    },
+    {
+      "block_index": 1,
+      "sample": 0,
+      "slot_id": "mlp.silu@gpu1"
+    },
+    {
+      "block_index": 2,
+      "sample": 0,
+      "slot_id": "mlp.gate_proj@gpu0"
+    },
+    {
+      "block_index": 3,
+      "sample": 0,
+      "slot_id": "mlp.gate_proj@gpu1"
+    },
+    {
+      "block_index": 4,
+      "sample": 0,
+      "slot_id": "mlp.down_proj@gpu0"
+    },
+    {
+      "block_index": 5,
+      "sample": 0,
+      "slot_id": "mlp.down_proj@gpu1"
+    },
+    {
+      "block_index": 6,
+      "sample": 0,
+      "slot_id": "kerv_silu_mul@gpu0"
+    },
+    {
+      "block_index": 7,
+      "sample": 0,
+      "slot_id": "kerv_silu_mul@gpu1"
+    },
+    {
+      "block_index": 8,
+      "sample": 0,
+      "slot_id": "mlp.up_proj@gpu0"
+    },
+    {
+      "block_index": 9,
+      "sample": 0,
+      "slot_id": "mlp.up_proj@gpu1"
+    },
+    {
+      "block_index": 10,
+      "sample": 0,
+      "slot_id": "mlp.gated_mul@gpu0"
+    },
+    {
+      "block_index": 11,
+      "sample": 0,
+      "slot_id": "mlp.gated_mul@gpu1"
+    },
+    {
+      "block_index": 12,
+      "sample": 1,
+      "slot_id": "mlp.gated_mul@gpu1"
+    },
+    {
+      "block_index": 13,
+      "sample": 1,
+      "slot_id": "mlp.gated_mul@gpu0"
+    },
+    {
+      "block_index": 14,
+      "sample": 1,
+      "slot_id": "mlp.up_proj@gpu1"
+    },
+    {
+      "block_index": 15,
+      "sample": 1,
+      "slot_id": "mlp.up_proj@gpu0"
+    },
+    {
+      "block_index": 16,
+      "sample": 1,
+      "slot_id": "kerv_silu_mul@gpu1"
+    },
+    {
+      "block_index": 17,
+      "sample": 1,
+      "slot_id": "kerv_silu_mul@gpu0"
+    },
+    {
+      "block_index": 18,
+      "sample": 1,
+      "slot_id": "mlp.down_proj@gpu1"
+    },
+    {
+      "block_index": 19,
+      "sample": 1,
+      "slot_id": "mlp.down_proj@gpu0"
+    },
+    {
+      "block_index": 20,
+      "sample": 1,
+      "slot_id": "mlp.gate_proj@gpu1"
+    },
+    {
+      "block_index": 21,
+      "sample": 1,
+      "slot_id": "mlp.gate_proj@gpu0"
+    },
+    {
+      "block_index": 22,
+      "sample": 1,
+      "slot_id": "mlp.silu@gpu1"
+    },
+    {
+      "block_index": 23,
+      "sample": 1,
+      "slot_id": "mlp.silu@gpu0"
+    },
+    {
+      "block_index": 24,
+      "sample": 2,
+      "slot_id": "mlp.silu@gpu0"
+    },
+    {
+      "block_index": 25,
+      "sample": 2,
+      "slot_id": "mlp.silu@gpu1"
+    },
+    {
+      "block_index": 26,
+      "sample": 2,
+      "slot_id": "mlp.gate_proj@gpu0"
+    },
+    {
+      "block_index": 27,
+      "sample": 2,
+      "slot_id": "mlp.gate_proj@gpu1"
+    },
+    {
+      "block_index": 28,
+      "sample": 2,
+      "slot_id": "mlp.down_proj@gpu0"
+    },
+    {
+      "block_index": 29,
+      "sample": 2,
+      "slot_id": "mlp.down_proj@gpu1"
+    },
+    {
+      "block_index": 30,
+      "sample": 2,
+      "slot_id": "kerv_silu_mul@gpu0"
+    },
+    {
+      "block_index": 31,
+      "sample": 2,
+      "slot_id": "kerv_silu_mul@gpu1"
+    },
+    {
+      "block_index": 32,
+      "sample": 2,
+      "slot_id": "mlp.up_proj@gpu0"
+    },
+    {
+      "block_index": 33,
+      "sample": 2,
+      "slot_id": "mlp.up_proj@gpu1"
+    },
+    {
+      "block_index": 34,
+      "sample": 2,
+      "slot_id": "mlp.gated_mul@gpu0"
+    },
+    {
+      "block_index": 35,
+      "sample": 2,
+      "slot_id": "mlp.gated_mul@gpu1"
+    },
+    {
+      "block_index": 36,
+      "sample": 3,
+      "slot_id": "mlp.gated_mul@gpu1"
+    },
+    {
+      "block_index": 37,
+      "sample": 3,
+      "slot_id": "mlp.gated_mul@gpu0"
+    },
+    {
+      "block_index": 38,
+      "sample": 3,
+      "slot_id": "mlp.up_proj@gpu1"
+    },
+    {
+      "block_index": 39,
+      "sample": 3,
+      "slot_id": "mlp.up_proj@gpu0"
+    },
+    {
+      "block_index": 40,
+      "sample": 3,
+      "slot_id": "kerv_silu_mul@gpu1"
+    },
+    {
+      "block_index": 41,
+      "sample": 3,
+      "slot_id": "kerv_silu_mul@gpu0"
+    },
+    {
+      "block_index": 42,
+      "sample": 3,
+      "slot_id": "mlp.down_proj@gpu1"
+    },
+    {
+      "block_index": 43,
+      "sample": 3,
+      "slot_id": "mlp.down_proj@gpu0"
+    },
+    {
+      "block_index": 44,
+      "sample": 3,
+      "slot_id": "mlp.gate_proj@gpu1"
+    },
+    {
+      "block_index": 45,
+      "sample": 3,
+      "slot_id": "mlp.gate_proj@gpu0"
+    },
+    {
+      "block_index": 46,
+      "sample": 3,
+      "slot_id": "mlp.silu@gpu1"
+    },
+    {
+      "block_index": 47,
+      "sample": 3,
+      "slot_id": "mlp.silu@gpu0"
+    },
+    {
+      "block_index": 48,
+      "sample": 4,
+      "slot_id": "mlp.silu@gpu0"
+    },
+    {
+      "block_index": 49,
+      "sample": 4,
+      "slot_id": "mlp.silu@gpu1"
+    },
+    {
+      "block_index": 50,
+      "sample": 4,
+      "slot_id": "mlp.gate_proj@gpu0"
+    },
+    {
+      "block_index": 51,
+      "sample": 4,
+      "slot_id": "mlp.gate_proj@gpu1"
+    },
+    {
+      "block_index": 52,
+      "sample": 4,
+      "slot_id": "mlp.down_proj@gpu0"
+    },
+    {
+      "block_index": 53,
+      "sample": 4,
+      "slot_id": "mlp.down_proj@gpu1"
+    },
+    {
+      "block_index": 54,
+      "sample": 4,
+      "slot_id": "kerv_silu_mul@gpu0"
+    },
+    {
+      "block_index": 55,
+      "sample": 4,
+      "slot_id": "kerv_silu_mul@gpu1"
+    },
+    {
+      "block_index": 56,
+      "sample": 4,
+      "slot_id": "mlp.up_proj@gpu0"
+    },
+    {
+      "block_index": 57,
+      "sample": 4,
+      "slot_id": "mlp.up_proj@gpu1"
+    },
+    {
+      "block_index": 58,
+      "sample": 4,
+      "slot_id": "mlp.gated_mul@gpu0"
+    },
+    {
+      "block_index": 59,
+      "sample": 4,
+      "slot_id": "mlp.gated_mul@gpu1"
+    },
+    {
+      "block_index": 60,
+      "sample": 5,
+      "slot_id": "mlp.gated_mul@gpu1"
+    },
+    {
+      "block_index": 61,
+      "sample": 5,
+      "slot_id": "mlp.gated_mul@gpu0"
+    },
+    {
+      "block_index": 62,
+      "sample": 5,
+      "slot_id": "mlp.up_proj@gpu1"
+    },
+    {
+      "block_index": 63,
+      "sample": 5,
+      "slot_id": "mlp.up_proj@gpu0"
+    },
+    {
+      "block_index": 64,
+      "sample": 5,
+      "slot_id": "kerv_silu_mul@gpu1"
+    },
+    {
+      "block_index": 65,
+      "sample": 5,
+      "slot_id": "kerv_silu_mul@gpu0"
+    },
+    {
+      "block_index": 66,
+      "sample": 5,
+      "slot_id": "mlp.down_proj@gpu1"
+    },
+    {
+      "block_index": 67,
+      "sample": 5,
+      "slot_id": "mlp.down_proj@gpu0"
+    },
+    {
+      "block_index": 68,
+      "sample": 5,
+      "slot_id": "mlp.gate_proj@gpu1"
+    },
+    {
+      "block_index": 69,
+      "sample": 5,
+      "slot_id": "mlp.gate_proj@gpu0"
+    },
+    {
+      "block_index": 70,
+      "sample": 5,
+      "slot_id": "mlp.silu@gpu1"
+    },
+    {
+      "block_index": 71,
+      "sample": 5,
+      "slot_id": "mlp.silu@gpu0"
+    },
+    {
+      "block_index": 72,
+      "sample": 6,
+      "slot_id": "mlp.silu@gpu0"
+    },
+    {
+      "block_index": 73,
+      "sample": 6,
+      "slot_id": "mlp.silu@gpu1"
+    },
+    {
+      "block_index": 74,
+      "sample": 6,
+      "slot_id": "mlp.gate_proj@gpu0"
+    },
+    {
+      "block_index": 75,
+      "sample": 6,
+      "slot_id": "mlp.gate_proj@gpu1"
+    },
+    {
+      "block_index": 76,
+      "sample": 6,
+      "slot_id": "mlp.down_proj@gpu0"
+    },
+    {
+      "block_index": 77,
+      "sample": 6,
+      "slot_id": "mlp.down_proj@gpu1"
+    },
+    {
+      "block_index": 78,
+      "sample": 6,
+      "slot_id": "kerv_silu_mul@gpu0"
+    },
+    {
+      "block_index": 79,
+      "sample": 6,
+      "slot_id": "kerv_silu_mul@gpu1"
+    },
+    {
+      "block_index": 80,
+      "sample": 6,
+      "slot_id": "mlp.up_proj@gpu0"
+    },
+    {
+      "block_index": 81,
+      "sample": 6,
+      "slot_id": "mlp.up_proj@gpu1"
+    },
+    {
+      "block_index": 82,
+      "sample": 6,
+      "slot_id": "mlp.gated_mul@gpu0"
+    },
+    {
+      "block_index": 83,
+      "sample": 6,
+      "slot_id": "mlp.gated_mul@gpu1"
+    }
+  ],
+  "downstream_deployable": false,
+  "automatic_profile_writeback": false,
+  "manifest_id": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c"
+}

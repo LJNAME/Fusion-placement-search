@@ -1,0 +1,3370 @@
+{
+  "case_id": "gpu0_seq256",
+  "shape": [
+    1,
+    256,
+    3072
+  ],
+  "dtype": "bf16",
+  "input_pool_bytes": 78643200,
+  "protocol_id": "sha256:93051dd76d273202c2c5164cde3887468d8f0b16931d62984414004132b9fedd",
+  "measurement_contracts": {
+    "50": {
+      "executor": "graph_replay",
+      "submission_included": true,
+      "allocation_included": false,
+      "granularity": "graph_replay",
+      "unit": "throughput_per_call",
+      "serial_plan_only": true,
+      "calls_per_graph": 50,
+      "input_buffers": 50,
+      "input_revisit": "cyclic_read_only",
+      "implementation": "aten_out_of_place_sequence",
+      "environment": {
+        "torch": "2.9.0",
+        "hip": "6.3.26113",
+        "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+        "device_model": "BW"
+      }
+    },
+    "100": {
+      "executor": "graph_replay",
+      "submission_included": true,
+      "allocation_included": false,
+      "granularity": "graph_replay",
+      "unit": "throughput_per_call",
+      "serial_plan_only": true,
+      "calls_per_graph": 100,
+      "input_buffers": 50,
+      "input_revisit": "cyclic_read_only",
+      "implementation": "aten_out_of_place_sequence",
+      "environment": {
+        "torch": "2.9.0",
+        "hip": "6.3.26113",
+        "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+        "device_model": "BW"
+      }
+    }
+  },
+  "measurement_contract_ids": {
+    "50": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+    "100": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8"
+  },
+  "admission": "conditional_dev",
+  "captures": {
+    "n50_silu": {
+      "capture_wall_s": 0.008858293760567904,
+      "memory_before_capture": {
+        "memory_allocated": 95420416,
+        "memory_reserved": 121634816,
+        "max_memory_allocated": 95420416,
+        "max_memory_reserved": 121634816
+      },
+      "memory_after_capture": {
+        "memory_allocated": 96994304,
+        "memory_reserved": 123731968,
+        "max_memory_allocated": 98567168,
+        "max_memory_reserved": 123731968
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 50
+    },
+    "n50_mul": {
+      "capture_wall_s": 0.0011186078190803528,
+      "memory_before_capture": {
+        "memory_allocated": 96994304,
+        "memory_reserved": 144703488,
+        "max_memory_allocated": 96994304,
+        "max_memory_reserved": 144703488
+      },
+      "memory_after_capture": {
+        "memory_allocated": 98567168,
+        "memory_reserved": 144703488,
+        "max_memory_allocated": 100140032,
+        "max_memory_reserved": 144703488
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 50
+    },
+    "n50_add": {
+      "capture_wall_s": 0.0011153477244079113,
+      "memory_before_capture": {
+        "memory_allocated": 98567168,
+        "memory_reserved": 165675008,
+        "max_memory_allocated": 98567168,
+        "max_memory_reserved": 165675008
+      },
+      "memory_after_capture": {
+        "memory_allocated": 100140032,
+        "memory_reserved": 165675008,
+        "max_memory_allocated": 101712896,
+        "max_memory_reserved": 165675008
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 50
+    },
+    "n50_silu_mul": {
+      "capture_wall_s": 0.001648677047342062,
+      "memory_before_capture": {
+        "memory_allocated": 100140032,
+        "memory_reserved": 186646528,
+        "max_memory_allocated": 100140032,
+        "max_memory_reserved": 186646528
+      },
+      "memory_after_capture": {
+        "memory_allocated": 101712896,
+        "memory_reserved": 186646528,
+        "max_memory_allocated": 104858624,
+        "max_memory_reserved": 186646528
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 50
+    },
+    "n50_mul_add": {
+      "capture_wall_s": 0.0015726960264146328,
+      "memory_before_capture": {
+        "memory_allocated": 101712896,
+        "memory_reserved": 207618048,
+        "max_memory_allocated": 101712896,
+        "max_memory_reserved": 207618048
+      },
+      "memory_after_capture": {
+        "memory_allocated": 103285760,
+        "memory_reserved": 207618048,
+        "max_memory_allocated": 106431488,
+        "max_memory_reserved": 207618048
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 50
+    },
+    "n50_silu_mul_add": {
+      "capture_wall_s": 0.0021030441857874393,
+      "memory_before_capture": {
+        "memory_allocated": 103285760,
+        "memory_reserved": 228589568,
+        "max_memory_allocated": 103285760,
+        "max_memory_reserved": 228589568
+      },
+      "memory_after_capture": {
+        "memory_allocated": 104858624,
+        "memory_reserved": 228589568,
+        "max_memory_allocated": 108004352,
+        "max_memory_reserved": 228589568
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 50
+    },
+    "n100_silu": {
+      "capture_wall_s": 0.0015574861317873001,
+      "memory_before_capture": {
+        "memory_allocated": 104858624,
+        "memory_reserved": 249561088,
+        "max_memory_allocated": 104858624,
+        "max_memory_reserved": 249561088
+      },
+      "memory_after_capture": {
+        "memory_allocated": 106431488,
+        "memory_reserved": 249561088,
+        "max_memory_allocated": 108004352,
+        "max_memory_reserved": 249561088
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 100
+    },
+    "n100_mul": {
+      "capture_wall_s": 0.0016785482876002789,
+      "memory_before_capture": {
+        "memory_allocated": 106431488,
+        "memory_reserved": 270532608,
+        "max_memory_allocated": 106431488,
+        "max_memory_reserved": 270532608
+      },
+      "memory_after_capture": {
+        "memory_allocated": 108004352,
+        "memory_reserved": 270532608,
+        "max_memory_allocated": 109577216,
+        "max_memory_reserved": 270532608
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 100
+    },
+    "n100_add": {
+      "capture_wall_s": 0.0015940158627927303,
+      "memory_before_capture": {
+        "memory_allocated": 108004352,
+        "memory_reserved": 291504128,
+        "max_memory_allocated": 108004352,
+        "max_memory_reserved": 291504128
+      },
+      "memory_after_capture": {
+        "memory_allocated": 109577216,
+        "memory_reserved": 291504128,
+        "max_memory_allocated": 111150080,
+        "max_memory_reserved": 291504128
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 100
+    },
+    "n100_silu_mul": {
+      "capture_wall_s": 0.0027510938234627247,
+      "memory_before_capture": {
+        "memory_allocated": 109577216,
+        "memory_reserved": 312475648,
+        "max_memory_allocated": 109577216,
+        "max_memory_reserved": 312475648
+      },
+      "memory_after_capture": {
+        "memory_allocated": 111150080,
+        "memory_reserved": 312475648,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 312475648
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 100
+    },
+    "n100_mul_add": {
+      "capture_wall_s": 0.0027249245904386044,
+      "memory_before_capture": {
+        "memory_allocated": 111150080,
+        "memory_reserved": 333447168,
+        "max_memory_allocated": 111150080,
+        "max_memory_reserved": 333447168
+      },
+      "memory_after_capture": {
+        "memory_allocated": 112722944,
+        "memory_reserved": 333447168,
+        "max_memory_allocated": 115868672,
+        "max_memory_reserved": 333447168
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 100
+    },
+    "n100_silu_mul_add": {
+      "capture_wall_s": 0.0036992202512919903,
+      "memory_before_capture": {
+        "memory_allocated": 112722944,
+        "memory_reserved": 354418688,
+        "max_memory_allocated": 112722944,
+        "max_memory_reserved": 354418688
+      },
+      "memory_after_capture": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 354418688,
+        "max_memory_allocated": 117441536,
+        "max_memory_reserved": 354418688
+      },
+      "attempted_pool_config": {
+        "selection": "per_arm_default_private_pool",
+        "pool_argument": null,
+        "shared_between_arms": false
+      },
+      "single_stream": true,
+      "retained_outputs": "last_final_output_only",
+      "graph_calls": 100
+    }
+  },
+  "rows": [
+    {
+      "round": 0,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00034624001383781435,
+      "graph_batch_amortized_per_call_us": 6.924800276756287,
+      "graph_submission_wall_s": 0.00011270120739936829,
+      "graph_completion_wall_s": 0.00040391599759459496,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 354418688,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 354418688
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 0,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00023487800359725953,
+      "graph_batch_amortized_per_call_us": 4.69756007194519,
+      "graph_submission_wall_s": 0.000149543397128582,
+      "graph_completion_wall_s": 0.0002873251214623451,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 0,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.000711679995059967,
+      "graph_batch_amortized_per_call_us": 14.23359990119934,
+      "graph_submission_wall_s": 0.00020763324573636055,
+      "graph_completion_wall_s": 0.0007694121450185776,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 0,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021296000480651857,
+      "graph_batch_amortized_per_call_us": 4.259200096130371,
+      "graph_submission_wall_s": 0.00010780198499560356,
+      "graph_completion_wall_s": 0.0002511446364223957,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 0,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0004527980089187622,
+      "graph_batch_amortized_per_call_us": 9.055960178375244,
+      "graph_submission_wall_s": 0.00022793281823396683,
+      "graph_completion_wall_s": 0.0005176980048418045,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 0,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0005654379725456238,
+      "graph_batch_amortized_per_call_us": 11.308759450912476,
+      "graph_submission_wall_s": 0.00015686266124248505,
+      "graph_completion_wall_s": 0.0006216499023139477,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 0,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00075135999917984,
+      "graph_batch_amortized_per_call_us": 7.513599991798401,
+      "graph_submission_wall_s": 0.0001530330628156662,
+      "graph_completion_wall_s": 0.0008065630681812763,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 0,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004331200122833252,
+      "graph_batch_amortized_per_call_us": 4.331200122833252,
+      "graph_submission_wall_s": 0.00015453295782208443,
+      "graph_completion_wall_s": 0.0004889578558504581,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 0,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0015183990001678468,
+      "graph_batch_amortized_per_call_us": 15.183990001678467,
+      "graph_submission_wall_s": 0.00040575675666332245,
+      "graph_completion_wall_s": 0.0015929457731544971,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 0,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00041440001130104066,
+      "graph_batch_amortized_per_call_us": 4.1440001130104065,
+      "graph_submission_wall_s": 0.00022633420303463936,
+      "graph_completion_wall_s": 0.00047759804874658585,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 0,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0008452780246734619,
+      "graph_batch_amortized_per_call_us": 8.45278024673462,
+      "graph_submission_wall_s": 0.0002751341089606285,
+      "graph_completion_wall_s": 0.0009004147723317146,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 0,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0011222380399703979,
+      "graph_batch_amortized_per_call_us": 11.22238039970398,
+      "graph_submission_wall_s": 0.00043516699224710464,
+      "graph_completion_wall_s": 0.0011945697478950024,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004313600063323975,
+      "graph_batch_amortized_per_call_us": 4.313600063323975,
+      "graph_submission_wall_s": 0.00020243320614099503,
+      "graph_completion_wall_s": 0.0005094683729112148,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004190399944782257,
+      "graph_batch_amortized_per_call_us": 4.190399944782257,
+      "graph_submission_wall_s": 0.0001561022363603115,
+      "graph_completion_wall_s": 0.0004802681505680084,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0006843199729919434,
+      "graph_batch_amortized_per_call_us": 6.843199729919434,
+      "graph_submission_wall_s": 0.0002709152176976204,
+      "graph_completion_wall_s": 0.0007675131782889366,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0010176000595092773,
+      "graph_batch_amortized_per_call_us": 10.176000595092773,
+      "graph_submission_wall_s": 0.000340375117957592,
+      "graph_completion_wall_s": 0.001105988398194313,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.001409917950630188,
+      "graph_batch_amortized_per_call_us": 14.09917950630188,
+      "graph_submission_wall_s": 0.00041359616443514824,
+      "graph_completion_wall_s": 0.0014745541848242283,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0008476799726486206,
+      "graph_batch_amortized_per_call_us": 8.476799726486206,
+      "graph_submission_wall_s": 0.00026799412444233894,
+      "graph_completion_wall_s": 0.0009068851359188557,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00025455799698829654,
+      "graph_batch_amortized_per_call_us": 5.091159939765931,
+      "graph_submission_wall_s": 0.00020916294306516647,
+      "graph_completion_wall_s": 0.0003331052139401436,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0002454400062561035,
+      "graph_batch_amortized_per_call_us": 4.90880012512207,
+      "graph_submission_wall_s": 0.0001415829174220562,
+      "graph_completion_wall_s": 0.00029891496524214745,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00038655900955200195,
+      "graph_batch_amortized_per_call_us": 7.731180191040039,
+      "graph_submission_wall_s": 0.00011682230979204178,
+      "graph_completion_wall_s": 0.0004476383328437805,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0005659199953079224,
+      "graph_batch_amortized_per_call_us": 11.318399906158447,
+      "graph_submission_wall_s": 0.00015978282317519188,
+      "graph_completion_wall_s": 0.0006266096606850624,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0007676789760589599,
+      "graph_batch_amortized_per_call_us": 15.3535795211792,
+      "graph_submission_wall_s": 0.00033882632851600647,
+      "graph_completion_wall_s": 0.0008597541600465775,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 1,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00045343801379203795,
+      "graph_batch_amortized_per_call_us": 9.06876027584076,
+      "graph_submission_wall_s": 0.00015954254195094109,
+      "graph_completion_wall_s": 0.000527508556842804,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021712000668048858,
+      "graph_batch_amortized_per_call_us": 4.342400133609772,
+      "graph_submission_wall_s": 0.00011911196634173393,
+      "graph_completion_wall_s": 0.00026476383209228516,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0005144000053405762,
+      "graph_batch_amortized_per_call_us": 10.288000106811523,
+      "graph_submission_wall_s": 0.00022656377404928207,
+      "graph_completion_wall_s": 0.000577789731323719,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021376000344753266,
+      "graph_batch_amortized_per_call_us": 4.275200068950653,
+      "graph_submission_wall_s": 0.00011108210310339928,
+      "graph_completion_wall_s": 0.0002576550468802452,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00042927899956703185,
+      "graph_batch_amortized_per_call_us": 8.585579991340637,
+      "graph_submission_wall_s": 0.00015088310465216637,
+      "graph_completion_wall_s": 0.000495558138936758,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00035023799538612367,
+      "graph_batch_amortized_per_call_us": 7.004759907722473,
+      "graph_submission_wall_s": 0.0001135324127972126,
+      "graph_completion_wall_s": 0.00041161710396409035,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0007182400226593017,
+      "graph_batch_amortized_per_call_us": 14.364800453186035,
+      "graph_submission_wall_s": 0.00022911326959729195,
+      "graph_completion_wall_s": 0.0007882919162511826,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004153600037097931,
+      "graph_batch_amortized_per_call_us": 4.153600037097931,
+      "graph_submission_wall_s": 0.00015290174633264542,
+      "graph_completion_wall_s": 0.0004759179428219795,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0010155190229415893,
+      "graph_batch_amortized_per_call_us": 10.155190229415892,
+      "graph_submission_wall_s": 0.0002704448997974396,
+      "graph_completion_wall_s": 0.0010780580341815948,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00043424001336097716,
+      "graph_batch_amortized_per_call_us": 4.342400133609772,
+      "graph_submission_wall_s": 0.00044134678319096565,
+      "graph_completion_wall_s": 0.00048554781824350357,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0008457580208778381,
+      "graph_batch_amortized_per_call_us": 8.457580208778381,
+      "graph_submission_wall_s": 0.00026542413979768753,
+      "graph_completion_wall_s": 0.000908954069018364,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0006851189732551574,
+      "graph_batch_amortized_per_call_us": 6.851189732551575,
+      "graph_submission_wall_s": 0.00015660235658288002,
+      "graph_completion_wall_s": 0.0007456419989466667,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 2,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0014094400405883789,
+      "graph_batch_amortized_per_call_us": 14.094400405883789,
+      "graph_submission_wall_s": 0.0004072263836860657,
+      "graph_completion_wall_s": 0.0014753243885934353,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0010164790153503417,
+      "graph_batch_amortized_per_call_us": 10.164790153503416,
+      "graph_submission_wall_s": 0.00026053423061966896,
+      "graph_completion_wall_s": 0.0010737981647253036,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.000847357988357544,
+      "graph_batch_amortized_per_call_us": 8.47357988357544,
+      "graph_submission_wall_s": 0.00026233401149511337,
+      "graph_completion_wall_s": 0.0009060553275048733,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00041391998529434205,
+      "graph_batch_amortized_per_call_us": 4.13919985294342,
+      "graph_submission_wall_s": 0.00015559280291199684,
+      "graph_completion_wall_s": 0.00047383783385157585,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.001410240054130554,
+      "graph_batch_amortized_per_call_us": 14.102400541305542,
+      "graph_submission_wall_s": 0.00039971666410565376,
+      "graph_completion_wall_s": 0.0014717536978423595,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00041023999452590945,
+      "graph_batch_amortized_per_call_us": 4.102399945259094,
+      "graph_submission_wall_s": 0.00021917419508099556,
+      "graph_completion_wall_s": 0.00046989787369966507,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0007790380120277405,
+      "graph_batch_amortized_per_call_us": 7.790380120277405,
+      "graph_submission_wall_s": 0.0002722940407693386,
+      "graph_completion_wall_s": 0.0008904640562832355,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0005707190036773681,
+      "graph_batch_amortized_per_call_us": 11.414380073547363,
+      "graph_submission_wall_s": 0.0002557039260864258,
+      "graph_completion_wall_s": 0.0009031337685883045,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0004537599980831146,
+      "graph_batch_amortized_per_call_us": 9.075199961662292,
+      "graph_submission_wall_s": 0.0002419739030301571,
+      "graph_completion_wall_s": 0.0005344790406525135,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0002252800017595291,
+      "graph_batch_amortized_per_call_us": 4.505600035190582,
+      "graph_submission_wall_s": 0.00011837063357234001,
+      "graph_completion_wall_s": 0.0002670236863195896,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0007923179864883423,
+      "graph_batch_amortized_per_call_us": 15.846359729766846,
+      "graph_submission_wall_s": 0.0002498039975762367,
+      "graph_completion_wall_s": 0.0008689840324223042,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0002243199944496155,
+      "graph_batch_amortized_per_call_us": 4.48639988899231,
+      "graph_submission_wall_s": 0.00010991096496582031,
+      "graph_completion_wall_s": 0.00026743393391370773,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 3,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0003840000033378601,
+      "graph_batch_amortized_per_call_us": 7.680000066757202,
+      "graph_submission_wall_s": 0.00010725203901529312,
+      "graph_completion_wall_s": 0.0004437267780303955,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00045232000946998597,
+      "graph_batch_amortized_per_call_us": 9.04640018939972,
+      "graph_submission_wall_s": 0.00015698326751589775,
+      "graph_completion_wall_s": 0.0005146590992808342,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0007692779898643494,
+      "graph_batch_amortized_per_call_us": 15.385559797286987,
+      "graph_submission_wall_s": 0.00019804295152425766,
+      "graph_completion_wall_s": 0.0008297129534184933,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0005228800177574157,
+      "graph_batch_amortized_per_call_us": 10.457600355148315,
+      "graph_submission_wall_s": 0.0001570521853864193,
+      "graph_completion_wall_s": 0.0005816193297505379,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00034911900758743285,
+      "graph_batch_amortized_per_call_us": 6.982380151748657,
+      "graph_submission_wall_s": 0.0001031109131872654,
+      "graph_completion_wall_s": 0.0004242071881890297,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.000212799996137619,
+      "graph_batch_amortized_per_call_us": 4.25599992275238,
+      "graph_submission_wall_s": 0.0001077922061085701,
+      "graph_completion_wall_s": 0.0002554352395236492,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021391800045967102,
+      "graph_batch_amortized_per_call_us": 4.27836000919342,
+      "graph_submission_wall_s": 0.00013638334348797798,
+      "graph_completion_wall_s": 0.00027740513905882835,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0008484789729118347,
+      "graph_batch_amortized_per_call_us": 8.484789729118347,
+      "graph_submission_wall_s": 0.0002575637772679329,
+      "graph_completion_wall_s": 0.0009072837419807911,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0014078389406204223,
+      "graph_batch_amortized_per_call_us": 14.078389406204224,
+      "graph_submission_wall_s": 0.00039814598858356476,
+      "graph_completion_wall_s": 0.0014681736938655376,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0010139199495315552,
+      "graph_batch_amortized_per_call_us": 10.139199495315552,
+      "graph_submission_wall_s": 0.0004009273834526539,
+      "graph_completion_wall_s": 0.0010771984234452248,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0006831979751586914,
+      "graph_batch_amortized_per_call_us": 6.831979751586914,
+      "graph_submission_wall_s": 0.00015389174222946167,
+      "graph_completion_wall_s": 0.0007431516423821449,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004137600064277649,
+      "graph_batch_amortized_per_call_us": 4.137600064277649,
+      "graph_submission_wall_s": 0.00015523284673690796,
+      "graph_completion_wall_s": 0.0004726378247141838,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 4,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004124790132045746,
+      "graph_batch_amortized_per_call_us": 4.124790132045746,
+      "graph_submission_wall_s": 0.00015304191038012505,
+      "graph_completion_wall_s": 0.0004726378247141838,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0014094400405883789,
+      "graph_batch_amortized_per_call_us": 14.094400405883789,
+      "graph_submission_wall_s": 0.0003769560717046261,
+      "graph_completion_wall_s": 0.0014660637825727463,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0006830379962921143,
+      "graph_batch_amortized_per_call_us": 6.830379962921143,
+      "graph_submission_wall_s": 0.00014464231207966805,
+      "graph_completion_wall_s": 0.0007434920407831669,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0008462399840354919,
+      "graph_batch_amortized_per_call_us": 8.46239984035492,
+      "graph_submission_wall_s": 0.00026341388002038,
+      "graph_completion_wall_s": 0.000907133799046278,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00041087999939918516,
+      "graph_batch_amortized_per_call_us": 4.108799993991852,
+      "graph_submission_wall_s": 0.00021396391093730927,
+      "graph_completion_wall_s": 0.0004721079021692276,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0010132789611816406,
+      "graph_batch_amortized_per_call_us": 10.132789611816406,
+      "graph_submission_wall_s": 0.0002490440383553505,
+      "graph_completion_wall_s": 0.0010723471641540527,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00041439801454544066,
+      "graph_batch_amortized_per_call_us": 4.143980145454407,
+      "graph_submission_wall_s": 0.00014404207468032837,
+      "graph_completion_wall_s": 0.0004723682068288326,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0007118399739265441,
+      "graph_batch_amortized_per_call_us": 14.236799478530884,
+      "graph_submission_wall_s": 0.00019305339083075523,
+      "graph_completion_wall_s": 0.000769113190472126,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00034911999106407163,
+      "graph_batch_amortized_per_call_us": 6.982399821281433,
+      "graph_submission_wall_s": 0.00010034209117293358,
+      "graph_completion_wall_s": 0.00040771719068288803,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00043279999494552613,
+      "graph_batch_amortized_per_call_us": 8.655999898910522,
+      "graph_submission_wall_s": 0.00015484169125556946,
+      "graph_completion_wall_s": 0.0004923376254737377,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021231800317764282,
+      "graph_batch_amortized_per_call_us": 4.2463600635528564,
+      "graph_submission_wall_s": 0.00010813213884830475,
+      "graph_completion_wall_s": 0.0002555539831519127,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0005134400129318237,
+      "graph_batch_amortized_per_call_us": 10.268800258636475,
+      "graph_submission_wall_s": 0.00014990288764238358,
+      "graph_completion_wall_s": 0.0005712187848985195,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 5,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021423999965190888,
+      "graph_batch_amortized_per_call_us": 4.2847999930381775,
+      "graph_submission_wall_s": 0.00010449206456542015,
+      "graph_completion_wall_s": 0.00025574397295713425,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00034992000460624695,
+      "graph_batch_amortized_per_call_us": 6.998400092124939,
+      "graph_submission_wall_s": 0.00010248087346553802,
+      "graph_completion_wall_s": 0.0004086061380803585,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0002126380056142807,
+      "graph_batch_amortized_per_call_us": 4.252760112285614,
+      "graph_submission_wall_s": 0.00010610232129693031,
+      "graph_completion_wall_s": 0.00025539426133036613,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0007110400199890137,
+      "graph_batch_amortized_per_call_us": 14.220800399780273,
+      "graph_submission_wall_s": 0.00019780267030000687,
+      "graph_completion_wall_s": 0.0007709218189120293,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021344000101089478,
+      "graph_batch_amortized_per_call_us": 4.2688000202178955,
+      "graph_submission_wall_s": 0.00010358216241002083,
+      "graph_completion_wall_s": 0.0002564038150012493,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.000429280012845993,
+      "graph_batch_amortized_per_call_us": 8.58560025691986,
+      "graph_submission_wall_s": 0.000149513129144907,
+      "graph_completion_wall_s": 0.0004875180311501026,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0005143979787826538,
+      "graph_batch_amortized_per_call_us": 10.287959575653076,
+      "graph_submission_wall_s": 0.0001495620235800743,
+      "graph_completion_wall_s": 0.0005720388144254684,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0006825600266456604,
+      "graph_batch_amortized_per_call_us": 6.825600266456604,
+      "graph_submission_wall_s": 0.00014706235378980637,
+      "graph_completion_wall_s": 0.0007426319643855095,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00040992000699043273,
+      "graph_batch_amortized_per_call_us": 4.099200069904327,
+      "graph_submission_wall_s": 0.00015112198889255524,
+      "graph_completion_wall_s": 0.00046928832307457924,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0014081590175628663,
+      "graph_batch_amortized_per_call_us": 14.081590175628662,
+      "graph_submission_wall_s": 0.0003869570791721344,
+      "graph_completion_wall_s": 0.0014718640595674515,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00041439801454544066,
+      "graph_batch_amortized_per_call_us": 4.143980145454407,
+      "graph_submission_wall_s": 0.00015083188191056252,
+      "graph_completion_wall_s": 0.000473586842417717,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0008443199992179871,
+      "graph_batch_amortized_per_call_us": 8.44319999217987,
+      "graph_submission_wall_s": 0.0002606739290058613,
+      "graph_completion_wall_s": 0.0009050639346241951,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 6,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0010126399993896484,
+      "graph_batch_amortized_per_call_us": 10.126399993896483,
+      "graph_submission_wall_s": 0.00038222596049308777,
+      "graph_completion_wall_s": 0.001072176732122898,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004113599956035614,
+      "graph_batch_amortized_per_call_us": 4.113599956035614,
+      "graph_submission_wall_s": 0.00014732219278812408,
+      "graph_completion_wall_s": 0.0004711872898042202,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004196780025959015,
+      "graph_batch_amortized_per_call_us": 4.196780025959015,
+      "graph_submission_wall_s": 0.00014496222138404846,
+      "graph_completion_wall_s": 0.0004790979437530041,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.000684158980846405,
+      "graph_batch_amortized_per_call_us": 6.84158980846405,
+      "graph_submission_wall_s": 0.00014726165682077408,
+      "graph_completion_wall_s": 0.000744891818612814,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0010135990381240844,
+      "graph_batch_amortized_per_call_us": 10.135990381240843,
+      "graph_submission_wall_s": 0.00024455413222312927,
+      "graph_completion_wall_s": 0.001071087084710598,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0014067189693450929,
+      "graph_batch_amortized_per_call_us": 14.067189693450928,
+      "graph_submission_wall_s": 0.0003845859318971634,
+      "graph_completion_wall_s": 0.0014652442187070847,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0008471980094909668,
+      "graph_batch_amortized_per_call_us": 8.471980094909668,
+      "graph_submission_wall_s": 0.00025417422875761986,
+      "graph_completion_wall_s": 0.0009038550779223442,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00022463800013065337,
+      "graph_batch_amortized_per_call_us": 4.492760002613068,
+      "graph_submission_wall_s": 0.00010809209197759628,
+      "graph_completion_wall_s": 0.00026790425181388855,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00022335900366306306,
+      "graph_batch_amortized_per_call_us": 4.467180073261261,
+      "graph_submission_wall_s": 0.000101510901004076,
+      "graph_completion_wall_s": 0.00026417383924126625,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00038335898518562317,
+      "graph_batch_amortized_per_call_us": 7.667179703712463,
+      "graph_submission_wall_s": 0.0001025516539812088,
+      "graph_completion_wall_s": 0.0004407470114529133,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0005636789798736572,
+      "graph_batch_amortized_per_call_us": 11.273579597473145,
+      "graph_submission_wall_s": 0.0001517031341791153,
+      "graph_completion_wall_s": 0.0006231409497559071,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0007649580240249634,
+      "graph_batch_amortized_per_call_us": 15.299160480499268,
+      "graph_submission_wall_s": 0.00019962294027209282,
+      "graph_completion_wall_s": 0.0008267629891633987,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 7,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0004286400079727173,
+      "graph_batch_amortized_per_call_us": 8.572800159454346,
+      "graph_submission_wall_s": 0.0001487131230533123,
+      "graph_completion_wall_s": 0.00048797810450196266,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0002135999947786331,
+      "graph_batch_amortized_per_call_us": 4.271999895572662,
+      "graph_submission_wall_s": 0.00010232068598270416,
+      "graph_completion_wall_s": 0.0002569938078522682,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.000519199013710022,
+      "graph_batch_amortized_per_call_us": 10.38398027420044,
+      "graph_submission_wall_s": 0.00015470199286937714,
+      "graph_completion_wall_s": 0.0005813590250909328,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021311800181865692,
+      "graph_batch_amortized_per_call_us": 4.262360036373138,
+      "graph_submission_wall_s": 0.00011263089254498482,
+      "graph_completion_wall_s": 0.00025740358978509903,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00043615999817848207,
+      "graph_batch_amortized_per_call_us": 8.723199963569641,
+      "graph_submission_wall_s": 0.00016724225133657455,
+      "graph_completion_wall_s": 0.0004994980990886688,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.000350398987531662,
+      "graph_batch_amortized_per_call_us": 7.00797975063324,
+      "graph_submission_wall_s": 0.0001071421429514885,
+      "graph_completion_wall_s": 0.0004088170826435089,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0007100800275802612,
+      "graph_batch_amortized_per_call_us": 14.201600551605225,
+      "graph_submission_wall_s": 0.0002058432437479496,
+      "graph_completion_wall_s": 0.0007704030722379684,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00041535800695419314,
+      "graph_batch_amortized_per_call_us": 4.153580069541931,
+      "graph_submission_wall_s": 0.00015456322580575943,
+      "graph_completion_wall_s": 0.0004732082597911358,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0010135999917984008,
+      "graph_batch_amortized_per_call_us": 10.135999917984007,
+      "graph_submission_wall_s": 0.00026414403691887856,
+      "graph_completion_wall_s": 0.001072827260941267,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004113599956035614,
+      "graph_batch_amortized_per_call_us": 4.113599956035614,
+      "graph_submission_wall_s": 0.00015263305976986885,
+      "graph_completion_wall_s": 0.00046785781159996986,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0008454399704933167,
+      "graph_batch_amortized_per_call_us": 8.454399704933167,
+      "graph_submission_wall_s": 0.0002583037130534649,
+      "graph_completion_wall_s": 0.0009042937308549881,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0006828780174255371,
+      "graph_batch_amortized_per_call_us": 6.828780174255371,
+      "graph_submission_wall_s": 0.00015842309221625328,
+      "graph_completion_wall_s": 0.0007615429349243641,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 8,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0014089590311050415,
+      "graph_batch_amortized_per_call_us": 14.089590311050415,
+      "graph_submission_wall_s": 0.0004053269512951374,
+      "graph_completion_wall_s": 0.0014699939638376236,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0010123200416564942,
+      "graph_batch_amortized_per_call_us": 10.123200416564941,
+      "graph_submission_wall_s": 0.000382985919713974,
+      "graph_completion_wall_s": 0.0010753278620541096,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0008471999764442443,
+      "graph_batch_amortized_per_call_us": 8.471999764442444,
+      "graph_submission_wall_s": 0.0002520936541259289,
+      "graph_completion_wall_s": 0.0009081447497010231,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004131180047988892,
+      "graph_batch_amortized_per_call_us": 4.131180047988892,
+      "graph_submission_wall_s": 0.0001508123241364956,
+      "graph_completion_wall_s": 0.00047173816710710526,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0014062390327453614,
+      "graph_batch_amortized_per_call_us": 14.062390327453613,
+      "graph_submission_wall_s": 0.0003747660666704178,
+      "graph_completion_wall_s": 0.0014725043438374996,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004148800075054169,
+      "graph_batch_amortized_per_call_us": 4.148800075054169,
+      "graph_submission_wall_s": 0.00015947315841913223,
+      "graph_completion_wall_s": 0.0004762881435453892,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0006851199865341187,
+      "graph_batch_amortized_per_call_us": 6.8511998653411865,
+      "graph_submission_wall_s": 0.00015390198677778244,
+      "graph_completion_wall_s": 0.0007455218583345413,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0005161579847335815,
+      "graph_batch_amortized_per_call_us": 10.32315969467163,
+      "graph_submission_wall_s": 0.00022786390036344528,
+      "graph_completion_wall_s": 0.0005806689150631428,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00042960000038146974,
+      "graph_batch_amortized_per_call_us": 8.592000007629395,
+      "graph_submission_wall_s": 0.0001546931453049183,
+      "graph_completion_wall_s": 0.0004884079098701477,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021344000101089478,
+      "graph_batch_amortized_per_call_us": 4.2688000202178955,
+      "graph_submission_wall_s": 0.00010863086208701134,
+      "graph_completion_wall_s": 0.0002564741298556328,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0007095999717712402,
+      "graph_batch_amortized_per_call_us": 14.191999435424805,
+      "graph_submission_wall_s": 0.00021189404651522636,
+      "graph_completion_wall_s": 0.0007687327452003956,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0002134380042552948,
+      "graph_batch_amortized_per_call_us": 4.268760085105896,
+      "graph_submission_wall_s": 0.0001092120073735714,
+      "graph_completion_wall_s": 0.00025621429085731506,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 9,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00034832000732421876,
+      "graph_batch_amortized_per_call_us": 6.966400146484375,
+      "graph_submission_wall_s": 0.00010699080303311348,
+      "graph_completion_wall_s": 0.00040726596489548683,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0004308800101280212,
+      "graph_batch_amortized_per_call_us": 8.617600202560425,
+      "graph_submission_wall_s": 0.00014957226812839508,
+      "graph_completion_wall_s": 0.000489227008074522,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0007110400199890137,
+      "graph_batch_amortized_per_call_us": 14.220800399780273,
+      "graph_submission_wall_s": 0.00019378308206796646,
+      "graph_completion_wall_s": 0.0007680030539631844,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0005126379728317261,
+      "graph_batch_amortized_per_call_us": 10.252759456634521,
+      "graph_submission_wall_s": 0.00015053199604153633,
+      "graph_completion_wall_s": 0.0005712592974305153,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0003495999872684479,
+      "graph_batch_amortized_per_call_us": 6.9919997453689575,
+      "graph_submission_wall_s": 0.00010226108133792877,
+      "graph_completion_wall_s": 0.0004054359160363674,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021087999641895293,
+      "graph_batch_amortized_per_call_us": 4.217599928379059,
+      "graph_submission_wall_s": 0.00010287202894687653,
+      "graph_completion_wall_s": 0.0002527749165892601,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021344000101089478,
+      "graph_batch_amortized_per_call_us": 4.2688000202178955,
+      "graph_submission_wall_s": 0.00014126207679510117,
+      "graph_completion_wall_s": 0.0002593938261270523,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0008447980284690857,
+      "graph_batch_amortized_per_call_us": 8.447980284690857,
+      "graph_submission_wall_s": 0.00025971466675400734,
+      "graph_completion_wall_s": 0.0009037447161972523,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0014118399620056152,
+      "graph_batch_amortized_per_call_us": 14.118399620056152,
+      "graph_submission_wall_s": 0.00040148617699742317,
+      "graph_completion_wall_s": 0.001471193041652441,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0010176000595092773,
+      "graph_batch_amortized_per_call_us": 10.176000595092773,
+      "graph_submission_wall_s": 0.0002669449895620346,
+      "graph_completion_wall_s": 0.0010794978588819504,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00068367999792099,
+      "graph_batch_amortized_per_call_us": 6.8367999792099,
+      "graph_submission_wall_s": 0.00015399185940623283,
+      "graph_completion_wall_s": 0.000741851981729269,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0004129599928855896,
+      "graph_batch_amortized_per_call_us": 4.129599928855896,
+      "graph_submission_wall_s": 0.00015707314014434814,
+      "graph_completion_wall_s": 0.0004713684320449829,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 10,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00041231998801231386,
+      "graph_batch_amortized_per_call_us": 4.123199880123138,
+      "graph_submission_wall_s": 0.00015423214063048363,
+      "graph_completion_wall_s": 0.00046989694237709045,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 100,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0014065589904785156,
+      "graph_batch_amortized_per_call_us": 14.065589904785156,
+      "graph_submission_wall_s": 0.0003834860399365425,
+      "graph_completion_wall_s": 0.0014636530540883541,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 100,
+      "method": "silu",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0006838380098342895,
+      "graph_batch_amortized_per_call_us": 6.8383800983428955,
+      "graph_submission_wall_s": 0.00014771288260817528,
+      "graph_completion_wall_s": 0.0007437216117978096,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 100,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0008484789729118347,
+      "graph_batch_amortized_per_call_us": 8.484789729118347,
+      "graph_submission_wall_s": 0.0002857539802789688,
+      "graph_completion_wall_s": 0.0009107152000069618,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 100,
+      "method": "mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00041247999668121336,
+      "graph_batch_amortized_per_call_us": 4.124799966812134,
+      "graph_submission_wall_s": 0.00014843326061964035,
+      "graph_completion_wall_s": 0.0004690983332693577,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 100,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.0010167980194091797,
+      "graph_batch_amortized_per_call_us": 10.167980194091797,
+      "graph_submission_wall_s": 0.00026210397481918335,
+      "graph_completion_wall_s": 0.00107512716203928,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 100,
+      "method": "add",
+      "measurement_contract_id": "sha256:e9a233819f594b2caa48f3273e475616d4741d9f2bccb9525cf195ee8801acc8",
+      "graph_event_total_s": 0.00041440001130104066,
+      "graph_batch_amortized_per_call_us": 4.1440001130104065,
+      "graph_submission_wall_s": 0.00015026284381747246,
+      "graph_completion_wall_s": 0.00047220801934599876,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 50,
+      "method": "silu_mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0007111999988555908,
+      "graph_batch_amortized_per_call_us": 14.223999977111816,
+      "graph_submission_wall_s": 0.00020801275968551636,
+      "graph_completion_wall_s": 0.0007697120308876038,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 50,
+      "method": "silu",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0003500779867172241,
+      "graph_batch_amortized_per_call_us": 7.001559734344482,
+      "graph_submission_wall_s": 0.00010760175064206123,
+      "graph_completion_wall_s": 0.000406456645578146,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 50,
+      "method": "mul_add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00043007999658584595,
+      "graph_batch_amortized_per_call_us": 8.601599931716919,
+      "graph_submission_wall_s": 0.00015786197036504745,
+      "graph_completion_wall_s": 0.000490706879645586,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 50,
+      "method": "mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.00021503999829292298,
+      "graph_batch_amortized_per_call_us": 4.3007999658584595,
+      "graph_submission_wall_s": 0.00014529284089803696,
+      "graph_completion_wall_s": 0.00026198476552963257,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 50,
+      "method": "silu_mul",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0005135980248451233,
+      "graph_batch_amortized_per_call_us": 10.271960496902466,
+      "graph_submission_wall_s": 0.00015701167285442352,
+      "graph_completion_wall_s": 0.0005704588256776333,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    },
+    {
+      "round": 11,
+      "graph_calls": 50,
+      "method": "add",
+      "measurement_contract_id": "sha256:def8ddf8071d0c9cf2ccd0b2d008573eceebbd8de3d4a0d14df10706ddeb4556",
+      "graph_event_total_s": 0.0002131199985742569,
+      "graph_batch_amortized_per_call_us": 4.262399971485138,
+      "graph_submission_wall_s": 0.00010439194738864899,
+      "graph_completion_wall_s": 0.00025408389046788216,
+      "memory_before_numeric_checks": {
+        "memory_allocated": 114295808,
+        "memory_reserved": 398458880,
+        "max_memory_allocated": 114295808,
+        "max_memory_reserved": 398458880
+      },
+      "numeric_passed": true,
+      "numeric_coverage": "last_final_output_and_all_input_buffers_and_operands_unchanged"
+    }
+  ],
+  "summary": {
+    "by_calls_per_graph": {
+      "50": {
+        "round_results": [
+          {
+            "round": 0,
+            "delta_sm_us": 0.31360089778900146,
+            "delta_ma_us": -0.09920001029968262,
+            "delta_sma_us": 1.6479605436325073,
+            "interaction_us": 1.4335596561431885
+          },
+          {
+            "round": 1,
+            "delta_sm_us": 1.503940224647522,
+            "delta_ma_us": 0.9311997890472412,
+            "delta_sma_us": 2.3775607347488403,
+            "interaction_us": -0.05757927894592285
+          },
+          {
+            "round": 2,
+            "delta_sm_us": 0.9919598698616028,
+            "delta_ma_us": 0.0320202112197876,
+            "delta_sma_us": 1.2575596570968628,
+            "interaction_us": 0.2335795760154724
+          },
+          {
+            "round": 3,
+            "delta_sm_us": 0.7520198822021484,
+            "delta_ma_us": -0.08320003747940063,
+            "delta_sma_us": 0.8256402611732483,
+            "interaction_us": 0.1568204164505005
+          },
+          {
+            "round": 4,
+            "delta_sm_us": 0.8031398057937622,
+            "delta_ma_us": -0.5120402574539185,
+            "delta_sma_us": 0.1311802864074707,
+            "interaction_us": -0.15991926193237305
+          },
+          {
+            "round": 5,
+            "delta_sm_us": 0.9599596261978149,
+            "delta_ma_us": -0.12483984231948853,
+            "delta_sma_us": 1.2767603993415833,
+            "interaction_us": 0.44164061546325684
+          },
+          {
+            "round": 6,
+            "delta_sm_us": 0.9632006287574768,
+            "delta_ma_us": -0.06404012441635132,
+            "delta_sma_us": 1.299159824848175,
+            "interaction_us": 0.39999932050704956
+          },
+          {
+            "round": 7,
+            "delta_sm_us": 0.8863601088523865,
+            "delta_ma_us": 0.3871399164199829,
+            "delta_sma_us": 1.3279592990875244,
+            "interaction_us": 0.05445927381515503
+          },
+          {
+            "round": 8,
+            "delta_sm_us": 0.8863595128059387,
+            "delta_ma_us": -0.18884003162384033,
+            "delta_sma_us": 1.340739130973816,
+            "interaction_us": 0.6432196497917175
+          },
+          {
+            "round": 9,
+            "delta_sm_us": 0.9120005369186401,
+            "delta_ma_us": -0.05443990230560303,
+            "delta_sma_us": 1.3119608163833618,
+            "interaction_us": 0.4544001817703247
+          },
+          {
+            "round": 10,
+            "delta_sm_us": 1.0080403089523315,
+            "delta_ma_us": -0.13120025396347046,
+            "delta_sma_us": 1.2575992941856384,
+            "interaction_us": 0.38075923919677734
+          },
+          {
+            "round": 11,
+            "delta_sm_us": 1.030399203300476,
+            "delta_ma_us": -0.03839999437332153,
+            "delta_sma_us": 1.3407596945762634,
+            "interaction_us": 0.3487604856491089
+          }
+        ],
+        "delta_sm_us": {
+          "median": 0.9359800815582275,
+          "min": 0.31360089778900146,
+          "max": 1.503940224647522,
+          "iqr": 0.13042539358139038,
+          "mad": 0.06402000784873962
+        },
+        "delta_ma_us": {
+          "median": -0.07362008094787598,
+          "min": -0.5120402574539185,
+          "max": 0.9311997890472412,
+          "iqr": 0.10563500225543976,
+          "mad": 0.054399967193603516
+        },
+        "delta_sma_us": {
+          "median": 1.3055603206157684,
+          "min": 0.1311802864074707,
+          "max": 2.3775607347488403,
+          "iqr": 0.08315488696098328,
+          "mad": 0.0415802001953125
+        },
+        "interaction_us": {
+          "median": 0.3647598624229431,
+          "min": -0.15991926193237305,
+          "max": 1.4335596561431885,
+          "iqr": 0.3136003762483597,
+          "mad": 0.16955986618995667
+        },
+        "graph_batch_amortized_per_call_us": {
+          "silu": {
+            "median": 6.999979913234711,
+            "min": 6.924800276756287,
+            "max": 7.731180191040039,
+            "iqr": 0.19038483500480652,
+            "mad": 0.017589926719665527
+          },
+          "mul": {
+            "median": 4.276780039072037,
+            "min": 4.2463600635528564,
+            "max": 5.091159939765931,
+            "iqr": 0.22082984447479248,
+            "mad": 0.02401992678642273
+          },
+          "add": {
+            "median": 4.270399957895279,
+            "min": 4.217599928379059,
+            "max": 4.90880012512207,
+            "iqr": 0.11199511587619781,
+            "mad": 0.01440003514289856
+          },
+          "silu_mul": {
+            "median": 10.353569984436035,
+            "min": 10.252759456634521,
+            "max": 11.414380073547363,
+            "iqr": 0.9984147548675537,
+            "mad": 0.09279012680053711
+          },
+          "mul_add": {
+            "median": 8.636800050735474,
+            "min": 8.572800159454346,
+            "max": 9.075199961662292,
+            "iqr": 0.45839011669158936,
+            "mad": 0.05760997533798218
+          },
+          "silu_mul_add": {
+            "median": 14.235199689865112,
+            "min": 14.191999435424805,
+            "max": 15.846359729766846,
+            "iqr": 1.091964840888977,
+            "mad": 0.038399696350097656
+          }
+        }
+      },
+      "100": {
+        "round_results": [
+          {
+            "round": 0,
+            "delta_sm_us": 0.6224197149276733,
+            "delta_ma_us": 0.022419989109039307,
+            "delta_sma_us": 0.8048102259635925,
+            "interaction_us": 0.15997052192687988
+          },
+          {
+            "round": 1,
+            "delta_sm_us": 0.9807991981506348,
+            "delta_ma_us": 0.027200281620025635,
+            "delta_sma_us": 1.2480202317237854,
+            "interaction_us": 0.240020751953125
+          },
+          {
+            "round": 2,
+            "delta_sm_us": 1.0383996367454547,
+            "delta_ma_us": 0.03841996192932129,
+            "delta_sma_us": 1.2527894973754883,
+            "interaction_us": 0.17596989870071233
+          },
+          {
+            "round": 3,
+            "delta_sm_us": 1.7279899120330828,
+            "delta_ma_us": -0.2319800853729248,
+            "delta_sma_us": 1.9295793771743774,
+            "interaction_us": 0.4335695505142194
+          },
+          {
+            "round": 4,
+            "delta_sm_us": 0.8175703883171082,
+            "delta_ma_us": -0.2223995327949524,
+            "delta_sma_us": 1.0159805417060852,
+            "interaction_us": 0.42080968618392944
+          },
+          {
+            "round": 5,
+            "delta_sm_us": 0.8063903450965881,
+            "delta_ma_us": -0.2096197009086609,
+            "delta_sma_us": 0.9887596964836121,
+            "interaction_us": 0.3919890522956848
+          },
+          {
+            "round": 6,
+            "delta_sm_us": 0.7984003424644488,
+            "delta_ma_us": -0.20001977682113647,
+            "delta_sma_us": 0.987190306186676,
+            "interaction_us": 0.3888097405433637
+          },
+          {
+            "round": 7,
+            "delta_sm_us": 0.8191993832588214,
+            "delta_ma_us": -0.16160011291503906,
+            "delta_sma_us": 1.0847800970077515,
+            "interaction_us": 0.42718082666396917
+          },
+          {
+            "round": 8,
+            "delta_sm_us": 0.8063802123069781,
+            "delta_ma_us": -0.18721967935562134,
+            "delta_sma_us": 1.0063698887825012,
+            "interaction_us": 0.38720935583114446
+          },
+          {
+            "round": 9,
+            "delta_sm_us": 0.8767995238304138,
+            "delta_ma_us": -0.19201964139938354,
+            "delta_sma_us": 1.0687896609306335,
+            "interaction_us": 0.38400977849960327
+          },
+          {
+            "round": 10,
+            "delta_sm_us": 0.7839992642402649,
+            "delta_ma_us": -0.1951804757118225,
+            "delta_sma_us": 0.971200168132782,
+            "interaction_us": 0.3823813796043396
+          },
+          {
+            "round": 11,
+            "delta_sm_us": 0.7951998710632324,
+            "delta_ma_us": -0.21598964929580688,
+            "delta_sma_us": 1.0415902733802795,
+            "interaction_us": 0.462380051612854
+          }
+        ],
+        "delta_sm_us": {
+          "median": 0.8119803667068481,
+          "min": 0.6224197149276733,
+          "max": 1.7279899120330828,
+          "iqr": 0.10519921779632435,
+          "mad": 0.022380799055099487
+        },
+        "delta_ma_us": {
+          "median": -0.19360005855560303,
+          "min": -0.2319800853729248,
+          "max": 0.03841996192932129,
+          "iqr": 0.09561710059642792,
+          "mad": 0.02559453248977661
+        },
+        "delta_sma_us": {
+          "median": 1.0287854075431824,
+          "min": 0.8048102259635925,
+          "max": 1.9295793771743774,
+          "iqr": 0.1372227817773819,
+          "mad": 0.04879489541053772
+        },
+        "interaction_us": {
+          "median": 0.3880095481872541,
+          "min": 0.15997052192687988,
+          "max": 0.462380051612854,
+          "iqr": 0.07561124861240343,
+          "mad": 0.035985708236695224
+        },
+        "graph_batch_amortized_per_call_us": {
+          "silu": {
+            "median": 6.839984953403473,
+            "min": 6.825600266456604,
+            "max": 7.790380120277405,
+            "iqr": 0.01961246132850647,
+            "mad": 0.010404884815216064
+          },
+          "mul": {
+            "median": 4.123995006084442,
+            "min": 4.099200069904327,
+            "max": 4.342400133609772,
+            "iqr": 0.07760010659694672,
+            "mad": 0.018395036458969116
+          },
+          "add": {
+            "median": 4.143990129232407,
+            "min": 4.129599928855896,
+            "max": 4.196780025959015,
+            "iqr": 0.014785155653953552,
+            "mad": 0.007990002632141113
+          },
+          "silu_mul": {
+            "median": 10.147194862365723,
+            "min": 10.123200416564941,
+            "max": 11.22238039970398,
+            "iqr": 0.034795105457307685,
+            "mad": 0.019190311431883877
+          },
+          "mul_add": {
+            "median": 8.467189967632294,
+            "min": 8.44319999217987,
+            "max": 8.484789729118347,
+            "iqr": 0.02039000391960144,
+            "mad": 0.011200010776519775
+          },
+          "silu_mul_add": {
+            "median": 14.091995358467102,
+            "min": 14.062390327453613,
+            "max": 15.183990001678467,
+            "iqr": 0.024395287036895752,
+            "mad": 0.01200556755065918
+          }
+        }
+      }
+    },
+    "n100_minus_n50_round_results": [
+      {
+        "round": 0,
+        "delta_sm_us": 0.3088188171386719,
+        "delta_ma_us": 0.12161999940872192,
+        "delta_sma_us": -0.8431503176689148,
+        "interaction_us": -1.2735891342163086
+      },
+      {
+        "round": 1,
+        "delta_sm_us": -0.5231410264968872,
+        "delta_ma_us": -0.9039995074272156,
+        "delta_sma_us": -1.129540503025055,
+        "interaction_us": 0.29760003089904785
+      },
+      {
+        "round": 2,
+        "delta_sm_us": 0.046439766883851874,
+        "delta_ma_us": 0.006399750709533691,
+        "delta_sma_us": -0.004770159721374512,
+        "interaction_us": -0.05760967731476008
+      },
+      {
+        "round": 3,
+        "delta_sm_us": 0.9759700298309344,
+        "delta_ma_us": -0.14878004789352417,
+        "delta_sma_us": 1.1039391160011292,
+        "interaction_us": 0.2767491340637189
+      },
+      {
+        "round": 4,
+        "delta_sm_us": 0.014430582523345947,
+        "delta_ma_us": 0.28964072465896606,
+        "delta_sma_us": 0.8848002552986145,
+        "interaction_us": 0.5807289481163025
+      },
+      {
+        "round": 5,
+        "delta_sm_us": -0.1535692811012268,
+        "delta_ma_us": -0.08477985858917236,
+        "delta_sma_us": -0.2880007028579712,
+        "interaction_us": -0.04965156316757202
+      },
+      {
+        "round": 6,
+        "delta_sm_us": -0.164800286293028,
+        "delta_ma_us": -0.13597965240478516,
+        "delta_sma_us": -0.311969518661499,
+        "interaction_us": -0.011189579963685858
+      },
+      {
+        "round": 7,
+        "delta_sm_us": -0.06716072559356512,
+        "delta_ma_us": -0.548740029335022,
+        "delta_sma_us": -0.24317920207977295,
+        "interaction_us": 0.37272155284881414
+      },
+      {
+        "round": 8,
+        "delta_sm_us": -0.07997930049896063,
+        "delta_ma_us": 0.0016203522682189941,
+        "delta_sma_us": -0.3343692421913147,
+        "interaction_us": -0.25601029396057307
+      },
+      {
+        "round": 9,
+        "delta_sm_us": -0.03520101308822632,
+        "delta_ma_us": -0.13757973909378052,
+        "delta_sma_us": -0.24317115545272827,
+        "interaction_us": -0.07039040327072144
+      },
+      {
+        "round": 10,
+        "delta_sm_us": -0.22404104471206665,
+        "delta_ma_us": -0.06398022174835205,
+        "delta_sma_us": -0.28639912605285645,
+        "interaction_us": 0.0016221404075622559
+      },
+      {
+        "round": 11,
+        "delta_sm_us": -0.23519933223724365,
+        "delta_ma_us": -0.17758965492248535,
+        "delta_sma_us": -0.2991694211959839,
+        "interaction_us": 0.11361956596374512
+      }
+    ],
+    "n100_minus_n50": {
+      "delta_sm_us": {
+        "median": -0.07357001304626287,
+        "min": -0.5231410264968872,
+        "max": 0.9759700298309344,
+        "iqr": 0.2020433545112601,
+        "mad": 0.10562002658843994
+      },
+      "delta_ma_us": {
+        "median": -0.11037975549697876,
+        "min": -0.9039995074272156,
+        "max": 0.28964072465896606,
+        "iqr": 0.15879765152931213,
+        "mad": 0.08960500359535217
+      },
+      "delta_sma_us": {
+        "median": -0.2871999144554138,
+        "min": -1.129540503025055,
+        "max": 1.1039391160011292,
+        "iqr": 0.1339985430240631,
+        "mad": 0.04559904336929321
+      },
+      "interaction_us": {
+        "median": -0.004783719778061801,
+        "min": -1.2735891342163086,
+        "max": 0.5807289481163025,
+        "iqr": 0.3427667170763016,
+        "mad": 0.1848149299621591
+      }
+    },
+    "statistical_significance_claim": false,
+    "mechanism_identified": false,
+    "adjacency_parameter_fitted": false,
+    "automatic_model_writeback": false
+  }
+}

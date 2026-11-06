@@ -1,0 +1,29 @@
+{
+  "scope": "dispatch_and_event_granularity_diagnostic_not_kernel_ground_truth",
+  "source_sha256": "642fae5eb41c848287be922dfbc97e9c966e08967c19ca1ebb3d1653d8f79eaf",
+  "original_probe_sha256": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+  "case_order": [
+    "gpu0_seq256",
+    "gpu0_seq1",
+    "gpu1_seq1",
+    "gpu1_seq256"
+  ],
+  "rounds": 7,
+  "calls_per_arm_per_round": 50,
+  "total_timed_calls": 5600,
+  "modes": [
+    "per_call_event",
+    "batch_event"
+  ],
+  "input_contract": "50 independent contiguous gate buffers, identical initial values; same up; restore all gates and synchronize before each timed block",
+  "working_set_change": "prefill gate pool ~75MiB; matched across new modes, different from original single-buffer probe",
+  "comparison_statistic": "median of 7 round Event means per call in both modes; do not compare batch means only to old per-call medians",
+  "limitations": [
+    "batch eager still includes Python/driver submission gaps",
+    "wall minus Event is not pure host time",
+    "no constant overhead subtraction",
+    "allocation behavior retained",
+    "no evaluator label export",
+    "no automatic rerun"
+  ]
+}

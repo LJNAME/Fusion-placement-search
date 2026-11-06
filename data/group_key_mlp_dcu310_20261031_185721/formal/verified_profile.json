@@ -1,0 +1,2633 @@
+{
+  "format": "fusion-placement-search.verified-group-key-profile",
+  "version": "1.0",
+  "manifest_id": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+  "scope": "development_isolated_kernels",
+  "complete": true,
+  "expected_keys": 12,
+  "accepted_keys": 12,
+  "expected_blocks": 84,
+  "recorded_blocks": 84,
+  "profiles": {
+    "sha256:3f36a3e984928fd1d1788b5dc335493ebfe8a9c05f18171d3ec3f646a35ad116": {
+      "slot_id": "mlp.gate_proj@gpu0",
+      "kernel_key": {
+        "external_inputs": [],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "semantic_slice": "gate",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 5.584000051021576e-05,
+      "block_medians_s": [
+        5.592000111937523e-05,
+        5.567999929189682e-05,
+        5.592000111937523e-05,
+        5.584000051021576e-05,
+        5.56000005453825e-05,
+        5.536000058054924e-05,
+        5.6159999221563336e-05
+      ],
+      "block_median_iqr_s": 2.800012007355668e-07,
+      "first_to_last_relative_change": 0.00429181146967017,
+      "profiling_wall_s": 6.011765747331083,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:45eb5cacaee5a9bbc555f13519f3828277df336ec3c95da784ac0d949874b84a",
+        "sha256:e27f0f5beecf53d121651cb9afcba2d2d160f5f35bdc7980e5a0957d53a80227",
+        "sha256:f7c38b2992e8f18cf7a527c95901f6226904806648804d068f7cc5ae430ab85e",
+        "sha256:031cd12581bed88104848e53d263628dd2e401c50478d89742642ebe281c1c9f",
+        "sha256:1fd58147c08de4c6ed0abe1df473c52f8825bb8099e809d309e09dca0bb889b0",
+        "sha256:f314e3300812c05f9d77937e33b6ca43d95696a20f5470a4610f49944f96cb00",
+        "sha256:b54d29707b725c6f88795f21f71e4c4a591a14a546e5674291cb05aba3058f88",
+        "sha256:ddcba1f5e1cbaeb1a4958c19f7da806f2e693f6668c438b77f264385739355c3"
+      ]
+    },
+    "sha256:89432dca497719622f08bb4f95817a1b171ccce4cf793b5a41ca20c01ad4b5b6": {
+      "slot_id": "mlp.gate_proj@gpu1",
+      "kernel_key": {
+        "external_inputs": [],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "semantic_slice": "gate",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 5.5279999971389774e-05,
+      "block_medians_s": [
+        5.599999986588955e-05,
+        5.5279999971389774e-05,
+        5.503999814391136e-05,
+        5.488000065088272e-05,
+        5.407999828457832e-05,
+        5.552000179886818e-05,
+        5.56000005453825e-05
+      ],
+      "block_median_iqr_s": 6.00001774728301e-07,
+      "first_to_last_relative_change": -0.00714284502616036,
+      "profiling_wall_s": 3.233253770507872,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:59b5c519881a3b98a46255e10170f6a108ee2c58572a69c03aab6d26cd15e538",
+        "sha256:7a0d9d75375c64835210fe0853f96888fcb3a857f2424dc9ad8ea9473ea9b1c5",
+        "sha256:0e705332b85f03fdbfa52b55d35189d10b836cb799b11118c1e5b0d73e56f2b5",
+        "sha256:a6e667dae29a98987bad66f9d722ca357b03267e7d8cce00ccbf2b4adf558ad3",
+        "sha256:706426d2dd821e36f1bb22759958f6f6e131cac69ebe62be03f28730ae796c7a",
+        "sha256:6edc065666eb5326b48621ffa4bc0a1dd2d1fa2c113717507db7ac89a4644ba9",
+        "sha256:5797da72ae3eaac4ce8d44275a03ece0bae22e2cb3cb7b24ab00107c20b76777",
+        "sha256:4ac81c2288dc257bf3ad2e47f62f0623b0d47f6c0c530d7bece857be456175c1"
+      ]
+    },
+    "sha256:1fef25119cdadab04527eefaa636f01647c095129a9deec1a77b386875430938": {
+      "slot_id": "mlp.silu@gpu0",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.silu.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "silu",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 3.791999816894531e-05,
+      "block_medians_s": [
+        3.743999823927879e-05,
+        3.775999881327153e-05,
+        3.815999999642372e-05,
+        3.8079999387264255e-05,
+        3.735999949276447e-05,
+        3.855999931693077e-05,
+        3.791999816894531e-05
+      ],
+      "block_median_iqr_s": 5.200011655688233e-07,
+      "first_to_last_relative_change": 0.012820511544868296,
+      "profiling_wall_s": 2.005388418212533,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:260a4a7c9b068005d1fb013c37094e0770e53a062b745a72acea0561ded8e33f",
+        "sha256:31ec3ad1f8f8b9b2d0bcef82f7246b5bd8ca1395ad78f477dc928c865f12ca9e",
+        "sha256:ea41ad84f3ca990bc5f6268ab19495e2bbc0412b08c53a18c9c205a24d087e11",
+        "sha256:bbdcc64e33e957d0ed7b0494f0097f9effa739cd8c96f28b04b107101c72ccb4",
+        "sha256:06010a7d91e75bb1ac42e0f38577340aceeadf66987f4df70b743a063ce34988",
+        "sha256:2ce0f772d0b9c45e467a0f14167355543eeb33b0252a9c97acbeb7c015b8b075",
+        "sha256:f7fe068acf6fc3ebf5c1866f1c41e7c1a0115c311d70d9bca5268d3226ba1cce",
+        "sha256:31125476462405872136d7792fa83aac1b37b986161e78b775cb1e5a924f44ec"
+      ]
+    },
+    "sha256:8461d971cccc1e3aaa1cd4f0981c65c7f09162d1092c0dd8de3f08b6685d7229": {
+      "slot_id": "mlp.silu@gpu1",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.silu.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "silu",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 3.728000074625015e-05,
+      "block_medians_s": [
+        3.791999816894531e-05,
+        3.728000074625015e-05,
+        3.743999823927879e-05,
+        3.728000074625015e-05,
+        3.680000081658363e-05,
+        3.720000013709068e-05,
+        3.7519998848438264e-05
+      ],
+      "block_median_iqr_s": 2.3999810218812043e-07,
+      "first_to_last_relative_change": -0.01054850579699207,
+      "profiling_wall_s": 1.928824590984732,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:168e4d03912977503ba3bd55eadebed8e2208c20411ec72eef3e99cad1db00fa",
+        "sha256:2fb919b9c559ccbc0262885096e867c330b0908830081af56a0014a1e2fc0eab",
+        "sha256:6fc1eeb5b51dbe48528e79b2214aac7d87b5dda2acdd407b89cca4c3bba4bdf0",
+        "sha256:483b8c8630b14a481802c27557dad35fd411dfd7ca311105dc18f8daf178637d",
+        "sha256:43b12aed374792d97086a3cca2bbaea86b6cd3fa74e16523e5e68f505aa919c7",
+        "sha256:ba374ac7f491ad553fb1a68e9c1e4b03924875454d2d1326e5bfc605b5e2c776",
+        "sha256:dd835f29ab7840fde57ba131e72882c06fdf66c25693de5a4138d7eebcfe7ae6",
+        "sha256:0cd04e874a20b97de618155abad6a80d735f7a5424f13a7af3892851b11443ab"
+      ]
+    },
+    "sha256:c02d1616c4ca4065300b74a91a9cfa07d4f92ad12af5d1c5631499b6e4852fa9": {
+      "slot_id": "kerv_silu_mul@gpu0",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "backend": "flagscale_kerv_triton",
+          "compile_flags": {},
+          "id": "flagos_embodied.kerv_silu_mul.triton",
+          "public_operator": "torch.ops.flagos_embodied.kerv_silu_mul",
+          "runtime_flags": {
+            "backend": "triton",
+            "enabled_operator": "kerv_silu_mul",
+            "inplace": true,
+            "output_alias_input": "gate"
+          },
+          "version": "sha256:05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60",
+          "measurement_contract": {
+            "kind": "kerv_silu_mul",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": true
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          },
+          {
+            "attributes": {
+              "bwd_flops": 1572864,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "internal": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          1
+        ],
+        "pattern_id": "silu_mul",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 0.00010592000186443329,
+      "block_medians_s": [
+        0.0001063999980688095,
+        0.00010576000064611435,
+        0.00010592000186443329,
+        0.00010600000247359276,
+        0.00010472000017762185,
+        0.00010568000003695487,
+        0.00010623999685049056
+      ],
+      "block_median_iqr_s": 3.9999932050703525e-07,
+      "first_to_last_relative_change": -0.001503770876156163,
+      "profiling_wall_s": 4.754537995904684,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:613e31595e2befacdb9437ec504da4c0c905352f2182e1b0e2acd5ff2a872824",
+        "sha256:b0aba77f0c2af95c0ee0fd7e7fafedc276fcc90f18e26ee9f0c91124b9955333",
+        "sha256:5454f896a60ccfb5f95260460c29fe2deabc25216c70ee6bd90b1b8897379a22",
+        "sha256:e4e65526d975777b6c2cecea75ccc4d72ab07f3be0a715c2ea876ced5c8ec6bf",
+        "sha256:81201fbb114d0c02defb47aa4b2b5923b4b97d72223a34ccb69ba8d0945bd2ec",
+        "sha256:a29e23eb68987e63d8da75b38ec3038e306a0620507d41677d1d7056558ca402",
+        "sha256:988b7d341cab2bd47b97e7c8fe10b4bd8e8d61afc4616ab1d6f84ad0f039177f",
+        "sha256:f5f29893b1212f48950d4e1b0b9ad449f1aa1424b1e5fb04208a08407262df35"
+      ]
+    },
+    "sha256:5a0283a6843e054e0f23f2d207f5f8c56dc54b2bba12e129c37d6b9d0590b75c": {
+      "slot_id": "kerv_silu_mul@gpu1",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "backend": "flagscale_kerv_triton",
+          "compile_flags": {},
+          "id": "flagos_embodied.kerv_silu_mul.triton",
+          "public_operator": "torch.ops.flagos_embodied.kerv_silu_mul",
+          "runtime_flags": {
+            "backend": "triton",
+            "enabled_operator": "kerv_silu_mul",
+            "inplace": true,
+            "output_alias_input": "gate"
+          },
+          "version": "sha256:05c4cdc09f48c8ff866f97141959d3716effd800f5be5e66a7f34838d2c48a60",
+          "measurement_contract": {
+            "kind": "kerv_silu_mul",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": true
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 6291456,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 3145728,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "silu",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          },
+          {
+            "attributes": {
+              "bwd_flops": 1572864,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "internal": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          1
+        ],
+        "pattern_id": "silu_mul",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 0.00010432000085711478,
+      "block_medians_s": [
+        0.00010463999956846237,
+        0.00010432000085711478,
+        0.00010432000085711478,
+        0.00010520000010728836,
+        0.00010392000153660775,
+        0.00010480000078678131,
+        0.00010416000336408616
+      ],
+      "block_median_iqr_s": 4.799980670213702e-07,
+      "first_to_last_relative_change": -0.004587119709057008,
+      "profiling_wall_s": 3.463806950021535,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:8c257da8325ef20ca111c9639ac49182d2506dc17207162404d4e2892f481d79",
+        "sha256:f9f396cd7dcb4ea9dec529dde47c9e59c97675ed7da4a3be3ba373017efe8443",
+        "sha256:3ff68eca39a52bfa53afb0664c38999207895fbee93fbd53622ea2afeaa2dbcb",
+        "sha256:2e860d8b7e3cffec0c5d1be60daab8f357d9b378157ae1bafe3c7db46b20924c",
+        "sha256:3a7c1bbb1b880a967fa15df8f43bdb4d6040fdc2f38743d53748f878d2f9f22d",
+        "sha256:05e81eb996924dd722966f9534e539314b574e7635dca6fb1de115590b2b02b4",
+        "sha256:f292b4f2ddf2b19ce0afa20398f532815a9117bcaf470cf514f04e9d32f148e0",
+        "sha256:391d7fdf93de0fde24d995cc9c2a8ee2f72fdd8a1aa90f85a1dbadf4082042ed"
+      ]
+    },
+    "sha256:a42723a6cc015de01927f58316d353f2283f0ed24f7f19ef06de0fab85db95d5": {
+      "slot_id": "mlp.up_proj@gpu0",
+      "kernel_key": {
+        "external_inputs": [],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "semantic_slice": "up",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 5.60000017285347e-05,
+      "block_medians_s": [
+        5.68000003695488e-05,
+        5.6080000475049015e-05,
+        5.567999929189682e-05,
+        5.5840000510215765e-05,
+        5.592000111937523e-05,
+        5.60000017285347e-05,
+        5.6159999221563336e-05
+      ],
+      "block_median_iqr_s": 2.399990335106783e-07,
+      "first_to_last_relative_change": -0.011267625771505752,
+      "profiling_wall_s": 2.130702848546207,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:0bf519b754c8a5dbd894244406f9252d5330f0ffe366f2e8030b29ad9250f1bc",
+        "sha256:c68b14b44614eecd5e218a2c5e7a18776c8bc597472b992f18042d047a7b856d",
+        "sha256:a87a94086794996bd1396970f48329682e62660374eaeb6f9d92cc42c5e2ed01",
+        "sha256:74598ed25d8a8108e09d088a62182477160c69720c54edebb71e5165ae43877e",
+        "sha256:3aed3e23a03216740289916a8060cf4b6b57f23669fcf4fdf9f75f5b398074e0",
+        "sha256:04b84b78dfd45ae2f0c5bce067d599cc30d0904e4cf1d48fb0e00f4e121c08cb",
+        "sha256:f292147fe46cf2fe0d05d0abe90633c2f76f5047120421bf659d2f4f5c07d731",
+        "sha256:15d6b5387abed17c5fe64fe7a1852225d2fb357a15b4c1ec2e0acf1fe65947bb"
+      ]
+    },
+    "sha256:3d8c4e4bcb0de38d55ea7b642e49db664efd8f1c058fda0635a18ac0b9385d42": {
+      "slot_id": "mlp.up_proj@gpu1",
+      "kernel_key": {
+        "external_inputs": [],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1024,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "semantic_slice": "up",
+              "shape": {
+                "k": 1024,
+                "m": 256,
+                "n": 3072
+              },
+              "sharding_rule": "column"
+            },
+            "inputs": [],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 5.567999929189682e-05,
+      "block_medians_s": [
+        5.567999929189682e-05,
+        5.5279999971389774e-05,
+        5.503999814391136e-05,
+        5.503999814391136e-05,
+        5.584000051021576e-05,
+        5.6159999221563336e-05,
+        5.6159999221563336e-05
+      ],
+      "block_median_iqr_s": 8.400008082389861e-07,
+      "first_to_last_relative_change": 0.008620688501631557,
+      "profiling_wall_s": 2.214630266651511,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:30fd29744673b32c3f68bd8dce3c2ee84da39f011794bccf9121bf84c0c2c7e5",
+        "sha256:d4f6f97368be839462bedfa2b6a9cf8e80eef5b25e106893f50efc122588c8da",
+        "sha256:99257efc214934e2a4b54cf1837c67ca84c75a698fc1a68513e6e3666cb9d463",
+        "sha256:fc29fc701ffd8672e1cb99d06a52766ffd18420486841eeca21eed864007c6f2",
+        "sha256:09e76148f5ffb71cfc525b3c31cbc26c5e24f13134faed1a2bdf5fb0b24c6aff",
+        "sha256:1b8f04c48d57f9c37d0badf4f31b941f8142d71b7090c3aefc6df5a3d1be7e1d",
+        "sha256:0c7aa8a6502561d949c150e938778c3a6220c602012e54ab514a85d99ed3e524",
+        "sha256:d90e324e7ada8a75ac7219658971a22c0557c8b60f2f0cb1042d8f4db3453a9e"
+      ]
+    },
+    "sha256:5ad26bff9e20fb605262aaba396f29b34bca9b890cb2db4a8ee97a3cb6b6cff8": {
+      "slot_id": "mlp.gated_mul@gpu0",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mul.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mul",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 1572864,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 4.1439998894929886e-05,
+      "block_medians_s": [
+        4.1439998894929886e-05,
+        4.0799999609589574e-05,
+        4.1439998894929886e-05,
+        4.1280001401901244e-05,
+        4.1439998894929886e-05,
+        4.1760001331567763e-05,
+        4.208000004291534e-05
+      ],
+      "block_median_iqr_s": 2.3999996483326327e-07,
+      "first_to_last_relative_change": 0.015444043558209497,
+      "profiling_wall_s": 2.132513437885791,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:421ba65225fb80d6ce65b486538d99a61416f38b960a787086e535d6764b6f9a",
+        "sha256:da2eadf9bf6191b7f19a5208c6ab60dfcd788301de6f02842b6e975343ed17b3",
+        "sha256:57ed59b3d5155446b4b236a2ca8daedae909c1ab611fdb5f9523eeaa0c2840bd",
+        "sha256:d7c15cba508852df1e03baf299aefac06d838bb668bda6af244957470752cb09",
+        "sha256:07b2c412915cd7b1679f9a8ab3369aa830f8d4420732ec8d885400a6602edd96",
+        "sha256:0a070b9a9928496554d442bbe4b2f59daeb5203879296e347c0aad4de4800163",
+        "sha256:cd798bc374058bde44e93dad0b59b4d83a6e9fbc96854a09f3d8b9fc2ccbe98b",
+        "sha256:b73aff8c98864258ade5717ef290f74e9fe8611ad35ed95e8c5df81e8b0c02ea"
+      ]
+    },
+    "sha256:d31e527fc7183859280e5b4e99ff7752811845ae93ca92de49942515911e9898": {
+      "slot_id": "mlp.gated_mul@gpu1",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          },
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mul.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mul",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  1,
+                  256,
+                  3072
+                ],
+                "strides": [
+                  786432,
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 1572864,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 786432,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                3072
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 1572864,
+              "shape": {
+                "n": 786432
+              }
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              },
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 1
+              }
+            ],
+            "operator": "mul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                3072
+              ],
+              "strides": [
+                786432,
+                3072,
+                1
+              ]
+            },
+            "parameter_bytes": 0
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 4.072000086307525e-05,
+      "block_medians_s": [
+        4.0320001542568204e-05,
+        4.047999903559685e-05,
+        4.072000086307525e-05,
+        4.047999903559685e-05,
+        4.112000018358231e-05,
+        4.0800001472234724e-05,
+        4.095999896526337e-05
+      ],
+      "block_median_iqr_s": 4.000011831521984e-07,
+      "first_to_last_relative_change": 0.01587295134449529,
+      "profiling_wall_s": 2.0246201218105853,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:ca6f76118ea329df834db28cdb6bd8dd87f51bd20f61a72d02c2e031b86ac7b5",
+        "sha256:0957430bd53ec0286acb9db4a18a1e4851b7d31924be787cda2c24892321284d",
+        "sha256:92316cdf41280711ff29fe410e534ec3aaa8061a99b3f4e970d41c506fa360fb",
+        "sha256:aa4881b664fda09898647ea214e35b28b6aea545857e3cfca38339c8dc9804b1",
+        "sha256:ea6173da8d40410005e86033740c21de4bf92ec83d3dcd06a2bda4126382d43c",
+        "sha256:c3b1b7d2551b31e24350ac24e811cd82fbfece3538f914d012dca3a01ef331ee",
+        "sha256:a0f32ce458839790a59b6fb2b221d6fbe1cd483f8e525dfeb77d745eb689d746",
+        "sha256:9a6c5f6ca4e678c6154736c09489ef95fc316c938dea4b1916d62e4d82a6a43d"
+      ]
+    },
+    "sha256:f1ca314307aacfd7481d94e429273f2abadfbd607ac8fafa7b326e17ec22fc9d": {
+      "slot_id": "mlp.down_proj@gpu0",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 0,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6332-3666-6533-383831393231",
+          "pci_bus_id": "9",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 0,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  3072,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": [
+                262144,
+                1024,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                1024
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 524288,
+              "shape": {
+                "k": 3072,
+                "m": 256,
+                "n": 1024
+              },
+              "sharding_rule": "row"
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": [
+                262144,
+                1024,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 5.455999821424484e-05,
+      "block_medians_s": [
+        5.455999821424484e-05,
+        5.4320000112056735e-05,
+        5.488000065088272e-05,
+        5.463999882340431e-05,
+        5.407999828457832e-05,
+        5.4719999432563783e-05,
+        5.3920000791549686e-05
+      ],
+      "block_median_iqr_s": 4.799999296665265e-07,
+      "first_to_last_relative_change": -0.011730158424529846,
+      "profiling_wall_s": 2.1230485206469893,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:15a88c5a35e02e6769102946fed6fa73b0eb54b9201f4ab2e148804a5f25935e",
+        "sha256:f1c694ea050699302032f90659f9ad02c70fa7bf5e6fbf53c28749bbbb6aeec3",
+        "sha256:3ecba4ccd668d3d431cbfa5a1968d3eb31bf9c8ecfd535222374ce80ce67ddf4",
+        "sha256:155189bc3b2798dc3ad3703ec46f2d5e217f6a852504184ebfe526717c5c4ed0",
+        "sha256:13872e7e4499066f143900b2e9e25db6f238c81c95927e575a8c6dad8be1dfaa",
+        "sha256:048e9a6ee12f5bd75d115514d80c876377630e78b8a6750c81e26cdb3234f720",
+        "sha256:770ad85bf2c018df751b3b2bb65571df0b6a3fcbe6c9b8d75e0ee0535493f271",
+        "sha256:58020c891ecf9e0689e2bc375ac3966661348e9c557392016217d1f5a16b1bd5"
+      ]
+    },
+    "sha256:b7f77400efc201e54330f42caa8edf1cb96291cceb3d7b4396d592321a31b360": {
+      "slot_id": "mlp.down_proj@gpu1",
+      "kernel_key": {
+        "external_inputs": [
+          {
+            "dtype": "bf16",
+            "layout": {
+              "contiguity": "contiguous",
+              "order": "row_major"
+            },
+            "shape": [
+              1,
+              256,
+              3072
+            ],
+            "strides": [
+              786432,
+              3072,
+              1
+            ]
+          }
+        ],
+        "hardware": {
+          "device_index": 1,
+          "name": "BW",
+          "class": "BW",
+          "physical_index": null,
+          "uuid": "30303134-6261-3537-6132-323632383631",
+          "pci_bus_id": "245",
+          "total_memory": 68702699520,
+          "multiprocessors": 80,
+          "architecture": "gfx936:sramecc+:xnack-",
+          "locator": {
+            "host": "crdnotebook-2116066965926551554-ac431jtve4-57966",
+            "torch_logical_index": 1,
+            "visibility": {
+              "CUDA_VISIBLE_DEVICES": null,
+              "HIP_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+              "ROCR_VISIBLE_DEVICES": null
+            }
+          },
+          "mapping_scope": "Torch enumeration; physical ordinal not inferred from logical index",
+          "source": "sha256:01f0d9f7bf14aa2391b3e4d7266aa54253a3696a00422c7021d5e97ab964f3e7"
+        },
+        "implementation": {
+          "id": "torch.mm.reference",
+          "runtime_flags": {
+            "inplace": false
+          },
+          "source_contract": "calibration.group_key_remeasurement.prepare_operation",
+          "version": "sha256:c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+          "measurement_contract": {
+            "kind": "mm",
+            "dtype": "bf16",
+            "inputs": [
+              {
+                "shape": [
+                  256,
+                  3072
+                ],
+                "strides": [
+                  3072,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              },
+              {
+                "shape": [
+                  3072,
+                  1024
+                ],
+                "strides": [
+                  1024,
+                  1
+                ],
+                "layout": "contiguous_row_major"
+              }
+            ],
+            "output": {
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": [
+                262144,
+                1024,
+                1
+              ]
+            },
+            "mm_output": "contiguous [M,N] with zero-copy logical output view",
+            "input_initialization": "CPU Torch seeded normal BF16; Mul left=BF16 SiLU(gate)",
+            "input_seed": 1234,
+            "requires_grad": false,
+            "restore_mutating_gate": false
+          },
+          "collector_source_sha256": {
+            "calibration/group_key_remeasurement.py": "c661bbb02bfd119731429acd62b48695bd4360c407dcc2a46a17817f7e5cad92",
+            "calibration/probe_kerv_silu_mul.py": "f5703c31e2984e71f43b3ae8ed6298937ef860e170e4d71ab5ba80ecf1f62718",
+            "calibration/kerv_silu_mul.py": "7a3860ffa22fc3a67648016501396314b983ca88c681be518f476b56e27f7e5a",
+            "cost_model/fusion_kernel_profile.py": "96416494896d7e045846d0406c9d44c8efbdf100395439a7cd480145b038401b"
+          }
+        },
+        "key_version": "fusion-group-kernel.v1",
+        "operators": [
+          {
+            "attributes": {
+              "bwd_flops": 3221225472,
+              "collective": null,
+              "dtype": "bf16",
+              "fwd_flops": 1610612736,
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "output_shape": [
+                1,
+                256,
+                1024
+              ],
+              "phase": "forward",
+              "recompute_eligible": true,
+              "saved_activation_bytes": 524288,
+              "shape": {
+                "k": 3072,
+                "m": 256,
+                "n": 1024
+              },
+              "sharding_rule": "row"
+            },
+            "inputs": [
+              {
+                "attributes": {
+                  "dtype": "bf16",
+                  "shape": [
+                    1,
+                    256,
+                    3072
+                  ]
+                },
+                "bytes": 1572864,
+                "external": 0
+              }
+            ],
+            "operator": "matmul",
+            "output": {
+              "dtype": "bf16",
+              "layout": {
+                "contiguity": "contiguous",
+                "order": "row_major"
+              },
+              "shape": [
+                1,
+                256,
+                1024
+              ],
+              "strides": [
+                262144,
+                1024,
+                1
+              ]
+            },
+            "parameter_bytes": 6291456
+          }
+        ],
+        "outputs": [
+          0
+        ],
+        "pattern_id": "unfused",
+        "runtime": {
+          "framework": "pytorch",
+          "framework_version": "2.9.0",
+          "framework_git_version": "cbed15cda33969a3483b92a448b135bf19d9b370",
+          "accelerator": "hip",
+          "accelerator_version": "6.3.26113",
+          "triton_version": "3.5.1",
+          "torch_build_config_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+          "python_version": "3.10.22",
+          "float32_matmul_precision": "highest",
+          "allow_tf32": false,
+          "deterministic_algorithms": false
+        }
+      },
+      "kind": "measured",
+      "duration_s": 5.44000007212162e-05,
+      "block_medians_s": [
+        5.44000007212162e-05,
+        5.511999875307083e-05,
+        5.447999946773052e-05,
+        5.407999828457832e-05,
+        5.455999821424484e-05,
+        5.4320000112056735e-05,
+        5.4320000112056735e-05
+      ],
+      "block_median_iqr_s": 1.999987289309462e-07,
+      "first_to_last_relative_change": -0.0014705994135817413,
+      "profiling_wall_s": 1.9438040792010725,
+      "cost_scope": "per-Key setup + sampling; shared environment/source/IO overhead reported separately",
+      "provenance": "sha256:011152e33c8b97628709fa7be46b3a0ad39b92b11a776c80bb70806772e2078c",
+      "raw_record_ids": [
+        "sha256:bef014f2de106501533dacaa5d7dd21e7d18872aa9992c026a53f9e1f5d17623",
+        "sha256:b5e2a9c6051baa22c6d2784b504760d84616e5f6693c5082e76efcec1a02b64d",
+        "sha256:b5134546616ea370611c8751ddb8db2017bd2e728cd9dd0e888359d6f31f5905",
+        "sha256:dd6b66e15c1cb4548d3ce4ba83936b013513a46272ab7374f5d974575bd20957",
+        "sha256:905c2e28735ce7f9d461769db9dd620a387d734dbb50d88cd339cfd3d5ba7da8",
+        "sha256:4aedd086d2b7cd9efacd581a7e4e4e5992c87e6309e096348397e3a6a0f549a5",
+        "sha256:41f5670980fec3896fd6c19b52da7f999021e860f5816a3eaa456ffbb2bbdaf6",
+        "sha256:b6ee43d64b78ba128f8f156df089dea75740c1276eb641d8d17648dfc7b3340d"
+      ]
+    }
+  },
+  "automatic_profile_writeback": false,
+  "downstream_deployable": false
+}
