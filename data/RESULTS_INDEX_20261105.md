@@ -87,3 +87,4 @@
 
 - 2026-11-07：Native Add→RMSNorm 单条对照入口，GPU0第0层固定Graph7×50；KERV不重测。CPU plan：data/native_add_rmsnorm_timing_plan_v1/plan.json；仅审计：data/qwen25_add_rmsnorm_reuse_check_v1/capability_cost_audit.json；说明cost_model/NATIVE_ADD_RMSNORM_COMPARISON.md。Native GPU读数待回传，准入新增0，36处模型运行时证据仍不足。
 - 2026-11-07 Native AddRMS回传：data/native_add_rmsnorm_timing_01，accepted完整链10.217599869us，KERV旧5.353559852us，减少47.604526%；review/summary.json、profile.json、cost_query.json及strict_reuse_audit。7×50/12源码SHA/Key/契约通过，无重测/新搜索。模型实际布局/别名/执行契约仍缺，图复用0；benchmark对照闭合，非36层或整图性能结论。
+- 2026-11-07：data/qwen25_static_joint_v1，0.6B式静态执行声明的3B严格联合搜索。36处GPU0复用Native/KERV成本，GPU1缺成本对保持Native；一次joint/seed0，64请求32实评32拒绝，36融合全GPU0，预测25.239290006ms（Native参考25.414395447ms）。joint_placed.json及joint_fused_placed.json往返与重评分一致。未新增测量/完整模型执行，详见cost_model/QWEN25_STATIC_SEARCH.md。

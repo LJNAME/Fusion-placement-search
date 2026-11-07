@@ -79,3 +79,6 @@ data/qwen25_add_rmsnorm_graph_v1包含逐位置/逐设备审计、三种搜索�
 ## 单条 Native 对照入口（2026-11-07）
 
 见 [NATIVE_ADD_RMSNORM_COMPARISON.md](NATIVE_ADD_RMSNORM_COMPARISON.md)。只新增GPU0第0层完整原生链的7×50测量，不重测KERV。--native-profile读取复核后的完整链成本，--audit-only只检查其余位置的复用条件，不启动新搜索。尚未得到Native新读数；未知模型布局不由benchmark补齐。
+## 静态图搜索入口调整（2026-11-07）
+
+用户明确不承担完整模型执行。当前优先采用0.6B已有的执行声明与条件匹配路径，见[QWEN25_STATIC_SEARCH.md](QWEN25_STATIC_SEARCH.md)。不再要求先取得36层model_runtime才能进行静态图搜索；未知布局不是实际观测，只有在显式目标执行契约和现有Adapter guard下复用成本，已知冲突仍拒绝。原runtime审计及历史0复用结果不改写。

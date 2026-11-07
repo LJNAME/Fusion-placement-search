@@ -56,3 +56,6 @@ Native固定7轮×50次，350次输出双参考/只读/恢复检查回执通过�
 原13文件保存在data/native_add_rmsnorm_timing_01/；review/profile.json为accepted记录，review/cost_query.json为实际严格Canonical查询，测得整链不追加访存/launch成本，GPU1查询拒绝。review/summary.json与strict_reuse_audit记录模型复用仍0，未将benchmark改写成模型布局证据。Native单算子标签新增0，无新GPU或搜索。
 
 这一个测时Case结束。剩余工作是已有3B位置的实际布局、别名和执行契约；无需再测本组Native/KERV。
+## 静态图搜索入口调整（2026-11-07）
+
+用户明确不承担完整模型执行。当前优先采用0.6B已有的执行声明与条件匹配路径，见[QWEN25_STATIC_SEARCH.md](QWEN25_STATIC_SEARCH.md)。不再要求先取得36层model_runtime才能进行静态图搜索；未知布局不是实际观测，只有在显式目标执行契约和现有Adapter guard下复用成本，已知冲突仍拒绝。原runtime审计及历史0复用结果不改写。
