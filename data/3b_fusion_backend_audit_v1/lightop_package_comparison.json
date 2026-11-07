@@ -1,0 +1,369 @@
+{
+  "current": {
+    "sha256": "61ef2672bbca7419a59ef14d41d1fcd883a972d57d51a2070df98e18d98a5795",
+    "tests": 121,
+    "relevant": [
+      {
+        "file": "test/test_act_and_mul.py",
+        "lines": [
+          {
+            "line": 42,
+            "text": "        custom_func = op.silu_and_mul_opt"
+          },
+          {
+            "line": 51,
+            "text": "    dtype = torch.bfloat16"
+          },
+          {
+            "line": 53,
+            "text": "    d = 4096"
+          },
+          {
+            "line": 54,
+            "text": "    num_tokens_list = [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]"
+          },
+          {
+            "line": 60,
+            "text": "    for num_tokens in num_tokens_list:"
+          },
+          {
+            "line": 62,
+            "text": "        input_tensor = torch.randn((num_tokens, 2 * d), dtype=dtype, device=device)"
+          }
+        ]
+      },
+      {
+        "file": "test/test_fuse_silu_mul_quant.py",
+        "lines": [
+          {
+            "line": 9,
+            "text": "    torch.ops._C.silu_and_mul_opt(output, input)"
+          },
+          {
+            "line": 21,
+            "text": "def check_correctness_once(num_tokens: int, hidden_sizes: int, topK: int, localtoken:int, expect_m: int, rtol=1e-7, atol=1e-7):"
+          },
+          {
+            "line": 23,
+            "text": "    dtype = torch.bfloat16"
+          },
+          {
+            "line": 29,
+            "text": "    input = torch.randn((num_tokens*topK, hidden_sizes), device=device, dtype=dtype)"
+          },
+          {
+            "line": 30,
+            "text": "    out_init = torch.empty((num_tokens*topK, hidden_sizes//2), device=device, dtype=dtype)"
+          },
+          {
+            "line": 59,
+            "text": "    numtokens_list = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]   # [1, 2, ... , 8192]"
+          },
+          {
+            "line": 75,
+            "text": "numtokens_list = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]  "
+          },
+          {
+            "line": 76,
+            "text": "# numtokens_list = [128, 256, 512, 1024, 2048, 4096, 8192]  "
+          },
+          {
+            "line": 80,
+            "text": "configs = [(num_tokens, hidden_sizes) for num_tokens in numtokens_list for hidden_sizes in hiddensizes_list]"
+          },
+          {
+            "line": 85,
+            "text": "        x_vals=[f\"[{num_tokens},{hidden_sizes}]\" for num_tokens, hidden_sizes in configs],        "
+          },
+          {
+            "line": 96,
+            "text": "    num_tokens, hidden_sizes = map(int, shape.strip(\"[]\").split(\",\"))"
+          },
+          {
+            "line": 97,
+            "text": "    dtype = torch.bfloat16"
+          },
+          {
+            "line": 101,
+            "text": "    input = torch.randn((num_tokens * topK, hidden_sizes), device=device, dtype=dtype)"
+          },
+          {
+            "line": 102,
+            "text": "    output = torch.empty((num_tokens * topK, hidden_sizes//2), device=device, dtype=dtype)"
+          }
+        ]
+      },
+      {
+        "file": "test/test_fuse_silu_mul_quant_ep.py",
+        "lines": [
+          {
+            "line": 11,
+            "text": "    torch.ops._C.silu_and_mul_opt(output, input)"
+          },
+          {
+            "line": 37,
+            "text": "    dtype = torch.bfloat16"
+          },
+          {
+            "line": 40,
+            "text": "    max_tokens_needed = tokens_per_expert.max().item()"
+          },
+          {
+            "line": 53,
+            "text": "    input_3d = torch.randn((E_dim, T_dim, H_dim), device=device, dtype=dtype)"
+          },
+          {
+            "line": 58,
+            "text": "    out_init_3d = torch.empty((E_dim, T_dim, d_dim), device=device, dtype=dtype)"
+          },
+          {
+            "line": 72,
+            "text": "    scales_init_valid = scales_init.masked_select(mask_for_scales)"
+          },
+          {
+            "line": 73,
+            "text": "    out_init_valid = out_init.masked_select(mask_for_out)"
+          },
+          {
+            "line": 81,
+            "text": "    scales_opt_valid = scales_opt.masked_select(mask_for_scales)"
+          },
+          {
+            "line": 91,
+            "text": "    out_opt_valid = out_opt.masked_select(mask_for_out)"
+          },
+          {
+            "line": 118,
+            "text": "numtokens_list = [8192, 4096, 2048, 1024] "
+          },
+          {
+            "line": 121,
+            "text": "configs = [(experts, num_tokens, hidden_sizes) for experts in expert_list for num_tokens in numtokens_list for hidden_sizes in hiddensizes_list]"
+          },
+          {
+            "line": 127,
+            "text": "        x_vals=[f\"[{experts},{num_tokens},{hidden_sizes}]\" for experts, num_tokens, hidden_sizes in configs], "
+          },
+          {
+            "line": 140,
+            "text": "    E_dim, num_tokens, hidden_sizes = map(int, shape.strip(\"[]\").split(\",\"))"
+          },
+          {
+            "line": 142,
+            "text": "    dtype = torch.bfloat16"
+          },
+          {
+            "line": 146,
+            "text": "    input_3d = torch.randn((E_dim, num_tokens, hidden_sizes), device=device, dtype=dtype)"
+          }
+        ]
+      },
+      {
+        "file": "test/test_fused_rms_rope.py",
+        "lines": [
+          {
+            "line": 23,
+            "text": "rd = 64"
+          },
+          {
+            "line": 44,
+            "text": "    q = torch.randn(b_q, s_q, h_q, head_size, device=device, dtype=dtype)"
+          },
+          {
+            "line": 45,
+            "text": "    k = torch.randn(b_q, s_q, h_k, head_size, device=device, dtype=dtype)"
+          },
+          {
+            "line": 49,
+            "text": "    res_q = torch.randn_like(q) if generate_residual else None"
+          },
+          {
+            "line": 50,
+            "text": "    res_k = torch.randn_like(k) if generate_residual else None"
+          },
+          {
+            "line": 55,
+            "text": "        ops.fused_add_rms_norm_opt(q, res_q, w_q, RMS_EPS)"
+          },
+          {
+            "line": 56,
+            "text": "        ops.fused_add_rms_norm_opt(k, res_k, w_k, RMS_EPS)"
+          },
+          {
+            "line": 134,
+            "text": "    max_diff_record = 0.0"
+          },
+          {
+            "line": 139,
+            "text": "        max_diff_record = max(diff_q, diff_k)"
+          }
+        ]
+      },
+      {
+        "file": "test/test_rms_add.py",
+        "lines": [
+          {
+            "line": 5,
+            "text": "def torch_fused_add_rms_norm(input_tensor, residual_tensor, weight_tensor, eps):"
+          },
+          {
+            "line": 33,
+            "text": "    input_tensor = torch.randn(num_tokens, hidden_size, dtype=dtype, device=device)"
+          },
+          {
+            "line": 34,
+            "text": "    residual_tensor = torch.randn(num_tokens, hidden_size, dtype=dtype, device=device)"
+          },
+          {
+            "line": 35,
+            "text": "    weight_tensor = torch.randn(hidden_size, dtype=dtype, device=device)"
+          },
+          {
+            "line": 42,
+            "text": "    ref_input, ref_residual = torch_fused_add_rms_norm(input_tensor, residual_tensor, weight_tensor, eps)"
+          },
+          {
+            "line": 45,
+            "text": "    op.fused_add_rms_norm_opt(custom_input, custom_residual, weight_tensor, eps)"
+          },
+          {
+            "line": 48,
+            "text": "    if dtype == torch.bfloat16:"
+          },
+          {
+            "line": 68,
+            "text": "        op.fused_add_rms_norm_opt(custom_input, custom_residual, weight_tensor, eps)"
+          },
+          {
+            "line": 77,
+            "text": "        op.fused_add_rms_norm_opt(custom_input, custom_residual, weight_tensor, eps)"
+          },
+          {
+            "line": 91,
+            "text": "    num_tokens_list = [ 128,288,352]"
+          },
+          {
+            "line": 92,
+            "text": "    hidden_sizes_list = [4096]"
+          },
+          {
+            "line": 93,
+            "text": "    dtypes = [torch.float16, torch.bfloat16]"
+          },
+          {
+            "line": 98,
+            "text": "    for dtype, tokens, hidden in itertools.product(dtypes, num_tokens_list, hidden_sizes_list):"
+          }
+        ]
+      },
+      {
+        "file": "test/test_rms_mrope.py",
+        "lines": [
+          {
+            "line": 45,
+            "text": "    pid = tl.program_id(0)"
+          },
+          {
+            "line": 57,
+            "text": "    half_rd = rd // 2"
+          },
+          {
+            "line": 74,
+            "text": "        t_end = mrope_section_t"
+          },
+          {
+            "line": 75,
+            "text": "        h_end = t_end + mrope_section_h"
+          },
+          {
+            "line": 140,
+            "text": "    num_head = hidden_size // head_size"
+          },
+          {
+            "line": 145,
+            "text": "    pad_hd = triton.next_power_of_2(head_size)"
+          },
+          {
+            "line": 204,
+            "text": "    q = torch.randn(num_tokens, hidden_size_q, device=device, dtype=dtype) * scale_factor"
+          },
+          {
+            "line": 205,
+            "text": "    k = torch.randn(num_tokens, hidden_size_k, device=device, dtype=dtype) * scale_factor"
+          },
+          {
+            "line": 210,
+            "text": "    weight_q = torch.rand(head_size, device=device, dtype=dtype) * 0.2 + 0.9  # \u8303\u56f4 [0.9, 1.1]"
+          },
+          {
+            "line": 211,
+            "text": "    weight_k = torch.rand(head_size, device=device, dtype=dtype) * 0.2 + 0.9"
+          },
+          {
+            "line": 215,
+            "text": "        residual_q = torch.randn_like(q) * scale_factor"
+          },
+          {
+            "line": 216,
+            "text": "        residual_k = torch.randn_like(k) * scale_factor"
+          },
+          {
+            "line": 221,
+            "text": "    cos = torch.randn(3, num_tokens, rotary_dim // 2, device=device, dtype=dtype)"
+          },
+          {
+            "line": 222,
+            "text": "    sin = torch.randn(3, num_tokens, rotary_dim // 2, device=device, dtype=dtype)"
+          },
+          {
+            "line": 235,
+            "text": "    q_fused = q.clone()"
+          },
+          {
+            "line": 236,
+            "text": "    k_fused = k.clone()"
+          },
+          {
+            "line": 237,
+            "text": "    res_q_fused = residual_q.clone() if use_residual else None"
+          },
+          {
+            "line": 238,
+            "text": "    res_k_fused = residual_k.clone() if use_residual else None"
+          },
+          {
+            "line": 242,
+            "text": "            ops.fused_add_rms_norm_opt(q_rms, res_q_rms.view(num_tokens*n_q_heads, head_size), weight_q, 1e-6)"
+          },
+          {
+            "line": 243,
+            "text": "            ops.fused_add_rms_norm_opt(k_rms, res_k_rms.view(num_tokens*n_kv_heads, head_size), weight_k, 1e-6)"
+          }
+        ]
+      }
+    ],
+    "operator_cpp_sources": [
+      "lightop/librarygemmbiasf/test-hytsf.cpp"
+    ],
+    "native_extensions": [
+      {
+        "file": "lightop/op.cpython-310-x86_64-linux-gnu.so",
+        "sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f"
+      }
+    ]
+  },
+  "latest": {
+    "sha256": "4a31521919e4c76405e8dcb5035b55cdc92b2ad6dc5e9f2e72373510835df159",
+    "tests": 0,
+    "relevant": [],
+    "operator_cpp_sources": [
+      "lightop/librarygemmbiasf/test-hytsf.cpp"
+    ],
+    "native_extensions": [
+      {
+        "file": "lightop/op.cpython-310-x86_64-linux-gnu.so",
+        "sha256": "6cbce390752bcab9b536473f389d98d236179e168db55f7ec5308da5bb7fdb51"
+      }
+    ]
+  }
+}

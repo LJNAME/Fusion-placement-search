@@ -135,3 +135,19 @@ bash tools/run_add_rmsnorm_calibration.sh /fresh/add_rmsnorm run
 ```
 
 相关CPU测试：`cost_model/tests/test_placement_then_fusion.py`、`test_fused_placed_export.py`、`test_search_bias_fixes.py`、`test_layer_invariant_profile.py`（厂商环境）、`integration/tests/test_lightop_add_rmsnorm.py`。
+
+## 2026-11-07：固定实际评分预算
+
+三模式各seed0/7/23、统一64次实际评分，均为不融合全GPU0、8.773036ms；联合/先融合后放置第4次首次达到最终最佳，先放置后融合第1次，前4次之后改进均0。四个已有参考只需4次评价即可得到相同结果。当前案例没有树搜索后续收益或联合优于顺序证据。数据data/search_quality_fixed64_v1，口径和复现见[固定预算对照](SEARCH_QUALITY_FIXED64.md)。无新GPU、模型参数或搜索算法修改。
+
+## 2026-11-07：3B扩展入口
+
+模型锁定已有Qwen2.5-3B定义（36层、hidden2048/FFN11008、687节点866边）。P0审计：现有LightOP多节点可执行候选0；36处SiLU→Mul、36处Add→RMSNorm因Adapter固定Shape被拒，KERV SiLU宽度11008超过8192上限。每卡651项计算均解析回退、36逻辑输入，精确命中/Nearest/不可用均0；沿用当前Graph查询，不混入旧eager标签。没有启动Fixed-64或GPU。明细见[3B输入审计](SEARCH_QUALITY_3B_INPUT_AUDIT.md)。
+
+## 2026-11-07：KERV AddRMS与LightOP最新发布包
+
+KERV公共AddRMS虽覆盖2048，但只输出normalized、auto走Native；另一个adaptive AddRMS入口有真实双输出Triton源码，需核对BF16舍入、contiguous转换/分配和原地输入安全。最新可见LightOP日期构建g09a4f3要求Torch2.10，当前Torch2.9固定g6bfaca未变；最新wheel无相关C++/HIP源码及测试，11008/2048仍未核实，不把Adapter限制当厂商上限。详见[后端审计](THREE_B_FUSION_BACKEND_AUDIT.md)，数据data/3b_fusion_backend_audit_v1。未修改规则或执行GPU。
+
+## 2026-11-07：KERV AddRMS2048单Case入口
+
+新增calibration/kerv_add_rmsnorm_probe.py与tools/run_kerv_add_rmsnorm_probe.sh。CPU核对36处out_proj可覆盖、Add双输出必须保留；布局仍unknown。固定adaptive源码，合成BF16 [1,256,2048]，三次恢复/别名/只读/双参考检查，另一次唯一Kernel设备trace；只验证正确性，不计时、不Capture、不准入、不注册搜索规则。8项CPU测试通过，data/kerv_add_rmsnorm_2048_probe_v1仅plan，GPU未运行。CPU两参考131839个元素不同、max abs 0.03125，仅语义诊断。见[KERV单Case验证](KERV_ADD_RMSNORM_2048_PROBE.md)。

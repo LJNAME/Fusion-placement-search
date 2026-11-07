@@ -60,3 +60,13 @@
 - 3个原先未归档的目录（Copy诊断、两个计划预览）已复制入库。
 
 这些仓库外副本均可删除，但未删除，由用户决定。`/tmp/start.log` 是Jupyter启动日志，与实验无关；`/tmp/jvs_smoke*`、`/tmp/arp` 等是冒烟测试的临时目录，不含结果。
+
+## 2026-11-07 CPU对照
+
+`search_quality_fixed64_v1`：同一591节点图与冻结成本，三模式×三种子、每次64个实际评分；report.json、summary.csv、逐次convergence.csv。原v2/v3结果不改。说明见[固定预算对照](../cost_model/SEARCH_QUALITY_FIXED64.md)。
+
+`search_quality_qwen25_3b_audit_v1`（2026-11-07）：Qwen2.5-3B的P0输入与双卡成本来源审计。687节点、当前可执行融合0、每卡651计算解析回退；没有运行Fixed-64或GPU。见[输入审计](../cost_model/SEARCH_QUALITY_3B_INPUT_AUDIT.md)。
+
+`3b_fusion_backend_audit_v1`：KERV双输出AddRMS入口与官方LightOP最新可见包离线审计，目标Shape尚无新GPU证据。见[后端审计](../cost_model/THREE_B_FUSION_BACKEND_AUDIT.md)。
+
+`kerv_add_rmsnorm_2048_probe_v1`：固定KERV adaptive源码与36处图上覆盖安全的CPU计划，未运行GPU、未产生Profile。执行说明见[2048单Case验证](../cost_model/KERV_ADD_RMSNORM_2048_PROBE.md)。

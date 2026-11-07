@@ -62,7 +62,9 @@ def plan():
         "model_parameters_updated": False}
 
 
-def wait_for_quiet_host(gate, clock=time.monotonic, sleep=time.sleep, load=os.getloadavg):
+def wait_for_quiet_host(gate, clock=time.monotonic, sleep=time.sleep, load=None):
+    if load is None:
+        load = os.getloadavg
     start, polls = clock(), []
     while True:
         value = load()[0]
