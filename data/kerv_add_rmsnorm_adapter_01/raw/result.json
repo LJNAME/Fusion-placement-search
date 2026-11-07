@@ -1,0 +1,221 @@
+{
+  "scope": "kerv_add_rmsnorm_2048_adapter_correctness_only_not_profile_admission",
+  "pipeline_passed": true,
+  "gpu_executed": true,
+  "adapter": {
+    "placed_sha256": "bf796c7375941449cf6764e59599f5e8357c52e013b2d64fc7de27dcc1b022be",
+    "group_index": 12,
+    "node_ids": [
+      "L000.residual_add_1",
+      "L000.pre_mlp_norm"
+    ],
+    "implementation": {
+      "id": "kerv.add_rmsnorm.adaptive.consume_x.dual_output.v1",
+      "version": "sha256:0ed1ba1f12ca4a7b6ca97eec8c5bdc62b024064420a1edac185bb3f02a64f022",
+      "entrypoint": "adaptive_rms_norm.add_rms_norm_inference",
+      "backend": "triton",
+      "kernel_source_sha256": "f9b3bafdd1a1c303627cf2dbe2561879155088f763c40c341cc997beed107f88",
+      "semantics": {
+        "shape": [
+          1,
+          256,
+          2048
+        ],
+        "dtype": "bf16",
+        "eps": 1e-06,
+        "eps_source": "explicit contract matching project Reference; not inferred from graph",
+        "input": "consume attention output; residual and weight read-only",
+        "outputs": "Add aliases consumed input; Norm is independently allocated",
+        "rounding": "BF16 add; FP32 reduction; BF16 normalized value before weight multiply",
+        "allocation": "vendor wrapper allocates normalized output",
+        "capture": "unverified",
+        "profile": "none"
+      }
+    },
+    "runtime_device": "cuda:0",
+    "gpu_mapping_previously_verified": false
+  },
+  "source": {
+    "relative_path": "flagscale/models/kerv/ops/KERVRuntimeOptimization/adaptive_rms_norm.py",
+    "sha256": "f9b3bafdd1a1c303627cf2dbe2561879155088f763c40c341cc997beed107f88",
+    "revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326",
+    "entrypoint": "adaptive_rms_norm.add_rms_norm_inference",
+    "kernel": "_add_rms_norm_inference_kernel"
+  },
+  "collector_sha256": "8c16467dd3005fcb302ce6b9fd75c00d45e4155ca685eea7a75302653f9d5b44",
+  "runtime": {
+    "torch": "2.9.0",
+    "hip": "6.3.26113",
+    "triton": "3.5.1",
+    "device": "cuda:0",
+    "name": "BW",
+    "architecture": "gfx936:sramecc+:xnack-",
+    "uuid_diagnostic_only": "30303134-6330-3532-3430-343633303831"
+  },
+  "input_observations": {
+    "x": {
+      "shape": [
+        1,
+        256,
+        2048
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        524288,
+        2048,
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cuda:0",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    },
+    "residual": {
+      "shape": [
+        1,
+        256,
+        2048
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        524288,
+        2048,
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cuda:0",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    },
+    "weight": {
+      "shape": [
+        2048
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cuda:0",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    }
+  },
+  "checks": [
+    {
+      "invocation": 0,
+      "checks": {
+        "x_restored_exact": true,
+        "sum_aliases_x": true,
+        "normalized_has_own_storage": true,
+        "residual_unchanged": true,
+        "weight_unchanged": true,
+        "sum_exact_vs_bf16_add": true,
+        "finite": true,
+        "attention_input_invalidated": true,
+        "add_published": true,
+        "norm_published": true,
+        "residual_still_live": true,
+        "one_observed_jit_dispatch": true
+      },
+      "numerics": {
+        "handwritten": {
+          "max_abs_error": 0.0,
+          "close": true
+        },
+        "project_aten": {
+          "max_abs_error": 0.03125,
+          "close": true
+        }
+      },
+      "jit_dispatch": [
+        {
+          "kernel": "_add_rms_norm_inference_kernel",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "invocation": 1,
+      "checks": {
+        "x_restored_exact": true,
+        "sum_aliases_x": true,
+        "normalized_has_own_storage": true,
+        "residual_unchanged": true,
+        "weight_unchanged": true,
+        "sum_exact_vs_bf16_add": true,
+        "finite": true,
+        "attention_input_invalidated": true,
+        "add_published": true,
+        "norm_published": true,
+        "residual_still_live": true,
+        "one_observed_jit_dispatch": true
+      },
+      "numerics": {
+        "handwritten": {
+          "max_abs_error": 0.0,
+          "close": true
+        },
+        "project_aten": {
+          "max_abs_error": 0.03125,
+          "close": true
+        }
+      },
+      "jit_dispatch": [
+        {
+          "kernel": "_add_rms_norm_inference_kernel",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "invocation": 2,
+      "checks": {
+        "x_restored_exact": true,
+        "sum_aliases_x": true,
+        "normalized_has_own_storage": true,
+        "residual_unchanged": true,
+        "weight_unchanged": true,
+        "sum_exact_vs_bf16_add": true,
+        "finite": true,
+        "attention_input_invalidated": true,
+        "add_published": true,
+        "norm_published": true,
+        "residual_still_live": true,
+        "one_observed_jit_dispatch": true
+      },
+      "numerics": {
+        "handwritten": {
+          "max_abs_error": 0.0,
+          "close": true
+        },
+        "project_aten": {
+          "max_abs_error": 0.03125,
+          "close": true
+        }
+      },
+      "jit_dispatch": [
+        {
+          "kernel": "_add_rms_norm_inference_kernel",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "device_trace": {
+    "kernel_count": 1,
+    "kernel_name": "_add_rms_norm_inference_kernel"
+  },
+  "automatic_admission": false,
+  "profile_created": false,
+  "search_rules_changed": false,
+  "actual_model_producer_layout_verified": false,
+  "graph_capture_verified": false,
+  "latency_measured": false
+}

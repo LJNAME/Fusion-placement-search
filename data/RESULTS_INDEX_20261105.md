@@ -76,3 +76,5 @@
 `kerv_add_rmsnorm_adapter_v1`：现有3B图的36处KERV AddRMS条件映射；CPU参考PlacedOpGraph、实现身份及逐组I/O报告，序列化往返与36组bind通过。新增31项/相关56项CPU测试通过，无新GPU、Profile或默认搜索变更。见[KERV图Adapter](../cost_model/KERV_ADD_RMSNORM_ADAPTER.md)。
 
 `kerv_add_rmsnorm_adapter_smoke_v1`：原探针的adapter选项CPU计划，仅第0层一个组；相关59项CPU测试通过。GPU未运行，无新计时/Profile或搜索。
+
+`kerv_add_rmsnorm_adapter_01`：GPU0第0层单组Adapter正确性回传，raw保留6文件，review有22项离线复核。36项布尔检查/双参考数值/唯一Kernel trace通过；无计时、Capture或Profile。见[KERV Adapter回传](../cost_model/KERV_ADD_RMSNORM_ADAPTER.md)。

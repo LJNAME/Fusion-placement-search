@@ -4,7 +4,7 @@
 
 ## 映射
 
-PlacedOpGraph中的(residual_add_1, pre_mlp_norm)经显式implementation绑定，调用固定源码adaptive_rms_norm.add_rms_norm_inference。运行时真实GPU调用仍待验证；已收到的是同一底层Kernel的直接调用证据。
+PlacedOpGraph中的(residual_add_1, pre_mlp_norm)经显式implementation绑定，调用固定源码adaptive_rms_norm.add_rms_norm_inference。第0层单组GPU Adapter调用已通过kerv_add_rmsnorm_adapter_01回传复核；其余35处仍只有图匹配和CPU映射证据。
 
 | 图角色 | Tensor行为 |
 | --- | --- |
@@ -47,7 +47,7 @@ call = bound(values, norm_weight)
 # values[add_node] 和 values[norm_node] 已发布，旧attention节点已移除。
 ```
 
-已有实测只覆盖GPU0 gfx936；GPU1及其他硬件没有这条路径的验证证据。新Adapter不接入默认整图搜索，新增Profile为0，没有复用LightOP或其他宽度的耗时。当前交付不包含GPU Adapter执行、Graph Replay或测量；下一项需要围绕此实现的实际成本来源继续处理。
+已有实测只覆盖GPU0 gfx936；GPU1及其他硬件没有这条路径的验证证据。新Adapter不接入默认整图搜索，新增Profile为0，没有复用LightOP或其他宽度的耗时。第0层GPU Adapter执行回传见下节；Graph Replay和耗时仍未验证，下一项只处理此实现的实际成本来源。
 
 ## 最小GPU Adapter检查
 
@@ -59,4 +59,24 @@ export FUSION_PYTHON="$HOME/private_data/LJ/dcu-kernel310-20261031/run_python.sh
 bash tools/run_kerv_add_rmsnorm_probe.sh ../kerv_add_rmsnorm_adapter_01 run cuda:0 adapter
 ```
 
-该入口的CPU计划位于data/kerv_add_rmsnorm_adapter_smoke_v1/plan.json；新增3项探针测试后，相关测试共59项通过。本机未执行GPU，不能提前宣称Adapter GPU链路已通过。原direct参数默认行为保留，旧直接Kernel回传不重测、不改写；旧collector身份对应85ed889/a622331时的源码，新入口有独立源码SHA。
+该入口的CPU计划位于data/kerv_add_rmsnorm_adapter_smoke_v1/plan.json；新增3项探针测试后，相关测试共59项通过。该CPU计划本身不构成GPU通过证据；实际回传结果见下节。原direct参数默认行为保留，旧直接Kernel回传不重测、不改写；旧collector身份对应85ed889/a622331时的源码，新入口有独立源码SHA。
+
+## 2026-11-07 GPU Adapter回传复核
+
+data/kerv_add_rmsnorm_adapter_01/raw保留6原文件，review/report.json有22项离线复核；包5526字节，SHA256 80fcf5c0db7182ed05731f7221f9f3f28e3ead499b5cf3d0c271110af5124b64。collector和Adapter均对齐项目aaae3d2的Git源码；KERV源码SHA、已有placed.json的SHA与implementation一致。
+
+| 项目 | 结果 |
+| --- | --- |
+| GPU Case | GPU0 gfx936，BF16 [1,256,2048]，第0层AddRMS一组 |
+| 映射 | group_index=12；L000.residual_add_1 / L000.pre_mlp_norm |
+| 环境 | Torch2.9.0 / HIP6.3.26113 / Triton3.5.1 |
+| 三次布尔检查 | 36/36通过，其中图映射检查15项 |
+| 双输出发布 | Add和Norm均按原节点ID发布，旧attention输入失效，residual保持live |
+| 数值max abs | 手写参考0/0/0；项目aten参考0.03125/0.03125/0.03125 |
+| 容差 | rtol=atol=0.02，两参考通过；并非逐位aten等价 |
+| 设备trace | 唯一_add_rms_norm_inference_kernel |
+| Profile / 耗时 / Graph Capture | 0 / 未测 / 未测 |
+
+Adapter单Case正确性已闭合，不再增加冒烟Case。原始GPU Tensor未归档，离线审核核对的是绑定源码的回执和设备trace，未在本机重算GPU数值。记录中的gpu_mapping_previously_verified=false为运行前冻结状态，不能据此否认本次执行结果；原始文件未改写。UUID变化不作排除理由。
+
+GPU证据仅覆盖这一组和GPU0；36处图匹配不等于36次GPU验证，也不代表完整模型运行。真实Projection生产者布局和GPU1仍未验证。默认搜索配置未变；后续只需要补当前实现的必要成本来源，不再重复当前正确性实验。

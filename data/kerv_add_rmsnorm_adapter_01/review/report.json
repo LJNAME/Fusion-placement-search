@@ -1,0 +1,152 @@
+{
+  "scope": "Offline review of one source-bound GPU Adapter correctness receipt; no new GPU work",
+  "archive": {
+    "file": "kerv_add_rmsnorm_adapter_01.tar.gz",
+    "bytes": 5526,
+    "sha256": "80fcf5c0db7182ed05731f7221f9f3f28e3ead499b5cf3d0c271110af5124b64",
+    "regular_files": 6
+  },
+  "raw_sha256": {
+    "checks.json": "42b155dbc27330c2fed17d3f8c17a025bbe5e71a308155cfcfc74fd0db4a80a3",
+    "device_trace.json": "90418f06b8457aaed9400070731132785eb57c6eec6e066580970ef2e7f49709",
+    "fatal_traceback.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "d80625ce3e096a230d91cfe989a999924d6fee9fe07537f1ac915e14c505f2be",
+    "result.json": "9c8355d99cb95b3b2c03b6820a8da776841a651f88996bf97c1278b693dd07d6",
+    "runtime_context.json": "0568bdcb882c72abfd755fb86c87a3c2ecb4c71180967c570038286269ffb098"
+  },
+  "verified_project_commit": "aaae3d207f1c6a32e5494d3046e2c8c82442d01e",
+  "verification": {
+    "archive_files_safe_and_complete": true,
+    "raw_files_archived_exactly": true,
+    "collector_matches_committed_source": true,
+    "adapter_matches_committed_source": true,
+    "reference_executor_matches_committed_source": true,
+    "kernel_source_matches_audited_hash": true,
+    "kernel_source_revision_matches_audit": true,
+    "existing_placement_and_adapter_binding_match": true,
+    "first_group_is_the_executed_case": true,
+    "graph_identity_and_liveness_recomputed": true,
+    "case_and_tolerance_match": true,
+    "recipe_three_invocations_no_timing": true,
+    "standalone_checks_match_result": true,
+    "three_ordered_invocations": true,
+    "all_36_base_and_mapping_checks_pass": true,
+    "numerical_receipts_pass_both_references": true,
+    "three_adapter_jit_probes_report_one_target_each": true,
+    "independent_device_trace_has_unique_target": true,
+    "input_observations_match_runtime_context": true,
+    "observed_layout_matches_fixed_case": true,
+    "receipt_is_adapter_success_without_profile": true,
+    "no_fatal_traceback": true
+  },
+  "review_passed": true,
+  "gpu_adapter_correctness_verified_for_case": true,
+  "verified_group": [
+    "L000.residual_add_1",
+    "L000.pre_mlp_norm"
+  ],
+  "verified_gpu_group_cases": 1,
+  "graph_positions_are_not_gpu_case_count": 36,
+  "runtime": {
+    "torch": "2.9.0",
+    "hip": "6.3.26113",
+    "triton": "3.5.1",
+    "device": "cuda:0",
+    "name": "BW",
+    "architecture": "gfx936:sramecc+:xnack-",
+    "uuid_diagnostic_only": "30303134-6330-3532-3430-343633303831"
+  },
+  "source": {
+    "relative_path": "flagscale/models/kerv/ops/KERVRuntimeOptimization/adaptive_rms_norm.py",
+    "sha256": "f9b3bafdd1a1c303627cf2dbe2561879155088f763c40c341cc997beed107f88",
+    "revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326",
+    "entrypoint": "adaptive_rms_norm.add_rms_norm_inference",
+    "kernel": "_add_rms_norm_inference_kernel"
+  },
+  "adapter": {
+    "placed_sha256": "bf796c7375941449cf6764e59599f5e8357c52e013b2d64fc7de27dcc1b022be",
+    "group_index": 12,
+    "node_ids": [
+      "L000.residual_add_1",
+      "L000.pre_mlp_norm"
+    ],
+    "implementation": {
+      "id": "kerv.add_rmsnorm.adaptive.consume_x.dual_output.v1",
+      "version": "sha256:0ed1ba1f12ca4a7b6ca97eec8c5bdc62b024064420a1edac185bb3f02a64f022",
+      "entrypoint": "adaptive_rms_norm.add_rms_norm_inference",
+      "backend": "triton",
+      "kernel_source_sha256": "f9b3bafdd1a1c303627cf2dbe2561879155088f763c40c341cc997beed107f88",
+      "semantics": {
+        "shape": [
+          1,
+          256,
+          2048
+        ],
+        "dtype": "bf16",
+        "eps": 1e-06,
+        "eps_source": "explicit contract matching project Reference; not inferred from graph",
+        "input": "consume attention output; residual and weight read-only",
+        "outputs": "Add aliases consumed input; Norm is independently allocated",
+        "rounding": "BF16 add; FP32 reduction; BF16 normalized value before weight multiply",
+        "allocation": "vendor wrapper allocates normalized output",
+        "capture": "unverified",
+        "profile": "none"
+      }
+    },
+    "runtime_device": "cuda:0",
+    "gpu_mapping_previously_verified": false
+  },
+  "case": {
+    "shape": [
+      1,
+      256,
+      2048
+    ],
+    "dtype": "bf16",
+    "weight_shape": [
+      2048
+    ],
+    "required_layout": "contiguous",
+    "layout_source": "required, not observed in the model graph",
+    "eps": 1e-06,
+    "eps_source": "explicit declaration matching execution/reference.py:_rmsnorm; not graph metadata",
+    "seed": 20261107,
+    "input_origin": "synthetic values shaped from the existing graph"
+  },
+  "invocations": 3,
+  "semantic_checks_passed": 36,
+  "mapping_checks_passed": 15,
+  "numerics": {
+    "handwritten_max_abs": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "project_aten_max_abs": [
+      0.03125,
+      0.03125,
+      0.03125
+    ],
+    "tolerance": {
+      "rtol": 0.02,
+      "atol": 0.02
+    },
+    "bitwise_aten_equivalence_claimed": false,
+    "raw_gpu_tensors_available": false
+  },
+  "device_trace": {
+    "kernel_count": 1,
+    "kernel_name": "_add_rms_norm_inference_kernel"
+  },
+  "trace_duration_used_as_profile": false,
+  "pre_run_flag_explanation": "gpu_mapping_previously_verified=false is frozen pre-run context, not this review outcome; raw files unchanged",
+  "profile_count_added": 0,
+  "latency_measured": false,
+  "graph_capture_verified": false,
+  "whole_model_executed": false,
+  "gpu1_verified": false,
+  "model_producer_layout_verified": false,
+  "uuid_used_as_rejection_condition": false,
+  "new_gpu_work_during_review": false,
+  "default_search_configuration_changed": false
+}

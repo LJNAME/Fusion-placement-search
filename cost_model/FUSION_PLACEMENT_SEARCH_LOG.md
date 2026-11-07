@@ -167,3 +167,7 @@ kerv_add_rmsnorm_2048_02归档6原文件，18项CPU复核通过，源码/collect
 ## 2026-11-07：最小Adapter GPU检查入口
 
 原KERV AddRMS探针增加可选adapter路径：只绑定已有PlacedOpGraph第0层一组，复用三次正确性和一次device trace，增加live map发布/输入失效检查。无新矩阵、计时/Capture/准入/搜索。data/kerv_add_rmsnorm_adapter_smoke_v1仅CPU plan；相关59项CPU测试通过，新增3项。服务器命令见[KERV图Adapter](KERV_ADD_RMSNORM_ADAPTER.md)最小检查节；GPU尚未执行。旧直接Kernel数据保留对应原collector SHA，不因新入口改动作废。
+
+## 2026-11-07：KERV图Adapter GPU单Case通过
+
+kerv_add_rmsnorm_adapter_01归档6原文件并完成22项离线复核，collector/Adapter对齐aaae3d2，placed/source身份一致。GPU0第0层BF16 [1,256,2048]的PlacedOpGraph→Adapter→KERV链路通过；三次36项布尔检查（含15项映射）全通过，手写误差0、aten误差0.03125（rtol/atol0.02），唯一目标Kernel trace。旧attention输入失效、双输出按原节点发布、残差旁路保留。详见[KERV图Adapter](KERV_ADD_RMSNORM_ADAPTER.md)回传节。正确性验证收尾，不增加Case；正式Profile0、无计时/Capture/GPU1/完整模型/搜索变更。本轮离线归档，无新增GPU执行。
