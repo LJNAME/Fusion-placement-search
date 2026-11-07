@@ -70,3 +70,9 @@
 `3b_fusion_backend_audit_v1`：KERV双输出AddRMS入口与官方LightOP最新可见包离线审计，目标Shape尚无新GPU证据。见[后端审计](../cost_model/THREE_B_FUSION_BACKEND_AUDIT.md)。
 
 `kerv_add_rmsnorm_2048_probe_v1`：固定KERV adaptive源码与36处图上覆盖安全的CPU计划，未运行GPU、未产生Profile。执行说明见[2048单Case验证](../cost_model/KERV_ADD_RMSNORM_2048_PROBE.md)。
+
+`kerv_add_rmsnorm_2048_02`：GPU0单Case正确性/原地语义/唯一Kernel trace回传，raw保留6原文件，review含18项CPU复核。三次手写参考误差0、aten误差0.03125，声明容差通过。无计时、Capture、Profile准入或图Adapter。见[KERV回传](../cost_model/KERV_ADD_RMSNORM_2048_PROBE.md)。
+
+`kerv_add_rmsnorm_adapter_v1`：现有3B图的36处KERV AddRMS条件映射；CPU参考PlacedOpGraph、实现身份及逐组I/O报告，序列化往返与36组bind通过。新增31项/相关56项CPU测试通过，无新GPU、Profile或默认搜索变更。见[KERV图Adapter](../cost_model/KERV_ADD_RMSNORM_ADAPTER.md)。
+
+`kerv_add_rmsnorm_adapter_smoke_v1`：原探针的adapter选项CPU计划，仅第0层一个组；相关59项CPU测试通过。GPU未运行，无新计时/Profile或搜索。

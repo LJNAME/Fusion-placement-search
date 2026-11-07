@@ -87,3 +87,36 @@ def test_no_gpu_cannot_produce_success_receipt(tmp_path, monkeypatch):
     with pytest.raises(RuntimeError, match="no CPU fallback"):
         probe.run(tmp_path, tmp_path, "cuda:0", {})
     assert not (tmp_path / "result.json").exists()
+
+
+def test_adapter_probe_prepares_existing_first_group_without_gpu():
+    from calibration.kerv_silu_mul import DEFAULT_FLAGSCALE
+    bound, descriptor = probe.prepare_adapter(DEFAULT_FLAGSCALE, "cuda:0")
+    assert bound.node_ids == ("L000.residual_add_1", "L000.pre_mlp_norm")
+    assert bound.x_node == "L000.self_attention.out_proj"
+    assert descriptor["implementation"] == bound.adapter.implementation
+    assert descriptor["gpu_mapping_previously_verified"] is False
+    assert bound.adapter._module is None  # no Triton/GPU load in CPU preparation
+
+
+@pytest.mark.parametrize("consume", [True, False])
+def test_adapter_probe_checks_publication_and_input_invalidation(consume):
+    class Bound:
+        x_node, residual_node, node_ids = "x", "residual", ("add", "norm")
+
+        def __call__(self, values, weight, *, observe_dispatch):
+            assert observe_dispatch
+            x = values["x"]
+            if consume:
+                del values["x"]
+            normalized = x.clone()
+            values["add"], values["norm"] = x, normalized
+            return SimpleNamespace(add_output=x, normalized_output=normalized, observed_jit_launches=1)
+
+    if not consume:
+        with pytest.raises(RuntimeError, match="live tensor mapping"):
+            probe.invoke_case(None, torch.ones(1), torch.zeros(1), torch.ones(1), Bound())
+    else:
+        outputs, dispatch, mapping = probe.invoke_case(None, torch.ones(1), torch.zeros(1), torch.ones(1), Bound())
+        assert len(outputs) == 2 and all(mapping.values())
+        assert dispatch == [{"kernel": probe.KERNEL, "count": 1}]

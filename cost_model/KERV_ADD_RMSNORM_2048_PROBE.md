@@ -31,3 +31,25 @@ GPU检查固定为3次调用，每次精确恢复x；检查sum与x同址、norma
 result.json只在全部通过后写入。checks.json保留数值检查；runtime_context.json记录实测布局、默认allocator和显存快照；failure.json保存Python异常，fatal_traceback.log保存进程崩溃栈。没有自动重试或Native回退。返回整个目录，包括失败文件。
 
 通过后仍不代表Graph Replay可用、具备正式Profile、实际模型生产者布局已验证，或已进入搜索。先根据回传核对数值与真实执行证据，再决定图Adapter映射。
+
+## 2026-11-07 回传复核
+
+数据：data/kerv_add_rmsnorm_2048_02/raw（6个原文件逐字节保留），review/report.json（18项CPU复核）。压缩包4833字节，SHA256 2ecf7b6713bcb0b6beb263dd5e7ba4f862adcbe9ea0ccdbb07f67d3dfe0d89ae。collector、Reference executor、KERV源码SHA与现有文件匹配；FlagScale revision=f8e9a62c499d526a6ffa47f533bcf342330b7326，图fingerprint及36处liveness重算一致。
+
+| 项目 | 回传结果 |
+| --- | --- |
+| 设备 | GPU0，gfx936:sramecc+:xnack- |
+| 环境 | Torch2.9.0 / HIP6.3.26113 / Triton3.5.1 |
+| Tensor | BF16 [1,256,2048]，stride [524288,2048,1]，连续 |
+| 三次调用：手写参考max abs | 0 / 0 / 0 |
+| 三次调用：项目aten参考max abs | 0.03125 / 0.03125 / 0.03125 |
+| 数值容差 | rtol=0.02、atol=0.02，两参考全部通过 |
+| 逐调用语义检查 | 21/21通过（恢复、sum别名、normalized独立存储、residual/weight只读、BF16 Add精确、有限输出） |
+| 独立解析device trace | 唯一kernel=_add_rms_norm_inference_kernel |
+| 正式Profile / 计时 / Capture | 0 / 未进行 / 未进行 |
+
+本次核验的是绑定源码的GPU回执和trace，原始GPU Tensor未归档，未在本机重算GPU数值。两参考并非逐位等价；此次Kernel满足约定数值容差。连续布局是合成Tensor的实测属性，真实模型Projection生产者布局仍未捕获。36是图上可适配位置数，不是36个GPU测量Case；GPU1未验证。
+
+换回既有启动器后同一源码成功执行；保留第一次系统Python3.11失败的历史记录，不修改驱动或Kernel。RO CTracer flow警告未阻断本次目标kernel trace核验。当前仍没有KERV AddRMS图Adapter或搜索注册，3B现有搜索候选数不因这次回传自动改变。
+
+下一项为固定Shape的图Adapter：运行时检查布局与存储别名、消费attention输入、按原节点ID发布Add和Norm两个输出。先做CPU映射测试；本次不增加GPU测量，不扩大搜索。

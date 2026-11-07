@@ -1,0 +1,182 @@
+{
+  "scope": "kerv_add_rmsnorm_2048_correctness_only_not_profile_admission",
+  "pipeline_passed": true,
+  "gpu_executed": true,
+  "source": {
+    "relative_path": "flagscale/models/kerv/ops/KERVRuntimeOptimization/adaptive_rms_norm.py",
+    "sha256": "f9b3bafdd1a1c303627cf2dbe2561879155088f763c40c341cc997beed107f88",
+    "revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326",
+    "entrypoint": "adaptive_rms_norm.add_rms_norm_inference",
+    "kernel": "_add_rms_norm_inference_kernel"
+  },
+  "collector_sha256": "aa04c3c4315409b1573fe3c48a1cddcfe5f5f51d921291e169109a0c77e318b6",
+  "runtime": {
+    "torch": "2.9.0",
+    "hip": "6.3.26113",
+    "triton": "3.5.1",
+    "device": "cuda:0",
+    "name": "BW",
+    "architecture": "gfx936:sramecc+:xnack-",
+    "uuid_diagnostic_only": "30303134-6331-6163-3566-346531393231"
+  },
+  "input_observations": {
+    "x": {
+      "shape": [
+        1,
+        256,
+        2048
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        524288,
+        2048,
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cuda:0",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    },
+    "residual": {
+      "shape": [
+        1,
+        256,
+        2048
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        524288,
+        2048,
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cuda:0",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    },
+    "weight": {
+      "shape": [
+        2048
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "strides": [
+        1
+      ],
+      "layout_provenance": {
+        "kind": "runtime_tensor",
+        "device": "cuda:0",
+        "observer": "Tensor.shape/dtype/stride/is_contiguous"
+      }
+    }
+  },
+  "checks": [
+    {
+      "invocation": 0,
+      "checks": {
+        "x_restored_exact": true,
+        "sum_aliases_x": true,
+        "normalized_has_own_storage": true,
+        "residual_unchanged": true,
+        "weight_unchanged": true,
+        "sum_exact_vs_bf16_add": true,
+        "finite": true
+      },
+      "numerics": {
+        "handwritten": {
+          "max_abs_error": 0.0,
+          "close": true
+        },
+        "project_aten": {
+          "max_abs_error": 0.03125,
+          "close": true
+        }
+      },
+      "jit_dispatch": [
+        {
+          "kernel": "_add_rms_norm_inference_kernel",
+          "grid": [
+            256
+          ],
+          "num_warps": 4
+        }
+      ]
+    },
+    {
+      "invocation": 1,
+      "checks": {
+        "x_restored_exact": true,
+        "sum_aliases_x": true,
+        "normalized_has_own_storage": true,
+        "residual_unchanged": true,
+        "weight_unchanged": true,
+        "sum_exact_vs_bf16_add": true,
+        "finite": true
+      },
+      "numerics": {
+        "handwritten": {
+          "max_abs_error": 0.0,
+          "close": true
+        },
+        "project_aten": {
+          "max_abs_error": 0.03125,
+          "close": true
+        }
+      },
+      "jit_dispatch": [
+        {
+          "kernel": "_add_rms_norm_inference_kernel",
+          "grid": [
+            256
+          ],
+          "num_warps": 4
+        }
+      ]
+    },
+    {
+      "invocation": 2,
+      "checks": {
+        "x_restored_exact": true,
+        "sum_aliases_x": true,
+        "normalized_has_own_storage": true,
+        "residual_unchanged": true,
+        "weight_unchanged": true,
+        "sum_exact_vs_bf16_add": true,
+        "finite": true
+      },
+      "numerics": {
+        "handwritten": {
+          "max_abs_error": 0.0,
+          "close": true
+        },
+        "project_aten": {
+          "max_abs_error": 0.03125,
+          "close": true
+        }
+      },
+      "jit_dispatch": [
+        {
+          "kernel": "_add_rms_norm_inference_kernel",
+          "grid": [
+            256
+          ],
+          "num_warps": 4
+        }
+      ]
+    }
+  ],
+  "device_trace": {
+    "kernel_count": 1,
+    "kernel_name": "_add_rms_norm_inference_kernel"
+  },
+  "automatic_admission": false,
+  "profile_created": false,
+  "search_rules_changed": false,
+  "actual_model_producer_layout_verified": false,
+  "graph_capture_verified": false,
+  "latency_measured": false
+}

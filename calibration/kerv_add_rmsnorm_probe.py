@@ -81,7 +81,39 @@ def synthetic_inputs(device="cpu"):
     return x, residual, weight
 
 
-def plan(flagscale_root):
+def prepare_adapter(flagscale_root, device):
+    from integration.flagscale.kerv_add_rmsnorm import KervAddRmsnormAdapter
+    from simulator.placement_artifacts import load_placed_op_graph
+    path = ROOT / "data/kerv_add_rmsnorm_adapter_v1/placed.json"
+    adapter = KervAddRmsnormAdapter(flagscale_root)
+    placed = load_placed_op_graph(path, registry=adapter.registry)
+    nodes = ("L000.residual_add_1", "L000.pre_mlp_norm")
+    index = next(i for i, group in enumerate(placed.plan.groups) if tuple(group.node_ids) == nodes)
+    bound = adapter.bind(placed, index, {0: device})
+    return bound, {"placed_sha256": sha(path), "group_index": index, "node_ids": list(nodes),
+                   "implementation": adapter.implementation, "runtime_device": device,
+                   "gpu_mapping_previously_verified": False}
+
+
+def invoke_case(module, x, residual, weight, bound=None):
+    if bound is None:
+        outputs, dispatch = dispatch_once(module, x, residual, weight)
+        return outputs, dispatch, {}
+    values = {bound.x_node: x, bound.residual_node: residual}
+    call = bound(values, weight, observe_dispatch=True)
+    add, norm = bound.node_ids
+    mapping = {"attention_input_invalidated": bound.x_node not in values,
+               "add_published": values.get(add) is call.add_output,
+               "norm_published": values.get(norm) is call.normalized_output,
+               "residual_still_live": values.get(bound.residual_node) is residual,
+               "one_observed_jit_dispatch": call.observed_jit_launches == 1}
+    if not all(mapping.values()):
+        raise RuntimeError("Adapter did not publish the expected live tensor mapping")
+    return ((call.normalized_output, call.add_output),
+            [{"kernel": KERNEL, "count": call.observed_jit_launches}], mapping)
+
+
+def plan(flagscale_root, *, via_adapter=False, device="cuda:0"):
     from cost_model.search_evaluation import qwen25_3b_spec
     from simulator.model_graphs import build_model_graph
     from simulator.placement_artifacts import graph_fingerprint
@@ -90,7 +122,7 @@ def plan(flagscale_root):
     contract = graph_contract(graph)
     x, residual, weight = synthetic_inputs()
     _, handwritten, aten = references(x, residual, weight)
-    return {"scope": "kerv_add_rmsnorm_2048_correctness_only_not_profile_admission",
+    frozen = {"scope": "kerv_add_rmsnorm_2048_correctness_only_not_profile_admission",
             "source": {"relative_path": SOURCE.as_posix(), "sha256": sha(path),
                        "revision": subprocess.check_output(["git", "-C", str(flagscale_root), "rev-parse", "HEAD"], text=True).strip(),
                        "entrypoint": "adaptive_rms_norm.add_rms_norm_inference", "kernel": KERNEL},
@@ -111,6 +143,10 @@ def plan(flagscale_root):
                 "max_abs_difference": float((handwritten.float() - aten.float()).abs().max())},
             "tolerance": TOLERANCE, "automatic_admission": False, "search_rules_changed": False,
             "gpu_executed": False}
+    if via_adapter:
+        _, frozen["adapter"] = prepare_adapter(flagscale_root, device)
+        frozen["scope"] = "kerv_add_rmsnorm_2048_adapter_correctness_only_not_profile_admission"
+    return frozen
 
 
 def load_module(flagscale_root):
@@ -168,7 +204,12 @@ def run(flagscale_root, output, device, frozen):
     if frozen["graph_contract"]["eligible_graph_positions"] != 36:
         raise ValueError("graph overwrite preconditions failed")
     torch.cuda.set_device(target)
-    module = load_module(flagscale_root)
+    bound = None
+    if "adapter" in frozen:
+        bound, descriptor = prepare_adapter(flagscale_root, device)
+        if descriptor != frozen["adapter"]:
+            raise ValueError("Adapter binding changed after the frozen plan")
+    module = load_module(flagscale_root) if bound is None else None
     original, residual, weight = synthetic_inputs(target)
     x, residual_before, weight_before = original.clone(), residual.clone(), weight.clone()
     tensors = {"x": x, "residual": residual, "weight": weight}
@@ -186,7 +227,7 @@ def run(flagscale_root, output, device, frozen):
         for replay in range(3):
             x.copy_(original)
             restored = bitwise_equal(x, original)
-            (normalized, result_sum), dispatch = dispatch_once(module, x, residual, weight)
+            (normalized, result_sum), dispatch, mapping = invoke_case(module, x, residual, weight, bound)
             torch.cuda.synchronize(target)
             checks = {"x_restored_exact": restored, "sum_aliases_x": result_sum.data_ptr() == x.data_ptr(),
                       "normalized_has_own_storage": normalized.untyped_storage().data_ptr() not in
@@ -194,7 +235,7 @@ def run(flagscale_root, output, device, frozen):
                       "residual_unchanged": bitwise_equal(residual, residual_before),
                       "weight_unchanged": bitwise_equal(weight, weight_before),
                       "sum_exact_vs_bf16_add": bitwise_equal(result_sum, summed),
-                      "finite": bool(torch.isfinite(normalized).all())}
+                      "finite": bool(torch.isfinite(normalized).all()), **mapping}
             numerical = {}
             for name, reference in (("handwritten", handwritten), ("project_aten", aten)):
                 numerical[name] = {"max_abs_error": float((normalized.float() - reference.float()).abs().max()),
@@ -209,12 +250,15 @@ def run(flagscale_root, output, device, frozen):
         torch.cuda.synchronize(target)
         with torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU,
                                                 torch.profiler.ProfilerActivity.CUDA]) as profiler:
-            outputs, dispatch = dispatch_once(module, x, residual, weight)
+            outputs, dispatch, mapping = invoke_case(module, x, residual, weight, bound)
             torch.cuda.synchronize(target)
         profiler.export_chrome_trace(str(output / "device_trace.json"))
         trace = verify_trace(output / "device_trace.json")
     props = torch.cuda.get_device_properties(target)
+    if bound is not None:
+        module = bound.adapter._module
     return {"scope": frozen["scope"], "pipeline_passed": True, "gpu_executed": True,
+            "adapter": frozen.get("adapter"),
             "source": frozen["source"], "collector_sha256": frozen["collector_sha256"],
             "runtime": {"torch": str(torch.__version__), "hip": torch.version.hip,
                         "triton": str(module.triton.__version__), "device": str(target), "name": props.name,
@@ -232,17 +276,19 @@ def main(argv=None):
     parser.add_argument("--flagscale-root", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--device", default="cuda:0")
+    parser.add_argument("--via-adapter", action="store_true", help="execute the first existing PlacedOpGraph AddRMS group")
     args = parser.parse_args(argv)
     args.output.mkdir(parents=True, exist_ok=False)
     fault_log = (args.output / "fatal_traceback.log").open("w", encoding="utf-8")
     faulthandler.enable(file=fault_log, all_threads=True)
     try:
-        frozen = plan(args.flagscale_root)
+        frozen = plan(args.flagscale_root, via_adapter=args.via_adapter, device=args.device)
         save(args.output / "plan.json", frozen)
         if args.action == "run":
             result = run(args.flagscale_root, args.output, args.device, frozen)
             save(args.output / "result.json", result)
-        print(json.dumps({"action": args.action, "graph_positions": frozen["graph_contract"]["eligible_graph_positions"],
+        print(json.dumps({"action": args.action, "execution_path": "adapter" if args.via_adapter else "direct",
+                          "graph_positions": frozen["graph_contract"]["eligible_graph_positions"],
                           "gpu_executed": args.action == "run", "profile_created": False}), flush=True)
     except Exception as error:
         save(args.output / "failure.json", {"pipeline_passed": False, "error": repr(error),

@@ -1,0 +1,105 @@
+{
+  "scope": "received GPU correctness evidence review; CPU only; not Profile admission",
+  "archive": {
+    "file": "kerv_add_rmsnorm_2048_02.tar.gz",
+    "bytes": 4833,
+    "sha256": "2ecf7b6713bcb0b6beb263dd5e7ba4f862adcbe9ea0ccdbb07f67d3dfe0d89ae",
+    "regular_files": 6
+  },
+  "raw_sha256": {
+    "checks.json": "304aa3a008bdb20c9f9daf9e12c7ad6446aa5ce34c8d0f8b2d3e0a89377adc8d",
+    "device_trace.json": "b78d36f3a7883509c4a3b56ad61292cafcdc989d6678d0e8a113c58bf776f84c",
+    "fatal_traceback.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "cfc3f33871dba9749333bbbbe08d80d0402187232b732a6e105444d2cda01e89",
+    "result.json": "de5e3afd99008b1dda37f6f163e559ac6ef2abd2bcf675cffb7119d6aa09033b",
+    "runtime_context.json": "0568bdcb882c72abfd755fb86c87a3c2ecb4c71180967c570038286269ffb098"
+  },
+  "verification": {
+    "collector_sha_matches_current_code": true,
+    "reference_executor_sha_matches_current_code": true,
+    "kernel_source_sha_matches_audited_source": true,
+    "source_revision_matches_audited_revision": true,
+    "graph_fingerprint_matches_current_qwen25_3b": true,
+    "liveness_recomputed_for_36_positions": true,
+    "case_matches_frozen_contract": true,
+    "separate_check_file_matches_result": true,
+    "three_invocations_in_order": true,
+    "all_21_semantic_checks_true": true,
+    "dual_numerical_references_passed": true,
+    "jit_dispatches_match_target": true,
+    "independent_trace_parse_matches_result": true,
+    "observations_match_runtime_context": true,
+    "runtime_case_layouts_match": true,
+    "success_receipt_without_profile": true,
+    "no_fatal_traceback": true,
+    "raw_archive_copy_exact": true
+  },
+  "review_passed": true,
+  "runtime": {
+    "torch": "2.9.0",
+    "hip": "6.3.26113",
+    "triton": "3.5.1",
+    "device": "cuda:0",
+    "name": "BW",
+    "architecture": "gfx936:sramecc+:xnack-",
+    "uuid_diagnostic_only": "30303134-6331-6163-3566-346531393231"
+  },
+  "case": {
+    "shape": [
+      1,
+      256,
+      2048
+    ],
+    "dtype": "bf16",
+    "weight_shape": [
+      2048
+    ],
+    "required_layout": "contiguous",
+    "layout_source": "required, not observed in the model graph",
+    "eps": 1e-06,
+    "eps_source": "explicit declaration matching execution/reference.py:_rmsnorm; not graph metadata",
+    "seed": 20261107,
+    "input_origin": "synthetic values shaped from the existing graph"
+  },
+  "source": {
+    "relative_path": "flagscale/models/kerv/ops/KERVRuntimeOptimization/adaptive_rms_norm.py",
+    "sha256": "f9b3bafdd1a1c303627cf2dbe2561879155088f763c40c341cc997beed107f88",
+    "revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326",
+    "entrypoint": "adaptive_rms_norm.add_rms_norm_inference",
+    "kernel": "_add_rms_norm_inference_kernel"
+  },
+  "verified_invocations": 3,
+  "checked_elements_per_output_per_invocation": 524288,
+  "numerical_errors": {
+    "handwritten_max_abs": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "project_aten_max_abs": [
+      0.03125,
+      0.03125,
+      0.03125
+    ],
+    "rtol": 0.02,
+    "atol": 0.02
+  },
+  "device_trace": {
+    "kernel_count": 1,
+    "kernel_name": "_add_rms_norm_inference_kernel"
+  },
+  "trace_duration_is_profile_cost": false,
+  "evidence_limitations": [
+    "raw GPU tensors not archived; numerical results verified as source-bound receipts, not recomputed GPU outputs",
+    "one synthetic BF16 contiguous case on GPU0; 36 graph liveness positions are not 36 GPU case executions",
+    "not bitwise-equivalent to project aten reference; passed the declared tolerance",
+    "no timing, graph capture, profile admission, graph Adapter, or search registration"
+  ],
+  "uuid_used_as_rejection_condition": false,
+  "new_gpu_execution_during_review": false,
+  "new_accepted_profiles": 0,
+  "search_rule_changes": false,
+  "reviewed_collector_git_revision": "a622331ed0f912699291240597340027ccf7e58b",
+  "reviewed_collector_git_blob_sha256": "aa04c3c4315409b1573fe3c48a1cddcfe5f5f51d921291e169109a0c77e318b6",
+  "verification_names_refer_to_review_time": true
+}

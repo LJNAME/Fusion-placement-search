@@ -155,3 +155,15 @@ KERV公共AddRMS虽覆盖2048，但只输出normalized、auto走Native；另一�
 ## 2026-11-07：KERV探针启动器选择
 
 首次服务器run使用/usr/local/lib/python3.11的Triton，在读取AMD设备属性时UnicodeDecodeError，未进入Kernel；不能判断2048数值或执行失败。tools/run_kerv_add_rmsnorm_probe.sh的run改为必须显式设置FUSION_PYTHON，plan保留系统Python选项。先使用既有dcu-kernel310-20261031/run_python.sh重试新输出目录，不改Triton驱动或Kernel源码。该归因的最终确认仍待正确启动器回传。
+
+## 2026-11-07：KERV AddRMS2048回传通过
+
+kerv_add_rmsnorm_2048_02归档6原文件，18项CPU复核通过，源码/collector/图身份匹配。GPU0连续BF16 [1,256,2048]，三次手写参考max abs均0、aten均0.03125（rtol/atol=0.02通过），21个语义布尔检查通过；独立trace唯一_add_rms_norm_inference_kernel。只有单Case正确性证据，无计时/Capture/Profile/图Adapter或规则注册。见[KERV单Case验证](KERV_ADD_RMSNORM_2048_PROBE.md)回传节及data/kerv_add_rmsnorm_2048_02/review/report.json。未新增GPU，下一项固定Shape的图Adapter映射。
+
+## 2026-11-07：KERV AddRMS2048图Adapter
+
+新增integration/flagscale/kerv_add_rmsnorm.py和31项CPU映射测试，相关56项通过。固定BF16 [1,256,2048]、显式implementation及eps=1e-6；运行时布局/设备/梯度/别名检查，消费attention输入，按原节点发布Add和Norm两个输出，残差旁路保留。调用失败不恢复可能已改写的x映射，无Native回退。新opt-in registry在687节点3B图匹配36组，现有LightOP/default registry未变；参考放置图36组均绑定、双输出各组2MiB、序列化往返一致。data/kerv_add_rmsnorm_adapter_v1、说明[KERV图Adapter](KERV_ADD_RMSNORM_ADAPTER.md)。仅CPU mock映射，未执行Adapter的GPU路径、未Capture/测时/准入或改默认搜索，Profile新增0。
+
+## 2026-11-07：最小Adapter GPU检查入口
+
+原KERV AddRMS探针增加可选adapter路径：只绑定已有PlacedOpGraph第0层一组，复用三次正确性和一次device trace，增加live map发布/输入失效检查。无新矩阵、计时/Capture/准入/搜索。data/kerv_add_rmsnorm_adapter_smoke_v1仅CPU plan；相关59项CPU测试通过，新增3项。服务器命令见[KERV图Adapter](KERV_ADD_RMSNORM_ADAPTER.md)最小检查节；GPU尚未执行。旧直接Kernel数据保留对应原collector SHA，不因新入口改动作废。
