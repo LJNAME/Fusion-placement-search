@@ -179,3 +179,7 @@ calibration/kerv_add_rmsnorm_timing.py、tools/run_kerv_add_rmsnorm_timing.sh：
 ## 2026-11-07：KERV AddRMS2048成本查询闭合
 
 kerv_add_rmsnorm_timing_01归档13原文件，八个collector源码SHA匹配95175f3，七轮/契约/双输出Key完整复现。Graph摊销median5.353559851646423us，min/max5.331159830093384/5.404760241508484，IQR/median0.6873858%。独立CPU review准入1条accepted，仅第0层组/GPU0/固定输入恢复契约；raw candidate不改。cost_model/kerv_add_rmsnorm_profile.py分离review与只读load_profile，复用既有KeyedKernelProfile，实际查询返回measured_group_kernel同值且不追加成本，其他组/设备/实现/布局/契约拒绝。新增9项、相关77项CPU测试通过。data/kerv_add_rmsnorm_timing_01/review保留profile/cost_query/receipt；说明[KERV测时](KERV_ADD_RMSNORM_TIMING.md)。本轮无GPU、拟合、搜索或默认配置修改；不扩大到36层/GPU1/完整方案，不需要重复此测量。
+
+## 2026-11-07：3B AddRMS候选/契约审计与MCTS接线
+
+现有687节点图扫描37条直接Add→RMSNorm：36符合v1 Adapter静态结构但缺物理布局/别名/执行契约，final_norm一处因输入角色和层约束不支持。默认严格模式不开放信息不足融合；显式conditional-planning仅CPU接线。cost_model/qwen25_add_rmsnorm.py支持逐组model_runtime证据和完整Canonical Key/Contract等价复用，本次证据为空，5.35356us图上复用0、Native同契约实测链0。条件场景每卡651解析/36逻辑输入，融合72解析/2不可用；旧eager launch不进入Graph评分，用既有1.5us显式探索假设，不作校准值。三模式seed0各64真实评分，最终36融合全GPU0、预测25.213223ms，对无融合参考25.295361ms；仅模型接线，无真实收益或联合优势证据。真实第0层6节点切片Exact96组合/6满足边界、MCTS model gap0；新增17项/相关68项CPU测试通过，慢融合保留Native。data/qwen25_add_rmsnorm_graph_v1含审计、轨迹与未部署放置图；见[3B图级接线](QWEN25_ADD_RMSNORM_GRAPH.md)。无GPU、新准入或默认配置改变。

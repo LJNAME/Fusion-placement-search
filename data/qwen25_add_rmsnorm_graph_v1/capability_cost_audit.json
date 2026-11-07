@@ -1,0 +1,4309 @@
+{
+  "scope": "direct two-node Add-to-RMSNorm pattern; no bypass of logical input nodes",
+  "graph_fingerprint": "sha256:e8e90ec0105365c35e17698b3742ff263a5ea2f3a67d48190dee553590b251fc",
+  "nodes": 687,
+  "edges": 866,
+  "direct_positions": 37,
+  "static_adapter_matches": 36,
+  "capability_counts": {
+    "fusible": 0,
+    "not_fusible": 1,
+    "insufficient_info": 36
+  },
+  "exact_equivalent_profile_uses": 0,
+  "available_benchmark_profiles": 1,
+  "matching_measured_native_chains": 0,
+  "reliable_measured_pairs": 0,
+  "native_query_sources": {
+    "analytic_graph_proxy": 148
+  },
+  "fused_query_sources": {
+    "analytic_graph_proxy": 72,
+    "unavailable": 2
+  },
+  "profile_cross_layer_copy_performed": false,
+  "rows": [
+    {
+      "nodes": [
+        "L000.residual_add_1",
+        "L000.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L000.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 0
+        },
+        "L000.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 0
+        },
+        "L000.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 0
+        },
+        "L000.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 0
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L000.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L000.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L000.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L000.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L001.residual_add_1",
+        "L001.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L001.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 1
+        },
+        "L001.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 1
+        },
+        "L001.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 1
+        },
+        "L001.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 1
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L001.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L001.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L001.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L001.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L002.residual_add_1",
+        "L002.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L002.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 2
+        },
+        "L002.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 2
+        },
+        "L002.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 2
+        },
+        "L002.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 2
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L002.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L002.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L002.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L002.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L003.residual_add_1",
+        "L003.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L003.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 3
+        },
+        "L003.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 3
+        },
+        "L003.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 3
+        },
+        "L003.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 3
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L003.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L003.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L003.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L003.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L004.residual_add_1",
+        "L004.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L004.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 4
+        },
+        "L004.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 4
+        },
+        "L004.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 4
+        },
+        "L004.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 4
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L004.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L004.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L004.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L004.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L005.residual_add_1",
+        "L005.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L005.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 5
+        },
+        "L005.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 5
+        },
+        "L005.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 5
+        },
+        "L005.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 5
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L005.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L005.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L005.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L005.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L006.residual_add_1",
+        "L006.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L006.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 6
+        },
+        "L006.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 6
+        },
+        "L006.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 6
+        },
+        "L006.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 6
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L006.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L006.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L006.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L006.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L007.residual_add_1",
+        "L007.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L007.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 7
+        },
+        "L007.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 7
+        },
+        "L007.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 7
+        },
+        "L007.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 7
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L007.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L007.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L007.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L007.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L008.residual_add_1",
+        "L008.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L008.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 8
+        },
+        "L008.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 8
+        },
+        "L008.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 8
+        },
+        "L008.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 8
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L008.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L008.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L008.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L008.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L009.residual_add_1",
+        "L009.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L009.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 9
+        },
+        "L009.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 9
+        },
+        "L009.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 9
+        },
+        "L009.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 9
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L009.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L009.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L009.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L009.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L010.residual_add_1",
+        "L010.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L010.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 10
+        },
+        "L010.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 10
+        },
+        "L010.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 10
+        },
+        "L010.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 10
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L010.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L010.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L010.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L010.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L011.residual_add_1",
+        "L011.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L011.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 11
+        },
+        "L011.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 11
+        },
+        "L011.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 11
+        },
+        "L011.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 11
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L011.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L011.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L011.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L011.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L012.residual_add_1",
+        "L012.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L012.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 12
+        },
+        "L012.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 12
+        },
+        "L012.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 12
+        },
+        "L012.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 12
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L012.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L012.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L012.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L012.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L013.residual_add_1",
+        "L013.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L013.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 13
+        },
+        "L013.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 13
+        },
+        "L013.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 13
+        },
+        "L013.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 13
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L013.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L013.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L013.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L013.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L014.residual_add_1",
+        "L014.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L014.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 14
+        },
+        "L014.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 14
+        },
+        "L014.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 14
+        },
+        "L014.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 14
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L014.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L014.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L014.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L014.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L015.residual_add_1",
+        "L015.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L015.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 15
+        },
+        "L015.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 15
+        },
+        "L015.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 15
+        },
+        "L015.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 15
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L015.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L015.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L015.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L015.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L016.residual_add_1",
+        "L016.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L016.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 16
+        },
+        "L016.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 16
+        },
+        "L016.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 16
+        },
+        "L016.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 16
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L016.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L016.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L016.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L016.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L017.residual_add_1",
+        "L017.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L017.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 17
+        },
+        "L017.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 17
+        },
+        "L017.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 17
+        },
+        "L017.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 17
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L017.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L017.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L017.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L017.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L018.residual_add_1",
+        "L018.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L018.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 18
+        },
+        "L018.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 18
+        },
+        "L018.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 18
+        },
+        "L018.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 18
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L018.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L018.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L018.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L018.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L019.residual_add_1",
+        "L019.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L019.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 19
+        },
+        "L019.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 19
+        },
+        "L019.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 19
+        },
+        "L019.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 19
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L019.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L019.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L019.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L019.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L020.residual_add_1",
+        "L020.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L020.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 20
+        },
+        "L020.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 20
+        },
+        "L020.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 20
+        },
+        "L020.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 20
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L020.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L020.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L020.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L020.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L021.residual_add_1",
+        "L021.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L021.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 21
+        },
+        "L021.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 21
+        },
+        "L021.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 21
+        },
+        "L021.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 21
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L021.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L021.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L021.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L021.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L022.residual_add_1",
+        "L022.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L022.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 22
+        },
+        "L022.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 22
+        },
+        "L022.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 22
+        },
+        "L022.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 22
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L022.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L022.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L022.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L022.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L023.residual_add_1",
+        "L023.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L023.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 23
+        },
+        "L023.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 23
+        },
+        "L023.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 23
+        },
+        "L023.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 23
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L023.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L023.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L023.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L023.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L024.residual_add_1",
+        "L024.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L024.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 24
+        },
+        "L024.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 24
+        },
+        "L024.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 24
+        },
+        "L024.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 24
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L024.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L024.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L024.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L024.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L025.residual_add_1",
+        "L025.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L025.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 25
+        },
+        "L025.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 25
+        },
+        "L025.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 25
+        },
+        "L025.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 25
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L025.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L025.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L025.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L025.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L026.residual_add_1",
+        "L026.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L026.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 26
+        },
+        "L026.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 26
+        },
+        "L026.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 26
+        },
+        "L026.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 26
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L026.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L026.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L026.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L026.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L027.residual_add_1",
+        "L027.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L027.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 27
+        },
+        "L027.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 27
+        },
+        "L027.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 27
+        },
+        "L027.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 27
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L027.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L027.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L027.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L027.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L028.residual_add_1",
+        "L028.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L028.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 28
+        },
+        "L028.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 28
+        },
+        "L028.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 28
+        },
+        "L028.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 28
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L028.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L028.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L028.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L028.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L029.residual_add_1",
+        "L029.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L029.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 29
+        },
+        "L029.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 29
+        },
+        "L029.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 29
+        },
+        "L029.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 29
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L029.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L029.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L029.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L029.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L030.residual_add_1",
+        "L030.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L030.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 30
+        },
+        "L030.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 30
+        },
+        "L030.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 30
+        },
+        "L030.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 30
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L030.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L030.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L030.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L030.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L031.residual_add_1",
+        "L031.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L031.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 31
+        },
+        "L031.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 31
+        },
+        "L031.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 31
+        },
+        "L031.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 31
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L031.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L031.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L031.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L031.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L032.residual_add_1",
+        "L032.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L032.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 32
+        },
+        "L032.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 32
+        },
+        "L032.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 32
+        },
+        "L032.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 32
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L032.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L032.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L032.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L032.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L033.residual_add_1",
+        "L033.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L033.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 33
+        },
+        "L033.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 33
+        },
+        "L033.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 33
+        },
+        "L033.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 33
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L033.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L033.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L033.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L033.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L034.residual_add_1",
+        "L034.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L034.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 34
+        },
+        "L034.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 34
+        },
+        "L034.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 34
+        },
+        "L034.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 34
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L034.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L034.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L034.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L034.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L035.residual_add_1",
+        "L035.pre_mlp_norm"
+      ],
+      "status": "insufficient_info",
+      "static_adapter_match": true,
+      "graph_tensor_metadata": {
+        "L035.self_attention.out_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 35
+        },
+        "L035.input": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 35
+        },
+        "L035.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 35
+        },
+        "L035.pre_mlp_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 35
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L035.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "L035.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.629474070107109
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "insufficient_info",
+          "profile": "missing",
+          "reasons": [
+            "model_tensor_layout_unknown",
+            "model_runtime_aliases_unknown",
+            "execution_contract_unspecified"
+          ],
+          "native": [
+            {
+              "node": "L035.residual_add_1",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "L035.pre_mlp_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": {
+            "source": "analytic_graph_proxy",
+            "duration_us": 4.630969282949536
+          },
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    },
+    {
+      "nodes": [
+        "L035.residual_add_2",
+        "final_norm"
+      ],
+      "status": "not_fusible",
+      "static_adapter_match": false,
+      "graph_tensor_metadata": {
+        "L035.mlp.down_proj": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 35
+        },
+        "L035.residual_add_1": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 35
+        },
+        "L035.residual_add_2": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 35
+        },
+        "final_norm": {
+          "output_shape": [
+            1,
+            256,
+            2048
+          ],
+          "dtype": "bf16",
+          "layout": "unknown",
+          "strides": "unknown",
+          "phase": "forward",
+          "layer": 36
+        }
+      },
+      "devices": [
+        {
+          "device": 0,
+          "capability": "not_fusible",
+          "profile": "unavailable",
+          "reasons": [
+            "KERV requires an explicit disposable attention output"
+          ],
+          "native": [
+            {
+              "node": "L035.residual_add_2",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8448156935046427
+            },
+            {
+              "node": "final_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.0662636077706793
+            }
+          ],
+          "fused": null,
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        },
+        {
+          "device": 1,
+          "capability": "not_fusible",
+          "profile": "unavailable",
+          "reasons": [
+            "KERV requires an explicit disposable attention output"
+          ],
+          "native": [
+            {
+              "node": "L035.residual_add_2",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.8459360090782866
+            },
+            {
+              "node": "final_norm",
+              "source": "analytic_graph_proxy",
+              "duration_us": 3.067011943564012
+            }
+          ],
+          "fused": null,
+          "native_measured_same_contract": false,
+          "reliable_measured_pair": false
+        }
+      ]
+    }
+  ]
+}

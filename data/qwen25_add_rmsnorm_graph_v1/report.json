@@ -1,0 +1,840 @@
+{
+  "scope": "conditional 3B Graph planning integration, not GPU performance validation",
+  "model": "Qwen2.5-3B",
+  "nodes": 687,
+  "edges": 866,
+  "audit_summary": {
+    "scope": "direct two-node Add-to-RMSNorm pattern; no bypass of logical input nodes",
+    "graph_fingerprint": "sha256:e8e90ec0105365c35e17698b3742ff263a5ea2f3a67d48190dee553590b251fc",
+    "nodes": 687,
+    "edges": 866,
+    "direct_positions": 37,
+    "static_adapter_matches": 36,
+    "capability_counts": {
+      "fusible": 0,
+      "not_fusible": 1,
+      "insufficient_info": 36
+    },
+    "exact_equivalent_profile_uses": 0,
+    "available_benchmark_profiles": 1,
+    "matching_measured_native_chains": 0,
+    "reliable_measured_pairs": 0,
+    "native_query_sources": {
+      "analytic_graph_proxy": 148
+    },
+    "fused_query_sources": {
+      "analytic_graph_proxy": 72,
+      "unavailable": 2
+    },
+    "profile_cross_layer_copy_performed": false
+  },
+  "singleton_cost_sources": {
+    "0": {
+      "analytic_graph_proxy": 651,
+      "logical_input": 36
+    },
+    "1": {
+      "analytic_graph_proxy": 651,
+      "logical_input": 36
+    }
+  },
+  "planning_declaration": {
+    "kind": "conditional_graph_planning",
+    "layout": "contiguous required at runtime, not observed",
+    "mode": "graph_replay",
+    "calls_per_replay": 50,
+    "independent_x_buffers": 50,
+    "restoration_and_validation": "outside Events",
+    "allocation": "captured private pool",
+    "native_recipe": "Add then aten RMSNorm",
+    "fused_recipe": "KERV consume-x dual-output",
+    "eps": 1e-06,
+    "eps_source": "explicit adapter/Reference contract, not graph observation",
+    "native_dispatch_verified": false,
+    "stage_overhead_scope": "logical op/group proxy, not a verified native kernel count",
+    "graph_stage_overhead_us": 1.5,
+    "graph_overhead_is_calibrated": false,
+    "excluded_original_eager_launch_us": 7.770405267365277,
+    "graph_overhead_source": "configs/ffn_profile_search.json",
+    "kernel_cost_formula": "existing AnalyticHardwareProfile unchanged"
+  },
+  "assumption_id": "sha256:b106f0a733f01bd41e70911065568cf4d11ca7dac5367a55cb2ff124c4d6da27",
+  "scheduling_policy": "dependency_level_node_id_v1",
+  "references": {
+    "no_fusion": {
+      "predicted_ms": 25.295360706202334,
+      "fused_groups": 0,
+      "fused_nodes": [],
+      "nodes_per_device": {
+        "0": 687
+      },
+      "sources": {
+        "analytic_graph_proxy": 651,
+        "logical_input": 36
+      },
+      "feasible": true
+    },
+    "all_static_matches_conditional": {
+      "predicted_ms": 25.213222917880287,
+      "fused_groups": 36,
+      "fused_nodes": [
+        [
+          "L000.residual_add_1",
+          "L000.pre_mlp_norm"
+        ],
+        [
+          "L001.residual_add_1",
+          "L001.pre_mlp_norm"
+        ],
+        [
+          "L002.residual_add_1",
+          "L002.pre_mlp_norm"
+        ],
+        [
+          "L003.residual_add_1",
+          "L003.pre_mlp_norm"
+        ],
+        [
+          "L004.residual_add_1",
+          "L004.pre_mlp_norm"
+        ],
+        [
+          "L005.residual_add_1",
+          "L005.pre_mlp_norm"
+        ],
+        [
+          "L006.residual_add_1",
+          "L006.pre_mlp_norm"
+        ],
+        [
+          "L007.residual_add_1",
+          "L007.pre_mlp_norm"
+        ],
+        [
+          "L008.residual_add_1",
+          "L008.pre_mlp_norm"
+        ],
+        [
+          "L009.residual_add_1",
+          "L009.pre_mlp_norm"
+        ],
+        [
+          "L010.residual_add_1",
+          "L010.pre_mlp_norm"
+        ],
+        [
+          "L011.residual_add_1",
+          "L011.pre_mlp_norm"
+        ],
+        [
+          "L012.residual_add_1",
+          "L012.pre_mlp_norm"
+        ],
+        [
+          "L013.residual_add_1",
+          "L013.pre_mlp_norm"
+        ],
+        [
+          "L014.residual_add_1",
+          "L014.pre_mlp_norm"
+        ],
+        [
+          "L015.residual_add_1",
+          "L015.pre_mlp_norm"
+        ],
+        [
+          "L016.residual_add_1",
+          "L016.pre_mlp_norm"
+        ],
+        [
+          "L017.residual_add_1",
+          "L017.pre_mlp_norm"
+        ],
+        [
+          "L018.residual_add_1",
+          "L018.pre_mlp_norm"
+        ],
+        [
+          "L019.residual_add_1",
+          "L019.pre_mlp_norm"
+        ],
+        [
+          "L020.residual_add_1",
+          "L020.pre_mlp_norm"
+        ],
+        [
+          "L021.residual_add_1",
+          "L021.pre_mlp_norm"
+        ],
+        [
+          "L022.residual_add_1",
+          "L022.pre_mlp_norm"
+        ],
+        [
+          "L023.residual_add_1",
+          "L023.pre_mlp_norm"
+        ],
+        [
+          "L024.residual_add_1",
+          "L024.pre_mlp_norm"
+        ],
+        [
+          "L025.residual_add_1",
+          "L025.pre_mlp_norm"
+        ],
+        [
+          "L026.residual_add_1",
+          "L026.pre_mlp_norm"
+        ],
+        [
+          "L027.residual_add_1",
+          "L027.pre_mlp_norm"
+        ],
+        [
+          "L028.residual_add_1",
+          "L028.pre_mlp_norm"
+        ],
+        [
+          "L029.residual_add_1",
+          "L029.pre_mlp_norm"
+        ],
+        [
+          "L030.residual_add_1",
+          "L030.pre_mlp_norm"
+        ],
+        [
+          "L031.residual_add_1",
+          "L031.pre_mlp_norm"
+        ],
+        [
+          "L032.residual_add_1",
+          "L032.pre_mlp_norm"
+        ],
+        [
+          "L033.residual_add_1",
+          "L033.pre_mlp_norm"
+        ],
+        [
+          "L034.residual_add_1",
+          "L034.pre_mlp_norm"
+        ],
+        [
+          "L035.residual_add_1",
+          "L035.pre_mlp_norm"
+        ]
+      ],
+      "nodes_per_device": {
+        "0": 687
+      },
+      "sources": {
+        "analytic_graph_proxy": 615,
+        "logical_input": 36
+      },
+      "feasible": true
+    }
+  },
+  "runs": [
+    {
+      "mode": "joint",
+      "seed": 0,
+      "evaluation_budget": 64,
+      "scorer_requests": 64,
+      "unique_requested_plans": 50,
+      "cost_model_evaluations": 64,
+      "rejected_capability_or_residency_requests": 0,
+      "search_returned_normally": true,
+      "first_score_ms": 25.213222917880287,
+      "initial_best_ms": 25.213222917880287,
+      "initial_evaluations": 4,
+      "final_best_ms": 25.213222917880287,
+      "first_final_best_evaluation": 1,
+      "improvement_after_initial_percent": 0.0,
+      "predicted_ms": 25.213222917880287,
+      "fused_groups": 36,
+      "fused_nodes": [
+        [
+          "L000.residual_add_1",
+          "L000.pre_mlp_norm"
+        ],
+        [
+          "L001.residual_add_1",
+          "L001.pre_mlp_norm"
+        ],
+        [
+          "L002.residual_add_1",
+          "L002.pre_mlp_norm"
+        ],
+        [
+          "L003.residual_add_1",
+          "L003.pre_mlp_norm"
+        ],
+        [
+          "L004.residual_add_1",
+          "L004.pre_mlp_norm"
+        ],
+        [
+          "L005.residual_add_1",
+          "L005.pre_mlp_norm"
+        ],
+        [
+          "L006.residual_add_1",
+          "L006.pre_mlp_norm"
+        ],
+        [
+          "L007.residual_add_1",
+          "L007.pre_mlp_norm"
+        ],
+        [
+          "L008.residual_add_1",
+          "L008.pre_mlp_norm"
+        ],
+        [
+          "L009.residual_add_1",
+          "L009.pre_mlp_norm"
+        ],
+        [
+          "L010.residual_add_1",
+          "L010.pre_mlp_norm"
+        ],
+        [
+          "L011.residual_add_1",
+          "L011.pre_mlp_norm"
+        ],
+        [
+          "L012.residual_add_1",
+          "L012.pre_mlp_norm"
+        ],
+        [
+          "L013.residual_add_1",
+          "L013.pre_mlp_norm"
+        ],
+        [
+          "L014.residual_add_1",
+          "L014.pre_mlp_norm"
+        ],
+        [
+          "L015.residual_add_1",
+          "L015.pre_mlp_norm"
+        ],
+        [
+          "L016.residual_add_1",
+          "L016.pre_mlp_norm"
+        ],
+        [
+          "L017.residual_add_1",
+          "L017.pre_mlp_norm"
+        ],
+        [
+          "L018.residual_add_1",
+          "L018.pre_mlp_norm"
+        ],
+        [
+          "L019.residual_add_1",
+          "L019.pre_mlp_norm"
+        ],
+        [
+          "L020.residual_add_1",
+          "L020.pre_mlp_norm"
+        ],
+        [
+          "L021.residual_add_1",
+          "L021.pre_mlp_norm"
+        ],
+        [
+          "L022.residual_add_1",
+          "L022.pre_mlp_norm"
+        ],
+        [
+          "L023.residual_add_1",
+          "L023.pre_mlp_norm"
+        ],
+        [
+          "L024.residual_add_1",
+          "L024.pre_mlp_norm"
+        ],
+        [
+          "L025.residual_add_1",
+          "L025.pre_mlp_norm"
+        ],
+        [
+          "L026.residual_add_1",
+          "L026.pre_mlp_norm"
+        ],
+        [
+          "L027.residual_add_1",
+          "L027.pre_mlp_norm"
+        ],
+        [
+          "L028.residual_add_1",
+          "L028.pre_mlp_norm"
+        ],
+        [
+          "L029.residual_add_1",
+          "L029.pre_mlp_norm"
+        ],
+        [
+          "L030.residual_add_1",
+          "L030.pre_mlp_norm"
+        ],
+        [
+          "L031.residual_add_1",
+          "L031.pre_mlp_norm"
+        ],
+        [
+          "L032.residual_add_1",
+          "L032.pre_mlp_norm"
+        ],
+        [
+          "L033.residual_add_1",
+          "L033.pre_mlp_norm"
+        ],
+        [
+          "L034.residual_add_1",
+          "L034.pre_mlp_norm"
+        ],
+        [
+          "L035.residual_add_1",
+          "L035.pre_mlp_norm"
+        ]
+      ],
+      "nodes_per_device": {
+        "0": 687
+      },
+      "sources": {
+        "analytic_graph_proxy": 615,
+        "logical_input": 36
+      },
+      "feasible": true
+    },
+    {
+      "mode": "sequential",
+      "seed": 0,
+      "evaluation_budget": 64,
+      "scorer_requests": 64,
+      "unique_requested_plans": 38,
+      "cost_model_evaluations": 64,
+      "rejected_capability_or_residency_requests": 0,
+      "search_returned_normally": false,
+      "first_score_ms": 25.213222917880287,
+      "initial_best_ms": 25.213222917880287,
+      "initial_evaluations": 4,
+      "final_best_ms": 25.213222917880287,
+      "first_final_best_evaluation": 1,
+      "improvement_after_initial_percent": 0.0,
+      "predicted_ms": 25.213222917880287,
+      "fused_groups": 36,
+      "fused_nodes": [
+        [
+          "L000.residual_add_1",
+          "L000.pre_mlp_norm"
+        ],
+        [
+          "L001.residual_add_1",
+          "L001.pre_mlp_norm"
+        ],
+        [
+          "L002.residual_add_1",
+          "L002.pre_mlp_norm"
+        ],
+        [
+          "L003.residual_add_1",
+          "L003.pre_mlp_norm"
+        ],
+        [
+          "L004.residual_add_1",
+          "L004.pre_mlp_norm"
+        ],
+        [
+          "L005.residual_add_1",
+          "L005.pre_mlp_norm"
+        ],
+        [
+          "L006.residual_add_1",
+          "L006.pre_mlp_norm"
+        ],
+        [
+          "L007.residual_add_1",
+          "L007.pre_mlp_norm"
+        ],
+        [
+          "L008.residual_add_1",
+          "L008.pre_mlp_norm"
+        ],
+        [
+          "L009.residual_add_1",
+          "L009.pre_mlp_norm"
+        ],
+        [
+          "L010.residual_add_1",
+          "L010.pre_mlp_norm"
+        ],
+        [
+          "L011.residual_add_1",
+          "L011.pre_mlp_norm"
+        ],
+        [
+          "L012.residual_add_1",
+          "L012.pre_mlp_norm"
+        ],
+        [
+          "L013.residual_add_1",
+          "L013.pre_mlp_norm"
+        ],
+        [
+          "L014.residual_add_1",
+          "L014.pre_mlp_norm"
+        ],
+        [
+          "L015.residual_add_1",
+          "L015.pre_mlp_norm"
+        ],
+        [
+          "L016.residual_add_1",
+          "L016.pre_mlp_norm"
+        ],
+        [
+          "L017.residual_add_1",
+          "L017.pre_mlp_norm"
+        ],
+        [
+          "L018.residual_add_1",
+          "L018.pre_mlp_norm"
+        ],
+        [
+          "L019.residual_add_1",
+          "L019.pre_mlp_norm"
+        ],
+        [
+          "L020.residual_add_1",
+          "L020.pre_mlp_norm"
+        ],
+        [
+          "L021.residual_add_1",
+          "L021.pre_mlp_norm"
+        ],
+        [
+          "L022.residual_add_1",
+          "L022.pre_mlp_norm"
+        ],
+        [
+          "L023.residual_add_1",
+          "L023.pre_mlp_norm"
+        ],
+        [
+          "L024.residual_add_1",
+          "L024.pre_mlp_norm"
+        ],
+        [
+          "L025.residual_add_1",
+          "L025.pre_mlp_norm"
+        ],
+        [
+          "L026.residual_add_1",
+          "L026.pre_mlp_norm"
+        ],
+        [
+          "L027.residual_add_1",
+          "L027.pre_mlp_norm"
+        ],
+        [
+          "L028.residual_add_1",
+          "L028.pre_mlp_norm"
+        ],
+        [
+          "L029.residual_add_1",
+          "L029.pre_mlp_norm"
+        ],
+        [
+          "L030.residual_add_1",
+          "L030.pre_mlp_norm"
+        ],
+        [
+          "L031.residual_add_1",
+          "L031.pre_mlp_norm"
+        ],
+        [
+          "L032.residual_add_1",
+          "L032.pre_mlp_norm"
+        ],
+        [
+          "L033.residual_add_1",
+          "L033.pre_mlp_norm"
+        ],
+        [
+          "L034.residual_add_1",
+          "L034.pre_mlp_norm"
+        ],
+        [
+          "L035.residual_add_1",
+          "L035.pre_mlp_norm"
+        ]
+      ],
+      "nodes_per_device": {
+        "0": 687
+      },
+      "sources": {
+        "analytic_graph_proxy": 615,
+        "logical_input": 36
+      },
+      "feasible": true
+    },
+    {
+      "mode": "placement_then_fusion",
+      "seed": 0,
+      "evaluation_budget": 64,
+      "scorer_requests": 64,
+      "unique_requested_plans": 38,
+      "cost_model_evaluations": 64,
+      "rejected_capability_or_residency_requests": 0,
+      "search_returned_normally": false,
+      "first_score_ms": 25.295360706202334,
+      "initial_best_ms": 25.295360706202334,
+      "initial_evaluations": 4,
+      "final_best_ms": 25.213222917880287,
+      "first_final_best_evaluation": 33,
+      "improvement_after_initial_percent": 0.3247148331903692,
+      "predicted_ms": 25.213222917880287,
+      "fused_groups": 36,
+      "fused_nodes": [
+        [
+          "L000.residual_add_1",
+          "L000.pre_mlp_norm"
+        ],
+        [
+          "L001.residual_add_1",
+          "L001.pre_mlp_norm"
+        ],
+        [
+          "L002.residual_add_1",
+          "L002.pre_mlp_norm"
+        ],
+        [
+          "L003.residual_add_1",
+          "L003.pre_mlp_norm"
+        ],
+        [
+          "L004.residual_add_1",
+          "L004.pre_mlp_norm"
+        ],
+        [
+          "L005.residual_add_1",
+          "L005.pre_mlp_norm"
+        ],
+        [
+          "L006.residual_add_1",
+          "L006.pre_mlp_norm"
+        ],
+        [
+          "L007.residual_add_1",
+          "L007.pre_mlp_norm"
+        ],
+        [
+          "L008.residual_add_1",
+          "L008.pre_mlp_norm"
+        ],
+        [
+          "L009.residual_add_1",
+          "L009.pre_mlp_norm"
+        ],
+        [
+          "L010.residual_add_1",
+          "L010.pre_mlp_norm"
+        ],
+        [
+          "L011.residual_add_1",
+          "L011.pre_mlp_norm"
+        ],
+        [
+          "L012.residual_add_1",
+          "L012.pre_mlp_norm"
+        ],
+        [
+          "L013.residual_add_1",
+          "L013.pre_mlp_norm"
+        ],
+        [
+          "L014.residual_add_1",
+          "L014.pre_mlp_norm"
+        ],
+        [
+          "L015.residual_add_1",
+          "L015.pre_mlp_norm"
+        ],
+        [
+          "L016.residual_add_1",
+          "L016.pre_mlp_norm"
+        ],
+        [
+          "L017.residual_add_1",
+          "L017.pre_mlp_norm"
+        ],
+        [
+          "L018.residual_add_1",
+          "L018.pre_mlp_norm"
+        ],
+        [
+          "L019.residual_add_1",
+          "L019.pre_mlp_norm"
+        ],
+        [
+          "L020.residual_add_1",
+          "L020.pre_mlp_norm"
+        ],
+        [
+          "L021.residual_add_1",
+          "L021.pre_mlp_norm"
+        ],
+        [
+          "L022.residual_add_1",
+          "L022.pre_mlp_norm"
+        ],
+        [
+          "L023.residual_add_1",
+          "L023.pre_mlp_norm"
+        ],
+        [
+          "L024.residual_add_1",
+          "L024.pre_mlp_norm"
+        ],
+        [
+          "L025.residual_add_1",
+          "L025.pre_mlp_norm"
+        ],
+        [
+          "L026.residual_add_1",
+          "L026.pre_mlp_norm"
+        ],
+        [
+          "L027.residual_add_1",
+          "L027.pre_mlp_norm"
+        ],
+        [
+          "L028.residual_add_1",
+          "L028.pre_mlp_norm"
+        ],
+        [
+          "L029.residual_add_1",
+          "L029.pre_mlp_norm"
+        ],
+        [
+          "L030.residual_add_1",
+          "L030.pre_mlp_norm"
+        ],
+        [
+          "L031.residual_add_1",
+          "L031.pre_mlp_norm"
+        ],
+        [
+          "L032.residual_add_1",
+          "L032.pre_mlp_norm"
+        ],
+        [
+          "L033.residual_add_1",
+          "L033.pre_mlp_norm"
+        ],
+        [
+          "L034.residual_add_1",
+          "L034.pre_mlp_norm"
+        ],
+        [
+          "L035.residual_add_1",
+          "L035.pre_mlp_norm"
+        ]
+      ],
+      "nodes_per_device": {
+        "0": 687
+      },
+      "sources": {
+        "analytic_graph_proxy": 615,
+        "logical_input": 36
+      },
+      "feasible": true
+    }
+  ],
+  "small_real_graph_slice": {
+    "nodes": [
+      "L000.input",
+      "L000.self_attention.out_proj",
+      "L000.residual_add_1",
+      "L000.pre_mlp_norm",
+      "L000.mlp.down_proj",
+      "L000.residual_add_2"
+    ],
+    "resident_boundaries": [
+      "L000.input",
+      "L000.mlp.down_proj",
+      "L000.residual_add_2",
+      "L000.self_attention.out_proj"
+    ],
+    "cost_basis": "separate analytic-only slice; optional full-graph runtime contexts not applied",
+    "exact_domain": 96,
+    "exact_feasible_plans": 6,
+    "exact": {
+      "predicted_ms": 0.004629474070107108,
+      "fused_groups": 1,
+      "fused_nodes": [
+        [
+          "L000.residual_add_1",
+          "L000.pre_mlp_norm"
+        ]
+      ],
+      "nodes_per_device": {
+        "0": 6
+      },
+      "sources": {
+        "resident_slice_boundary": 4,
+        "analytic_graph_proxy": 1
+      },
+      "feasible": true
+    },
+    "mcts": {
+      "mode": "joint",
+      "seed": 0,
+      "evaluation_budget": 64,
+      "scorer_requests": 43,
+      "unique_requested_plans": 24,
+      "cost_model_evaluations": 22,
+      "rejected_capability_or_residency_requests": 21,
+      "search_returned_normally": true,
+      "first_score_ms": 0.004629474070107108,
+      "initial_best_ms": 0.004629474070107108,
+      "initial_evaluations": 4,
+      "final_best_ms": 0.004629474070107108,
+      "first_final_best_evaluation": 1,
+      "improvement_after_initial_percent": 0.0,
+      "predicted_ms": 0.004629474070107108,
+      "fused_groups": 1,
+      "fused_nodes": [
+        [
+          "L000.residual_add_1",
+          "L000.pre_mlp_norm"
+        ]
+      ],
+      "nodes_per_device": {
+        "0": 6
+      },
+      "sources": {
+        "resident_slice_boundary": 4,
+        "analytic_graph_proxy": 1
+      },
+      "feasible": true
+    },
+    "model_gap": 0.0
+  },
+  "inputs_sha256": {
+    "data\\bw1000_2card\\bw1000_2card.calibrated.json": "261c9a53afebcc1abc25032a8a7124a599f6b0873187cb020d6ad2dc67d5776e",
+    "configs\\ffn_profile_search.json": "ab2a8a9e4a1be650ceaefd4f76bbbd38a13dd64bb1fd0a8063aaddd7ee8377cf",
+    "data\\kerv_add_rmsnorm_timing_01\\review\\profile.json": "f3d8411ba8ad579aa2df2dde6c528cb32fbd9bb661a043857a54e5faec5f5b34",
+    "cost_model\\qwen25_add_rmsnorm.py": "466a832e86e8506aed7583967708d294a83a4cd42fb962897eb6d33b235c8abc",
+    "tools\\evaluate_qwen25_add_rmsnorm.py": "a3e5fa10c174001b7b9df8638cfef51e985cefcf6870e84b2aa1dda37365beb4"
+  },
+  "runtime_contexts_provided": 0,
+  "conditional_fusion_actions_enabled": true,
+  "runtime_contexts_sha256": null,
+  "search_algorithm_changed": false,
+  "default_search_configuration_changed": false,
+  "new_gpu_execution": false,
+  "new_profiles_admitted": 0,
+  "independent_reference_regret": null,
+  "reliable_native_fused_performance_comparison": false
+}
