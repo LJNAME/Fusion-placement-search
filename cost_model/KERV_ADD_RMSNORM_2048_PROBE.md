@@ -24,7 +24,7 @@ export FUSION_PYTHON="$HOME/private_data/LJ/dcu-kernel310-20261031/run_python.sh
 bash tools/run_kerv_add_rmsnorm_probe.sh ../kerv_add_rmsnorm_2048_01 run cuda:0
 ```
 
-默认action为plan，只进行CPU计划检查；run才会访问HIP GPU。本机未运行run。
+默认action为plan，只进行CPU计划检查；run才会访问HIP GPU，并要求显式设置FUSION_PYTHON，避免使用系统Python。首次回传在系统Python3.11的Triton读取AMD设备属性时UnicodeDecodeError，尚未进入Kernel；先换回既有Python3.10启动器，不能据此判定Kernel不支持2048。本机未运行run。
 
 GPU检查固定为3次调用，每次精确恢复x；检查sum与x同址、normalized独立存储、residual/weight逐字节不变、sum等于BF16 Add，并分别对照手写舍入参考和本项目aten参考（rtol=0.02、atol=0.02，沿用已有AddRMS数值容差）。随后单独采集一次设备trace，要求唯一kernel为_add_rms_norm_inference_kernel。不根据耗时判断通过。
 

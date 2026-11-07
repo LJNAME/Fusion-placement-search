@@ -151,3 +151,7 @@ KERV公共AddRMS虽覆盖2048，但只输出normalized、auto走Native；另一�
 ## 2026-11-07：KERV AddRMS2048单Case入口
 
 新增calibration/kerv_add_rmsnorm_probe.py与tools/run_kerv_add_rmsnorm_probe.sh。CPU核对36处out_proj可覆盖、Add双输出必须保留；布局仍unknown。固定adaptive源码，合成BF16 [1,256,2048]，三次恢复/别名/只读/双参考检查，另一次唯一Kernel设备trace；只验证正确性，不计时、不Capture、不准入、不注册搜索规则。8项CPU测试通过，data/kerv_add_rmsnorm_2048_probe_v1仅plan，GPU未运行。CPU两参考131839个元素不同、max abs 0.03125，仅语义诊断。见[KERV单Case验证](KERV_ADD_RMSNORM_2048_PROBE.md)。
+
+## 2026-11-07：KERV探针启动器选择
+
+首次服务器run使用/usr/local/lib/python3.11的Triton，在读取AMD设备属性时UnicodeDecodeError，未进入Kernel；不能判断2048数值或执行失败。tools/run_kerv_add_rmsnorm_probe.sh的run改为必须显式设置FUSION_PYTHON，plan保留系统Python选项。先使用既有dcu-kernel310-20261031/run_python.sh重试新输出目录，不改Triton驱动或Kernel源码。该归因的最终确认仍待正确启动器回传。

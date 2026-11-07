@@ -5,10 +5,13 @@ if [[ $# -lt 1 || $# -gt 3 ]]; then
     exit 2
 fi
 : "${FLAGSCALE_ROOT:?Set FLAGSCALE_ROOT to the audited FlagScale checkout}"
-task_python="${FUSION_PYTHON:-python}"
 task_output="$1"
 task_action="${2:-plan}"
 task_device="${3:-cuda:0}"
+if [[ "$task_action" == run ]]; then
+    : "${FUSION_PYTHON:?Set FUSION_PYTHON to the validated GPU Python launcher (dcu-kernel310-20261031/run_python.sh)}"
+fi
+task_python="${FUSION_PYTHON:-python}"
 if [[ "$task_output" != /* ]]; then
     task_output="$PWD/$task_output"
 fi
