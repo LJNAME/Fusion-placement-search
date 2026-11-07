@@ -50,6 +50,7 @@ def export_plan(placed,estimate,profile,registry):
         artifact["execution_order"]={"source":"cost-model execution units; Native chains consecutive", "per_device":per_device}
         artifact["native_chain_execution_units"]=copy.deepcopy(placed.plan.extra["native_chain_execution_units"])
     artifact["execution_contract"]=copy.deepcopy(profile.declaration)
+    artifact["hardware_class_audit"]=copy.deepcopy(profile.declaration["hardware_class_audit"])
     artifact["deployable_scope"]="executable rules and memory under declared contract; downstream runtime not verified"
     for group,row in zip(placed.plan.groups,artifact["groups"]):
         if len(group.node_ids)>1:
@@ -74,10 +75,27 @@ def run(output):
     coverage["exact_equivalent_profile_uses"]=0  # Evidence provenance differs; conditions are equal.
     coverage["model_runtime_observed"]=False
     coverage["available_benchmark_profiles"]=2
+    coverage["same_device_profile_uses"]=sum(d==0 for _,d in profile.reuse)
+    coverage["hardware_class_transferred_uses"]=sum(d!=0 for _,d in profile.reuse)
+    coverage["native_chain_cost_uses"]=len(profile.native_reuse)
+    coverage["matching_measured_native_chains"]=sum(d==0 for _,d in profile.native_reuse)
+    for row in coverage["rows"]:
+        for device in row["devices"]:
+            device["cost_pair_available"]=device["native_chain"] is not None and device["fused"] is not None
+            if device.get("reuse_kind")=="homogeneous_hardware_class_transfer":
+                device["native_measured_same_contract"]=False
+                device["reliable_measured_pair"]=False
+    coverage["reliable_measured_pairs"]=sum(d["reliable_measured_pair"] for row in coverage["rows"] for d in row["devices"])
     save(output/"capability_cost_audit.json",coverage);save(output/"execution_contract.json",profile.declaration)
+    save(output/"hardware_class_audit.json",profile.declaration["hardware_class_audit"])
     references={name:describe(graph,reference_plan(graph,registry,fused=fused),profile,model)
                 for name,fused in (("native_gpu0",False),("fused_gpu0",True))}
+    queries_before=profile.fused_query_counts.copy()
     result,plan,trace=run_mode(graph,registry,profile,model,"joint",budget=64)
+    search_queries={str(d):profile.fused_query_counts[d]-queries_before[d] for d in range(profile.n_devs)}
+    for unit in plan.extra.get("native_chain_execution_units",[]):
+        unit.update(measured_on=0,reuse_on=unit["device"],
+                    reuse_kind="same_device" if unit["device"]==0 else "homogeneous_hardware_class_transfer")
     selected=[]
     for group in plan.groups:
         if len(group.node_ids)==1: continue
@@ -87,7 +105,8 @@ def run(output):
         cost=profile.estimate_group(graph,group)
         assert cost.duration==profile.accepted["latency"]["duration_s"]
         group.extra["measurement_ref"]={k:q[k] for k in ("kernel_key_id","measured_kernel_key_id",
-            "native_measured_key_id","measurement_contract_id","condition_id")}
+            "native_measured_key_id","measurement_contract_id","condition_id",
+            "measured_on","reuse_on","reuse_kind","hardware_class_key")}
         selected.append({"nodes":list(group.node_ids),"device":group.device,
                          **group.extra["measurement_ref"],"cost_source":cost.source,"duration_us":cost.duration*1e6})
     estimate=model.predict(graph,plan,profile)
@@ -105,6 +124,9 @@ def run(output):
         "model":"Qwen2.5-3B","nodes":len(graph.nodes),"edges":len(graph.edges),"graph_fingerprint":fingerprint,
         "qualification_basis":"0.6B-style explicit static execution declaration; not model runtime observation",
         "audit_summary":{k:v for k,v in coverage.items() if k!="rows"},"references":references,"run":result,
+        "hardware_class_audit":profile.declaration["hardware_class_audit"],
+        "fused_cost_queries_during_search":search_queries,
+        "migration_is_target_device_measurement":False,
         "selected_fusion_queries":selected,"cost_sources":dict(Counter(g["source"] for g in estimate.details["groups"])),
         "consistency":{"graph_unchanged":graph_fingerprint(graph)==fingerprint,"export_roundtrip":True,
             "rescored_makespan_matches":True,"every_selected_fusion_has_measured_pair":True,
@@ -114,9 +136,11 @@ def run(output):
         "model_layouts_observed":False,"mcts_runs":1,"search_algorithm_changed":False,
         "full_plan_measured":False,"independent_regret":None,
         "input_sha256":{str(p.relative_to(ROOT)):sha(p) for p in (PROFILE_DIRECTORY/"review/profile.json",
-            NATIVE_DIRECTORY/"review/profile.json",ROOT/"cost_model/qwen25_static_contract.py",Path(__file__))}}
+            NATIVE_DIRECTORY/"review/profile.json",ROOT/"cost_model/qwen25_static_contract.py",
+            ROOT/"cost_model/profile_hardware_class.py",Path(__file__))}}
     save(output/"search_trace.json",trace);save(output/"report.json",report)
-    print(json.dumps({"static_profile_uses":len(profile.reuse),"fused_groups":len(selected),
+    print(json.dumps({"cost_uses":len(profile.reuse),"hardware_class_transfers":coverage["hardware_class_transferred_uses"],
+        "fused_queries_per_gpu":search_queries,"fused_groups":len(selected),
         "predicted_ms":result["predicted_ms"],"score_calls":result["cost_model_evaluations"],
         "export_consistent":True},indent=2))
     return report
