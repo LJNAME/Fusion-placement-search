@@ -193,3 +193,6 @@ kerv_add_rmsnorm_timing_01归档13原文件，八个collector源码SHA匹配9517
 - --audit-only可只检查复用而不新增搜索实验。现有687节点图仍37条直接连接：36处静态匹配、运行时证据不足；其余35处未复制第0层观察值，final_norm仍不支持当前映射。
 - 相关51项CPU测试通过（包含Native快/慢两种选择、审核与防篡改、整链不拆分和跨卡拒绝）；CPU plan与严格复用审计已保存，无新GPU数据、准入或完整搜索结果。
 - 操作见 cost_model/NATIVE_ADD_RMSNORM_COMPARISON.md；仅等待一次 native_add_rmsnorm_timing_01 回传。
+### 2026-11-07：Native AddRMS回传准入与成本查询完成
+
+native_add_rmsnorm_timing_01.tar.gz：8441字节，SHA256 3b147a973ed0afdc463aa38f4dd83878f67b1cf7d0ccbe35086e3811638da658；13原文件逐字节保存在data/native_add_rmsnorm_timing_01，receipt.json记录归档。既有review复算7×50和双参考/只读/恢复回执、同stream边界、Canonical Key/Contract及12个采集源码SHA（ff343bd），通过并新增1条Native完整链accepted；没有单算子标签。median10.217599869us、min10.179159641/max10.575959682、IQR/median1.424699%。对保留KERV5.353559852us，少4.864040017us（47.604526%），preferred=KERV；不同批次但公共Graph契约/runtime/构建/设备类匹配，UUID改变不影响。review/cost_query.json经现有KeyedKernelProfile严格查询同值，memory/launch追加0，GPU1拒绝。只做CPU归档/复核/查询/审计，无GPU重测或新搜索；benchmark上成本对已闭合，原3B模型36处缺真实布局/别名/执行契约，严格图复用仍0、final_norm在v1外，未冒充model_runtime。详见NATIVE_ADD_RMSNORM_COMPARISON.md回传节。该Case测量结束，后续补执行契约证据；README/SROP/transfer未纳入。

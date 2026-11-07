@@ -86,3 +86,4 @@
 `qwen25_add_rmsnorm_graph_v1`：3B直接模式37处审计（36静态兼容但信息不足、1个final_norm不支持）；逐设备成本与显式条件规划MCTS接线，实际Profile复用0。三模式各64评分，独立小切片Exact/MCTS一致；无GPU或真实加速结论。见[3B图级接线](../cost_model/QWEN25_ADD_RMSNORM_GRAPH.md)。
 
 - 2026-11-07：Native Add→RMSNorm 单条对照入口，GPU0第0层固定Graph7×50；KERV不重测。CPU plan：data/native_add_rmsnorm_timing_plan_v1/plan.json；仅审计：data/qwen25_add_rmsnorm_reuse_check_v1/capability_cost_audit.json；说明cost_model/NATIVE_ADD_RMSNORM_COMPARISON.md。Native GPU读数待回传，准入新增0，36处模型运行时证据仍不足。
+- 2026-11-07 Native AddRMS回传：data/native_add_rmsnorm_timing_01，accepted完整链10.217599869us，KERV旧5.353559852us，减少47.604526%；review/summary.json、profile.json、cost_query.json及strict_reuse_audit。7×50/12源码SHA/Key/契约通过，无重测/新搜索。模型实际布局/别名/执行契约仍缺，图复用0；benchmark对照闭合，非36层或整图性能结论。

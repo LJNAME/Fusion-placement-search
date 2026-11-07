@@ -42,4 +42,17 @@ python -X utf8 tools/evaluate_qwen25_add_rmsnorm.py \
 
 Native 整链仅在两个节点均为原生、同卡且连续保留执行时使用。调度视图将该链作为一个执行单元，双输出在链结束后可用；原搜索/导出图仍保留两个原生节点，并注明连续执行约束。跨卡拆分或未通过等价性检查时不命中整链成本，继续标明原成本来源。没有将整链时间拆成两个单算子标签。
 
-当前仅完成入口与CPU接线，Native新GPU读数尚未返回；已有原图36处运行时布局/契约仍未知，未宣称严格融合已全部启用。
+Native回传已复核并准入；原图36处运行时布局/别名/契约仍未知，未自动开放跨层融合。
+## native_add_rmsnorm_timing_01 回传
+
+| GPU0完整调用 | Graph摊销 μs/call |
+| --- | ---: |
+| Native Add→RMSNorm | 10.217599869 |
+| 已有KERV | 5.353559852 |
+| KERV减少耗时 | 4.864040017（47.604526%） |
+
+Native固定7轮×50次，350次输出双参考/只读/恢复检查回执通过；inclusive IQR/Median=1.424699%。12个采集源码SHA对应ff343bd，完整Key与Contract重建通过，runtime/构建/硬件类与KERV一致。UUID变化仅溯源。两者来自不同批次、相同公共Graph边界；该局部比较不等于整图加速。
+
+原13文件保存在data/native_add_rmsnorm_timing_01/；review/profile.json为accepted记录，review/cost_query.json为实际严格Canonical查询，测得整链不追加访存/launch成本，GPU1查询拒绝。review/summary.json与strict_reuse_audit记录模型复用仍0，未将benchmark改写成模型布局证据。Native单算子标签新增0，无新GPU或搜索。
+
+这一个测时Case结束。剩余工作是已有3B位置的实际布局、别名和执行契约；无需再测本组Native/KERV。
