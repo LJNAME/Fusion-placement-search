@@ -205,3 +205,10 @@ native_add_rmsnorm_timing_01.tar.gz：8441字节，SHA256 3b147a973ed0afdc463aa3
 ### 2026-11-07：3B三放置方案与编号交换CPU审计
 
 tools/audit_qwen25_placement.py固定36融合，对整图A全0/B前18层0后18层1/C全1，预测25.239290006/25.308636502/25.255440040ms。B算子加和25.247990421ms、通信0.060646081ms、计算重叠0；唯一1MiB边L017.residual_add_2→L018.input。两卡busy11.769466/13.478524ms但依赖串行，当前是单图单微批latency，不是流水线吞吐。GPU0其他解析参数算力/带宽分别高0.068089%/0.047778%，融合共享不等于全成本完全对称。完整置换算力/带宽/容量/链路/准入/成本与来源，3个同物理方案的重编号评分误差均0。只新增一次交换joint seed0/64实评，仍全逻辑0（原GPU1），25.255440040ms，错过已知全逻辑1（原GPU0）16.150034us，参考gap0.063988%，非全空间regret。确认评分器编号等变，但有限预算搜索有逻辑0偏好；legal_search.py:120/271/304/498的设备顺序/补全/等prior首child路径支持归因。18相关CPU测试通过，data/qwen25_placement_audit_v1含report/findings/trace/plan；无新GPU/测量/算法修复/新融合。下一项建议同预算保留两卡完整融合/原生基线后复查编号，不继续扩大测量。说明QWEN25_PLACEMENT_AUDIT.md；README/SROP/transfer未纳入。
+## 2026-11-07：3B显存CPU审计，初始化暂缓
+
+687节点/866边Shape-dtype字节校验完整且差异0，全部forward。A/B/C现有峰值分别5.821262/0、3.180435/2.657551、0/5.821262GiB，低于每卡配置63.984375GiB；实际可用预算和训练可行性未知。现有搜索已有capacity惩罚及最终可行性过滤，不能再说只评分时间；但默认capacity是整卡总量。前述“满足显存约束”仅限该估算和配置预算，不是完整训练或运行时可行证明。
+
+静态参数6,171,693,056字节；saved_activation/bwd_flops未进入训练时间线，workspace未声明，别名未去重，输出/接收缓冲从完成时刻才计。18/18方案lm_head与embedding跨卡，共享622,329,856字节权重的驻留未处理；不擅自添加复制策略或训练状态。36组融合均无独占内部输出被现有算法删除；全Native和全KERV的GPU0估算峰值相同不证明物理显存相同。
+
+入口tools/audit_qwen25_memory.py；结果data/qwen25_memory_audit_v1（report、tensor_lifetimes、verification）；说明QWEN25_MEMORY_AUDIT.md。三个方案重评分/峰值与旧审计一致，17项已有CPU测试通过，无MCTS/GPU/生产代码修改。四基线初始化暂停，先确定估算范围、显式可用预算及共享存储/缓冲策略。

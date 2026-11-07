@@ -90,3 +90,6 @@
 - 2026-11-07：data/qwen25_static_joint_v1，0.6B式静态执行声明的3B严格联合搜索。36处GPU0复用Native/KERV成本，GPU1缺成本对保持Native；一次joint/seed0，64请求32实评32拒绝，36融合全GPU0，预测25.239290006ms（Native参考25.414395447ms）。joint_placed.json及joint_fused_placed.json往返与重评分一致。未新增测量/完整模型执行，详见cost_model/QWEN25_STATIC_SEARCH.md。
 - 2026-11-07 同构硬件复用：data/qwen25_hardware_class_joint_v1；GPU0/GPU1指纹及栈相同，72个可查成本对（36同卡、36迁移），原测量仍2条。joint64实评/0设备拒绝，GPU1候选查询378次，最终36融合全GPU0、预测25.239290006ms，导出一致；未测GPU1 AddRMS或新增测量。说明cost_model/PROFILE_HARDWARE_CLASS.md。
 - 2026-11-07 3B放置/编号审计：data/qwen25_placement_audit_v1。A/B/C预测25.239290006/25.308636502/25.255440040ms，B无计算重叠并多60.646081us通信。评分器重标号不变，但一次交换搜索仍逻辑0，错过已知参考16.150034us，确认有限预算编号偏好。无GPU或算法修复；说明cost_model/QWEN25_PLACEMENT_AUDIT.md。
+## 2026-11-07：显存审计
+
+`qwen25_memory_audit_v1/`：687节点/866边字节校验、三个固定放置的现有前向峰值、逐张量逻辑生命周期及17项CPU测试回执。三方案低于配置总容量，训练及实际空闲预算可行性未知；18/18跨卡共享embedding/head权重遗漏。没有新GPU、MCTS或生产算法改动。说明：[QWEN25_MEMORY_AUDIT.md](../cost_model/QWEN25_MEMORY_AUDIT.md)。
