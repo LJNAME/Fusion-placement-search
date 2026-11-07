@@ -183,3 +183,13 @@ kerv_add_rmsnorm_timing_01归档13原文件，八个collector源码SHA匹配9517
 ## 2026-11-07：3B AddRMS候选/契约审计与MCTS接线
 
 现有687节点图扫描37条直接Add→RMSNorm：36符合v1 Adapter静态结构但缺物理布局/别名/执行契约，final_norm一处因输入角色和层约束不支持。默认严格模式不开放信息不足融合；显式conditional-planning仅CPU接线。cost_model/qwen25_add_rmsnorm.py支持逐组model_runtime证据和完整Canonical Key/Contract等价复用，本次证据为空，5.35356us图上复用0、Native同契约实测链0。条件场景每卡651解析/36逻辑输入，融合72解析/2不可用；旧eager launch不进入Graph评分，用既有1.5us显式探索假设，不作校准值。三模式seed0各64真实评分，最终36融合全GPU0、预测25.213223ms，对无融合参考25.295361ms；仅模型接线，无真实收益或联合优势证据。真实第0层6节点切片Exact96组合/6满足边界、MCTS model gap0；新增17项/相关68项CPU测试通过，慢融合保留Native。data/qwen25_add_rmsnorm_graph_v1含审计、轨迹与未部署放置图；见[3B图级接线](QWEN25_ADD_RMSNORM_GRAPH.md)。无GPU、新准入或默认配置改变。
+
+### 2026-11-07：收缩为一次 Native Add→RMSNorm 对照（GPU待回传）
+
+- 新增 calibration/native_add_rmsnorm_timing.py 与 tools/run_native_add_rmsnorm_timing.sh：GPU0、第0层、BF16 [1,256,2048]、eps=1e-6，完整 out-of-place Add→F.rms_norm 双输出链；50独立x、50次eager准备、10次预热、固定7×50，无锚点、补轮、Profiler或KERV重测。
+- 旧KERV accepted 5.353559851646423μs保留；执行前核对原运行环境/构建/设备类，UUID仅溯源；公共Graph边界相同，分配/别名等实现配方分别保留。
+- cost_model/native_add_rmsnorm_profile.py提供显式CPU review及只读load_record，输出比较与完整链成本，不拆成单算子标签。严格搜索在提供Native记录时要求同契约实测对；缺少逐组等价性证据不开放融合。
+- NativeChainCostModel只在两个原生节点同卡且通过身份检查时，将整链计入一个连续执行单元，保留双输出依赖；原搜索图和导出节点不合并，导出带连续执行约束。跨卡拆分不命中整链成本。
+- --audit-only可只检查复用而不新增搜索实验。现有687节点图仍37条直接连接：36处静态匹配、运行时证据不足；其余35处未复制第0层观察值，final_norm仍不支持当前映射。
+- 相关51项CPU测试通过（包含Native快/慢两种选择、审核与防篡改、整链不拆分和跨卡拒绝）；CPU plan与严格复用审计已保存，无新GPU数据、准入或完整搜索结果。
+- 操作见 cost_model/NATIVE_ADD_RMSNORM_COMPARISON.md；仅等待一次 native_add_rmsnorm_timing_01 回传。

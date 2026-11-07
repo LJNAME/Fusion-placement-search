@@ -75,3 +75,7 @@ python -X utf8 tools/evaluate_qwen25_add_rmsnorm.py --contexts /path/to/model_co
 data/qwen25_add_rmsnorm_graph_v1包含逐位置/逐设备审计、三种搜索轨迹、报告及joint_placed.json。导出保留原节点ID和双输出依赖，携带实现身份、规划契约和deployable=false；未把未知布局改成已观测。
 
 执行链路和MCTS接口已经接通。正式跨层复用仍缺模型布局/契约证据，可信Native对照仍缺对应成本；本轮不重测Kernel，不新增Profile，也不声称完整方案实测覆盖或真实加速。
+
+## 单条 Native 对照入口（2026-11-07）
+
+见 [NATIVE_ADD_RMSNORM_COMPARISON.md](NATIVE_ADD_RMSNORM_COMPARISON.md)。只新增GPU0第0层完整原生链的7×50测量，不重测KERV。--native-profile读取复核后的完整链成本，--audit-only只检查其余位置的复用条件，不启动新搜索。尚未得到Native新读数；未知模型布局不由benchmark补齐。

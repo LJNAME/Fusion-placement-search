@@ -14,7 +14,7 @@ from cost_model.exact_search import exact_legal_search
 from cost_model.fusion_kernel_profile import candidate_structure
 from cost_model.kerv_add_rmsnorm_profile import load_profile
 from cost_model.qwen25_add_rmsnorm import (
-    PROFILE_DIRECTORY, PROXY_CONFIG, SCHEDULING_POLICY, GraphPlanningProfile, IntegrationScorer,
+    PROFILE_DIRECTORY, PROXY_CONFIG, SCHEDULING_POLICY, GraphPlanningProfile, IntegrationScorer, NativeChainCostModel,
     activation_slice, annotate, audit, reference_plan, search_registry,
 )
 from cost_model.search_evaluation import _Mode, _run_search, qwen25_3b_spec
@@ -27,13 +27,13 @@ from simulator.placement_artifacts import PlacedOpGraph, save_placed_op_graph
 from tools.evaluate_search_quality import EvaluationBudgetReached, summarize
 
 
-def make_case(graph, contexts=None, boundaries=(), *, conditional=True):
+def make_case(graph, contexts=None, boundaries=(), *, conditional=True, native_record=None):
     adapter = KervAddRmsnormAdapter()
     measured, _ = load_profile(PROFILE_DIRECTORY)
     hardware = load_hardware(ROOT/"data/bw1000_2card/bw1000_2card.calibrated.json")
-    profile = GraphPlanningProfile(graph,hardware,adapter,measured,contexts,boundaries=boundaries,conditional=conditional)
+    profile = GraphPlanningProfile(graph,hardware,adapter,measured,contexts,boundaries=boundaries,conditional=conditional,native_record=native_record)
     registry=search_registry(profile)
-    model = StructuralCostModel(registry=registry,scheduling_policy=SCHEDULING_POLICY)
+    model = NativeChainCostModel(registry=registry,scheduling_policy=SCHEDULING_POLICY)
     return registry,profile,model
 
 
@@ -70,12 +70,21 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output",type=Path,required=True)
     parser.add_argument("--contexts",type=Path,help="optional per-group runtime layout/contract evidence, never inferred")
+    parser.add_argument("--native-profile",type=Path,help="reviewed single Native chain measurement directory")
+    parser.add_argument("--audit-only",action="store_true",help="check reuse without launching search experiments")
     parser.add_argument("--conditional-planning",action="store_true",help="explicitly allow unverified fusion preconditions for CPU integration tests")
     args=parser.parse_args(argv);args.output.mkdir(parents=True,exist_ok=False)
     graph=build_model_graph(qwen25_3b_spec())
     contexts=json.loads(args.contexts.read_text(encoding="utf-8")) if args.contexts else None
-    registry,profile,model=make_case(graph,contexts,conditional=args.conditional_planning)
+    native_record=None
+    if args.native_profile:
+        from cost_model.native_add_rmsnorm_profile import load_record
+        native_record=load_record(args.native_profile)
+    registry,profile,model=make_case(graph,contexts,conditional=args.conditional_planning,native_record=native_record)
     coverage=audit(graph,profile);save(args.output/"capability_cost_audit.json",coverage)
+    if args.audit_only:
+        print(json.dumps({k:v for k,v in coverage.items() if k!="rows"},ensure_ascii=False))
+        return
     singletons=[c for c in enumerate_fusion_candidates(graph,registry,require_executable=True) if len(c.node_ids)==1]
     singleton_coverage={}
     for device in range(2):
@@ -101,7 +110,8 @@ def main(argv=None):
         registry=small_registry,allowed_devices=(0,1),top_k=1,is_feasible=lambda p:not small_profile.plan_blockers(p))
     small_run,_,_=run_mode(sliced,small_registry,small_profile,small_model,"joint")
     small_exact=describe(sliced,exact.plans[0],small_profile,small_model)
-    report={"scope":"conditional 3B Graph planning integration, not GPU performance validation",
+    report={"scope":("conditional 3B Graph planning integration" if args.conditional_planning else
+                     "strict capability-qualified 3B Graph scoring")+", not whole-plan GPU validation",
             "model":"Qwen2.5-3B","nodes":len(graph.nodes),"edges":len(graph.edges),
             "audit_summary":{k:v for k,v in coverage.items() if k!="rows"},
             "singleton_cost_sources":singleton_coverage,"planning_declaration":profile.declaration,
@@ -118,9 +128,11 @@ def main(argv=None):
             "runtime_contexts_provided":len(contexts or {}),
             "conditional_fusion_actions_enabled":args.conditional_planning,
             "runtime_contexts_sha256":sha(args.contexts) if args.contexts else None,"search_algorithm_changed":False,
+            "native_profile_key_id":native_record["kernel_key_id"] if native_record else None,
+            "native_profile_sha256":sha(args.native_profile/"review/profile.json") if args.native_profile else None,
             "default_search_configuration_changed":False,"new_gpu_execution":False,
             "new_profiles_admitted":0,"independent_reference_regret":None,
-            "reliable_native_fused_performance_comparison":False}
+            "reliable_native_fused_performance_comparison":coverage["reliable_measured_pairs"]>0}
     save(args.output/"search_trace.json",traces);save(args.output/"report.json",report)
     print(json.dumps({"positions":coverage["direct_positions"],"capabilities":coverage["capability_counts"],
                      "profile_uses":len(profile.reuse),"runs":[{k:r[k] for k in ("mode","predicted_ms","fused_groups","cost_model_evaluations")} for r in runs]},ensure_ascii=False))

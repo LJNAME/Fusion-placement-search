@@ -84,3 +84,5 @@
 `kerv_add_rmsnorm_timing_01`：GPU0第0层单组AddRMS Graph摊销成本回传，median5.353559851646423us，IQR/Median0.6873858%；13原文件和独立准入/查询证据。accepted新增1条，仅该Key/Contract/组/设备条件，成本查询返回measured_group_kernel；无默认搜索或整图覆盖变更。见[测时与准入](../cost_model/KERV_ADD_RMSNORM_TIMING.md)。
 
 `qwen25_add_rmsnorm_graph_v1`：3B直接模式37处审计（36静态兼容但信息不足、1个final_norm不支持）；逐设备成本与显式条件规划MCTS接线，实际Profile复用0。三模式各64评分，独立小切片Exact/MCTS一致；无GPU或真实加速结论。见[3B图级接线](../cost_model/QWEN25_ADD_RMSNORM_GRAPH.md)。
+
+- 2026-11-07：Native Add→RMSNorm 单条对照入口，GPU0第0层固定Graph7×50；KERV不重测。CPU plan：data/native_add_rmsnorm_timing_plan_v1/plan.json；仅审计：data/qwen25_add_rmsnorm_reuse_check_v1/capability_cost_audit.json；说明cost_model/NATIVE_ADD_RMSNORM_COMPARISON.md。Native GPU读数待回传，准入新增0，36处模型运行时证据仍不足。

@@ -128,7 +128,7 @@ def qualify_context(graph, hardware, adapter, pair, device, context, accepted):
 
 class GraphPlanningProfile(AnalyticHardwareProfile):
     """Same Graph analytic assumptions on both arms; no implicit profile reuse."""
-    def __init__(self, graph, hardware, adapter, accepted_profile, contexts=None, *, boundaries=(), conditional=True):
+    def __init__(self, graph, hardware, adapter, accepted_profile, contexts=None, *, boundaries=(), conditional=True, native_record=None):
         hardware = copy.deepcopy(hardware)
         original_launch_us = hardware.launch_overhead * 1e6
         config = json.loads(PROXY_CONFIG.read_text(encoding="utf-8"))
@@ -137,9 +137,11 @@ class GraphPlanningProfile(AnalyticHardwareProfile):
         super().__init__(hardware)
         self.graph, self.adapter, self.boundaries = graph, adapter, set(boundaries)
         self.conditional = conditional
+        self.native_record = copy.deepcopy(native_record)
+        self.require_measured_pair = native_record is not None and not conditional
         self.accepted = json.loads((PROFILE_DIRECTORY/"review/profile.json").read_text(encoding="utf-8"))
         self.measured = accepted_profile
-        self.qualifications, self.reuse = {}, {}
+        self.qualifications, self.reuse, self.native_reuse = {}, {}, {}
         self.declaration = {"kind":"conditional_graph_planning", "layout":"contiguous required at runtime, not observed",
             "mode":"graph_replay", "calls_per_replay":50, "independent_x_buffers":50,
             "restoration_and_validation":"outside Events", "allocation":"captured private pool",
@@ -160,6 +162,11 @@ class GraphPlanningProfile(AnalyticHardwareProfile):
                     keys = kernel_identity(bound, context["observations"], context["runtime"], context["device"], return_keys=True)
                     self.reuse[(pair,device)] = (KeyedKernelProfile(keys, accepted_profile.latencies, self, strict=True,
                         measurement_contract_id=self.accepted["measurement_contract_id"], allow_unbound=False), bound.placed.plan.groups[bound.index])
+                    if native_record is not None:
+                        from cost_model.native_add_rmsnorm_profile import qualified_native_cost
+                        native = qualified_native_cost(graph,hardware,adapter,pair,device,context,self.accepted,native_record)
+                        if native is not None:
+                            self.native_reuse[(pair,device)] = native
 
     def estimate_group(self, graph, group):
         if len(group.node_ids) == 1 and group.node_ids[0] in self.boundaries:
@@ -168,6 +175,8 @@ class GraphPlanningProfile(AnalyticHardwareProfile):
             qualification = self.qualifications[(tuple(group.node_ids),group.device)]
             if qualification["capability"] == "not_fusible" or (not self.conditional and qualification["capability"] != "fusible"):
                 raise ValueError("fusion capability/contract unresolved or violated")
+            if self.require_measured_pair and (tuple(group.node_ids),group.device) not in self.native_reuse:
+                raise ValueError("same-contract Native/Fused measured pair required")
         selected = self.reuse.get((tuple(group.node_ids), group.device))
         if selected is not None:
             measured, target = selected
@@ -192,6 +201,8 @@ class GraphPlanningProfile(AnalyticHardwareProfile):
                 status = self.qualifications.get((tuple(group.node_ids),group.device),{}).get("capability")
                 if status is None or status == "not_fusible" or (not self.conditional and status != "fusible"):
                     reasons.append("fusion_capability:"+str(group.node_ids))
+                if self.require_measured_pair and (tuple(group.node_ids),group.device) not in self.native_reuse:
+                    reasons.append("measured_pair_missing:"+str(group.node_ids))
         return reasons
 
 
@@ -210,11 +221,19 @@ def audit(graph, profile):
                 cost = profile.estimate_group(graph,candidate_structure(graph,singleton,device))
                 native.append({"node":node,"source":cost.source,"duration_us":cost.duration*1e6})
             fused = None
-            if pair in candidates and qualification["capability"] != "not_fusible" and (profile.conditional or qualification["capability"]=="fusible"):
+            if (pair in candidates and qualification["capability"] != "not_fusible"
+                and (profile.conditional or qualification["capability"]=="fusible")
+                and (not profile.require_measured_pair or (pair,device) in profile.native_reuse)):
                 cost = profile.estimate_group(graph,candidate_structure(graph,candidates[pair],device))
                 fused = {"source":cost.source,"duration_us":cost.duration*1e6}
+            chain = profile.native_reuse.get((pair,device))
             device_rows.append({"device":device,**qualification,"native":native,"fused":fused,
-                                "native_measured_same_contract":False,"reliable_measured_pair":False})
+                                "native_chain":None if chain is None else {"source":chain.source,"duration_us":chain.duration*1e6,
+                                    "kernel_key_id":profile.native_record["kernel_key_id"],
+                                    "measurement_contract_id":profile.native_record.get("measurement_contract_id"),
+                                    "requires":"both Native nodes colocated and reserved as one ordered execution unit"},
+                                "native_measured_same_contract":chain is not None,
+                                "reliable_measured_pair":chain is not None and (pair,device) in profile.reuse})
         statuses = {d["capability"] for d in device_rows}
         status = "fusible" if "fusible" in statuses else "insufficient_info" if "insufficient_info" in statuses else "not_fusible"
         nodes = (*graph.predecessors(pair[0]),*pair)
@@ -227,17 +246,59 @@ def audit(graph, profile):
             "direct_positions":len(rows),"static_adapter_matches":len(candidates),
             "capability_counts":{s:sum(r["status"]==s for r in rows) for s in ("fusible","not_fusible","insufficient_info")},
             "exact_equivalent_profile_uses":len(profile.reuse), "available_benchmark_profiles":1,
-            "matching_measured_native_chains":0,"reliable_measured_pairs":0,
+            "matching_measured_native_chains":len(profile.native_reuse),
+            "reliable_measured_pairs":sum(d["reliable_measured_pair"] for r in rows for d in r["devices"]),
             "native_query_sources":dict(Counter(n["source"] for r in rows for d in r["devices"] for n in d["native"])),
             "fused_query_sources":dict(Counter(d["fused"]["source"] if d["fused"] else "unavailable" for r in rows for d in r["devices"])),
             "profile_cross_layer_copy_performed":False,"rows":rows}
+
+
+class NativeChainCostModel(StructuralCostModel):
+    """Reserve a measured colocated Native chain intact, never divide its cost.
+
+    Search/export plans remain unfused singletons. Only the scheduling view
+    contracts a qualified Native pair. Both outputs become available at chain
+    completion, so no independent stage timings or interleaving are invented.
+    """
+    def predict(self, graph, plan, profile):
+        if not getattr(profile,"native_reuse",{}):
+            return super().predict(graph,plan,profile)
+        self.prepare(graph,plan,profile.n_devs)  # Validate the original plan first.
+        by_node = {n:g for g in plan.groups for n in g.node_ids}
+        selected = {pair:cost for (pair,device),cost in profile.native_reuse.items()
+                    if all(len(by_node[n].node_ids)==1 and by_node[n].device==device for n in pair)}
+        if not selected:
+            return super().predict(graph,plan,profile)
+        view = copy.deepcopy(plan)
+        skipped = {pair[0] for pair in selected}
+        ends = {pair[-1]:pair for pair in selected}
+        view.groups = [FusionGroup(list(ends[g.node_ids[0]]),g.device,{"pattern_id":"native_add_rmsnorm"})
+                       if len(g.node_ids)==1 and g.node_ids[0] in ends else g
+                       for g in view.groups if not (len(g.node_ids)==1 and g.node_ids[0] in skipped)]
+        parent = profile.adapter.registry.get("add_rmsnorm")
+        class NativePattern(FusionPattern):
+            def validate(self,g,ids): parent.validate(g,ids)
+        registry = FusionPatternRegistry([*self.registry.patterns(), NativePattern(**{
+            **asdict(parent),"pattern_id":"native_add_rmsnorm","backend":"torch_native",
+            "implementation_status":"reference"})])
+        class ChainProfile:
+            def __getattr__(self,name): return getattr(profile,name)
+            def estimate_group(self,g,group):
+                if group.pattern_id=="native_add_rmsnorm": return selected[tuple(group.node_ids)]
+                return profile.estimate_group(g,group)
+        model = StructuralCostModel(registry=registry,scheduling_policy=self.scheduling_policy)
+        estimate = model.predict(graph,view,ChainProfile())
+        return replace(estimate,details={**estimate.details,"native_chain_execution_units":[list(p) for p in selected],
+            "native_chain_output_release":"both original outputs at chain completion; no interleaving",
+            "search_plan_rewritten":False})
 
 
 def search_registry(profile):
     if profile.conditional:
         return profile.adapter.registry
     parent = profile.adapter.registry.get("add_rmsnorm")
-    allowed = {pair for (pair,_),q in profile.qualifications.items() if q["capability"]=="fusible"}
+    allowed = {pair for (pair,device),q in profile.qualifications.items() if q["capability"]=="fusible"
+               and (not profile.require_measured_pair or (pair,device) in profile.native_reuse)}
     class QualifiedPattern(FusionPattern):
         def validate(self,graph,node_ids):
             parent.validate(graph,node_ids)
@@ -269,6 +330,15 @@ def annotate(plan, profile):
     plan = copy.deepcopy(plan)
     plan.extra.update(execution_declaration=profile.declaration, deployable=False,
                       model_layouts_observed=False, assumption_id=profile.assumption_id)
+    by_node = {n:g for g in plan.groups for n in g.node_ids}
+    units = [{"node_ids":list(pair),"device":device,
+              "kernel_key_id":profile.native_record["kernel_key_id"],
+              "measurement_contract_id":profile.native_record.get("measurement_contract_id"),
+              "required_execution":"consecutive Native Add then RMSNorm; both outputs released at end"}
+             for pair,device in profile.native_reuse
+             if all(len(by_node[n].node_ids)==1 and by_node[n].device==device for n in pair)]
+    if units:
+        plan.extra["native_chain_execution_units"] = units
     for group in plan.groups:
         if len(group.node_ids)>1:
             group.extra["implementation"] = copy.deepcopy(profile.adapter.implementation)
