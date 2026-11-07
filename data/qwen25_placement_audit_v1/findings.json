@@ -1,0 +1,25 @@
+{
+  "report_sha256": "3c7e533e00ef7534698eaad7671d121176dcf0d690bf94131572d04c7da866b9",
+  "best_of_three": "A_all_gpu0",
+  "B_minus_A_ms": 0.06934649617569022,
+  "B_extra_operator_work_ms": 0.008700415125645122,
+  "B_communication_ms": 0.06064608105004457,
+  "B_compute_overlap_ms": 0.0,
+  "C_minus_A_us": 16.150033900188987,
+  "same_physical_plan_score_is_label_invariant": true,
+  "swapped_search_misses_known_uniform_plan": true,
+  "swapped_search_gap_to_known_reference_us": 16.150033900188987,
+  "swapped_search_gap_to_known_reference_fraction": 0.0006398767119177862,
+  "search_logical_gpu0_preference_observed_in_this_seed_budget": true,
+  "exact_hardware_cost_symmetry_assumed": false,
+  "interpretation": [
+    "18/18 has balanced storage/work but serial layer dependence; no compute overlap for one microbatch",
+    "shared fusion Profiles do not make the remaining analytic device costs equal",
+    "scorer is relabel invariant; this MCTS run retains logical 0 despite a cheaper known all-logical-1 plan",
+    "not evidence that GPU0-only is globally optimal or faster in real end-to-end GPU execution"
+  ],
+  "next_minimal_change": "seed complete uniform fused/native incumbents on both allowed devices within the same score budget; then repeat label audit",
+  "algorithm_fixed_in_this_audit": false,
+  "new_gpu_work": false,
+  "new_mcts_runs": 1
+}
