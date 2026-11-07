@@ -171,3 +171,7 @@ kerv_add_rmsnorm_2048_02归档6原文件，18项CPU复核通过，源码/collect
 ## 2026-11-07：KERV图Adapter GPU单Case通过
 
 kerv_add_rmsnorm_adapter_01归档6原文件并完成22项离线复核，collector/Adapter对齐aaae3d2，placed/source身份一致。GPU0第0层BF16 [1,256,2048]的PlacedOpGraph→Adapter→KERV链路通过；三次36项布尔检查（含15项映射）全通过，手写误差0、aten误差0.03125（rtol/atol0.02），唯一目标Kernel trace。旧attention输入失效、双输出按原节点发布、残差旁路保留。详见[KERV图Adapter](KERV_ADD_RMSNORM_ADAPTER.md)回传节。正确性验证收尾，不增加Case；正式Profile0、无计时/Capture/GPU1/完整模型/搜索变更。本轮离线归档，无新增GPU执行。
+
+## 2026-11-07：KERV AddRMS单Case Graph测时入口
+
+calibration/kerv_add_rmsnorm_timing.py、tools/run_kerv_add_rmsnorm_timing.sh：仅GPU0第0层BF16 [1,256,2048]，50份独立x、50调用/Graph、10预热Replay、7固定正式轮；恢复/校验在计时外，不补轮/替换/Profiler/锚点或Native对比。复用stage_size_calibration.timed，IQR/Median≤10%；记录完整运行环境、布局、双输出别名与现有Canonical Key及独立Contract。通过仅conditional_dev候选，待回传复核，不自动accepted或改搜索。新增9项、相关68项CPU测试通过；data/kerv_add_rmsnorm_timing_plan_v1仅计划，无新GPU耗时。见[KERV单Case测时](KERV_ADD_RMSNORM_TIMING.md)。

@@ -78,3 +78,5 @@
 `kerv_add_rmsnorm_adapter_smoke_v1`：原探针的adapter选项CPU计划，仅第0层一个组；相关59项CPU测试通过。GPU未运行，无新计时/Profile或搜索。
 
 `kerv_add_rmsnorm_adapter_01`：GPU0第0层单组Adapter正确性回传，raw保留6文件，review有22项离线复核。36项布尔检查/双参考数值/唯一Kernel trace通过；无计时、Capture或Profile。见[KERV Adapter回传](../cost_model/KERV_ADD_RMSNORM_ADAPTER.md)。
+
+`kerv_add_rmsnorm_timing_plan_v1`：GPU0 AddRMS2048单Case Graph Replay成本采集的CPU计划，尚无GPU数据。固定50调用×7轮/10预热，恢复在计时外，条件候选而非自动准入。见[单Case测时](../cost_model/KERV_ADD_RMSNORM_TIMING.md)。
