@@ -175,3 +175,7 @@ kerv_add_rmsnorm_adapter_01归档6原文件并完成22项离线复核，collecto
 ## 2026-11-07：KERV AddRMS单Case Graph测时入口
 
 calibration/kerv_add_rmsnorm_timing.py、tools/run_kerv_add_rmsnorm_timing.sh：仅GPU0第0层BF16 [1,256,2048]，50份独立x、50调用/Graph、10预热Replay、7固定正式轮；恢复/校验在计时外，不补轮/替换/Profiler/锚点或Native对比。复用stage_size_calibration.timed，IQR/Median≤10%；记录完整运行环境、布局、双输出别名与现有Canonical Key及独立Contract。通过仅conditional_dev候选，待回传复核，不自动accepted或改搜索。新增9项、相关68项CPU测试通过；data/kerv_add_rmsnorm_timing_plan_v1仅计划，无新GPU耗时。见[KERV单Case测时](KERV_ADD_RMSNORM_TIMING.md)。
+
+## 2026-11-07：KERV AddRMS2048成本查询闭合
+
+kerv_add_rmsnorm_timing_01归档13原文件，八个collector源码SHA匹配95175f3，七轮/契约/双输出Key完整复现。Graph摊销median5.353559851646423us，min/max5.331159830093384/5.404760241508484，IQR/median0.6873858%。独立CPU review准入1条accepted，仅第0层组/GPU0/固定输入恢复契约；raw candidate不改。cost_model/kerv_add_rmsnorm_profile.py分离review与只读load_profile，复用既有KeyedKernelProfile，实际查询返回measured_group_kernel同值且不追加成本，其他组/设备/实现/布局/契约拒绝。新增9项、相关77项CPU测试通过。data/kerv_add_rmsnorm_timing_01/review保留profile/cost_query/receipt；说明[KERV测时](KERV_ADD_RMSNORM_TIMING.md)。本轮无GPU、拟合、搜索或默认配置修改；不扩大到36层/GPU1/完整方案，不需要重复此测量。

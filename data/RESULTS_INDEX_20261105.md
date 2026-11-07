@@ -80,3 +80,5 @@
 `kerv_add_rmsnorm_adapter_01`：GPU0第0层单组Adapter正确性回传，raw保留6文件，review有22项离线复核。36项布尔检查/双参考数值/唯一Kernel trace通过；无计时、Capture或Profile。见[KERV Adapter回传](../cost_model/KERV_ADD_RMSNORM_ADAPTER.md)。
 
 `kerv_add_rmsnorm_timing_plan_v1`：GPU0 AddRMS2048单Case Graph Replay成本采集的CPU计划，尚无GPU数据。固定50调用×7轮/10预热，恢复在计时外，条件候选而非自动准入。见[单Case测时](../cost_model/KERV_ADD_RMSNORM_TIMING.md)。
+
+`kerv_add_rmsnorm_timing_01`：GPU0第0层单组AddRMS Graph摊销成本回传，median5.353559851646423us，IQR/Median0.6873858%；13原文件和独立准入/查询证据。accepted新增1条，仅该Key/Contract/组/设备条件，成本查询返回measured_group_kernel；无默认搜索或整图覆盖变更。见[测时与准入](../cost_model/KERV_ADD_RMSNORM_TIMING.md)。

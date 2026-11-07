@@ -1,0 +1,103 @@
+{
+  "scope": "kerv_add_rmsnorm_gpu0_graph_timing_candidate_v1",
+  "adapter": {
+    "placed_sha256": "bf796c7375941449cf6764e59599f5e8357c52e013b2d64fc7de27dcc1b022be",
+    "group_index": 12,
+    "node_ids": [
+      "L000.residual_add_1",
+      "L000.pre_mlp_norm"
+    ],
+    "implementation": {
+      "id": "kerv.add_rmsnorm.adaptive.consume_x.dual_output.v1",
+      "version": "sha256:0ed1ba1f12ca4a7b6ca97eec8c5bdc62b024064420a1edac185bb3f02a64f022",
+      "entrypoint": "adaptive_rms_norm.add_rms_norm_inference",
+      "backend": "triton",
+      "kernel_source_sha256": "f9b3bafdd1a1c303627cf2dbe2561879155088f763c40c341cc997beed107f88",
+      "semantics": {
+        "shape": [
+          1,
+          256,
+          2048
+        ],
+        "dtype": "bf16",
+        "eps": 1e-06,
+        "eps_source": "explicit contract matching project Reference; not inferred from graph",
+        "input": "consume attention output; residual and weight read-only",
+        "outputs": "Add aliases consumed input; Norm is independently allocated",
+        "rounding": "BF16 add; FP32 reduction; BF16 normalized value before weight multiply",
+        "allocation": "vendor wrapper allocates normalized output",
+        "capture": "unverified",
+        "profile": "none"
+      }
+    },
+    "runtime_device": "cuda:0",
+    "gpu_mapping_previously_verified": false
+  },
+  "shape": [
+    1,
+    256,
+    2048
+  ],
+  "dtype": "bf16",
+  "source_sha256": "f9b3bafdd1a1c303627cf2dbe2561879155088f763c40c341cc997beed107f88",
+  "flagscale_revision": "f8e9a62c499d526a6ffa47f533bcf342330b7326",
+  "correctness_evidence_sha256": "3a26e3f3c25d40035be8af3c3f544e235424437915abb61e475432a0b856f008",
+  "collector_revision": "95175f30d2210e45f01f2d00e1d6c18c49a1abe4",
+  "collector_sources": {
+    "calibration/kerv_add_rmsnorm_timing.py": "c0f73dd29302e6d2fec527f7387d0d08b1f1c7703b191cc06acf5d3537956358",
+    "calibration/kerv_add_rmsnorm_probe.py": "8c16467dd3005fcb302ce6b9fd75c00d45e4155ca685eea7a75302653f9d5b44",
+    "integration/flagscale/kerv_add_rmsnorm.py": "0ed1ba1f12ca4a7b6ca97eec8c5bdc62b024064420a1edac185bb3f02a64f022",
+    "execution/reference_identity.py": "a6268c198a32ada680d9caea01ebd619e6bb958c6cfb728dfec4b8b80c08ee68",
+    "calibration/stage_size_calibration.py": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+    "calibration/lightop_profile_smoke.py": "caa6724246c1e559230cc2dc6ccdefaae72468cf7d7d385d760528a021a931d3",
+    "integration/flagscale/kerv_profile_runtime.py": "1fabeaa9fdf149d0b37bab1b65914fbd9a3bda17f5b7f41f3198f88963529bb2",
+    "tools/run_kerv_add_rmsnorm_timing.sh": "6a95d84cce3f33bab6177c34a181cdb40d8c3e0f7c70a3b8073bb8b6b6b193f8"
+  },
+  "pool": {
+    "pool_argument": null,
+    "selection": "default_private_pool",
+    "shared_with_other_graphs": false
+  },
+  "contract_template": {
+    "executor": "placed_kerv_add_rmsnorm_graph_replay",
+    "submission_included": false,
+    "allocation_included": false,
+    "mode": "graph_replay",
+    "granularity": "batch_amortized_complete_adapter_device_work",
+    "unit": "us/call",
+    "calls_per_replay": 50,
+    "rounds": 7,
+    "warmup_replays": 10,
+    "eager_preparation_calls": 50,
+    "statistic": "median",
+    "extra_attempts": 0,
+    "recipe": "consume_x_dual_output_graph_private_pool.v1",
+    "timing_boundary": "start Event -> one Graph replay -> end Event on the same stream",
+    "synchronization": "restore, validation and device synchronization outside Events",
+    "input_reuse": "50 independent x buffers; shared read-only residual/weight/source",
+    "restore": "restore all x exactly and invalidate normalized outputs before each replay; outside Events",
+    "allocation": "normalized allocations captured in private Graph pool; no eager allocation cost",
+    "excluded": [
+      "input restoration",
+      "input generation",
+      "validation",
+      "host submission",
+      "allocation"
+    ],
+    "cache_context": "isolated fixed-case replay; no full-chain cache equivalence claim",
+    "correctness": {
+      "rtol": 0.02,
+      "atol": 0.02
+    }
+  },
+  "quality": {
+    "attempts": 7,
+    "extra_attempts": 0,
+    "sample_replacement": false,
+    "iqr_method": "inclusive",
+    "max_iqr_over_median": 0.1,
+    "anchor_policy": "none, matching existing isolated-stage contract"
+  },
+  "automatic_admission": false,
+  "gpu_executed": false
+}

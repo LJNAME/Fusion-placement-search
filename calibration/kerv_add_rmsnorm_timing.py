@@ -98,7 +98,7 @@ def summarize(rows):
             "reasons": reasons, "samples_us": values}
 
 
-def kernel_identity(bound, observations, runtime, device):
+def kernel_identity(bound, observations, runtime, device, *, return_keys=False):
     """Use the existing canonical factory; UUID remains separate provenance."""
     graph, hardware = copy.deepcopy(bound.placed.graph), copy.deepcopy(bound.placed.hardware)
     ids = {"x": bound.x_node, "residual": bound.residual_node,
@@ -123,6 +123,8 @@ def kernel_identity(bound, observations, runtime, device):
     key, gaps = keys.describe(bound.placed.plan.groups[bound.index])
     if gaps:
         raise ValueError("incomplete canonical identity: " + ",".join(gaps))
+    if return_keys:
+        return keys
     return {"kernel_key": key, "kernel_key_id": key_id(key)}
 
 
