@@ -1,0 +1,49 @@
+{
+  "graph_fingerprint": "sha256:fc718571cb1f7e3d17d32e50401d81f6d465d410dd8f493e3e81305be3ba79ea",
+  "capacity_bytes": [
+    952811520.0,
+    952811520.0
+  ],
+  "budget": 64,
+  "seeds": [
+    0,
+    7,
+    23
+  ],
+  "methods": [
+    "joint_node",
+    "joint_hybrid",
+    "random_node",
+    "random_hybrid"
+  ],
+  "arms": [
+    "seed_only_original",
+    "guided"
+  ],
+  "source_sha256": {
+    "tools/evaluate_full_joint.py": "87b5890521afd724fe466fd59742e6afe102f0ee78f0c2e08da1a94ec9dce615",
+    "data/bw1000_2card/bw1000_2card.calibrated.json": "261c9a53afebcc1abc25032a8a7124a599f6b0873187cb020d6ad2dc67d5776e",
+    "tools/evaluate_stage_search.py": "caa770bf5b95b03231b23912550c3be8c249a64c8d30c334c432a91fc4b4a27f",
+    "tools/evaluate_branch_search.py": "4365845df201abed8882577e1ea754fe7188272f112def526df2b8a47930784b",
+    "cost_model/legal_search.py": "8df01f4f58d484ce1fb315580a45a0f6e29a2912fd8421ba73db8f195c8669ff",
+    "cost_model/htae.py": "39ce1e643d3b9299bebb7541ea2fc0c530e123fb4f87a8f1bc96142215fdbad8",
+    "cost_model/structural.py": "e22f0cf2539588954e419d221282356f52d4d8751e95b50b97ab041af94a6ada",
+    "cost_model/fusion_library.py": "400487fb10eb734cd20d2aaea5dd78c08d14170b29871d99f2baa2f8890cea4d",
+    "cost_model/hardware_profile.py": "33731499225327a9ed216cd591d08ca004bd99d02da7e84779cc30f6f8b95c52",
+    "cost_model/search_evaluation.py": "d6a08dcbae10ded7060daa200968324a06ae65b2bce2aa9b34a6e1b2e0d1d600",
+    "simulator/model_graphs/transformer.py": "7ba8ab0bd06839ee3611911b61ca2a6b2993622b18c623fd450919184ca0d85b",
+    "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead",
+    "simulator/schema.py": "b3bd894e7565eb0a96f230fe4103c5b697ba84cc266edd96735ad226284ab325",
+    "simulator/shape_model.py": "d80fe667316d740fd58b7fc28241d97162fd9e9a500e6d5342f7a92d08145b73",
+    "data/fusion_library_lightop_v1/manifest.json": "bdd0a7acb8787240d74f0c30764f8eef662eae5102cce52ef1d2b241a0aa5215",
+    "data/fusion_library_lightop_v1/calibration.json": "159f7c94a1439bff39f5dc4ea313c6161cf2ab82c86a4882feca2513652e143b",
+    "cost_model/forward_feasibility.py": "00fd0589b652f074b213ac2f074ed0a23cda66b2aa99164cab5a5f38b8e44a8a",
+    "tools/audit_qwen3_feasibility.py": "830f547070ba2a247f411c9568238913fe24f6ca5ca14af09501870a833e950e"
+  },
+  "shared_prior": "same saved all-native feasible witness for every method and arm, scored at evaluation 3",
+  "preregistered_difference": "guided arm only adds sound partial lower-bound action filter; no cost/UCT/rollout probability changes",
+  "budget_contract": "two Native initializations + shared witness + remaining distinct actual model calls; no free timing queries",
+  "parent_unseeded_reference": "data\\full_joint_models_v1",
+  "witness_generation": "reused fixed constructor, one extra CPU validation; never selects best of new probes",
+  "objective": "existing forward predicted makespan, not training or GPU deployment"
+}

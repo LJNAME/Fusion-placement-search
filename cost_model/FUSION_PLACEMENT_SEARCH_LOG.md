@@ -248,3 +248,12 @@ P1核对旧比较记录未见同实现同契约的融合偏好翻转；kerv_prof
 free中位：Qwen3 Joint原／混合10.12396ms，两个Random10.18784；3B四法29.37739。cap75：Qwen3原Joint10.24017、混合无可行0/3、Random原26.49267、Random混合无可行0/3；3B依次47.04910／30.23505／47.26194／30.50624ms，混合较原Joint低35.74%，较同域Random仅0.89%、逐种子只赢1/3。不得将空间收益等同于树策略稳定优势。最低已知参考9.95933／10.07620／29.06952／29.19805ms，非Exact；3B cap75混合仍差3.5516%。
 
 事后一个Qwen3混合合法见证：分支全1、主干全0、Native，峰值918093824／355467264B低于952811520B，15.87973ms。说明空间有解但64预算没找到；不注入原实验。共享head绑定与主干不可返回共同阻止切分，半层参考在L014.input不属于混合域。成本为当前解析L1＋旧LightOP校准，AddRMS仍uncalibrated，不是旧严格KERV实测模式。21项CPU测试通过；48轨迹、唯一计费、源码／图／最优导出SHA及可行incumbent离线检查通过，无重复跑全矩阵。说明FULL_QWEN_JOINT_EXPERIMENT.md；data/full_joint_models_v1含全部轨迹和方案，README／SROP／transfer原改动保留。
+## 2026-11-09：Qwen3 cap75可行性专项审计
+
+复用原构造witness：MLP分支全GPU1、主干全GPU0、Native，591合法动作回放，峰值918093824／355467264B低于每卡952811520B，15.879726629ms。完整设备及融合选择保存在data/qwen3_feasibility_audit_v1/witness_plan.json和witness.json。只做一次CPU验证，无新GPU或Exact。
+
+ForwardResidentBound识别共享首尾权重＋主干不可返回，强制主干839778304B与末端输出77791232B同卡，下界917569536B；剩35241984B，每分支6291456B，56分支至多5个本卡，至少51个外放。默认SiLU×Mul融合会通过join／branch绑定把gate参数拉回本卡。三个原混合Joint树前缀最深16、尚未绑定MLP分支、被证明无解树前缀rollout为0；失败发生在补全，第56动作的第6本卡分支即必然超限。不得归因于共享权重违规或树早期全无解。
+
+新增默认关闭partial_prune动作过滤，扩展与rollout共用，不改UCT／Q／概率或成本。四法×三种子×仅witness／witness加过滤共24运行，每次仍64个实评（Native两项＋共同witness一项＋61后续），所有方法同先验。混合Joint后续可行0→61/61、中位15.879727→15.132347ms；同域Random同样0→61/61、15.879727→15.132019ms，Joint逐种子只赢1/3。原逐节点Joint仍10.240171ms，混合域质量损失未解决，不宣称树优势或默认全面替换。各算法都有共同兜底，不能把初始化成功归因于机制。
+
+59项相关CPU测试、小图穷举下界无误删、24运行1536实评与最佳图检查通过；12条仅witness控制去掉计费第3项后，与旧前63条候选／成本／峰值／可行性一致。源码／成本冻结，全部评分共享权重违规0；原数据不改。入口tools/audit_qwen3_feasibility.py和summarize_qwen3_feasibility.py，说明QWEN3_FEASIBILITY_AUDIT.md。README／SROP／transfer原改动保留。

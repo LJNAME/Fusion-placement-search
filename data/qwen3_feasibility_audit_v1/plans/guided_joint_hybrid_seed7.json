@@ -1,0 +1,6626 @@
+{
+  "name": "legal-mcts-rollout",
+  "extra": {
+    "search_space": "legal_fusion_v1",
+    "require_executable": true,
+    "allowed_devices": [
+      0,
+      1
+    ],
+    "placement_policy": "hybrid",
+    "stage_devices": [
+      0
+    ],
+    "cut_indices": [],
+    "branch_regions": [
+      {
+        "fork": "L000.pre_mlp_norm",
+        "join": "L000.mlp.gated_mul",
+        "branches": [
+          [
+            "L000.mlp.gate_proj",
+            "L000.mlp.silu"
+          ],
+          [
+            "L000.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L001.pre_mlp_norm",
+        "join": "L001.mlp.gated_mul",
+        "branches": [
+          [
+            "L001.mlp.gate_proj",
+            "L001.mlp.silu"
+          ],
+          [
+            "L001.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L002.pre_mlp_norm",
+        "join": "L002.mlp.gated_mul",
+        "branches": [
+          [
+            "L002.mlp.gate_proj",
+            "L002.mlp.silu"
+          ],
+          [
+            "L002.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L003.pre_mlp_norm",
+        "join": "L003.mlp.gated_mul",
+        "branches": [
+          [
+            "L003.mlp.gate_proj",
+            "L003.mlp.silu"
+          ],
+          [
+            "L003.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L004.pre_mlp_norm",
+        "join": "L004.mlp.gated_mul",
+        "branches": [
+          [
+            "L004.mlp.gate_proj",
+            "L004.mlp.silu"
+          ],
+          [
+            "L004.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L005.pre_mlp_norm",
+        "join": "L005.mlp.gated_mul",
+        "branches": [
+          [
+            "L005.mlp.gate_proj",
+            "L005.mlp.silu"
+          ],
+          [
+            "L005.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L006.pre_mlp_norm",
+        "join": "L006.mlp.gated_mul",
+        "branches": [
+          [
+            "L006.mlp.gate_proj",
+            "L006.mlp.silu"
+          ],
+          [
+            "L006.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L007.pre_mlp_norm",
+        "join": "L007.mlp.gated_mul",
+        "branches": [
+          [
+            "L007.mlp.gate_proj",
+            "L007.mlp.silu"
+          ],
+          [
+            "L007.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L008.pre_mlp_norm",
+        "join": "L008.mlp.gated_mul",
+        "branches": [
+          [
+            "L008.mlp.gate_proj",
+            "L008.mlp.silu"
+          ],
+          [
+            "L008.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L009.pre_mlp_norm",
+        "join": "L009.mlp.gated_mul",
+        "branches": [
+          [
+            "L009.mlp.gate_proj",
+            "L009.mlp.silu"
+          ],
+          [
+            "L009.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L010.pre_mlp_norm",
+        "join": "L010.mlp.gated_mul",
+        "branches": [
+          [
+            "L010.mlp.gate_proj",
+            "L010.mlp.silu"
+          ],
+          [
+            "L010.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L011.pre_mlp_norm",
+        "join": "L011.mlp.gated_mul",
+        "branches": [
+          [
+            "L011.mlp.gate_proj",
+            "L011.mlp.silu"
+          ],
+          [
+            "L011.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L012.pre_mlp_norm",
+        "join": "L012.mlp.gated_mul",
+        "branches": [
+          [
+            "L012.mlp.gate_proj",
+            "L012.mlp.silu"
+          ],
+          [
+            "L012.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L013.pre_mlp_norm",
+        "join": "L013.mlp.gated_mul",
+        "branches": [
+          [
+            "L013.mlp.gate_proj",
+            "L013.mlp.silu"
+          ],
+          [
+            "L013.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L014.pre_mlp_norm",
+        "join": "L014.mlp.gated_mul",
+        "branches": [
+          [
+            "L014.mlp.gate_proj",
+            "L014.mlp.silu"
+          ],
+          [
+            "L014.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L015.pre_mlp_norm",
+        "join": "L015.mlp.gated_mul",
+        "branches": [
+          [
+            "L015.mlp.gate_proj",
+            "L015.mlp.silu"
+          ],
+          [
+            "L015.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L016.pre_mlp_norm",
+        "join": "L016.mlp.gated_mul",
+        "branches": [
+          [
+            "L016.mlp.gate_proj",
+            "L016.mlp.silu"
+          ],
+          [
+            "L016.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L017.pre_mlp_norm",
+        "join": "L017.mlp.gated_mul",
+        "branches": [
+          [
+            "L017.mlp.gate_proj",
+            "L017.mlp.silu"
+          ],
+          [
+            "L017.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L018.pre_mlp_norm",
+        "join": "L018.mlp.gated_mul",
+        "branches": [
+          [
+            "L018.mlp.gate_proj",
+            "L018.mlp.silu"
+          ],
+          [
+            "L018.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L019.pre_mlp_norm",
+        "join": "L019.mlp.gated_mul",
+        "branches": [
+          [
+            "L019.mlp.gate_proj",
+            "L019.mlp.silu"
+          ],
+          [
+            "L019.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L020.pre_mlp_norm",
+        "join": "L020.mlp.gated_mul",
+        "branches": [
+          [
+            "L020.mlp.gate_proj",
+            "L020.mlp.silu"
+          ],
+          [
+            "L020.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L021.pre_mlp_norm",
+        "join": "L021.mlp.gated_mul",
+        "branches": [
+          [
+            "L021.mlp.gate_proj",
+            "L021.mlp.silu"
+          ],
+          [
+            "L021.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L022.pre_mlp_norm",
+        "join": "L022.mlp.gated_mul",
+        "branches": [
+          [
+            "L022.mlp.gate_proj",
+            "L022.mlp.silu"
+          ],
+          [
+            "L022.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L023.pre_mlp_norm",
+        "join": "L023.mlp.gated_mul",
+        "branches": [
+          [
+            "L023.mlp.gate_proj",
+            "L023.mlp.silu"
+          ],
+          [
+            "L023.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L024.pre_mlp_norm",
+        "join": "L024.mlp.gated_mul",
+        "branches": [
+          [
+            "L024.mlp.gate_proj",
+            "L024.mlp.silu"
+          ],
+          [
+            "L024.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L025.pre_mlp_norm",
+        "join": "L025.mlp.gated_mul",
+        "branches": [
+          [
+            "L025.mlp.gate_proj",
+            "L025.mlp.silu"
+          ],
+          [
+            "L025.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L026.pre_mlp_norm",
+        "join": "L026.mlp.gated_mul",
+        "branches": [
+          [
+            "L026.mlp.gate_proj",
+            "L026.mlp.silu"
+          ],
+          [
+            "L026.mlp.up_proj"
+          ]
+        ]
+      },
+      {
+        "fork": "L027.pre_mlp_norm",
+        "join": "L027.mlp.gated_mul",
+        "branches": [
+          [
+            "L027.mlp.gate_proj",
+            "L027.mlp.silu"
+          ],
+          [
+            "L027.mlp.up_proj"
+          ]
+        ]
+      }
+    ],
+    "stage_scope": "trunk_only"
+  },
+  "groups": [
+    {
+      "device": 0,
+      "node_ids": [
+        "embedding"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.residual_add_1",
+        "L000.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L000.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L000.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L000.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L000.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.residual_add_1",
+        "L001.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L001.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.mlp.silu",
+        "L001.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "lightop_silu_mul",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L001.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.residual_add_1",
+        "L002.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L002.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L002.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L002.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L002.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.residual_add_1",
+        "L003.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L003.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L003.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.residual_add_1",
+        "L004.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L004.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.mlp.silu",
+        "L004.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "lightop_silu_mul",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L004.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.residual_add_1",
+        "L005.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L005.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L005.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L005.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.residual_add_1",
+        "L006.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L006.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L006.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.residual_add_1"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L007.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L007.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L007.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L007.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.residual_add_1",
+        "L008.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L008.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L008.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L008.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L008.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.residual_add_1",
+        "L009.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L009.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L009.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L009.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L009.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.residual_add_1",
+        "L010.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L010.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L010.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L010.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L010.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.residual_add_1",
+        "L011.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L011.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L011.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L011.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L011.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.residual_add_1"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L012.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L012.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L012.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L012.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.residual_add_1",
+        "L013.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L013.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L013.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L013.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L013.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.residual_add_1",
+        "L014.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L014.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L014.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L014.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L014.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.residual_add_1"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L015.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L015.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L015.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L015.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.residual_add_1",
+        "L016.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L016.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L016.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L016.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L016.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.residual_add_1",
+        "L017.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L017.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L017.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L017.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L017.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.residual_add_1",
+        "L018.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L018.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L018.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L018.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L018.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.residual_add_1",
+        "L019.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L019.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L019.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L019.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L019.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.residual_add_1",
+        "L020.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L020.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L020.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L020.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L020.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.residual_add_1",
+        "L021.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L021.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L021.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L021.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L021.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.residual_add_1",
+        "L022.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L022.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L022.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L022.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L022.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.residual_add_1"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L023.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L023.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L023.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L023.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.residual_add_1",
+        "L024.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L024.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L024.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L024.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L024.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.residual_add_1",
+        "L025.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L025.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L025.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L025.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L025.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.residual_add_1",
+        "L026.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L026.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L026.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L026.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L026.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.input"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.input_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.self_attention.k_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.self_attention.k_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.self_attention.k_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.self_attention.q_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.self_attention.q_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.self_attention.q_rope"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.self_attention.qk_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.self_attention.softmax"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.self_attention.v_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.self_attention.av_matmul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.self_attention.out_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.residual_add_1",
+        "L027.pre_mlp_norm"
+      ],
+      "extra": {
+        "pattern_id": "lightop_add_rmsnorm",
+        "backend": "lightop",
+        "implementation_status": "implemented"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L027.mlp.gate_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L027.mlp.silu"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 1,
+      "node_ids": [
+        "L027.mlp.up_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.mlp.gated_mul"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.mlp.down_proj"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "L027.residual_add_2"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "final_norm"
+      ],
+      "extra": {
+        "pattern_id": "rmsnorm_reference",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    },
+    {
+      "device": 0,
+      "node_ids": [
+        "lm_head"
+      ],
+      "extra": {
+        "pattern_id": "unfused",
+        "backend": "reference",
+        "implementation_status": "reference"
+      }
+    }
+  ]
+}

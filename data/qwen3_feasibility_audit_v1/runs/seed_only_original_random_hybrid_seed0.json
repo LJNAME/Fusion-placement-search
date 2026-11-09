@@ -1,0 +1,4639 @@
+{
+  "method": "random_hybrid",
+  "seed": 0,
+  "guided": false,
+  "budget_used": 64,
+  "unique_candidates": 64,
+  "first_feasible_evaluation": 3,
+  "initial_best_ms": 15.879726628793996,
+  "best": {
+    "evaluation": 3,
+    "phase": "shared_witness",
+    "makespan_ms": 15.879726628793996,
+    "feasible": true,
+    "peak_memory_bytes": [
+      918093824.0,
+      355467264.0
+    ],
+    "cross_device_edges": 112,
+    "cross_device_bytes": 117440512.0,
+    "fused_groups": 0,
+    "best_ms": 15.879726628793996,
+    "compute_overlap_us": 0.0,
+    "branch_overlap_us": 0.0,
+    "branch_overlap_fraction": 0.0,
+    "max_compute_devices": 1,
+    "max_parallel_branch_devices": 1,
+    "candidate_id": "e7debbe629908590adf7c76ff317a2dd9c85908c199d29e4ddc8ccfe5bdc290e",
+    "cost_sources": {
+      "analytic_roofline": 563,
+      "logical_input": 28
+    },
+    "fused_patterns": {},
+    "nodes_per_device": {
+      "0": 507,
+      "1": 84
+    },
+    "lower_bound": {
+      "peak_lower_bound_bytes": [
+        917569536.0,
+        352321536.0
+      ],
+      "forced_parameter_bytes": [
+        839778304.0,
+        352321536.0
+      ],
+      "overflow_devices": [],
+      "trunk_pinned": true,
+      "owner": 0,
+      "branch_units_bound": 56,
+      "branch_units_on_owner": 0,
+      "assigned_nodes": 591,
+      "depth": 591
+    },
+    "selected_prefix": null,
+    "tied_weight_violation": false,
+    "fusion_plan_valid": true
+  },
+  "first_final_best_evaluation": 3,
+  "feasible_evaluations": 1,
+  "feasible_after_initialization": 0,
+  "lower_bound_rejectable_evaluations": 61,
+  "rollout_observations": 61,
+  "rollouts_from_proved_dead_tree_prefix": 0,
+  "first_certain_dead_prefix": {
+    "peak_lower_bound_bytes": [
+      88080384.0,
+      955318272.0
+    ],
+    "forced_parameter_bytes": [
+      88080384.0,
+      877527040.0
+    ],
+    "overflow_devices": [
+      1
+    ],
+    "trunk_pinned": true,
+    "owner": 1,
+    "branch_units_bound": 20,
+    "branch_units_on_owner": 6,
+    "assigned_nodes": 208,
+    "depth": 198,
+    "last_choice": {
+      "nodes": [
+        "L009.mlp.up_proj"
+      ],
+      "device": 1
+    },
+    "note": "all completions of this prefix exceed a proved memory lower bound"
+  },
+  "invalid_shared_weight_plans": 0,
+  "all_64_fusion_plans_valid": true,
+  "pruning": null,
+  "random_draws": 61,
+  "dead_end_rollouts": 0,
+  "elapsed_s": 15.90030849998584,
+  "trace": [
+    {
+      "evaluation": 1,
+      "phase": "initialization",
+      "makespan_ms": 10.18784328649951,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1270415360.0,
+        0.0
+      ],
+      "cross_device_edges": 0,
+      "cross_device_bytes": 0.0,
+      "fused_groups": 0,
+      "best_ms": null,
+      "compute_overlap_us": 0.0,
+      "branch_overlap_us": 0.0,
+      "branch_overlap_fraction": 0.0,
+      "max_compute_devices": 1,
+      "max_parallel_branch_devices": 1,
+      "candidate_id": "ff03de0d13a8328c68c49424709fe9bf874cf3ac5f63197994ac20013988de7c",
+      "cost_sources": {
+        "analytic_roofline": 563,
+        "logical_input": 28
+      },
+      "fused_patterns": {},
+      "nodes_per_device": {
+        "0": 591
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1269891072.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          1192099840.0,
+          0.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 56,
+        "assigned_nodes": 591,
+        "depth": 591
+      },
+      "selected_prefix": null,
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 2,
+      "phase": "initialization",
+      "makespan_ms": 10.191654000643403,
+      "feasible": false,
+      "peak_memory_bytes": [
+        0.0,
+        1270415360.0
+      ],
+      "cross_device_edges": 0,
+      "cross_device_bytes": 0.0,
+      "fused_groups": 0,
+      "best_ms": null,
+      "compute_overlap_us": 0.0,
+      "branch_overlap_us": 0.0,
+      "branch_overlap_fraction": 0.0,
+      "max_compute_devices": 1,
+      "max_parallel_branch_devices": 1,
+      "candidate_id": "ee7e78661bec367a68115a3f1eb61a8405cec19623e920cae7faa0687e166ff1",
+      "cost_sources": {
+        "analytic_roofline": 563,
+        "logical_input": 28
+      },
+      "fused_patterns": {},
+      "nodes_per_device": {
+        "1": 591
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          1269891072.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          1192099840.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 56,
+        "assigned_nodes": 591,
+        "depth": 591
+      },
+      "selected_prefix": null,
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 3,
+      "phase": "shared_witness",
+      "makespan_ms": 15.879726628793996,
+      "feasible": true,
+      "peak_memory_bytes": [
+        918093824.0,
+        355467264.0
+      ],
+      "cross_device_edges": 112,
+      "cross_device_bytes": 117440512.0,
+      "fused_groups": 0,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 0.0,
+      "branch_overlap_us": 0.0,
+      "branch_overlap_fraction": 0.0,
+      "max_compute_devices": 1,
+      "max_parallel_branch_devices": 1,
+      "candidate_id": "e7debbe629908590adf7c76ff317a2dd9c85908c199d29e4ddc8ccfe5bdc290e",
+      "cost_sources": {
+        "analytic_roofline": 563,
+        "logical_input": 28
+      },
+      "fused_patterns": {},
+      "nodes_per_device": {
+        "0": 507,
+        "1": 84
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          917569536.0,
+          352321536.0
+        ],
+        "forced_parameter_bytes": [
+          839778304.0,
+          352321536.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 0,
+        "assigned_nodes": 591,
+        "depth": 591
+      },
+      "selected_prefix": null,
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 4,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.077244990089467,
+      "feasible": false,
+      "peak_memory_bytes": [
+        198180864.0,
+        1075380224.0
+      ],
+      "cross_device_edges": 62,
+      "cross_device_bytes": 65011712.0,
+      "fused_groups": 25,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 437.4291614558758,
+      "branch_overlap_us": 437.4291614558758,
+      "branch_overlap_fraction": 0.03344964186167496,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "62a14a531f9beafaa10b51db15d5342276d93300e4b65022e4984fe3a1b8f430",
+      "cost_sources": {
+        "analytic_roofline": 513,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 17,
+        "analytic_roofline+fusion_calibrated": 8
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 17,
+        "lightop_silu_mul": 8
+      },
+      "nodes_per_device": {
+        "1": 545,
+        "0": 46
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          195035136.0,
+          1074855936.0
+        ],
+        "forced_parameter_bytes": [
+          195035136.0,
+          997064704.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 25,
+        "assigned_nodes": 591,
+        "depth": 566
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 5,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.166209424865594,
+      "feasible": false,
+      "peak_memory_bytes": [
+        204472320.0,
+        1069088768.0
+      ],
+      "cross_device_edges": 64,
+      "cross_device_bytes": 67108864.0,
+      "fused_groups": 26,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 408.27401234695304,
+      "branch_overlap_us": 408.27401234695304,
+      "branch_overlap_fraction": 0.031009229700986688,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "95f31cb0d46c72f29db4764c4ca10f9eceb06b86365facb88271d0f95b82ef32",
+      "cost_sources": {
+        "analytic_roofline": 511,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 19,
+        "analytic_roofline+fusion_calibrated": 7
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 19,
+        "lightop_silu_mul": 7
+      },
+      "nodes_per_device": {
+        "1": 543,
+        "0": 48
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          201326592.0,
+          1068564480.0
+        ],
+        "forced_parameter_bytes": [
+          201326592.0,
+          990773248.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 24,
+        "assigned_nodes": 591,
+        "depth": 565
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 6,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.321027105046966,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1125711872.0,
+        147849216.0
+      ],
+      "cross_device_edges": 46,
+      "cross_device_bytes": 48234496.0,
+      "fused_groups": 32,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 379.0606204825814,
+      "branch_overlap_us": 379.0606204825814,
+      "branch_overlap_fraction": 0.03076534263343271,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "fb0613060e354ea344862fe55ab478b4924a22d859ef0ec27dd75a72da1f04e4",
+      "cost_sources": {
+        "analytic_roofline": 499,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 17,
+        "analytic_roofline+fusion_calibrated": 15
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 17,
+        "lightop_silu_mul": 15
+      },
+      "nodes_per_device": {
+        "0": 559,
+        "1": 32
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1125187584.0,
+          144703488.0
+        ],
+        "forced_parameter_bytes": [
+          1047396352.0,
+          144703488.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 33,
+        "assigned_nodes": 591,
+        "depth": 559
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 7,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.35927627181484,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1119420416.0,
+        154140672.0
+      ],
+      "cross_device_edges": 48,
+      "cross_device_bytes": 50331648.0,
+      "fused_groups": 30,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 408.21576959150303,
+      "branch_overlap_us": 408.21576959150303,
+      "branch_overlap_fraction": 0.033029099812456934,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "1b1ff1254c20700560bcb2c72206c96936bc202aaccd2516162bfe47e0cc582d",
+      "cost_sources": {
+        "analytic_roofline": 503,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 10,
+        "analytic_roofline+uncalibrated_fusion": 20
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 10,
+        "lightop_add_rmsnorm": 20
+      },
+      "nodes_per_device": {
+        "0": 556,
+        "1": 35
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1118896128.0,
+          150994944.0
+        ],
+        "forced_parameter_bytes": [
+          1041104896.0,
+          150994944.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 32,
+        "assigned_nodes": 591,
+        "depth": 561
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 8,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.748203084051543,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1094254592.0,
+        179306496.0
+      ],
+      "cross_device_edges": 56,
+      "cross_device_bytes": 58720256.0,
+      "fused_groups": 27,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 408.21576959150315,
+      "branch_overlap_us": 408.21576959150315,
+      "branch_overlap_fraction": 0.032021436032988494,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "460cb72701a13541387f566caafda6c03da5ac0d97bf689abcd17fb4ebc1cd14",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 20,
+        "analytic_roofline+fusion_calibrated": 7
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 20,
+        "lightop_silu_mul": 7
+      },
+      "nodes_per_device": {
+        "0": 548,
+        "1": 43
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1093730304.0,
+          176160768.0
+        ],
+        "forced_parameter_bytes": [
+          1015939072.0,
+          176160768.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 28,
+        "assigned_nodes": 591,
+        "depth": 564
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 9,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.055133007198496,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1081671680.0,
+        191889408.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 18,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 291.56605177808814,
+      "branch_overlap_us": 291.56605177808814,
+      "branch_overlap_fraction": 0.022333441690507556,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "d422fbbb2d23212b0a45418c8712c2aa8533c9f99ee99049c378702816149b06",
+      "cost_sources": {
+        "analytic_roofline": 527,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 13,
+        "analytic_roofline+fusion_calibrated": 5
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 13,
+        "lightop_silu_mul": 5
+      },
+      "nodes_per_device": {
+        "0": 545,
+        "1": 46
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1081147392.0,
+          188743680.0
+        ],
+        "forced_parameter_bytes": [
+          1003356160.0,
+          188743680.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 573
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 10,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.290240019473679,
+      "feasible": false,
+      "peak_memory_bytes": [
+        210763776.0,
+        1062797312.0
+      ],
+      "cross_device_edges": 66,
+      "cross_device_bytes": 69206016.0,
+      "fused_groups": 28,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 320.79400433132395,
+      "branch_overlap_us": 320.79400433132395,
+      "branch_overlap_fraction": 0.0241375628928655,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "a41f51f921eb7072205c8842bec8e1c0ec10b58a753233f790663b5ea7cd678e",
+      "cost_sources": {
+        "analytic_roofline": 507,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 7,
+        "analytic_roofline+uncalibrated_fusion": 21
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 7,
+        "lightop_add_rmsnorm": 21
+      },
+      "nodes_per_device": {
+        "1": 541,
+        "0": 50
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          207618048.0,
+          1062273024.0
+        ],
+        "forced_parameter_bytes": [
+          207618048.0,
+          984481792.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 23,
+        "assigned_nodes": 591,
+        "depth": 563
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 11,
+      "phase": "seed_only_original",
+      "makespan_ms": 11.948463355156282,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1144586240.0,
+        128974848.0
+      ],
+      "cross_device_edges": 40,
+      "cross_device_bytes": 41943040.0,
+      "fused_groups": 33,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 408.18664821377905,
+      "branch_overlap_us": 408.18664821377905,
+      "branch_overlap_fraction": 0.03416227142192546,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "e38c6ed5f41ee37bc8e7d8d827f78db37cd2d6521eb161da2b6aeb3238fbcee1",
+      "cost_sources": {
+        "analytic_roofline": 497,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 23,
+        "analytic_roofline+fusion_calibrated": 10
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 23,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "0": 559,
+        "1": 32
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1144061952.0,
+          125829120.0
+        ],
+        "forced_parameter_bytes": [
+          1066270720.0,
+          125829120.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 36,
+        "assigned_nodes": 591,
+        "depth": 558
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 12,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.754828169811065,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1094254592.0,
+        179306496.0
+      ],
+      "cross_device_edges": 56,
+      "cross_device_bytes": 58720256.0,
+      "fused_groups": 29,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 349.920032062522,
+      "branch_overlap_us": 349.920032062522,
+      "branch_overlap_fraction": 0.02743431956933257,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "c786dd5cb015c79334a09f7497f92987b655fa7fcc4ee3c2057cff47ad9c626b",
+      "cost_sources": {
+        "analytic_roofline": 505,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 21,
+        "analytic_roofline+fusion_calibrated": 8
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 21,
+        "lightop_silu_mul": 8
+      },
+      "nodes_per_device": {
+        "0": 550,
+        "1": 41
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1093730304.0,
+          176160768.0
+        ],
+        "forced_parameter_bytes": [
+          1015939072.0,
+          176160768.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 28,
+        "assigned_nodes": 591,
+        "depth": 562
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 13,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.83300158879034,
+      "feasible": false,
+      "peak_memory_bytes": [
+        179306496.0,
+        1094254592.0
+      ],
+      "cross_device_edges": 56,
+      "cross_device_bytes": 58720256.0,
+      "fused_groups": 27,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 466.6134319425245,
+      "branch_overlap_us": 466.6134319425245,
+      "branch_overlap_fraction": 0.036360428128530166,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "142d5a3ae3fd81f425db5f34935b2084a9ed16fe70f1dc8685d0af9c30ed8094",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 15,
+        "analytic_roofline+fusion_calibrated": 12
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 15,
+        "lightop_silu_mul": 12
+      },
+      "nodes_per_device": {
+        "1": 548,
+        "0": 43
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          176160768.0,
+          1093730304.0
+        ],
+        "forced_parameter_bytes": [
+          176160768.0,
+          1015939072.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 28,
+        "assigned_nodes": 591,
+        "depth": 564
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 14,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.980565505506233,
+      "feasible": false,
+      "peak_memory_bytes": [
+        191889408.0,
+        1081671680.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 31,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 408.3031337246774,
+      "branch_overlap_us": 408.3031337246774,
+      "branch_overlap_fraction": 0.03145495730147343,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "1209562daca33312a25743fbcde7107a937a6cd433e32d74489bbc19ff26df05",
+      "cost_sources": {
+        "analytic_roofline": 501,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 22,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 22,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "1": 544,
+        "0": 47
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          188743680.0,
+          1081147392.0
+        ],
+        "forced_parameter_bytes": [
+          188743680.0,
+          1003356160.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 560
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 15,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.339773171303932,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1062797312.0,
+        210763776.0
+      ],
+      "cross_device_edges": 66,
+      "cross_device_bytes": 69206016.0,
+      "fused_groups": 24,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 320.7066401981484,
+      "branch_overlap_us": 320.7066401981484,
+      "branch_overlap_fraction": 0.024041386317425674,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "f2efac424129cbd14aa5b88d5ad131ea29ad3614f7aa24bc6a902640a4919c4c",
+      "cost_sources": {
+        "analytic_roofline": 515,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 17,
+        "analytic_roofline+fusion_calibrated": 7
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 17,
+        "lightop_silu_mul": 7
+      },
+      "nodes_per_device": {
+        "0": 540,
+        "1": 51
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1062273024.0,
+          207618048.0
+        ],
+        "forced_parameter_bytes": [
+          984481792.0,
+          207618048.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 23,
+        "assigned_nodes": 591,
+        "depth": 567
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 16,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.116685557703171,
+      "feasible": false,
+      "peak_memory_bytes": [
+        198180864.0,
+        1075380224.0
+      ],
+      "cross_device_edges": 62,
+      "cross_device_bytes": 65011712.0,
+      "fused_groups": 32,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 320.79400433132275,
+      "branch_overlap_us": 320.79400433132275,
+      "branch_overlap_fraction": 0.02445694096424586,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "aee9fb2f4256f347d5c315b608acddd4cefbee032f5cc47e950970c86d406ac5",
+      "cost_sources": {
+        "analytic_roofline": 499,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 22,
+        "analytic_roofline+fusion_calibrated": 10
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 22,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "1": 544,
+        "0": 47
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          195035136.0,
+          1074855936.0
+        ],
+        "forced_parameter_bytes": [
+          195035136.0,
+          997064704.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 25,
+        "assigned_nodes": 591,
+        "depth": 559
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 17,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.550309057622263,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1106837504.0,
+        166723584.0
+      ],
+      "cross_device_edges": 52,
+      "cross_device_bytes": 54525952.0,
+      "fused_groups": 32,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 524.836366027193,
+      "branch_overlap_us": 524.836366027193,
+      "branch_overlap_fraction": 0.0418186009298664,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "bee7af405951f884e5fe85f52cd234cf180f3156eaae13d8ce047e518be04b3a",
+      "cost_sources": {
+        "analytic_roofline": 499,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 19,
+        "analytic_roofline+fusion_calibrated": 13
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 19,
+        "lightop_silu_mul": 13
+      },
+      "nodes_per_device": {
+        "0": 553,
+        "1": 38
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1106313216.0,
+          163577856.0
+        ],
+        "forced_parameter_bytes": [
+          1028521984.0,
+          163577856.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 30,
+        "assigned_nodes": 591,
+        "depth": 559
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 18,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.60334563834819,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1100546048.0,
+        173015040.0
+      ],
+      "cross_device_edges": 54,
+      "cross_device_bytes": 56623104.0,
+      "fused_groups": 31,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 495.6957776071336,
+      "branch_overlap_us": 495.6957776071336,
+      "branch_overlap_fraction": 0.039330491429107564,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "6f27028a4d27ecded04037adcbe293336836d0a2ef5f44afda81ee7038046988",
+      "cost_sources": {
+        "analytic_roofline": 501,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 22,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 22,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "0": 551,
+        "1": 40
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1100021760.0,
+          169869312.0
+        ],
+        "forced_parameter_bytes": [
+          1022230528.0,
+          169869312.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 29,
+        "assigned_nodes": 591,
+        "depth": 560
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 19,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.50926241471475,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1106837504.0,
+        166723584.0
+      ],
+      "cross_device_edges": 52,
+      "cross_device_bytes": 54525952.0,
+      "fused_groups": 30,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 466.5551891870752,
+      "branch_overlap_us": 466.5551891870752,
+      "branch_overlap_fraction": 0.037296778476584073,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "0a1163a98575c8c17fa1758b29bdbd183b401c281daa67b082079e751f35aee0",
+      "cost_sources": {
+        "analytic_roofline": 503,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 21,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 21,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "0": 553,
+        "1": 38
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1106313216.0,
+          163577856.0
+        ],
+        "forced_parameter_bytes": [
+          1028521984.0,
+          163577856.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 30,
+        "assigned_nodes": 591,
+        "depth": 561
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 20,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.726795671553969,
+      "feasible": false,
+      "peak_memory_bytes": [
+        173015040.0,
+        1100546048.0
+      ],
+      "cross_device_edges": 54,
+      "cross_device_bytes": 56623104.0,
+      "fused_groups": 27,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 320.8231257090478,
+      "branch_overlap_us": 320.8231257090478,
+      "branch_overlap_fraction": 0.02520847619374678,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "1006cb6185a8a503d09c8e6a09c91baef804490c03c0b25b90209ce9702ccd8f",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 18,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 18,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "1": 548,
+        "0": 43
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          169869312.0,
+          1100021760.0
+        ],
+        "forced_parameter_bytes": [
+          169869312.0,
+          1022230528.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 29,
+        "assigned_nodes": 591,
+        "depth": 564
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 21,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.494584546133096,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1113128960.0,
+        160432128.0
+      ],
+      "cross_device_edges": 50,
+      "cross_device_bytes": 52428800.0,
+      "fused_groups": 30,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 379.0460597937191,
+      "branch_overlap_us": 379.0460597937191,
+      "branch_overlap_fraction": 0.03033682779881054,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "14f59498d1b69548d334fd4c23efb952c2b655b7d30517465cfafce0af17f134",
+      "cost_sources": {
+        "analytic_roofline": 503,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 19,
+        "analytic_roofline+fusion_calibrated": 11
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 19,
+        "lightop_silu_mul": 11
+      },
+      "nodes_per_device": {
+        "0": 555,
+        "1": 36
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1112604672.0,
+          157286400.0
+        ],
+        "forced_parameter_bytes": [
+          1034813440.0,
+          157286400.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 31,
+        "assigned_nodes": 591,
+        "depth": 561
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 22,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.081809375139096,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1075380224.0,
+        198180864.0
+      ],
+      "cross_device_edges": 62,
+      "cross_device_bytes": 65011712.0,
+      "fused_groups": 27,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 437.35635801156405,
+      "branch_overlap_us": 437.35635801156405,
+      "branch_overlap_fraction": 0.03343240567644441,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "94f6db8d16029dd94aa7e0c78c3934dad19334787872c7baa11daf3183a996a1",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 18,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 18,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "0": 544,
+        "1": 47
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1074855936.0,
+          195035136.0
+        ],
+        "forced_parameter_bytes": [
+          997064704.0,
+          195035136.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 25,
+        "assigned_nodes": 591,
+        "depth": 564
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 23,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.100728957217113,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1132003328.0,
+        141557760.0
+      ],
+      "cross_device_edges": 44,
+      "cross_device_bytes": 46137344.0,
+      "fused_groups": 31,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 466.5260678093484,
+      "branch_overlap_us": 466.5260678093484,
+      "branch_overlap_fraction": 0.038553550737214316,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "f8363fa92224c11d65bd9dcaae885a2a1d5d3ac83966f6149e274cfcfcfdeb23",
+      "cost_sources": {
+        "analytic_roofline": 501,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 23,
+        "analytic_roofline+fusion_calibrated": 8
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 23,
+        "lightop_silu_mul": 8
+      },
+      "nodes_per_device": {
+        "0": 558,
+        "1": 33
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1131479040.0,
+          138412032.0
+        ],
+        "forced_parameter_bytes": [
+          1053687808.0,
+          138412032.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 34,
+        "assigned_nodes": 591,
+        "depth": 560
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 24,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.168225820713031,
+      "feasible": false,
+      "peak_memory_bytes": [
+        204472320.0,
+        1069088768.0
+      ],
+      "cross_device_edges": 64,
+      "cross_device_bytes": 67108864.0,
+      "fused_groups": 27,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 524.9382908492323,
+      "branch_overlap_us": 524.9382908492323,
+      "branch_overlap_fraction": 0.0398640103835042,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "671658d7c386ce22efcd3923a831167fd95fe4cf5bd28b5f8e50f8eaf3af67f0",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 9,
+        "analytic_roofline+uncalibrated_fusion": 18
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 9,
+        "lightop_add_rmsnorm": 18
+      },
+      "nodes_per_device": {
+        "1": 542,
+        "0": 49
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          201326592.0,
+          1068564480.0
+        ],
+        "forced_parameter_bytes": [
+          201326592.0,
+          990773248.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 24,
+        "assigned_nodes": 591,
+        "depth": 564
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 25,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.987397344475928,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1081671680.0,
+        191889408.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 29,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 408.20120890264127,
+      "branch_overlap_us": 408.20120890264127,
+      "branch_overlap_fraction": 0.03143056288150496,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "ef4ba60457cb3d9b683315288eacd8ef5571f39bc880926056c954a7d18eb124",
+      "cost_sources": {
+        "analytic_roofline": 505,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 19,
+        "analytic_roofline+fusion_calibrated": 10
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 19,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "0": 547,
+        "1": 44
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1081147392.0,
+          188743680.0
+        ],
+        "forced_parameter_bytes": [
+          1003356160.0,
+          188743680.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 562
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 26,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.104019540253384,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1138294784.0,
+        135266304.0
+      ],
+      "cross_device_edges": 42,
+      "cross_device_bytes": 44040192.0,
+      "fused_groups": 31,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 379.0314991048556,
+      "branch_overlap_us": 379.0314991048556,
+      "branch_overlap_fraction": 0.031314514805956845,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "4d3d0703fa88e27c222f8c1369edd66290f350496b8114c227e402e8cd06eca3",
+      "cost_sources": {
+        "analytic_roofline": 501,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 19,
+        "analytic_roofline+fusion_calibrated": 12
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 19,
+        "lightop_silu_mul": 12
+      },
+      "nodes_per_device": {
+        "0": 558,
+        "1": 33
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1137770496.0,
+          132120576.0
+        ],
+        "forced_parameter_bytes": [
+          1059979264.0,
+          132120576.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 35,
+        "assigned_nodes": 591,
+        "depth": 560
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 27,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.414856737592812,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1119420416.0,
+        154140672.0
+      ],
+      "cross_device_edges": 48,
+      "cross_device_bytes": 50331648.0,
+      "fused_groups": 28,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 349.8763499959331,
+      "branch_overlap_us": 349.8763499959331,
+      "branch_overlap_fraction": 0.02818206906379273,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "1eeea554076ff5f2b9418f1b213e27ca95d1588d1c4621914bc03895afe0d9fc",
+      "cost_sources": {
+        "analytic_roofline": 507,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 18,
+        "analytic_roofline+fusion_calibrated": 10
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 18,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "0": 553,
+        "1": 38
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1118896128.0,
+          150994944.0
+        ],
+        "forced_parameter_bytes": [
+          1041104896.0,
+          150994944.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 32,
+        "assigned_nodes": 591,
+        "depth": 563
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 28,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.151410095439266,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1069088768.0,
+        204472320.0
+      ],
+      "cross_device_edges": 64,
+      "cross_device_bytes": 67108864.0,
+      "fused_groups": 31,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 466.4969464316241,
+      "branch_overlap_us": 466.4969464316241,
+      "branch_overlap_fraction": 0.0354712493220327,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "0821e2d3f7688bba2ea356a210cec0e15d753662ddab8cbdd2fb3f03c7274617",
+      "cost_sources": {
+        "analytic_roofline": 501,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 22,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 22,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "0": 541,
+        "1": 50
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1068564480.0,
+          201326592.0
+        ],
+        "forced_parameter_bytes": [
+          990773248.0,
+          201326592.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 24,
+        "assigned_nodes": 591,
+        "depth": 560
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 29,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.75286004882276,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1094254592.0,
+        179306496.0
+      ],
+      "cross_device_edges": 56,
+      "cross_device_bytes": 58720256.0,
+      "fused_groups": 30,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 349.8909106847964,
+      "branch_overlap_us": 349.8909106847964,
+      "branch_overlap_fraction": 0.027436269930453405,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "5fc464e380e28185c64e763415b01dfd4bfbfd2ae613e8b9467ca3fd936165d5",
+      "cost_sources": {
+        "analytic_roofline": 503,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 23,
+        "analytic_roofline+fusion_calibrated": 7
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 23,
+        "lightop_silu_mul": 7
+      },
+      "nodes_per_device": {
+        "0": 547,
+        "1": 44
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1093730304.0,
+          176160768.0
+        ],
+        "forced_parameter_bytes": [
+          1015939072.0,
+          176160768.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 28,
+        "assigned_nodes": 591,
+        "depth": 561
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 30,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.400703202690407,
+      "feasible": false,
+      "peak_memory_bytes": [
+        223346688.0,
+        1050214400.0
+      ],
+      "cross_device_edges": 70,
+      "cross_device_bytes": 73400320.0,
+      "fused_groups": 23,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 495.81226311803516,
+      "branch_overlap_us": 495.81226311803516,
+      "branch_overlap_fraction": 0.03699897353285855,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "2b9e3f9915fdd544b71b8d33573f05aa51d44563ba7b23c91c012873b97b926c",
+      "cost_sources": {
+        "analytic_roofline": 517,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 20,
+        "analytic_roofline+fusion_calibrated": 3
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 20,
+        "lightop_silu_mul": 3
+      },
+      "nodes_per_device": {
+        "1": 535,
+        "0": 56
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          220200960.0,
+          1049690112.0
+        ],
+        "forced_parameter_bytes": [
+          220200960.0,
+          971898880.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 21,
+        "assigned_nodes": 591,
+        "depth": 568
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 31,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.913436137703401,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1081671680.0,
+        191889408.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 27,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 524.8363660271946,
+      "branch_overlap_us": 524.8363660271946,
+      "branch_overlap_fraction": 0.04064265780467432,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "6844b035f4d9f0b99ddd277305cac1fbb6480723c41aa9bc380b0ba8a0f4f276",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 7,
+        "analytic_roofline+uncalibrated_fusion": 20
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 7,
+        "lightop_add_rmsnorm": 20
+      },
+      "nodes_per_device": {
+        "0": 545,
+        "1": 46
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1081147392.0,
+          188743680.0
+        ],
+        "forced_parameter_bytes": [
+          1003356160.0,
+          188743680.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 564
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 32,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.918217876076971,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1087963136.0,
+        185597952.0
+      ],
+      "cross_device_edges": 58,
+      "cross_device_bytes": 60817408.0,
+      "fused_groups": 29,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 320.75032226473724,
+      "branch_overlap_us": 320.75032226473724,
+      "branch_overlap_fraction": 0.024829301173092098,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "e9bd70a40aa530def7e22e85fe757f4437a5e70f0e96deafdb9f9399ba5f436a",
+      "cost_sources": {
+        "analytic_roofline": 505,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 18,
+        "analytic_roofline+fusion_calibrated": 11
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 18,
+        "lightop_silu_mul": 11
+      },
+      "nodes_per_device": {
+        "0": 549,
+        "1": 42
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1087438848.0,
+          182452224.0
+        ],
+        "forced_parameter_bytes": [
+          1009647616.0,
+          182452224.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 27,
+        "assigned_nodes": 591,
+        "depth": 562
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 33,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.337743942283872,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1062797312.0,
+        210763776.0
+      ],
+      "cross_device_edges": 66,
+      "cross_device_bytes": 69206016.0,
+      "fused_groups": 31,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 379.0314991048557,
+      "branch_overlap_us": 379.0314991048557,
+      "branch_overlap_fraction": 0.02841796189408272,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "f08b50413cf50a355ea8788717ab4c68a37999354c3f045452155c3aabca08c8",
+      "cost_sources": {
+        "analytic_roofline": 501,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 18,
+        "analytic_roofline+fusion_calibrated": 13
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 18,
+        "lightop_silu_mul": 13
+      },
+      "nodes_per_device": {
+        "0": 545,
+        "1": 46
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1062273024.0,
+          207618048.0
+        ],
+        "forced_parameter_bytes": [
+          984481792.0,
+          207618048.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 23,
+        "assigned_nodes": 591,
+        "depth": 560
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 34,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.864598897233734,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1094254592.0,
+        179306496.0
+      ],
+      "cross_device_edges": 56,
+      "cross_device_bytes": 58720256.0,
+      "fused_groups": 28,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 291.55149108922575,
+      "branch_overlap_us": 291.55149108922575,
+      "branch_overlap_fraction": 0.022663084439571442,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "7566ef8a7684f697c0e25f93c1991b0c40b5c57158963cf0d454d9d74f04512e",
+      "cost_sources": {
+        "analytic_roofline": 507,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 17,
+        "analytic_roofline+fusion_calibrated": 11
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 17,
+        "lightop_silu_mul": 11
+      },
+      "nodes_per_device": {
+        "0": 548,
+        "1": 43
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1093730304.0,
+          176160768.0
+        ],
+        "forced_parameter_bytes": [
+          1015939072.0,
+          176160768.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 28,
+        "assigned_nodes": 591,
+        "depth": 563
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 35,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.48880196417601,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1113128960.0,
+        160432128.0
+      ],
+      "cross_device_edges": 50,
+      "cross_device_bytes": 52428800.0,
+      "fused_groups": 36,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 320.72120088701087,
+      "branch_overlap_us": 320.72120088701087,
+      "branch_overlap_fraction": 0.025680701944589726,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "9a44b23e855dbb92de48363927fd08ff501c5ca10967c285b19b6093f791a99b",
+      "cost_sources": {
+        "analytic_roofline": 491,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 12,
+        "analytic_roofline+uncalibrated_fusion": 24
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 12,
+        "lightop_add_rmsnorm": 24
+      },
+      "nodes_per_device": {
+        "0": 551,
+        "1": 40
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1112604672.0,
+          157286400.0
+        ],
+        "forced_parameter_bytes": [
+          1034813440.0,
+          157286400.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 31,
+        "assigned_nodes": 591,
+        "depth": 555
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 36,
+      "phase": "seed_only_original",
+      "makespan_ms": 11.76166648951476,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1157169152.0,
+        116391936.0
+      ],
+      "cross_device_edges": 36,
+      "cross_device_bytes": 37748736.0,
+      "fused_groups": 29,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 524.8363660271937,
+      "branch_overlap_us": 524.8363660271937,
+      "branch_overlap_fraction": 0.04462261929421928,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "9e12b41c5a387fb5511b0e4431e0522ed7d6790f686c9a5f701203b28d409ff7",
+      "cost_sources": {
+        "analytic_roofline": 505,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 13,
+        "analytic_roofline+uncalibrated_fusion": 16
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 13,
+        "lightop_add_rmsnorm": 16
+      },
+      "nodes_per_device": {
+        "0": 565,
+        "1": 26
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1156644864.0,
+          113246208.0
+        ],
+        "forced_parameter_bytes": [
+          1078853632.0,
+          113246208.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 38,
+        "assigned_nodes": 591,
+        "depth": 562
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 37,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.682512630538355,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1100546048.0,
+        173015040.0
+      ],
+      "cross_device_edges": 54,
+      "cross_device_bytes": 56623104.0,
+      "fused_groups": 25,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 379.0460597937195,
+      "branch_overlap_us": 379.0460597937195,
+      "branch_overlap_fraction": 0.029887300004023697,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "4309a2715a909f1806cb8909cd0d79c5f550f99ca9d83d526baa4af898d032a2",
+      "cost_sources": {
+        "analytic_roofline": 513,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 18,
+        "analytic_roofline+fusion_calibrated": 7
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 18,
+        "lightop_silu_mul": 7
+      },
+      "nodes_per_device": {
+        "0": 549,
+        "1": 42
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1100021760.0,
+          169869312.0
+        ],
+        "forced_parameter_bytes": [
+          1022230528.0,
+          169869312.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 29,
+        "assigned_nodes": 591,
+        "depth": 566
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 38,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.896710936382044,
+      "feasible": false,
+      "peak_memory_bytes": [
+        185597952.0,
+        1087963136.0
+      ],
+      "cross_device_edges": 58,
+      "cross_device_bytes": 60817408.0,
+      "fused_groups": 28,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 495.7248989848583,
+      "branch_overlap_us": 495.7248989848583,
+      "branch_overlap_fraction": 0.03843808715495066,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "e95446c04a610d23282b6a8554badf33e2c85144e493c4eda468d9d4d103180e",
+      "cost_sources": {
+        "analytic_roofline": 507,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 16,
+        "analytic_roofline+fusion_calibrated": 12
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 16,
+        "lightop_silu_mul": 12
+      },
+      "nodes_per_device": {
+        "1": 550,
+        "0": 41
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          182452224.0,
+          1087438848.0
+        ],
+        "forced_parameter_bytes": [
+          182452224.0,
+          1009647616.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 27,
+        "assigned_nodes": 591,
+        "depth": 563
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 39,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.452377219481084,
+      "feasible": false,
+      "peak_memory_bytes": [
+        160432128.0,
+        1113128960.0
+      ],
+      "cross_device_edges": 50,
+      "cross_device_bytes": 52428800.0,
+      "fused_groups": 32,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 320.75032226473604,
+      "branch_overlap_us": 320.75032226473604,
+      "branch_overlap_fraction": 0.025758159796423378,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "9bd28507c885e056953d98479a83f63f5f9bce5e81c420592c1729d7eb697055",
+      "cost_sources": {
+        "analytic_roofline": 499,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 23,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 23,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "1": 556,
+        "0": 35
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          157286400.0,
+          1112604672.0
+        ],
+        "forced_parameter_bytes": [
+          157286400.0,
+          1034813440.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 31,
+        "assigned_nodes": 591,
+        "depth": 559
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 40,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.81444659954568,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1087963136.0,
+        185597952.0
+      ],
+      "cross_device_edges": 58,
+      "cross_device_bytes": 60817408.0,
+      "fused_groups": 35,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 495.637534851683,
+      "branch_overlap_us": 495.637534851683,
+      "branch_overlap_fraction": 0.03867802881704272,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "73725a783b80ccbaaff55019202ea9716559839985b1e3abcaaf2d73011e7a6d",
+      "cost_sources": {
+        "analytic_roofline": 493,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 26,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 26,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "0": 545,
+        "1": 46
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1087438848.0,
+          182452224.0
+        ],
+        "forced_parameter_bytes": [
+          1009647616.0,
+          182452224.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 27,
+        "assigned_nodes": 591,
+        "depth": 556
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 41,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.462163089164719,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1113128960.0,
+        160432128.0
+      ],
+      "cross_device_edges": 50,
+      "cross_device_bytes": 52428800.0,
+      "fused_groups": 26,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 437.3417973227016,
+      "branch_overlap_us": 437.3417973227016,
+      "branch_overlap_fraction": 0.035093570369252376,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "10dd626b313ab66a363ab78e68322880ee95d63f35c147e8a88a418984feecf7",
+      "cost_sources": {
+        "analytic_roofline": 511,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 19,
+        "analytic_roofline+fusion_calibrated": 7
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 19,
+        "lightop_silu_mul": 7
+      },
+      "nodes_per_device": {
+        "0": 550,
+        "1": 41
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1112604672.0,
+          157286400.0
+        ],
+        "forced_parameter_bytes": [
+          1034813440.0,
+          157286400.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 31,
+        "assigned_nodes": 591,
+        "depth": 565
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 42,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.312479291216539,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1056505856.0,
+        217055232.0
+      ],
+      "cross_device_edges": 68,
+      "cross_device_bytes": 71303168.0,
+      "fused_groups": 24,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 524.8218053383307,
+      "branch_overlap_us": 524.8218053383307,
+      "branch_overlap_fraction": 0.039423295530277645,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "d5d6f861f923939b184c6dbb2ec2d4963615e1010210e29c1c10e67762132b62",
+      "cost_sources": {
+        "analytic_roofline": 515,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 20,
+        "analytic_roofline+fusion_calibrated": 4
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 20,
+        "lightop_silu_mul": 4
+      },
+      "nodes_per_device": {
+        "0": 536,
+        "1": 55
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1055981568.0,
+          213909504.0
+        ],
+        "forced_parameter_bytes": [
+          978190336.0,
+          213909504.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 22,
+        "assigned_nodes": 591,
+        "depth": 567
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 43,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.318631855997628,
+      "feasible": false,
+      "peak_memory_bytes": [
+        210763776.0,
+        1062797312.0
+      ],
+      "cross_device_edges": 66,
+      "cross_device_bytes": 69206016.0,
+      "fused_groups": 27,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 320.82312570904804,
+      "branch_overlap_us": 320.82312570904804,
+      "branch_overlap_fraction": 0.02408829444178798,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "433ac5dc0c6e99b3ba1a7bcfe27baa2e293404264c69f49f9036ea24d7d95cde",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 20,
+        "analytic_roofline+fusion_calibrated": 7
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 20,
+        "lightop_silu_mul": 7
+      },
+      "nodes_per_device": {
+        "1": 539,
+        "0": 52
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          207618048.0,
+          1062273024.0
+        ],
+        "forced_parameter_bytes": [
+          207618048.0,
+          984481792.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 23,
+        "assigned_nodes": 591,
+        "depth": 564
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 44,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.802066779297656,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1094254592.0,
+        179306496.0
+      ],
+      "cross_device_edges": 56,
+      "cross_device_bytes": 58720256.0,
+      "fused_groups": 31,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 408.1720875249161,
+      "branch_overlap_us": 408.1720875249161,
+      "branch_overlap_fraction": 0.031883296233462484,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "9084d8869e729355b5bcb5590196e14d13b2311e441ebba76e6a9a765e962d86",
+      "cost_sources": {
+        "analytic_roofline": 501,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 20,
+        "analytic_roofline+fusion_calibrated": 11
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 20,
+        "lightop_silu_mul": 11
+      },
+      "nodes_per_device": {
+        "0": 548,
+        "1": 43
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1093730304.0,
+          176160768.0
+        ],
+        "forced_parameter_bytes": [
+          1015939072.0,
+          176160768.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 28,
+        "assigned_nodes": 591,
+        "depth": 560
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 45,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.789429255051928,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1094254592.0,
+        179306496.0
+      ],
+      "cross_device_edges": 56,
+      "cross_device_bytes": 58720256.0,
+      "fused_groups": 26,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 349.9054713736572,
+      "branch_overlap_us": 349.9054713736572,
+      "branch_overlap_fraction": 0.027358959058743117,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "b38c83c68d445998abfcba2fbd53081e0691be690f3e3aa075eff3bfb1675d40",
+      "cost_sources": {
+        "analytic_roofline": 511,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 18,
+        "analytic_roofline+fusion_calibrated": 8
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 18,
+        "lightop_silu_mul": 8
+      },
+      "nodes_per_device": {
+        "0": 548,
+        "1": 43
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1093730304.0,
+          176160768.0
+        ],
+        "forced_parameter_bytes": [
+          1015939072.0,
+          176160768.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 28,
+        "assigned_nodes": 591,
+        "depth": 565
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 46,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.624014432676061,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1106837504.0,
+        166723584.0
+      ],
+      "cross_device_edges": 52,
+      "cross_device_bytes": 54525952.0,
+      "fused_groups": 29,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 349.876349995934,
+      "branch_overlap_us": 349.876349995934,
+      "branch_overlap_fraction": 0.027715141792797094,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "0fd9dd0ff6a8ae10fb14fa71b0d3f88cabc064327885d7a717fe833d3e24376e",
+      "cost_sources": {
+        "analytic_roofline": 505,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 11,
+        "analytic_roofline+uncalibrated_fusion": 18
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 11,
+        "lightop_add_rmsnorm": 18
+      },
+      "nodes_per_device": {
+        "0": 553,
+        "1": 38
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1106313216.0,
+          163577856.0
+        ],
+        "forced_parameter_bytes": [
+          1028521984.0,
+          163577856.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 30,
+        "assigned_nodes": 591,
+        "depth": 562
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 47,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.927080533629434,
+      "feasible": false,
+      "peak_memory_bytes": [
+        191889408.0,
+        1081671680.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 24,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 524.9674122269578,
+      "branch_overlap_us": 524.9674122269578,
+      "branch_overlap_fraction": 0.04060989725106685,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "5657dc1f864c8bf0a83ca4f17693ea69b17df7b0effab1aec742a73a21c8e122",
+      "cost_sources": {
+        "analytic_roofline": 515,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 18,
+        "analytic_roofline+fusion_calibrated": 6
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 18,
+        "lightop_silu_mul": 6
+      },
+      "nodes_per_device": {
+        "1": 543,
+        "0": 48
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          188743680.0,
+          1081147392.0
+        ],
+        "forced_parameter_bytes": [
+          188743680.0,
+          1003356160.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 567
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 48,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.008589503912486,
+      "feasible": false,
+      "peak_memory_bytes": [
+        191889408.0,
+        1081671680.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 31,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 291.62429453353764,
+      "branch_overlap_us": 291.62429453353764,
+      "branch_overlap_fraction": 0.02241782588695171,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "8f371259b35194567aae19de2a9b6a984d0fc84e6076e7e76752defa5d2b7c5a",
+      "cost_sources": {
+        "analytic_roofline": 501,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 22,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 22,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "1": 546,
+        "0": 45
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          188743680.0,
+          1081147392.0
+        ],
+        "forced_parameter_bytes": [
+          188743680.0,
+          1003356160.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 560
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 49,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.091925716415545,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1075380224.0,
+        198180864.0
+      ],
+      "cross_device_edges": 62,
+      "cross_device_bytes": 65011712.0,
+      "fused_groups": 27,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 437.3417973227012,
+      "branch_overlap_us": 437.3417973227012,
+      "branch_overlap_fraction": 0.03340545973113278,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "4c9eb0d322e758fa25e4dc88da790cbb77104574c025b089e7bad92898926f69",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 18,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 18,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "0": 543,
+        "1": 48
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1074855936.0,
+          195035136.0
+        ],
+        "forced_parameter_bytes": [
+          997064704.0,
+          195035136.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 25,
+        "assigned_nodes": 591,
+        "depth": 564
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 50,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.513500368215881,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1106837504.0,
+        166723584.0
+      ],
+      "cross_device_edges": 52,
+      "cross_device_bytes": 54525952.0,
+      "fused_groups": 29,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 466.5406284982113,
+      "branch_overlap_us": 466.5406284982113,
+      "branch_overlap_fraction": 0.03728298355935786,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "ffeb98de72ce55edf5da60519afd2f3804115e39444ddb6bf7a37f2eee3a662a",
+      "cost_sources": {
+        "analytic_roofline": 505,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 21,
+        "analytic_roofline+fusion_calibrated": 8
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 21,
+        "lightop_silu_mul": 8
+      },
+      "nodes_per_device": {
+        "0": 551,
+        "1": 40
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1106313216.0,
+          163577856.0
+        ],
+        "forced_parameter_bytes": [
+          1028521984.0,
+          163577856.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 30,
+        "assigned_nodes": 591,
+        "depth": 562
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 51,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.088769268554719,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1138294784.0,
+        135266304.0
+      ],
+      "cross_device_edges": 42,
+      "cross_device_bytes": 44040192.0,
+      "fused_groups": 31,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 320.7503222647363,
+      "branch_overlap_us": 320.7503222647363,
+      "branch_overlap_fraction": 0.02653291787933048,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "46264902be67b2dc19788fbb3d1a16fba84a53c4506e347b6915e31421971d8d",
+      "cost_sources": {
+        "analytic_roofline": 501,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 20,
+        "analytic_roofline+fusion_calibrated": 11
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 20,
+        "lightop_silu_mul": 11
+      },
+      "nodes_per_device": {
+        "0": 561,
+        "1": 30
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1137770496.0,
+          132120576.0
+        ],
+        "forced_parameter_bytes": [
+          1059979264.0,
+          132120576.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 35,
+        "assigned_nodes": 591,
+        "depth": 560
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 52,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.010658424805113,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1081671680.0,
+        191889408.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 28,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 349.8763499959329,
+      "branch_overlap_us": 349.8763499959329,
+      "branch_overlap_fraction": 0.026891517598285862,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "3bf3acdc470b903aebaff907b5f42a62a956cb6df82a3c3fc73b6f5766ecb165",
+      "cost_sources": {
+        "analytic_roofline": 507,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 19,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 19,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "0": 546,
+        "1": 45
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1081147392.0,
+          188743680.0
+        ],
+        "forced_parameter_bytes": [
+          1003356160.0,
+          188743680.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 563
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 53,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.005197927984304,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1081671680.0,
+        191889408.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 31,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 291.56605177808797,
+      "branch_overlap_us": 291.56605177808797,
+      "branch_overlap_fraction": 0.022419193724895366,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "1c14bc5853a9cef77590534b0933b0644e2db0629f2add6c820690ff4572dc97",
+      "cost_sources": {
+        "analytic_roofline": 501,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 22,
+        "analytic_roofline+fusion_calibrated": 9
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 22,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "0": 547,
+        "1": 44
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1081147392.0,
+          188743680.0
+        ],
+        "forced_parameter_bytes": [
+          1003356160.0,
+          188743680.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 560
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 54,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.907341849221488,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1087963136.0,
+        185597952.0
+      ],
+      "cross_device_edges": 58,
+      "cross_device_bytes": 60817408.0,
+      "fused_groups": 30,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 379.0169384159935,
+      "branch_overlap_us": 379.0169384159935,
+      "branch_overlap_fraction": 0.029364445665383387,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "aa88843f6884aed900d83d164543e3a5b6ce473cd810f2c67d35b60fe928a672",
+      "cost_sources": {
+        "analytic_roofline": 503,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 20,
+        "analytic_roofline+fusion_calibrated": 10
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 20,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "0": 545,
+        "1": 46
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1087438848.0,
+          182452224.0
+        ],
+        "forced_parameter_bytes": [
+          1009647616.0,
+          182452224.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 27,
+        "assigned_nodes": 591,
+        "depth": 561
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 55,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.525382058759446,
+      "feasible": false,
+      "peak_memory_bytes": [
+        160432128.0,
+        1113128960.0
+      ],
+      "cross_device_edges": 50,
+      "cross_device_bytes": 52428800.0,
+      "fused_groups": 36,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 379.0606204825797,
+      "branch_overlap_us": 379.0606204825797,
+      "branch_overlap_fraction": 0.030263397851204795,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "2db30db453910dee83f15dbc74dfcedbcc0e940f02f8c3ecfc128e50bcd4c4f8",
+      "cost_sources": {
+        "analytic_roofline": 491,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 15,
+        "analytic_roofline+uncalibrated_fusion": 21
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 15,
+        "lightop_add_rmsnorm": 21
+      },
+      "nodes_per_device": {
+        "1": 557,
+        "0": 34
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          157286400.0,
+          1112604672.0
+        ],
+        "forced_parameter_bytes": [
+          157286400.0,
+          1034813440.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 31,
+        "assigned_nodes": 591,
+        "depth": 555
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 56,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.942502630496893,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1081671680.0,
+        191889408.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 35,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 524.8218053383314,
+      "branch_overlap_us": 524.8218053383314,
+      "branch_overlap_fraction": 0.04055025680285933,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "db5b5e1fd13f5f8002444041be99a03ac0ec0100c8a17fcf2592bd96011e8b2d",
+      "cost_sources": {
+        "analytic_roofline": 493,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 22,
+        "analytic_roofline+fusion_calibrated": 13
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 22,
+        "lightop_silu_mul": 13
+      },
+      "nodes_per_device": {
+        "0": 548,
+        "1": 43
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1081147392.0,
+          188743680.0
+        ],
+        "forced_parameter_bytes": [
+          1003356160.0,
+          188743680.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 556
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 57,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.926921551065105,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1081671680.0,
+        191889408.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 21,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 466.5843105647997,
+      "branch_overlap_us": 466.5843105647997,
+      "branch_overlap_fraction": 0.03609400031721828,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "e18f502f57712c883e017d9aeede279600e16c46cef1033ab45fe7c655b44627",
+      "cost_sources": {
+        "analytic_roofline": 521,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 6,
+        "analytic_roofline+uncalibrated_fusion": 15
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 6,
+        "lightop_add_rmsnorm": 15
+      },
+      "nodes_per_device": {
+        "0": 549,
+        "1": 42
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1081147392.0,
+          188743680.0
+        ],
+        "forced_parameter_bytes": [
+          1003356160.0,
+          188743680.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 570
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 58,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.412518867537692,
+      "feasible": false,
+      "peak_memory_bytes": [
+        154140672.0,
+        1119420416.0
+      ],
+      "cross_device_edges": 48,
+      "cross_device_bytes": 50331648.0,
+      "fused_groups": 32,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 291.60973384467627,
+      "branch_overlap_us": 291.60973384467627,
+      "branch_overlap_fraction": 0.02349319561618711,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "3fda90743c0cc7b94d580bea71579fc8406534f0a0f774f65bf88e4deb39793d",
+      "cost_sources": {
+        "analytic_roofline": 499,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 20,
+        "analytic_roofline+fusion_calibrated": 12
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 20,
+        "lightop_silu_mul": 12
+      },
+      "nodes_per_device": {
+        "1": 556,
+        "0": 35
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          150994944.0,
+          1118896128.0
+        ],
+        "forced_parameter_bytes": [
+          150994944.0,
+          1041104896.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 32,
+        "assigned_nodes": 591,
+        "depth": 559
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 59,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.53210448377386,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1106837504.0,
+        166723584.0
+      ],
+      "cross_device_edges": 52,
+      "cross_device_bytes": 54525952.0,
+      "fused_groups": 25,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 466.54062849821116,
+      "branch_overlap_us": 466.54062849821116,
+      "branch_overlap_fraction": 0.03722763635607028,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "a859f3e3880028bb1cef53e5e0cf43f8637de6df62d82cbc17774c6c22fa5bde",
+      "cost_sources": {
+        "analytic_roofline": 513,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 18,
+        "analytic_roofline+fusion_calibrated": 7
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 18,
+        "lightop_silu_mul": 7
+      },
+      "nodes_per_device": {
+        "0": 551,
+        "1": 40
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1106313216.0,
+          163577856.0
+        ],
+        "forced_parameter_bytes": [
+          1028521984.0,
+          163577856.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 30,
+        "assigned_nodes": 591,
+        "depth": 566
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 60,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.452613917779635,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1113128960.0,
+        160432128.0
+      ],
+      "cross_device_edges": 50,
+      "cross_device_bytes": 52428800.0,
+      "fused_groups": 30,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 495.6520955405458,
+      "branch_overlap_us": 495.6520955405458,
+      "branch_overlap_fraction": 0.03980305651593855,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "be2ba0db7fd1d2393e77057ba536394ae035e5e20703a394d02a0b3018766f8b",
+      "cost_sources": {
+        "analytic_roofline": 503,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 10,
+        "analytic_roofline+uncalibrated_fusion": 20
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 10,
+        "lightop_add_rmsnorm": 20
+      },
+      "nodes_per_device": {
+        "0": 552,
+        "1": 39
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1112604672.0,
+          157286400.0
+        ],
+        "forced_parameter_bytes": [
+          1034813440.0,
+          157286400.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 31,
+        "assigned_nodes": 591,
+        "depth": 561
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 61,
+      "phase": "seed_only_original",
+      "makespan_ms": 13.075183169064,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1075380224.0,
+        198180864.0
+      ],
+      "cross_device_edges": 62,
+      "cross_device_bytes": 65011712.0,
+      "fused_groups": 25,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 495.65209554054655,
+      "branch_overlap_us": 495.65209554054655,
+      "branch_overlap_fraction": 0.03790785101299872,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "455bcbc57ecbd82999440c9f9cee6d90340270a01db44acb12f9f16b1276350e",
+      "cost_sources": {
+        "analytic_roofline": 513,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 8,
+        "analytic_roofline+uncalibrated_fusion": 17
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 8,
+        "lightop_add_rmsnorm": 17
+      },
+      "nodes_per_device": {
+        "0": 543,
+        "1": 48
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1074855936.0,
+          195035136.0
+        ],
+        "forced_parameter_bytes": [
+          997064704.0,
+          195035136.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 25,
+        "assigned_nodes": 591,
+        "depth": 566
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 62,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.982998244758678,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1081671680.0,
+        191889408.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 32,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 291.56605177808837,
+      "branch_overlap_us": 291.56605177808837,
+      "branch_overlap_fraction": 0.022457528398403315,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "88c015ddebfd52b806fc28ae86e645d910a0e587e4406d571a1fcffbf3528b32",
+      "cost_sources": {
+        "analytic_roofline": 499,
+        "logical_input": 28,
+        "analytic_roofline+uncalibrated_fusion": 24,
+        "analytic_roofline+fusion_calibrated": 8
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 24,
+        "lightop_silu_mul": 8
+      },
+      "nodes_per_device": {
+        "0": 545,
+        "1": 46
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1081147392.0,
+          188743680.0
+        ],
+        "forced_parameter_bytes": [
+          1003356160.0,
+          188743680.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 559
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 63,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.959542629621795,
+      "feasible": false,
+      "peak_memory_bytes": [
+        191889408.0,
+        1081671680.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 62914560.0,
+      "fused_groups": 30,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 466.6134319425238,
+      "branch_overlap_us": 466.6134319425238,
+      "branch_overlap_fraction": 0.036005393498685624,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "4b0d42a013d0a65c459e2de377b6e04c39d250042141a215a67ef8c304a81654",
+      "cost_sources": {
+        "analytic_roofline": 503,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 9,
+        "analytic_roofline+uncalibrated_fusion": 21
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 9,
+        "lightop_add_rmsnorm": 21
+      },
+      "nodes_per_device": {
+        "1": 545,
+        "0": 46
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          188743680.0,
+          1081147392.0
+        ],
+        "forced_parameter_bytes": [
+          188743680.0,
+          1003356160.0
+        ],
+        "overflow_devices": [
+          1
+        ],
+        "trunk_pinned": true,
+        "owner": 1,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 26,
+        "assigned_nodes": 591,
+        "depth": 561
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    },
+    {
+      "evaluation": 64,
+      "phase": "seed_only_original",
+      "makespan_ms": 12.405615911785826,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1113128960.0,
+        160432128.0
+      ],
+      "cross_device_edges": 50,
+      "cross_device_bytes": 52428800.0,
+      "fused_groups": 35,
+      "best_ms": 15.879726628793996,
+      "compute_overlap_us": 495.6812169182715,
+      "branch_overlap_us": 495.6812169182715,
+      "branch_overlap_fraction": 0.0399561956812926,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "candidate_id": "1b144292100d8691f79eaa9d3106b3bf530b5158d0ad5c865e3b5607736c8e11",
+      "cost_sources": {
+        "analytic_roofline": 493,
+        "logical_input": 28,
+        "analytic_roofline+fusion_calibrated": 11,
+        "analytic_roofline+uncalibrated_fusion": 24
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 11,
+        "lightop_add_rmsnorm": 24
+      },
+      "nodes_per_device": {
+        "0": 554,
+        "1": 37
+      },
+      "lower_bound": {
+        "peak_lower_bound_bytes": [
+          1112604672.0,
+          157286400.0
+        ],
+        "forced_parameter_bytes": [
+          1034813440.0,
+          157286400.0
+        ],
+        "overflow_devices": [
+          0
+        ],
+        "trunk_pinned": true,
+        "owner": 0,
+        "branch_units_bound": 56,
+        "branch_units_on_owner": 31,
+        "assigned_nodes": 591,
+        "depth": 556
+      },
+      "selected_prefix": {
+        "peak_lower_bound_bytes": [
+          0.0,
+          0.0
+        ],
+        "forced_parameter_bytes": [
+          0.0,
+          0.0
+        ],
+        "overflow_devices": [],
+        "trunk_pinned": false,
+        "owner": null,
+        "branch_units_bound": 0,
+        "branch_units_on_owner": null,
+        "assigned_nodes": 0,
+        "depth": 0
+      },
+      "tied_weight_violation": false,
+      "fusion_plan_valid": true
+    }
+  ]
+}

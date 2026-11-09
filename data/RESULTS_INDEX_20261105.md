@@ -109,3 +109,6 @@
 ## 2026-11-09：完整 Qwen 双模型搜索
 
 `full_joint_models_v1/`：Qwen3-0.6B（591节点）／Qwen2.5-3B（687节点），四法×两个容量场景×三种子，48运行、每次64实评；summary、逐次trace、最佳Plan及源码哈希。3B cap75混合Joint30.23505ms，原Joint47.04910ms；Qwen3 cap75混合Joint／同域Random均0/3找到可行解，事后单个合法见证保留。21项CPU测试及全部计费／导出离线检查通过。仅前向解析预测，非完整模型GPU执行，参考差距非Exact Gap。说明：[FULL_QWEN_JOINT_EXPERIMENT.md](../cost_model/FULL_QWEN_JOINT_EXPERIMENT.md)。
+## 2026-11-09：Qwen3可行性专项审计
+
+`qwen3_feasibility_audit_v1/`：完整构造witness、591合法动作路径、主干／分支显存下界、同先验固定预算对照及最佳图。24运行／1536评分；两个混合方法后续可行数均0→61/61，Joint／Random中位15.132347／15.132019ms，逐节点Joint仍10.240171ms。59项CPU测试，12旧控制前缀及24运行预算／源码／导出校验通过。新增GPU为0；静态前向可行性不等于训练或真实部署。说明：[QWEN3_FEASIBILITY_AUDIT.md](../cost_model/QWEN3_FEASIBILITY_AUDIT.md)。

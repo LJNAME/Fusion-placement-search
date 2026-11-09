@@ -91,6 +91,7 @@ class LegalFusionSearchSpace:
         allowed_devices: Optional[Sequence[int]] = None,
         tie_shared_params: bool = False,
         placement_policy: str = "node",
+        partial_prune: Optional[Callable] = None,
     ) -> None:
         if n_devs <= 0:
             raise ValueError("n_devs must be positive")
@@ -99,6 +100,7 @@ class LegalFusionSearchSpace:
         if placement_policy not in ("node", "contiguous_stages", "branch_aware", "hybrid"):
             raise ValueError(f"unknown placement policy: {placement_policy}")
         self.placement_policy = placement_policy
+        self.partial_prune = partial_prune
         if allowed_devices is None:
             self.allowed_devices = tuple(range(self.n_devs))
         else:
@@ -205,6 +207,9 @@ class LegalFusionSearchSpace:
                     devices = tuple(d for d in devices if d in forced)
             for device in devices:
                 result.append(LegalChoice(candidate, device))
+        if self.partial_prune is not None:
+            result = [choice for choice in result
+                      if not self.partial_prune(self, self.apply(state, choice))]
         return result
 
     def _stage_devices(self, state: LegalPartialState, relevant=None) -> tuple[int, ...]:
@@ -383,6 +388,10 @@ def _choose_rollout_action(
     return pool[rng.randrange(len(pool))]
 
 
+class NoLegalCompletion(RuntimeError):
+    """A partial constraint removed every continuation of a rollout."""
+
+
 def rollout_legal_plan(
     space: LegalFusionSearchSpace,
     state: LegalPartialState,
@@ -395,7 +404,7 @@ def rollout_legal_plan(
     while not space.is_terminal(current):
         actions = space.actions(current)
         if not actions:
-            raise RuntimeError(f"no legal action at anchor {space.anchor(current)}")
+            raise NoLegalCompletion(f"no legal action at anchor {space.anchor(current)}")
         current = space.apply(
             current,
             _choose_rollout_action(actions, rng, fusion_probability),
@@ -421,7 +430,7 @@ def _guided_rollout_legal_plan(
     while not space.is_terminal(current):
         actions = space.actions(current)
         if not actions:
-            raise RuntimeError(f"no legal action at anchor {space.anchor(current)}")
+            raise NoLegalCompletion(f"no legal action at anchor {space.anchor(current)}")
         action = min(
             actions,
             key=lambda choice: (
@@ -454,7 +463,7 @@ def _unfused_guided_rollout_legal_plan(
     while not space.is_terminal(current):
         actions = space.actions(current)
         if not actions:
-            raise RuntimeError(f"no legal action at anchor {space.anchor(current)}")
+            raise NoLegalCompletion(f"no legal action at anchor {space.anchor(current)}")
         action = min(
             actions,
             key=lambda choice: (
@@ -654,6 +663,8 @@ class _LegalMCTSNode:
         if self.terminal:
             return
         actions = space.actions(self.state)
+        if not actions:
+            return
         if policy_value_evaluator is None:
             priors = [1.0 / len(actions)] * len(actions)
         else:
@@ -726,6 +737,8 @@ def legal_mcts_search(
     normalize_q: bool = False,
     skip_exhausted: bool = False,
     placement_policy: str = "node",
+    partial_prune: Optional[Callable] = None,
+    rollout_observer: Optional[Callable] = None,
 ) -> List[Plan]:
     """MCTS over legal fusion candidates and device choices.
 
@@ -751,6 +764,10 @@ def legal_mcts_search(
     It is not a tree node and does not enter selection or backup; a fused plan
     is returned ahead of it only if it scores strictly better. Costs one extra
     evaluation.
+
+    ``partial_prune`` is an optional sound infeasibility test on action results,
+    also used inside rollouts. ``rollout_observer(space, state, plan)`` records
+    the selected partial state; it must not score or change the plan.
 
     ``normalize_q=True`` (default off) maps Q to [0, 1] before UCT selection,
     using the best and worst feasible rewards seen so far; an infeasible
@@ -784,11 +801,14 @@ def legal_mcts_search(
         allowed_devices=allowed_devices,
         tie_shared_params=tie_shared_params,
         placement_policy=placement_policy,
+        partial_prune=partial_prune,
     )
     if evaluator is None and scorer is None:
         raise ValueError("scorer is required without an evaluator")
     if evaluator is not None and value_mix:
         raise ValueError("value_mix is not defined for hard-constrained search")
+    if partial_prune is not None and evaluator is None:
+        raise ValueError("partial_prune requires a hard-constraint evaluator")
 
     def evaluate(plan: Plan) -> Optional[float]:
         """Latency for feasible plans, None for infeasible ones."""
@@ -820,10 +840,15 @@ def legal_mcts_search(
             best[key] = (score, plan)
 
     if unfused_incumbent:
-        incumbent = _unfused_guided_rollout_legal_plan(space, root.state, name="legal-mcts-unfused-incumbent")
-        incumbent_score = evaluate(incumbent)
-        if incumbent_score is not None:
-            remember(incumbent, incumbent_score)
+        try:
+            incumbent = _unfused_guided_rollout_legal_plan(space, root.state, name="legal-mcts-unfused-incumbent")
+        except NoLegalCompletion:
+            if partial_prune is None:
+                raise
+        else:
+            incumbent_score = evaluate(incumbent)
+            if incumbent_score is not None:
+                remember(incumbent, incumbent_score)
 
     for _ in range(iterations):
         node = root
@@ -839,11 +864,13 @@ def legal_mcts_search(
         if not node.terminal:
             child = node.select_child(exploration, value, skip_exhausted)
             if child is None:
-                if prune is None:
+                if prune is None and partial_prune is None:
                     break
                 # Every child was pruned: this subtree has no feasible plan.
                 for visited in path:
                     visited.update_infeasible()
+                if partial_prune is not None:
+                    node.exhausted = True
                 if node is root:
                     break
                 continue
@@ -862,13 +889,20 @@ def legal_mcts_search(
         elif evaluator is not None:
             feasible_scores: List[float] = []
             for rollout_index in range(rollouts):
-                if guided_rollout and rollout_index == 0:
-                    plan = _guided_rollout_legal_plan(space, node.state)
-                else:
-                    plan = rollout_legal_plan(
-                        space, node.state, rng, fusion_probability=fusion_probability,
-                        name="legal-mcts-rollout", validate=False,
-                    )
+                try:
+                    if guided_rollout and rollout_index == 0:
+                        plan = _guided_rollout_legal_plan(space, node.state)
+                    else:
+                        plan = rollout_legal_plan(
+                            space, node.state, rng, fusion_probability=fusion_probability,
+                            name="legal-mcts-rollout", validate=False,
+                        )
+                except NoLegalCompletion:
+                    if partial_prune is None:
+                        raise
+                    continue
+                if rollout_observer is not None:
+                    rollout_observer(space, node.state, plan)
                 score = evaluate(plan)
                 if score is not None:
                     remember(plan, score)
