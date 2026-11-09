@@ -97,3 +97,7 @@
 ## 2026-11-09：结构化放置动作空间
 
 `stage_search_medium_v1/`：3B第0层的三个既有中等子图，原空间Exact与Stage Exact、Random/Sequential/Current Joint/Stage Joint，64次独立实际评分上限、3种子；72次启发式运行，6个任务含2个完整空间不可行项。包含逐次Gap、唯一候选、跨卡边和最佳图。连续阶段空间14–38项可全覆盖，但MLP限制损失为6.53%／14.99%，不宣称新空间必优。说明：[STAGE_PLACEMENT_SEARCH.md](../cost_model/STAGE_PLACEMENT_SEARCH.md)。
+
+## 2026-11-09：分支与混合动作对照
+
+`branch_search_medium_v1/`：相同三子图、6任务、4种Joint、64实评上限、3种子；含原域及受限域Exact、分支重叠和融合—放置反事实耦合。MLP cap75中位Gap由原Joint5.65%降至分支0.0145%／混合0；混合完整覆盖60项，尚非大空间效率证据；未观察到融合偏好翻转或共同域最优放置变化。74项CPU测试与冷缓存重放通过，36条旧控制结果不变。说明：[BRANCH_PLACEMENT_SEARCH.md](../cost_model/BRANCH_PLACEMENT_SEARCH.md)。

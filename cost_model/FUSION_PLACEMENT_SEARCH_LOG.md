@@ -220,3 +220,13 @@ tools/audit_qwen25_placement.py固定36融合，对整图A全0/B前18层0后18�
 从3B第0层按既有三个模板提取10/7/8节点，blocking、free/cap75、64次不同完整方案模型调用上限、3种子，72次启发式运行；Exact另行全穷举。两卡初始化、不可行提案及Sequential两阶段均计入共享预算。原三方法用满64；结构化空间38/14/28全部覆盖后停止。serial_tail/attention_fork cap75完整空间不可行，记录保留。
 
 serial_tail与attention_fork free的Stage Exact等于原Exact；MLP free与cap75的Stage Exact分别差6.5288%和14.9857%，域内MCTS Gap均0。MLP原Joint cap75中位Gap5.6503%、最好种子0.0145%；连续阶段限制损失不能算成MCTS未收敛，也不能宣称新空间必然更优。Stage Joint已全枚举小空间，尚无大空间效率优势证明。68项CPU测试通过，冷缓存重放分数/最优方案/计数/轨迹一致。入口tools/evaluate_stage_search.py，数据data/stage_search_medium_v1，说明STAGE_PLACEMENT_SEARCH.md；没有重跑完整3B或新增GPU。
+
+## 2026-11-09：分支感知与混合Joint
+
+沿用三个3B中等子图和free/cap75，新增DAG简单fork/join线性分支同卡动作branch_aware，以及分支独立＋串行主干连续阶段的hybrid；融合仍搜索。统一64次独立实评上限、3种子，初始化与不可行项计费；Exact独立且不泄漏标签。
+
+空间：serial_tail 1536/38/1536/38，attention_fork 128/14/32/24，MLP 384/28/192/60（原／阶段／分支／混合）。MLP free四法中位Gap0/6.5288/0/0%；cap75为5.6503/14.9857/0.0145/0%。混合三种子均达到原域Exact，但60项全部覆盖，不称选择策略效率优势。MLP free分支／混合恢复164.514us双卡分支重叠和2条跨卡边；cap75阶段也存在164.407us重叠但有3条跨卡边，不能将其全部损失解释为无分支并行。
+
+新增离线Exact反事实耦合审计：MLP共同域Fused−Native为+12.697～+28.878us，存在数值交互与部分放置排序反转，但始终Native更快，共同域最优放置集合仍有交集；serial_tail始终Fused更快，收益变动仅0.000747us。当前未观察到融合偏好翻转或共同域最优放置变化，不把同时融合和分卡视作强耦合成功。保留两个完整域不可行任务及attention无融合对照项。
+
+74项CPU测试通过，冷缓存完整重放一致（排除墙钟）；36条旧控制运行方案/成本/计数不变。入口tools/evaluate_branch_search.py，结果data/branch_search_medium_v1，说明BRANCH_PLACEMENT_SEARCH.md；无完整3B运行或GPU测量，原成本/UCT公式/数据不改。

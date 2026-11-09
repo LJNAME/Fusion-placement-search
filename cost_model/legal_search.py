@@ -45,6 +45,40 @@ class LegalPartialState:
         )
 
 
+def branch_regions(graph: OpGraph, order: Sequence[str]) -> list[dict]:
+    """Find simple fork/join regions with disjoint linear branch interiors.
+
+    The detector uses only DAG edges. Nested or partially reconverging forks
+    are left unrestricted rather than being guessed into one serial branch.
+    Fork and join nodes themselves are outside the branch placement units.
+    """
+    regions = []
+    for fork in order:
+        children = list(dict.fromkeys(graph.successors(fork)))
+        if len(children) < 2:
+            continue
+        paths, joins = [], []
+        for child in children:
+            path, current = [], child
+            while len(set(graph.predecessors(current))) == 1:
+                path.append(current)
+                successors = list(dict.fromkeys(graph.successors(current)))
+                if len(successors) != 1:
+                    break
+                current = successors[0]
+            else:
+                if path:
+                    paths.append(path)
+                    joins.append(current)
+                    continue
+            break
+        if len(paths) == len(children) and len(set(joins)) == 1:
+            flattened = [n for path in paths for n in path]
+            if len(flattened) == len(set(flattened)):
+                regions.append({"fork": fork, "join": joins[0], "branches": paths})
+    return regions
+
+
 class LegalFusionSearchSpace:
     """Candidate-cover search space with deterministic contraction semantics."""
 
@@ -62,7 +96,7 @@ class LegalFusionSearchSpace:
             raise ValueError("n_devs must be positive")
         self.graph = graph
         self.n_devs = int(n_devs)
-        if placement_policy not in ("node", "contiguous_stages"):
+        if placement_policy not in ("node", "contiguous_stages", "branch_aware", "hybrid"):
             raise ValueError(f"unknown placement policy: {placement_policy}")
         self.placement_policy = placement_policy
         if allowed_devices is None:
@@ -80,6 +114,10 @@ class LegalFusionSearchSpace:
         self.require_executable = bool(require_executable)
         self.order = tuple(graph.topological_order())
         self.position = {node_id: index for index, node_id in enumerate(self.order)}
+        self.branch_regions = branch_regions(graph, self.order)
+        self.branch_unit = {n: f"r{r}:b{b}" for r, region in enumerate(self.branch_regions)
+                            for b, path in enumerate(region["branches"]) for n in path}
+        self.trunk_nodes = set(self.order) - self.branch_unit.keys()
         self.candidates = tuple(
             enumerate_fusion_candidates(
                 graph,
@@ -158,7 +196,7 @@ class LegalFusionSearchSpace:
         for candidate in self.by_node[anchor]:
             if any(node_id in state.assigned for node_id in candidate.node_ids):
                 continue
-            devices = self._stage_devices(state)
+            devices = self._placement_devices(state, candidate)
             if bound:
                 forced = self._tied_devices(candidate, bound)
                 if forced is not None:
@@ -169,30 +207,45 @@ class LegalFusionSearchSpace:
                 result.append(LegalChoice(candidate, device))
         return result
 
-    def _stage_devices(self, state: LegalPartialState) -> tuple[int, ...]:
+    def _stage_devices(self, state: LegalPartialState, relevant=None) -> tuple[int, ...]:
         """Stay in this stage or open an unused card; never return to an old one.
 
         A non-adjacent fusion can assign nodes beyond the next anchor. Such a
         fusion must finish its entire topological span before a stage cut.
         Previously bound shared parameters also cannot be stranded behind a cut.
         """
-        if self.placement_policy == "node" or not state.choices:
+        choices = state.choices if relevant is None else tuple(
+            c for c in state.choices if relevant.intersection(c.candidate.node_ids))
+        if not choices:
             return self.allowed_devices
-        current = state.choices[-1].device
-        used = {c.device for c in state.choices}
-        if any(self.position[n] >= state.anchor_index for n in state.assigned):
+        current = choices[-1].device
+        used = {c.device for c in choices}
+        assigned = state.assigned if relevant is None else state.assigned.intersection(relevant)
+        if any(self.position[n] >= state.anchor_index for n in assigned):
             return (current,)
         bound = self.bound_devices(state)
-        if any(n not in state.assigned and pid in bound
+        if any(n not in state.assigned and (relevant is None or n in relevant) and bound.get(pid) in used
                for n, pid in self.tie_group.items()):
             return (current,)
         return (current, *(d for d in self.allowed_devices if d not in used))
 
+    def _placement_devices(self, state, candidate):
+        if self.placement_policy == "node":
+            return self.allowed_devices
+        if self.placement_policy == "contiguous_stages":
+            return self._stage_devices(state)
+        devices = self.allowed_devices
+        if self.placement_policy == "hybrid" and self.trunk_nodes.intersection(candidate.node_ids):
+            devices = self._stage_devices(state, self.trunk_nodes)
+        bound = {self.branch_unit[n]: c.device for c in state.choices for n in c.candidate.node_ids
+                 if n in self.branch_unit}
+        forced = {bound[self.branch_unit[n]] for n in candidate.node_ids
+                  if n in self.branch_unit and self.branch_unit[n] in bound}
+        return tuple(d for d in devices if not forced or forced == {d})
+
     def apply(self, state: LegalPartialState, choice: LegalChoice) -> LegalPartialState:
         if choice.device not in self.allowed_devices:
             raise ValueError(f"device is not allowed: {choice.device}")
-        if choice.device not in self._stage_devices(state):
-            raise ValueError("choice crosses a fusion span or returns to a completed stage")
         anchor = self.anchor(state)
         if (
             anchor is None
@@ -203,6 +256,8 @@ class LegalFusionSearchSpace:
                 f"choice is not legal at anchor {anchor}: "
                 f"{choice.candidate.pattern_id}{choice.candidate.node_ids}"
             )
+        if choice.device not in self._placement_devices(state, choice.candidate):
+            raise ValueError("choice crosses a fusion span, branch unit or returns to a completed stage")
         if self.tie_group:
             forced = self._tied_devices(choice.candidate, self.bound_devices(state))
             if forced is not None and forced != {choice.device}:
@@ -289,6 +344,9 @@ class LegalFusionSearchSpace:
             stage_order = []
             cuts = []
             for index, node_id in enumerate(self.order):
+                if self.placement_policy == "branch_aware" or (
+                    self.placement_policy == "hybrid" and node_id not in self.trunk_nodes):
+                    continue
                 if not stage_order or devices[node_id] != stage_order[-1]:
                     stage_order.append(devices[node_id])
                     if index:
@@ -297,6 +355,9 @@ class LegalFusionSearchSpace:
                 raise AssertionError("a device occurs in more than one contiguous stage")
             plan.extra.update(placement_policy=self.placement_policy,
                               stage_devices=stage_order, cut_indices=cuts)
+            if self.placement_policy in ("branch_aware", "hybrid"):
+                plan.extra.update(branch_regions=self.branch_regions,
+                                  stage_scope="trunk_only" if self.placement_policy == "hybrid" else "none")
         if validate:
             validate_fusion_plan(
                 self.graph,

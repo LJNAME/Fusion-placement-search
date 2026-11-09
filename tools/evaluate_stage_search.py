@@ -51,6 +51,10 @@ class Ledger:
         self.best, self.best_s = None, float("inf")
         self.phase = "initialization"
 
+    def observe(self, plan, estimate):
+        """Optional diagnostics from the same charged model evaluation."""
+        return {}
+
     def evaluate(self, plan):
         self.requests += 1
         key = _plan_key(plan)
@@ -69,6 +73,7 @@ class Ledger:
                    "cross_device_bytes": est.cross_device_bytes,
                    "fused_groups": sum(len(g.node_ids) > 1 for g in plan.groups),
                    "best_ms": None if self.best is None else self.best_s * 1e3}
+            row.update(self.observe(plan, est))
             self.cache[key] = row
             self.trace.append(row)
         return self.cache[key]
