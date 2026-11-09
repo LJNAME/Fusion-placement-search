@@ -1,0 +1,46 @@
+{
+  "model": "Qwen3-0.6B",
+  "scale": "model",
+  "budget": 64,
+  "seeds": [
+    0,
+    7,
+    23
+  ],
+  "caps": [
+    "free",
+    "cap75"
+  ],
+  "methods": [
+    "joint_node",
+    "joint_hybrid",
+    "random_node",
+    "random_hybrid"
+  ],
+  "source_sha256": {
+    "tools/evaluate_full_joint.py": "87b5890521afd724fe466fd59742e6afe102f0ee78f0c2e08da1a94ec9dce615",
+    "data/bw1000_2card/bw1000_2card.calibrated.json": "261c9a53afebcc1abc25032a8a7124a599f6b0873187cb020d6ad2dc67d5776e",
+    "tools/evaluate_stage_search.py": "caa770bf5b95b03231b23912550c3be8c249a64c8d30c334c432a91fc4b4a27f",
+    "tools/evaluate_branch_search.py": "4365845df201abed8882577e1ea754fe7188272f112def526df2b8a47930784b",
+    "cost_model/legal_search.py": "62bea907d31ba629e1721f90b4dad839619816ff2876ce4f45e87fd3a79ddcd8",
+    "cost_model/htae.py": "39ce1e643d3b9299bebb7541ea2fc0c530e123fb4f87a8f1bc96142215fdbad8",
+    "cost_model/structural.py": "e22f0cf2539588954e419d221282356f52d4d8751e95b50b97ab041af94a6ada",
+    "cost_model/fusion_library.py": "400487fb10eb734cd20d2aaea5dd78c08d14170b29871d99f2baa2f8890cea4d",
+    "cost_model/hardware_profile.py": "33731499225327a9ed216cd591d08ca004bd99d02da7e84779cc30f6f8b95c52",
+    "cost_model/search_evaluation.py": "d6a08dcbae10ded7060daa200968324a06ae65b2bce2aa9b34a6e1b2e0d1d600",
+    "simulator/model_graphs/transformer.py": "7ba8ab0bd06839ee3611911b61ca2a6b2993622b18c623fd450919184ca0d85b",
+    "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead",
+    "simulator/schema.py": "b3bd894e7565eb0a96f230fe4103c5b697ba84cc266edd96735ad226284ab325",
+    "simulator/shape_model.py": "d80fe667316d740fd58b7fc28241d97162fd9e9a500e6d5342f7a92d08145b73",
+    "data/fusion_library_lightop_v1/manifest.json": "bdd0a7acb8787240d74f0c30764f8eef662eae5102cce52ef1d2b241a0aa5215",
+    "data/fusion_library_lightop_v1/calibration.json": "159f7c94a1439bff39f5dc4ea313c6161cf2ab82c86a4882feca2513652e143b"
+  },
+  "objective": "forward makespan; analytic L1 plus existing LightOP calibration; blocking HTAE",
+  "shared_parameters": "tie_shared_params=True in every method; no unmodeled remote tied weights",
+  "budget_contract": "64 by default actual unique complete-plan model evaluations, including both native initializations and infeasible calls",
+  "references": "eight predefined legal uniform/half-layer plans, never search seeds; no Exact oracle",
+  "capacity_contract": "free=physical total; cap75=75% of unfused single-card forward peak; synthetic, not training",
+  "cpu_wall_time_scope": "diagnostic; two model processes may run concurrently; not an algorithm speed benchmark",
+  "gpu_measurements": 0,
+  "full_model_gpu_execution": false
+}

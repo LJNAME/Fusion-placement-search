@@ -105,3 +105,7 @@
 ## 2026-11-09：预算曲线与真实耦合候选
 
 `hybrid_budget_v1/`：8/16次实际评分主实验96运行，保留混合Joint未优于Random的结果；单独标注探索性64轨迹跟进，MLP free达1%目标的中位评分数为混合21／原Joint51／同域Random30。`coupling_evidence_audit_v1/`：真实KERV两卡原始矩阵点估计最优卡翻转，但0.019μs差异的样本范围重叠，尚未确认。说明：[HYBRID_BUDGET_AND_COUPLING.md](../cost_model/HYBRID_BUDGET_AND_COUPLING.md)。18项CPU测试通过，无新GPU或完整3B。
+
+## 2026-11-09：完整 Qwen 双模型搜索
+
+`full_joint_models_v1/`：Qwen3-0.6B（591节点）／Qwen2.5-3B（687节点），四法×两个容量场景×三种子，48运行、每次64实评；summary、逐次trace、最佳Plan及源码哈希。3B cap75混合Joint30.23505ms，原Joint47.04910ms；Qwen3 cap75混合Joint／同域Random均0/3找到可行解，事后单个合法见证保留。21项CPU测试及全部计费／导出离线检查通过。仅前向解析预测，非完整模型GPU执行，参考差距非Exact Gap。说明：[FULL_QWEN_JOINT_EXPERIMENT.md](../cost_model/FULL_QWEN_JOINT_EXPERIMENT.md)。

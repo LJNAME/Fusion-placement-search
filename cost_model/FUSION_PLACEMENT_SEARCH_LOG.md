@@ -240,3 +240,11 @@ P0固定8/16实评、三个原中等子图、3种子，Joint Node/Hybrid及两�
 P1核对旧比较记录未见同实现同契约的融合偏好翻转；kerv_profile_admission_v1两卡7×50原始矩阵存在点估计放置候选：Native GPU0=10.316780us/GPU1=11.254359us，Fused GPU0=7.251180us/GPU1=7.232000us。但Fused仅差0.019180us且两卡样本范围重叠，Native范围也重叠；标point_estimate_candidate_only，不确证真实稳定耦合。3072宽度不适用3B11008；旧Native仍comparison_only，未修改准入或将复用当独立测量。
 
 入口tools/evaluate_hybrid_budget.py、tools/audit_coupling_evidence.py，data/hybrid_budget_v1与data/coupling_evidence_audit_v1，说明HYBRID_BUDGET_AND_COUPLING.md。18项CPU测试通过，完整冷重放和P1逐字节重放通过；无新GPU、整3B或算法／成本改动。P0仅在MLP free有条件支持预算优势；P1仍为未确认候选。
+
+## 2026-11-09：完整 Qwen3／Qwen2.5-3B 固定预算对照
+
+用户授权扩大完整图；tools/evaluate_full_joint.py运行591／687节点图、node／hybrid Joint与两个同域Random、free／cap75、3种子0/7/23，每次64个不同完整方案实评（含两卡Native初始化及不可行项），共48运行／3072次搜索评分。共享embedding/head同卡，半层参考head返回owner；无新GPU、反向时间或训练执行。仅给run_mcts增加默认False的tie_shared_params透传，不改UCT和成本公式。
+
+free中位：Qwen3 Joint原／混合10.12396ms，两个Random10.18784；3B四法29.37739。cap75：Qwen3原Joint10.24017、混合无可行0/3、Random原26.49267、Random混合无可行0/3；3B依次47.04910／30.23505／47.26194／30.50624ms，混合较原Joint低35.74%，较同域Random仅0.89%、逐种子只赢1/3。不得将空间收益等同于树策略稳定优势。最低已知参考9.95933／10.07620／29.06952／29.19805ms，非Exact；3B cap75混合仍差3.5516%。
+
+事后一个Qwen3混合合法见证：分支全1、主干全0、Native，峰值918093824／355467264B低于952811520B，15.87973ms。说明空间有解但64预算没找到；不注入原实验。共享head绑定与主干不可返回共同阻止切分，半层参考在L014.input不属于混合域。成本为当前解析L1＋旧LightOP校准，AddRMS仍uncalibrated，不是旧严格KERV实测模式。21项CPU测试通过；48轨迹、唯一计费、源码／图／最优导出SHA及可行incumbent离线检查通过，无重复跑全矩阵。说明FULL_QWEN_JOINT_EXPERIMENT.md；data/full_joint_models_v1含全部轨迹和方案，README／SROP／transfer原改动保留。
