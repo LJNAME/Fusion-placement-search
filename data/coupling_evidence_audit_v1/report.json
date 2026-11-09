@@ -1,0 +1,179 @@
+{
+  "scope": "P1 bounded existing-evidence audit; no model/cost changes, new GPU, admission or whole-graph execution",
+  "comparison_inventory": [
+    {
+      "implementation": "kerv silu_mul (graph)",
+      "contract": "graph_replay",
+      "case_ids": [
+        "kerv_silu_mul_gpu0_seq256",
+        "kerv_silu_mul_gpu0_seq1",
+        "kerv_silu_mul_gpu1_seq1",
+        "kerv_silu_mul_gpu1_seq256"
+      ],
+      "observed_preferences": [
+        "fused"
+      ],
+      "same_implementation_preference_flip": false,
+      "evidence_scope": "existing comparison report; not newly admitted or independent whole-plan labels"
+    },
+    {
+      "implementation": "kerv add_rmsnorm consume-x dual output (graph)",
+      "contract": "graph_replay",
+      "case_ids": [
+        "kerv_add_rmsnorm_gpu0_seq256"
+      ],
+      "observed_preferences": [
+        "fused"
+      ],
+      "same_implementation_preference_flip": false,
+      "evidence_scope": "existing comparison report; not newly admitted or independent whole-plan labels"
+    },
+    {
+      "implementation": "lightop op.silu_and_mul_opt + pack (eager)",
+      "contract": "eager",
+      "case_ids": [
+        "lightop_silu_mul_split_gpu0_seq256"
+      ],
+      "observed_preferences": [
+        "unfused"
+      ],
+      "same_implementation_preference_flip": false,
+      "evidence_scope": "existing comparison report; not newly admitted or independent whole-plan labels"
+    }
+  ],
+  "placement_candidate": {
+    "implementation": "KERV silu_mul; Native complete SiLU->Mul comparison chain",
+    "shape": [
+      1,
+      256,
+      3072
+    ],
+    "dtype": "bf16",
+    "layout": "contiguous",
+    "cells": {
+      "0": {
+        "native": {
+          "median_us": 10.316779613494875,
+          "min_us": 10.259200334548948,
+          "max_us": 11.241559982299805,
+          "samples_us": [
+            10.451200008392336,
+            10.463960170745851,
+            10.259200334548948,
+            10.294359922409058,
+            10.316779613494875,
+            10.307159423828125,
+            11.241559982299805
+          ],
+          "measurement_contract_id": "sha256:f4cbdf92046f460ce1c8c76c3b35229d634717fab8a9323b604b274d608c9d70"
+        },
+        "fused": {
+          "median_us": 7.251179814338683,
+          "min_us": 7.200000286102295,
+          "max_us": 7.273560166358948,
+          "samples_us": [
+            7.200000286102295,
+            7.215999960899353,
+            7.273560166358948,
+            7.251179814338683,
+            7.270359992980957,
+            7.241600155830383,
+            7.257599830627441
+          ],
+          "measurement_contract_id": "sha256:f4cbdf92046f460ce1c8c76c3b35229d634717fab8a9323b604b274d608c9d70"
+        }
+      },
+      "1": {
+        "native": {
+          "median_us": 11.254359483718872,
+          "min_us": 10.310399532318113,
+          "max_us": 11.443159580230713,
+          "samples_us": [
+            11.443159580230713,
+            11.430360078811646,
+            11.235159635543825,
+            11.276760101318358,
+            10.310399532318113,
+            11.254359483718872,
+            11.235159635543825
+          ],
+          "measurement_contract_id": "sha256:ce6b7d7f1a74fbbd95d58252764487ce5f7d707ef520585de5bfa0d7988af507"
+        },
+        "fused": {
+          "median_us": 7.232000231742859,
+          "min_us": 7.219160199165344,
+          "max_us": 7.951959967613219,
+          "samples_us": [
+            7.254400253295898,
+            7.228779792785644,
+            7.951959967613219,
+            7.254400253295898,
+            7.219160199165344,
+            7.232000231742859,
+            7.219160199165344
+          ],
+          "measurement_contract_id": "sha256:ce6b7d7f1a74fbbd95d58252764487ce5f7d707ef520585de5bfa0d7988af507"
+        }
+      }
+    },
+    "preferred_device_from_medians": {
+      "native": 0,
+      "fused": 1
+    },
+    "point_estimate_placement_flip": true,
+    "observed_ranges_separated": {
+      "native": false,
+      "fused": false
+    },
+    "status": "point_estimate_candidate_only",
+    "confirmed_coupling": false,
+    "range_note": "min/max are observed sample ranges, not confidence intervals; overlapping ranges do not establish an ordering",
+    "identity_check": "same inputs, implementation source and full contract except physical UUID; physical receipts unchanged",
+    "admission_scope": {
+      "use": "selected_fused_group_graph_batch_proxy",
+      "executor": "placed_kerv_native_fused_graph_replay",
+      "shape": [
+        1,
+        256,
+        3072
+      ],
+      "dtype": "bf16",
+      "layout": "contiguous",
+      "calls_per_round": 50,
+      "rounds": 7,
+      "warmup_replays": 10,
+      "native_use": "comparison_only",
+      "singleton_costs_admitted": false,
+      "link_costs_admitted": false,
+      "hardware_profile_sharing": false,
+      "whole_plan_costs_admitted": false,
+      "downstream_deployable": false
+    },
+    "matches_current_3b_ffn": false,
+    "three_b_gap": "measured width 3072 vs 3B FFN width 11008; not transferred to 3B or current LightOP model",
+    "followup_needed": "only if pursued: paired cross-device order validation for this exact kernel/shape, then graph-level reference; no new job created"
+  },
+  "confirmed_real_preference_flips": 0,
+  "confirmed_real_whole_plan_placement_changes": 0,
+  "excluded_inferences": [
+    "KERV vs LightOP is an implementation change, not a same-kernel preference flip",
+    "eager vs Graph is a contract change",
+    "GPU1 singleton sums are not a matched Native complete chain",
+    "hardware-class reuse is not an independent second-card measurement",
+    "overlapping cross-card sample ranges do not confirm an optimal-device change"
+  ],
+  "source_sha256": {
+    "tools/audit_coupling_evidence.py": "b9e81675dac3b7264622133788974e48fe24685644b782ab611f38df916eb6fa",
+    "data/fusion_benefit_validation_v1/report.json": "adcb163db3709062cffab60247b0ee631e83c4a101ff27d1ae0de2712c069c41",
+    "data/kerv_profile_admission_v1/admission.json": "ca51a72f0daa20779f3f67d1c43226debd26171241ca8e8590bdc550823ad9cf",
+    "data/kerv_profile_admission_v1/measurements/profile.json": "b335c913cbacd299d0e2675dd7f2cb19646c330d417efc461404121af7c07017",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu0/native/result.json": "6a0b4ded5d992b921aa1eb2fabeb510ac496a3a52d6b146d89de3afba7642807",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu0/native/samples.json": "972ead2d0a98a016a7d4ea229b7590737b812e271c38ca0f6bf123c6493967d7",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu0/fused/result.json": "ac18d60f38a525a3a5f9b5a8db065df16eeb964c2a867226b96c2e6384c58e2b",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu0/fused/samples.json": "fe6ade6c1294bcce0ab656cece38fbff7af2e12db0109ff1b443c59adbb96169",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu1/native/result.json": "0af6363cdb362dcdbeed543a92aa712ecc7826faba2e6a793e57893fadaa4fe6",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu1/native/samples.json": "7a35422d7810cda42776beb8830cc494cbe29538883161d47fe9cf678c2f0b21",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu1/fused/result.json": "ac583978dd7bdb5b536e8c11b7d5dac6bb7fec1f19a59cbeeb1920258f7ec988",
+    "data/kerv_profile_admission_v1/measurements/inputs/gpu1/fused/samples.json": "bcea472ae91a2333304a2751ff09e95e9e3b9e48db9d8373adab21f584ca358a"
+  }
+}

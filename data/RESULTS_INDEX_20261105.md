@@ -101,3 +101,7 @@
 ## 2026-11-09：分支与混合动作对照
 
 `branch_search_medium_v1/`：相同三子图、6任务、4种Joint、64实评上限、3种子；含原域及受限域Exact、分支重叠和融合—放置反事实耦合。MLP cap75中位Gap由原Joint5.65%降至分支0.0145%／混合0；混合完整覆盖60项，尚非大空间效率证据；未观察到融合偏好翻转或共同域最优放置变化。74项CPU测试与冷缓存重放通过，36条旧控制结果不变。说明：[BRANCH_PLACEMENT_SEARCH.md](../cost_model/BRANCH_PLACEMENT_SEARCH.md)。
+
+## 2026-11-09：预算曲线与真实耦合候选
+
+`hybrid_budget_v1/`：8/16次实际评分主实验96运行，保留混合Joint未优于Random的结果；单独标注探索性64轨迹跟进，MLP free达1%目标的中位评分数为混合21／原Joint51／同域Random30。`coupling_evidence_audit_v1/`：真实KERV两卡原始矩阵点估计最优卡翻转，但0.019μs差异的样本范围重叠，尚未确认。说明：[HYBRID_BUDGET_AND_COUPLING.md](../cost_model/HYBRID_BUDGET_AND_COUPLING.md)。18项CPU测试通过，无新GPU或完整3B。

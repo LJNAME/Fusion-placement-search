@@ -230,3 +230,13 @@ serial_tail与attention_fork free的Stage Exact等于原Exact；MLP free与cap75
 新增离线Exact反事实耦合审计：MLP共同域Fused−Native为+12.697～+28.878us，存在数值交互与部分放置排序反转，但始终Native更快，共同域最优放置集合仍有交集；serial_tail始终Fused更快，收益变动仅0.000747us。当前未观察到融合偏好翻转或共同域最优放置变化，不把同时融合和分卡视作强耦合成功。保留两个完整域不可行任务及attention无融合对照项。
 
 74项CPU测试通过，冷缓存完整重放一致（排除墙钟）；36条旧控制运行方案/成本/计数不变。入口tools/evaluate_branch_search.py，结果data/branch_search_medium_v1，说明BRANCH_PLACEMENT_SEARCH.md；无完整3B运行或GPU测量，原成本/UCT公式/数据不改。
+
+## 2026-11-09：P0预算优势与P1真实证据核对
+
+P0固定8/16实评、三个原中等子图、3种子，Joint Node/Hybrid及两个域的Random共96次冷缓存运行；均未穷举混合域。MLP free/8四法Gap6.5288/6.5288/5.6503/6.5288%，free/16为5.6341/6.5288/5.6503/5.6503%；cap75/8为27.4989/14.9864/5.6503/17.4636%，cap75/16为17.4667/14.9864/5.6503/5.6503%。主实验未证明混合Joint优于Random，负面结果保留。
+
+补充分析明确标为看到主结果后的探索性跟进：复用36条旧64预算曲线，只新增12条同混合域Random。独立8/16轨迹与所有复用/新曲线前缀完全一致。MLP free达1%以内Gap的中位实评数：原Joint51、混合Joint21、Random原域>64（0/3）、Random混合域30；混合目标时点18–22，早于60项全覆盖，显示条件性预算优势。cap75原Joint1/3在64次内达标、混合3/3；但混合1%目标中位32次不优于同域Random30次，只赢1/3。Exact时点亦保存，不挑选单一有利目标；不能称普适优势或显著性。
+
+P1核对旧比较记录未见同实现同契约的融合偏好翻转；kerv_profile_admission_v1两卡7×50原始矩阵存在点估计放置候选：Native GPU0=10.316780us/GPU1=11.254359us，Fused GPU0=7.251180us/GPU1=7.232000us。但Fused仅差0.019180us且两卡样本范围重叠，Native范围也重叠；标point_estimate_candidate_only，不确证真实稳定耦合。3072宽度不适用3B11008；旧Native仍comparison_only，未修改准入或将复用当独立测量。
+
+入口tools/evaluate_hybrid_budget.py、tools/audit_coupling_evidence.py，data/hybrid_budget_v1与data/coupling_evidence_audit_v1，说明HYBRID_BUDGET_AND_COUPLING.md。18项CPU测试通过，完整冷重放和P1逐字节重放通过；无新GPU、整3B或算法／成本改动。P0仅在MLP free有条件支持预算优势；P1仍为未确认候选。
