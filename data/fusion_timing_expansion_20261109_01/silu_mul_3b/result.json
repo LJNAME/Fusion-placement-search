@@ -1,0 +1,221 @@
+{
+  "case": "silu_mul_3b",
+  "gpu_executed": true,
+  "quality": {
+    "status": "quality_passed",
+    "statistics": {
+      "median_us": 57.235140800476074,
+      "min_us": 57.16792106628418,
+      "max_us": 59.26072120666504,
+      "iqr_over_median": 0.034635696390901034,
+      "calls": 350,
+      "rounds": 7
+    },
+    "samples_us": [
+      57.16792106628418,
+      57.18073844909668,
+      59.126319885253906,
+      57.235140800476074,
+      59.26072120666504,
+      57.225542068481445,
+      59.24471855163574
+    ],
+    "reasons": []
+  },
+  "execution_key_id": "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456",
+  "identity": {
+    "format": "fusion_timing_expansion.local_call.v1",
+    "case": {
+      "capability": "op.silu_and_mul_opt",
+      "model": "model_3b",
+      "nodes": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "shape": [
+        1,
+        256,
+        11008
+      ],
+      "recipe": "split_inputs_cat_out_then_lightop.v1",
+      "rtol": 0.01,
+      "atol": 0.001,
+      "timed_body": [
+        "cat(gate, up, out=packed)",
+        "op.silu_and_mul_opt(out, packed)"
+      ],
+      "prior_vendor_evidence": {
+        "data/lightop_vendor_20261104_02_review/capability_status.json": "a374ad407cd285134a22641e355794173272fc67f604a03a3613207c3031239f"
+      },
+      "dtype": "bf16",
+      "device": "cuda:0",
+      "graph_shapes": {
+        "L000.mlp.silu": [
+          1,
+          256,
+          11008
+        ],
+        "L000.mlp.gated_mul": [
+          1,
+          256,
+          11008
+        ]
+      },
+      "implementation": {
+        "id": "lightop.op.silu_and_mul_opt",
+        "version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+        "native_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+        "wrapper_source": "test/test_act_and_mul.py",
+        "wrapper_sha256": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560"
+      },
+      "source_of_shape": "current static graph, not model runtime observation",
+      "prior_evidence_scope": "vendor family evidence at its own shapes/dtypes; new target still unverified",
+      "graph_adapter_verified_for_this_case": false,
+      "automatic_search_registration": false,
+      "owned_buffer_bytes": 845414400
+    },
+    "runtime": {
+      "torch": "2.9.0",
+      "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+      "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+      "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+      "hip": "6.3.26113",
+      "driver": "60326113",
+      "device": {
+        "name": "BW",
+        "architecture": "gfx936:sramecc+:xnack-",
+        "total_memory": 68702699520,
+        "logical_device": "cuda:0"
+      },
+      "lightop_version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+      "native_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+      "native_kernel_count_certified": false,
+      "dispatch_trace_collected": false
+    },
+    "contract": {
+      "mode": "graph_replay",
+      "calls_per_replay": 50,
+      "rounds": 7,
+      "warmup_replays": 10,
+      "statistic": "median",
+      "unit": "us/call",
+      "boundary": "same-device same-stream Events around one replay",
+      "included": "complete declared call, including input packing or protective copies",
+      "excluded": [
+        "allocation",
+        "input generation",
+        "numerical validation",
+        "host submission"
+      ],
+      "input_reuse": "shared read-only sources; 50 independent mutable buffers and outputs",
+      "quality": {
+        "max_iqr_over_median": 0.1,
+        "attempts": 7,
+        "extra_attempts": 0,
+        "sample_replacement": false,
+        "gain_required": false
+      },
+      "scope": "isolated fixed-case amortized device work; not whole-plan time"
+    },
+    "collector_sources": {
+      "calibration/fusion_timing_expansion.py": "ff3761614cb6b99bcffcb6b0d91dcbdc4704ad9f21f4816e6fbc48646ebd1e1d",
+      "tools/run_fusion_timing_expansion.sh": "5194bb858b4a1f7ccd1f3a2cf330d5ce90c87c52f57134bcfb9efe431ea0ad33",
+      "calibration/lightop_profile_calibration.py": "ee33044d80c43270c1dd1a4c4ca37cb558fa4e7fecda0a927e7515d84cf3723b",
+      "calibration/lightop_profile_smoke.py": "caa6724246c1e559230cc2dc6ccdefaae72468cf7d7d385d760528a021a931d3",
+      "integration/lightop/catalog.py": "d1b7cacf79f389ee570db93f7fe92e832a8109fda3393622c474de10e7afefa1",
+      "execution/reference_identity.py": "a6268c198a32ada680d9caea01ebd619e6bb958c6cfb728dfec4b8b80c08ee68",
+      "cost_model/search_evaluation.py": "d6a08dcbae10ded7060daa200968324a06ae65b2bce2aa9b34a6e1b2e0d1d600",
+      "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead"
+    },
+    "inputs": {
+      "gate": {
+        "shape": [
+          1,
+          256,
+          11008
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          2818048,
+          11008,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      },
+      "up": {
+        "shape": [
+          1,
+          256,
+          11008
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          2818048,
+          11008,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      }
+    },
+    "outputs": [
+      {
+        "shape": [
+          1,
+          256,
+          11008
+        ],
+        "dtype": "bf16",
+        "layout": "contiguous",
+        "strides": [
+          2818048,
+          11008,
+          1
+        ],
+        "layout_provenance": {
+          "kind": "runtime_tensor",
+          "device": "cuda:0",
+          "observer": "Tensor.shape/dtype/stride/is_contiguous"
+        }
+      }
+    ]
+  },
+  "contract": {
+    "mode": "graph_replay",
+    "calls_per_replay": 50,
+    "rounds": 7,
+    "warmup_replays": 10,
+    "statistic": "median",
+    "unit": "us/call",
+    "boundary": "same-device same-stream Events around one replay",
+    "included": "complete declared call, including input packing or protective copies",
+    "excluded": [
+      "allocation",
+      "input generation",
+      "numerical validation",
+      "host submission"
+    ],
+    "input_reuse": "shared read-only sources; 50 independent mutable buffers and outputs",
+    "quality": {
+      "max_iqr_over_median": 0.1,
+      "attempts": 7,
+      "extra_attempts": 0,
+      "sample_replacement": false,
+      "gain_required": false
+    },
+    "scope": "isolated fixed-case amortized device work; not whole-plan time"
+  },
+  "automatic_admission": false,
+  "search_rule_changed": false,
+  "physical_single_kernel_verified": false,
+  "status": "quality_passed"
+}

@@ -264,3 +264,11 @@ ForwardResidentBound识别共享首尾权重＋主干不可返回，强制主干
 每项独立子进程、50私有buffer、3次纯布尔smoke、10预热、7正式Replay×50调用，同stream Event、IQR/Median≤10%、不补轮。计时包括SiLU打包或AddRMS／RoPE保护输入复制；所有源只读，逐轮50输出与双参考检查。父进程保留崩溃返回码并继续其他Case；无Native/eager回退。旧Native/KERV不重测、历史七项未完成仍搁置，无MCTS／能力规则／模型参数变更或自动Profile准入。
 
 本地Torch2.9 CPU，无HIP，GPU实测0。29项CPU测试通过（含回传重算／篡改拒绝／进程隔离），bash -n通过；pytest仅有缓存写权限警告。data/fusion_timing_expansion_plan_v1/plan.json为CPU预览，calibration/FUSION_TIMING_EXPANSION.md含服务器单命令与回传审核。下一步等待服务器运行与回传，不能把计划称为已测结果。README／SROP／transfer原脏文件保留。
+
+## 2026-11-09：三类融合实测回传复核
+
+fusion_timing_expansion_20261109_01归档41个原文件；压缩包SHA256=4f62a7a3cdac55c93b87f6451a1b2add1513218be1c5680f25943da5133fb401。运行提交7f1ad7e，冻结计划及全部源哈希与本地一致；GPU0 BW/gfx936、Torch2.9.0/HIP6.3.26113、固定LightOP实际so核验通过。review及verification在同名_review目录。
+
+三完整调用：SiLU×Mul11008含cat 57.235140800μs，AddRMS2048含两次copy 13.612760305μs，Q/K RMSNorm＋RoPE含两次copy 15.769560337μs；IQR/Median分别3.46357%／9.29716%／9.57795%，按原10%门槛3/3通过。每项3次布尔smoke、7×50正式检查回执、双数值参考、只读源不变、私有buffer独立及同stream Event通过；原21轮统计重算一致，进程返回码均0。未补轮、未重跑，不因接近门槛改判。
+
+只新增局部完整调用测时证据，无自动准入、搜索规则或MCTS变化。完整调用含打包/输入保护复制，不能推导纯Kernel或整图GPU性能；没有同配方Native新对照，不宣称加速比。RoPE声明仍非图语义证明，无新增dispatch trace或单物理Kernel认证；旧KERV/Native不重测。11.10本周汇报同步回传结果。

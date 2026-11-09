@@ -1,0 +1,235 @@
+{
+  "scope": "three_lightop_complete_calls_expansion_v1",
+  "cases": {
+    "silu_mul_3b": {
+      "capability": "op.silu_and_mul_opt",
+      "model": "model_3b",
+      "nodes": [
+        "L000.mlp.silu",
+        "L000.mlp.gated_mul"
+      ],
+      "shape": [
+        1,
+        256,
+        11008
+      ],
+      "recipe": "split_inputs_cat_out_then_lightop.v1",
+      "rtol": 0.01,
+      "atol": 0.001,
+      "timed_body": [
+        "cat(gate, up, out=packed)",
+        "op.silu_and_mul_opt(out, packed)"
+      ],
+      "prior_vendor_evidence": {
+        "data/lightop_vendor_20261104_02_review/capability_status.json": "a374ad407cd285134a22641e355794173272fc67f604a03a3613207c3031239f"
+      },
+      "dtype": "bf16",
+      "device": "cuda:0",
+      "graph_shapes": {
+        "L000.mlp.silu": [
+          1,
+          256,
+          11008
+        ],
+        "L000.mlp.gated_mul": [
+          1,
+          256,
+          11008
+        ]
+      },
+      "implementation": {
+        "id": "lightop.op.silu_and_mul_opt",
+        "version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+        "native_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+        "wrapper_source": "test/test_act_and_mul.py",
+        "wrapper_sha256": "4487e557bfe427a5b3fd77be56776b2725a2065a2abb55901f7b581a9a2a4560"
+      },
+      "source_of_shape": "current static graph, not model runtime observation",
+      "prior_evidence_scope": "vendor family evidence at its own shapes/dtypes; new target still unverified",
+      "graph_adapter_verified_for_this_case": false,
+      "automatic_search_registration": false,
+      "owned_buffer_bytes": 845414400
+    },
+    "add_rmsnorm_3b": {
+      "capability": "fused_add_rms_norm",
+      "model": "model_3b",
+      "nodes": [
+        "L000.residual_add_1",
+        "L000.pre_mlp_norm"
+      ],
+      "shape": [
+        1,
+        256,
+        2048
+      ],
+      "recipe": "copy_two_inputs_then_lightop_dual_output.v1",
+      "rtol": 0.02,
+      "atol": 0.02,
+      "timed_body": [
+        "x_buf.copy_(x)",
+        "res_buf.copy_(residual)",
+        "lightop.fused_add_rms_norm(x_buf,res_buf,w,eps)"
+      ],
+      "prior_vendor_evidence": {
+        "data/lightop_vendor_suite01_review/capability_status.json": "a2ecacf6e8a1d66b98a08225343d0e564b700848f81a204096b152fcd21025cd"
+      },
+      "dtype": "bf16",
+      "device": "cuda:0",
+      "graph_shapes": {
+        "L000.residual_add_1": [
+          1,
+          256,
+          2048
+        ],
+        "L000.pre_mlp_norm": [
+          1,
+          256,
+          2048
+        ]
+      },
+      "implementation": {
+        "id": "lightop.fused_add_rms_norm",
+        "version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+        "native_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+        "wrapper_source": "lightop/rmsnorm.py",
+        "wrapper_sha256": "74f583dd05956e5aaeb1e0f1d476084f022439574a921b4f92679949cae63094"
+      },
+      "source_of_shape": "current static graph, not model runtime observation",
+      "prior_evidence_scope": "vendor family evidence at its own shapes/dtypes; new target still unverified",
+      "graph_adapter_verified_for_this_case": false,
+      "automatic_search_registration": false,
+      "owned_buffer_bytes": 104857600
+    },
+    "rmsnorm_rope_qwen3": {
+      "capability": "rms_rotary_embedding_fuse",
+      "model": "model",
+      "nodes": [
+        "L000.self_attention.q_norm",
+        "L000.self_attention.q_rope",
+        "L000.self_attention.k_norm",
+        "L000.self_attention.k_rope"
+      ],
+      "shape": [
+        1,
+        256,
+        16,
+        128
+      ],
+      "key_shape": [
+        1,
+        256,
+        8,
+        128
+      ],
+      "recipe": "copy_qk_then_joint_rmsnorm_rope.v1",
+      "rtol": 0.02,
+      "atol": 0.02,
+      "timed_body": [
+        "q_buf.copy_(q)",
+        "k_buf.copy_(k)",
+        "lightop.rms_rotary_embedding_fuse(...)"
+      ],
+      "prior_vendor_evidence": {
+        "data/lightop_vendor_20261104_02_review/capability_status.json": "a374ad407cd285134a22641e355794173272fc67f604a03a3613207c3031239f"
+      },
+      "dtype": "bf16",
+      "device": "cuda:0",
+      "graph_shapes": {
+        "L000.self_attention.q_norm": [
+          1,
+          256,
+          16,
+          128
+        ],
+        "L000.self_attention.q_rope": [
+          1,
+          256,
+          16,
+          128
+        ],
+        "L000.self_attention.k_norm": [
+          1,
+          256,
+          8,
+          128
+        ],
+        "L000.self_attention.k_rope": [
+          1,
+          256,
+          8,
+          128
+        ]
+      },
+      "implementation": {
+        "id": "lightop.rms_rotary_embedding_fuse",
+        "version": "0.6.0+das.dtk2604.torch290.2605220936.g6bfaca",
+        "native_sha256": "594deb22551cacf50edfcc1104bad25abeb7f00e087612c9fdc024a0aa4a142f",
+        "wrapper_source": "lightop/fuse_rmsnorm_rope.py",
+        "wrapper_sha256": "39b2f65df0b38e23783924024e635ee557541a2261fd41b13f5332062948d227"
+      },
+      "source_of_shape": "current static graph, not model runtime observation",
+      "prior_evidence_scope": "vendor family evidence at its own shapes/dtypes; new target still unverified",
+      "graph_adapter_verified_for_this_case": false,
+      "automatic_search_registration": false,
+      "rotary": {
+        "theta": 1000000.0,
+        "rotary_dim": 128,
+        "is_neox": true,
+        "source": "explicit full-head NeoX experiment declaration; graph does not encode rotary convention",
+        "graph_semantic_equivalence_verified": false,
+        "residual_q": null,
+        "residual_k": null
+      },
+      "owned_buffer_bytes": 78643200
+    }
+  },
+  "contract": {
+    "mode": "graph_replay",
+    "calls_per_replay": 50,
+    "rounds": 7,
+    "warmup_replays": 10,
+    "statistic": "median",
+    "unit": "us/call",
+    "boundary": "same-device same-stream Events around one replay",
+    "included": "complete declared call, including input packing or protective copies",
+    "excluded": [
+      "allocation",
+      "input generation",
+      "numerical validation",
+      "host submission"
+    ],
+    "input_reuse": "shared read-only sources; 50 independent mutable buffers and outputs",
+    "quality": {
+      "max_iqr_over_median": 0.1,
+      "attempts": 7,
+      "extra_attempts": 0,
+      "sample_replacement": false,
+      "gain_required": false
+    },
+    "scope": "isolated fixed-case amortized device work; not whole-plan time"
+  },
+  "pool": {
+    "pool_argument": null,
+    "selection": "default_private_pool",
+    "shared_with_other_graphs": false
+  },
+  "seed": 20261109,
+  "eps": 1e-06,
+  "source_sha256": {
+    "calibration/fusion_timing_expansion.py": "ff3761614cb6b99bcffcb6b0d91dcbdc4704ad9f21f4816e6fbc48646ebd1e1d",
+    "tools/run_fusion_timing_expansion.sh": "5194bb858b4a1f7ccd1f3a2cf330d5ce90c87c52f57134bcfb9efe431ea0ad33",
+    "calibration/lightop_profile_calibration.py": "ee33044d80c43270c1dd1a4c4ca37cb558fa4e7fecda0a927e7515d84cf3723b",
+    "calibration/lightop_profile_smoke.py": "caa6724246c1e559230cc2dc6ccdefaae72468cf7d7d385d760528a021a931d3",
+    "integration/lightop/catalog.py": "d1b7cacf79f389ee570db93f7fe92e832a8109fda3393622c474de10e7afefa1",
+    "execution/reference_identity.py": "a6268c198a32ada680d9caea01ebd619e6bb958c6cfb728dfec4b8b80c08ee68",
+    "cost_model/search_evaluation.py": "d6a08dcbae10ded7060daa200968324a06ae65b2bce2aa9b34a6e1b2e0d1d600",
+    "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead"
+  },
+  "catalog_sha256": "39e847410ceed638c0da2ac90e6efc7bc68d32b947be7037b301d5f8334a040b",
+  "automatic_admission": false,
+  "old_native_and_kerv_remeasurement": false,
+  "source_binding": "source_sha256 binds actual working-tree code; git revision is provenance only",
+  "collector_revision": "7f1ad7e04e14ae7287743fe2aa4806062e65cae4",
+  "gpu_executed": false,
+  "physical_kernel_count_certified": false
+}

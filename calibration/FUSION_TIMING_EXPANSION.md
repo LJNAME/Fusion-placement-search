@@ -53,3 +53,21 @@ python -m calibration.fusion_timing_expansion review --input /path/to/returned_d
 审核重算7轮统计，检查实际输入／布局、库版本／二进制哈希、设备架构、全部输出检查回执、计时边界及子进程退出状态。运行设备UUID只作溯源，不绑定成本复用。
 
 记录的execution_key属于本轮局部调用身份，不冒充现有accepted搜索Profile。自动准入、搜索规则变更、MCTS修改均关闭；回传前没有新增时延数值或已验证目标能力。
+
+## fusion_timing_expansion_20261109_01 回传
+
+三项均完成GPU0实测并通过冻结的质量规则；未补轮、未挑选替换、无子进程异常。BW/gfx936，Torch2.9.0，HIP6.3.26113，LightOP固定0.6.0厂商构建；运行库哈希与计划一致。
+
+| 完整调用 | 中位数 μs/call | 最小～最大 μs/call | IQR/Median |
+| --- | ---: | ---: | ---: |
+| SiLU×Mul，宽度11008（含打包） | 57.2351 | 57.1679～59.2607 | 3.46% |
+| Add＋RMSNorm，宽度2048（含两次输入复制） | 13.6128 | 12.5728～14.1952 | 9.30% |
+| Q/K RMSNorm＋RoPE（含Q/K复制） | 15.7696 | 14.7872～16.6176 | 9.58% |
+
+[原始汇总](../data/fusion_timing_expansion_20261109_01/summary.json:2)，[CPU复核](../data/fusion_timing_expansion_20261109_01_review/review.json:2)。后两项接近预先固定的10%界限，按原规则保留通过结果，不追加测量。
+
+每项3次smoke、7次正式Replay×50调用；逐次输出双参考、只读源字节不变、私有buffer独立、输出有限检查回执通过。CPU重算全部21轮统计，核对实际计时设备/stream、实际库、输入/输出身份与来源源码。41个回传原文件按原字节归档，SHA清单与附加检查见 `data/fusion_timing_expansion_20261109_01_review/verification.json`。CPU审核依据采集断言回执，不声称重新计算未序列化的GPU输出Tensor。
+
+这些值仅对应表内完整调用配方，不能减去未知复制时间推导纯Kernel成本，也不能与旧KERV 5.3536μs直接作实现优劣比较。没有同配方Native对照，不给出新增融合加速比。
+
+本轮新增三条局部测时证据；自动准入与搜索规则变更仍关闭，没有新增accepted搜索Profile。Q/K旋转仍按本轮显式NeoX声明验证，图级RoPE替换未开放；未新增dispatch trace、唯一物理Kernel认证或完整模型执行。现有Native/KERV不重测，历史七项未完成仍搁置。

@@ -115,3 +115,7 @@
 ## 2026-11-09：三类融合调用测时扩充（CPU准备）
 
 `fusion_timing_expansion_plan_v1/`：LightOP SiLU×Mul11008、AddRMS2048、Q/K RMSNorm＋RoPE（16／8 heads×128，seq256）三个GPU0 BF16典型Case，计划已冻结，GPU尚未执行。复用厂商通过API，7×50、10预热，完整调用包含打包／保护输入复制，各Case独立进程；不重测已有Native／KERV，不重跑历史七项失败任务，不改搜索或自动准入。29项CPU测试及Shell语法通过。入口 `tools/run_fusion_timing_expansion.sh`，说明 [FUSION_TIMING_EXPANSION.md](../calibration/FUSION_TIMING_EXPANSION.md)。
+
+## 2026-11-09：三类融合调用测时回传
+
+`fusion_timing_expansion_20261109_01/`原41文件，`fusion_timing_expansion_20261109_01_review/`含review与逐文件SHA验证。GPU0 BF16，SiLU×Mul11008／AddRMS2048／QK RMSNorm＋RoPE完整调用中位57.2351／13.6128／15.7696μs，IQR/Median3.46%／9.30%／9.58%，3/3质量通过。7×50原始轮次不替换；含打包或输入复制，不视为纯Kernel或整图耗时，不与旧KERV直接作速度对照。新增局部证据3条、accepted搜索Profile0、规则/MCTS修改0。说明：[FUSION_TIMING_EXPANSION.md](../calibration/FUSION_TIMING_EXPANSION.md)。
