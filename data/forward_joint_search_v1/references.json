@@ -1,0 +1,934 @@
+{
+ "scope": "Does joint fusion+placement MCTS find better forward plans? (layer-2 = HTAE)",
+ "objective": "forward makespan (HTAE, analytic L1)",
+ "mcts_variant": {
+  "name": "fixed",
+  "normalize_q": true,
+  "skip_exhausted": true
+ },
+ "constraint": "hard",
+ "fusion_library": {
+  "scope": "full",
+  "corrections": {
+   "lightop_silu_mul": 2.417014088994849
+  }
+ },
+ "budgets": [
+  16,
+  64,
+  256
+ ],
+ "seeds": [
+  0,
+  7,
+  23
+ ],
+ "rollouts": 3,
+ "fusion_probability": 0.7,
+ "unfused_incumbent": true,
+ "assumptions": {
+  "async": "copy overlaps compute; gamma=0; not measured on BW1000",
+  "l1": "analytic + one LightOP calibration; see data/fusion_benefit_validation_v1"
+ },
+ "tasks": {
+  "medium_serial_tail:blocking:free": {
+   "nodes": 10,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.10295619914311138,
+    "feasible": true,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     9439232.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0))"
+   },
+   "capacity_bytes": [
+    68702699520.0,
+    68702699520.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": true,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.10295619914311138,
+     "cut": 10,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.09440418864457788,
+     "cut": 10,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "medium_serial_tail:blocking:cap75": {
+   "nodes": 10,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.10295619914311138,
+    "feasible": false,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     9439232.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0))"
+   },
+   "capacity_bytes": [
+    7079424.0,
+    7079424.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": true,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.22130934932628418,
+     "cut": 7,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.21275696538922614,
+     "cut": 7,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "medium_serial_tail:async:free": {
+   "nodes": 10,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.10295619914311138,
+    "feasible": true,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     9439232.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0))"
+   },
+   "capacity_bytes": [
+    68702699520.0,
+    68702699520.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": false,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.10295619914311138,
+     "cut": 10,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.09440418864457788,
+     "cut": 10,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "medium_serial_tail:async:cap75": {
+   "nodes": 10,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.10295619914311138,
+    "feasible": false,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     9439232.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0))"
+   },
+   "capacity_bytes": [
+    7079424.0,
+    7079424.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": false,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.16361313571323316,
+     "cut": 7,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.15506075177617515,
+     "cut": 7,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "medium_attention_fork:blocking:free": {
+   "nodes": 9,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.10997436199744663,
+    "feasible": true,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     10486272.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.k_norm',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.q_norm',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0))"
+   },
+   "capacity_bytes": [
+    68702699520.0,
+    68702699520.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": true,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.10997436199744663,
+     "cut": 9,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.10997436199744663,
+     "cut": 9,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "medium_attention_fork:blocking:cap75": {
+   "nodes": 9,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.10997436199744663,
+    "feasible": false,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     10486272.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.k_norm',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.q_norm',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0))"
+   },
+   "capacity_bytes": [
+    7864704.0,
+    7864704.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": true,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": null,
+    "fused": null,
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "medium_attention_fork:async:free": {
+   "nodes": 9,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.10997436199744663,
+    "feasible": true,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     10486272.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.k_norm',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.q_norm',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0))"
+   },
+   "capacity_bytes": [
+    68702699520.0,
+    68702699520.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": false,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.10997436199744663,
+     "cut": 9,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.10997436199744663,
+     "cut": 9,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "medium_attention_fork:async:cap75": {
+   "nodes": 9,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.10997436199744663,
+    "feasible": false,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     10486272.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.k_norm',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.q_norm',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0))"
+   },
+   "capacity_bytes": [
+    7864704.0,
+    7864704.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": false,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": null,
+    "fused": null,
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "medium_mlp:blocking:free": {
+   "nodes": 8,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.12636806612229573,
+    "feasible": true,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     24119296.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0))"
+   },
+   "capacity_bytes": [
+    68702699520.0,
+    68702699520.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": true,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.12636806612229573,
+     "cut": 8,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.12636806612229573,
+     "cut": 8,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "medium_mlp:blocking:cap75": {
+   "nodes": 8,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.12636806612229573,
+    "feasible": false,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     24119296.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0))"
+   },
+   "capacity_bytes": [
+    18089472.0,
+    18089472.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": true,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.24767535139689414,
+     "cut": 6,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.24767535139689414,
+     "cut": 6,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "medium_mlp:async:free": {
+   "nodes": 8,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.12636806612229573,
+    "feasible": true,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     24119296.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0))"
+   },
+   "capacity_bytes": [
+    68702699520.0,
+    68702699520.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": false,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.12636806612229573,
+     "cut": 8,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.12636806612229573,
+     "cut": 8,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "medium_mlp:async:cap75": {
+   "nodes": 8,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.12636806612229573,
+    "feasible": false,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     24119296.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0))"
+   },
+   "capacity_bytes": [
+    18089472.0,
+    18089472.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": false,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.18997913778384315,
+     "cut": 6,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.18997913778384315,
+     "cut": 6,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "layer:blocking:free": {
+   "nodes": 21,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.31692010695589556,
+    "feasible": true,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     36704768.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input',), 0), ('rmsnorm_reference', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.k_norm',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.q_norm',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0))"
+   },
+   "capacity_bytes": [
+    68702699520.0,
+    68702699520.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": true,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.31692010695589556,
+     "cut": 21,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.3087588990729462,
+     "cut": 21,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "layer:blocking:cap75": {
+   "nodes": 21,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.31692010695589556,
+    "feasible": false,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     36704768.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input',), 0), ('rmsnorm_reference', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.k_norm',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.q_norm',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0))"
+   },
+   "capacity_bytes": [
+    27528576.0,
+    27528576.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": true,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.3746637400780115,
+     "cut": 14,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.3746637400780115,
+     "cut": 14,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "layer:async:free": {
+   "nodes": 21,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.31692010695589556,
+    "feasible": true,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     36704768.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input',), 0), ('rmsnorm_reference', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.k_norm',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.q_norm',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0))"
+   },
+   "capacity_bytes": [
+    68702699520.0,
+    68702699520.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": false,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.31692010695589556,
+     "cut": 21,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.3087588990729462,
+     "cut": 21,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "layer:async:cap75": {
+   "nodes": 21,
+   "reference_unfused_dev0": {
+    "makespan_ms": 0.31692010695589556,
+    "feasible": false,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     36704768.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('L000.input',), 0), ('rmsnorm_reference', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.k_norm',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('rmsnorm_reference', ('L000.self_attention.q_norm',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0))"
+   },
+   "capacity_bytes": [
+    27528576.0,
+    27528576.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": false,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 0.3746637400780115,
+     "cut": 14,
+     "cut_step": 1,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 0.3665029056335867,
+     "cut": 13,
+     "cut_step": 1,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "model_3b:blocking:free": {
+   "nodes": 687,
+   "reference_unfused_dev0": {
+    "makespan_ms": 29.3773945352571,
+    "feasible": true,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     6250532864.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('embedding',), 0), ('unfused', ('L000.input',), 0), ('rmsnorm_reference', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0), ('unfused', ('L001.input',), 0), ('rmsnorm_reference', ('L001.input_norm',), 0), ('unfused', ('L001.self_attention.k_proj',), 0), ('unfused', ('L001.self_attention.k_rope',), 0), ('unfused', ('L001.self_attention.q_proj',), 0), ('unfused', ('L001.self_attention.q_rope',), 0), ('unfused', ('L001.self_attention.qk_matmul',), 0), ('unfused', ('L001.self_attention.softmax',), 0), ('unfused', ('L001.self_attention.v_proj',), 0), ('unfused', ('L001.self_attention.av_matmul',), 0), ('unfused', ('L001.self_attention.out_proj',), 0), ('unfused', ('L001.residual_add_1',), 0), ('rmsnorm_reference', ('L001.pre_mlp_norm',), 0), ('unfused', ('L001.mlp.gate_proj',), 0), ('unfused', ('L001.mlp.silu',), 0), ('unfused', ('L001.mlp.up_proj',), 0), ('unfused', ('L001.mlp.gated_mul',), 0), ('unfused', ('L001.mlp.down_proj',), 0), ('unfused', ('L001.residual_add_2',), 0), ('unfused', ('L002.input',), 0), ('rmsnorm_reference', ('L002.input_norm',), 0), ('unfused', ('L002.self_attention.k_proj',), 0), ('unfused', ('L002.self_attention.k_rope',), 0), ('unfused', ('L002.self_attention.q_proj',), 0), ('unfused', ('L002.self_attention.q_rope',), 0), ('unfused', ('L002.self_attention.qk_matmul',), 0), ('unfused', ('L002.self_attention.softmax',), 0), ('unfused', ('L002.self_attention.v_proj',), 0), ('unfused', ('L002.self_attention.av_matmul',), 0), ('unfused', ('L002.self_attention.out_proj',), 0), ('unfused', ('L002.residual_add_1',), 0), ('rmsnorm_reference', ('L002.pre_mlp_norm',), 0), ('unfused', ('L002.mlp.gate_proj',), 0), ('unfused', ('L002.mlp.silu',), 0), ('unfused', ('L002.mlp.up_proj',), 0), ('unfused', ('L002.mlp.gated_mul',), 0), ('unfused', ('L002.mlp.down_proj',), 0), ('unfused', ('L002.residual_add_2',), 0), ('unfused', ('L003.input',), 0), ('rmsnorm_reference', ('L003.input_norm',), 0), ('unfused', ('L003.self_attention.k_proj',), 0), ('unfused', ('L003.self_attention.k_rope',), 0), ('unfused', ('L003.self_attention.q_proj',), 0), ('unfused', ('L003.self_attention.q_rope',), 0), ('unfused', ('L003.self_attention.qk_matmul',), 0), ('unfused', ('L003.self_attention.softmax',), 0), ('unfused', ('L003.self_attention.v_proj',), 0), ('unfused', ('L003.self_attention.av_matmul',), 0), ('unfused', ('L003.self_attention.out_proj',), 0), ('unfused', ('L003.residual_add_1',), 0), ('rmsnorm_reference', ('L003.pre_mlp_norm',), 0), ('unfused', ('L003.mlp.gate_proj',), 0), ('unfused', ('L003.mlp.silu',), 0), ('unfused', ('L003.mlp.up_proj',), 0), ('unfused', ('L003.mlp.gated_mul',), 0), ('unfused', ('L003.mlp.down_proj',), 0), ('unfused', ('L003.residual_add_2',), 0), ('unfused', ('L004.input',), 0), ('rmsnorm_reference', ('L004.input_norm',), 0), ('unfused', ('L004.self_attention.k_proj',), 0), ('unfused', ('L004.self_attention.k_rope',), 0), ('unfused', ('L004.self_attention.q_proj',), 0), ('unfused', ('L004.self_attention.q_rope',), 0), ('unfused', ('L004.self_attention.qk_matmul',), 0), ('unfused', ('L004.self_attention.softmax',), 0), ('unfused', ('L004.self_attention.v_proj',), 0), ('unfused', ('L004.self_attention.av_matmul',), 0), ('unfused', ('L004.self_attention.out_proj',), 0), ('unfused', ('L004.residual_add_1',), 0), ('rmsnorm_reference', ('L004.pre_mlp_norm',), 0), ('unfused', ('L004.mlp.gate_proj',), 0), ('unfused', ('L004.mlp.silu',), 0), ('unfused', ('L004.mlp.up_proj',), 0), ('unfused', ('L004.mlp.gated_mul',), 0), ('unfused', ('L004.mlp.down_proj',), 0), ('unfused', ('L004.residual_add_2',), 0), ('unfused', ('L005.input',), 0), ('rmsnorm_reference', ('L005.input_norm',), 0), ('unfused', ('L005.self_attention.k_proj',), 0), ('unfused', ('L005.self_attention.k_rope',), 0), ('unfused', ('L005.self_attention.q_proj',), 0), ('unfused', ('L005.self_attention.q_rope',), 0), ('unfused', ('L005.self_attention.qk_matmul',), 0), ('unfused', ('L005.self_attention.softmax',), 0), ('unfused', ('L005.self_attention.v_proj',), 0), ('unfused', ('L005.self_attention.av_matmul',), 0), ('unfused', ('L005.self_attention.out_proj',), 0), ('unfused', ('L005.residual_add_1',), 0), ('rmsnorm_reference', ('L005.pre_mlp_norm',), 0), ('unfused', ('L005.mlp.gate_proj',), 0), ('unfused', ('L005.mlp.silu',), 0), ('unfused', ('L005.mlp.up_proj',), 0), ('unfused', ('L005.mlp.gated_mul',), 0), ('unfused', ('L005.mlp.down_proj',), 0), ('unfused', ('L005.residual_add_2',), 0), ('unfused', ('L006.input',), 0), ('rmsnorm_reference', ('L006.input_norm',), 0), ('unfused', ('L006.self_attention.k_proj',), 0), ('unfused', ('L006.self_attention.k_rope',), 0), ('unfused', ('L006.self_attention.q_proj',), 0), ('unfused', ('L006.self_attention.q_rope',), 0), ('unfused', ('L006.self_attention.qk_matmul',), 0), ('unfused', ('L006.self_attention.softmax',), 0), ('unfused', ('L006.self_attention.v_proj',), 0), ('unfused', ('L006.self_attention.av_matmul',), 0), ('unfused', ('L006.self_attention.out_proj',), 0), ('unfused', ('L006.residual_add_1',), 0), ('rmsnorm_reference', ('L006.pre_mlp_norm',), 0), ('unfused', ('L006.mlp.gate_proj',), 0), ('unfused', ('L006.mlp.silu',), 0), ('unfused', ('L006.mlp.up_proj',), 0), ('unfused', ('L006.mlp.gated_mul',), 0), ('unfused', ('L006.mlp.down_proj',), 0), ('unfused', ('L006.residual_add_2',), 0), ('unfused', ('L007.input',), 0), ('rmsnorm_reference', ('L007.input_norm',), 0), ('unfused', ('L007.self_attention.k_proj',), 0), ('unfused', ('L007.self_attention.k_rope',), 0), ('unfused', ('L007.self_attention.q_proj',), 0), ('unfused', ('L007.self_attention.q_rope',), 0), ('unfused', ('L007.self_attention.qk_matmul',), 0), ('unfused', ('L007.self_attention.softmax',), 0), ('unfused', ('L007.self_attention.v_proj',), 0), ('unfused', ('L007.self_attention.av_matmul',), 0), ('unfused', ('L007.self_attention.out_proj',), 0), ('unfused', ('L007.residual_add_1',), 0), ('rmsnorm_reference', ('L007.pre_mlp_norm',), 0), ('unfused', ('L007.mlp.gate_proj',), 0), ('unfused', ('L007.mlp.silu',), 0), ('unfused', ('L007.mlp.up_proj',), 0), ('unfused', ('L007.mlp.gated_mul',), 0), ('unfused', ('L007.mlp.down_proj',), 0), ('unfused', ('L007.residual_add_2',), 0), ('unfused', ('L008.input',), 0), ('rmsnorm_reference', ('L008.input_norm',), 0), ('unfused', ('L008.self_attention.k_proj',), 0), ('unfused', ('L008.self_attention.k_rope',), 0), ('unfused', ('L008.self_attention.q_proj',), 0), ('unfused', ('L008.self_attention.q_rope',), 0), ('unfused', ('L008.self_attention.qk_matmul',), 0), ('unfused', ('L008.self_attention.softmax',), 0), ('unfused', ('L008.self_attention.v_proj',), 0), ('unfused', ('L008.self_attention.av_matmul',), 0), ('unfused', ('L008.self_attention.out_proj',), 0), ('unfused', ('L008.residual_add_1',), 0), ('rmsnorm_reference', ('L008.pre_mlp_norm',), 0), ('unfused', ('L008.mlp.gate_proj',), 0), ('unfused', ('L008.mlp.silu',), 0), ('unfused', ('L008.mlp.up_proj',), 0), ('unfused', ('L008.mlp.gated_mul',), 0), ('unfused', ('L008.mlp.down_proj',), 0), ('unfused', ('L008.residual_add_2',), 0), ('unfused', ('L009.input',), 0), ('rmsnorm_reference', ('L009.input_norm',), 0), ('unfused', ('L009.self_attention.k_proj',), 0), ('unfused', ('L009.self_attention.k_rope',), 0), ('unfused', ('L009.self_attention.q_proj',), 0), ('unfused', ('L009.self_attention.q_rope',), 0), ('unfused', ('L009.self_attention.qk_matmul',), 0), ('unfused', ('L009.self_attention.softmax',), 0), ('unfused', ('L009.self_attention.v_proj',), 0), ('unfused', ('L009.self_attention.av_matmul',), 0), ('unfused', ('L009.self_attention.out_proj',), 0), ('unfused', ('L009.residual_add_1',), 0), ('rmsnorm_reference', ('L009.pre_mlp_norm',), 0), ('unfused', ('L009.mlp.gate_proj',), 0), ('unfused', ('L009.mlp.silu',), 0), ('unfused', ('L009.mlp.up_proj',), 0), ('unfused', ('L009.mlp.gated_mul',), 0), ('unfused', ('L009.mlp.down_proj',), 0), ('unfused', ('L009.residual_add_2',), 0), ('unfused', ('L010.input',), 0), ('rmsnorm_reference', ('L010.input_norm',), 0), ('unfused', ('L010.self_attention.k_proj',), 0), ('unfused', ('L010.self_attention.k_rope',), 0), ('unfused', ('L010.self_attention.q_proj',), 0), ('unfused', ('L010.self_attention.q_rope',), 0), ('unfused', ('L010.self_attention.qk_matmul',), 0), ('unfused', ('L010.self_attention.softmax',), 0), ('unfused', ('L010.self_attention.v_proj',), 0), ('unfused', ('L010.self_attention.av_matmul',), 0), ('unfused', ('L010.self_attention.out_proj',), 0), ('unfused', ('L010.residual_add_1',), 0), ('rmsnorm_reference', ('L010.pre_mlp_norm',), 0), ('unfused', ('L010.mlp.gate_proj',), 0), ('unfused', ('L010.mlp.silu',), 0), ('unfused', ('L010.mlp.up_proj',), 0), ('unfused', ('L010.mlp.gated_mul',), 0), ('unfused', ('L010.mlp.down_proj',), 0), ('unfused', ('L010.residual_add_2',), 0), ('unfused', ('L011.input',), 0), ('rmsnorm_reference', ('L011.input_norm',), 0), ('unfused', ('L011.self_attention.k_proj',), 0), ('unfused', ('L011.self_attention.k_rope',), 0), ('unfused', ('L011.self_attention.q_proj',), 0), ('unfused', ('L011.self_attention.q_rope',), 0), ('unfused', ('L011.self_attention.qk_matmul',), 0), ('unfused', ('L011.self_attention.softmax',), 0), ('unfused', ('L011.self_attention.v_proj',), 0), ('unfused', ('L011.self_attention.av_matmul',), 0), ('unfused', ('L011.self_attention.out_proj',), 0), ('unfused', ('L011.residual_add_1',), 0), ('rmsnorm_reference', ('L011.pre_mlp_norm',), 0), ('unfused', ('L011.mlp.gate_proj',), 0), ('unfused', ('L011.mlp.silu',), 0), ('unfused', ('L011.mlp.up_proj',), 0), ('unfused', ('L011.mlp.gated_mul',), 0), ('unfused', ('L011.mlp.down_proj',), 0), ('unfused', ('L011.residual_add_2',), 0), ('unfused', ('L012.input',), 0), ('rmsnorm_reference', ('L012.input_norm',), 0), ('unfused', ('L012.self_attention.k_proj',), 0), ('unfused', ('L012.self_attention.k_rope',), 0), ('unfused', ('L012.self_attention.q_proj',), 0), ('unfused', ('L012.self_attention.q_rope',), 0), ('unfused', ('L012.self_attention.qk_matmul',), 0), ('unfused', ('L012.self_attention.softmax',), 0), ('unfused', ('L012.self_attention.v_proj',), 0), ('unfused', ('L012.self_attention.av_matmul',), 0), ('unfused', ('L012.self_attention.out_proj',), 0), ('unfused', ('L012.residual_add_1',), 0), ('rmsnorm_reference', ('L012.pre_mlp_norm',), 0), ('unfused', ('L012.mlp.gate_proj',), 0), ('unfused', ('L012.mlp.silu',), 0), ('unfused', ('L012.mlp.up_proj',), 0), ('unfused', ('L012.mlp.gated_mul',), 0), ('unfused', ('L012.mlp.down_proj',), 0), ('unfused', ('L012.residual_add_2',), 0), ('unfused', ('L013.input',), 0), ('rmsnorm_reference', ('L013.input_norm',), 0), ('unfused', ('L013.self_attention.k_proj',), 0), ('unfused', ('L013.self_attention.k_rope',), 0), ('unfused', ('L013.self_attention.q_proj',), 0), ('unfused', ('L013.self_attention.q_rope',), 0), ('unfused', ('L013.self_attention.qk_matmul',), 0), ('unfused', ('L013.self_attention.softmax',), 0), ('unfused', ('L013.self_attention.v_proj',), 0), ('unfused', ('L013.self_attention.av_matmul',), 0), ('unfused', ('L013.self_attention.out_proj',), 0), ('unfused', ('L013.residual_add_1',), 0), ('rmsnorm_reference', ('L013.pre_mlp_norm',), 0), ('unfused', ('L013.mlp.gate_proj',), 0), ('unfused', ('L013.mlp.silu',), 0), ('unfused', ('L013.mlp.up_proj',), 0), ('unfused', ('L013.mlp.gated_mul',), 0), ('unfused', ('L013.mlp.down_proj',), 0), ('unfused', ('L013.residual_add_2',), 0), ('unfused', ('L014.input',), 0), ('rmsnorm_reference', ('L014.input_norm',), 0), ('unfused', ('L014.self_attention.k_proj',), 0), ('unfused', ('L014.self_attention.k_rope',), 0), ('unfused', ('L014.self_attention.q_proj',), 0), ('unfused', ('L014.self_attention.q_rope',), 0), ('unfused', ('L014.self_attention.qk_matmul',), 0), ('unfused', ('L014.self_attention.softmax',), 0), ('unfused', ('L014.self_attention.v_proj',), 0), ('unfused', ('L014.self_attention.av_matmul',), 0), ('unfused', ('L014.self_attention.out_proj',), 0), ('unfused', ('L014.residual_add_1',), 0), ('rmsnorm_reference', ('L014.pre_mlp_norm',), 0), ('unfused', ('L014.mlp.gate_proj',), 0), ('unfused', ('L014.mlp.silu',), 0), ('unfused', ('L014.mlp.up_proj',), 0), ('unfused', ('L014.mlp.gated_mul',), 0), ('unfused', ('L014.mlp.down_proj',), 0), ('unfused', ('L014.residual_add_2',), 0), ('unfused', ('L015.input',), 0), ('rmsnorm_reference', ('L015.input_norm',), 0), ('unfused', ('L015.self_attention.k_proj',), 0), ('unfused', ('L015.self_attention.k_rope',), 0), ('unfused', ('L015.self_attention.q_proj',), 0), ('unfused', ('L015.self_attention.q_rope',), 0), ('unfused', ('L015.self_attention.qk_matmul',), 0), ('unfused', ('L015.self_attention.softmax',), 0), ('unfused', ('L015.self_attention.v_proj',), 0), ('unfused', ('L015.self_attention.av_matmul',), 0), ('unfused', ('L015.self_attention.out_proj',), 0), ('unfused', ('L015.residual_add_1',), 0), ('rmsnorm_reference', ('L015.pre_mlp_norm',), 0), ('unfused', ('L015.mlp.gate_proj',), 0), ('unfused', ('L015.mlp.silu',), 0), ('unfused', ('L015.mlp.up_proj',), 0), ('unfused', ('L015.mlp.gated_mul',), 0), ('unfused', ('L015.mlp.down_proj',), 0), ('unfused', ('L015.residual_add_2',), 0), ('unfused', ('L016.input',), 0), ('rmsnorm_reference', ('L016.input_norm',), 0), ('unfused', ('L016.self_attention.k_proj',), 0), ('unfused', ('L016.self_attention.k_rope',), 0), ('unfused', ('L016.self_attention.q_proj',), 0), ('unfused', ('L016.self_attention.q_rope',), 0), ('unfused', ('L016.self_attention.qk_matmul',), 0), ('unfused', ('L016.self_attention.softmax',), 0), ('unfused', ('L016.self_attention.v_proj',), 0), ('unfused', ('L016.self_attention.av_matmul',), 0), ('unfused', ('L016.self_attention.out_proj',), 0), ('unfused', ('L016.residual_add_1',), 0), ('rmsnorm_reference', ('L016.pre_mlp_norm',), 0), ('unfused', ('L016.mlp.gate_proj',), 0), ('unfused', ('L016.mlp.silu',), 0), ('unfused', ('L016.mlp.up_proj',), 0), ('unfused', ('L016.mlp.gated_mul',), 0), ('unfused', ('L016.mlp.down_proj',), 0), ('unfused', ('L016.residual_add_2',), 0), ('unfused', ('L017.input',), 0), ('rmsnorm_reference', ('L017.input_norm',), 0), ('unfused', ('L017.self_attention.k_proj',), 0), ('unfused', ('L017.self_attention.k_rope',), 0), ('unfused', ('L017.self_attention.q_proj',), 0), ('unfused', ('L017.self_attention.q_rope',), 0), ('unfused', ('L017.self_attention.qk_matmul',), 0), ('unfused', ('L017.self_attention.softmax',), 0), ('unfused', ('L017.self_attention.v_proj',), 0), ('unfused', ('L017.self_attention.av_matmul',), 0), ('unfused', ('L017.self_attention.out_proj',), 0), ('unfused', ('L017.residual_add_1',), 0), ('rmsnorm_reference', ('L017.pre_mlp_norm',), 0), ('unfused', ('L017.mlp.gate_proj',), 0), ('unfused', ('L017.mlp.silu',), 0), ('unfused', ('L017.mlp.up_proj',), 0), ('unfused', ('L017.mlp.gated_mul',), 0), ('unfused', ('L017.mlp.down_proj',), 0), ('unfused', ('L017.residual_add_2',), 0), ('unfused', ('L018.input',), 0), ('rmsnorm_reference', ('L018.input_norm',), 0), ('unfused', ('L018.self_attention.k_proj',), 0), ('unfused', ('L018.self_attention.k_rope',), 0), ('unfused', ('L018.self_attention.q_proj',), 0), ('unfused', ('L018.self_attention.q_rope',), 0), ('unfused', ('L018.self_attention.qk_matmul',), 0), ('unfused', ('L018.self_attention.softmax',), 0), ('unfused', ('L018.self_attention.v_proj',), 0), ('unfused', ('L018.self_attention.av_matmul',), 0), ('unfused', ('L018.self_attention.out_proj',), 0), ('unfused', ('L018.residual_add_1',), 0), ('rmsnorm_reference', ('L018.pre_mlp_norm',), 0), ('unfused', ('L018.mlp.gate_proj',), 0), ('unfused', ('L018.mlp.silu',), 0), ('unfused', ('L018.mlp.up_proj',), 0), ('unfused', ('L018.mlp.gated_mul',), 0), ('unfused', ('L018.mlp.down_proj',), 0), ('unfused', ('L018.residual_add_2',), 0), ('unfused', ('L019.input',), 0), ('rmsnorm_reference', ('L019.input_norm',), 0), ('unfused', ('L019.self_attention.k_proj',), 0), ('unfused', ('L019.self_attention.k_rope',), 0), ('unfused', ('L019.self_attention.q_proj',), 0), ('unfused', ('L019.self_attention.q_rope',), 0), ('unfused', ('L019.self_attention.qk_matmul',), 0), ('unfused', ('L019.self_attention.softmax',), 0), ('unfused', ('L019.self_attention.v_proj',), 0), ('unfused', ('L019.self_attention.av_matmul',), 0), ('unfused', ('L019.self_attention.out_proj',), 0), ('unfused', ('L019.residual_add_1',), 0), ('rmsnorm_reference', ('L019.pre_mlp_norm',), 0), ('unfused', ('L019.mlp.gate_proj',), 0), ('unfused', ('L019.mlp.silu',), 0), ('unfused', ('L019.mlp.up_proj',), 0), ('unfused', ('L019.mlp.gated_mul',), 0), ('unfused', ('L019.mlp.down_proj',), 0), ('unfused', ('L019.residual_add_2',), 0), ('unfused', ('L020.input',), 0), ('rmsnorm_reference', ('L020.input_norm',), 0), ('unfused', ('L020.self_attention.k_proj',), 0), ('unfused', ('L020.self_attention.k_rope',), 0), ('unfused', ('L020.self_attention.q_proj',), 0), ('unfused', ('L020.self_attention.q_rope',), 0), ('unfused', ('L020.self_attention.qk_matmul',), 0), ('unfused', ('L020.self_attention.softmax',), 0), ('unfused', ('L020.self_attention.v_proj',), 0), ('unfused', ('L020.self_attention.av_matmul',), 0), ('unfused', ('L020.self_attention.out_proj',), 0), ('unfused', ('L020.residual_add_1',), 0), ('rmsnorm_reference', ('L020.pre_mlp_norm',), 0), ('unfused', ('L020.mlp.gate_proj',), 0), ('unfused', ('L020.mlp.silu',), 0), ('unfused', ('L020.mlp.up_proj',), 0), ('unfused', ('L020.mlp.gated_mul',), 0), ('unfused', ('L020.mlp.down_proj',), 0), ('unfused', ('L020.residual_add_2',), 0), ('unfused', ('L021.input',), 0), ('rmsnorm_reference', ('L021.input_norm',), 0), ('unfused', ('L021.self_attention.k_proj',), 0), ('unfused', ('L021.self_attention.k_rope',), 0), ('unfused', ('L021.self_attention.q_proj',), 0), ('unfused', ('L021.self_attention.q_rope',), 0), ('unfused', ('L021.self_attention.qk_matmul',), 0), ('unfused', ('L021.self_attention.softmax',), 0), ('unfused', ('L021.self_attention.v_proj',), 0), ('unfused', ('L021.self_attention.av_matmul',), 0), ('unfused', ('L021.self_attention.out_proj',), 0), ('unfused', ('L021.residual_add_1',), 0), ('rmsnorm_reference', ('L021.pre_mlp_norm',), 0), ('unfused', ('L021.mlp.gate_proj',), 0), ('unfused', ('L021.mlp.silu',), 0), ('unfused', ('L021.mlp.up_proj',), 0), ('unfused', ('L021.mlp.gated_mul',), 0), ('unfused', ('L021.mlp.down_proj',), 0), ('unfused', ('L021.residual_add_2',), 0), ('unfused', ('L022.input',), 0), ('rmsnorm_reference', ('L022.input_norm',), 0), ('unfused', ('L022.self_attention.k_proj',), 0), ('unfused', ('L022.self_attention.k_rope',), 0), ('unfused', ('L022.self_attention.q_proj',), 0), ('unfused', ('L022.self_attention.q_rope',), 0), ('unfused', ('L022.self_attention.qk_matmul',), 0), ('unfused', ('L022.self_attention.softmax',), 0), ('unfused', ('L022.self_attention.v_proj',), 0), ('unfused', ('L022.self_attention.av_matmul',), 0), ('unfused', ('L022.self_attention.out_proj',), 0), ('unfused', ('L022.residual_add_1',), 0), ('rmsnorm_reference', ('L022.pre_mlp_norm',), 0), ('unfused', ('L022.mlp.gate_proj',), 0), ('unfused', ('L022.mlp.silu',), 0), ('unfused', ('L022.mlp.up_proj',), 0), ('unfused', ('L022.mlp.gated_mul',), 0), ('unfused', ('L022.mlp.down_proj',), 0), ('unfused', ('L022.residual_add_2',), 0), ('unfused', ('L023.input',), 0), ('rmsnorm_reference', ('L023.input_norm',), 0), ('unfused', ('L023.self_attention.k_proj',), 0), ('unfused', ('L023.self_attention.k_rope',), 0), ('unfused', ('L023.self_attention.q_proj',), 0), ('unfused', ('L023.self_attention.q_rope',), 0), ('unfused', ('L023.self_attention.qk_matmul',), 0), ('unfused', ('L023.self_attention.softmax',), 0), ('unfused', ('L023.self_attention.v_proj',), 0), ('unfused', ('L023.self_attention.av_matmul',), 0), ('unfused', ('L023.self_attention.out_proj',), 0), ('unfused', ('L023.residual_add_1',), 0), ('rmsnorm_reference', ('L023.pre_mlp_norm',), 0), ('unfused', ('L023.mlp.gate_proj',), 0), ('unfused', ('L023.mlp.silu',), 0), ('unfused', ('L023.mlp.up_proj',), 0), ('unfused', ('L023.mlp.gated_mul',), 0), ('unfused', ('L023.mlp.down_proj',), 0), ('unfused', ('L023.residual_add_2',), 0), ('unfused', ('L024.input',), 0), ('rmsnorm_reference', ('L024.input_norm',), 0), ('unfused', ('L024.self_attention.k_proj',), 0), ('unfused', ('L024.self_attention.k_rope',), 0), ('unfused', ('L024.self_attention.q_proj',), 0), ('unfused', ('L024.self_attention.q_rope',), 0), ('unfused', ('L024.self_attention.qk_matmul',), 0), ('unfused', ('L024.self_attention.softmax',), 0), ('unfused', ('L024.self_attention.v_proj',), 0), ('unfused', ('L024.self_attention.av_matmul',), 0), ('unfused', ('L024.self_attention.out_proj',), 0), ('unfused', ('L024.residual_add_1',), 0), ('rmsnorm_reference', ('L024.pre_mlp_norm',), 0), ('unfused', ('L024.mlp.gate_proj',), 0), ('unfused', ('L024.mlp.silu',), 0), ('unfused', ('L024.mlp.up_proj',), 0), ('unfused', ('L024.mlp.gated_mul',), 0), ('unfused', ('L024.mlp.down_proj',), 0), ('unfused', ('L024.residual_add_2',), 0), ('unfused', ('L025.input',), 0), ('rmsnorm_reference', ('L025.input_norm',), 0), ('unfused', ('L025.self_attention.k_proj',), 0), ('unfused', ('L025.self_attention.k_rope',), 0), ('unfused', ('L025.self_attention.q_proj',), 0), ('unfused', ('L025.self_attention.q_rope',), 0), ('unfused', ('L025.self_attention.qk_matmul',), 0), ('unfused', ('L025.self_attention.softmax',), 0), ('unfused', ('L025.self_attention.v_proj',), 0), ('unfused', ('L025.self_attention.av_matmul',), 0), ('unfused', ('L025.self_attention.out_proj',), 0), ('unfused', ('L025.residual_add_1',), 0), ('rmsnorm_reference', ('L025.pre_mlp_norm',), 0), ('unfused', ('L025.mlp.gate_proj',), 0), ('unfused', ('L025.mlp.silu',), 0), ('unfused', ('L025.mlp.up_proj',), 0), ('unfused', ('L025.mlp.gated_mul',), 0), ('unfused', ('L025.mlp.down_proj',), 0), ('unfused', ('L025.residual_add_2',), 0), ('unfused', ('L026.input',), 0), ('rmsnorm_reference', ('L026.input_norm',), 0), ('unfused', ('L026.self_attention.k_proj',), 0), ('unfused', ('L026.self_attention.k_rope',), 0), ('unfused', ('L026.self_attention.q_proj',), 0), ('unfused', ('L026.self_attention.q_rope',), 0), ('unfused', ('L026.self_attention.qk_matmul',), 0), ('unfused', ('L026.self_attention.softmax',), 0), ('unfused', ('L026.self_attention.v_proj',), 0), ('unfused', ('L026.self_attention.av_matmul',), 0), ('unfused', ('L026.self_attention.out_proj',), 0), ('unfused', ('L026.residual_add_1',), 0), ('rmsnorm_reference', ('L026.pre_mlp_norm',), 0), ('unfused', ('L026.mlp.gate_proj',), 0), ('unfused', ('L026.mlp.silu',), 0), ('unfused', ('L026.mlp.up_proj',), 0), ('unfused', ('L026.mlp.gated_mul',), 0), ('unfused', ('L026.mlp.down_proj',), 0), ('unfused', ('L026.residual_add_2',), 0), ('unfused', ('L027.input',), 0), ('rmsnorm_reference', ('L027.input_norm',), 0), ('unfused', ('L027.self_attention.k_proj',), 0), ('unfused', ('L027.self_attention.k_rope',), 0), ('unfused', ('L027.self_attention.q_proj',), 0), ('unfused', ('L027.self_attention.q_rope',), 0), ('unfused', ('L027.self_attention.qk_matmul',), 0), ('unfused', ('L027.self_attention.softmax',), 0), ('unfused', ('L027.self_attention.v_proj',), 0), ('unfused', ('L027.self_attention.av_matmul',), 0), ('unfused', ('L027.self_attention.out_proj',), 0), ('unfused', ('L027.residual_add_1',), 0), ('rmsnorm_reference', ('L027.pre_mlp_norm',), 0), ('unfused', ('L027.mlp.gate_proj',), 0), ('unfused', ('L027.mlp.silu',), 0), ('unfused', ('L027.mlp.up_proj',), 0), ('unfused', ('L027.mlp.gated_mul',), 0), ('unfused', ('L027.mlp.down_proj',), 0), ('unfused', ('L027.residual_add_2',), 0), ('unfused', ('L028.input',), 0), ('rmsnorm_reference', ('L028.input_norm',), 0), ('unfused', ('L028.self_attention.k_proj',), 0), ('unfused', ('L028.self_attention.k_rope',), 0), ('unfused', ('L028.self_attention.q_proj',), 0), ('unfused', ('L028.self_attention.q_rope',), 0), ('unfused', ('L028.self_attention.qk_matmul',), 0), ('unfused', ('L028.self_attention.softmax',), 0), ('unfused', ('L028.self_attention.v_proj',), 0), ('unfused', ('L028.self_attention.av_matmul',), 0), ('unfused', ('L028.self_attention.out_proj',), 0), ('unfused', ('L028.residual_add_1',), 0), ('rmsnorm_reference', ('L028.pre_mlp_norm',), 0), ('unfused', ('L028.mlp.gate_proj',), 0), ('unfused', ('L028.mlp.silu',), 0), ('unfused', ('L028.mlp.up_proj',), 0), ('unfused', ('L028.mlp.gated_mul',), 0), ('unfused', ('L028.mlp.down_proj',), 0), ('unfused', ('L028.residual_add_2',), 0), ('unfused', ('L029.input',), 0), ('rmsnorm_reference', ('L029.input_norm',), 0), ('unfused', ('L029.self_attention.k_proj',), 0), ('unfused', ('L029.self_attention.k_rope',), 0), ('unfused', ('L029.self_attention.q_proj',), 0), ('unfused', ('L029.self_attention.q_rope',), 0), ('unfused', ('L029.self_attention.qk_matmul',), 0), ('unfused', ('L029.self_attention.softmax',), 0), ('unfused', ('L029.self_attention.v_proj',), 0), ('unfused', ('L029.self_attention.av_matmul',), 0), ('unfused', ('L029.self_attention.out_proj',), 0), ('unfused', ('L029.residual_add_1',), 0), ('rmsnorm_reference', ('L029.pre_mlp_norm',), 0), ('unfused', ('L029.mlp.gate_proj',), 0), ('unfused', ('L029.mlp.silu',), 0), ('unfused', ('L029.mlp.up_proj',), 0), ('unfused', ('L029.mlp.gated_mul',), 0), ('unfused', ('L029.mlp.down_proj',), 0), ('unfused', ('L029.residual_add_2',), 0), ('unfused', ('L030.input',), 0), ('rmsnorm_reference', ('L030.input_norm',), 0), ('unfused', ('L030.self_attention.k_proj',), 0), ('unfused', ('L030.self_attention.k_rope',), 0), ('unfused', ('L030.self_attention.q_proj',), 0), ('unfused', ('L030.self_attention.q_rope',), 0), ('unfused', ('L030.self_attention.qk_matmul',), 0), ('unfused', ('L030.self_attention.softmax',), 0), ('unfused', ('L030.self_attention.v_proj',), 0), ('unfused', ('L030.self_attention.av_matmul',), 0), ('unfused', ('L030.self_attention.out_proj',), 0), ('unfused', ('L030.residual_add_1',), 0), ('rmsnorm_reference', ('L030.pre_mlp_norm',), 0), ('unfused', ('L030.mlp.gate_proj',), 0), ('unfused', ('L030.mlp.silu',), 0), ('unfused', ('L030.mlp.up_proj',), 0), ('unfused', ('L030.mlp.gated_mul',), 0), ('unfused', ('L030.mlp.down_proj',), 0), ('unfused', ('L030.residual_add_2',), 0), ('unfused', ('L031.input',), 0), ('rmsnorm_reference', ('L031.input_norm',), 0), ('unfused', ('L031.self_attention.k_proj',), 0), ('unfused', ('L031.self_attention.k_rope',), 0), ('unfused', ('L031.self_attention.q_proj',), 0), ('unfused', ('L031.self_attention.q_rope',), 0), ('unfused', ('L031.self_attention.qk_matmul',), 0), ('unfused', ('L031.self_attention.softmax',), 0), ('unfused', ('L031.self_attention.v_proj',), 0), ('unfused', ('L031.self_attention.av_matmul',), 0), ('unfused', ('L031.self_attention.out_proj',), 0), ('unfused', ('L031.residual_add_1',), 0), ('rmsnorm_reference', ('L031.pre_mlp_norm',), 0), ('unfused', ('L031.mlp.gate_proj',), 0), ('unfused', ('L031.mlp.silu',), 0), ('unfused', ('L031.mlp.up_proj',), 0), ('unfused', ('L031.mlp.gated_mul',), 0), ('unfused', ('L031.mlp.down_proj',), 0), ('unfused', ('L031.residual_add_2',), 0), ('unfused', ('L032.input',), 0), ('rmsnorm_reference', ('L032.input_norm',), 0), ('unfused', ('L032.self_attention.k_proj',), 0), ('unfused', ('L032.self_attention.k_rope',), 0), ('unfused', ('L032.self_attention.q_proj',), 0), ('unfused', ('L032.self_attention.q_rope',), 0), ('unfused', ('L032.self_attention.qk_matmul',), 0), ('unfused', ('L032.self_attention.softmax',), 0), ('unfused', ('L032.self_attention.v_proj',), 0), ('unfused', ('L032.self_attention.av_matmul',), 0), ('unfused', ('L032.self_attention.out_proj',), 0), ('unfused', ('L032.residual_add_1',), 0), ('rmsnorm_reference', ('L032.pre_mlp_norm',), 0), ('unfused', ('L032.mlp.gate_proj',), 0), ('unfused', ('L032.mlp.silu',), 0), ('unfused', ('L032.mlp.up_proj',), 0), ('unfused', ('L032.mlp.gated_mul',), 0), ('unfused', ('L032.mlp.down_proj',), 0), ('unfused', ('L032.residual_add_2',), 0), ('unfused', ('L033.input',), 0), ('rmsnorm_reference', ('L033.input_norm',), 0), ('unfused', ('L033.self_attention.k_proj',), 0), ('unfused', ('L033.self_attention.k_rope',), 0), ('unfused', ('L033.self_attention.q_proj',), 0), ('unfused', ('L033.self_attention.q_rope',), 0), ('unfused', ('L033.self_attention.qk_matmul',), 0), ('unfused', ('L033.self_attention.softmax',), 0), ('unfused', ('L033.self_attention.v_proj',), 0), ('unfused', ('L033.self_attention.av_matmul',), 0), ('unfused', ('L033.self_attention.out_proj',), 0), ('unfused', ('L033.residual_add_1',), 0), ('rmsnorm_reference', ('L033.pre_mlp_norm',), 0), ('unfused', ('L033.mlp.gate_proj',), 0), ('unfused', ('L033.mlp.silu',), 0), ('unfused', ('L033.mlp.up_proj',), 0), ('unfused', ('L033.mlp.gated_mul',), 0), ('unfused', ('L033.mlp.down_proj',), 0), ('unfused', ('L033.residual_add_2',), 0), ('unfused', ('L034.input',), 0), ('rmsnorm_reference', ('L034.input_norm',), 0), ('unfused', ('L034.self_attention.k_proj',), 0), ('unfused', ('L034.self_attention.k_rope',), 0), ('unfused', ('L034.self_attention.q_proj',), 0), ('unfused', ('L034.self_attention.q_rope',), 0), ('unfused', ('L034.self_attention.qk_matmul',), 0), ('unfused', ('L034.self_attention.softmax',), 0), ('unfused', ('L034.self_attention.v_proj',), 0), ('unfused', ('L034.self_attention.av_matmul',), 0), ('unfused', ('L034.self_attention.out_proj',), 0), ('unfused', ('L034.residual_add_1',), 0), ('rmsnorm_reference', ('L034.pre_mlp_norm',), 0), ('unfused', ('L034.mlp.gate_proj',), 0), ('unfused', ('L034.mlp.silu',), 0), ('unfused', ('L034.mlp.up_proj',), 0), ('unfused', ('L034.mlp.gated_mul',), 0), ('unfused', ('L034.mlp.down_proj',), 0), ('unfused', ('L034.residual_add_2',), 0), ('unfused', ('L035.input',), 0), ('rmsnorm_reference', ('L035.input_norm',), 0), ('unfused', ('L035.self_attention.k_proj',), 0), ('unfused', ('L035.self_attention.k_rope',), 0), ('unfused', ('L035.self_attention.q_proj',), 0), ('unfused', ('L035.self_attention.q_rope',), 0), ('unfused', ('L035.self_attention.qk_matmul',), 0), ('unfused', ('L035.self_attention.softmax',), 0), ('unfused', ('L035.self_attention.v_proj',), 0), ('unfused', ('L035.self_attention.av_matmul',), 0), ('unfused', ('L035.self_attention.out_proj',), 0), ('unfused', ('L035.residual_add_1',), 0), ('rmsnorm_reference', ('L035.pre_mlp_norm',), 0), ('unfused', ('L035.mlp.gate_proj',), 0), ('unfused', ('L035.mlp.silu',), 0), ('unfused', ('L035.mlp.up_proj',), 0), ('unfused', ('L035.mlp.gated_mul',), 0), ('unfused', ('L035.mlp.down_proj',), 0), ('unfused', ('L035.residual_add_2',), 0), ('rmsnorm_reference', ('final_norm',), 0), ('unfused', ('lm_head',), 0))"
+   },
+   "capacity_bytes": [
+    68702699520.0,
+    68702699520.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": true,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 29.3773945352571,
+     "cut": 687,
+     "cut_step": 3,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 29.069522157309937,
+     "cut": 687,
+     "cut_step": 3,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "model_3b:blocking:cap75": {
+   "nodes": 687,
+   "reference_unfused_dev0": {
+    "makespan_ms": 29.3773945352571,
+    "feasible": false,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     6250532864.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('embedding',), 0), ('unfused', ('L000.input',), 0), ('rmsnorm_reference', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0), ('unfused', ('L001.input',), 0), ('rmsnorm_reference', ('L001.input_norm',), 0), ('unfused', ('L001.self_attention.k_proj',), 0), ('unfused', ('L001.self_attention.k_rope',), 0), ('unfused', ('L001.self_attention.q_proj',), 0), ('unfused', ('L001.self_attention.q_rope',), 0), ('unfused', ('L001.self_attention.qk_matmul',), 0), ('unfused', ('L001.self_attention.softmax',), 0), ('unfused', ('L001.self_attention.v_proj',), 0), ('unfused', ('L001.self_attention.av_matmul',), 0), ('unfused', ('L001.self_attention.out_proj',), 0), ('unfused', ('L001.residual_add_1',), 0), ('rmsnorm_reference', ('L001.pre_mlp_norm',), 0), ('unfused', ('L001.mlp.gate_proj',), 0), ('unfused', ('L001.mlp.silu',), 0), ('unfused', ('L001.mlp.up_proj',), 0), ('unfused', ('L001.mlp.gated_mul',), 0), ('unfused', ('L001.mlp.down_proj',), 0), ('unfused', ('L001.residual_add_2',), 0), ('unfused', ('L002.input',), 0), ('rmsnorm_reference', ('L002.input_norm',), 0), ('unfused', ('L002.self_attention.k_proj',), 0), ('unfused', ('L002.self_attention.k_rope',), 0), ('unfused', ('L002.self_attention.q_proj',), 0), ('unfused', ('L002.self_attention.q_rope',), 0), ('unfused', ('L002.self_attention.qk_matmul',), 0), ('unfused', ('L002.self_attention.softmax',), 0), ('unfused', ('L002.self_attention.v_proj',), 0), ('unfused', ('L002.self_attention.av_matmul',), 0), ('unfused', ('L002.self_attention.out_proj',), 0), ('unfused', ('L002.residual_add_1',), 0), ('rmsnorm_reference', ('L002.pre_mlp_norm',), 0), ('unfused', ('L002.mlp.gate_proj',), 0), ('unfused', ('L002.mlp.silu',), 0), ('unfused', ('L002.mlp.up_proj',), 0), ('unfused', ('L002.mlp.gated_mul',), 0), ('unfused', ('L002.mlp.down_proj',), 0), ('unfused', ('L002.residual_add_2',), 0), ('unfused', ('L003.input',), 0), ('rmsnorm_reference', ('L003.input_norm',), 0), ('unfused', ('L003.self_attention.k_proj',), 0), ('unfused', ('L003.self_attention.k_rope',), 0), ('unfused', ('L003.self_attention.q_proj',), 0), ('unfused', ('L003.self_attention.q_rope',), 0), ('unfused', ('L003.self_attention.qk_matmul',), 0), ('unfused', ('L003.self_attention.softmax',), 0), ('unfused', ('L003.self_attention.v_proj',), 0), ('unfused', ('L003.self_attention.av_matmul',), 0), ('unfused', ('L003.self_attention.out_proj',), 0), ('unfused', ('L003.residual_add_1',), 0), ('rmsnorm_reference', ('L003.pre_mlp_norm',), 0), ('unfused', ('L003.mlp.gate_proj',), 0), ('unfused', ('L003.mlp.silu',), 0), ('unfused', ('L003.mlp.up_proj',), 0), ('unfused', ('L003.mlp.gated_mul',), 0), ('unfused', ('L003.mlp.down_proj',), 0), ('unfused', ('L003.residual_add_2',), 0), ('unfused', ('L004.input',), 0), ('rmsnorm_reference', ('L004.input_norm',), 0), ('unfused', ('L004.self_attention.k_proj',), 0), ('unfused', ('L004.self_attention.k_rope',), 0), ('unfused', ('L004.self_attention.q_proj',), 0), ('unfused', ('L004.self_attention.q_rope',), 0), ('unfused', ('L004.self_attention.qk_matmul',), 0), ('unfused', ('L004.self_attention.softmax',), 0), ('unfused', ('L004.self_attention.v_proj',), 0), ('unfused', ('L004.self_attention.av_matmul',), 0), ('unfused', ('L004.self_attention.out_proj',), 0), ('unfused', ('L004.residual_add_1',), 0), ('rmsnorm_reference', ('L004.pre_mlp_norm',), 0), ('unfused', ('L004.mlp.gate_proj',), 0), ('unfused', ('L004.mlp.silu',), 0), ('unfused', ('L004.mlp.up_proj',), 0), ('unfused', ('L004.mlp.gated_mul',), 0), ('unfused', ('L004.mlp.down_proj',), 0), ('unfused', ('L004.residual_add_2',), 0), ('unfused', ('L005.input',), 0), ('rmsnorm_reference', ('L005.input_norm',), 0), ('unfused', ('L005.self_attention.k_proj',), 0), ('unfused', ('L005.self_attention.k_rope',), 0), ('unfused', ('L005.self_attention.q_proj',), 0), ('unfused', ('L005.self_attention.q_rope',), 0), ('unfused', ('L005.self_attention.qk_matmul',), 0), ('unfused', ('L005.self_attention.softmax',), 0), ('unfused', ('L005.self_attention.v_proj',), 0), ('unfused', ('L005.self_attention.av_matmul',), 0), ('unfused', ('L005.self_attention.out_proj',), 0), ('unfused', ('L005.residual_add_1',), 0), ('rmsnorm_reference', ('L005.pre_mlp_norm',), 0), ('unfused', ('L005.mlp.gate_proj',), 0), ('unfused', ('L005.mlp.silu',), 0), ('unfused', ('L005.mlp.up_proj',), 0), ('unfused', ('L005.mlp.gated_mul',), 0), ('unfused', ('L005.mlp.down_proj',), 0), ('unfused', ('L005.residual_add_2',), 0), ('unfused', ('L006.input',), 0), ('rmsnorm_reference', ('L006.input_norm',), 0), ('unfused', ('L006.self_attention.k_proj',), 0), ('unfused', ('L006.self_attention.k_rope',), 0), ('unfused', ('L006.self_attention.q_proj',), 0), ('unfused', ('L006.self_attention.q_rope',), 0), ('unfused', ('L006.self_attention.qk_matmul',), 0), ('unfused', ('L006.self_attention.softmax',), 0), ('unfused', ('L006.self_attention.v_proj',), 0), ('unfused', ('L006.self_attention.av_matmul',), 0), ('unfused', ('L006.self_attention.out_proj',), 0), ('unfused', ('L006.residual_add_1',), 0), ('rmsnorm_reference', ('L006.pre_mlp_norm',), 0), ('unfused', ('L006.mlp.gate_proj',), 0), ('unfused', ('L006.mlp.silu',), 0), ('unfused', ('L006.mlp.up_proj',), 0), ('unfused', ('L006.mlp.gated_mul',), 0), ('unfused', ('L006.mlp.down_proj',), 0), ('unfused', ('L006.residual_add_2',), 0), ('unfused', ('L007.input',), 0), ('rmsnorm_reference', ('L007.input_norm',), 0), ('unfused', ('L007.self_attention.k_proj',), 0), ('unfused', ('L007.self_attention.k_rope',), 0), ('unfused', ('L007.self_attention.q_proj',), 0), ('unfused', ('L007.self_attention.q_rope',), 0), ('unfused', ('L007.self_attention.qk_matmul',), 0), ('unfused', ('L007.self_attention.softmax',), 0), ('unfused', ('L007.self_attention.v_proj',), 0), ('unfused', ('L007.self_attention.av_matmul',), 0), ('unfused', ('L007.self_attention.out_proj',), 0), ('unfused', ('L007.residual_add_1',), 0), ('rmsnorm_reference', ('L007.pre_mlp_norm',), 0), ('unfused', ('L007.mlp.gate_proj',), 0), ('unfused', ('L007.mlp.silu',), 0), ('unfused', ('L007.mlp.up_proj',), 0), ('unfused', ('L007.mlp.gated_mul',), 0), ('unfused', ('L007.mlp.down_proj',), 0), ('unfused', ('L007.residual_add_2',), 0), ('unfused', ('L008.input',), 0), ('rmsnorm_reference', ('L008.input_norm',), 0), ('unfused', ('L008.self_attention.k_proj',), 0), ('unfused', ('L008.self_attention.k_rope',), 0), ('unfused', ('L008.self_attention.q_proj',), 0), ('unfused', ('L008.self_attention.q_rope',), 0), ('unfused', ('L008.self_attention.qk_matmul',), 0), ('unfused', ('L008.self_attention.softmax',), 0), ('unfused', ('L008.self_attention.v_proj',), 0), ('unfused', ('L008.self_attention.av_matmul',), 0), ('unfused', ('L008.self_attention.out_proj',), 0), ('unfused', ('L008.residual_add_1',), 0), ('rmsnorm_reference', ('L008.pre_mlp_norm',), 0), ('unfused', ('L008.mlp.gate_proj',), 0), ('unfused', ('L008.mlp.silu',), 0), ('unfused', ('L008.mlp.up_proj',), 0), ('unfused', ('L008.mlp.gated_mul',), 0), ('unfused', ('L008.mlp.down_proj',), 0), ('unfused', ('L008.residual_add_2',), 0), ('unfused', ('L009.input',), 0), ('rmsnorm_reference', ('L009.input_norm',), 0), ('unfused', ('L009.self_attention.k_proj',), 0), ('unfused', ('L009.self_attention.k_rope',), 0), ('unfused', ('L009.self_attention.q_proj',), 0), ('unfused', ('L009.self_attention.q_rope',), 0), ('unfused', ('L009.self_attention.qk_matmul',), 0), ('unfused', ('L009.self_attention.softmax',), 0), ('unfused', ('L009.self_attention.v_proj',), 0), ('unfused', ('L009.self_attention.av_matmul',), 0), ('unfused', ('L009.self_attention.out_proj',), 0), ('unfused', ('L009.residual_add_1',), 0), ('rmsnorm_reference', ('L009.pre_mlp_norm',), 0), ('unfused', ('L009.mlp.gate_proj',), 0), ('unfused', ('L009.mlp.silu',), 0), ('unfused', ('L009.mlp.up_proj',), 0), ('unfused', ('L009.mlp.gated_mul',), 0), ('unfused', ('L009.mlp.down_proj',), 0), ('unfused', ('L009.residual_add_2',), 0), ('unfused', ('L010.input',), 0), ('rmsnorm_reference', ('L010.input_norm',), 0), ('unfused', ('L010.self_attention.k_proj',), 0), ('unfused', ('L010.self_attention.k_rope',), 0), ('unfused', ('L010.self_attention.q_proj',), 0), ('unfused', ('L010.self_attention.q_rope',), 0), ('unfused', ('L010.self_attention.qk_matmul',), 0), ('unfused', ('L010.self_attention.softmax',), 0), ('unfused', ('L010.self_attention.v_proj',), 0), ('unfused', ('L010.self_attention.av_matmul',), 0), ('unfused', ('L010.self_attention.out_proj',), 0), ('unfused', ('L010.residual_add_1',), 0), ('rmsnorm_reference', ('L010.pre_mlp_norm',), 0), ('unfused', ('L010.mlp.gate_proj',), 0), ('unfused', ('L010.mlp.silu',), 0), ('unfused', ('L010.mlp.up_proj',), 0), ('unfused', ('L010.mlp.gated_mul',), 0), ('unfused', ('L010.mlp.down_proj',), 0), ('unfused', ('L010.residual_add_2',), 0), ('unfused', ('L011.input',), 0), ('rmsnorm_reference', ('L011.input_norm',), 0), ('unfused', ('L011.self_attention.k_proj',), 0), ('unfused', ('L011.self_attention.k_rope',), 0), ('unfused', ('L011.self_attention.q_proj',), 0), ('unfused', ('L011.self_attention.q_rope',), 0), ('unfused', ('L011.self_attention.qk_matmul',), 0), ('unfused', ('L011.self_attention.softmax',), 0), ('unfused', ('L011.self_attention.v_proj',), 0), ('unfused', ('L011.self_attention.av_matmul',), 0), ('unfused', ('L011.self_attention.out_proj',), 0), ('unfused', ('L011.residual_add_1',), 0), ('rmsnorm_reference', ('L011.pre_mlp_norm',), 0), ('unfused', ('L011.mlp.gate_proj',), 0), ('unfused', ('L011.mlp.silu',), 0), ('unfused', ('L011.mlp.up_proj',), 0), ('unfused', ('L011.mlp.gated_mul',), 0), ('unfused', ('L011.mlp.down_proj',), 0), ('unfused', ('L011.residual_add_2',), 0), ('unfused', ('L012.input',), 0), ('rmsnorm_reference', ('L012.input_norm',), 0), ('unfused', ('L012.self_attention.k_proj',), 0), ('unfused', ('L012.self_attention.k_rope',), 0), ('unfused', ('L012.self_attention.q_proj',), 0), ('unfused', ('L012.self_attention.q_rope',), 0), ('unfused', ('L012.self_attention.qk_matmul',), 0), ('unfused', ('L012.self_attention.softmax',), 0), ('unfused', ('L012.self_attention.v_proj',), 0), ('unfused', ('L012.self_attention.av_matmul',), 0), ('unfused', ('L012.self_attention.out_proj',), 0), ('unfused', ('L012.residual_add_1',), 0), ('rmsnorm_reference', ('L012.pre_mlp_norm',), 0), ('unfused', ('L012.mlp.gate_proj',), 0), ('unfused', ('L012.mlp.silu',), 0), ('unfused', ('L012.mlp.up_proj',), 0), ('unfused', ('L012.mlp.gated_mul',), 0), ('unfused', ('L012.mlp.down_proj',), 0), ('unfused', ('L012.residual_add_2',), 0), ('unfused', ('L013.input',), 0), ('rmsnorm_reference', ('L013.input_norm',), 0), ('unfused', ('L013.self_attention.k_proj',), 0), ('unfused', ('L013.self_attention.k_rope',), 0), ('unfused', ('L013.self_attention.q_proj',), 0), ('unfused', ('L013.self_attention.q_rope',), 0), ('unfused', ('L013.self_attention.qk_matmul',), 0), ('unfused', ('L013.self_attention.softmax',), 0), ('unfused', ('L013.self_attention.v_proj',), 0), ('unfused', ('L013.self_attention.av_matmul',), 0), ('unfused', ('L013.self_attention.out_proj',), 0), ('unfused', ('L013.residual_add_1',), 0), ('rmsnorm_reference', ('L013.pre_mlp_norm',), 0), ('unfused', ('L013.mlp.gate_proj',), 0), ('unfused', ('L013.mlp.silu',), 0), ('unfused', ('L013.mlp.up_proj',), 0), ('unfused', ('L013.mlp.gated_mul',), 0), ('unfused', ('L013.mlp.down_proj',), 0), ('unfused', ('L013.residual_add_2',), 0), ('unfused', ('L014.input',), 0), ('rmsnorm_reference', ('L014.input_norm',), 0), ('unfused', ('L014.self_attention.k_proj',), 0), ('unfused', ('L014.self_attention.k_rope',), 0), ('unfused', ('L014.self_attention.q_proj',), 0), ('unfused', ('L014.self_attention.q_rope',), 0), ('unfused', ('L014.self_attention.qk_matmul',), 0), ('unfused', ('L014.self_attention.softmax',), 0), ('unfused', ('L014.self_attention.v_proj',), 0), ('unfused', ('L014.self_attention.av_matmul',), 0), ('unfused', ('L014.self_attention.out_proj',), 0), ('unfused', ('L014.residual_add_1',), 0), ('rmsnorm_reference', ('L014.pre_mlp_norm',), 0), ('unfused', ('L014.mlp.gate_proj',), 0), ('unfused', ('L014.mlp.silu',), 0), ('unfused', ('L014.mlp.up_proj',), 0), ('unfused', ('L014.mlp.gated_mul',), 0), ('unfused', ('L014.mlp.down_proj',), 0), ('unfused', ('L014.residual_add_2',), 0), ('unfused', ('L015.input',), 0), ('rmsnorm_reference', ('L015.input_norm',), 0), ('unfused', ('L015.self_attention.k_proj',), 0), ('unfused', ('L015.self_attention.k_rope',), 0), ('unfused', ('L015.self_attention.q_proj',), 0), ('unfused', ('L015.self_attention.q_rope',), 0), ('unfused', ('L015.self_attention.qk_matmul',), 0), ('unfused', ('L015.self_attention.softmax',), 0), ('unfused', ('L015.self_attention.v_proj',), 0), ('unfused', ('L015.self_attention.av_matmul',), 0), ('unfused', ('L015.self_attention.out_proj',), 0), ('unfused', ('L015.residual_add_1',), 0), ('rmsnorm_reference', ('L015.pre_mlp_norm',), 0), ('unfused', ('L015.mlp.gate_proj',), 0), ('unfused', ('L015.mlp.silu',), 0), ('unfused', ('L015.mlp.up_proj',), 0), ('unfused', ('L015.mlp.gated_mul',), 0), ('unfused', ('L015.mlp.down_proj',), 0), ('unfused', ('L015.residual_add_2',), 0), ('unfused', ('L016.input',), 0), ('rmsnorm_reference', ('L016.input_norm',), 0), ('unfused', ('L016.self_attention.k_proj',), 0), ('unfused', ('L016.self_attention.k_rope',), 0), ('unfused', ('L016.self_attention.q_proj',), 0), ('unfused', ('L016.self_attention.q_rope',), 0), ('unfused', ('L016.self_attention.qk_matmul',), 0), ('unfused', ('L016.self_attention.softmax',), 0), ('unfused', ('L016.self_attention.v_proj',), 0), ('unfused', ('L016.self_attention.av_matmul',), 0), ('unfused', ('L016.self_attention.out_proj',), 0), ('unfused', ('L016.residual_add_1',), 0), ('rmsnorm_reference', ('L016.pre_mlp_norm',), 0), ('unfused', ('L016.mlp.gate_proj',), 0), ('unfused', ('L016.mlp.silu',), 0), ('unfused', ('L016.mlp.up_proj',), 0), ('unfused', ('L016.mlp.gated_mul',), 0), ('unfused', ('L016.mlp.down_proj',), 0), ('unfused', ('L016.residual_add_2',), 0), ('unfused', ('L017.input',), 0), ('rmsnorm_reference', ('L017.input_norm',), 0), ('unfused', ('L017.self_attention.k_proj',), 0), ('unfused', ('L017.self_attention.k_rope',), 0), ('unfused', ('L017.self_attention.q_proj',), 0), ('unfused', ('L017.self_attention.q_rope',), 0), ('unfused', ('L017.self_attention.qk_matmul',), 0), ('unfused', ('L017.self_attention.softmax',), 0), ('unfused', ('L017.self_attention.v_proj',), 0), ('unfused', ('L017.self_attention.av_matmul',), 0), ('unfused', ('L017.self_attention.out_proj',), 0), ('unfused', ('L017.residual_add_1',), 0), ('rmsnorm_reference', ('L017.pre_mlp_norm',), 0), ('unfused', ('L017.mlp.gate_proj',), 0), ('unfused', ('L017.mlp.silu',), 0), ('unfused', ('L017.mlp.up_proj',), 0), ('unfused', ('L017.mlp.gated_mul',), 0), ('unfused', ('L017.mlp.down_proj',), 0), ('unfused', ('L017.residual_add_2',), 0), ('unfused', ('L018.input',), 0), ('rmsnorm_reference', ('L018.input_norm',), 0), ('unfused', ('L018.self_attention.k_proj',), 0), ('unfused', ('L018.self_attention.k_rope',), 0), ('unfused', ('L018.self_attention.q_proj',), 0), ('unfused', ('L018.self_attention.q_rope',), 0), ('unfused', ('L018.self_attention.qk_matmul',), 0), ('unfused', ('L018.self_attention.softmax',), 0), ('unfused', ('L018.self_attention.v_proj',), 0), ('unfused', ('L018.self_attention.av_matmul',), 0), ('unfused', ('L018.self_attention.out_proj',), 0), ('unfused', ('L018.residual_add_1',), 0), ('rmsnorm_reference', ('L018.pre_mlp_norm',), 0), ('unfused', ('L018.mlp.gate_proj',), 0), ('unfused', ('L018.mlp.silu',), 0), ('unfused', ('L018.mlp.up_proj',), 0), ('unfused', ('L018.mlp.gated_mul',), 0), ('unfused', ('L018.mlp.down_proj',), 0), ('unfused', ('L018.residual_add_2',), 0), ('unfused', ('L019.input',), 0), ('rmsnorm_reference', ('L019.input_norm',), 0), ('unfused', ('L019.self_attention.k_proj',), 0), ('unfused', ('L019.self_attention.k_rope',), 0), ('unfused', ('L019.self_attention.q_proj',), 0), ('unfused', ('L019.self_attention.q_rope',), 0), ('unfused', ('L019.self_attention.qk_matmul',), 0), ('unfused', ('L019.self_attention.softmax',), 0), ('unfused', ('L019.self_attention.v_proj',), 0), ('unfused', ('L019.self_attention.av_matmul',), 0), ('unfused', ('L019.self_attention.out_proj',), 0), ('unfused', ('L019.residual_add_1',), 0), ('rmsnorm_reference', ('L019.pre_mlp_norm',), 0), ('unfused', ('L019.mlp.gate_proj',), 0), ('unfused', ('L019.mlp.silu',), 0), ('unfused', ('L019.mlp.up_proj',), 0), ('unfused', ('L019.mlp.gated_mul',), 0), ('unfused', ('L019.mlp.down_proj',), 0), ('unfused', ('L019.residual_add_2',), 0), ('unfused', ('L020.input',), 0), ('rmsnorm_reference', ('L020.input_norm',), 0), ('unfused', ('L020.self_attention.k_proj',), 0), ('unfused', ('L020.self_attention.k_rope',), 0), ('unfused', ('L020.self_attention.q_proj',), 0), ('unfused', ('L020.self_attention.q_rope',), 0), ('unfused', ('L020.self_attention.qk_matmul',), 0), ('unfused', ('L020.self_attention.softmax',), 0), ('unfused', ('L020.self_attention.v_proj',), 0), ('unfused', ('L020.self_attention.av_matmul',), 0), ('unfused', ('L020.self_attention.out_proj',), 0), ('unfused', ('L020.residual_add_1',), 0), ('rmsnorm_reference', ('L020.pre_mlp_norm',), 0), ('unfused', ('L020.mlp.gate_proj',), 0), ('unfused', ('L020.mlp.silu',), 0), ('unfused', ('L020.mlp.up_proj',), 0), ('unfused', ('L020.mlp.gated_mul',), 0), ('unfused', ('L020.mlp.down_proj',), 0), ('unfused', ('L020.residual_add_2',), 0), ('unfused', ('L021.input',), 0), ('rmsnorm_reference', ('L021.input_norm',), 0), ('unfused', ('L021.self_attention.k_proj',), 0), ('unfused', ('L021.self_attention.k_rope',), 0), ('unfused', ('L021.self_attention.q_proj',), 0), ('unfused', ('L021.self_attention.q_rope',), 0), ('unfused', ('L021.self_attention.qk_matmul',), 0), ('unfused', ('L021.self_attention.softmax',), 0), ('unfused', ('L021.self_attention.v_proj',), 0), ('unfused', ('L021.self_attention.av_matmul',), 0), ('unfused', ('L021.self_attention.out_proj',), 0), ('unfused', ('L021.residual_add_1',), 0), ('rmsnorm_reference', ('L021.pre_mlp_norm',), 0), ('unfused', ('L021.mlp.gate_proj',), 0), ('unfused', ('L021.mlp.silu',), 0), ('unfused', ('L021.mlp.up_proj',), 0), ('unfused', ('L021.mlp.gated_mul',), 0), ('unfused', ('L021.mlp.down_proj',), 0), ('unfused', ('L021.residual_add_2',), 0), ('unfused', ('L022.input',), 0), ('rmsnorm_reference', ('L022.input_norm',), 0), ('unfused', ('L022.self_attention.k_proj',), 0), ('unfused', ('L022.self_attention.k_rope',), 0), ('unfused', ('L022.self_attention.q_proj',), 0), ('unfused', ('L022.self_attention.q_rope',), 0), ('unfused', ('L022.self_attention.qk_matmul',), 0), ('unfused', ('L022.self_attention.softmax',), 0), ('unfused', ('L022.self_attention.v_proj',), 0), ('unfused', ('L022.self_attention.av_matmul',), 0), ('unfused', ('L022.self_attention.out_proj',), 0), ('unfused', ('L022.residual_add_1',), 0), ('rmsnorm_reference', ('L022.pre_mlp_norm',), 0), ('unfused', ('L022.mlp.gate_proj',), 0), ('unfused', ('L022.mlp.silu',), 0), ('unfused', ('L022.mlp.up_proj',), 0), ('unfused', ('L022.mlp.gated_mul',), 0), ('unfused', ('L022.mlp.down_proj',), 0), ('unfused', ('L022.residual_add_2',), 0), ('unfused', ('L023.input',), 0), ('rmsnorm_reference', ('L023.input_norm',), 0), ('unfused', ('L023.self_attention.k_proj',), 0), ('unfused', ('L023.self_attention.k_rope',), 0), ('unfused', ('L023.self_attention.q_proj',), 0), ('unfused', ('L023.self_attention.q_rope',), 0), ('unfused', ('L023.self_attention.qk_matmul',), 0), ('unfused', ('L023.self_attention.softmax',), 0), ('unfused', ('L023.self_attention.v_proj',), 0), ('unfused', ('L023.self_attention.av_matmul',), 0), ('unfused', ('L023.self_attention.out_proj',), 0), ('unfused', ('L023.residual_add_1',), 0), ('rmsnorm_reference', ('L023.pre_mlp_norm',), 0), ('unfused', ('L023.mlp.gate_proj',), 0), ('unfused', ('L023.mlp.silu',), 0), ('unfused', ('L023.mlp.up_proj',), 0), ('unfused', ('L023.mlp.gated_mul',), 0), ('unfused', ('L023.mlp.down_proj',), 0), ('unfused', ('L023.residual_add_2',), 0), ('unfused', ('L024.input',), 0), ('rmsnorm_reference', ('L024.input_norm',), 0), ('unfused', ('L024.self_attention.k_proj',), 0), ('unfused', ('L024.self_attention.k_rope',), 0), ('unfused', ('L024.self_attention.q_proj',), 0), ('unfused', ('L024.self_attention.q_rope',), 0), ('unfused', ('L024.self_attention.qk_matmul',), 0), ('unfused', ('L024.self_attention.softmax',), 0), ('unfused', ('L024.self_attention.v_proj',), 0), ('unfused', ('L024.self_attention.av_matmul',), 0), ('unfused', ('L024.self_attention.out_proj',), 0), ('unfused', ('L024.residual_add_1',), 0), ('rmsnorm_reference', ('L024.pre_mlp_norm',), 0), ('unfused', ('L024.mlp.gate_proj',), 0), ('unfused', ('L024.mlp.silu',), 0), ('unfused', ('L024.mlp.up_proj',), 0), ('unfused', ('L024.mlp.gated_mul',), 0), ('unfused', ('L024.mlp.down_proj',), 0), ('unfused', ('L024.residual_add_2',), 0), ('unfused', ('L025.input',), 0), ('rmsnorm_reference', ('L025.input_norm',), 0), ('unfused', ('L025.self_attention.k_proj',), 0), ('unfused', ('L025.self_attention.k_rope',), 0), ('unfused', ('L025.self_attention.q_proj',), 0), ('unfused', ('L025.self_attention.q_rope',), 0), ('unfused', ('L025.self_attention.qk_matmul',), 0), ('unfused', ('L025.self_attention.softmax',), 0), ('unfused', ('L025.self_attention.v_proj',), 0), ('unfused', ('L025.self_attention.av_matmul',), 0), ('unfused', ('L025.self_attention.out_proj',), 0), ('unfused', ('L025.residual_add_1',), 0), ('rmsnorm_reference', ('L025.pre_mlp_norm',), 0), ('unfused', ('L025.mlp.gate_proj',), 0), ('unfused', ('L025.mlp.silu',), 0), ('unfused', ('L025.mlp.up_proj',), 0), ('unfused', ('L025.mlp.gated_mul',), 0), ('unfused', ('L025.mlp.down_proj',), 0), ('unfused', ('L025.residual_add_2',), 0), ('unfused', ('L026.input',), 0), ('rmsnorm_reference', ('L026.input_norm',), 0), ('unfused', ('L026.self_attention.k_proj',), 0), ('unfused', ('L026.self_attention.k_rope',), 0), ('unfused', ('L026.self_attention.q_proj',), 0), ('unfused', ('L026.self_attention.q_rope',), 0), ('unfused', ('L026.self_attention.qk_matmul',), 0), ('unfused', ('L026.self_attention.softmax',), 0), ('unfused', ('L026.self_attention.v_proj',), 0), ('unfused', ('L026.self_attention.av_matmul',), 0), ('unfused', ('L026.self_attention.out_proj',), 0), ('unfused', ('L026.residual_add_1',), 0), ('rmsnorm_reference', ('L026.pre_mlp_norm',), 0), ('unfused', ('L026.mlp.gate_proj',), 0), ('unfused', ('L026.mlp.silu',), 0), ('unfused', ('L026.mlp.up_proj',), 0), ('unfused', ('L026.mlp.gated_mul',), 0), ('unfused', ('L026.mlp.down_proj',), 0), ('unfused', ('L026.residual_add_2',), 0), ('unfused', ('L027.input',), 0), ('rmsnorm_reference', ('L027.input_norm',), 0), ('unfused', ('L027.self_attention.k_proj',), 0), ('unfused', ('L027.self_attention.k_rope',), 0), ('unfused', ('L027.self_attention.q_proj',), 0), ('unfused', ('L027.self_attention.q_rope',), 0), ('unfused', ('L027.self_attention.qk_matmul',), 0), ('unfused', ('L027.self_attention.softmax',), 0), ('unfused', ('L027.self_attention.v_proj',), 0), ('unfused', ('L027.self_attention.av_matmul',), 0), ('unfused', ('L027.self_attention.out_proj',), 0), ('unfused', ('L027.residual_add_1',), 0), ('rmsnorm_reference', ('L027.pre_mlp_norm',), 0), ('unfused', ('L027.mlp.gate_proj',), 0), ('unfused', ('L027.mlp.silu',), 0), ('unfused', ('L027.mlp.up_proj',), 0), ('unfused', ('L027.mlp.gated_mul',), 0), ('unfused', ('L027.mlp.down_proj',), 0), ('unfused', ('L027.residual_add_2',), 0), ('unfused', ('L028.input',), 0), ('rmsnorm_reference', ('L028.input_norm',), 0), ('unfused', ('L028.self_attention.k_proj',), 0), ('unfused', ('L028.self_attention.k_rope',), 0), ('unfused', ('L028.self_attention.q_proj',), 0), ('unfused', ('L028.self_attention.q_rope',), 0), ('unfused', ('L028.self_attention.qk_matmul',), 0), ('unfused', ('L028.self_attention.softmax',), 0), ('unfused', ('L028.self_attention.v_proj',), 0), ('unfused', ('L028.self_attention.av_matmul',), 0), ('unfused', ('L028.self_attention.out_proj',), 0), ('unfused', ('L028.residual_add_1',), 0), ('rmsnorm_reference', ('L028.pre_mlp_norm',), 0), ('unfused', ('L028.mlp.gate_proj',), 0), ('unfused', ('L028.mlp.silu',), 0), ('unfused', ('L028.mlp.up_proj',), 0), ('unfused', ('L028.mlp.gated_mul',), 0), ('unfused', ('L028.mlp.down_proj',), 0), ('unfused', ('L028.residual_add_2',), 0), ('unfused', ('L029.input',), 0), ('rmsnorm_reference', ('L029.input_norm',), 0), ('unfused', ('L029.self_attention.k_proj',), 0), ('unfused', ('L029.self_attention.k_rope',), 0), ('unfused', ('L029.self_attention.q_proj',), 0), ('unfused', ('L029.self_attention.q_rope',), 0), ('unfused', ('L029.self_attention.qk_matmul',), 0), ('unfused', ('L029.self_attention.softmax',), 0), ('unfused', ('L029.self_attention.v_proj',), 0), ('unfused', ('L029.self_attention.av_matmul',), 0), ('unfused', ('L029.self_attention.out_proj',), 0), ('unfused', ('L029.residual_add_1',), 0), ('rmsnorm_reference', ('L029.pre_mlp_norm',), 0), ('unfused', ('L029.mlp.gate_proj',), 0), ('unfused', ('L029.mlp.silu',), 0), ('unfused', ('L029.mlp.up_proj',), 0), ('unfused', ('L029.mlp.gated_mul',), 0), ('unfused', ('L029.mlp.down_proj',), 0), ('unfused', ('L029.residual_add_2',), 0), ('unfused', ('L030.input',), 0), ('rmsnorm_reference', ('L030.input_norm',), 0), ('unfused', ('L030.self_attention.k_proj',), 0), ('unfused', ('L030.self_attention.k_rope',), 0), ('unfused', ('L030.self_attention.q_proj',), 0), ('unfused', ('L030.self_attention.q_rope',), 0), ('unfused', ('L030.self_attention.qk_matmul',), 0), ('unfused', ('L030.self_attention.softmax',), 0), ('unfused', ('L030.self_attention.v_proj',), 0), ('unfused', ('L030.self_attention.av_matmul',), 0), ('unfused', ('L030.self_attention.out_proj',), 0), ('unfused', ('L030.residual_add_1',), 0), ('rmsnorm_reference', ('L030.pre_mlp_norm',), 0), ('unfused', ('L030.mlp.gate_proj',), 0), ('unfused', ('L030.mlp.silu',), 0), ('unfused', ('L030.mlp.up_proj',), 0), ('unfused', ('L030.mlp.gated_mul',), 0), ('unfused', ('L030.mlp.down_proj',), 0), ('unfused', ('L030.residual_add_2',), 0), ('unfused', ('L031.input',), 0), ('rmsnorm_reference', ('L031.input_norm',), 0), ('unfused', ('L031.self_attention.k_proj',), 0), ('unfused', ('L031.self_attention.k_rope',), 0), ('unfused', ('L031.self_attention.q_proj',), 0), ('unfused', ('L031.self_attention.q_rope',), 0), ('unfused', ('L031.self_attention.qk_matmul',), 0), ('unfused', ('L031.self_attention.softmax',), 0), ('unfused', ('L031.self_attention.v_proj',), 0), ('unfused', ('L031.self_attention.av_matmul',), 0), ('unfused', ('L031.self_attention.out_proj',), 0), ('unfused', ('L031.residual_add_1',), 0), ('rmsnorm_reference', ('L031.pre_mlp_norm',), 0), ('unfused', ('L031.mlp.gate_proj',), 0), ('unfused', ('L031.mlp.silu',), 0), ('unfused', ('L031.mlp.up_proj',), 0), ('unfused', ('L031.mlp.gated_mul',), 0), ('unfused', ('L031.mlp.down_proj',), 0), ('unfused', ('L031.residual_add_2',), 0), ('unfused', ('L032.input',), 0), ('rmsnorm_reference', ('L032.input_norm',), 0), ('unfused', ('L032.self_attention.k_proj',), 0), ('unfused', ('L032.self_attention.k_rope',), 0), ('unfused', ('L032.self_attention.q_proj',), 0), ('unfused', ('L032.self_attention.q_rope',), 0), ('unfused', ('L032.self_attention.qk_matmul',), 0), ('unfused', ('L032.self_attention.softmax',), 0), ('unfused', ('L032.self_attention.v_proj',), 0), ('unfused', ('L032.self_attention.av_matmul',), 0), ('unfused', ('L032.self_attention.out_proj',), 0), ('unfused', ('L032.residual_add_1',), 0), ('rmsnorm_reference', ('L032.pre_mlp_norm',), 0), ('unfused', ('L032.mlp.gate_proj',), 0), ('unfused', ('L032.mlp.silu',), 0), ('unfused', ('L032.mlp.up_proj',), 0), ('unfused', ('L032.mlp.gated_mul',), 0), ('unfused', ('L032.mlp.down_proj',), 0), ('unfused', ('L032.residual_add_2',), 0), ('unfused', ('L033.input',), 0), ('rmsnorm_reference', ('L033.input_norm',), 0), ('unfused', ('L033.self_attention.k_proj',), 0), ('unfused', ('L033.self_attention.k_rope',), 0), ('unfused', ('L033.self_attention.q_proj',), 0), ('unfused', ('L033.self_attention.q_rope',), 0), ('unfused', ('L033.self_attention.qk_matmul',), 0), ('unfused', ('L033.self_attention.softmax',), 0), ('unfused', ('L033.self_attention.v_proj',), 0), ('unfused', ('L033.self_attention.av_matmul',), 0), ('unfused', ('L033.self_attention.out_proj',), 0), ('unfused', ('L033.residual_add_1',), 0), ('rmsnorm_reference', ('L033.pre_mlp_norm',), 0), ('unfused', ('L033.mlp.gate_proj',), 0), ('unfused', ('L033.mlp.silu',), 0), ('unfused', ('L033.mlp.up_proj',), 0), ('unfused', ('L033.mlp.gated_mul',), 0), ('unfused', ('L033.mlp.down_proj',), 0), ('unfused', ('L033.residual_add_2',), 0), ('unfused', ('L034.input',), 0), ('rmsnorm_reference', ('L034.input_norm',), 0), ('unfused', ('L034.self_attention.k_proj',), 0), ('unfused', ('L034.self_attention.k_rope',), 0), ('unfused', ('L034.self_attention.q_proj',), 0), ('unfused', ('L034.self_attention.q_rope',), 0), ('unfused', ('L034.self_attention.qk_matmul',), 0), ('unfused', ('L034.self_attention.softmax',), 0), ('unfused', ('L034.self_attention.v_proj',), 0), ('unfused', ('L034.self_attention.av_matmul',), 0), ('unfused', ('L034.self_attention.out_proj',), 0), ('unfused', ('L034.residual_add_1',), 0), ('rmsnorm_reference', ('L034.pre_mlp_norm',), 0), ('unfused', ('L034.mlp.gate_proj',), 0), ('unfused', ('L034.mlp.silu',), 0), ('unfused', ('L034.mlp.up_proj',), 0), ('unfused', ('L034.mlp.gated_mul',), 0), ('unfused', ('L034.mlp.down_proj',), 0), ('unfused', ('L034.residual_add_2',), 0), ('unfused', ('L035.input',), 0), ('rmsnorm_reference', ('L035.input_norm',), 0), ('unfused', ('L035.self_attention.k_proj',), 0), ('unfused', ('L035.self_attention.k_rope',), 0), ('unfused', ('L035.self_attention.q_proj',), 0), ('unfused', ('L035.self_attention.q_rope',), 0), ('unfused', ('L035.self_attention.qk_matmul',), 0), ('unfused', ('L035.self_attention.softmax',), 0), ('unfused', ('L035.self_attention.v_proj',), 0), ('unfused', ('L035.self_attention.av_matmul',), 0), ('unfused', ('L035.self_attention.out_proj',), 0), ('unfused', ('L035.residual_add_1',), 0), ('rmsnorm_reference', ('L035.pre_mlp_norm',), 0), ('unfused', ('L035.mlp.gate_proj',), 0), ('unfused', ('L035.mlp.silu',), 0), ('unfused', ('L035.mlp.up_proj',), 0), ('unfused', ('L035.mlp.gated_mul',), 0), ('unfused', ('L035.mlp.down_proj',), 0), ('unfused', ('L035.residual_add_2',), 0), ('rmsnorm_reference', ('final_norm',), 0), ('unfused', ('lm_head',), 0))"
+   },
+   "capacity_bytes": [
+    4687899648.0,
+    4687899648.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": true,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 29.426358997522726,
+     "cut": 490,
+     "cut_step": 3,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 29.118482885190296,
+     "cut": 490,
+     "cut_step": 3,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "model_3b:async:free": {
+   "nodes": 687,
+   "reference_unfused_dev0": {
+    "makespan_ms": 29.3773945352571,
+    "feasible": true,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     6250532864.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('embedding',), 0), ('unfused', ('L000.input',), 0), ('rmsnorm_reference', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0), ('unfused', ('L001.input',), 0), ('rmsnorm_reference', ('L001.input_norm',), 0), ('unfused', ('L001.self_attention.k_proj',), 0), ('unfused', ('L001.self_attention.k_rope',), 0), ('unfused', ('L001.self_attention.q_proj',), 0), ('unfused', ('L001.self_attention.q_rope',), 0), ('unfused', ('L001.self_attention.qk_matmul',), 0), ('unfused', ('L001.self_attention.softmax',), 0), ('unfused', ('L001.self_attention.v_proj',), 0), ('unfused', ('L001.self_attention.av_matmul',), 0), ('unfused', ('L001.self_attention.out_proj',), 0), ('unfused', ('L001.residual_add_1',), 0), ('rmsnorm_reference', ('L001.pre_mlp_norm',), 0), ('unfused', ('L001.mlp.gate_proj',), 0), ('unfused', ('L001.mlp.silu',), 0), ('unfused', ('L001.mlp.up_proj',), 0), ('unfused', ('L001.mlp.gated_mul',), 0), ('unfused', ('L001.mlp.down_proj',), 0), ('unfused', ('L001.residual_add_2',), 0), ('unfused', ('L002.input',), 0), ('rmsnorm_reference', ('L002.input_norm',), 0), ('unfused', ('L002.self_attention.k_proj',), 0), ('unfused', ('L002.self_attention.k_rope',), 0), ('unfused', ('L002.self_attention.q_proj',), 0), ('unfused', ('L002.self_attention.q_rope',), 0), ('unfused', ('L002.self_attention.qk_matmul',), 0), ('unfused', ('L002.self_attention.softmax',), 0), ('unfused', ('L002.self_attention.v_proj',), 0), ('unfused', ('L002.self_attention.av_matmul',), 0), ('unfused', ('L002.self_attention.out_proj',), 0), ('unfused', ('L002.residual_add_1',), 0), ('rmsnorm_reference', ('L002.pre_mlp_norm',), 0), ('unfused', ('L002.mlp.gate_proj',), 0), ('unfused', ('L002.mlp.silu',), 0), ('unfused', ('L002.mlp.up_proj',), 0), ('unfused', ('L002.mlp.gated_mul',), 0), ('unfused', ('L002.mlp.down_proj',), 0), ('unfused', ('L002.residual_add_2',), 0), ('unfused', ('L003.input',), 0), ('rmsnorm_reference', ('L003.input_norm',), 0), ('unfused', ('L003.self_attention.k_proj',), 0), ('unfused', ('L003.self_attention.k_rope',), 0), ('unfused', ('L003.self_attention.q_proj',), 0), ('unfused', ('L003.self_attention.q_rope',), 0), ('unfused', ('L003.self_attention.qk_matmul',), 0), ('unfused', ('L003.self_attention.softmax',), 0), ('unfused', ('L003.self_attention.v_proj',), 0), ('unfused', ('L003.self_attention.av_matmul',), 0), ('unfused', ('L003.self_attention.out_proj',), 0), ('unfused', ('L003.residual_add_1',), 0), ('rmsnorm_reference', ('L003.pre_mlp_norm',), 0), ('unfused', ('L003.mlp.gate_proj',), 0), ('unfused', ('L003.mlp.silu',), 0), ('unfused', ('L003.mlp.up_proj',), 0), ('unfused', ('L003.mlp.gated_mul',), 0), ('unfused', ('L003.mlp.down_proj',), 0), ('unfused', ('L003.residual_add_2',), 0), ('unfused', ('L004.input',), 0), ('rmsnorm_reference', ('L004.input_norm',), 0), ('unfused', ('L004.self_attention.k_proj',), 0), ('unfused', ('L004.self_attention.k_rope',), 0), ('unfused', ('L004.self_attention.q_proj',), 0), ('unfused', ('L004.self_attention.q_rope',), 0), ('unfused', ('L004.self_attention.qk_matmul',), 0), ('unfused', ('L004.self_attention.softmax',), 0), ('unfused', ('L004.self_attention.v_proj',), 0), ('unfused', ('L004.self_attention.av_matmul',), 0), ('unfused', ('L004.self_attention.out_proj',), 0), ('unfused', ('L004.residual_add_1',), 0), ('rmsnorm_reference', ('L004.pre_mlp_norm',), 0), ('unfused', ('L004.mlp.gate_proj',), 0), ('unfused', ('L004.mlp.silu',), 0), ('unfused', ('L004.mlp.up_proj',), 0), ('unfused', ('L004.mlp.gated_mul',), 0), ('unfused', ('L004.mlp.down_proj',), 0), ('unfused', ('L004.residual_add_2',), 0), ('unfused', ('L005.input',), 0), ('rmsnorm_reference', ('L005.input_norm',), 0), ('unfused', ('L005.self_attention.k_proj',), 0), ('unfused', ('L005.self_attention.k_rope',), 0), ('unfused', ('L005.self_attention.q_proj',), 0), ('unfused', ('L005.self_attention.q_rope',), 0), ('unfused', ('L005.self_attention.qk_matmul',), 0), ('unfused', ('L005.self_attention.softmax',), 0), ('unfused', ('L005.self_attention.v_proj',), 0), ('unfused', ('L005.self_attention.av_matmul',), 0), ('unfused', ('L005.self_attention.out_proj',), 0), ('unfused', ('L005.residual_add_1',), 0), ('rmsnorm_reference', ('L005.pre_mlp_norm',), 0), ('unfused', ('L005.mlp.gate_proj',), 0), ('unfused', ('L005.mlp.silu',), 0), ('unfused', ('L005.mlp.up_proj',), 0), ('unfused', ('L005.mlp.gated_mul',), 0), ('unfused', ('L005.mlp.down_proj',), 0), ('unfused', ('L005.residual_add_2',), 0), ('unfused', ('L006.input',), 0), ('rmsnorm_reference', ('L006.input_norm',), 0), ('unfused', ('L006.self_attention.k_proj',), 0), ('unfused', ('L006.self_attention.k_rope',), 0), ('unfused', ('L006.self_attention.q_proj',), 0), ('unfused', ('L006.self_attention.q_rope',), 0), ('unfused', ('L006.self_attention.qk_matmul',), 0), ('unfused', ('L006.self_attention.softmax',), 0), ('unfused', ('L006.self_attention.v_proj',), 0), ('unfused', ('L006.self_attention.av_matmul',), 0), ('unfused', ('L006.self_attention.out_proj',), 0), ('unfused', ('L006.residual_add_1',), 0), ('rmsnorm_reference', ('L006.pre_mlp_norm',), 0), ('unfused', ('L006.mlp.gate_proj',), 0), ('unfused', ('L006.mlp.silu',), 0), ('unfused', ('L006.mlp.up_proj',), 0), ('unfused', ('L006.mlp.gated_mul',), 0), ('unfused', ('L006.mlp.down_proj',), 0), ('unfused', ('L006.residual_add_2',), 0), ('unfused', ('L007.input',), 0), ('rmsnorm_reference', ('L007.input_norm',), 0), ('unfused', ('L007.self_attention.k_proj',), 0), ('unfused', ('L007.self_attention.k_rope',), 0), ('unfused', ('L007.self_attention.q_proj',), 0), ('unfused', ('L007.self_attention.q_rope',), 0), ('unfused', ('L007.self_attention.qk_matmul',), 0), ('unfused', ('L007.self_attention.softmax',), 0), ('unfused', ('L007.self_attention.v_proj',), 0), ('unfused', ('L007.self_attention.av_matmul',), 0), ('unfused', ('L007.self_attention.out_proj',), 0), ('unfused', ('L007.residual_add_1',), 0), ('rmsnorm_reference', ('L007.pre_mlp_norm',), 0), ('unfused', ('L007.mlp.gate_proj',), 0), ('unfused', ('L007.mlp.silu',), 0), ('unfused', ('L007.mlp.up_proj',), 0), ('unfused', ('L007.mlp.gated_mul',), 0), ('unfused', ('L007.mlp.down_proj',), 0), ('unfused', ('L007.residual_add_2',), 0), ('unfused', ('L008.input',), 0), ('rmsnorm_reference', ('L008.input_norm',), 0), ('unfused', ('L008.self_attention.k_proj',), 0), ('unfused', ('L008.self_attention.k_rope',), 0), ('unfused', ('L008.self_attention.q_proj',), 0), ('unfused', ('L008.self_attention.q_rope',), 0), ('unfused', ('L008.self_attention.qk_matmul',), 0), ('unfused', ('L008.self_attention.softmax',), 0), ('unfused', ('L008.self_attention.v_proj',), 0), ('unfused', ('L008.self_attention.av_matmul',), 0), ('unfused', ('L008.self_attention.out_proj',), 0), ('unfused', ('L008.residual_add_1',), 0), ('rmsnorm_reference', ('L008.pre_mlp_norm',), 0), ('unfused', ('L008.mlp.gate_proj',), 0), ('unfused', ('L008.mlp.silu',), 0), ('unfused', ('L008.mlp.up_proj',), 0), ('unfused', ('L008.mlp.gated_mul',), 0), ('unfused', ('L008.mlp.down_proj',), 0), ('unfused', ('L008.residual_add_2',), 0), ('unfused', ('L009.input',), 0), ('rmsnorm_reference', ('L009.input_norm',), 0), ('unfused', ('L009.self_attention.k_proj',), 0), ('unfused', ('L009.self_attention.k_rope',), 0), ('unfused', ('L009.self_attention.q_proj',), 0), ('unfused', ('L009.self_attention.q_rope',), 0), ('unfused', ('L009.self_attention.qk_matmul',), 0), ('unfused', ('L009.self_attention.softmax',), 0), ('unfused', ('L009.self_attention.v_proj',), 0), ('unfused', ('L009.self_attention.av_matmul',), 0), ('unfused', ('L009.self_attention.out_proj',), 0), ('unfused', ('L009.residual_add_1',), 0), ('rmsnorm_reference', ('L009.pre_mlp_norm',), 0), ('unfused', ('L009.mlp.gate_proj',), 0), ('unfused', ('L009.mlp.silu',), 0), ('unfused', ('L009.mlp.up_proj',), 0), ('unfused', ('L009.mlp.gated_mul',), 0), ('unfused', ('L009.mlp.down_proj',), 0), ('unfused', ('L009.residual_add_2',), 0), ('unfused', ('L010.input',), 0), ('rmsnorm_reference', ('L010.input_norm',), 0), ('unfused', ('L010.self_attention.k_proj',), 0), ('unfused', ('L010.self_attention.k_rope',), 0), ('unfused', ('L010.self_attention.q_proj',), 0), ('unfused', ('L010.self_attention.q_rope',), 0), ('unfused', ('L010.self_attention.qk_matmul',), 0), ('unfused', ('L010.self_attention.softmax',), 0), ('unfused', ('L010.self_attention.v_proj',), 0), ('unfused', ('L010.self_attention.av_matmul',), 0), ('unfused', ('L010.self_attention.out_proj',), 0), ('unfused', ('L010.residual_add_1',), 0), ('rmsnorm_reference', ('L010.pre_mlp_norm',), 0), ('unfused', ('L010.mlp.gate_proj',), 0), ('unfused', ('L010.mlp.silu',), 0), ('unfused', ('L010.mlp.up_proj',), 0), ('unfused', ('L010.mlp.gated_mul',), 0), ('unfused', ('L010.mlp.down_proj',), 0), ('unfused', ('L010.residual_add_2',), 0), ('unfused', ('L011.input',), 0), ('rmsnorm_reference', ('L011.input_norm',), 0), ('unfused', ('L011.self_attention.k_proj',), 0), ('unfused', ('L011.self_attention.k_rope',), 0), ('unfused', ('L011.self_attention.q_proj',), 0), ('unfused', ('L011.self_attention.q_rope',), 0), ('unfused', ('L011.self_attention.qk_matmul',), 0), ('unfused', ('L011.self_attention.softmax',), 0), ('unfused', ('L011.self_attention.v_proj',), 0), ('unfused', ('L011.self_attention.av_matmul',), 0), ('unfused', ('L011.self_attention.out_proj',), 0), ('unfused', ('L011.residual_add_1',), 0), ('rmsnorm_reference', ('L011.pre_mlp_norm',), 0), ('unfused', ('L011.mlp.gate_proj',), 0), ('unfused', ('L011.mlp.silu',), 0), ('unfused', ('L011.mlp.up_proj',), 0), ('unfused', ('L011.mlp.gated_mul',), 0), ('unfused', ('L011.mlp.down_proj',), 0), ('unfused', ('L011.residual_add_2',), 0), ('unfused', ('L012.input',), 0), ('rmsnorm_reference', ('L012.input_norm',), 0), ('unfused', ('L012.self_attention.k_proj',), 0), ('unfused', ('L012.self_attention.k_rope',), 0), ('unfused', ('L012.self_attention.q_proj',), 0), ('unfused', ('L012.self_attention.q_rope',), 0), ('unfused', ('L012.self_attention.qk_matmul',), 0), ('unfused', ('L012.self_attention.softmax',), 0), ('unfused', ('L012.self_attention.v_proj',), 0), ('unfused', ('L012.self_attention.av_matmul',), 0), ('unfused', ('L012.self_attention.out_proj',), 0), ('unfused', ('L012.residual_add_1',), 0), ('rmsnorm_reference', ('L012.pre_mlp_norm',), 0), ('unfused', ('L012.mlp.gate_proj',), 0), ('unfused', ('L012.mlp.silu',), 0), ('unfused', ('L012.mlp.up_proj',), 0), ('unfused', ('L012.mlp.gated_mul',), 0), ('unfused', ('L012.mlp.down_proj',), 0), ('unfused', ('L012.residual_add_2',), 0), ('unfused', ('L013.input',), 0), ('rmsnorm_reference', ('L013.input_norm',), 0), ('unfused', ('L013.self_attention.k_proj',), 0), ('unfused', ('L013.self_attention.k_rope',), 0), ('unfused', ('L013.self_attention.q_proj',), 0), ('unfused', ('L013.self_attention.q_rope',), 0), ('unfused', ('L013.self_attention.qk_matmul',), 0), ('unfused', ('L013.self_attention.softmax',), 0), ('unfused', ('L013.self_attention.v_proj',), 0), ('unfused', ('L013.self_attention.av_matmul',), 0), ('unfused', ('L013.self_attention.out_proj',), 0), ('unfused', ('L013.residual_add_1',), 0), ('rmsnorm_reference', ('L013.pre_mlp_norm',), 0), ('unfused', ('L013.mlp.gate_proj',), 0), ('unfused', ('L013.mlp.silu',), 0), ('unfused', ('L013.mlp.up_proj',), 0), ('unfused', ('L013.mlp.gated_mul',), 0), ('unfused', ('L013.mlp.down_proj',), 0), ('unfused', ('L013.residual_add_2',), 0), ('unfused', ('L014.input',), 0), ('rmsnorm_reference', ('L014.input_norm',), 0), ('unfused', ('L014.self_attention.k_proj',), 0), ('unfused', ('L014.self_attention.k_rope',), 0), ('unfused', ('L014.self_attention.q_proj',), 0), ('unfused', ('L014.self_attention.q_rope',), 0), ('unfused', ('L014.self_attention.qk_matmul',), 0), ('unfused', ('L014.self_attention.softmax',), 0), ('unfused', ('L014.self_attention.v_proj',), 0), ('unfused', ('L014.self_attention.av_matmul',), 0), ('unfused', ('L014.self_attention.out_proj',), 0), ('unfused', ('L014.residual_add_1',), 0), ('rmsnorm_reference', ('L014.pre_mlp_norm',), 0), ('unfused', ('L014.mlp.gate_proj',), 0), ('unfused', ('L014.mlp.silu',), 0), ('unfused', ('L014.mlp.up_proj',), 0), ('unfused', ('L014.mlp.gated_mul',), 0), ('unfused', ('L014.mlp.down_proj',), 0), ('unfused', ('L014.residual_add_2',), 0), ('unfused', ('L015.input',), 0), ('rmsnorm_reference', ('L015.input_norm',), 0), ('unfused', ('L015.self_attention.k_proj',), 0), ('unfused', ('L015.self_attention.k_rope',), 0), ('unfused', ('L015.self_attention.q_proj',), 0), ('unfused', ('L015.self_attention.q_rope',), 0), ('unfused', ('L015.self_attention.qk_matmul',), 0), ('unfused', ('L015.self_attention.softmax',), 0), ('unfused', ('L015.self_attention.v_proj',), 0), ('unfused', ('L015.self_attention.av_matmul',), 0), ('unfused', ('L015.self_attention.out_proj',), 0), ('unfused', ('L015.residual_add_1',), 0), ('rmsnorm_reference', ('L015.pre_mlp_norm',), 0), ('unfused', ('L015.mlp.gate_proj',), 0), ('unfused', ('L015.mlp.silu',), 0), ('unfused', ('L015.mlp.up_proj',), 0), ('unfused', ('L015.mlp.gated_mul',), 0), ('unfused', ('L015.mlp.down_proj',), 0), ('unfused', ('L015.residual_add_2',), 0), ('unfused', ('L016.input',), 0), ('rmsnorm_reference', ('L016.input_norm',), 0), ('unfused', ('L016.self_attention.k_proj',), 0), ('unfused', ('L016.self_attention.k_rope',), 0), ('unfused', ('L016.self_attention.q_proj',), 0), ('unfused', ('L016.self_attention.q_rope',), 0), ('unfused', ('L016.self_attention.qk_matmul',), 0), ('unfused', ('L016.self_attention.softmax',), 0), ('unfused', ('L016.self_attention.v_proj',), 0), ('unfused', ('L016.self_attention.av_matmul',), 0), ('unfused', ('L016.self_attention.out_proj',), 0), ('unfused', ('L016.residual_add_1',), 0), ('rmsnorm_reference', ('L016.pre_mlp_norm',), 0), ('unfused', ('L016.mlp.gate_proj',), 0), ('unfused', ('L016.mlp.silu',), 0), ('unfused', ('L016.mlp.up_proj',), 0), ('unfused', ('L016.mlp.gated_mul',), 0), ('unfused', ('L016.mlp.down_proj',), 0), ('unfused', ('L016.residual_add_2',), 0), ('unfused', ('L017.input',), 0), ('rmsnorm_reference', ('L017.input_norm',), 0), ('unfused', ('L017.self_attention.k_proj',), 0), ('unfused', ('L017.self_attention.k_rope',), 0), ('unfused', ('L017.self_attention.q_proj',), 0), ('unfused', ('L017.self_attention.q_rope',), 0), ('unfused', ('L017.self_attention.qk_matmul',), 0), ('unfused', ('L017.self_attention.softmax',), 0), ('unfused', ('L017.self_attention.v_proj',), 0), ('unfused', ('L017.self_attention.av_matmul',), 0), ('unfused', ('L017.self_attention.out_proj',), 0), ('unfused', ('L017.residual_add_1',), 0), ('rmsnorm_reference', ('L017.pre_mlp_norm',), 0), ('unfused', ('L017.mlp.gate_proj',), 0), ('unfused', ('L017.mlp.silu',), 0), ('unfused', ('L017.mlp.up_proj',), 0), ('unfused', ('L017.mlp.gated_mul',), 0), ('unfused', ('L017.mlp.down_proj',), 0), ('unfused', ('L017.residual_add_2',), 0), ('unfused', ('L018.input',), 0), ('rmsnorm_reference', ('L018.input_norm',), 0), ('unfused', ('L018.self_attention.k_proj',), 0), ('unfused', ('L018.self_attention.k_rope',), 0), ('unfused', ('L018.self_attention.q_proj',), 0), ('unfused', ('L018.self_attention.q_rope',), 0), ('unfused', ('L018.self_attention.qk_matmul',), 0), ('unfused', ('L018.self_attention.softmax',), 0), ('unfused', ('L018.self_attention.v_proj',), 0), ('unfused', ('L018.self_attention.av_matmul',), 0), ('unfused', ('L018.self_attention.out_proj',), 0), ('unfused', ('L018.residual_add_1',), 0), ('rmsnorm_reference', ('L018.pre_mlp_norm',), 0), ('unfused', ('L018.mlp.gate_proj',), 0), ('unfused', ('L018.mlp.silu',), 0), ('unfused', ('L018.mlp.up_proj',), 0), ('unfused', ('L018.mlp.gated_mul',), 0), ('unfused', ('L018.mlp.down_proj',), 0), ('unfused', ('L018.residual_add_2',), 0), ('unfused', ('L019.input',), 0), ('rmsnorm_reference', ('L019.input_norm',), 0), ('unfused', ('L019.self_attention.k_proj',), 0), ('unfused', ('L019.self_attention.k_rope',), 0), ('unfused', ('L019.self_attention.q_proj',), 0), ('unfused', ('L019.self_attention.q_rope',), 0), ('unfused', ('L019.self_attention.qk_matmul',), 0), ('unfused', ('L019.self_attention.softmax',), 0), ('unfused', ('L019.self_attention.v_proj',), 0), ('unfused', ('L019.self_attention.av_matmul',), 0), ('unfused', ('L019.self_attention.out_proj',), 0), ('unfused', ('L019.residual_add_1',), 0), ('rmsnorm_reference', ('L019.pre_mlp_norm',), 0), ('unfused', ('L019.mlp.gate_proj',), 0), ('unfused', ('L019.mlp.silu',), 0), ('unfused', ('L019.mlp.up_proj',), 0), ('unfused', ('L019.mlp.gated_mul',), 0), ('unfused', ('L019.mlp.down_proj',), 0), ('unfused', ('L019.residual_add_2',), 0), ('unfused', ('L020.input',), 0), ('rmsnorm_reference', ('L020.input_norm',), 0), ('unfused', ('L020.self_attention.k_proj',), 0), ('unfused', ('L020.self_attention.k_rope',), 0), ('unfused', ('L020.self_attention.q_proj',), 0), ('unfused', ('L020.self_attention.q_rope',), 0), ('unfused', ('L020.self_attention.qk_matmul',), 0), ('unfused', ('L020.self_attention.softmax',), 0), ('unfused', ('L020.self_attention.v_proj',), 0), ('unfused', ('L020.self_attention.av_matmul',), 0), ('unfused', ('L020.self_attention.out_proj',), 0), ('unfused', ('L020.residual_add_1',), 0), ('rmsnorm_reference', ('L020.pre_mlp_norm',), 0), ('unfused', ('L020.mlp.gate_proj',), 0), ('unfused', ('L020.mlp.silu',), 0), ('unfused', ('L020.mlp.up_proj',), 0), ('unfused', ('L020.mlp.gated_mul',), 0), ('unfused', ('L020.mlp.down_proj',), 0), ('unfused', ('L020.residual_add_2',), 0), ('unfused', ('L021.input',), 0), ('rmsnorm_reference', ('L021.input_norm',), 0), ('unfused', ('L021.self_attention.k_proj',), 0), ('unfused', ('L021.self_attention.k_rope',), 0), ('unfused', ('L021.self_attention.q_proj',), 0), ('unfused', ('L021.self_attention.q_rope',), 0), ('unfused', ('L021.self_attention.qk_matmul',), 0), ('unfused', ('L021.self_attention.softmax',), 0), ('unfused', ('L021.self_attention.v_proj',), 0), ('unfused', ('L021.self_attention.av_matmul',), 0), ('unfused', ('L021.self_attention.out_proj',), 0), ('unfused', ('L021.residual_add_1',), 0), ('rmsnorm_reference', ('L021.pre_mlp_norm',), 0), ('unfused', ('L021.mlp.gate_proj',), 0), ('unfused', ('L021.mlp.silu',), 0), ('unfused', ('L021.mlp.up_proj',), 0), ('unfused', ('L021.mlp.gated_mul',), 0), ('unfused', ('L021.mlp.down_proj',), 0), ('unfused', ('L021.residual_add_2',), 0), ('unfused', ('L022.input',), 0), ('rmsnorm_reference', ('L022.input_norm',), 0), ('unfused', ('L022.self_attention.k_proj',), 0), ('unfused', ('L022.self_attention.k_rope',), 0), ('unfused', ('L022.self_attention.q_proj',), 0), ('unfused', ('L022.self_attention.q_rope',), 0), ('unfused', ('L022.self_attention.qk_matmul',), 0), ('unfused', ('L022.self_attention.softmax',), 0), ('unfused', ('L022.self_attention.v_proj',), 0), ('unfused', ('L022.self_attention.av_matmul',), 0), ('unfused', ('L022.self_attention.out_proj',), 0), ('unfused', ('L022.residual_add_1',), 0), ('rmsnorm_reference', ('L022.pre_mlp_norm',), 0), ('unfused', ('L022.mlp.gate_proj',), 0), ('unfused', ('L022.mlp.silu',), 0), ('unfused', ('L022.mlp.up_proj',), 0), ('unfused', ('L022.mlp.gated_mul',), 0), ('unfused', ('L022.mlp.down_proj',), 0), ('unfused', ('L022.residual_add_2',), 0), ('unfused', ('L023.input',), 0), ('rmsnorm_reference', ('L023.input_norm',), 0), ('unfused', ('L023.self_attention.k_proj',), 0), ('unfused', ('L023.self_attention.k_rope',), 0), ('unfused', ('L023.self_attention.q_proj',), 0), ('unfused', ('L023.self_attention.q_rope',), 0), ('unfused', ('L023.self_attention.qk_matmul',), 0), ('unfused', ('L023.self_attention.softmax',), 0), ('unfused', ('L023.self_attention.v_proj',), 0), ('unfused', ('L023.self_attention.av_matmul',), 0), ('unfused', ('L023.self_attention.out_proj',), 0), ('unfused', ('L023.residual_add_1',), 0), ('rmsnorm_reference', ('L023.pre_mlp_norm',), 0), ('unfused', ('L023.mlp.gate_proj',), 0), ('unfused', ('L023.mlp.silu',), 0), ('unfused', ('L023.mlp.up_proj',), 0), ('unfused', ('L023.mlp.gated_mul',), 0), ('unfused', ('L023.mlp.down_proj',), 0), ('unfused', ('L023.residual_add_2',), 0), ('unfused', ('L024.input',), 0), ('rmsnorm_reference', ('L024.input_norm',), 0), ('unfused', ('L024.self_attention.k_proj',), 0), ('unfused', ('L024.self_attention.k_rope',), 0), ('unfused', ('L024.self_attention.q_proj',), 0), ('unfused', ('L024.self_attention.q_rope',), 0), ('unfused', ('L024.self_attention.qk_matmul',), 0), ('unfused', ('L024.self_attention.softmax',), 0), ('unfused', ('L024.self_attention.v_proj',), 0), ('unfused', ('L024.self_attention.av_matmul',), 0), ('unfused', ('L024.self_attention.out_proj',), 0), ('unfused', ('L024.residual_add_1',), 0), ('rmsnorm_reference', ('L024.pre_mlp_norm',), 0), ('unfused', ('L024.mlp.gate_proj',), 0), ('unfused', ('L024.mlp.silu',), 0), ('unfused', ('L024.mlp.up_proj',), 0), ('unfused', ('L024.mlp.gated_mul',), 0), ('unfused', ('L024.mlp.down_proj',), 0), ('unfused', ('L024.residual_add_2',), 0), ('unfused', ('L025.input',), 0), ('rmsnorm_reference', ('L025.input_norm',), 0), ('unfused', ('L025.self_attention.k_proj',), 0), ('unfused', ('L025.self_attention.k_rope',), 0), ('unfused', ('L025.self_attention.q_proj',), 0), ('unfused', ('L025.self_attention.q_rope',), 0), ('unfused', ('L025.self_attention.qk_matmul',), 0), ('unfused', ('L025.self_attention.softmax',), 0), ('unfused', ('L025.self_attention.v_proj',), 0), ('unfused', ('L025.self_attention.av_matmul',), 0), ('unfused', ('L025.self_attention.out_proj',), 0), ('unfused', ('L025.residual_add_1',), 0), ('rmsnorm_reference', ('L025.pre_mlp_norm',), 0), ('unfused', ('L025.mlp.gate_proj',), 0), ('unfused', ('L025.mlp.silu',), 0), ('unfused', ('L025.mlp.up_proj',), 0), ('unfused', ('L025.mlp.gated_mul',), 0), ('unfused', ('L025.mlp.down_proj',), 0), ('unfused', ('L025.residual_add_2',), 0), ('unfused', ('L026.input',), 0), ('rmsnorm_reference', ('L026.input_norm',), 0), ('unfused', ('L026.self_attention.k_proj',), 0), ('unfused', ('L026.self_attention.k_rope',), 0), ('unfused', ('L026.self_attention.q_proj',), 0), ('unfused', ('L026.self_attention.q_rope',), 0), ('unfused', ('L026.self_attention.qk_matmul',), 0), ('unfused', ('L026.self_attention.softmax',), 0), ('unfused', ('L026.self_attention.v_proj',), 0), ('unfused', ('L026.self_attention.av_matmul',), 0), ('unfused', ('L026.self_attention.out_proj',), 0), ('unfused', ('L026.residual_add_1',), 0), ('rmsnorm_reference', ('L026.pre_mlp_norm',), 0), ('unfused', ('L026.mlp.gate_proj',), 0), ('unfused', ('L026.mlp.silu',), 0), ('unfused', ('L026.mlp.up_proj',), 0), ('unfused', ('L026.mlp.gated_mul',), 0), ('unfused', ('L026.mlp.down_proj',), 0), ('unfused', ('L026.residual_add_2',), 0), ('unfused', ('L027.input',), 0), ('rmsnorm_reference', ('L027.input_norm',), 0), ('unfused', ('L027.self_attention.k_proj',), 0), ('unfused', ('L027.self_attention.k_rope',), 0), ('unfused', ('L027.self_attention.q_proj',), 0), ('unfused', ('L027.self_attention.q_rope',), 0), ('unfused', ('L027.self_attention.qk_matmul',), 0), ('unfused', ('L027.self_attention.softmax',), 0), ('unfused', ('L027.self_attention.v_proj',), 0), ('unfused', ('L027.self_attention.av_matmul',), 0), ('unfused', ('L027.self_attention.out_proj',), 0), ('unfused', ('L027.residual_add_1',), 0), ('rmsnorm_reference', ('L027.pre_mlp_norm',), 0), ('unfused', ('L027.mlp.gate_proj',), 0), ('unfused', ('L027.mlp.silu',), 0), ('unfused', ('L027.mlp.up_proj',), 0), ('unfused', ('L027.mlp.gated_mul',), 0), ('unfused', ('L027.mlp.down_proj',), 0), ('unfused', ('L027.residual_add_2',), 0), ('unfused', ('L028.input',), 0), ('rmsnorm_reference', ('L028.input_norm',), 0), ('unfused', ('L028.self_attention.k_proj',), 0), ('unfused', ('L028.self_attention.k_rope',), 0), ('unfused', ('L028.self_attention.q_proj',), 0), ('unfused', ('L028.self_attention.q_rope',), 0), ('unfused', ('L028.self_attention.qk_matmul',), 0), ('unfused', ('L028.self_attention.softmax',), 0), ('unfused', ('L028.self_attention.v_proj',), 0), ('unfused', ('L028.self_attention.av_matmul',), 0), ('unfused', ('L028.self_attention.out_proj',), 0), ('unfused', ('L028.residual_add_1',), 0), ('rmsnorm_reference', ('L028.pre_mlp_norm',), 0), ('unfused', ('L028.mlp.gate_proj',), 0), ('unfused', ('L028.mlp.silu',), 0), ('unfused', ('L028.mlp.up_proj',), 0), ('unfused', ('L028.mlp.gated_mul',), 0), ('unfused', ('L028.mlp.down_proj',), 0), ('unfused', ('L028.residual_add_2',), 0), ('unfused', ('L029.input',), 0), ('rmsnorm_reference', ('L029.input_norm',), 0), ('unfused', ('L029.self_attention.k_proj',), 0), ('unfused', ('L029.self_attention.k_rope',), 0), ('unfused', ('L029.self_attention.q_proj',), 0), ('unfused', ('L029.self_attention.q_rope',), 0), ('unfused', ('L029.self_attention.qk_matmul',), 0), ('unfused', ('L029.self_attention.softmax',), 0), ('unfused', ('L029.self_attention.v_proj',), 0), ('unfused', ('L029.self_attention.av_matmul',), 0), ('unfused', ('L029.self_attention.out_proj',), 0), ('unfused', ('L029.residual_add_1',), 0), ('rmsnorm_reference', ('L029.pre_mlp_norm',), 0), ('unfused', ('L029.mlp.gate_proj',), 0), ('unfused', ('L029.mlp.silu',), 0), ('unfused', ('L029.mlp.up_proj',), 0), ('unfused', ('L029.mlp.gated_mul',), 0), ('unfused', ('L029.mlp.down_proj',), 0), ('unfused', ('L029.residual_add_2',), 0), ('unfused', ('L030.input',), 0), ('rmsnorm_reference', ('L030.input_norm',), 0), ('unfused', ('L030.self_attention.k_proj',), 0), ('unfused', ('L030.self_attention.k_rope',), 0), ('unfused', ('L030.self_attention.q_proj',), 0), ('unfused', ('L030.self_attention.q_rope',), 0), ('unfused', ('L030.self_attention.qk_matmul',), 0), ('unfused', ('L030.self_attention.softmax',), 0), ('unfused', ('L030.self_attention.v_proj',), 0), ('unfused', ('L030.self_attention.av_matmul',), 0), ('unfused', ('L030.self_attention.out_proj',), 0), ('unfused', ('L030.residual_add_1',), 0), ('rmsnorm_reference', ('L030.pre_mlp_norm',), 0), ('unfused', ('L030.mlp.gate_proj',), 0), ('unfused', ('L030.mlp.silu',), 0), ('unfused', ('L030.mlp.up_proj',), 0), ('unfused', ('L030.mlp.gated_mul',), 0), ('unfused', ('L030.mlp.down_proj',), 0), ('unfused', ('L030.residual_add_2',), 0), ('unfused', ('L031.input',), 0), ('rmsnorm_reference', ('L031.input_norm',), 0), ('unfused', ('L031.self_attention.k_proj',), 0), ('unfused', ('L031.self_attention.k_rope',), 0), ('unfused', ('L031.self_attention.q_proj',), 0), ('unfused', ('L031.self_attention.q_rope',), 0), ('unfused', ('L031.self_attention.qk_matmul',), 0), ('unfused', ('L031.self_attention.softmax',), 0), ('unfused', ('L031.self_attention.v_proj',), 0), ('unfused', ('L031.self_attention.av_matmul',), 0), ('unfused', ('L031.self_attention.out_proj',), 0), ('unfused', ('L031.residual_add_1',), 0), ('rmsnorm_reference', ('L031.pre_mlp_norm',), 0), ('unfused', ('L031.mlp.gate_proj',), 0), ('unfused', ('L031.mlp.silu',), 0), ('unfused', ('L031.mlp.up_proj',), 0), ('unfused', ('L031.mlp.gated_mul',), 0), ('unfused', ('L031.mlp.down_proj',), 0), ('unfused', ('L031.residual_add_2',), 0), ('unfused', ('L032.input',), 0), ('rmsnorm_reference', ('L032.input_norm',), 0), ('unfused', ('L032.self_attention.k_proj',), 0), ('unfused', ('L032.self_attention.k_rope',), 0), ('unfused', ('L032.self_attention.q_proj',), 0), ('unfused', ('L032.self_attention.q_rope',), 0), ('unfused', ('L032.self_attention.qk_matmul',), 0), ('unfused', ('L032.self_attention.softmax',), 0), ('unfused', ('L032.self_attention.v_proj',), 0), ('unfused', ('L032.self_attention.av_matmul',), 0), ('unfused', ('L032.self_attention.out_proj',), 0), ('unfused', ('L032.residual_add_1',), 0), ('rmsnorm_reference', ('L032.pre_mlp_norm',), 0), ('unfused', ('L032.mlp.gate_proj',), 0), ('unfused', ('L032.mlp.silu',), 0), ('unfused', ('L032.mlp.up_proj',), 0), ('unfused', ('L032.mlp.gated_mul',), 0), ('unfused', ('L032.mlp.down_proj',), 0), ('unfused', ('L032.residual_add_2',), 0), ('unfused', ('L033.input',), 0), ('rmsnorm_reference', ('L033.input_norm',), 0), ('unfused', ('L033.self_attention.k_proj',), 0), ('unfused', ('L033.self_attention.k_rope',), 0), ('unfused', ('L033.self_attention.q_proj',), 0), ('unfused', ('L033.self_attention.q_rope',), 0), ('unfused', ('L033.self_attention.qk_matmul',), 0), ('unfused', ('L033.self_attention.softmax',), 0), ('unfused', ('L033.self_attention.v_proj',), 0), ('unfused', ('L033.self_attention.av_matmul',), 0), ('unfused', ('L033.self_attention.out_proj',), 0), ('unfused', ('L033.residual_add_1',), 0), ('rmsnorm_reference', ('L033.pre_mlp_norm',), 0), ('unfused', ('L033.mlp.gate_proj',), 0), ('unfused', ('L033.mlp.silu',), 0), ('unfused', ('L033.mlp.up_proj',), 0), ('unfused', ('L033.mlp.gated_mul',), 0), ('unfused', ('L033.mlp.down_proj',), 0), ('unfused', ('L033.residual_add_2',), 0), ('unfused', ('L034.input',), 0), ('rmsnorm_reference', ('L034.input_norm',), 0), ('unfused', ('L034.self_attention.k_proj',), 0), ('unfused', ('L034.self_attention.k_rope',), 0), ('unfused', ('L034.self_attention.q_proj',), 0), ('unfused', ('L034.self_attention.q_rope',), 0), ('unfused', ('L034.self_attention.qk_matmul',), 0), ('unfused', ('L034.self_attention.softmax',), 0), ('unfused', ('L034.self_attention.v_proj',), 0), ('unfused', ('L034.self_attention.av_matmul',), 0), ('unfused', ('L034.self_attention.out_proj',), 0), ('unfused', ('L034.residual_add_1',), 0), ('rmsnorm_reference', ('L034.pre_mlp_norm',), 0), ('unfused', ('L034.mlp.gate_proj',), 0), ('unfused', ('L034.mlp.silu',), 0), ('unfused', ('L034.mlp.up_proj',), 0), ('unfused', ('L034.mlp.gated_mul',), 0), ('unfused', ('L034.mlp.down_proj',), 0), ('unfused', ('L034.residual_add_2',), 0), ('unfused', ('L035.input',), 0), ('rmsnorm_reference', ('L035.input_norm',), 0), ('unfused', ('L035.self_attention.k_proj',), 0), ('unfused', ('L035.self_attention.k_rope',), 0), ('unfused', ('L035.self_attention.q_proj',), 0), ('unfused', ('L035.self_attention.q_rope',), 0), ('unfused', ('L035.self_attention.qk_matmul',), 0), ('unfused', ('L035.self_attention.softmax',), 0), ('unfused', ('L035.self_attention.v_proj',), 0), ('unfused', ('L035.self_attention.av_matmul',), 0), ('unfused', ('L035.self_attention.out_proj',), 0), ('unfused', ('L035.residual_add_1',), 0), ('rmsnorm_reference', ('L035.pre_mlp_norm',), 0), ('unfused', ('L035.mlp.gate_proj',), 0), ('unfused', ('L035.mlp.silu',), 0), ('unfused', ('L035.mlp.up_proj',), 0), ('unfused', ('L035.mlp.gated_mul',), 0), ('unfused', ('L035.mlp.down_proj',), 0), ('unfused', ('L035.residual_add_2',), 0), ('rmsnorm_reference', ('final_norm',), 0), ('unfused', ('lm_head',), 0))"
+   },
+   "capacity_bytes": [
+    68702699520.0,
+    68702699520.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": false,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 29.311267664265305,
+     "cut": 643,
+     "cut_step": 3,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 28.99356346138877,
+     "cut": 661,
+     "cut_step": 3,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  },
+  "model_3b:async:cap75": {
+   "nodes": 687,
+   "reference_unfused_dev0": {
+    "makespan_ms": 29.3773945352571,
+    "feasible": false,
+    "fused_groups": 0,
+    "patterns": [],
+    "used_devices": [
+     0
+    ],
+    "cross_device_bytes": 0.0,
+    "peak_memory_bytes": [
+     6250532864.0,
+     0.0
+    ],
+    "plan_key": "(('unfused', ('embedding',), 0), ('unfused', ('L000.input',), 0), ('rmsnorm_reference', ('L000.input_norm',), 0), ('unfused', ('L000.self_attention.k_proj',), 0), ('unfused', ('L000.self_attention.k_rope',), 0), ('unfused', ('L000.self_attention.q_proj',), 0), ('unfused', ('L000.self_attention.q_rope',), 0), ('unfused', ('L000.self_attention.qk_matmul',), 0), ('unfused', ('L000.self_attention.softmax',), 0), ('unfused', ('L000.self_attention.v_proj',), 0), ('unfused', ('L000.self_attention.av_matmul',), 0), ('unfused', ('L000.self_attention.out_proj',), 0), ('unfused', ('L000.residual_add_1',), 0), ('rmsnorm_reference', ('L000.pre_mlp_norm',), 0), ('unfused', ('L000.mlp.gate_proj',), 0), ('unfused', ('L000.mlp.silu',), 0), ('unfused', ('L000.mlp.up_proj',), 0), ('unfused', ('L000.mlp.gated_mul',), 0), ('unfused', ('L000.mlp.down_proj',), 0), ('unfused', ('L000.residual_add_2',), 0), ('unfused', ('L001.input',), 0), ('rmsnorm_reference', ('L001.input_norm',), 0), ('unfused', ('L001.self_attention.k_proj',), 0), ('unfused', ('L001.self_attention.k_rope',), 0), ('unfused', ('L001.self_attention.q_proj',), 0), ('unfused', ('L001.self_attention.q_rope',), 0), ('unfused', ('L001.self_attention.qk_matmul',), 0), ('unfused', ('L001.self_attention.softmax',), 0), ('unfused', ('L001.self_attention.v_proj',), 0), ('unfused', ('L001.self_attention.av_matmul',), 0), ('unfused', ('L001.self_attention.out_proj',), 0), ('unfused', ('L001.residual_add_1',), 0), ('rmsnorm_reference', ('L001.pre_mlp_norm',), 0), ('unfused', ('L001.mlp.gate_proj',), 0), ('unfused', ('L001.mlp.silu',), 0), ('unfused', ('L001.mlp.up_proj',), 0), ('unfused', ('L001.mlp.gated_mul',), 0), ('unfused', ('L001.mlp.down_proj',), 0), ('unfused', ('L001.residual_add_2',), 0), ('unfused', ('L002.input',), 0), ('rmsnorm_reference', ('L002.input_norm',), 0), ('unfused', ('L002.self_attention.k_proj',), 0), ('unfused', ('L002.self_attention.k_rope',), 0), ('unfused', ('L002.self_attention.q_proj',), 0), ('unfused', ('L002.self_attention.q_rope',), 0), ('unfused', ('L002.self_attention.qk_matmul',), 0), ('unfused', ('L002.self_attention.softmax',), 0), ('unfused', ('L002.self_attention.v_proj',), 0), ('unfused', ('L002.self_attention.av_matmul',), 0), ('unfused', ('L002.self_attention.out_proj',), 0), ('unfused', ('L002.residual_add_1',), 0), ('rmsnorm_reference', ('L002.pre_mlp_norm',), 0), ('unfused', ('L002.mlp.gate_proj',), 0), ('unfused', ('L002.mlp.silu',), 0), ('unfused', ('L002.mlp.up_proj',), 0), ('unfused', ('L002.mlp.gated_mul',), 0), ('unfused', ('L002.mlp.down_proj',), 0), ('unfused', ('L002.residual_add_2',), 0), ('unfused', ('L003.input',), 0), ('rmsnorm_reference', ('L003.input_norm',), 0), ('unfused', ('L003.self_attention.k_proj',), 0), ('unfused', ('L003.self_attention.k_rope',), 0), ('unfused', ('L003.self_attention.q_proj',), 0), ('unfused', ('L003.self_attention.q_rope',), 0), ('unfused', ('L003.self_attention.qk_matmul',), 0), ('unfused', ('L003.self_attention.softmax',), 0), ('unfused', ('L003.self_attention.v_proj',), 0), ('unfused', ('L003.self_attention.av_matmul',), 0), ('unfused', ('L003.self_attention.out_proj',), 0), ('unfused', ('L003.residual_add_1',), 0), ('rmsnorm_reference', ('L003.pre_mlp_norm',), 0), ('unfused', ('L003.mlp.gate_proj',), 0), ('unfused', ('L003.mlp.silu',), 0), ('unfused', ('L003.mlp.up_proj',), 0), ('unfused', ('L003.mlp.gated_mul',), 0), ('unfused', ('L003.mlp.down_proj',), 0), ('unfused', ('L003.residual_add_2',), 0), ('unfused', ('L004.input',), 0), ('rmsnorm_reference', ('L004.input_norm',), 0), ('unfused', ('L004.self_attention.k_proj',), 0), ('unfused', ('L004.self_attention.k_rope',), 0), ('unfused', ('L004.self_attention.q_proj',), 0), ('unfused', ('L004.self_attention.q_rope',), 0), ('unfused', ('L004.self_attention.qk_matmul',), 0), ('unfused', ('L004.self_attention.softmax',), 0), ('unfused', ('L004.self_attention.v_proj',), 0), ('unfused', ('L004.self_attention.av_matmul',), 0), ('unfused', ('L004.self_attention.out_proj',), 0), ('unfused', ('L004.residual_add_1',), 0), ('rmsnorm_reference', ('L004.pre_mlp_norm',), 0), ('unfused', ('L004.mlp.gate_proj',), 0), ('unfused', ('L004.mlp.silu',), 0), ('unfused', ('L004.mlp.up_proj',), 0), ('unfused', ('L004.mlp.gated_mul',), 0), ('unfused', ('L004.mlp.down_proj',), 0), ('unfused', ('L004.residual_add_2',), 0), ('unfused', ('L005.input',), 0), ('rmsnorm_reference', ('L005.input_norm',), 0), ('unfused', ('L005.self_attention.k_proj',), 0), ('unfused', ('L005.self_attention.k_rope',), 0), ('unfused', ('L005.self_attention.q_proj',), 0), ('unfused', ('L005.self_attention.q_rope',), 0), ('unfused', ('L005.self_attention.qk_matmul',), 0), ('unfused', ('L005.self_attention.softmax',), 0), ('unfused', ('L005.self_attention.v_proj',), 0), ('unfused', ('L005.self_attention.av_matmul',), 0), ('unfused', ('L005.self_attention.out_proj',), 0), ('unfused', ('L005.residual_add_1',), 0), ('rmsnorm_reference', ('L005.pre_mlp_norm',), 0), ('unfused', ('L005.mlp.gate_proj',), 0), ('unfused', ('L005.mlp.silu',), 0), ('unfused', ('L005.mlp.up_proj',), 0), ('unfused', ('L005.mlp.gated_mul',), 0), ('unfused', ('L005.mlp.down_proj',), 0), ('unfused', ('L005.residual_add_2',), 0), ('unfused', ('L006.input',), 0), ('rmsnorm_reference', ('L006.input_norm',), 0), ('unfused', ('L006.self_attention.k_proj',), 0), ('unfused', ('L006.self_attention.k_rope',), 0), ('unfused', ('L006.self_attention.q_proj',), 0), ('unfused', ('L006.self_attention.q_rope',), 0), ('unfused', ('L006.self_attention.qk_matmul',), 0), ('unfused', ('L006.self_attention.softmax',), 0), ('unfused', ('L006.self_attention.v_proj',), 0), ('unfused', ('L006.self_attention.av_matmul',), 0), ('unfused', ('L006.self_attention.out_proj',), 0), ('unfused', ('L006.residual_add_1',), 0), ('rmsnorm_reference', ('L006.pre_mlp_norm',), 0), ('unfused', ('L006.mlp.gate_proj',), 0), ('unfused', ('L006.mlp.silu',), 0), ('unfused', ('L006.mlp.up_proj',), 0), ('unfused', ('L006.mlp.gated_mul',), 0), ('unfused', ('L006.mlp.down_proj',), 0), ('unfused', ('L006.residual_add_2',), 0), ('unfused', ('L007.input',), 0), ('rmsnorm_reference', ('L007.input_norm',), 0), ('unfused', ('L007.self_attention.k_proj',), 0), ('unfused', ('L007.self_attention.k_rope',), 0), ('unfused', ('L007.self_attention.q_proj',), 0), ('unfused', ('L007.self_attention.q_rope',), 0), ('unfused', ('L007.self_attention.qk_matmul',), 0), ('unfused', ('L007.self_attention.softmax',), 0), ('unfused', ('L007.self_attention.v_proj',), 0), ('unfused', ('L007.self_attention.av_matmul',), 0), ('unfused', ('L007.self_attention.out_proj',), 0), ('unfused', ('L007.residual_add_1',), 0), ('rmsnorm_reference', ('L007.pre_mlp_norm',), 0), ('unfused', ('L007.mlp.gate_proj',), 0), ('unfused', ('L007.mlp.silu',), 0), ('unfused', ('L007.mlp.up_proj',), 0), ('unfused', ('L007.mlp.gated_mul',), 0), ('unfused', ('L007.mlp.down_proj',), 0), ('unfused', ('L007.residual_add_2',), 0), ('unfused', ('L008.input',), 0), ('rmsnorm_reference', ('L008.input_norm',), 0), ('unfused', ('L008.self_attention.k_proj',), 0), ('unfused', ('L008.self_attention.k_rope',), 0), ('unfused', ('L008.self_attention.q_proj',), 0), ('unfused', ('L008.self_attention.q_rope',), 0), ('unfused', ('L008.self_attention.qk_matmul',), 0), ('unfused', ('L008.self_attention.softmax',), 0), ('unfused', ('L008.self_attention.v_proj',), 0), ('unfused', ('L008.self_attention.av_matmul',), 0), ('unfused', ('L008.self_attention.out_proj',), 0), ('unfused', ('L008.residual_add_1',), 0), ('rmsnorm_reference', ('L008.pre_mlp_norm',), 0), ('unfused', ('L008.mlp.gate_proj',), 0), ('unfused', ('L008.mlp.silu',), 0), ('unfused', ('L008.mlp.up_proj',), 0), ('unfused', ('L008.mlp.gated_mul',), 0), ('unfused', ('L008.mlp.down_proj',), 0), ('unfused', ('L008.residual_add_2',), 0), ('unfused', ('L009.input',), 0), ('rmsnorm_reference', ('L009.input_norm',), 0), ('unfused', ('L009.self_attention.k_proj',), 0), ('unfused', ('L009.self_attention.k_rope',), 0), ('unfused', ('L009.self_attention.q_proj',), 0), ('unfused', ('L009.self_attention.q_rope',), 0), ('unfused', ('L009.self_attention.qk_matmul',), 0), ('unfused', ('L009.self_attention.softmax',), 0), ('unfused', ('L009.self_attention.v_proj',), 0), ('unfused', ('L009.self_attention.av_matmul',), 0), ('unfused', ('L009.self_attention.out_proj',), 0), ('unfused', ('L009.residual_add_1',), 0), ('rmsnorm_reference', ('L009.pre_mlp_norm',), 0), ('unfused', ('L009.mlp.gate_proj',), 0), ('unfused', ('L009.mlp.silu',), 0), ('unfused', ('L009.mlp.up_proj',), 0), ('unfused', ('L009.mlp.gated_mul',), 0), ('unfused', ('L009.mlp.down_proj',), 0), ('unfused', ('L009.residual_add_2',), 0), ('unfused', ('L010.input',), 0), ('rmsnorm_reference', ('L010.input_norm',), 0), ('unfused', ('L010.self_attention.k_proj',), 0), ('unfused', ('L010.self_attention.k_rope',), 0), ('unfused', ('L010.self_attention.q_proj',), 0), ('unfused', ('L010.self_attention.q_rope',), 0), ('unfused', ('L010.self_attention.qk_matmul',), 0), ('unfused', ('L010.self_attention.softmax',), 0), ('unfused', ('L010.self_attention.v_proj',), 0), ('unfused', ('L010.self_attention.av_matmul',), 0), ('unfused', ('L010.self_attention.out_proj',), 0), ('unfused', ('L010.residual_add_1',), 0), ('rmsnorm_reference', ('L010.pre_mlp_norm',), 0), ('unfused', ('L010.mlp.gate_proj',), 0), ('unfused', ('L010.mlp.silu',), 0), ('unfused', ('L010.mlp.up_proj',), 0), ('unfused', ('L010.mlp.gated_mul',), 0), ('unfused', ('L010.mlp.down_proj',), 0), ('unfused', ('L010.residual_add_2',), 0), ('unfused', ('L011.input',), 0), ('rmsnorm_reference', ('L011.input_norm',), 0), ('unfused', ('L011.self_attention.k_proj',), 0), ('unfused', ('L011.self_attention.k_rope',), 0), ('unfused', ('L011.self_attention.q_proj',), 0), ('unfused', ('L011.self_attention.q_rope',), 0), ('unfused', ('L011.self_attention.qk_matmul',), 0), ('unfused', ('L011.self_attention.softmax',), 0), ('unfused', ('L011.self_attention.v_proj',), 0), ('unfused', ('L011.self_attention.av_matmul',), 0), ('unfused', ('L011.self_attention.out_proj',), 0), ('unfused', ('L011.residual_add_1',), 0), ('rmsnorm_reference', ('L011.pre_mlp_norm',), 0), ('unfused', ('L011.mlp.gate_proj',), 0), ('unfused', ('L011.mlp.silu',), 0), ('unfused', ('L011.mlp.up_proj',), 0), ('unfused', ('L011.mlp.gated_mul',), 0), ('unfused', ('L011.mlp.down_proj',), 0), ('unfused', ('L011.residual_add_2',), 0), ('unfused', ('L012.input',), 0), ('rmsnorm_reference', ('L012.input_norm',), 0), ('unfused', ('L012.self_attention.k_proj',), 0), ('unfused', ('L012.self_attention.k_rope',), 0), ('unfused', ('L012.self_attention.q_proj',), 0), ('unfused', ('L012.self_attention.q_rope',), 0), ('unfused', ('L012.self_attention.qk_matmul',), 0), ('unfused', ('L012.self_attention.softmax',), 0), ('unfused', ('L012.self_attention.v_proj',), 0), ('unfused', ('L012.self_attention.av_matmul',), 0), ('unfused', ('L012.self_attention.out_proj',), 0), ('unfused', ('L012.residual_add_1',), 0), ('rmsnorm_reference', ('L012.pre_mlp_norm',), 0), ('unfused', ('L012.mlp.gate_proj',), 0), ('unfused', ('L012.mlp.silu',), 0), ('unfused', ('L012.mlp.up_proj',), 0), ('unfused', ('L012.mlp.gated_mul',), 0), ('unfused', ('L012.mlp.down_proj',), 0), ('unfused', ('L012.residual_add_2',), 0), ('unfused', ('L013.input',), 0), ('rmsnorm_reference', ('L013.input_norm',), 0), ('unfused', ('L013.self_attention.k_proj',), 0), ('unfused', ('L013.self_attention.k_rope',), 0), ('unfused', ('L013.self_attention.q_proj',), 0), ('unfused', ('L013.self_attention.q_rope',), 0), ('unfused', ('L013.self_attention.qk_matmul',), 0), ('unfused', ('L013.self_attention.softmax',), 0), ('unfused', ('L013.self_attention.v_proj',), 0), ('unfused', ('L013.self_attention.av_matmul',), 0), ('unfused', ('L013.self_attention.out_proj',), 0), ('unfused', ('L013.residual_add_1',), 0), ('rmsnorm_reference', ('L013.pre_mlp_norm',), 0), ('unfused', ('L013.mlp.gate_proj',), 0), ('unfused', ('L013.mlp.silu',), 0), ('unfused', ('L013.mlp.up_proj',), 0), ('unfused', ('L013.mlp.gated_mul',), 0), ('unfused', ('L013.mlp.down_proj',), 0), ('unfused', ('L013.residual_add_2',), 0), ('unfused', ('L014.input',), 0), ('rmsnorm_reference', ('L014.input_norm',), 0), ('unfused', ('L014.self_attention.k_proj',), 0), ('unfused', ('L014.self_attention.k_rope',), 0), ('unfused', ('L014.self_attention.q_proj',), 0), ('unfused', ('L014.self_attention.q_rope',), 0), ('unfused', ('L014.self_attention.qk_matmul',), 0), ('unfused', ('L014.self_attention.softmax',), 0), ('unfused', ('L014.self_attention.v_proj',), 0), ('unfused', ('L014.self_attention.av_matmul',), 0), ('unfused', ('L014.self_attention.out_proj',), 0), ('unfused', ('L014.residual_add_1',), 0), ('rmsnorm_reference', ('L014.pre_mlp_norm',), 0), ('unfused', ('L014.mlp.gate_proj',), 0), ('unfused', ('L014.mlp.silu',), 0), ('unfused', ('L014.mlp.up_proj',), 0), ('unfused', ('L014.mlp.gated_mul',), 0), ('unfused', ('L014.mlp.down_proj',), 0), ('unfused', ('L014.residual_add_2',), 0), ('unfused', ('L015.input',), 0), ('rmsnorm_reference', ('L015.input_norm',), 0), ('unfused', ('L015.self_attention.k_proj',), 0), ('unfused', ('L015.self_attention.k_rope',), 0), ('unfused', ('L015.self_attention.q_proj',), 0), ('unfused', ('L015.self_attention.q_rope',), 0), ('unfused', ('L015.self_attention.qk_matmul',), 0), ('unfused', ('L015.self_attention.softmax',), 0), ('unfused', ('L015.self_attention.v_proj',), 0), ('unfused', ('L015.self_attention.av_matmul',), 0), ('unfused', ('L015.self_attention.out_proj',), 0), ('unfused', ('L015.residual_add_1',), 0), ('rmsnorm_reference', ('L015.pre_mlp_norm',), 0), ('unfused', ('L015.mlp.gate_proj',), 0), ('unfused', ('L015.mlp.silu',), 0), ('unfused', ('L015.mlp.up_proj',), 0), ('unfused', ('L015.mlp.gated_mul',), 0), ('unfused', ('L015.mlp.down_proj',), 0), ('unfused', ('L015.residual_add_2',), 0), ('unfused', ('L016.input',), 0), ('rmsnorm_reference', ('L016.input_norm',), 0), ('unfused', ('L016.self_attention.k_proj',), 0), ('unfused', ('L016.self_attention.k_rope',), 0), ('unfused', ('L016.self_attention.q_proj',), 0), ('unfused', ('L016.self_attention.q_rope',), 0), ('unfused', ('L016.self_attention.qk_matmul',), 0), ('unfused', ('L016.self_attention.softmax',), 0), ('unfused', ('L016.self_attention.v_proj',), 0), ('unfused', ('L016.self_attention.av_matmul',), 0), ('unfused', ('L016.self_attention.out_proj',), 0), ('unfused', ('L016.residual_add_1',), 0), ('rmsnorm_reference', ('L016.pre_mlp_norm',), 0), ('unfused', ('L016.mlp.gate_proj',), 0), ('unfused', ('L016.mlp.silu',), 0), ('unfused', ('L016.mlp.up_proj',), 0), ('unfused', ('L016.mlp.gated_mul',), 0), ('unfused', ('L016.mlp.down_proj',), 0), ('unfused', ('L016.residual_add_2',), 0), ('unfused', ('L017.input',), 0), ('rmsnorm_reference', ('L017.input_norm',), 0), ('unfused', ('L017.self_attention.k_proj',), 0), ('unfused', ('L017.self_attention.k_rope',), 0), ('unfused', ('L017.self_attention.q_proj',), 0), ('unfused', ('L017.self_attention.q_rope',), 0), ('unfused', ('L017.self_attention.qk_matmul',), 0), ('unfused', ('L017.self_attention.softmax',), 0), ('unfused', ('L017.self_attention.v_proj',), 0), ('unfused', ('L017.self_attention.av_matmul',), 0), ('unfused', ('L017.self_attention.out_proj',), 0), ('unfused', ('L017.residual_add_1',), 0), ('rmsnorm_reference', ('L017.pre_mlp_norm',), 0), ('unfused', ('L017.mlp.gate_proj',), 0), ('unfused', ('L017.mlp.silu',), 0), ('unfused', ('L017.mlp.up_proj',), 0), ('unfused', ('L017.mlp.gated_mul',), 0), ('unfused', ('L017.mlp.down_proj',), 0), ('unfused', ('L017.residual_add_2',), 0), ('unfused', ('L018.input',), 0), ('rmsnorm_reference', ('L018.input_norm',), 0), ('unfused', ('L018.self_attention.k_proj',), 0), ('unfused', ('L018.self_attention.k_rope',), 0), ('unfused', ('L018.self_attention.q_proj',), 0), ('unfused', ('L018.self_attention.q_rope',), 0), ('unfused', ('L018.self_attention.qk_matmul',), 0), ('unfused', ('L018.self_attention.softmax',), 0), ('unfused', ('L018.self_attention.v_proj',), 0), ('unfused', ('L018.self_attention.av_matmul',), 0), ('unfused', ('L018.self_attention.out_proj',), 0), ('unfused', ('L018.residual_add_1',), 0), ('rmsnorm_reference', ('L018.pre_mlp_norm',), 0), ('unfused', ('L018.mlp.gate_proj',), 0), ('unfused', ('L018.mlp.silu',), 0), ('unfused', ('L018.mlp.up_proj',), 0), ('unfused', ('L018.mlp.gated_mul',), 0), ('unfused', ('L018.mlp.down_proj',), 0), ('unfused', ('L018.residual_add_2',), 0), ('unfused', ('L019.input',), 0), ('rmsnorm_reference', ('L019.input_norm',), 0), ('unfused', ('L019.self_attention.k_proj',), 0), ('unfused', ('L019.self_attention.k_rope',), 0), ('unfused', ('L019.self_attention.q_proj',), 0), ('unfused', ('L019.self_attention.q_rope',), 0), ('unfused', ('L019.self_attention.qk_matmul',), 0), ('unfused', ('L019.self_attention.softmax',), 0), ('unfused', ('L019.self_attention.v_proj',), 0), ('unfused', ('L019.self_attention.av_matmul',), 0), ('unfused', ('L019.self_attention.out_proj',), 0), ('unfused', ('L019.residual_add_1',), 0), ('rmsnorm_reference', ('L019.pre_mlp_norm',), 0), ('unfused', ('L019.mlp.gate_proj',), 0), ('unfused', ('L019.mlp.silu',), 0), ('unfused', ('L019.mlp.up_proj',), 0), ('unfused', ('L019.mlp.gated_mul',), 0), ('unfused', ('L019.mlp.down_proj',), 0), ('unfused', ('L019.residual_add_2',), 0), ('unfused', ('L020.input',), 0), ('rmsnorm_reference', ('L020.input_norm',), 0), ('unfused', ('L020.self_attention.k_proj',), 0), ('unfused', ('L020.self_attention.k_rope',), 0), ('unfused', ('L020.self_attention.q_proj',), 0), ('unfused', ('L020.self_attention.q_rope',), 0), ('unfused', ('L020.self_attention.qk_matmul',), 0), ('unfused', ('L020.self_attention.softmax',), 0), ('unfused', ('L020.self_attention.v_proj',), 0), ('unfused', ('L020.self_attention.av_matmul',), 0), ('unfused', ('L020.self_attention.out_proj',), 0), ('unfused', ('L020.residual_add_1',), 0), ('rmsnorm_reference', ('L020.pre_mlp_norm',), 0), ('unfused', ('L020.mlp.gate_proj',), 0), ('unfused', ('L020.mlp.silu',), 0), ('unfused', ('L020.mlp.up_proj',), 0), ('unfused', ('L020.mlp.gated_mul',), 0), ('unfused', ('L020.mlp.down_proj',), 0), ('unfused', ('L020.residual_add_2',), 0), ('unfused', ('L021.input',), 0), ('rmsnorm_reference', ('L021.input_norm',), 0), ('unfused', ('L021.self_attention.k_proj',), 0), ('unfused', ('L021.self_attention.k_rope',), 0), ('unfused', ('L021.self_attention.q_proj',), 0), ('unfused', ('L021.self_attention.q_rope',), 0), ('unfused', ('L021.self_attention.qk_matmul',), 0), ('unfused', ('L021.self_attention.softmax',), 0), ('unfused', ('L021.self_attention.v_proj',), 0), ('unfused', ('L021.self_attention.av_matmul',), 0), ('unfused', ('L021.self_attention.out_proj',), 0), ('unfused', ('L021.residual_add_1',), 0), ('rmsnorm_reference', ('L021.pre_mlp_norm',), 0), ('unfused', ('L021.mlp.gate_proj',), 0), ('unfused', ('L021.mlp.silu',), 0), ('unfused', ('L021.mlp.up_proj',), 0), ('unfused', ('L021.mlp.gated_mul',), 0), ('unfused', ('L021.mlp.down_proj',), 0), ('unfused', ('L021.residual_add_2',), 0), ('unfused', ('L022.input',), 0), ('rmsnorm_reference', ('L022.input_norm',), 0), ('unfused', ('L022.self_attention.k_proj',), 0), ('unfused', ('L022.self_attention.k_rope',), 0), ('unfused', ('L022.self_attention.q_proj',), 0), ('unfused', ('L022.self_attention.q_rope',), 0), ('unfused', ('L022.self_attention.qk_matmul',), 0), ('unfused', ('L022.self_attention.softmax',), 0), ('unfused', ('L022.self_attention.v_proj',), 0), ('unfused', ('L022.self_attention.av_matmul',), 0), ('unfused', ('L022.self_attention.out_proj',), 0), ('unfused', ('L022.residual_add_1',), 0), ('rmsnorm_reference', ('L022.pre_mlp_norm',), 0), ('unfused', ('L022.mlp.gate_proj',), 0), ('unfused', ('L022.mlp.silu',), 0), ('unfused', ('L022.mlp.up_proj',), 0), ('unfused', ('L022.mlp.gated_mul',), 0), ('unfused', ('L022.mlp.down_proj',), 0), ('unfused', ('L022.residual_add_2',), 0), ('unfused', ('L023.input',), 0), ('rmsnorm_reference', ('L023.input_norm',), 0), ('unfused', ('L023.self_attention.k_proj',), 0), ('unfused', ('L023.self_attention.k_rope',), 0), ('unfused', ('L023.self_attention.q_proj',), 0), ('unfused', ('L023.self_attention.q_rope',), 0), ('unfused', ('L023.self_attention.qk_matmul',), 0), ('unfused', ('L023.self_attention.softmax',), 0), ('unfused', ('L023.self_attention.v_proj',), 0), ('unfused', ('L023.self_attention.av_matmul',), 0), ('unfused', ('L023.self_attention.out_proj',), 0), ('unfused', ('L023.residual_add_1',), 0), ('rmsnorm_reference', ('L023.pre_mlp_norm',), 0), ('unfused', ('L023.mlp.gate_proj',), 0), ('unfused', ('L023.mlp.silu',), 0), ('unfused', ('L023.mlp.up_proj',), 0), ('unfused', ('L023.mlp.gated_mul',), 0), ('unfused', ('L023.mlp.down_proj',), 0), ('unfused', ('L023.residual_add_2',), 0), ('unfused', ('L024.input',), 0), ('rmsnorm_reference', ('L024.input_norm',), 0), ('unfused', ('L024.self_attention.k_proj',), 0), ('unfused', ('L024.self_attention.k_rope',), 0), ('unfused', ('L024.self_attention.q_proj',), 0), ('unfused', ('L024.self_attention.q_rope',), 0), ('unfused', ('L024.self_attention.qk_matmul',), 0), ('unfused', ('L024.self_attention.softmax',), 0), ('unfused', ('L024.self_attention.v_proj',), 0), ('unfused', ('L024.self_attention.av_matmul',), 0), ('unfused', ('L024.self_attention.out_proj',), 0), ('unfused', ('L024.residual_add_1',), 0), ('rmsnorm_reference', ('L024.pre_mlp_norm',), 0), ('unfused', ('L024.mlp.gate_proj',), 0), ('unfused', ('L024.mlp.silu',), 0), ('unfused', ('L024.mlp.up_proj',), 0), ('unfused', ('L024.mlp.gated_mul',), 0), ('unfused', ('L024.mlp.down_proj',), 0), ('unfused', ('L024.residual_add_2',), 0), ('unfused', ('L025.input',), 0), ('rmsnorm_reference', ('L025.input_norm',), 0), ('unfused', ('L025.self_attention.k_proj',), 0), ('unfused', ('L025.self_attention.k_rope',), 0), ('unfused', ('L025.self_attention.q_proj',), 0), ('unfused', ('L025.self_attention.q_rope',), 0), ('unfused', ('L025.self_attention.qk_matmul',), 0), ('unfused', ('L025.self_attention.softmax',), 0), ('unfused', ('L025.self_attention.v_proj',), 0), ('unfused', ('L025.self_attention.av_matmul',), 0), ('unfused', ('L025.self_attention.out_proj',), 0), ('unfused', ('L025.residual_add_1',), 0), ('rmsnorm_reference', ('L025.pre_mlp_norm',), 0), ('unfused', ('L025.mlp.gate_proj',), 0), ('unfused', ('L025.mlp.silu',), 0), ('unfused', ('L025.mlp.up_proj',), 0), ('unfused', ('L025.mlp.gated_mul',), 0), ('unfused', ('L025.mlp.down_proj',), 0), ('unfused', ('L025.residual_add_2',), 0), ('unfused', ('L026.input',), 0), ('rmsnorm_reference', ('L026.input_norm',), 0), ('unfused', ('L026.self_attention.k_proj',), 0), ('unfused', ('L026.self_attention.k_rope',), 0), ('unfused', ('L026.self_attention.q_proj',), 0), ('unfused', ('L026.self_attention.q_rope',), 0), ('unfused', ('L026.self_attention.qk_matmul',), 0), ('unfused', ('L026.self_attention.softmax',), 0), ('unfused', ('L026.self_attention.v_proj',), 0), ('unfused', ('L026.self_attention.av_matmul',), 0), ('unfused', ('L026.self_attention.out_proj',), 0), ('unfused', ('L026.residual_add_1',), 0), ('rmsnorm_reference', ('L026.pre_mlp_norm',), 0), ('unfused', ('L026.mlp.gate_proj',), 0), ('unfused', ('L026.mlp.silu',), 0), ('unfused', ('L026.mlp.up_proj',), 0), ('unfused', ('L026.mlp.gated_mul',), 0), ('unfused', ('L026.mlp.down_proj',), 0), ('unfused', ('L026.residual_add_2',), 0), ('unfused', ('L027.input',), 0), ('rmsnorm_reference', ('L027.input_norm',), 0), ('unfused', ('L027.self_attention.k_proj',), 0), ('unfused', ('L027.self_attention.k_rope',), 0), ('unfused', ('L027.self_attention.q_proj',), 0), ('unfused', ('L027.self_attention.q_rope',), 0), ('unfused', ('L027.self_attention.qk_matmul',), 0), ('unfused', ('L027.self_attention.softmax',), 0), ('unfused', ('L027.self_attention.v_proj',), 0), ('unfused', ('L027.self_attention.av_matmul',), 0), ('unfused', ('L027.self_attention.out_proj',), 0), ('unfused', ('L027.residual_add_1',), 0), ('rmsnorm_reference', ('L027.pre_mlp_norm',), 0), ('unfused', ('L027.mlp.gate_proj',), 0), ('unfused', ('L027.mlp.silu',), 0), ('unfused', ('L027.mlp.up_proj',), 0), ('unfused', ('L027.mlp.gated_mul',), 0), ('unfused', ('L027.mlp.down_proj',), 0), ('unfused', ('L027.residual_add_2',), 0), ('unfused', ('L028.input',), 0), ('rmsnorm_reference', ('L028.input_norm',), 0), ('unfused', ('L028.self_attention.k_proj',), 0), ('unfused', ('L028.self_attention.k_rope',), 0), ('unfused', ('L028.self_attention.q_proj',), 0), ('unfused', ('L028.self_attention.q_rope',), 0), ('unfused', ('L028.self_attention.qk_matmul',), 0), ('unfused', ('L028.self_attention.softmax',), 0), ('unfused', ('L028.self_attention.v_proj',), 0), ('unfused', ('L028.self_attention.av_matmul',), 0), ('unfused', ('L028.self_attention.out_proj',), 0), ('unfused', ('L028.residual_add_1',), 0), ('rmsnorm_reference', ('L028.pre_mlp_norm',), 0), ('unfused', ('L028.mlp.gate_proj',), 0), ('unfused', ('L028.mlp.silu',), 0), ('unfused', ('L028.mlp.up_proj',), 0), ('unfused', ('L028.mlp.gated_mul',), 0), ('unfused', ('L028.mlp.down_proj',), 0), ('unfused', ('L028.residual_add_2',), 0), ('unfused', ('L029.input',), 0), ('rmsnorm_reference', ('L029.input_norm',), 0), ('unfused', ('L029.self_attention.k_proj',), 0), ('unfused', ('L029.self_attention.k_rope',), 0), ('unfused', ('L029.self_attention.q_proj',), 0), ('unfused', ('L029.self_attention.q_rope',), 0), ('unfused', ('L029.self_attention.qk_matmul',), 0), ('unfused', ('L029.self_attention.softmax',), 0), ('unfused', ('L029.self_attention.v_proj',), 0), ('unfused', ('L029.self_attention.av_matmul',), 0), ('unfused', ('L029.self_attention.out_proj',), 0), ('unfused', ('L029.residual_add_1',), 0), ('rmsnorm_reference', ('L029.pre_mlp_norm',), 0), ('unfused', ('L029.mlp.gate_proj',), 0), ('unfused', ('L029.mlp.silu',), 0), ('unfused', ('L029.mlp.up_proj',), 0), ('unfused', ('L029.mlp.gated_mul',), 0), ('unfused', ('L029.mlp.down_proj',), 0), ('unfused', ('L029.residual_add_2',), 0), ('unfused', ('L030.input',), 0), ('rmsnorm_reference', ('L030.input_norm',), 0), ('unfused', ('L030.self_attention.k_proj',), 0), ('unfused', ('L030.self_attention.k_rope',), 0), ('unfused', ('L030.self_attention.q_proj',), 0), ('unfused', ('L030.self_attention.q_rope',), 0), ('unfused', ('L030.self_attention.qk_matmul',), 0), ('unfused', ('L030.self_attention.softmax',), 0), ('unfused', ('L030.self_attention.v_proj',), 0), ('unfused', ('L030.self_attention.av_matmul',), 0), ('unfused', ('L030.self_attention.out_proj',), 0), ('unfused', ('L030.residual_add_1',), 0), ('rmsnorm_reference', ('L030.pre_mlp_norm',), 0), ('unfused', ('L030.mlp.gate_proj',), 0), ('unfused', ('L030.mlp.silu',), 0), ('unfused', ('L030.mlp.up_proj',), 0), ('unfused', ('L030.mlp.gated_mul',), 0), ('unfused', ('L030.mlp.down_proj',), 0), ('unfused', ('L030.residual_add_2',), 0), ('unfused', ('L031.input',), 0), ('rmsnorm_reference', ('L031.input_norm',), 0), ('unfused', ('L031.self_attention.k_proj',), 0), ('unfused', ('L031.self_attention.k_rope',), 0), ('unfused', ('L031.self_attention.q_proj',), 0), ('unfused', ('L031.self_attention.q_rope',), 0), ('unfused', ('L031.self_attention.qk_matmul',), 0), ('unfused', ('L031.self_attention.softmax',), 0), ('unfused', ('L031.self_attention.v_proj',), 0), ('unfused', ('L031.self_attention.av_matmul',), 0), ('unfused', ('L031.self_attention.out_proj',), 0), ('unfused', ('L031.residual_add_1',), 0), ('rmsnorm_reference', ('L031.pre_mlp_norm',), 0), ('unfused', ('L031.mlp.gate_proj',), 0), ('unfused', ('L031.mlp.silu',), 0), ('unfused', ('L031.mlp.up_proj',), 0), ('unfused', ('L031.mlp.gated_mul',), 0), ('unfused', ('L031.mlp.down_proj',), 0), ('unfused', ('L031.residual_add_2',), 0), ('unfused', ('L032.input',), 0), ('rmsnorm_reference', ('L032.input_norm',), 0), ('unfused', ('L032.self_attention.k_proj',), 0), ('unfused', ('L032.self_attention.k_rope',), 0), ('unfused', ('L032.self_attention.q_proj',), 0), ('unfused', ('L032.self_attention.q_rope',), 0), ('unfused', ('L032.self_attention.qk_matmul',), 0), ('unfused', ('L032.self_attention.softmax',), 0), ('unfused', ('L032.self_attention.v_proj',), 0), ('unfused', ('L032.self_attention.av_matmul',), 0), ('unfused', ('L032.self_attention.out_proj',), 0), ('unfused', ('L032.residual_add_1',), 0), ('rmsnorm_reference', ('L032.pre_mlp_norm',), 0), ('unfused', ('L032.mlp.gate_proj',), 0), ('unfused', ('L032.mlp.silu',), 0), ('unfused', ('L032.mlp.up_proj',), 0), ('unfused', ('L032.mlp.gated_mul',), 0), ('unfused', ('L032.mlp.down_proj',), 0), ('unfused', ('L032.residual_add_2',), 0), ('unfused', ('L033.input',), 0), ('rmsnorm_reference', ('L033.input_norm',), 0), ('unfused', ('L033.self_attention.k_proj',), 0), ('unfused', ('L033.self_attention.k_rope',), 0), ('unfused', ('L033.self_attention.q_proj',), 0), ('unfused', ('L033.self_attention.q_rope',), 0), ('unfused', ('L033.self_attention.qk_matmul',), 0), ('unfused', ('L033.self_attention.softmax',), 0), ('unfused', ('L033.self_attention.v_proj',), 0), ('unfused', ('L033.self_attention.av_matmul',), 0), ('unfused', ('L033.self_attention.out_proj',), 0), ('unfused', ('L033.residual_add_1',), 0), ('rmsnorm_reference', ('L033.pre_mlp_norm',), 0), ('unfused', ('L033.mlp.gate_proj',), 0), ('unfused', ('L033.mlp.silu',), 0), ('unfused', ('L033.mlp.up_proj',), 0), ('unfused', ('L033.mlp.gated_mul',), 0), ('unfused', ('L033.mlp.down_proj',), 0), ('unfused', ('L033.residual_add_2',), 0), ('unfused', ('L034.input',), 0), ('rmsnorm_reference', ('L034.input_norm',), 0), ('unfused', ('L034.self_attention.k_proj',), 0), ('unfused', ('L034.self_attention.k_rope',), 0), ('unfused', ('L034.self_attention.q_proj',), 0), ('unfused', ('L034.self_attention.q_rope',), 0), ('unfused', ('L034.self_attention.qk_matmul',), 0), ('unfused', ('L034.self_attention.softmax',), 0), ('unfused', ('L034.self_attention.v_proj',), 0), ('unfused', ('L034.self_attention.av_matmul',), 0), ('unfused', ('L034.self_attention.out_proj',), 0), ('unfused', ('L034.residual_add_1',), 0), ('rmsnorm_reference', ('L034.pre_mlp_norm',), 0), ('unfused', ('L034.mlp.gate_proj',), 0), ('unfused', ('L034.mlp.silu',), 0), ('unfused', ('L034.mlp.up_proj',), 0), ('unfused', ('L034.mlp.gated_mul',), 0), ('unfused', ('L034.mlp.down_proj',), 0), ('unfused', ('L034.residual_add_2',), 0), ('unfused', ('L035.input',), 0), ('rmsnorm_reference', ('L035.input_norm',), 0), ('unfused', ('L035.self_attention.k_proj',), 0), ('unfused', ('L035.self_attention.k_rope',), 0), ('unfused', ('L035.self_attention.q_proj',), 0), ('unfused', ('L035.self_attention.q_rope',), 0), ('unfused', ('L035.self_attention.qk_matmul',), 0), ('unfused', ('L035.self_attention.softmax',), 0), ('unfused', ('L035.self_attention.v_proj',), 0), ('unfused', ('L035.self_attention.av_matmul',), 0), ('unfused', ('L035.self_attention.out_proj',), 0), ('unfused', ('L035.residual_add_1',), 0), ('rmsnorm_reference', ('L035.pre_mlp_norm',), 0), ('unfused', ('L035.mlp.gate_proj',), 0), ('unfused', ('L035.mlp.silu',), 0), ('unfused', ('L035.mlp.up_proj',), 0), ('unfused', ('L035.mlp.gated_mul',), 0), ('unfused', ('L035.mlp.down_proj',), 0), ('unfused', ('L035.residual_add_2',), 0), ('rmsnorm_reference', ('final_norm',), 0), ('unfused', ('lm_head',), 0))"
+   },
+   "capacity_bytes": [
+    4687899648.0,
+    4687899648.0
+   ],
+   "executor": {
+    "feature_comm_blocks_compute": false,
+    "overlap_factor": 0.0
+   },
+   "reference_contiguous": {
+    "unfused": {
+     "makespan_ms": 29.314898286913483,
+     "cut": 472,
+     "cut_step": 3,
+     "fused_patterns": []
+    },
+    "fused": {
+     "makespan_ms": 28.99719072309021,
+     "cut": 490,
+     "cut_step": 3,
+     "fused_patterns": [
+      "lightop_add_rmsnorm"
+     ]
+    },
+    "note": "best single topological cut; silu_mul left unfused (calibrated loss)"
+   }
+  }
+ },
+ "summary": {
+  "medium_serial_tail:blocking:free": {
+   "reference_ms": 0.10295619914311138
+  },
+  "medium_serial_tail:blocking:cap75": {
+   "reference_ms": null
+  },
+  "medium_serial_tail:async:free": {
+   "reference_ms": 0.10295619914311138
+  },
+  "medium_serial_tail:async:cap75": {
+   "reference_ms": null
+  },
+  "medium_attention_fork:blocking:free": {
+   "reference_ms": 0.10997436199744663
+  },
+  "medium_attention_fork:blocking:cap75": {
+   "reference_ms": null
+  },
+  "medium_attention_fork:async:free": {
+   "reference_ms": 0.10997436199744663
+  },
+  "medium_attention_fork:async:cap75": {
+   "reference_ms": null
+  },
+  "medium_mlp:blocking:free": {
+   "reference_ms": 0.12636806612229573
+  },
+  "medium_mlp:blocking:cap75": {
+   "reference_ms": null
+  },
+  "medium_mlp:async:free": {
+   "reference_ms": 0.12636806612229573
+  },
+  "medium_mlp:async:cap75": {
+   "reference_ms": null
+  },
+  "layer:blocking:free": {
+   "reference_ms": 0.31692010695589556
+  },
+  "layer:blocking:cap75": {
+   "reference_ms": null
+  },
+  "layer:async:free": {
+   "reference_ms": 0.31692010695589556
+  },
+  "layer:async:cap75": {
+   "reference_ms": null
+  },
+  "model_3b:blocking:free": {
+   "reference_ms": 29.3773945352571
+  },
+  "model_3b:blocking:cap75": {
+   "reference_ms": null
+  },
+  "model_3b:async:free": {
+   "reference_ms": 29.3773945352571
+  },
+  "model_3b:async:cap75": {
+   "reference_ms": null
+  }
+ },
+ "rows": []
+}

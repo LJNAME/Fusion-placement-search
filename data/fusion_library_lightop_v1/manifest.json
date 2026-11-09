@@ -1,0 +1,41 @@
+{
+  "schema_version": 2,
+  "library": "lightop",
+  "catalog": "data/lightop_fusion_catalog_v1/capabilities.json",
+  "wheel_sha256": "61ef2672bbca7419a59ef14d41d1fcd883a972d57d51a2070df98e18d98a5795",
+  "scope": "capability registry consumed by the searcher; declarations come from the library provider, not from kernel audits",
+  "fusions": [
+    {
+      "fusion_id": "lightop_silu_mul",
+      "operator_pattern": {"op_types": ["silu", "mul"], "intermediate_outputs": false},
+      "implementation": "op.silu_and_mul_opt",
+      "status": "implemented",
+      "supported_dtypes": ["bf16"],
+      "supported_shapes": null,
+      "layout_constraints": "input packed as [gate|up] along the last dim; separate output buffer",
+      "training_supported": null,
+      "calibration": true,
+      "declaration_source": "catalog capability + vendor test test/test_act_and_mul.py (bf16)"
+    },
+    {
+      "fusion_id": "lightop_add_rmsnorm",
+      "operator_pattern": {"op_types": ["add", "rmsnorm"], "intermediate_outputs": true},
+      "implementation": "fused_add_rms_norm",
+      "status": "implemented",
+      "supported_dtypes": ["bf16", "fp16"],
+      "supported_shapes": null,
+      "layout_constraints": "interface writes the normalized output into x and the sum into residual (in place)",
+      "training_supported": null,
+      "calibration": false,
+      "declaration_source": "catalog capability + vendor test test/test_rms_add.py (fp16, bf16)"
+    }
+  ],
+  "not_registered": [
+    {
+      "implementation": "rms_rotary_embedding_fuse",
+      "operator_pattern": ["rmsnorm", "rope"],
+      "reason": "one call covers the Q and K branches together; the pattern matcher only expresses single chains"
+    }
+  ],
+  "training_note": "training_supported is null until the library provider declares it; null and false are not training candidates"
+}

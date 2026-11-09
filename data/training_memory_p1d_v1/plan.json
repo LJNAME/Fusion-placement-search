@@ -1,0 +1,154 @@
+{
+  "scope": "training_memory_validation_v1",
+  "placements": {
+    "all_gpu0": null,
+    "split_18": 18,
+    "split_22": 22
+  },
+  "predictions": {
+    "spec": {
+      "seq_length": 256,
+      "micro_batch_size": 1,
+      "num_layers": 36,
+      "dtype": "bf16"
+    },
+    "lifetime_config": {
+      "loss_fp32_logits_factor": 1.0,
+      "gradient_accumulation_fusion": false
+    },
+    "placements": {
+      "all_gpu0": {
+        "split": null,
+        "params_per_device": [
+          3085846528.0,
+          0.0
+        ],
+        "weight_bytes": [
+          6171693056.0,
+          0.0
+        ],
+        "training_state_bytes": [
+          55545237504.0,
+          0.0
+        ],
+        "dynamic_peak_bytes": [
+          2291929088.0,
+          0.0
+        ],
+        "retained_at_forward_end": [
+          1589706752.0,
+          0.0
+        ],
+        "m_lm_bytes": [
+          155582464.0,
+          0.0
+        ],
+        "components_at_peak": [
+          {
+            "saved_activation": 1434124288.0,
+            "weight_grad_transient": 622333952.0,
+            "m_lm": 155582464.0,
+            "activation_grad": 79888384.0
+          },
+          {}
+        ],
+        "cross_device_bytes": 0.0,
+        "peak_excluding_m_base": [
+          57837166592.0,
+          0.0
+        ]
+      },
+      "split_18": {
+        "split": 18,
+        "params_per_device": [
+          1698504704.0,
+          1387341824.0
+        ],
+        "weight_bytes": [
+          3397009408.0,
+          2774683648.0
+        ],
+        "training_state_bytes": [
+          30573084672.0,
+          24972152832.0
+        ],
+        "dynamic_peak_bytes": [
+          1612709888.0,
+          757071872.0
+        ],
+        "retained_at_forward_end": [
+          911540224.0,
+          678166528.0
+        ],
+        "m_lm_bytes": [
+          155582464.0,
+          0.0
+        ],
+        "components_at_peak": [
+          {
+            "saved_activation": 755957760.0,
+            "weight_grad_transient": 622329856.0,
+            "m_lm": 155582464.0,
+            "activation_grad": 78839808.0
+          },
+          {
+            "saved_activation": 653524992.0,
+            "activation_grad": 13369344.0,
+            "weight_grad_transient": 90177536.0
+          }
+        ],
+        "cross_device_bytes": 4194304.0,
+        "peak_excluding_m_base": [
+          32185794560.0,
+          25729224704.0
+        ]
+      },
+      "split_22": {
+        "split": 22,
+        "params_per_device": [
+          2006802432.0,
+          1079044096.0
+        ],
+        "weight_bytes": [
+          4013604864.0,
+          2158088192.0
+        ],
+        "training_state_bytes": [
+          36122443776.0,
+          19422793728.0
+        ],
+        "dynamic_peak_bytes": [
+          1763180544.0,
+          606601216.0
+        ],
+        "retained_at_forward_end": [
+          1062010880.0,
+          527695872.0
+        ],
+        "m_lm_bytes": [
+          155582464.0,
+          0.0
+        ],
+        "components_at_peak": [
+          {
+            "saved_activation": 906428416.0,
+            "weight_grad_transient": 622329856.0,
+            "m_lm": 155582464.0,
+            "activation_grad": 78839808.0
+          },
+          {
+            "saved_activation": 503054336.0,
+            "activation_grad": 13369344.0,
+            "weight_grad_transient": 90177536.0
+          }
+        ],
+        "cross_device_bytes": 4194304.0,
+        "peak_excluding_m_base": [
+          37885624320.0,
+          20029394944.0
+        ]
+      }
+    }
+  },
+  "created": "2026-11-08T15:41:43"
+}

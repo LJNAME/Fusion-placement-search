@@ -1,0 +1,190 @@
+{
+  "scope": "training_memory_validation_v2",
+  "placements": {
+    "all_gpu0": null,
+    "split_18": 18,
+    "split_22": 22
+  },
+  "baseline_source": "data/training_memory_p1d_v2/m_base.json",
+  "predictions": {
+    "spec": {
+      "seq_length": 768,
+      "micro_batch_size": 1,
+      "num_layers": 36,
+      "dtype": "bf16"
+    },
+    "lifetime_config": {
+      "loss_fp32_logits_factor": 1.0,
+      "gradient_accumulation_fusion": false,
+      "saved_tensor_rules": "hf_qwen2_eager_saved_v1",
+      "activation_semantics": "training_lifetime_v1+hf_qwen2_eager_saved_v1"
+    },
+    "m_base": {
+      "per_device": [
+        560207872.0,
+        560201728.0
+      ],
+      "calibrated": true,
+      "source": "training_memory_validation_v2:data/training_memory_p1d_v2",
+      "runtime_baseline_bytes": [
+        492830720.0,
+        492830720.0
+      ],
+      "persistent_workspace_bytes": [
+        67377152.0,
+        67371008.0
+      ],
+      "allocator_reserved_slack_bytes": [
+        1796733440.0,
+        74990592.0
+      ],
+      "capacity_safety_margin_bytes": [
+        0.0,
+        0.0
+      ]
+    },
+    "placements": {
+      "all_gpu0": {
+        "split": null,
+        "params_per_device": [
+          3085846528.0,
+          0.0
+        ],
+        "weight_bytes": [
+          6171693056.0,
+          0.0
+        ],
+        "training_state_bytes": [
+          55545237504.0,
+          0.0
+        ],
+        "dynamic_peak_bytes": [
+          7245229056.0,
+          0.0
+        ],
+        "retained_at_forward_end": [
+          6311734272.0,
+          0.0
+        ],
+        "m_lm_bytes": [
+          466747392.0,
+          0.0
+        ],
+        "components_at_peak": [
+          {
+            "saved_activation": 5844986880.0,
+            "loss_backward_transient": 933494784.0,
+            "m_lm": 466747392.0
+          },
+          {}
+        ],
+        "cross_device_bytes": 0.0,
+        "peak_excluding_m_base": [
+          62790466560.0,
+          0.0
+        ],
+        "peak_with_m_base": [
+          63350674432.0,
+          560201728.0
+        ]
+      },
+      "split_18": {
+        "split": 18,
+        "params_per_device": [
+          1698504704.0,
+          1387341824.0
+        ],
+        "weight_bytes": [
+          3397009408.0,
+          2774683648.0
+        ],
+        "training_state_bytes": [
+          30573084672.0,
+          24972152832.0
+        ],
+        "dynamic_peak_bytes": [
+          4319588352.0,
+          3018305536.0
+        ],
+        "retained_at_forward_end": [
+          3386093568.0,
+          2925640704.0
+        ],
+        "m_lm_bytes": [
+          466747392.0,
+          0.0
+        ],
+        "components_at_peak": [
+          {
+            "saved_activation": 2919346176.0,
+            "loss_backward_transient": 933494784.0,
+            "m_lm": 466747392.0
+          },
+          {
+            "saved_activation": 2916200448.0,
+            "activation_grad": 57016320.0,
+            "weight_grad_transient": 45088768.0
+          }
+        ],
+        "cross_device_bytes": 12582912.0,
+        "peak_excluding_m_base": [
+          34892673024.0,
+          27990458368.0
+        ],
+        "peak_with_m_base": [
+          35452880896.0,
+          28550660096.0
+        ]
+      },
+      "split_22": {
+        "split": 22,
+        "params_per_device": [
+          2006802432.0,
+          1079044096.0
+        ],
+        "weight_bytes": [
+          4013604864.0,
+          2158088192.0
+        ],
+        "training_state_bytes": [
+          36122443776.0,
+          19422793728.0
+        ],
+        "dynamic_peak_bytes": [
+          4967632896.0,
+          2370260992.0
+        ],
+        "retained_at_forward_end": [
+          4034138112.0,
+          2277596160.0
+        ],
+        "m_lm_bytes": [
+          466747392.0,
+          0.0
+        ],
+        "components_at_peak": [
+          {
+            "saved_activation": 3567390720.0,
+            "loss_backward_transient": 933494784.0,
+            "m_lm": 466747392.0
+          },
+          {
+            "saved_activation": 2268155904.0,
+            "activation_grad": 57016320.0,
+            "weight_grad_transient": 45088768.0
+          }
+        ],
+        "cross_device_bytes": 12582912.0,
+        "peak_excluding_m_base": [
+          41090076672.0,
+          21793054720.0
+        ],
+        "peak_with_m_base": [
+          41650284544.0,
+          22353256448.0
+        ]
+      }
+    }
+  },
+  "created": "2026-11-08T17:02:53"
+}

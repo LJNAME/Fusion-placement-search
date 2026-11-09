@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "scope": "measured native/fused pairs; calibrate the analytic fused cost, never gate legality",
+  "observations": [
+    {
+      "pattern_id": "lightop_silu_mul",
+      "scale": "layer",
+      "node_ids": ["L000.mlp.silu", "L000.mlp.gated_mul"],
+      "shape": [1, 256, 3072],
+      "dtype": "bf16",
+      "native_us": 17.111990451812744,
+      "fused_us": 21.8127703666687,
+      "fused_arm": "lightop_split_with_pack (graph has separate gate/up producers, so packing is part of the fused path)",
+      "source": "data/hygon_silu_trial02_review/report.json",
+      "source_sha256": "baf9919c9a970150a6ddfcec3a51317fee5f094b98b3eaea0031ba0396f2fd3e",
+      "evidence_grade": "exploratory_single_batch",
+      "device": "BW gfx936, torch 2.9.0 dtk2604, eager Event batch 10 warmup + 100 calls"
+    }
+  ]
+}

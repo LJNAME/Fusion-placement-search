@@ -1,0 +1,482 @@
+{
+  "scope": "training_memory_validation_v2",
+  "spec": {
+    "seq_length": 768,
+    "micro_batch_size": 1,
+    "num_layers": 36,
+    "dtype": "bf16"
+  },
+  "placements": {
+    "all_gpu0": {
+      "per_device": [
+        {
+          "runtime_baseline": {
+            "measured": 492830720,
+            "predicted": 492830720.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "persistent_workspace": {
+            "measured": 68700160,
+            "predicted": 67377152.0,
+            "error": 1323008.0,
+            "rel_error": 0.019257713519153376
+          },
+          "allocator_reserved_slack": {
+            "measured": 2312143360,
+            "note": "recorded, not charged"
+          },
+          "weights": {
+            "measured": 6210150912,
+            "predicted": 6171693056.0,
+            "error": 38457856.0,
+            "rel_error": 0.006192740972797796
+          },
+          "training_state": {
+            "measured": 55589586432,
+            "predicted": 55545237504.0,
+            "error": 44348928.0,
+            "rel_error": 0.000797792011895067
+          },
+          "retained_activations": {
+            "measured": 6348048896,
+            "predicted": 6311734272.0,
+            "error": 36314624.0,
+            "rel_error": 0.0057205961382689385
+          },
+          "dynamic_peak": {
+            "measured": 7282454528,
+            "predicted": 7245229056.0,
+            "error": 37225472.0,
+            "rel_error": 0.0051116655595820565
+          },
+          "optimizer_step_transient": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "gemm_workspace_probe": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "allocated_peak": {
+            "measured": 62872040960,
+            "predicted": 62790466560.0,
+            "error": 81574400.0,
+            "rel_error": 0.0012974670259535345
+          },
+          "device_peak_charged": {
+            "measured": 63433571840,
+            "predicted": 63350674432.0,
+            "error": 82897408.0,
+            "rel_error": 0.0013068380921240584
+          },
+          "device_peak_with_slack": {
+            "measured": 65745715200
+          },
+          "param_count": {
+            "measured": 3085938688,
+            "graph": 3085846528.0
+          }
+        },
+        {
+          "runtime_baseline": {
+            "measured": 492830720,
+            "predicted": 492830720.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "persistent_workspace": {
+            "measured": 0,
+            "predicted": 67371008.0,
+            "error": -67371008.0,
+            "rel_error": Infinity
+          },
+          "allocator_reserved_slack": {
+            "measured": 2097152,
+            "note": "recorded, not charged"
+          },
+          "weights": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "training_state": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "retained_activations": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "dynamic_peak": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "optimizer_step_transient": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "gemm_workspace_probe": {
+            "measured": 34471936,
+            "predicted": 0.0,
+            "error": 34471936.0,
+            "rel_error": 1.0
+          },
+          "allocated_peak": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "device_peak_charged": {
+            "measured": 492830720,
+            "predicted": 560201728.0,
+            "error": -67371008.0,
+            "rel_error": -0.13670212765957446
+          },
+          "device_peak_with_slack": {
+            "measured": 494927872
+          },
+          "param_count": {
+            "measured": 0,
+            "graph": 0.0
+          }
+        }
+      ],
+      "communication": {
+        "measured": 0,
+        "predicted": 0.0,
+        "error": 0.0,
+        "rel_error": 0.0
+      },
+      "optimizer_impl": "fused"
+    },
+    "split_18": {
+      "per_device": [
+        {
+          "runtime_baseline": {
+            "measured": 492830720,
+            "predicted": 492830720.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "persistent_workspace": {
+            "measured": 68700160,
+            "predicted": 67377152.0,
+            "error": 1323008.0,
+            "rel_error": 0.019257713519153376
+          },
+          "allocator_reserved_slack": {
+            "measured": 2196334592,
+            "note": "recorded, not charged"
+          },
+          "weights": {
+            "measured": 3416500736,
+            "predicted": 3397009408.0,
+            "error": 19491328.0,
+            "rel_error": 0.0057050559932910255
+          },
+          "training_state": {
+            "measured": 30597618688,
+            "predicted": 30573084672.0,
+            "error": 24534016.0,
+            "rel_error": 0.000801827627508213
+          },
+          "retained_activations": {
+            "measured": 3404320256,
+            "predicted": 3386093568.0,
+            "error": 18226688.0,
+            "rel_error": 0.005353987471618181
+          },
+          "dynamic_peak": {
+            "measured": 4338725888,
+            "predicted": 4319588352.0,
+            "error": 19137536.0,
+            "rel_error": 0.0044108654231719
+          },
+          "optimizer_step_transient": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "gemm_workspace_probe": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "allocated_peak": {
+            "measured": 34936344576,
+            "predicted": 34892673024.0,
+            "error": 43671552.0,
+            "rel_error": 0.0012500320949433493
+          },
+          "device_peak_charged": {
+            "measured": 35497875456,
+            "predicted": 35452880896.0,
+            "error": 44994560.0,
+            "rel_error": 0.001267528251254677
+          },
+          "device_peak_with_slack": {
+            "measured": 37694210048
+          },
+          "param_count": {
+            "measured": 1698550784,
+            "graph": 1698504704.0
+          }
+        },
+        {
+          "runtime_baseline": {
+            "measured": 492830720,
+            "predicted": 492830720.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "persistent_workspace": {
+            "measured": 68681728,
+            "predicted": 67371008.0,
+            "error": 1310720.0,
+            "rel_error": 0.019083969465648856
+          },
+          "allocator_reserved_slack": {
+            "measured": 183968768,
+            "note": "recorded, not charged"
+          },
+          "weights": {
+            "measured": 2793650688,
+            "predicted": 2774683648.0,
+            "error": 18967040.0,
+            "rel_error": 0.006789338438578618
+          },
+          "training_state": {
+            "measured": 24991968256,
+            "predicted": 24972152832.0,
+            "error": 19815424.0,
+            "rel_error": 0.0007928716856961744
+          },
+          "retained_activations": {
+            "measured": 2943073280,
+            "predicted": 2925640704.0,
+            "error": 17432576.0,
+            "rel_error": 0.0059232558422738285
+          },
+          "dynamic_peak": {
+            "measured": 2999824384,
+            "predicted": 3018305536.0,
+            "error": -18481152.0,
+            "rel_error": -0.006160744641777003
+          },
+          "optimizer_step_transient": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "gemm_workspace_probe": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "allocated_peak": {
+            "measured": 27991792640,
+            "predicted": 27990458368.0,
+            "error": 1334272.0,
+            "rel_error": 4.766654344578626e-05
+          },
+          "device_peak_charged": {
+            "measured": 28553305088,
+            "predicted": 28550660096.0,
+            "error": 2644992.0,
+            "rel_error": 9.26334794465388e-05
+          },
+          "device_peak_with_slack": {
+            "measured": 28737273856
+          },
+          "param_count": {
+            "measured": 1387387904,
+            "graph": 1387341824.0
+          }
+        }
+      ],
+      "communication": {
+        "measured": 12595200,
+        "predicted": 12582912.0,
+        "error": 12288.0,
+        "rel_error": 0.000975609756097561
+      },
+      "optimizer_impl": "fused"
+    },
+    "split_22": {
+      "per_device": [
+        {
+          "runtime_baseline": {
+            "measured": 492830720,
+            "predicted": 492830720.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "persistent_workspace": {
+            "measured": 68700160,
+            "predicted": 67377152.0,
+            "error": 1323008.0,
+            "rel_error": 0.019257713519153376
+          },
+          "allocator_reserved_slack": {
+            "measured": 2226870272,
+            "note": "recorded, not charged"
+          },
+          "weights": {
+            "measured": 4037310976,
+            "predicted": 4013604864.0,
+            "error": 23706112.0,
+            "rel_error": 0.005871757746906836
+          },
+          "training_state": {
+            "measured": 36151380992,
+            "predicted": 36122443776.0,
+            "error": 28937216.0,
+            "rel_error": 0.0008004456595006305
+          },
+          "retained_activations": {
+            "measured": 4054855168,
+            "predicted": 4034138112.0,
+            "error": 20717056.0,
+            "rel_error": 0.005109197527816609
+          },
+          "dynamic_peak": {
+            "measured": 4989260800,
+            "predicted": 4967632896.0,
+            "error": 21627904.0,
+            "rel_error": 0.004334891453258968
+          },
+          "optimizer_step_transient": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "gemm_workspace_probe": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "allocated_peak": {
+            "measured": 41140641792,
+            "predicted": 41090076672.0,
+            "error": 50565120.0,
+            "rel_error": 0.0012290795135294324
+          },
+          "device_peak_charged": {
+            "measured": 41702172672,
+            "predicted": 41650284544.0,
+            "error": 51888128.0,
+            "rel_error": 0.0012442547875890202
+          },
+          "device_peak_with_slack": {
+            "measured": 43929042944
+          },
+          "param_count": {
+            "measured": 2006858752,
+            "graph": 2006802432.0
+          }
+        },
+        {
+          "runtime_baseline": {
+            "measured": 492830720,
+            "predicted": 492830720.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "persistent_workspace": {
+            "measured": 68681728,
+            "predicted": 67371008.0,
+            "error": 1310720.0,
+            "rel_error": 0.019083969465648856
+          },
+          "allocator_reserved_slack": {
+            "measured": 170996736,
+            "note": "recorded, not charged"
+          },
+          "weights": {
+            "measured": 2172840448,
+            "predicted": 2158088192.0,
+            "error": 14752256.0,
+            "rel_error": 0.006789387602563628
+          },
+          "training_state": {
+            "measured": 19438205952,
+            "predicted": 19422793728.0,
+            "error": 15412224.0,
+            "rel_error": 0.000792883048881074
+          },
+          "retained_activations": {
+            "measured": 2291751936,
+            "predicted": 2277596160.0,
+            "error": 14155776.0,
+            "rel_error": 0.006176836060497605
+          },
+          "dynamic_peak": {
+            "measured": 2348503040,
+            "predicted": 2370260992.0,
+            "error": -21757952.0,
+            "rel_error": -0.009264604571259145
+          },
+          "optimizer_step_transient": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "gemm_workspace_probe": {
+            "measured": 0,
+            "predicted": 0.0,
+            "error": 0.0,
+            "rel_error": 0.0
+          },
+          "allocated_peak": {
+            "measured": 21786708992,
+            "predicted": 21793054720.0,
+            "error": -6345728.0,
+            "rel_error": -0.0002912660192197972
+          },
+          "device_peak_charged": {
+            "measured": 22348221440,
+            "predicted": 22353256448.0,
+            "error": -5035008.0,
+            "rel_error": -0.00022529792867490042
+          },
+          "device_peak_with_slack": {
+            "measured": 22519218176
+          },
+          "param_count": {
+            "measured": 1079079936,
+            "graph": 1079044096.0
+          }
+        }
+      ],
+      "communication": {
+        "measured": 12595200,
+        "predicted": 12582912.0,
+        "error": 12288.0,
+        "rel_error": 0.000975609756097561
+      },
+      "optimizer_impl": "fused"
+    }
+  }
+}
