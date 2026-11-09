@@ -261,7 +261,7 @@ def run(output, budget=64, seeds=(0, 7, 23)):
     report["source_sha256"] = {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in source_paths}
     save(output / "report.json", report)
     with (output / "summary.csv").open("w", encoding="utf-8", newline="") as f:
-        writer = csv.writer(f)
+        writer = csv.writer(f, lineterminator="\n")
         writer.writerow(("task", "method", "seed", "makespan_ms", "exact_gap_percent", "in_domain_gap_percent",
                          "unique_candidates", "budget_remaining", "cross_device_edges", "elapsed_s"))
         for name, task in report["tasks"].items():
