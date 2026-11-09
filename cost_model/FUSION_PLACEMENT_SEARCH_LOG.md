@@ -212,3 +212,11 @@ tools/audit_qwen25_placement.py固定36融合，对整图A全0/B前18层0后18�
 静态参数6,171,693,056字节；saved_activation/bwd_flops未进入训练时间线，workspace未声明，别名未去重，输出/接收缓冲从完成时刻才计。18/18方案lm_head与embedding跨卡，共享622,329,856字节权重的驻留未处理；不擅自添加复制策略或训练状态。36组融合均无独占内部输出被现有算法删除；全Native和全KERV的GPU0估算峰值相同不证明物理显存相同。
 
 入口tools/audit_qwen25_memory.py；结果data/qwen25_memory_audit_v1（report、tensor_lifetimes、verification）；说明QWEN25_MEMORY_AUDIT.md。三个方案重评分/峰值与旧审计一致，17项已有CPU测试通过，无MCTS/GPU/生产代码修改。四基线初始化暂停，先确定估算范围、显式可用预算及共享存储/缓冲策略。
+
+## 2026-11-09：连续阶段动作空间与中等子图对照
+
+新增可选contiguous_stages，保留逐节点默认；设备只可留在本阶段或启用未用卡，两卡至多一刀，两种设备顺序均保留。融合仍联合选择，跨越拓扑区间的非相邻融合不允许被切开。Exact分别核算原空间和结构化空间。
+
+从3B第0层按既有三个模板提取10/7/8节点，blocking、free/cap75、64次不同完整方案模型调用上限、3种子，72次启发式运行；Exact另行全穷举。两卡初始化、不可行提案及Sequential两阶段均计入共享预算。原三方法用满64；结构化空间38/14/28全部覆盖后停止。serial_tail/attention_fork cap75完整空间不可行，记录保留。
+
+serial_tail与attention_fork free的Stage Exact等于原Exact；MLP free与cap75的Stage Exact分别差6.5288%和14.9857%，域内MCTS Gap均0。MLP原Joint cap75中位Gap5.6503%、最好种子0.0145%；连续阶段限制损失不能算成MCTS未收敛，也不能宣称新空间必然更优。Stage Joint已全枚举小空间，尚无大空间效率优势证明。68项CPU测试通过，冷缓存重放分数/最优方案/计数/轨迹一致。入口tools/evaluate_stage_search.py，数据data/stage_search_medium_v1，说明STAGE_PLACEMENT_SEARCH.md；没有重跑完整3B或新增GPU。

@@ -56,11 +56,15 @@ class LegalFusionSearchSpace:
         require_executable: bool = True,
         allowed_devices: Optional[Sequence[int]] = None,
         tie_shared_params: bool = False,
+        placement_policy: str = "node",
     ) -> None:
         if n_devs <= 0:
             raise ValueError("n_devs must be positive")
         self.graph = graph
         self.n_devs = int(n_devs)
+        if placement_policy not in ("node", "contiguous_stages"):
+            raise ValueError(f"unknown placement policy: {placement_policy}")
+        self.placement_policy = placement_policy
         if allowed_devices is None:
             self.allowed_devices = tuple(range(self.n_devs))
         else:
@@ -154,7 +158,7 @@ class LegalFusionSearchSpace:
         for candidate in self.by_node[anchor]:
             if any(node_id in state.assigned for node_id in candidate.node_ids):
                 continue
-            devices = self.allowed_devices
+            devices = self._stage_devices(state)
             if bound:
                 forced = self._tied_devices(candidate, bound)
                 if forced is not None:
@@ -165,9 +169,30 @@ class LegalFusionSearchSpace:
                 result.append(LegalChoice(candidate, device))
         return result
 
+    def _stage_devices(self, state: LegalPartialState) -> tuple[int, ...]:
+        """Stay in this stage or open an unused card; never return to an old one.
+
+        A non-adjacent fusion can assign nodes beyond the next anchor. Such a
+        fusion must finish its entire topological span before a stage cut.
+        Previously bound shared parameters also cannot be stranded behind a cut.
+        """
+        if self.placement_policy == "node" or not state.choices:
+            return self.allowed_devices
+        current = state.choices[-1].device
+        used = {c.device for c in state.choices}
+        if any(self.position[n] >= state.anchor_index for n in state.assigned):
+            return (current,)
+        bound = self.bound_devices(state)
+        if any(n not in state.assigned and pid in bound
+               for n, pid in self.tie_group.items()):
+            return (current,)
+        return (current, *(d for d in self.allowed_devices if d not in used))
+
     def apply(self, state: LegalPartialState, choice: LegalChoice) -> LegalPartialState:
         if choice.device not in self.allowed_devices:
             raise ValueError(f"device is not allowed: {choice.device}")
+        if choice.device not in self._stage_devices(state):
+            raise ValueError("choice crosses a fusion span or returns to a completed stage")
         anchor = self.anchor(state)
         if (
             anchor is None
@@ -259,6 +284,19 @@ class LegalFusionSearchSpace:
                 "allowed_devices": list(self.allowed_devices),
             },
         )
+        if self.placement_policy != "node":
+            devices = {n: c.device for c in state.choices for n in c.candidate.node_ids}
+            stage_order = []
+            cuts = []
+            for index, node_id in enumerate(self.order):
+                if not stage_order or devices[node_id] != stage_order[-1]:
+                    stage_order.append(devices[node_id])
+                    if index:
+                        cuts.append(index)
+            if len(set(stage_order)) != len(stage_order):
+                raise AssertionError("a device occurs in more than one contiguous stage")
+            plan.extra.update(placement_policy=self.placement_policy,
+                              stage_devices=stage_order, cut_indices=cuts)
         if validate:
             validate_fusion_plan(
                 self.graph,
@@ -405,6 +443,7 @@ def legal_beam_search(
     allowed_devices: Optional[Sequence[int]] = None,
     evaluator: Optional[Callable[[Plan], object]] = None,
     tie_shared_params: bool = False,
+    placement_policy: str = "node",
 ) -> List[Plan]:
     """Beam search with finite single-card singleton references retained.
 
@@ -433,6 +472,7 @@ def legal_beam_search(
         require_executable=require_executable,
         allowed_devices=allowed_devices,
         tie_shared_params=tie_shared_params,
+        placement_policy=placement_policy,
     )
 
     def evaluate(plan: Plan) -> Optional[float]:
@@ -624,6 +664,7 @@ def legal_mcts_search(
     unfused_incumbent: bool = False,
     normalize_q: bool = False,
     skip_exhausted: bool = False,
+    placement_policy: str = "node",
 ) -> List[Plan]:
     """MCTS over legal fusion candidates and device choices.
 
@@ -681,6 +722,7 @@ def legal_mcts_search(
         require_executable=require_executable,
         allowed_devices=allowed_devices,
         tie_shared_params=tie_shared_params,
+        placement_policy=placement_policy,
     )
     if evaluator is None and scorer is None:
         raise ValueError("scorer is required without an evaluator")

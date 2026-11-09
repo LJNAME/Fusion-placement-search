@@ -452,6 +452,7 @@ def _run_search(
     unfused_incumbent: bool = False,
     normalize_q: bool = False,
     skip_exhausted: bool = False,
+    placement_policy: str = "node",
 ) -> tuple[list[Plan], float, dict[str, object]]:
     if method not in {"exact", "beam", "mcts"}:
         raise ValueError(f"unknown search method: {method}")
@@ -498,6 +499,8 @@ def _run_search(
         common = dict(graph=search_graph, scorer=score, n_devs=scorer.profile.n_devs,
                       registry=rules, require_executable=mode.require_executable,
                       allowed_devices=devices, tie_shared_params=tie_shared_params)
+        if placement_policy != "node":
+            common["placement_policy"] = placement_policy
         stage_started = time.perf_counter()
         details = {"stage": name, "seed": seed, "allowed_devices": list(devices),
                    "capacity_bound": enforce_capacity}
@@ -518,7 +521,7 @@ def _run_search(
                     size = count_exact_search_space(LegalFusionSearchSpace(
                         search_graph, scorer.profile.n_devs, rules,
                         require_executable=mode.require_executable, allowed_devices=devices,
-                        tie_shared_params=tie_shared_params))
+                        tie_shared_params=tie_shared_params, placement_policy=placement_policy))
                     exact = SimpleNamespace(plans=(), search_space_size=size, evaluated_plans=size)
                 plans = list(exact.plans)
                 details.update(search_space_size=exact.search_space_size, evaluated_plans=exact.evaluated_plans)

@@ -75,9 +75,9 @@ def count_exact_search_space(space: LegalFusionSearchSpace) -> int:
     }
     full_mask = (1 << len(space.order)) - 1
 
-    if space.tie_group:
-        # Tied parameters make legal devices depend on earlier choices, so the
-        # mask memo is not sound; count the same action tree that is visited.
+    if space.tie_group or space.placement_policy != "node":
+        # Ties and stage cuts make legal devices depend on earlier choices;
+        # an assigned-mask-only memo is not sound for these spaces.
         def walk(state: LegalPartialState) -> int:
             if space.is_terminal(state):
                 return 1
@@ -128,6 +128,7 @@ def exact_legal_search(
     allowed_devices: Optional[Sequence[int]] = None,
     is_feasible: Optional[Callable[[Plan], bool]] = None,
     tie_shared_params: bool = False,
+    placement_policy: str = "node",
 ) -> ExactSearchResult:
     """Enumerate every legal plan and return the globally best ``top_k``.
 
@@ -150,6 +151,7 @@ def exact_legal_search(
         require_executable=require_executable,
         allowed_devices=allowed_devices,
         tie_shared_params=tie_shared_params,
+        placement_policy=placement_policy,
     )
     search_space_size = count_exact_search_space(space)
     if search_space_size > max_evaluations:

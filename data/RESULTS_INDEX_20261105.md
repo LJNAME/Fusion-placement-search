@@ -93,3 +93,7 @@
 ## 2026-11-07：显存审计
 
 `qwen25_memory_audit_v1/`：687节点/866边字节校验、三个固定放置的现有前向峰值、逐张量逻辑生命周期及17项CPU测试回执。三方案低于配置总容量，训练及实际空闲预算可行性未知；18/18跨卡共享embedding/head权重遗漏。没有新GPU、MCTS或生产算法改动。说明：[QWEN25_MEMORY_AUDIT.md](../cost_model/QWEN25_MEMORY_AUDIT.md)。
+
+## 2026-11-09：结构化放置动作空间
+
+`stage_search_medium_v1/`：3B第0层的三个既有中等子图，原空间Exact与Stage Exact、Random/Sequential/Current Joint/Stage Joint，64次独立实际评分上限、3种子；72次启发式运行，6个任务含2个完整空间不可行项。包含逐次Gap、唯一候选、跨卡边和最佳图。连续阶段空间14–38项可全覆盖，但MLP限制损失为6.53%／14.99%，不宣称新空间必优。说明：[STAGE_PLACEMENT_SEARCH.md](../cost_model/STAGE_PLACEMENT_SEARCH.md)。
