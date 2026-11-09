@@ -112,3 +112,6 @@
 ## 2026-11-09：Qwen3可行性专项审计
 
 `qwen3_feasibility_audit_v1/`：完整构造witness、591合法动作路径、主干／分支显存下界、同先验固定预算对照及最佳图。24运行／1536评分；两个混合方法后续可行数均0→61/61，Joint／Random中位15.132347／15.132019ms，逐节点Joint仍10.240171ms。59项CPU测试，12旧控制前缀及24运行预算／源码／导出校验通过。新增GPU为0；静态前向可行性不等于训练或真实部署。说明：[QWEN3_FEASIBILITY_AUDIT.md](../cost_model/QWEN3_FEASIBILITY_AUDIT.md)。
+## 2026-11-09：三类融合调用测时扩充（CPU准备）
+
+`fusion_timing_expansion_plan_v1/`：LightOP SiLU×Mul11008、AddRMS2048、Q/K RMSNorm＋RoPE（16／8 heads×128，seq256）三个GPU0 BF16典型Case，计划已冻结，GPU尚未执行。复用厂商通过API，7×50、10预热，完整调用包含打包／保护输入复制，各Case独立进程；不重测已有Native／KERV，不重跑历史七项失败任务，不改搜索或自动准入。29项CPU测试及Shell语法通过。入口 `tools/run_fusion_timing_expansion.sh`，说明 [FUSION_TIMING_EXPANSION.md](../calibration/FUSION_TIMING_EXPANSION.md)。

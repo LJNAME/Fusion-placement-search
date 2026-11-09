@@ -257,3 +257,10 @@ ForwardResidentBound识别共享首尾权重＋主干不可返回，强制主干
 新增默认关闭partial_prune动作过滤，扩展与rollout共用，不改UCT／Q／概率或成本。四法×三种子×仅witness／witness加过滤共24运行，每次仍64个实评（Native两项＋共同witness一项＋61后续），所有方法同先验。混合Joint后续可行0→61/61、中位15.879727→15.132347ms；同域Random同样0→61/61、15.879727→15.132019ms，Joint逐种子只赢1/3。原逐节点Joint仍10.240171ms，混合域质量损失未解决，不宣称树优势或默认全面替换。各算法都有共同兜底，不能把初始化成功归因于机制。
 
 59项相关CPU测试、小图穷举下界无误删、24运行1536实评与最佳图检查通过；12条仅witness控制去掉计费第3项后，与旧前63条候选／成本／峰值／可行性一致。源码／成本冻结，全部评分共享权重违规0；原数据不改。入口tools/audit_qwen3_feasibility.py和summarize_qwen3_feasibility.py，说明QWEN3_FEASIBILITY_AUDIT.md。README／SROP／transfer原改动保留。
+## 2026-11-09：融合实测扩充入口
+
+用户选择先扩充融合调用测时，暂不开发FFN执行器。新增calibration/fusion_timing_expansion.py与tools/run_fusion_timing_expansion.sh：GPU0 BF16三项，LightOP SiLU×Mul[1,256,11008]、AddRMS[1,256,2048]、联合Q/K RMSNorm＋RoPE（Q16/K8/head128/seq256）。图上Shape对应，旧厂商API测试通过只作家族证据，新BF16目标尚待GPU。RoPE显式NeoX全头128/theta1e6/eps1e-6，无图中旋转语义证据，不自动注册搜索。
+
+每项独立子进程、50私有buffer、3次纯布尔smoke、10预热、7正式Replay×50调用，同stream Event、IQR/Median≤10%、不补轮。计时包括SiLU打包或AddRMS／RoPE保护输入复制；所有源只读，逐轮50输出与双参考检查。父进程保留崩溃返回码并继续其他Case；无Native/eager回退。旧Native/KERV不重测、历史七项未完成仍搁置，无MCTS／能力规则／模型参数变更或自动Profile准入。
+
+本地Torch2.9 CPU，无HIP，GPU实测0。29项CPU测试通过（含回传重算／篡改拒绝／进程隔离），bash -n通过；pytest仅有缓存写权限警告。data/fusion_timing_expansion_plan_v1/plan.json为CPU预览，calibration/FUSION_TIMING_EXPANSION.md含服务器单命令与回传审核。下一步等待服务器运行与回传，不能把计划称为已测结果。README／SROP／transfer原脏文件保留。
