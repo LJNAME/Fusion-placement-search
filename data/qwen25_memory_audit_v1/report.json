@@ -1,0 +1,179 @@
+{
+  "scope": "existing static forward memory estimator; not a training or runtime feasibility certificate",
+  "graph": {
+    "fingerprint": "sha256:e8e90ec0105365c35e17698b3742ff263a5ea2f3a67d48190dee553590b251fc",
+    "nodes": {
+      "count": 687,
+      "missing_shape_or_dtype": [],
+      "byte_mismatches": []
+    },
+    "edges": {
+      "count": 866,
+      "missing_shape_or_dtype": [],
+      "byte_mismatches": []
+    },
+    "phases": {
+      "forward": 687
+    },
+    "dtype_counts": {
+      "bf16": 687
+    },
+    "parameter_bytes": 6171693056.0,
+    "saved_activation_metadata_sum_bytes_not_training_peak": 1434124288.0
+  },
+  "devices": [
+    {
+      "device": 0,
+      "total_capacity_bytes": 68702699520.0,
+      "total_capacity_gib": 63.984375,
+      "default_search_budget_equals_total_capacity": true,
+      "actual_available_budget_bytes": null,
+      "runtime_reserve_bytes": null
+    },
+    {
+      "device": 1,
+      "total_capacity_bytes": 68702699520.0,
+      "total_capacity_gib": 63.984375,
+      "default_search_budget_equals_total_capacity": true,
+      "actual_available_budget_bytes": null,
+      "runtime_reserve_bytes": null
+    }
+  ],
+  "plans": {
+    "A_all_gpu0": {
+      "predicted_ms": 25.239290006015715,
+      "peak_memory_bytes": [
+        6250532864.0,
+        0.0
+      ],
+      "peak_memory_gib": [
+        5.821262359619141,
+        0.0
+      ],
+      "resident_parameter_bytes": [
+        6171693056.0,
+        0
+      ],
+      "workspace_explicitly_declared_groups": 0,
+      "workspace_bytes_used_by_estimator": 0,
+      "internal_only_outputs_eliminated": [],
+      "cross_device_transfers": [],
+      "unmodeled_cross_device_shared_parameters": [],
+      "within_current_forward_estimate_and_total_capacity": true,
+      "actual_available_budget_feasible": null,
+      "training_feasible": null
+    },
+    "B_layers_0_17_gpu0_18_35_gpu1": {
+      "predicted_ms": 25.308636502191405,
+      "peak_memory_bytes": [
+        3414966272.0,
+        2853523456.0
+      ],
+      "peak_memory_gib": [
+        3.1804351806640625,
+        2.657550811767578
+      ],
+      "resident_parameter_bytes": [
+        3397009408.0,
+        2774683648.0
+      ],
+      "workspace_explicitly_declared_groups": 0,
+      "workspace_bytes_used_by_estimator": 0,
+      "internal_only_outputs_eliminated": [],
+      "cross_device_transfers": [
+        {
+          "dependency_index": 436,
+          "src_group": "fg0324",
+          "dst_group": "fg0325",
+          "src_device": 0,
+          "dst_device": 1,
+          "bytes": 1048576.0,
+          "start": 0.011769466098953506,
+          "end": 0.01183011218000355,
+          "duration": 6.064608105004457e-05,
+          "source": "analytic_link_proxy"
+        }
+      ],
+      "unmodeled_cross_device_shared_parameters": [
+        {
+          "consumer": "lm_head",
+          "owner": "embedding",
+          "owner_device": 0,
+          "consumer_device": 1,
+          "shared_weight_bytes": 622329856
+        }
+      ],
+      "within_current_forward_estimate_and_total_capacity": true,
+      "actual_available_budget_feasible": null,
+      "training_feasible": null
+    },
+    "C_all_gpu1": {
+      "predicted_ms": 25.255440039915904,
+      "peak_memory_bytes": [
+        0.0,
+        6250532864.0
+      ],
+      "peak_memory_gib": [
+        0.0,
+        5.821262359619141
+      ],
+      "resident_parameter_bytes": [
+        0,
+        6171693056.0
+      ],
+      "workspace_explicitly_declared_groups": 0,
+      "workspace_bytes_used_by_estimator": 0,
+      "internal_only_outputs_eliminated": [],
+      "cross_device_transfers": [],
+      "unmodeled_cross_device_shared_parameters": [],
+      "within_current_forward_estimate_and_total_capacity": true,
+      "actual_available_budget_feasible": null,
+      "training_feasible": null
+    }
+  },
+  "native_gpu0_comparison": {
+    "predicted_ms": 25.41439544663232,
+    "peak_memory_bytes": [
+      6250532864.0,
+      0.0
+    ],
+    "native_pairs_contracted_for_scheduling": 36,
+    "equal_peak_does_not_validate_inplace_accounting": true
+  },
+  "lifetime_semantics": "logical outputs published at group end; local last consumer completion or remote copy completion; destination buffer starts at copy END; allocate before free at ties",
+  "not_accounted": [
+    "backward retained activations",
+    "gradients",
+    "optimizer/master-weight states",
+    "allocator/context/graph-pool reserves",
+    "undeclared kernel workspace",
+    "physical storage alias deduplication",
+    "cross-device tied weight residency",
+    "destination buffer during in-flight copy",
+    "outputs allocated during kernel execution"
+  ],
+  "search_admission": "existing final candidates require estimated peak <= capacity; infeasible exploration gets finite penalty; default capacity is device total, not observed free memory",
+  "static_forward_estimate_is_proven_upper_bound": false,
+  "new_search_runs": 0,
+  "new_gpu_measurements": 0,
+  "production_memory_or_search_code_changed": false,
+  "verification": {
+    "shape_dtype_byte_checks": "passed",
+    "prior_three_plan_scores_and_peaks": "identical"
+  },
+  "source_sha256": {
+    "tools/audit_qwen25_memory.py": "5a5946b1ea6ca9525ab849f9be0b1ed9b9f706d4c85bf08b093bcf5b3eb28c66",
+    "data/qwen25_placement_audit_v1/report.json": "3c7e533e00ef7534698eaad7671d121176dcf0d690bf94131572d04c7da866b9",
+    "cost_model/structural.py": "e22f0cf2539588954e419d221282356f52d4d8751e95b50b97ab041af94a6ada",
+    "cost_model/structure.py": "a7abdd1ea2700384b4bd957a4c23cdbdfab509d24534b35fc39ec2a169bf728e",
+    "cost_model/search_evaluation.py": "ef459a2845655a24685841d07313051289f4c7d8152e9bad579fe902cf4ba8d4",
+    "simulator/model_graphs/transformer.py": "7ba8ab0bd06839ee3611911b61ca2a6b2993622b18c623fd450919184ca0d85b",
+    "simulator/model_graphs/dense_layer.py": "a754f98527064128ee53e9b87374721d073947950f23dd884a04022ba1b14ead",
+    "integration/flagscale/kerv_add_rmsnorm.py": "0ed1ba1f12ca4a7b6ca97eec8c5bdc62b024064420a1edac185bb3f02a64f022",
+    "cost_model/qwen25_static_contract.py": "9d30959b955b01cd3b22a202f183aefc2f962fb5c5971519608d2387c72edaeb",
+    "cost_model/qwen25_add_rmsnorm.py": "233df02445fc84df9dc503a83c89ccffce85f5756cb8712fa9ddb8c30f02b2f2",
+    "data/bw1000_2card/bw1000_2card.calibrated.json": "261c9a53afebcc1abc25032a8a7124a599f6b0873187cb020d6ad2dc67d5776e",
+    "data/kerv_add_rmsnorm_timing_01/review/profile.json": "f3d8411ba8ad579aa2df2dde6c528cb32fbd9bb661a043857a54e5faec5f5b34",
+    "data/native_add_rmsnorm_timing_01/review/profile.json": "8fdf0d311c14ba7f092d2b0edb5eeb5147797a65a1b4ec347e1c22b73880a84e"
+  }
+}

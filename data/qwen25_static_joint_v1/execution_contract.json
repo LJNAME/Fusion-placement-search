@@ -1,0 +1,191 @@
+{
+  "id": "qwen25.add_rmsnorm.static_graph_replay.v1",
+  "basis": "same explicit target-executor declaration approach as 0.6B LayerInvariantMeasuredProfile",
+  "model_runtime_observed": false,
+  "tensor_allocation": "fresh contiguous activations; no views aliasing the disposable matmul output",
+  "matmul_recipe": "aten.mm.out.linear_weight_out_in.preallocated.v1",
+  "matmul_source_sha256": "0810ea4a2ab6e90bd757d37098c1775c132d337d1c7755dd5bd570cd8855cb97",
+  "layout": [
+    1,
+    256,
+    2048
+  ],
+  "strides": [
+    524288,
+    2048,
+    1
+  ],
+  "dtype": "bf16",
+  "weight": {
+    "shape": [
+      2048
+    ],
+    "strides": [
+      1
+    ],
+    "dtype": "bf16",
+    "aliases_activation": false
+  },
+  "eps": 1e-06,
+  "mode": "graph_replay",
+  "grad_enabled": false,
+  "autocast_enabled": false,
+  "fused_implementation": {
+    "id": "kerv.add_rmsnorm.adaptive.consume_x.dual_output.v1",
+    "version": "sha256:0ed1ba1f12ca4a7b6ca97eec8c5bdc62b024064420a1edac185bb3f02a64f022",
+    "entrypoint": "adaptive_rms_norm.add_rms_norm_inference",
+    "backend": "triton",
+    "kernel_source_sha256": "f9b3bafdd1a1c303627cf2dbe2561879155088f763c40c341cc997beed107f88",
+    "semantics": {
+      "shape": [
+        1,
+        256,
+        2048
+      ],
+      "dtype": "bf16",
+      "eps": 1e-06,
+      "eps_source": "explicit contract matching project Reference; not inferred from graph",
+      "input": "consume attention output; residual and weight read-only",
+      "outputs": "Add aliases consumed input; Norm is independently allocated",
+      "rounding": "BF16 add; FP32 reduction; BF16 normalized value before weight multiply",
+      "allocation": "vendor wrapper allocates normalized output",
+      "capture": "unverified",
+      "profile": "none"
+    }
+  },
+  "native_implementation": {
+    "id": "torch.native.add_then_rmsnorm.dual_output.v1",
+    "version": "2.9.0",
+    "entrypoints": [
+      "torch.Tensor.__add__",
+      "torch.nn.functional.rms_norm"
+    ],
+    "source_sha256": "d14e62b5b6e661b738c70b61e637e31e7efa9a72cc2329ea2f4348d6befb7ad2",
+    "functional_sha256": "d25bad4c572f1c8d93411d103cea82031aad05173b73dd105475ece0d29e29c7",
+    "eps": 1e-06,
+    "semantics": "BF16 out-of-place add; aten RMSNorm; preserve sum output",
+    "output_aliases": {
+      "sum": "independent",
+      "normalized": "independent"
+    }
+  },
+  "target_runtime": {
+    "accelerator": "HIP",
+    "accelerator_version": "6.3.26113",
+    "autocast_enabled": false,
+    "driver_version": "60326113",
+    "framework": "torch",
+    "framework_version": "2.9.0",
+    "grad_enabled": false,
+    "torch_build_sha256": "23d9d8578f2b3cf04ad974b9ab76f10c689873617f923772008c1399e2fe21ea",
+    "torch_extension_sha256": "bae009cfa037ec2daac0f0f41234cb61fc31a28564df81e435d26dd4702a27b0",
+    "torch_git_revision": "cbed15cda33969a3483b92a448b135bf19d9b370",
+    "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df"
+  },
+  "target_hardware": {
+    "class": "BW1000",
+    "device_index": 0,
+    "name": "BW",
+    "physical_index": 0,
+    "source": {
+      "architecture": "gfx936:sramecc+:xnack-",
+      "execution_device": "cuda:0",
+      "kind": "runtime_observation",
+      "name": "BW",
+      "total_memory": 68702699520
+    }
+  },
+  "fused_measurement_contract": {
+    "executor": "placed_kerv_add_rmsnorm_graph_replay",
+    "submission_included": false,
+    "allocation_included": false,
+    "mode": "graph_replay",
+    "granularity": "batch_amortized_complete_adapter_device_work",
+    "unit": "us/call",
+    "calls_per_replay": 50,
+    "rounds": 7,
+    "warmup_replays": 10,
+    "eager_preparation_calls": 50,
+    "statistic": "median",
+    "extra_attempts": 0,
+    "recipe": "consume_x_dual_output_graph_private_pool.v1",
+    "timing_boundary": "start Event -> one Graph replay -> end Event on the same stream",
+    "synchronization": "restore, validation and device synchronization outside Events",
+    "input_reuse": "50 independent x buffers; shared read-only residual/weight/source",
+    "restore": "restore all x exactly and invalidate normalized outputs before each replay; outside Events",
+    "allocation": "normalized allocations captured in private Graph pool; no eager allocation cost",
+    "excluded": [
+      "input restoration",
+      "input generation",
+      "validation",
+      "host submission",
+      "allocation"
+    ],
+    "cache_context": "isolated fixed-case replay; no full-chain cache equivalence claim",
+    "correctness": {
+      "rtol": 0.02,
+      "atol": 0.02
+    },
+    "environment": {
+      "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+      "torch_module_version": "2.9.0",
+      "hip": "6.3.26113",
+      "cuda": null,
+      "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+      "triton_module_version": "3.5.1",
+      "driver_version": "60326113",
+      "device_model": "BW",
+      "device_architecture": "gfx936:sramecc+:xnack-"
+    }
+  },
+  "native_measurement_contract": {
+    "executor": "native_add_then_aten_rmsnorm_graph_replay",
+    "submission_included": false,
+    "allocation_included": false,
+    "mode": "graph_replay",
+    "granularity": "batch_amortized_complete_adapter_device_work",
+    "unit": "us/call",
+    "calls_per_replay": 50,
+    "rounds": 7,
+    "warmup_replays": 10,
+    "eager_preparation_calls": 50,
+    "statistic": "median",
+    "extra_attempts": 0,
+    "recipe": "out_of_place_add_dual_output_graph_private_pool.v1",
+    "timing_boundary": "start Event -> one Graph replay -> end Event on the same stream",
+    "synchronization": "restore, validation and device synchronization outside Events",
+    "input_reuse": "50 independent x buffers; shared read-only residual/weight/source",
+    "restore": "restore all x exactly and invalidate sum/normalized outputs before each replay; outside Events",
+    "allocation": "sum and normalized allocations captured in private Graph pool; no eager allocation cost",
+    "excluded": [
+      "input restoration",
+      "input generation",
+      "validation",
+      "host submission",
+      "allocation"
+    ],
+    "cache_context": "isolated fixed-case replay; no full-chain cache equivalence claim",
+    "correctness": {
+      "rtol": 0.02,
+      "atol": 0.02
+    },
+    "environment": {
+      "torch": "2.9.0+das.opt1.dtk2604.2605140906.gcbed15",
+      "torch_module_version": "2.9.0",
+      "hip": "6.3.26113",
+      "cuda": null,
+      "triton": "3.5.1+das.opt1.dtk2604.torch290.2605141628.ge5e8df",
+      "triton_module_version": "3.5.1",
+      "driver_version": "60326113",
+      "device_model": "BW",
+      "device_architecture": "gfx936:sramecc+:xnack-"
+    }
+  },
+  "fused_outputs": {
+    "sum": "aliases consumed x; published at original Add node",
+    "normalized": "fresh output; published at original Norm node"
+  },
+  "native_outputs": "out-of-place Add then F.rms_norm; both outputs preserved",
+  "enforcement": "existing Adapter rejects incompatible shape/dtype/stride/device/grad/live aliases before dispatch; no implicit copy",
+  "scope": "isolated Graph Kernel costs, not full-model timing or a claim about current model tensors"
+}

@@ -86,3 +86,10 @@
 `qwen25_add_rmsnorm_graph_v1`：3B直接模式37处审计（36静态兼容但信息不足、1个final_norm不支持）；逐设备成本与显式条件规划MCTS接线，实际Profile复用0。三模式各64评分，独立小切片Exact/MCTS一致；无GPU或真实加速结论。见[3B图级接线](../cost_model/QWEN25_ADD_RMSNORM_GRAPH.md)。
 
 - 2026-11-07：Native Add→RMSNorm 单条对照入口，GPU0第0层固定Graph7×50；KERV不重测。CPU plan：data/native_add_rmsnorm_timing_plan_v1/plan.json；仅审计：data/qwen25_add_rmsnorm_reuse_check_v1/capability_cost_audit.json；说明cost_model/NATIVE_ADD_RMSNORM_COMPARISON.md。Native GPU读数待回传，准入新增0，36处模型运行时证据仍不足。
+- 2026-11-07 Native AddRMS回传：data/native_add_rmsnorm_timing_01，accepted完整链10.217599869us，KERV旧5.353559852us，减少47.604526%；review/summary.json、profile.json、cost_query.json及strict_reuse_audit。7×50/12源码SHA/Key/契约通过，无重测/新搜索。模型实际布局/别名/执行契约仍缺，图复用0；benchmark对照闭合，非36层或整图性能结论。
+- 2026-11-07：data/qwen25_static_joint_v1，0.6B式静态执行声明的3B严格联合搜索。36处GPU0复用Native/KERV成本，GPU1缺成本对保持Native；一次joint/seed0，64请求32实评32拒绝，36融合全GPU0，预测25.239290006ms（Native参考25.414395447ms）。joint_placed.json及joint_fused_placed.json往返与重评分一致。未新增测量/完整模型执行，详见cost_model/QWEN25_STATIC_SEARCH.md。
+- 2026-11-07 同构硬件复用：data/qwen25_hardware_class_joint_v1；GPU0/GPU1指纹及栈相同，72个可查成本对（36同卡、36迁移），原测量仍2条。joint64实评/0设备拒绝，GPU1候选查询378次，最终36融合全GPU0、预测25.239290006ms，导出一致；未测GPU1 AddRMS或新增测量。说明cost_model/PROFILE_HARDWARE_CLASS.md。
+- 2026-11-07 3B放置/编号审计：data/qwen25_placement_audit_v1。A/B/C预测25.239290006/25.308636502/25.255440040ms，B无计算重叠并多60.646081us通信。评分器重标号不变，但一次交换搜索仍逻辑0，错过已知参考16.150034us，确认有限预算编号偏好。无GPU或算法修复；说明cost_model/QWEN25_PLACEMENT_AUDIT.md。
+## 2026-11-07：显存审计
+
+`qwen25_memory_audit_v1/`：687节点/866边字节校验、三个固定放置的现有前向峰值、逐张量逻辑生命周期及17项CPU测试回执。三方案低于配置总容量，训练及实际空闲预算可行性未知；18/18跨卡共享embedding/head权重遗漏。没有新GPU、MCTS或生产算法改动。说明：[QWEN25_MEMORY_AUDIT.md](../cost_model/QWEN25_MEMORY_AUDIT.md)。

@@ -1,0 +1,928 @@
+{
+  "scope": "one strict joint MCTS, declared target contract and existing measured local costs",
+  "model": "Qwen2.5-3B",
+  "nodes": 687,
+  "edges": 866,
+  "graph_fingerprint": "sha256:e8e90ec0105365c35e17698b3742ff263a5ea2f3a67d48190dee553590b251fc",
+  "qualification_basis": "0.6B-style explicit static execution declaration; not model runtime observation",
+  "audit_summary": {
+    "scope": "direct two-node Add-to-RMSNorm pattern; no bypass of logical input nodes",
+    "graph_fingerprint": "sha256:e8e90ec0105365c35e17698b3742ff263a5ea2f3a67d48190dee553590b251fc",
+    "nodes": 687,
+    "edges": 866,
+    "direct_positions": 37,
+    "static_adapter_matches": 36,
+    "capability_counts": {
+      "fusible": 36,
+      "not_fusible": 1,
+      "insufficient_info": 0
+    },
+    "exact_equivalent_profile_uses": 0,
+    "available_benchmark_profiles": 2,
+    "matching_measured_native_chains": 36,
+    "reliable_measured_pairs": 36,
+    "native_query_sources": {
+      "analytic_graph_proxy": 148
+    },
+    "fused_query_sources": {
+      "measured_static_contract_equivalent": 36,
+      "unavailable": 38
+    },
+    "profile_cross_layer_copy_performed": false,
+    "static_contract_profile_uses": 36,
+    "model_runtime_observed": false
+  },
+  "references": {
+    "native_gpu0": {
+      "predicted_ms": 25.41439544663232,
+      "fused_groups": 0,
+      "fused_nodes": [],
+      "nodes_per_device": {
+        "0": 687
+      },
+      "sources": {
+        "analytic_graph_proxy": 579,
+        "logical_input": 36,
+        "measured_native_chain_static_contract": 36
+      },
+      "feasible": true
+    },
+    "fused_gpu0": {
+      "predicted_ms": 25.239290006015715,
+      "fused_groups": 36,
+      "fused_nodes": [
+        [
+          "L000.residual_add_1",
+          "L000.pre_mlp_norm"
+        ],
+        [
+          "L001.residual_add_1",
+          "L001.pre_mlp_norm"
+        ],
+        [
+          "L002.residual_add_1",
+          "L002.pre_mlp_norm"
+        ],
+        [
+          "L003.residual_add_1",
+          "L003.pre_mlp_norm"
+        ],
+        [
+          "L004.residual_add_1",
+          "L004.pre_mlp_norm"
+        ],
+        [
+          "L005.residual_add_1",
+          "L005.pre_mlp_norm"
+        ],
+        [
+          "L006.residual_add_1",
+          "L006.pre_mlp_norm"
+        ],
+        [
+          "L007.residual_add_1",
+          "L007.pre_mlp_norm"
+        ],
+        [
+          "L008.residual_add_1",
+          "L008.pre_mlp_norm"
+        ],
+        [
+          "L009.residual_add_1",
+          "L009.pre_mlp_norm"
+        ],
+        [
+          "L010.residual_add_1",
+          "L010.pre_mlp_norm"
+        ],
+        [
+          "L011.residual_add_1",
+          "L011.pre_mlp_norm"
+        ],
+        [
+          "L012.residual_add_1",
+          "L012.pre_mlp_norm"
+        ],
+        [
+          "L013.residual_add_1",
+          "L013.pre_mlp_norm"
+        ],
+        [
+          "L014.residual_add_1",
+          "L014.pre_mlp_norm"
+        ],
+        [
+          "L015.residual_add_1",
+          "L015.pre_mlp_norm"
+        ],
+        [
+          "L016.residual_add_1",
+          "L016.pre_mlp_norm"
+        ],
+        [
+          "L017.residual_add_1",
+          "L017.pre_mlp_norm"
+        ],
+        [
+          "L018.residual_add_1",
+          "L018.pre_mlp_norm"
+        ],
+        [
+          "L019.residual_add_1",
+          "L019.pre_mlp_norm"
+        ],
+        [
+          "L020.residual_add_1",
+          "L020.pre_mlp_norm"
+        ],
+        [
+          "L021.residual_add_1",
+          "L021.pre_mlp_norm"
+        ],
+        [
+          "L022.residual_add_1",
+          "L022.pre_mlp_norm"
+        ],
+        [
+          "L023.residual_add_1",
+          "L023.pre_mlp_norm"
+        ],
+        [
+          "L024.residual_add_1",
+          "L024.pre_mlp_norm"
+        ],
+        [
+          "L025.residual_add_1",
+          "L025.pre_mlp_norm"
+        ],
+        [
+          "L026.residual_add_1",
+          "L026.pre_mlp_norm"
+        ],
+        [
+          "L027.residual_add_1",
+          "L027.pre_mlp_norm"
+        ],
+        [
+          "L028.residual_add_1",
+          "L028.pre_mlp_norm"
+        ],
+        [
+          "L029.residual_add_1",
+          "L029.pre_mlp_norm"
+        ],
+        [
+          "L030.residual_add_1",
+          "L030.pre_mlp_norm"
+        ],
+        [
+          "L031.residual_add_1",
+          "L031.pre_mlp_norm"
+        ],
+        [
+          "L032.residual_add_1",
+          "L032.pre_mlp_norm"
+        ],
+        [
+          "L033.residual_add_1",
+          "L033.pre_mlp_norm"
+        ],
+        [
+          "L034.residual_add_1",
+          "L034.pre_mlp_norm"
+        ],
+        [
+          "L035.residual_add_1",
+          "L035.pre_mlp_norm"
+        ]
+      ],
+      "nodes_per_device": {
+        "0": 687
+      },
+      "sources": {
+        "analytic_graph_proxy": 579,
+        "logical_input": 36,
+        "measured_static_contract_equivalent": 36
+      },
+      "feasible": true
+    }
+  },
+  "run": {
+    "mode": "joint",
+    "seed": 0,
+    "evaluation_budget": 64,
+    "scorer_requests": 64,
+    "unique_requested_plans": 50,
+    "cost_model_evaluations": 32,
+    "rejected_capability_or_residency_requests": 32,
+    "search_returned_normally": true,
+    "first_score_ms": 25.239290006015715,
+    "initial_best_ms": 25.239290006015715,
+    "initial_evaluations": 4,
+    "final_best_ms": 25.239290006015715,
+    "first_final_best_evaluation": 1,
+    "improvement_after_initial_percent": 0.0,
+    "predicted_ms": 25.239290006015715,
+    "fused_groups": 36,
+    "fused_nodes": [
+      [
+        "L000.residual_add_1",
+        "L000.pre_mlp_norm"
+      ],
+      [
+        "L001.residual_add_1",
+        "L001.pre_mlp_norm"
+      ],
+      [
+        "L002.residual_add_1",
+        "L002.pre_mlp_norm"
+      ],
+      [
+        "L003.residual_add_1",
+        "L003.pre_mlp_norm"
+      ],
+      [
+        "L004.residual_add_1",
+        "L004.pre_mlp_norm"
+      ],
+      [
+        "L005.residual_add_1",
+        "L005.pre_mlp_norm"
+      ],
+      [
+        "L006.residual_add_1",
+        "L006.pre_mlp_norm"
+      ],
+      [
+        "L007.residual_add_1",
+        "L007.pre_mlp_norm"
+      ],
+      [
+        "L008.residual_add_1",
+        "L008.pre_mlp_norm"
+      ],
+      [
+        "L009.residual_add_1",
+        "L009.pre_mlp_norm"
+      ],
+      [
+        "L010.residual_add_1",
+        "L010.pre_mlp_norm"
+      ],
+      [
+        "L011.residual_add_1",
+        "L011.pre_mlp_norm"
+      ],
+      [
+        "L012.residual_add_1",
+        "L012.pre_mlp_norm"
+      ],
+      [
+        "L013.residual_add_1",
+        "L013.pre_mlp_norm"
+      ],
+      [
+        "L014.residual_add_1",
+        "L014.pre_mlp_norm"
+      ],
+      [
+        "L015.residual_add_1",
+        "L015.pre_mlp_norm"
+      ],
+      [
+        "L016.residual_add_1",
+        "L016.pre_mlp_norm"
+      ],
+      [
+        "L017.residual_add_1",
+        "L017.pre_mlp_norm"
+      ],
+      [
+        "L018.residual_add_1",
+        "L018.pre_mlp_norm"
+      ],
+      [
+        "L019.residual_add_1",
+        "L019.pre_mlp_norm"
+      ],
+      [
+        "L020.residual_add_1",
+        "L020.pre_mlp_norm"
+      ],
+      [
+        "L021.residual_add_1",
+        "L021.pre_mlp_norm"
+      ],
+      [
+        "L022.residual_add_1",
+        "L022.pre_mlp_norm"
+      ],
+      [
+        "L023.residual_add_1",
+        "L023.pre_mlp_norm"
+      ],
+      [
+        "L024.residual_add_1",
+        "L024.pre_mlp_norm"
+      ],
+      [
+        "L025.residual_add_1",
+        "L025.pre_mlp_norm"
+      ],
+      [
+        "L026.residual_add_1",
+        "L026.pre_mlp_norm"
+      ],
+      [
+        "L027.residual_add_1",
+        "L027.pre_mlp_norm"
+      ],
+      [
+        "L028.residual_add_1",
+        "L028.pre_mlp_norm"
+      ],
+      [
+        "L029.residual_add_1",
+        "L029.pre_mlp_norm"
+      ],
+      [
+        "L030.residual_add_1",
+        "L030.pre_mlp_norm"
+      ],
+      [
+        "L031.residual_add_1",
+        "L031.pre_mlp_norm"
+      ],
+      [
+        "L032.residual_add_1",
+        "L032.pre_mlp_norm"
+      ],
+      [
+        "L033.residual_add_1",
+        "L033.pre_mlp_norm"
+      ],
+      [
+        "L034.residual_add_1",
+        "L034.pre_mlp_norm"
+      ],
+      [
+        "L035.residual_add_1",
+        "L035.pre_mlp_norm"
+      ]
+    ],
+    "nodes_per_device": {
+      "0": 687
+    },
+    "sources": {
+      "analytic_graph_proxy": 579,
+      "logical_input": 36,
+      "measured_static_contract_equivalent": 36
+    },
+    "feasible": true
+  },
+  "selected_fusion_queries": [
+    {
+      "nodes": [
+        "L000.residual_add_1",
+        "L000.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L001.residual_add_1",
+        "L001.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L002.residual_add_1",
+        "L002.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L003.residual_add_1",
+        "L003.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L004.residual_add_1",
+        "L004.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L005.residual_add_1",
+        "L005.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L006.residual_add_1",
+        "L006.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L007.residual_add_1",
+        "L007.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L008.residual_add_1",
+        "L008.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L009.residual_add_1",
+        "L009.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L010.residual_add_1",
+        "L010.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L011.residual_add_1",
+        "L011.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L012.residual_add_1",
+        "L012.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L013.residual_add_1",
+        "L013.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L014.residual_add_1",
+        "L014.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L015.residual_add_1",
+        "L015.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L016.residual_add_1",
+        "L016.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L017.residual_add_1",
+        "L017.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L018.residual_add_1",
+        "L018.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L019.residual_add_1",
+        "L019.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L020.residual_add_1",
+        "L020.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L021.residual_add_1",
+        "L021.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L022.residual_add_1",
+        "L022.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L023.residual_add_1",
+        "L023.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L024.residual_add_1",
+        "L024.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L025.residual_add_1",
+        "L025.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L026.residual_add_1",
+        "L026.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L027.residual_add_1",
+        "L027.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L028.residual_add_1",
+        "L028.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L029.residual_add_1",
+        "L029.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L030.residual_add_1",
+        "L030.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L031.residual_add_1",
+        "L031.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L032.residual_add_1",
+        "L032.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L033.residual_add_1",
+        "L033.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L034.residual_add_1",
+        "L034.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    },
+    {
+      "nodes": [
+        "L035.residual_add_1",
+        "L035.pre_mlp_norm"
+      ],
+      "device": 0,
+      "kernel_key_id": "sha256:ba24293fc421cecbe023369b1cce121cced2c38e003951206a29849e3c3903b8",
+      "measured_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+      "native_measured_key_id": "sha256:3d9d45d7be62268f14fb37847f37631a57424879376c797981322ad4e0ef9340",
+      "measurement_contract_id": "sha256:2117255df84d78e41e087e8ffb171e005b995b415893e0f4f60ee7baec9ec463",
+      "condition_id": "sha256:a0248672240c678f8b71093371038090ae673b02815027aa84fe2e7250e681bd",
+      "cost_source": "measured_static_contract_equivalent",
+      "duration_us": 5.353559851646423
+    }
+  ],
+  "cost_sources": {
+    "analytic_graph_proxy": 579,
+    "logical_input": 36,
+    "measured_static_contract_equivalent": 36
+  },
+  "consistency": {
+    "graph_unchanged": true,
+    "export_roundtrip": true,
+    "rescored_makespan_matches": true,
+    "every_selected_fusion_has_measured_pair": true,
+    "group_dag_validated": true,
+    "profile_records_copied_or_readmitted": false
+  },
+  "execution_contract_id": "sha256:5c65787817487636d2a30181e867636446601605b1fc4c90329bcfb199861215",
+  "export_summary": {
+    "nodes": 687,
+    "groups": 651,
+    "fused_groups": 36,
+    "cross_device_dependencies": 0,
+    "groups_per_device": {
+      "0": 651,
+      "1": 0
+    }
+  },
+  "new_gpu_work": false,
+  "new_measurements": 0,
+  "new_profiles_admitted": 0,
+  "whole_model_executed": false,
+  "model_layouts_observed": false,
+  "mcts_runs": 1,
+  "search_algorithm_changed": false,
+  "full_plan_measured": false,
+  "independent_regret": null,
+  "input_sha256": {
+    "data\\kerv_add_rmsnorm_timing_01\\review\\profile.json": "f3d8411ba8ad579aa2df2dde6c528cb32fbd9bb661a043857a54e5faec5f5b34",
+    "data\\native_add_rmsnorm_timing_01\\review\\profile.json": "8fdf0d311c14ba7f092d2b0edb5eeb5147797a65a1b4ec347e1c22b73880a84e",
+    "cost_model\\qwen25_static_contract.py": "aaf0dcd2e5c921afdc0301701a3784c2beb091f4a9fd8ce4b8131eeb11559712",
+    "tools\\run_qwen25_static_search.py": "a9f0a7b5624ae2b88836db8cb71b8e67c9ba335a3d80315bc8b020a84a1642a1"
+  }
+}

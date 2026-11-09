@@ -193,3 +193,22 @@ kerv_add_rmsnorm_timing_01归档13原文件，八个collector源码SHA匹配9517
 - --audit-only可只检查复用而不新增搜索实验。现有687节点图仍37条直接连接：36处静态匹配、运行时证据不足；其余35处未复制第0层观察值，final_norm仍不支持当前映射。
 - 相关51项CPU测试通过（包含Native快/慢两种选择、审核与防篡改、整链不拆分和跨卡拒绝）；CPU plan与严格复用审计已保存，无新GPU数据、准入或完整搜索结果。
 - 操作见 cost_model/NATIVE_ADD_RMSNORM_COMPARISON.md；仅等待一次 native_add_rmsnorm_timing_01 回传。
+### 2026-11-07：Native AddRMS回传准入与成本查询完成
+
+native_add_rmsnorm_timing_01.tar.gz：8441字节，SHA256 3b147a973ed0afdc463aa38f4dd83878f67b1cf7d0ccbe35086e3811638da658；13原文件逐字节保存在data/native_add_rmsnorm_timing_01，receipt.json记录归档。既有review复算7×50和双参考/只读/恢复回执、同stream边界、Canonical Key/Contract及12个采集源码SHA（ff343bd），通过并新增1条Native完整链accepted；没有单算子标签。median10.217599869us、min10.179159641/max10.575959682、IQR/median1.424699%。对保留KERV5.353559852us，少4.864040017us（47.604526%），preferred=KERV；不同批次但公共Graph契约/runtime/构建/设备类匹配，UUID改变不影响。review/cost_query.json经现有KeyedKernelProfile严格查询同值，memory/launch追加0，GPU1拒绝。只做CPU归档/复核/查询/审计，无GPU重测或新搜索；benchmark上成本对已闭合，原3B模型36处缺真实布局/别名/执行契约，严格图复用仍0、final_norm在v1外，未冒充model_runtime。详见NATIVE_ADD_RMSNORM_COMPARISON.md回传节。该Case测量结束，后续补执行契约证据；README/SROP/transfer未纳入。
+### 2026-11-07：按0.6B静态执行声明闭合3B联合搜索
+
+用户明确完整模型执行不属Fusion职责，取消model_runtime作为静态搜索的全局前置条件；不新增GPU测量。新增qwen25_static_contract.py，复用LayerInvariantMeasuredProfile的明确执行声明思路，原图Shape/dtype/同层/角色/消费者/权重/双输出检查，目标连续布局和独立分配由现有Adapter运行时guard约束，不写成已观测。完整条件只排除layout_provenance，其余Key/runtime/硬件/实现/契约均匹配。GPU0层内36处可用Native/KERV已有实测对；GPU1缺成本对保守Native，final_norm在v1外。tools/run_qwen25_static_search.py只跑一次joint seed0：64请求、32实际评分、32因设备成本对不符拒绝，50不同请求方案。最终36融合全GPU0，预测25.239290006ms；Native全GPU0参考25.414395447ms。初次评分即最终最佳，后续改进0，无联合优势或整图真机性能结论。最终成本579解析/36逻辑输入/36融合实测条件复用。data/qwen25_static_joint_v1含逐项审计、执行声明、32有效评分轨迹、原节点图及651组下游图；原fingerprint不变、双输出完整、每组实现/Key/Contract一致、导出往返重评分相同。46项相关CPU测试通过，Native fallback组的连续执行与导出依赖也验证。原微基准数据/准入和MCTS核心不改；model_runtime旧路径保留，但不再阻断静态搜索。说明QWEN25_STATIC_SEARCH.md；README/SROP/transfer未纳入。
+### 2026-11-07：按同构硬件类别开放GPU1 Native/KERV成本迁移
+
+新增profile_hardware_class.py，从已有GPU1回传runtime/fused_runtime及review SHA核对两卡BW1000/BW、gfx936:sramecc+:xnack-、68702699520字节和Torch/HIP/驱动/构建/Triton一致，硬件类别Key均80afda64fe08dae7d6cf0b5280a8d33bf62eb0262f1c5cf8826cd540ca7c4247。qwen25_static_contract.py查询排除硬件物理编号/UUID，保留硬件类别/架构特性/软件构建/完整Kernel条件和契约，原accepted测量Key不改；每次复用保存measured_on/reuse_on/reuse_kind。GPU0原值Native10.217599869us、KERV5.353559852us迁移给GPU1，source标transferred、target_device_independently_measured=false，原始GPU1独立测量新增0。通信方向/链路/其他解析参数不改。单次joint seed0重跑64实际评分/64请求，设备成本拒绝32→0，GPU1融合候选成本查询378次；最终36融合全部GPU0、预测25.239290006ms，与前次相同；第1次最佳、后续改善0，不据此声称两卡精度一致或联合收益。58项CPU测试通过，cost_pairs可查询72=36同卡+36迁移，原始测量仍2条。data/qwen25_hardware_class_joint_v1含硬件指纹审计、逐组成本/来源、执行声明、轨迹/report及两种图导出；往返、身份/双输出/重评分一致，无新GPU/准入/完整模型执行，未改变MCTS核心。说明PROFILE_HARDWARE_CLASS.md；旧GPU0专项档案不改，README/SROP/transfer未纳入。
+### 2026-11-07：3B三放置方案与编号交换CPU审计
+
+tools/audit_qwen25_placement.py固定36融合，对整图A全0/B前18层0后18层1/C全1，预测25.239290006/25.308636502/25.255440040ms。B算子加和25.247990421ms、通信0.060646081ms、计算重叠0；唯一1MiB边L017.residual_add_2→L018.input。两卡busy11.769466/13.478524ms但依赖串行，当前是单图单微批latency，不是流水线吞吐。GPU0其他解析参数算力/带宽分别高0.068089%/0.047778%，融合共享不等于全成本完全对称。完整置换算力/带宽/容量/链路/准入/成本与来源，3个同物理方案的重编号评分误差均0。只新增一次交换joint seed0/64实评，仍全逻辑0（原GPU1），25.255440040ms，错过已知全逻辑1（原GPU0）16.150034us，参考gap0.063988%，非全空间regret。确认评分器编号等变，但有限预算搜索有逻辑0偏好；legal_search.py:120/271/304/498的设备顺序/补全/等prior首child路径支持归因。18相关CPU测试通过，data/qwen25_placement_audit_v1含report/findings/trace/plan；无新GPU/测量/算法修复/新融合。下一项建议同预算保留两卡完整融合/原生基线后复查编号，不继续扩大测量。说明QWEN25_PLACEMENT_AUDIT.md；README/SROP/transfer未纳入。
+## 2026-11-07：3B显存CPU审计，初始化暂缓
+
+687节点/866边Shape-dtype字节校验完整且差异0，全部forward。A/B/C现有峰值分别5.821262/0、3.180435/2.657551、0/5.821262GiB，低于每卡配置63.984375GiB；实际可用预算和训练可行性未知。现有搜索已有capacity惩罚及最终可行性过滤，不能再说只评分时间；但默认capacity是整卡总量。前述“满足显存约束”仅限该估算和配置预算，不是完整训练或运行时可行证明。
+
+静态参数6,171,693,056字节；saved_activation/bwd_flops未进入训练时间线，workspace未声明，别名未去重，输出/接收缓冲从完成时刻才计。18/18方案lm_head与embedding跨卡，共享622,329,856字节权重的驻留未处理；不擅自添加复制策略或训练状态。36组融合均无独占内部输出被现有算法删除；全Native和全KERV的GPU0估算峰值相同不证明物理显存相同。
+
+入口tools/audit_qwen25_memory.py；结果data/qwen25_memory_audit_v1（report、tensor_lifetimes、verification）；说明QWEN25_MEMORY_AUDIT.md。三个方案重评分/峰值与旧审计一致，17项已有CPU测试通过，无MCTS/GPU/生产代码修改。四基线初始化暂停，先确定估算范围、显式可用预算及共享存储/缓冲策略。

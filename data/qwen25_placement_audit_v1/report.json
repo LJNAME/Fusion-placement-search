@@ -1,0 +1,565 @@
+{
+  "scope": "three fixed placements and one swapped-label MCTS; CPU model audit only",
+  "graph_fingerprint": "sha256:e8e90ec0105365c35e17698b3742ff263a5ea2f3a67d48190dee553590b251fc",
+  "fusion_partition": "same 36 KERV AddRMS pairs in A/B/C",
+  "boundaries": "A/C include embedding/final norm/head on the same card; B embedding on 0 and final norm/head on 1",
+  "plans": {
+    "A_all_gpu0": {
+      "predicted_ms": 25.239290006015715,
+      "operator_work_sum_ms": 25.239290006015715,
+      "communication_work_sum_ms": 0.0,
+      "cross_device_bytes": 0.0,
+      "cross_device_edges": [],
+      "per_device": {
+        "0": {
+          "operator_busy_ms": 25.239290006015715,
+          "first_compute_ms": 0.0,
+          "last_compute_ms": 25.239290006015715,
+          "busy_over_makespan": 1.0,
+          "peak_memory_bytes": 6250532864.0
+        },
+        "1": {
+          "operator_busy_ms": 0.0,
+          "first_compute_ms": 0.0,
+          "last_compute_ms": 0.0,
+          "busy_over_makespan": 0.0,
+          "peak_memory_bytes": 0.0
+        }
+      },
+      "union_compute_busy_ms": 25.239290006015715,
+      "multi_device_compute_overlap_ms": 0.0,
+      "peak_simultaneous_compute_devices": 1,
+      "nodes_per_device": {
+        "0": 687
+      },
+      "fusions_per_device": {
+        "0": 36
+      },
+      "cost_sources": {
+        "analytic_graph_proxy": 579,
+        "logical_input": 36,
+        "measured_static_contract_equivalent": 36
+      },
+      "memory_feasible": true
+    },
+    "B_layers_0_17_gpu0_18_35_gpu1": {
+      "predicted_ms": 25.308636502191405,
+      "operator_work_sum_ms": 25.24799042114136,
+      "communication_work_sum_ms": 0.06064608105004457,
+      "cross_device_bytes": 1048576.0,
+      "cross_device_edges": [
+        {
+          "producer": "L017.residual_add_2",
+          "consumer": "L018.input",
+          "source_device": 0,
+          "destination_device": 1,
+          "bytes": 1048576.0
+        }
+      ],
+      "per_device": {
+        "0": {
+          "operator_busy_ms": 11.769466098953506,
+          "first_compute_ms": 0.0,
+          "last_compute_ms": 11.769466098953506,
+          "busy_over_makespan": 0.4650375415496769,
+          "peak_memory_bytes": 3414966272.0
+        },
+        "1": {
+          "operator_busy_ms": 13.478524322187841,
+          "first_compute_ms": 11.830112180003551,
+          "last_compute_ms": 25.308636502191405,
+          "busy_over_makespan": 0.5325661981442885,
+          "peak_memory_bytes": 2853523456.0
+        }
+      },
+      "union_compute_busy_ms": 25.247990421141363,
+      "multi_device_compute_overlap_ms": 0.0,
+      "peak_simultaneous_compute_devices": 1,
+      "nodes_per_device": {
+        "0": 343,
+        "1": 344
+      },
+      "fusions_per_device": {
+        "0": 18,
+        "1": 18
+      },
+      "cost_sources": {
+        "analytic_graph_proxy": 579,
+        "logical_input": 36,
+        "measured_static_contract_equivalent": 18,
+        "transferred_hardware_class": 18
+      },
+      "memory_feasible": true
+    },
+    "C_all_gpu1": {
+      "predicted_ms": 25.255440039915904,
+      "operator_work_sum_ms": 25.255440039915904,
+      "communication_work_sum_ms": 0.0,
+      "cross_device_bytes": 0.0,
+      "cross_device_edges": [],
+      "per_device": {
+        "0": {
+          "operator_busy_ms": 0.0,
+          "first_compute_ms": 0.0,
+          "last_compute_ms": 0.0,
+          "busy_over_makespan": 0.0,
+          "peak_memory_bytes": 0.0
+        },
+        "1": {
+          "operator_busy_ms": 25.255440039915904,
+          "first_compute_ms": 0.0,
+          "last_compute_ms": 25.255440039915904,
+          "busy_over_makespan": 1.0,
+          "peak_memory_bytes": 6250532864.0
+        }
+      },
+      "union_compute_busy_ms": 25.255440039915904,
+      "multi_device_compute_overlap_ms": 0.0,
+      "peak_simultaneous_compute_devices": 1,
+      "nodes_per_device": {
+        "1": 687
+      },
+      "fusions_per_device": {
+        "1": 36
+      },
+      "cost_sources": {
+        "analytic_graph_proxy": 579,
+        "logical_input": 36,
+        "transferred_hardware_class": 36
+      },
+      "memory_feasible": true
+    }
+  },
+  "logical_swap_invariance": {
+    "A_all_gpu0": {
+      "same_physical_plan_score_ms": 25.239290006015715,
+      "absolute_error_ms": 0.0
+    },
+    "B_layers_0_17_gpu0_18_35_gpu1": {
+      "same_physical_plan_score_ms": 25.308636502191405,
+      "absolute_error_ms": 0.0
+    },
+    "C_all_gpu1": {
+      "same_physical_plan_score_ms": 25.255440039915904,
+      "absolute_error_ms": 0.0
+    }
+  },
+  "swapped_search": {
+    "mode": "joint",
+    "seed": 0,
+    "evaluation_budget": 64,
+    "scorer_requests": 64,
+    "unique_requested_plans": 50,
+    "cost_model_evaluations": 64,
+    "rejected_capability_or_residency_requests": 0,
+    "search_returned_normally": true,
+    "first_score_ms": 25.255440039915904,
+    "initial_best_ms": 25.255440039915904,
+    "initial_evaluations": 4,
+    "final_best_ms": 25.255440039915904,
+    "first_final_best_evaluation": 1,
+    "improvement_after_initial_percent": 0.0,
+    "predicted_ms": 25.255440039915904,
+    "fused_groups": 36,
+    "fused_nodes": [
+      [
+        "L000.residual_add_1",
+        "L000.pre_mlp_norm"
+      ],
+      [
+        "L001.residual_add_1",
+        "L001.pre_mlp_norm"
+      ],
+      [
+        "L002.residual_add_1",
+        "L002.pre_mlp_norm"
+      ],
+      [
+        "L003.residual_add_1",
+        "L003.pre_mlp_norm"
+      ],
+      [
+        "L004.residual_add_1",
+        "L004.pre_mlp_norm"
+      ],
+      [
+        "L005.residual_add_1",
+        "L005.pre_mlp_norm"
+      ],
+      [
+        "L006.residual_add_1",
+        "L006.pre_mlp_norm"
+      ],
+      [
+        "L007.residual_add_1",
+        "L007.pre_mlp_norm"
+      ],
+      [
+        "L008.residual_add_1",
+        "L008.pre_mlp_norm"
+      ],
+      [
+        "L009.residual_add_1",
+        "L009.pre_mlp_norm"
+      ],
+      [
+        "L010.residual_add_1",
+        "L010.pre_mlp_norm"
+      ],
+      [
+        "L011.residual_add_1",
+        "L011.pre_mlp_norm"
+      ],
+      [
+        "L012.residual_add_1",
+        "L012.pre_mlp_norm"
+      ],
+      [
+        "L013.residual_add_1",
+        "L013.pre_mlp_norm"
+      ],
+      [
+        "L014.residual_add_1",
+        "L014.pre_mlp_norm"
+      ],
+      [
+        "L015.residual_add_1",
+        "L015.pre_mlp_norm"
+      ],
+      [
+        "L016.residual_add_1",
+        "L016.pre_mlp_norm"
+      ],
+      [
+        "L017.residual_add_1",
+        "L017.pre_mlp_norm"
+      ],
+      [
+        "L018.residual_add_1",
+        "L018.pre_mlp_norm"
+      ],
+      [
+        "L019.residual_add_1",
+        "L019.pre_mlp_norm"
+      ],
+      [
+        "L020.residual_add_1",
+        "L020.pre_mlp_norm"
+      ],
+      [
+        "L021.residual_add_1",
+        "L021.pre_mlp_norm"
+      ],
+      [
+        "L022.residual_add_1",
+        "L022.pre_mlp_norm"
+      ],
+      [
+        "L023.residual_add_1",
+        "L023.pre_mlp_norm"
+      ],
+      [
+        "L024.residual_add_1",
+        "L024.pre_mlp_norm"
+      ],
+      [
+        "L025.residual_add_1",
+        "L025.pre_mlp_norm"
+      ],
+      [
+        "L026.residual_add_1",
+        "L026.pre_mlp_norm"
+      ],
+      [
+        "L027.residual_add_1",
+        "L027.pre_mlp_norm"
+      ],
+      [
+        "L028.residual_add_1",
+        "L028.pre_mlp_norm"
+      ],
+      [
+        "L029.residual_add_1",
+        "L029.pre_mlp_norm"
+      ],
+      [
+        "L030.residual_add_1",
+        "L030.pre_mlp_norm"
+      ],
+      [
+        "L031.residual_add_1",
+        "L031.pre_mlp_norm"
+      ],
+      [
+        "L032.residual_add_1",
+        "L032.pre_mlp_norm"
+      ],
+      [
+        "L033.residual_add_1",
+        "L033.pre_mlp_norm"
+      ],
+      [
+        "L034.residual_add_1",
+        "L034.pre_mlp_norm"
+      ],
+      [
+        "L035.residual_add_1",
+        "L035.pre_mlp_norm"
+      ]
+    ],
+    "nodes_per_device": {
+      "0": 687
+    },
+    "sources": {
+      "analytic_graph_proxy": 579,
+      "logical_input": 36,
+      "transferred_hardware_class": 36
+    },
+    "feasible": true,
+    "logical_to_original_device": [
+      1,
+      0
+    ]
+  },
+  "swapped_search_in_original_labels": {
+    "predicted_ms": 25.255440039915904,
+    "operator_work_sum_ms": 25.255440039915904,
+    "communication_work_sum_ms": 0.0,
+    "cross_device_bytes": 0.0,
+    "cross_device_edges": [],
+    "per_device": {
+      "0": {
+        "operator_busy_ms": 0.0,
+        "first_compute_ms": 0.0,
+        "last_compute_ms": 0.0,
+        "busy_over_makespan": 0.0,
+        "peak_memory_bytes": 0.0
+      },
+      "1": {
+        "operator_busy_ms": 25.255440039915904,
+        "first_compute_ms": 0.0,
+        "last_compute_ms": 25.255440039915904,
+        "busy_over_makespan": 1.0,
+        "peak_memory_bytes": 6250532864.0
+      }
+    },
+    "union_compute_busy_ms": 25.255440039915904,
+    "multi_device_compute_overlap_ms": 0.0,
+    "peak_simultaneous_compute_devices": 1,
+    "nodes_per_device": {
+      "1": 687
+    },
+    "fusions_per_device": {
+      "1": 36
+    },
+    "cost_sources": {
+      "analytic_graph_proxy": 579,
+      "logical_input": 36,
+      "transferred_hardware_class": 36
+    },
+    "memory_feasible": true
+  },
+  "original_search": {
+    "input_report_sha256": "6513858f0abda6f941d88cd5f8917faf63368d8316ea3be42f2b478a6593a6b0",
+    "run": {
+      "mode": "joint",
+      "seed": 0,
+      "evaluation_budget": 64,
+      "scorer_requests": 64,
+      "unique_requested_plans": 50,
+      "cost_model_evaluations": 64,
+      "rejected_capability_or_residency_requests": 0,
+      "search_returned_normally": true,
+      "first_score_ms": 25.239290006015715,
+      "initial_best_ms": 25.239290006015715,
+      "initial_evaluations": 4,
+      "final_best_ms": 25.239290006015715,
+      "first_final_best_evaluation": 1,
+      "improvement_after_initial_percent": 0.0,
+      "predicted_ms": 25.239290006015715,
+      "fused_groups": 36,
+      "fused_nodes": [
+        [
+          "L000.residual_add_1",
+          "L000.pre_mlp_norm"
+        ],
+        [
+          "L001.residual_add_1",
+          "L001.pre_mlp_norm"
+        ],
+        [
+          "L002.residual_add_1",
+          "L002.pre_mlp_norm"
+        ],
+        [
+          "L003.residual_add_1",
+          "L003.pre_mlp_norm"
+        ],
+        [
+          "L004.residual_add_1",
+          "L004.pre_mlp_norm"
+        ],
+        [
+          "L005.residual_add_1",
+          "L005.pre_mlp_norm"
+        ],
+        [
+          "L006.residual_add_1",
+          "L006.pre_mlp_norm"
+        ],
+        [
+          "L007.residual_add_1",
+          "L007.pre_mlp_norm"
+        ],
+        [
+          "L008.residual_add_1",
+          "L008.pre_mlp_norm"
+        ],
+        [
+          "L009.residual_add_1",
+          "L009.pre_mlp_norm"
+        ],
+        [
+          "L010.residual_add_1",
+          "L010.pre_mlp_norm"
+        ],
+        [
+          "L011.residual_add_1",
+          "L011.pre_mlp_norm"
+        ],
+        [
+          "L012.residual_add_1",
+          "L012.pre_mlp_norm"
+        ],
+        [
+          "L013.residual_add_1",
+          "L013.pre_mlp_norm"
+        ],
+        [
+          "L014.residual_add_1",
+          "L014.pre_mlp_norm"
+        ],
+        [
+          "L015.residual_add_1",
+          "L015.pre_mlp_norm"
+        ],
+        [
+          "L016.residual_add_1",
+          "L016.pre_mlp_norm"
+        ],
+        [
+          "L017.residual_add_1",
+          "L017.pre_mlp_norm"
+        ],
+        [
+          "L018.residual_add_1",
+          "L018.pre_mlp_norm"
+        ],
+        [
+          "L019.residual_add_1",
+          "L019.pre_mlp_norm"
+        ],
+        [
+          "L020.residual_add_1",
+          "L020.pre_mlp_norm"
+        ],
+        [
+          "L021.residual_add_1",
+          "L021.pre_mlp_norm"
+        ],
+        [
+          "L022.residual_add_1",
+          "L022.pre_mlp_norm"
+        ],
+        [
+          "L023.residual_add_1",
+          "L023.pre_mlp_norm"
+        ],
+        [
+          "L024.residual_add_1",
+          "L024.pre_mlp_norm"
+        ],
+        [
+          "L025.residual_add_1",
+          "L025.pre_mlp_norm"
+        ],
+        [
+          "L026.residual_add_1",
+          "L026.pre_mlp_norm"
+        ],
+        [
+          "L027.residual_add_1",
+          "L027.pre_mlp_norm"
+        ],
+        [
+          "L028.residual_add_1",
+          "L028.pre_mlp_norm"
+        ],
+        [
+          "L029.residual_add_1",
+          "L029.pre_mlp_norm"
+        ],
+        [
+          "L030.residual_add_1",
+          "L030.pre_mlp_norm"
+        ],
+        [
+          "L031.residual_add_1",
+          "L031.pre_mlp_norm"
+        ],
+        [
+          "L032.residual_add_1",
+          "L032.pre_mlp_norm"
+        ],
+        [
+          "L033.residual_add_1",
+          "L033.pre_mlp_norm"
+        ],
+        [
+          "L034.residual_add_1",
+          "L034.pre_mlp_norm"
+        ],
+        [
+          "L035.residual_add_1",
+          "L035.pre_mlp_norm"
+        ]
+      ],
+      "nodes_per_device": {
+        "0": 687
+      },
+      "sources": {
+        "analytic_graph_proxy": 579,
+        "logical_input": 36,
+        "measured_static_contract_equivalent": 36
+      },
+      "feasible": true
+    }
+  },
+  "original_plan_level_symmetry": {
+    "gpu0_flops": 94504138186548.42,
+    "gpu1_flops": 94439834912094.28,
+    "gpu0_mem_bw": 1341567274866.83,
+    "gpu1_mem_bw": 1340926601504.3394,
+    "gpu0_flops_advantage_fraction": 0.0006808914322435911,
+    "gpu0_mem_bw_advantage_fraction": 0.0004777840649681231,
+    "fused_costs_shared": true,
+    "all_operator_costs_identical": false,
+    "overlap_send": false,
+    "interference": 0.0,
+    "comm_latency_us": 54.74634617605735
+  },
+  "objective": "makespan of one graph/microbatch; no multi-microbatch pipeline throughput model",
+  "scheduler": "one compute resource per GPU; dependency-level ordering; independent branches may overlap",
+  "known_search_order": "guided completion starts with logical 0 then retains the last device; ties retain earlier insertion",
+  "new_mcts_runs": 1,
+  "new_gpu_work": false,
+  "new_measurements": 0,
+  "search_algorithm_changed": false,
+  "global_optimum_proven": false,
+  "input_sha256": {
+    "tools\\audit_qwen25_placement.py": "baa963ddd34414751886b45ac4d997f41443a7b1e4a9ac7ffe35b792e43716f8",
+    "cost_model\\legal_search.py": "4da934ee3ca268d056eb734b17ada87c9dd602ad969ab530f0606a65ca86c556",
+    "cost_model\\structural.py": "e22f0cf2539588954e419d221282356f52d4d8751e95b50b97ab041af94a6ada",
+    "data\\qwen25_hardware_class_joint_v1\\report.json": "6513858f0abda6f941d88cd5f8917faf63368d8316ea3be42f2b478a6593a6b0"
+  }
+}

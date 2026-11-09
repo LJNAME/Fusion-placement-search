@@ -1,0 +1,762 @@
+{
+  "scope": "one_native_add_rmsnorm_gpu0_layer0_graph_chain",
+  "adapter": {
+    "placed_sha256": "bf796c7375941449cf6764e59599f5e8357c52e013b2d64fc7de27dcc1b022be",
+    "group_index": 12,
+    "node_ids": [
+      "L000.residual_add_1",
+      "L000.pre_mlp_norm"
+    ],
+    "implementation": {
+      "id": "kerv.add_rmsnorm.adaptive.consume_x.dual_output.v1",
+      "version": "sha256:0ed1ba1f12ca4a7b6ca97eec8c5bdc62b024064420a1edac185bb3f02a64f022",
+      "entrypoint": "adaptive_rms_norm.add_rms_norm_inference",
+      "backend": "triton",
+      "kernel_source_sha256": "f9b3bafdd1a1c303627cf2dbe2561879155088f763c40c341cc997beed107f88",
+      "semantics": {
+        "shape": [
+          1,
+          256,
+          2048
+        ],
+        "dtype": "bf16",
+        "eps": 1e-06,
+        "eps_source": "explicit contract matching project Reference; not inferred from graph",
+        "input": "consume attention output; residual and weight read-only",
+        "outputs": "Add aliases consumed input; Norm is independently allocated",
+        "rounding": "BF16 add; FP32 reduction; BF16 normalized value before weight multiply",
+        "allocation": "vendor wrapper allocates normalized output",
+        "capture": "unverified",
+        "profile": "none"
+      }
+    },
+    "runtime_device": "cuda:0",
+    "gpu_mapping_previously_verified": false
+  },
+  "shape": [
+    1,
+    256,
+    2048
+  ],
+  "dtype": "bf16",
+  "pool": {
+    "pool_argument": null,
+    "selection": "default_private_pool",
+    "shared_with_other_graphs": false
+  },
+  "contract_template": {
+    "executor": "native_add_then_aten_rmsnorm_graph_replay",
+    "submission_included": false,
+    "allocation_included": false,
+    "mode": "graph_replay",
+    "granularity": "batch_amortized_complete_adapter_device_work",
+    "unit": "us/call",
+    "calls_per_replay": 50,
+    "rounds": 7,
+    "warmup_replays": 10,
+    "eager_preparation_calls": 50,
+    "statistic": "median",
+    "extra_attempts": 0,
+    "recipe": "out_of_place_add_dual_output_graph_private_pool.v1",
+    "timing_boundary": "start Event -> one Graph replay -> end Event on the same stream",
+    "synchronization": "restore, validation and device synchronization outside Events",
+    "input_reuse": "50 independent x buffers; shared read-only residual/weight/source",
+    "restore": "restore all x exactly and invalidate sum/normalized outputs before each replay; outside Events",
+    "allocation": "sum and normalized allocations captured in private Graph pool; no eager allocation cost",
+    "excluded": [
+      "input restoration",
+      "input generation",
+      "validation",
+      "host submission",
+      "allocation"
+    ],
+    "cache_context": "isolated fixed-case replay; no full-chain cache equivalence claim",
+    "correctness": {
+      "rtol": 0.02,
+      "atol": 0.02
+    }
+  },
+  "quality": {
+    "attempts": 7,
+    "extra_attempts": 0,
+    "sample_replacement": false,
+    "iqr_method": "inclusive",
+    "max_iqr_over_median": 0.1
+  },
+  "graph_fingerprint": "sha256:e8e90ec0105365c35e17698b3742ff263a5ea2f3a67d48190dee553590b251fc",
+  "graph_contract": {
+    "groups": [
+      {
+        "group": [
+          "L000.residual_add_1",
+          "L000.pre_mlp_norm"
+        ],
+        "x": "L000.self_attention.out_proj",
+        "residual": "L000.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L000.residual_add_2"
+        ],
+        "layouts": {
+          "L000.self_attention.out_proj": "unknown",
+          "L000.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L001.residual_add_1",
+          "L001.pre_mlp_norm"
+        ],
+        "x": "L001.self_attention.out_proj",
+        "residual": "L001.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L001.residual_add_2"
+        ],
+        "layouts": {
+          "L001.self_attention.out_proj": "unknown",
+          "L001.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L002.residual_add_1",
+          "L002.pre_mlp_norm"
+        ],
+        "x": "L002.self_attention.out_proj",
+        "residual": "L002.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L002.residual_add_2"
+        ],
+        "layouts": {
+          "L002.self_attention.out_proj": "unknown",
+          "L002.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L003.residual_add_1",
+          "L003.pre_mlp_norm"
+        ],
+        "x": "L003.self_attention.out_proj",
+        "residual": "L003.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L003.residual_add_2"
+        ],
+        "layouts": {
+          "L003.self_attention.out_proj": "unknown",
+          "L003.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L004.residual_add_1",
+          "L004.pre_mlp_norm"
+        ],
+        "x": "L004.self_attention.out_proj",
+        "residual": "L004.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L004.residual_add_2"
+        ],
+        "layouts": {
+          "L004.self_attention.out_proj": "unknown",
+          "L004.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L005.residual_add_1",
+          "L005.pre_mlp_norm"
+        ],
+        "x": "L005.self_attention.out_proj",
+        "residual": "L005.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L005.residual_add_2"
+        ],
+        "layouts": {
+          "L005.self_attention.out_proj": "unknown",
+          "L005.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L006.residual_add_1",
+          "L006.pre_mlp_norm"
+        ],
+        "x": "L006.self_attention.out_proj",
+        "residual": "L006.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L006.residual_add_2"
+        ],
+        "layouts": {
+          "L006.self_attention.out_proj": "unknown",
+          "L006.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L007.residual_add_1",
+          "L007.pre_mlp_norm"
+        ],
+        "x": "L007.self_attention.out_proj",
+        "residual": "L007.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L007.residual_add_2"
+        ],
+        "layouts": {
+          "L007.self_attention.out_proj": "unknown",
+          "L007.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L008.residual_add_1",
+          "L008.pre_mlp_norm"
+        ],
+        "x": "L008.self_attention.out_proj",
+        "residual": "L008.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L008.residual_add_2"
+        ],
+        "layouts": {
+          "L008.self_attention.out_proj": "unknown",
+          "L008.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L009.residual_add_1",
+          "L009.pre_mlp_norm"
+        ],
+        "x": "L009.self_attention.out_proj",
+        "residual": "L009.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L009.residual_add_2"
+        ],
+        "layouts": {
+          "L009.self_attention.out_proj": "unknown",
+          "L009.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L010.residual_add_1",
+          "L010.pre_mlp_norm"
+        ],
+        "x": "L010.self_attention.out_proj",
+        "residual": "L010.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L010.residual_add_2"
+        ],
+        "layouts": {
+          "L010.self_attention.out_proj": "unknown",
+          "L010.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L011.residual_add_1",
+          "L011.pre_mlp_norm"
+        ],
+        "x": "L011.self_attention.out_proj",
+        "residual": "L011.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L011.residual_add_2"
+        ],
+        "layouts": {
+          "L011.self_attention.out_proj": "unknown",
+          "L011.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L012.residual_add_1",
+          "L012.pre_mlp_norm"
+        ],
+        "x": "L012.self_attention.out_proj",
+        "residual": "L012.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L012.residual_add_2"
+        ],
+        "layouts": {
+          "L012.self_attention.out_proj": "unknown",
+          "L012.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L013.residual_add_1",
+          "L013.pre_mlp_norm"
+        ],
+        "x": "L013.self_attention.out_proj",
+        "residual": "L013.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L013.residual_add_2"
+        ],
+        "layouts": {
+          "L013.self_attention.out_proj": "unknown",
+          "L013.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L014.residual_add_1",
+          "L014.pre_mlp_norm"
+        ],
+        "x": "L014.self_attention.out_proj",
+        "residual": "L014.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L014.residual_add_2"
+        ],
+        "layouts": {
+          "L014.self_attention.out_proj": "unknown",
+          "L014.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L015.residual_add_1",
+          "L015.pre_mlp_norm"
+        ],
+        "x": "L015.self_attention.out_proj",
+        "residual": "L015.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L015.residual_add_2"
+        ],
+        "layouts": {
+          "L015.self_attention.out_proj": "unknown",
+          "L015.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L016.residual_add_1",
+          "L016.pre_mlp_norm"
+        ],
+        "x": "L016.self_attention.out_proj",
+        "residual": "L016.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L016.residual_add_2"
+        ],
+        "layouts": {
+          "L016.self_attention.out_proj": "unknown",
+          "L016.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L017.residual_add_1",
+          "L017.pre_mlp_norm"
+        ],
+        "x": "L017.self_attention.out_proj",
+        "residual": "L017.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L017.residual_add_2"
+        ],
+        "layouts": {
+          "L017.self_attention.out_proj": "unknown",
+          "L017.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L018.residual_add_1",
+          "L018.pre_mlp_norm"
+        ],
+        "x": "L018.self_attention.out_proj",
+        "residual": "L018.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L018.residual_add_2"
+        ],
+        "layouts": {
+          "L018.self_attention.out_proj": "unknown",
+          "L018.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L019.residual_add_1",
+          "L019.pre_mlp_norm"
+        ],
+        "x": "L019.self_attention.out_proj",
+        "residual": "L019.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L019.residual_add_2"
+        ],
+        "layouts": {
+          "L019.self_attention.out_proj": "unknown",
+          "L019.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L020.residual_add_1",
+          "L020.pre_mlp_norm"
+        ],
+        "x": "L020.self_attention.out_proj",
+        "residual": "L020.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L020.residual_add_2"
+        ],
+        "layouts": {
+          "L020.self_attention.out_proj": "unknown",
+          "L020.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L021.residual_add_1",
+          "L021.pre_mlp_norm"
+        ],
+        "x": "L021.self_attention.out_proj",
+        "residual": "L021.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L021.residual_add_2"
+        ],
+        "layouts": {
+          "L021.self_attention.out_proj": "unknown",
+          "L021.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L022.residual_add_1",
+          "L022.pre_mlp_norm"
+        ],
+        "x": "L022.self_attention.out_proj",
+        "residual": "L022.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L022.residual_add_2"
+        ],
+        "layouts": {
+          "L022.self_attention.out_proj": "unknown",
+          "L022.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L023.residual_add_1",
+          "L023.pre_mlp_norm"
+        ],
+        "x": "L023.self_attention.out_proj",
+        "residual": "L023.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L023.residual_add_2"
+        ],
+        "layouts": {
+          "L023.self_attention.out_proj": "unknown",
+          "L023.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L024.residual_add_1",
+          "L024.pre_mlp_norm"
+        ],
+        "x": "L024.self_attention.out_proj",
+        "residual": "L024.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L024.residual_add_2"
+        ],
+        "layouts": {
+          "L024.self_attention.out_proj": "unknown",
+          "L024.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L025.residual_add_1",
+          "L025.pre_mlp_norm"
+        ],
+        "x": "L025.self_attention.out_proj",
+        "residual": "L025.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L025.residual_add_2"
+        ],
+        "layouts": {
+          "L025.self_attention.out_proj": "unknown",
+          "L025.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L026.residual_add_1",
+          "L026.pre_mlp_norm"
+        ],
+        "x": "L026.self_attention.out_proj",
+        "residual": "L026.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L026.residual_add_2"
+        ],
+        "layouts": {
+          "L026.self_attention.out_proj": "unknown",
+          "L026.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L027.residual_add_1",
+          "L027.pre_mlp_norm"
+        ],
+        "x": "L027.self_attention.out_proj",
+        "residual": "L027.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L027.residual_add_2"
+        ],
+        "layouts": {
+          "L027.self_attention.out_proj": "unknown",
+          "L027.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L028.residual_add_1",
+          "L028.pre_mlp_norm"
+        ],
+        "x": "L028.self_attention.out_proj",
+        "residual": "L028.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L028.residual_add_2"
+        ],
+        "layouts": {
+          "L028.self_attention.out_proj": "unknown",
+          "L028.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L029.residual_add_1",
+          "L029.pre_mlp_norm"
+        ],
+        "x": "L029.self_attention.out_proj",
+        "residual": "L029.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L029.residual_add_2"
+        ],
+        "layouts": {
+          "L029.self_attention.out_proj": "unknown",
+          "L029.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L030.residual_add_1",
+          "L030.pre_mlp_norm"
+        ],
+        "x": "L030.self_attention.out_proj",
+        "residual": "L030.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L030.residual_add_2"
+        ],
+        "layouts": {
+          "L030.self_attention.out_proj": "unknown",
+          "L030.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L031.residual_add_1",
+          "L031.pre_mlp_norm"
+        ],
+        "x": "L031.self_attention.out_proj",
+        "residual": "L031.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L031.residual_add_2"
+        ],
+        "layouts": {
+          "L031.self_attention.out_proj": "unknown",
+          "L031.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L032.residual_add_1",
+          "L032.pre_mlp_norm"
+        ],
+        "x": "L032.self_attention.out_proj",
+        "residual": "L032.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L032.residual_add_2"
+        ],
+        "layouts": {
+          "L032.self_attention.out_proj": "unknown",
+          "L032.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L033.residual_add_1",
+          "L033.pre_mlp_norm"
+        ],
+        "x": "L033.self_attention.out_proj",
+        "residual": "L033.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L033.residual_add_2"
+        ],
+        "layouts": {
+          "L033.self_attention.out_proj": "unknown",
+          "L033.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L034.residual_add_1",
+          "L034.pre_mlp_norm"
+        ],
+        "x": "L034.self_attention.out_proj",
+        "residual": "L034.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L034.residual_add_2"
+        ],
+        "layouts": {
+          "L034.self_attention.out_proj": "unknown",
+          "L034.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      },
+      {
+        "group": [
+          "L035.residual_add_1",
+          "L035.pre_mlp_norm"
+        ],
+        "x": "L035.self_attention.out_proj",
+        "residual": "L035.input",
+        "x_outside_consumers": [],
+        "x_is_exported": false,
+        "add_outside_consumers": [
+          "L035.residual_add_2"
+        ],
+        "layouts": {
+          "L035.self_attention.out_proj": "unknown",
+          "L035.input": "unknown"
+        },
+        "graph_overwrite_precondition": true
+      }
+    ],
+    "eligible_graph_positions": 36,
+    "runtime_aliases_verified": false,
+    "runtime_producer_layouts_verified": false
+  },
+  "fused_profile_sha256": "f3d8411ba8ad579aa2df2dde6c528cb32fbd9bb661a043857a54e5faec5f5b34",
+  "fused_kernel_key_id": "sha256:f9c20ddaeee5ab01285fd7a74ce70a795af730fd1a2a8a7c5211b6b0e24f91ea",
+  "collector_revision": "ff343bddb9f10c428f60c037dc66ec4a07e62282",
+  "collector_sources": {
+    "calibration/kerv_add_rmsnorm_timing.py": "272671b5dabde892d9c6fefe83abcd492d495ebe7ff0e98bc251db61fc306999",
+    "calibration/kerv_add_rmsnorm_probe.py": "8c16467dd3005fcb302ce6b9fd75c00d45e4155ca685eea7a75302653f9d5b44",
+    "integration/flagscale/kerv_add_rmsnorm.py": "0ed1ba1f12ca4a7b6ca97eec8c5bdc62b024064420a1edac185bb3f02a64f022",
+    "execution/reference_identity.py": "a6268c198a32ada680d9caea01ebd619e6bb958c6cfb728dfec4b8b80c08ee68",
+    "calibration/stage_size_calibration.py": "37bc6818d39ccfeb085fdfd4fd1c57dec92c211c3dc08f85d42ba6285119ea1d",
+    "calibration/lightop_profile_smoke.py": "caa6724246c1e559230cc2dc6ccdefaae72468cf7d7d385d760528a021a931d3",
+    "integration/flagscale/kerv_profile_runtime.py": "1fabeaa9fdf149d0b37bab1b65914fbd9a3bda17f5b7f41f3198f88963529bb2",
+    "tools/run_kerv_add_rmsnorm_timing.sh": "6a95d84cce3f33bab6177c34a181cdb40d8c3e0f7c70a3b8073bb8b6b6b193f8",
+    "calibration/native_add_rmsnorm_timing.py": "d14e62b5b6e661b738c70b61e637e31e7efa9a72cc2329ea2f4348d6befb7ad2",
+    "cost_model/native_add_rmsnorm_profile.py": "bcbca634b8ebaf38af9d09f27834a5527f60dfff540fa0234b0936cd1bf9b26b",
+    "cost_model/qwen25_add_rmsnorm.py": "233df02445fc84df9dc503a83c89ccffce85f5756cb8712fa9ddb8c30f02b2f2",
+    "tools/run_native_add_rmsnorm_timing.sh": "c4f60c5ac27fd0afc00c2aeb724272ec09fdceaff134c40babcc4177b131b48b"
+  },
+  "gpu_executed": false,
+  "fused_remeasurement": false,
+  "automatic_admission": false
+}
