@@ -290,3 +290,11 @@ P0-2：legal_mcts_search新增默认False forced_action_closure，根/展开边/
 P0-3：三个既有3B小图×node/hybrid，4340次独立Exact成本评价；完整Plan/导出字段、free/cap75可行集合、最优集合一致。hybrid方案数38/24/60不变，树129→71/67→47/189→119，单选树节点0。76项CPU测试通过。
 
 P0-4：data/decision_mcts_qwen3_20261110_v1，原混合Joint对closure、free/cap75、三种子、每次64实际评分，12运行768实评。free中位10.123955692→10.118076184ms（5.879508μs，0.0581%），决策深度3→7、树定节点18→39、单选扩展26→0，分支扩展3→23；原最佳第3次，closure第48次改进，第0层SiLU×Mul保留Native（AddRMS28、SiLU27），全GPU0。含诊断墙钟32.406→26.991s仅描述。cap75仍两组0/3可行，决策深度2→5、节点16→37；未混witness/可行性下界。六旧控制64候选/分数/显存一致，全部预算/导出/source复核通过，无GPU。说明DECISION_CENTRIC_MCTS.md、逐评分convergence.csv；默认不全局切换，不能称稳定MCTS优势或真机加速。
+
+## 2026-11-10：固定Qwen3 cap75的MCTS预算扩展
+
+按用户64/128/256/512/1024×种子0/7/23，固定Decision-centric混合域、591节点、每卡952811520B、成本与manifest。每seed连续1024，保留15前缀观察点，共3072实际不同完整方案评分；不是15次独立重启。三个64前缀与此前独立64记录的候选/成本/峰值/可行性一致。初始化两Native计费、不可行计费、无witness/下界引导，核心算法与GPU任务均未改。
+
+各档三种子都0可行，首次可行与最佳可行成本均null。已展开决策节点23/47/95/191/383，最大决策深度5/6/7/8/9，最大树定原节点37/39/56/58/60。三个seed结果相同；墙钟中位16.9184/37.3807/78.3730/159.7586/322.3885s。本轮关闭旧逐动作分类，仅用既有tree counters，三seed并发，不能与上一轮墙钟直接比较。节点是实际展开分支状态，不是深度或原图算子覆盖数量。
+
+data/mcts_budget_scaling_qwen3_20261110_v1含15快照、三JSONL轨迹、summary、all_runs.csv、verification。3072候选唯一性/容量/前缀/时间顺序/计数复核通过，验证额外预测0，新增3项CPU测试通过。说明MCTS_BUDGET_SCALING.md，入口evaluate_mcts_budget_scaling.py和summarize_mcts_budget_scaling.py。到1024仍无可行样本，不称空间无解，既有witness未混入本轮。

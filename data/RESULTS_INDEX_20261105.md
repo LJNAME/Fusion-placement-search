@@ -127,3 +127,7 @@
 ## 2026-11-10：Decision-centric MCTS消融
 
 `decision_mcts_qwen3_20261110_v1/`：两条逐状态路径分类478单选来源，六个小图Exact域、4340独立评价确认方案/可行性/最优集合不变；hybrid树129→71、67→47、189→119。Qwen3完整图12运行768实评，free预测10.123956→10.118076ms、决策深度3→7、树定节点18→39，单选扩展为0；cap75两组仍0/3可行。全部原始64预算轨迹、最佳Plan、逐评分convergence及核对回执保留；76项CPU测试，无新GPU。说明：[DECISION_CENTRIC_MCTS.md](../cost_model/DECISION_CENTRIC_MCTS.md)。
+
+## 2026-11-10：Qwen3容量受限MCTS Budget Scaling
+
+`mcts_budget_scaling_qwen3_20261110_v1/`：固定Decision-centric、cap75、成本与融合清单，64/128/256/512/1024×三种子，3条1024连续轨迹/15预算前缀/3072实际评分。五档均0/3发现可行，累计不同可行方案0；首可行及最佳成本null。已展开决策节点23→383、深度5→9，1024时最多树定60/591原节点。完整逐次记录、CSV、源码与计数回执保留；3项新增CPU测试，无新GPU或MCTS算法变更。说明：[MCTS_BUDGET_SCALING.md](../cost_model/MCTS_BUDGET_SCALING.md)。
