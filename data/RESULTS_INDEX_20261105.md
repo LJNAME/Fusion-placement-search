@@ -123,3 +123,7 @@
 ## 2026-11-10：新融合完整调用成本与完整图复跑
 
 `fusion_refresh_20261110_v2/`：Qwen3/3B、混合Joint/Random、free/cap75、三种子，24运行1536实评。3B命中新SiLU11008/AddRMS2048完整调用，0.6B维持旧来源；联合Q/K规则已注册但缺图语义不开放。3B cap75 Joint/Random中位30.352663/30.659213ms，free均29.377395ms；Qwen3 free10.123956/10.187843ms，cap75仍无可行结果。diagnosis记录478/591唯一动作、树最深18节点等浅层证据；38项CPU测试、原评分预算/最佳图与221实测绑定校验通过。无新GPU或MCTS核心算法改动。说明：[FUSION_REFRESH_SEARCH.md](../cost_model/FUSION_REFRESH_SEARCH.md)。
+
+## 2026-11-10：Decision-centric MCTS消融
+
+`decision_mcts_qwen3_20261110_v1/`：两条逐状态路径分类478单选来源，六个小图Exact域、4340独立评价确认方案/可行性/最优集合不变；hybrid树129→71、67→47、189→119。Qwen3完整图12运行768实评，free预测10.123956→10.118076ms、决策深度3→7、树定节点18→39，单选扩展为0；cap75两组仍0/3可行。全部原始64预算轨迹、最佳Plan、逐评分convergence及核对回执保留；76项CPU测试，无新GPU。说明：[DECISION_CENTRIC_MCTS.md](../cost_model/DECISION_CENTRIC_MCTS.md)。

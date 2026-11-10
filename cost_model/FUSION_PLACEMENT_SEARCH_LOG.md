@@ -280,3 +280,13 @@ fusion_timing_expansion_20261109_01归档41个原文件；压缩包SHA256=4f62a7
 data/fusion_refresh_20261110_v2：两图×free/cap75×混合Joint/Random×3种子，24运行1536实评，无新GPU。3B free两法29.377395ms，cap75更新为30.352663/30.659213ms、Joint仅赢1/3；seed23最佳由41融合改37（26 AddRMS＋11 SiLU）。Qwen3 free仍10.123956/10.187843ms，cap75两法0/3；未混入此前witness/过滤，保留原对照。新成本/必要buffer改变评分，非真机加速。
 
 诊断：全Native/GPU0路径591/687动作中478/542为唯一动作；free MCTS最多树定18/17节点，其余96.95%/97.53%靠补全。Qwen3最佳第3次（默认引导），3B最佳第1次（Native初始化）。即使新成本下，仅AddRMS单卡参考29.167186ms仍优于两法，不能将接近解读为接近最优。UCT/Q/引导/概率和可行机制未改，仅加不评分观察钩子。38项CPU测试及全部冻结源码/预算/导出核对通过，9个不同Plan中221个实测绑定Key/Recipe/硬件来源/workspace一致。说明FUSION_REFRESH_SEARCH.md。v1在评分前相对路径审核失败，v2为正式数据；原README/SROP/transfer保留。
+
+## 2026-11-10：Forced-action Closure四步验证
+
+P0-1：Qwen3两条Native单卡路径各591状态，478单选、57放置分支、56融合分支。478均由pending共享head与主干不可返回锁卡；其中422只有单算子候选，56在之前Native选择后失去重叠融合备选。实际运行保存全部动作查询分布（含重复，非全空间唯一状态数）。
+
+P0-2：legal_mcts_search新增默认False forced_action_closure，根/展开边/随机与两种引导补全归一化；完整choices保留，只移除单选树层，终止叶保留。随机补全保留randrange(1)消耗，保持同状态同seed的补全与RNG一致；中间prune有效，UCT/Q/prior/概率不改。
+
+P0-3：三个既有3B小图×node/hybrid，4340次独立Exact成本评价；完整Plan/导出字段、free/cap75可行集合、最优集合一致。hybrid方案数38/24/60不变，树129→71/67→47/189→119，单选树节点0。76项CPU测试通过。
+
+P0-4：data/decision_mcts_qwen3_20261110_v1，原混合Joint对closure、free/cap75、三种子、每次64实际评分，12运行768实评。free中位10.123955692→10.118076184ms（5.879508μs，0.0581%），决策深度3→7、树定节点18→39、单选扩展26→0，分支扩展3→23；原最佳第3次，closure第48次改进，第0层SiLU×Mul保留Native（AddRMS28、SiLU27），全GPU0。含诊断墙钟32.406→26.991s仅描述。cap75仍两组0/3可行，决策深度2→5、节点16→37；未混witness/可行性下界。六旧控制64候选/分数/显存一致，全部预算/导出/source复核通过，无GPU。说明DECISION_CENTRIC_MCTS.md、逐评分convergence.csv；默认不全局切换，不能称稳定MCTS优势或真机加速。

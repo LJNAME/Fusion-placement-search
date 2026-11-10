@@ -92,6 +92,7 @@ class LegalFusionSearchSpace:
         tie_shared_params: bool = False,
         placement_policy: str = "node",
         partial_prune: Optional[Callable] = None,
+        action_observer: Optional[Callable] = None,
     ) -> None:
         if n_devs <= 0:
             raise ValueError("n_devs must be positive")
@@ -101,6 +102,7 @@ class LegalFusionSearchSpace:
             raise ValueError(f"unknown placement policy: {placement_policy}")
         self.placement_policy = placement_policy
         self.partial_prune = partial_prune
+        self.action_observer = action_observer
         if allowed_devices is None:
             self.allowed_devices = tuple(range(self.n_devs))
         else:
@@ -210,7 +212,33 @@ class LegalFusionSearchSpace:
         if self.partial_prune is not None:
             result = [choice for choice in result
                       if not self.partial_prune(self, self.apply(state, choice))]
+        if self.action_observer is not None:
+            self.action_observer(self, state, result)
         return result
+
+    def forced_closure(self, state, *, prune=None, on_forced=None):
+        """Retain every original choice; stop at a branch, terminal, or dead end.
+
+        No scoring or random draw is performed. Random rollouts supply an
+        on_forced callback to preserve their previous randrange(1) draws.
+        A sound tree prune is checked at every intermediate state.
+        """
+        current = state
+        while True:
+            if prune is not None and prune(self, current):
+                return None
+            if self.is_terminal(current):
+                return current
+            actions = self.actions(current)
+            if prune is not None and actions:
+                actions = [a for a in actions if not prune(self, self.apply(current, a))]
+                if not actions:
+                    return None
+            if len(actions) != 1:
+                return current
+            if on_forced is not None:
+                on_forced(actions[0])
+            current = self.apply(current, actions[0])
 
     def _stage_devices(self, state: LegalPartialState, relevant=None) -> tuple[int, ...]:
         """Stay in this stage or open an unused card; never return to an old one.
@@ -399,9 +427,14 @@ def rollout_legal_plan(
     fusion_probability: float = 0.5,
     name: str = "legal-rollout",
     validate: bool = True,
+    forced_action_closure: bool = False,
 ) -> Plan:
     current = state
     while not space.is_terminal(current):
+        if forced_action_closure:
+            current = space.forced_closure(current, on_forced=lambda _choice: rng.randrange(1))
+            if space.is_terminal(current):
+                break
         actions = space.actions(current)
         if not actions:
             raise NoLegalCompletion(f"no legal action at anchor {space.anchor(current)}")
@@ -416,6 +449,7 @@ def _guided_rollout_legal_plan(
     space: LegalFusionSearchSpace,
     state: LegalPartialState,
     name: str = "legal-guided-rollout",
+    forced_action_closure: bool = False,
 ) -> Plan:
     """Complete a state with a deterministic fusion/affinity baseline.
 
@@ -428,6 +462,13 @@ def _guided_rollout_legal_plan(
     current = state
     preferred_device = current.choices[-1].device if current.choices else 0
     while not space.is_terminal(current):
+        if forced_action_closure:
+            closed = space.forced_closure(current)
+            if len(closed.choices) > len(current.choices):
+                preferred_device = closed.choices[-1].device
+            current = closed
+            if space.is_terminal(current):
+                break
         actions = space.actions(current)
         if not actions:
             raise NoLegalCompletion(f"no legal action at anchor {space.anchor(current)}")
@@ -450,6 +491,7 @@ def _unfused_guided_rollout_legal_plan(
     space: LegalFusionSearchSpace,
     state: LegalPartialState,
     name: str = "legal-unfused-guided-rollout",
+    forced_action_closure: bool = False,
 ) -> Plan:
     """Deterministic counterpart of the fuse-and-colocate completion.
 
@@ -461,6 +503,13 @@ def _unfused_guided_rollout_legal_plan(
     current = state
     preferred_device = current.choices[-1].device if current.choices else 0
     while not space.is_terminal(current):
+        if forced_action_closure:
+            closed = space.forced_closure(current)
+            if len(closed.choices) > len(current.choices):
+                preferred_device = closed.choices[-1].device
+            current = closed
+            if space.is_terminal(current):
+                break
         actions = space.actions(current)
         if not actions:
             raise NoLegalCompletion(f"no legal action at anchor {space.anchor(current)}")
@@ -635,6 +684,8 @@ class _LegalMCTSNode:
     terminal: bool = False
     prior: float = 1.0
     exhausted: bool = False  # every leaf below was evaluated (used with skip_exhausted)
+    depth: int = 0
+    decision_depth: int = 0
 
     def update(self, reward: float) -> None:
         self.n += 1
@@ -655,6 +706,8 @@ class _LegalMCTSNode:
         space: LegalFusionSearchSpace,
         policy_value_evaluator: Optional[Callable] = None,
         prune: Optional[Callable] = None,
+        forced_action_closure: bool = False,
+        search_stats: Optional[dict] = None,
     ) -> None:
         if self.expanded:
             return
@@ -663,6 +716,10 @@ class _LegalMCTSNode:
         if self.terminal:
             return
         actions = space.actions(self.state)
+        if search_stats is not None:
+            search_stats["expanded_nodes"] += 1
+            label = "branch_expansions" if len(actions) > 1 else "unary_expansions" if actions else "dead_end_expansions"
+            search_stats[label] += 1
         if not actions:
             return
         if policy_value_evaluator is None:
@@ -678,19 +735,33 @@ class _LegalMCTSNode:
             if total <= 0.0:
                 raise ValueError("policy priors must have positive mass")
             priors = [prior / total for prior in priors]
-        self.children = [
-            _LegalMCTSNode(
-                state=space.apply(self.state, action),
-                parent=self,
-                terminal=False,
-                prior=prior,
-            )
-            for action, prior in zip(actions, priors)
-        ]
-        if prune is not None:
+        children = []
+        for action, prior in zip(actions, priors):
+            child_state = space.apply(self.state, action)
+            raw_length = len(child_state.choices)
+            if forced_action_closure:
+                child_state = space.forced_closure(child_state, prune=prune)
+                if child_state is None:
+                    continue
+                if not space.is_terminal(child_state) and not space.actions(child_state):
+                    continue
+            child = _LegalMCTSNode(child_state, parent=self, prior=prior,
+                                   depth=self.depth + 1,
+                                   decision_depth=self.decision_depth + (len(actions) > 1))
+            children.append(child)
+            if search_stats is not None:
+                search_stats["absorbed_forced_actions"] += len(child_state.choices) - raw_length
+        self.children = children
+        if prune is not None and not forced_action_closure:
             # Sound pruning only: prune(space, state) must be True only when
             # every completion of the state is infeasible.
             self.children = [c for c in self.children if not prune(space, c.state)]
+        if search_stats is not None:
+            search_stats["created_nodes"] += len(self.children)
+            for child in self.children:
+                search_stats["max_tree_depth"] = max(search_stats["max_tree_depth"], child.depth)
+                search_stats["max_decision_depth"] = max(search_stats["max_decision_depth"], child.decision_depth)
+                search_stats["max_created_assigned_nodes"] = max(search_stats["max_created_assigned_nodes"], len(child.state.assigned))
 
     def select_child(self, exploration: float,
                      value: Optional[Callable[[float], float]] = None,
@@ -739,6 +810,9 @@ def legal_mcts_search(
     placement_policy: str = "node",
     partial_prune: Optional[Callable] = None,
     rollout_observer: Optional[Callable] = None,
+    forced_action_closure: bool = False,
+    action_observer: Optional[Callable] = None,
+    search_stats: Optional[dict] = None,
 ) -> List[Plan]:
     """MCTS over legal fusion candidates and device choices.
 
@@ -781,6 +855,11 @@ def legal_mcts_search(
     any node whose children are all marked, as exhausted; selection skips them
     so an iteration is not spent re-reaching an already scored plan. Search
     stops early once the root is exhausted (the whole space was enumerated).
+
+    ``forced_action_closure=True`` keeps only branch states and terminal leaves
+    in the tree. Full original choices survive in each state; scoring, priors,
+    backup and the legal action set are unchanged. Random rollouts retain the
+    old single-option RNG draws. Diagnostics do not evaluate plans.
     """
 
     if iterations <= 0 or rollouts <= 0 or n_best <= 0:
@@ -802,6 +881,7 @@ def legal_mcts_search(
         tie_shared_params=tie_shared_params,
         placement_policy=placement_policy,
         partial_prune=partial_prune,
+        action_observer=action_observer,
     )
     if evaluator is None and scorer is None:
         raise ValueError("scorer is required without an evaluator")
@@ -820,7 +900,16 @@ def legal_mcts_search(
             return None
         return float(result.latency)
 
-    root = _LegalMCTSNode(space.initial_state())
+    initial = space.initial_state()
+    root_state = space.forced_closure(initial, prune=prune) if forced_action_closure else initial
+    if root_state is None:
+        return []
+    root = _LegalMCTSNode(root_state)
+    if search_stats is not None:
+        search_stats.update(created_nodes=1, expanded_nodes=0, branch_expansions=0, unary_expansions=0,
+                            dead_end_expansions=0, max_tree_depth=0, max_decision_depth=0,
+                            max_created_assigned_nodes=len(root_state.assigned),
+                            absorbed_forced_actions=len(root_state.choices))
     best: Dict[tuple, Tuple[float, Plan]] = {}
     bounds = [math.inf, -math.inf]  # feasible rewards seen (reward = -score)
 
@@ -841,7 +930,8 @@ def legal_mcts_search(
 
     if unfused_incumbent:
         try:
-            incumbent = _unfused_guided_rollout_legal_plan(space, root.state, name="legal-mcts-unfused-incumbent")
+            incumbent = _unfused_guided_rollout_legal_plan(space, initial, name="legal-mcts-unfused-incumbent",
+                                                       forced_action_closure=forced_action_closure)
         except NoLegalCompletion:
             if partial_prune is None:
                 raise
@@ -860,16 +950,17 @@ def legal_mcts_search(
             node = child
             path.append(node)
 
-        node.expand(space, policy_value_evaluator, prune)
+        node.expand(space, policy_value_evaluator, prune,
+                    forced_action_closure=forced_action_closure, search_stats=search_stats)
         if not node.terminal:
             child = node.select_child(exploration, value, skip_exhausted)
             if child is None:
-                if prune is None and partial_prune is None:
+                if prune is None and partial_prune is None and not forced_action_closure:
                     break
                 # Every child was pruned: this subtree has no feasible plan.
                 for visited in path:
                     visited.update_infeasible()
-                if partial_prune is not None:
+                if partial_prune is not None or forced_action_closure:
                     node.exhausted = True
                 if node is root:
                     break
@@ -877,6 +968,9 @@ def legal_mcts_search(
             node = child
             path.append(node)
 
+        if search_stats is not None:
+            search_stats.update(selected_tree_depth=node.depth, selected_decision_depth=node.decision_depth,
+                                selected_assigned_nodes=len(node.state.assigned))
         reward: Optional[float] = 0.0
         if space.is_terminal(node.state):
             plan = space.to_plan(node.state, name="legal-mcts")
@@ -891,11 +985,11 @@ def legal_mcts_search(
             for rollout_index in range(rollouts):
                 try:
                     if guided_rollout and rollout_index == 0:
-                        plan = _guided_rollout_legal_plan(space, node.state)
+                        plan = _guided_rollout_legal_plan(space, node.state, forced_action_closure=forced_action_closure)
                     else:
                         plan = rollout_legal_plan(
                             space, node.state, rng, fusion_probability=fusion_probability,
-                            name="legal-mcts-rollout", validate=False,
+                            name="legal-mcts-rollout", validate=False, forced_action_closure=forced_action_closure,
                         )
                 except NoLegalCompletion:
                     if partial_prune is None:
@@ -908,7 +1002,7 @@ def legal_mcts_search(
                     remember(plan, score)
                     feasible_scores.append(score)
             if unfused_guided_rollout:
-                plan = _unfused_guided_rollout_legal_plan(space, node.state)
+                plan = _unfused_guided_rollout_legal_plan(space, node.state, forced_action_closure=forced_action_closure)
                 score = evaluate(plan)
                 if score is not None:
                     remember(plan, score)
@@ -918,7 +1012,7 @@ def legal_mcts_search(
             rollout_scores: List[float] = []
             for rollout_index in range(rollouts):
                 if guided_rollout and rollout_index == 0:
-                    plan = _guided_rollout_legal_plan(space, node.state)
+                    plan = _guided_rollout_legal_plan(space, node.state, forced_action_closure=forced_action_closure)
                 else:
                     plan = rollout_legal_plan(
                         space,
@@ -927,12 +1021,13 @@ def legal_mcts_search(
                         fusion_probability=fusion_probability,
                         name="legal-mcts-rollout",
                         validate=False,
+                        forced_action_closure=forced_action_closure,
                     )
                 score = float(scorer(plan))
                 remember(plan, score)
                 rollout_scores.append(score)
             if unfused_guided_rollout:
-                plan = _unfused_guided_rollout_legal_plan(space, node.state)
+                plan = _unfused_guided_rollout_legal_plan(space, node.state, forced_action_closure=forced_action_closure)
                 score = float(scorer(plan))
                 remember(plan, score)
                 rollout_scores.append(score)
@@ -971,6 +1066,8 @@ def legal_mcts_search(
 
     if not best and evaluator is not None:
         return []
+    if not best and forced_action_closure and root.exhausted:
+        return []
     if not best:
         plan = rollout_legal_plan(
             space,
@@ -979,6 +1076,7 @@ def legal_mcts_search(
             fusion_probability=fusion_probability,
             name="legal-mcts-fallback",
             validate=False,
+            forced_action_closure=forced_action_closure,
         )
         best[_plan_key(plan)] = (float(scorer(plan)), plan)
     result = [plan for _, plan in sorted(best.values(), key=lambda item: item[0])[:n_best]]
