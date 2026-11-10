@@ -272,3 +272,11 @@ fusion_timing_expansion_20261109_01归档41个原文件；压缩包SHA256=4f62a7
 三完整调用：SiLU×Mul11008含cat 57.235140800μs，AddRMS2048含两次copy 13.612760305μs，Q/K RMSNorm＋RoPE含两次copy 15.769560337μs；IQR/Median分别3.46357%／9.29716%／9.57795%，按原10%门槛3/3通过。每项3次布尔smoke、7×50正式检查回执、双数值参考、只读源不变、私有buffer独立及同stream Event通过；原21轮统计重算一致，进程返回码均0。未补轮、未重跑，不因接近门槛改判。
 
 只新增局部完整调用测时证据，无自动准入、搜索规则或MCTS变化。完整调用含打包/输入保护复制，不能推导纯Kernel或整图GPU性能；没有同配方Native新对照，不宣称加速比。RoPE声明仍非图语义证明，无新增dispatch trace或单物理Kernel认证；旧KERV/Native不重测。11.10本周汇报同步回传结果。
+
+## 2026-11-10：新完整调用实测接入与同预算搜索复跑
+
+三项LightOP加入同一能力清单；SiLU×Mul/AddRMS此前已注册，本次MeasuredFusionCalls按11008/2048完整配方接实测、标GPU1同构迁移，SiLU打包buffer计workspace。Joint Q/K四节点规则通过fusion_rules专用候选入口注册，要求图显式旋转/归一化契约；Qwen3虽28结构对应但缺语义，合法匹配0，不伪造元数据。3B两模式各36位置×2设备，合计144匹配成本对；0.6B新Shape实测命中0，沿用旧成本。
+
+data/fusion_refresh_20261110_v2：两图×free/cap75×混合Joint/Random×3种子，24运行1536实评，无新GPU。3B free两法29.377395ms，cap75更新为30.352663/30.659213ms、Joint仅赢1/3；seed23最佳由41融合改37（26 AddRMS＋11 SiLU）。Qwen3 free仍10.123956/10.187843ms，cap75两法0/3；未混入此前witness/过滤，保留原对照。新成本/必要buffer改变评分，非真机加速。
+
+诊断：全Native/GPU0路径591/687动作中478/542为唯一动作；free MCTS最多树定18/17节点，其余96.95%/97.53%靠补全。Qwen3最佳第3次（默认引导），3B最佳第1次（Native初始化）。即使新成本下，仅AddRMS单卡参考29.167186ms仍优于两法，不能将接近解读为接近最优。UCT/Q/引导/概率和可行机制未改，仅加不评分观察钩子。38项CPU测试及全部冻结源码/预算/导出核对通过，9个不同Plan中221个实测绑定Key/Recipe/硬件来源/workspace一致。说明FUSION_REFRESH_SEARCH.md。v1在评分前相对路径审核失败，v2为正式数据；原README/SROP/transfer保留。

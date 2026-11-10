@@ -1,0 +1,132 @@
+{
+  "scope": "full forward makespan predictions; reference gaps are signed, never Exact gaps",
+  "models": {
+    "qwen3_06b": {
+      "nodes": 591,
+      "edges": 730,
+      "fusion_candidates": {
+        "lightop_add_rmsnorm": 28,
+        "lightop_silu_mul": 28
+      },
+      "branch_regions": 28,
+      "tasks": {
+        "free": {
+          "capacity_bytes": [
+            68702699520.0,
+            68702699520.0
+          ],
+          "best_known_reference": {
+            "makespan_ms": 9.959329465776937,
+            "name": "uniform_owner0_addnorm"
+          },
+          "summary": {
+            "joint_hybrid": {
+              "runs": 3,
+              "feasible_runs": 3,
+              "median_ms": 10.123955692321436,
+              "median_reference_gap_percent": 1.6529850439249039,
+              "median_cross_device_edges": 0
+            },
+            "random_hybrid": {
+              "runs": 3,
+              "feasible_runs": 3,
+              "median_ms": 10.18784328649951,
+              "median_reference_gap_percent": 2.2944699390436973,
+              "median_cross_device_edges": 0
+            }
+          }
+        },
+        "cap75": {
+          "capacity_bytes": [
+            952811520.0,
+            952811520.0
+          ],
+          "best_known_reference": {
+            "makespan_ms": 10.076201419273529,
+            "name": "half_layers_owner0_addnorm"
+          },
+          "summary": {
+            "joint_hybrid": {
+              "runs": 3,
+              "feasible_runs": 0,
+              "median_ms": null,
+              "median_reference_gap_percent": null,
+              "median_cross_device_edges": null
+            },
+            "random_hybrid": {
+              "runs": 3,
+              "feasible_runs": 0,
+              "median_ms": null,
+              "median_reference_gap_percent": null,
+              "median_cross_device_edges": null
+            }
+          }
+        }
+      }
+    },
+    "qwen25_3b": {
+      "nodes": 687,
+      "edges": 866,
+      "fusion_candidates": {
+        "lightop_add_rmsnorm": 36,
+        "lightop_silu_mul": 36
+      },
+      "branch_regions": 36,
+      "tasks": {
+        "free": {
+          "capacity_bytes": [
+            68702699520.0,
+            68702699520.0
+          ],
+          "best_known_reference": {
+            "makespan_ms": 29.167185872155503,
+            "name": "uniform_owner0_addnorm"
+          },
+          "summary": {
+            "joint_hybrid": {
+              "runs": 3,
+              "feasible_runs": 3,
+              "median_ms": 29.3773945352571,
+              "median_reference_gap_percent": 0.720702586882993,
+              "median_cross_device_edges": 0
+            },
+            "random_hybrid": {
+              "runs": 3,
+              "feasible_runs": 3,
+              "median_ms": 29.3773945352571,
+              "median_reference_gap_percent": 0.720702586882993,
+              "median_cross_device_edges": 0
+            }
+          }
+        },
+        "cap75": {
+          "capacity_bytes": [
+            4687899648.0,
+            4687899648.0
+          ],
+          "best_known_reference": {
+            "makespan_ms": 29.295690736536383,
+            "name": "half_layers_owner0_addnorm"
+          },
+          "summary": {
+            "joint_hybrid": {
+              "runs": 3,
+              "feasible_runs": 3,
+              "median_ms": 30.352663482292172,
+              "median_reference_gap_percent": 3.6079461490135634,
+              "median_cross_device_edges": 70
+            },
+            "random_hybrid": {
+              "runs": 3,
+              "feasible_runs": 3,
+              "median_ms": 30.65921319462343,
+              "median_reference_gap_percent": 4.654344798863264,
+              "median_cross_device_edges": 72
+            }
+          }
+        }
+      }
+    }
+  },
+  "direct_full_model_gpu_execution": false
+}

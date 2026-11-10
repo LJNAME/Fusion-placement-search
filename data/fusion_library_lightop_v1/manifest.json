@@ -28,14 +28,20 @@
       "training_supported": null,
       "calibration": false,
       "declaration_source": "catalog capability + vendor test test/test_rms_add.py (fp16, bf16)"
-    }
-  ],
-  "not_registered": [
+    },
     {
+      "fusion_id": "lightop_qk_rmsnorm_rope",
+      "operator_pattern": {"op_types": ["rmsnorm", "rope", "rmsnorm", "rope"], "topology": "joint_qk_rms_rope", "same_shape": false},
       "implementation": "rms_rotary_embedding_fuse",
-      "operator_pattern": ["rmsnorm", "rope"],
-      "reason": "one call covers the Q and K branches together; the pattern matcher only expresses single chains"
+      "status": "implemented",
+      "supported_dtypes": ["bf16"],
+      "supported_shapes": null,
+      "layout_constraints": "private contiguous Q/K copies; Q [1,256,16,128], K [1,256,8,128]; explicit graph rotary and normalization contract required",
+      "training_supported": null,
+      "calibration": false,
+      "declaration_source": "fusion_timing_expansion_20261109_01; local measured NeoX full-head case; missing graph semantics blocks matching"
     }
   ],
+  "not_registered": [],
   "training_note": "training_supported is null until the library provider declares it; null and false are not training candidates"
 }

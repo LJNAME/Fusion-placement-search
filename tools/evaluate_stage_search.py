@@ -115,7 +115,7 @@ def oracle(graph, profile, registry, capacity, policy):
 
 
 def run_mcts(ledger, graph, registry, *, policy="node", seed=0, devices=(0, 1), expand=lambda p: p,
-             proposal=False, iterations=12_800, tie_shared_params=False):
+             proposal=False, iterations=12_800, tie_shared_params=False, rollout_observer=None):
     best_proposal = [float("inf"), None]
 
     def evaluate(plan):
@@ -133,7 +133,8 @@ def run_mcts(ledger, graph, registry, *, policy="node", seed=0, devices=(0, 1), 
                           fusion_probability=.7, seed=seed, n_best=1, registry=registry,
                           allowed_devices=devices, evaluator=evaluate,
                           unfused_incumbent=True, normalize_q=True, skip_exhausted=True,
-                          placement_policy=policy, tie_shared_params=tie_shared_params)
+                          placement_policy=policy, tie_shared_params=tie_shared_params,
+                          rollout_observer=rollout_observer)
     except BudgetReached:
         stopped = "evaluation_budget"
     return best_proposal[1], stopped

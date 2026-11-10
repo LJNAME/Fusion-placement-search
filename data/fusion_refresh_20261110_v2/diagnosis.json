@@ -1,0 +1,610 @@
+{
+  "scope": "fixed-64 measured-fusion refresh; CPU predicted makespan only",
+  "additional_cost_model_calls": 0,
+  "models": {
+    "qwen3_06b": {
+      "nodes": 591,
+      "action_path": {
+        "path": "all Native / GPU0",
+        "actions": 591,
+        "forced_single_option_actions": 478,
+        "choice_actions": 113,
+        "first20": [
+          {
+            "anchor": "embedding",
+            "options": 2
+          },
+          {
+            "anchor": "L000.input",
+            "options": 1
+          },
+          {
+            "anchor": "L000.input_norm",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.k_proj",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.k_norm",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.k_rope",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.q_proj",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.q_norm",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.q_rope",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.qk_matmul",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.softmax",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.v_proj",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.av_matmul",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.out_proj",
+            "options": 1
+          },
+          {
+            "anchor": "L000.residual_add_1",
+            "options": 2
+          },
+          {
+            "anchor": "L000.pre_mlp_norm",
+            "options": 1
+          },
+          {
+            "anchor": "L000.mlp.gate_proj",
+            "options": 2
+          },
+          {
+            "anchor": "L000.mlp.silu",
+            "options": 2
+          },
+          {
+            "anchor": "L000.mlp.up_proj",
+            "options": 2
+          },
+          {
+            "anchor": "L000.mlp.gated_mul",
+            "options": 1
+          }
+        ]
+      },
+      "registered_fusions": [
+        "lightop_silu_mul",
+        "lightop_add_rmsnorm",
+        "lightop_qk_rmsnorm_rope"
+      ],
+      "matched_fusions": {
+        "lightop_add_rmsnorm": 28,
+        "lightop_silu_mul": 28
+      },
+      "new_measured_candidate_device_pairs": {},
+      "joint_qk_structural_groups": 28,
+      "joint_qk_matched_groups": 0,
+      "tasks": {
+        "free": {
+          "joint_hybrid": {
+            "feasible_runs": 3,
+            "median_ms": 10.123955692321436,
+            "old_median_ms": 10.123955692321436,
+            "first_best_evaluations": [
+              3,
+              3,
+              3
+            ],
+            "initial_best_ms": [
+              10.18784328649951,
+              10.18784328649951,
+              10.18784328649951
+            ],
+            "feasible_evaluations": [
+              64,
+              64,
+              64
+            ],
+            "median_search_s": 14.907568800001172,
+            "max_tree_assigned_nodes": 18,
+            "max_tree_choices": 17,
+            "best_fusion_patterns": [
+              {
+                "lightop_add_rmsnorm": 28,
+                "lightop_silu_mul": 28
+              },
+              {
+                "lightop_add_rmsnorm": 28,
+                "lightop_silu_mul": 28
+              },
+              {
+                "lightop_add_rmsnorm": 28,
+                "lightop_silu_mul": 28
+              }
+            ],
+            "measured_calls_in_best": [
+              0,
+              0,
+              0
+            ],
+            "measured_group_evaluations": 0,
+            "minimum_rollout_fraction": 0.9695431472081218,
+            "same_candidate_positions_as_before": [
+              64,
+              64,
+              64
+            ],
+            "selected_plan_changed": [
+              false,
+              false,
+              false
+            ]
+          },
+          "random_hybrid": {
+            "feasible_runs": 3,
+            "median_ms": 10.18784328649951,
+            "old_median_ms": 10.18784328649951,
+            "first_best_evaluations": [
+              1,
+              1,
+              1
+            ],
+            "initial_best_ms": [
+              10.18784328649951,
+              10.18784328649951,
+              10.18784328649951
+            ],
+            "feasible_evaluations": [
+              64,
+              64,
+              64
+            ],
+            "median_search_s": 10.880392400023993,
+            "max_tree_assigned_nodes": null,
+            "max_tree_choices": null,
+            "best_fusion_patterns": [
+              {},
+              {},
+              {}
+            ],
+            "measured_calls_in_best": [
+              0,
+              0,
+              0
+            ],
+            "measured_group_evaluations": 0,
+            "same_candidate_positions_as_before": [
+              64,
+              64,
+              64
+            ],
+            "selected_plan_changed": [
+              false,
+              false,
+              false
+            ]
+          }
+        },
+        "cap75": {
+          "joint_hybrid": {
+            "feasible_runs": 0,
+            "median_ms": null,
+            "old_median_ms": null,
+            "first_best_evaluations": [
+              null,
+              null,
+              null
+            ],
+            "initial_best_ms": [
+              null,
+              null,
+              null
+            ],
+            "feasible_evaluations": [
+              0,
+              0,
+              0
+            ],
+            "median_search_s": 15.05800290001207,
+            "max_tree_assigned_nodes": 16,
+            "max_tree_choices": 16,
+            "best_fusion_patterns": [
+              null,
+              null,
+              null
+            ],
+            "measured_calls_in_best": [
+              null,
+              null,
+              null
+            ],
+            "measured_group_evaluations": 0,
+            "minimum_rollout_fraction": 0.9729272419627749,
+            "same_candidate_positions_as_before": [
+              64,
+              64,
+              64
+            ],
+            "selected_plan_changed": [
+              false,
+              false,
+              false
+            ]
+          },
+          "random_hybrid": {
+            "feasible_runs": 0,
+            "median_ms": null,
+            "old_median_ms": null,
+            "first_best_evaluations": [
+              null,
+              null,
+              null
+            ],
+            "initial_best_ms": [
+              null,
+              null,
+              null
+            ],
+            "feasible_evaluations": [
+              0,
+              0,
+              0
+            ],
+            "median_search_s": 10.846791799995117,
+            "max_tree_assigned_nodes": null,
+            "max_tree_choices": null,
+            "best_fusion_patterns": [
+              null,
+              null,
+              null
+            ],
+            "measured_calls_in_best": [
+              null,
+              null,
+              null
+            ],
+            "measured_group_evaluations": 0,
+            "same_candidate_positions_as_before": [
+              64,
+              64,
+              64
+            ],
+            "selected_plan_changed": [
+              false,
+              false,
+              false
+            ]
+          }
+        }
+      }
+    },
+    "qwen25_3b": {
+      "nodes": 687,
+      "action_path": {
+        "path": "all Native / GPU0",
+        "actions": 687,
+        "forced_single_option_actions": 542,
+        "choice_actions": 145,
+        "first20": [
+          {
+            "anchor": "embedding",
+            "options": 2
+          },
+          {
+            "anchor": "L000.input",
+            "options": 1
+          },
+          {
+            "anchor": "L000.input_norm",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.k_proj",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.k_rope",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.q_proj",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.q_rope",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.qk_matmul",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.softmax",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.v_proj",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.av_matmul",
+            "options": 1
+          },
+          {
+            "anchor": "L000.self_attention.out_proj",
+            "options": 1
+          },
+          {
+            "anchor": "L000.residual_add_1",
+            "options": 2
+          },
+          {
+            "anchor": "L000.pre_mlp_norm",
+            "options": 1
+          },
+          {
+            "anchor": "L000.mlp.gate_proj",
+            "options": 2
+          },
+          {
+            "anchor": "L000.mlp.silu",
+            "options": 2
+          },
+          {
+            "anchor": "L000.mlp.up_proj",
+            "options": 2
+          },
+          {
+            "anchor": "L000.mlp.gated_mul",
+            "options": 1
+          },
+          {
+            "anchor": "L000.mlp.down_proj",
+            "options": 1
+          },
+          {
+            "anchor": "L000.residual_add_2",
+            "options": 1
+          }
+        ]
+      },
+      "registered_fusions": [
+        "lightop_silu_mul",
+        "lightop_add_rmsnorm",
+        "lightop_qk_rmsnorm_rope"
+      ],
+      "matched_fusions": {
+        "lightop_add_rmsnorm": 36,
+        "lightop_silu_mul": 36
+      },
+      "new_measured_candidate_device_pairs": {
+        "lightop_add_rmsnorm": 72,
+        "lightop_silu_mul": 72
+      },
+      "joint_qk_structural_groups": 0,
+      "joint_qk_matched_groups": 0,
+      "tasks": {
+        "free": {
+          "joint_hybrid": {
+            "feasible_runs": 3,
+            "median_ms": 29.3773945352571,
+            "old_median_ms": 29.3773945352571,
+            "first_best_evaluations": [
+              1,
+              1,
+              1
+            ],
+            "initial_best_ms": [
+              29.3773945352571,
+              29.3773945352571,
+              29.3773945352571
+            ],
+            "feasible_evaluations": [
+              64,
+              64,
+              64
+            ],
+            "median_search_s": 19.0435262999963,
+            "max_tree_assigned_nodes": 17,
+            "max_tree_choices": 16,
+            "best_fusion_patterns": [
+              {},
+              {},
+              {}
+            ],
+            "measured_calls_in_best": [
+              0,
+              0,
+              0
+            ],
+            "measured_group_evaluations": 7580,
+            "minimum_rollout_fraction": 0.975254730713246,
+            "same_candidate_positions_as_before": [
+              64,
+              56,
+              64
+            ],
+            "selected_plan_changed": [
+              true,
+              false,
+              false
+            ]
+          },
+          "random_hybrid": {
+            "feasible_runs": 3,
+            "median_ms": 29.3773945352571,
+            "old_median_ms": 29.3773945352571,
+            "first_best_evaluations": [
+              1,
+              1,
+              1
+            ],
+            "initial_best_ms": [
+              29.3773945352571,
+              29.3773945352571,
+              29.3773945352571
+            ],
+            "feasible_evaluations": [
+              64,
+              64,
+              64
+            ],
+            "median_search_s": 14.293382500007283,
+            "max_tree_assigned_nodes": null,
+            "max_tree_choices": null,
+            "best_fusion_patterns": [
+              {},
+              {},
+              {}
+            ],
+            "measured_calls_in_best": [
+              0,
+              0,
+              0
+            ],
+            "measured_group_evaluations": 7009,
+            "same_candidate_positions_as_before": [
+              64,
+              64,
+              64
+            ],
+            "selected_plan_changed": [
+              false,
+              false,
+              false
+            ]
+          }
+        },
+        "cap75": {
+          "joint_hybrid": {
+            "feasible_runs": 3,
+            "median_ms": 30.352663482292172,
+            "old_median_ms": 30.23505116783951,
+            "first_best_evaluations": [
+              12,
+              18,
+              49
+            ],
+            "initial_best_ms": [
+              null,
+              null,
+              null
+            ],
+            "feasible_evaluations": [
+              35,
+              29,
+              36
+            ],
+            "median_search_s": 18.43925309999031,
+            "max_tree_assigned_nodes": 26,
+            "max_tree_choices": 26,
+            "best_fusion_patterns": [
+              {
+                "lightop_add_rmsnorm": 27,
+                "lightop_silu_mul": 16
+              },
+              {
+                "lightop_silu_mul": 9,
+                "lightop_add_rmsnorm": 23
+              },
+              {
+                "lightop_add_rmsnorm": 26,
+                "lightop_silu_mul": 11
+              }
+            ],
+            "measured_calls_in_best": [
+              43,
+              32,
+              37
+            ],
+            "measured_group_evaluations": 7745,
+            "minimum_rollout_fraction": 0.9621542940320232,
+            "same_candidate_positions_as_before": [
+              64,
+              57,
+              47
+            ],
+            "selected_plan_changed": [
+              false,
+              false,
+              true
+            ]
+          },
+          "random_hybrid": {
+            "feasible_runs": 3,
+            "median_ms": 30.65921319462343,
+            "old_median_ms": 30.50623728205342,
+            "first_best_evaluations": [
+              17,
+              34,
+              55
+            ],
+            "initial_best_ms": [
+              null,
+              null,
+              null
+            ],
+            "feasible_evaluations": [
+              40,
+              42,
+              34
+            ],
+            "median_search_s": 14.450952799990773,
+            "max_tree_assigned_nodes": null,
+            "max_tree_choices": null,
+            "best_fusion_patterns": [
+              {
+                "lightop_add_rmsnorm": 27,
+                "lightop_silu_mul": 10
+              },
+              {
+                "lightop_add_rmsnorm": 22,
+                "lightop_silu_mul": 11
+              },
+              {
+                "lightop_add_rmsnorm": 26,
+                "lightop_silu_mul": 13
+              }
+            ],
+            "measured_calls_in_best": [
+              37,
+              33,
+              39
+            ],
+            "measured_group_evaluations": 7009,
+            "same_candidate_positions_as_before": [
+              64,
+              64,
+              64
+            ],
+            "selected_plan_changed": [
+              false,
+              false,
+              false
+            ]
+          }
+        }
+      }
+    }
+  }
+}

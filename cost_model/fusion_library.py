@@ -71,6 +71,55 @@ class LibraryPattern(FusionPattern):
                     raise FusionRuleError(f"pattern {self.pattern_id}: dim {rule['dim']}={size} outside {rule}")
 
 
+class JointQKRmsRopePattern(LibraryPattern):
+    """One joint Q/K call, never two independent RMSNorm/RoPE labels.
+
+    The graph must supply an explicit semantic declaration. Measurements at a
+    chosen rotary convention do not fill in missing graph semantics.
+    """
+
+    def candidate_node_ids(self, graph):
+        for join in graph.topological_order():
+            if graph.nodes[join].op_type != "matmul":
+                continue
+            branches = []
+            for rope in graph.predecessors(join):
+                if graph.nodes[rope].op_type != "rope":
+                    continue
+                parents = list(graph.predecessors(rope))
+                if len(parents) == 1 and graph.nodes[parents[0]].op_type == "rmsnorm":
+                    branches.append((parents[0], rope))
+            if len(branches) == 2:
+                # Shape distinguishes Q (16 heads) and K (8) in the measured case.
+                branches.sort(key=lambda pair: tuple(graph.nodes[pair[0]].extra.get("output_shape", ())), reverse=True)
+                yield tuple(n for pair in branches for n in pair)
+
+    def validate(self, graph, node_ids):
+        super().validate(graph, node_ids)
+        qn, qr, kn, kr = node_ids
+        shapes = ((1, 256, 16, 128), (1, 256, 8, 128))
+        for (norm, rope), shape in zip(((qn, qr), (kn, kr)), shapes):
+            if any(tuple(graph.nodes[n].extra.get("output_shape", ())) != shape for n in (norm, rope)):
+                raise FusionRuleError("joint Q/K RMSRoPE requires its measured Q/K shapes")
+            if list(graph.predecessors(rope)) != [norm] or set(graph.successors(norm)) != {rope}:
+                raise FusionRuleError("joint RMSRoPE cannot remove an externally consumed norm")
+            if len(graph.in_edges(norm)) != 1 or graph.nodes[norm].param_bytes != 256:
+                raise FusionRuleError("joint RMSRoPE requires one activation and BF16 head weights")
+        joins = set(graph.successors(qr)) & set(graph.successors(kr))
+        if not any(graph.nodes[n].op_type == "matmul" for n in joins):
+            raise FusionRuleError("Q and K must feed the same attention product")
+        nodes = [graph.nodes[n] for n in node_ids]
+        if any(n.extra.get("dtype") != "bf16" or n.extra.get("phase") != "forward" for n in nodes):
+            raise FusionRuleError("joint RMSRoPE supports BF16 forward only")
+        if len({n.extra.get("layer") for n in nodes}) != 1 or nodes[0].extra.get("layer") is None:
+            raise FusionRuleError("joint RMSRoPE requires explicit same-layer metadata")
+        declared = graph.extra.get("fusion_contracts", {}).get(self.pattern_id, {})
+        expected = {"theta": 1e6, "rotary_dim": 128, "is_neox": True, "eps": 1e-6,
+                    "residual_q": None, "residual_k": None}
+        if not declared.get("source") or any(k not in declared or declared[k] != v for k, v in expected.items()):
+            raise FusionRuleError("missing or incompatible graph rotary/normalization semantic declaration")
+
+
 @dataclass(frozen=True)
 class FusionEntry:
     fusion_id: str
@@ -186,12 +235,16 @@ def load_library(path=DEFAULT_MANIFEST) -> FusionLibrary:
         if len(ops) < 2:
             raise FusionLibraryError(f"{fid}: a fusion covers at least two ops")
         intermediate = bool(op.get("intermediate_outputs", False))
-        pattern = LibraryPattern(
+        topology = op.get("topology", "chain")
+        if topology not in ("chain", "joint_qk_rms_rope"):
+            raise FusionLibraryError(f"{fid}: unknown topology {topology}")
+        pattern_type = JointQKRmsRopePattern if topology == "joint_qk_rms_rope" else LibraryPattern
+        pattern = pattern_type(
             pattern_id=fid, backend=manifest["library"], implementation_status=status,
             op_types=ops, min_nodes=len(ops), max_nodes=len(ops),
             supported_dtypes=tuple(item["supported_dtypes"]),
             require_same_shape=bool(op.get("same_shape", True)),
-            require_linear_chain=not intermediate, priority=int(item.get("priority", 40)),
+            require_linear_chain=topology == "chain" and not intermediate, priority=int(item.get("priority", 40)),
             shape_constraints=_shape_constraints(item.get("supported_shapes"), fid),
             intermediate_outputs=intermediate)
         entries.append(FusionEntry(fid, impl, status, training, calibration,

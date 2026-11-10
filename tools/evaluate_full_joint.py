@@ -84,12 +84,23 @@ class FullLedger(ObservedLedger):
         super().__init__(*args, **kwargs)
         self.graph_id = graph_fingerprint(self.graph)
         self.label, self.progress = label, progress
+        self.search_context = {}
+
+    def evaluate(self, plan):
+        annotate = getattr(self.profile, "annotate_plan", None)
+        if annotate is not None:
+            annotate(self.graph, plan)
+        return super().evaluate(plan)
 
     def observe(self, plan, estimate):
         assert_shared_colocated(self.graph, plan)
         stats = super().observe(plan, estimate)
         key = json.dumps((self.graph_id, _plan_key(plan)), separators=(",", ":"))
-        stats.update(candidate_id=hashlib.sha256(key.encode()).hexdigest(),
+        stats.update(self.search_context)
+        bindings = [g.extra["measured_complete_call"] for g in plan.groups if "measured_complete_call" in g.extra]
+        stats.update(measured_call_count=len(bindings),
+                     measured_execution_keys=dict(Counter(b["execution_key_id"] for b in bindings)),
+                     candidate_id=hashlib.sha256(key.encode()).hexdigest(),
                      cost_sources=dict(Counter(g["source"] for g in estimate.details["groups"])),
                      fused_patterns=dict(Counter(g.extra["pattern_id"] for g in plan.groups if len(g.node_ids) > 1)),
                      nodes_per_device=dict(Counter(str(g.device) for g in plan.groups for _ in g.node_ids)))
@@ -111,8 +122,12 @@ def run_one(graph, profile, registry, capacity, method, seed, budget, label, pro
     policy = "hybrid" if method.endswith("hybrid") else "node"
     ledger.phase = method
     if method.startswith("joint"):
+        def observe_rollout(space, state, plan):
+            ledger.search_context = {"tree_choices": len(state.choices), "tree_assigned_nodes": len(state.assigned),
+                "rollout_completed_nodes": len(space.order) - len(state.assigned),
+                "tree_prefix_id": hashlib.sha256(repr(state.key()).encode()).hexdigest()}
         _, stopped = run_mcts(ledger, graph, registry, policy=policy, seed=seed,
-                              iterations=200 * budget, tie_shared_params=True)
+                              iterations=200 * budget, tie_shared_params=True, rollout_observer=observe_rollout)
         draws = None
     else:
         space = LegalFusionSearchSpace(graph, profile.n_devs, registry, placement_policy=policy,
@@ -146,12 +161,15 @@ def source_hashes():
     return {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
 
 
-def run(output, scale, budget=64, seeds=(0, 7, 23), caps=("free", "cap75"), resume=False):
+def run(output, scale, budget=64, seeds=(0, 7, 23), caps=("free", "cap75"), resume=False,
+        measurements=None, methods=METHODS):
     if budget < 2 or scale not in MODEL_NAMES or any(c not in ("free", "cap75") for c in caps):
         raise ValueError("invalid full-model experiment configuration")
+    if not methods or any(m not in METHODS for m in methods) or len(set(methods)) != len(methods):
+        raise ValueError("unknown or duplicate methods")
     output = Path(output)
     config = {"model": MODEL_NAMES[scale], "scale": scale, "budget": budget, "seeds": list(seeds),
-              "caps": list(caps), "methods": list(METHODS), "source_sha256": source_hashes(),
+              "caps": list(caps), "methods": list(methods), "source_sha256": source_hashes(),
               "objective": "forward makespan; analytic L1 plus existing LightOP calibration; blocking HTAE",
               "shared_parameters": "tie_shared_params=True in every method; no unmodeled remote tied weights",
               "budget_contract": "64 by default actual unique complete-plan model evaluations, including both native initializations and infeasible calls",
@@ -159,6 +177,14 @@ def run(output, scale, budget=64, seeds=(0, 7, 23), caps=("free", "cap75"), resu
               "capacity_contract": "free=physical total; cap75=75% of unfused single-card forward peak; synthetic, not training",
               "cpu_wall_time_scope": "diagnostic; two model processes may run concurrently; not an algorithm speed benchmark",
               "gpu_measurements": 0, "full_model_gpu_execution": False}
+    if measurements is not None:
+        from cost_model.measured_fusion_calls import sha
+        folder = Path(measurements).resolve()
+        config.update(objective="forward makespan; exact local LightOP complete-call costs where matching, existing analytic/calibrated fallback; blocking HTAE",
+                      measurement_directory=folder.relative_to(ROOT).as_posix(),
+                      measurement_source_sha256={p.relative_to(ROOT).as_posix(): sha(p) for p in folder.rglob('*.json')})
+        for name in ("cost_model/measured_fusion_calls.py", "simulator/fusion_rules.py"):
+            config["source_sha256"][name] = sha(ROOT / name)
     if resume:
         if json.loads((output / "plan.json").read_text(encoding="utf-8")) != config:
             raise ValueError("resume configuration/source differs from frozen plan")
@@ -175,6 +201,10 @@ def run(output, scale, budget=64, seeds=(0, 7, 23), caps=("free", "cap75"), resu
     base = AnalyticHardwareProfile(load_hardware(HARDWARE))
     corrections, _ = fit_corrections(library, base, observations, build_evaluation_graph)
     profile, registry = CalibratedFusionProfile(base, library, corrections), library.registry("full")
+    if measurements is not None:
+        from cost_model.measured_fusion_calls import MeasuredFusionCalls
+        profile = MeasuredFusionCalls(profile, library, measurements)
+        save(output / "fusion_cost_audit.json", profile.audit_graph(graph, registry))
     setup = FullLedger(graph, profile, registry, [d.max_mem for d in profile.hardware.devices])
     references = reference_plans(graph, registry)
     ref_rows = {name: setup.evaluate(p) for name, p in references.items()}
@@ -192,7 +222,7 @@ def run(output, scale, budget=64, seeds=(0, 7, 23), caps=("free", "cap75"), resu
                 "best_known_reference": {"makespan_ms": best_ref[0], "name": best_ref[1]} if best_ref else None,
                 "runs": []}
         report["tasks"][cap] = task
-        for method in METHODS:
+        for method in methods:
             for seed in seeds:
                 label = f"{scale}:{cap}:{method}:seed{seed}"
                 path = output / "runs" / f"{cap}_{method}_seed{seed}.json"
@@ -223,7 +253,7 @@ def run(output, scale, budget=64, seeds=(0, 7, 23), caps=("free", "cap75"), resu
                 task["runs"].append(row)
                 save(output / "report.json", report)
         task["summary"] = {}
-        for method in METHODS:
+        for method in methods:
             rows = [r for r in task["runs"] if r["method"] == method]
             feasible = [r for r in rows if r["best"]]
             task["summary"][method] = {"runs": len(rows), "feasible_runs": len(feasible),
@@ -250,5 +280,8 @@ if __name__ == "__main__":
     parser.add_argument("--seeds", default="0,7,23")
     parser.add_argument("--caps", default="free,cap75")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--fusion-measurements", type=Path)
+    parser.add_argument("--methods", default=",".join(METHODS))
     args = parser.parse_args()
-    run(args.output, args.model, args.budget, tuple(int(x) for x in args.seeds.split(",")), tuple(args.caps.split(",")), args.resume)
+    run(args.output, args.model, args.budget, tuple(int(x) for x in args.seeds.split(",")), tuple(args.caps.split(",")), args.resume,
+        args.fusion_measurements, tuple(args.methods.split(",")))

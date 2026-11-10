@@ -242,6 +242,10 @@ def default_fusion_registry() -> FusionPatternRegistry:
 
 
 def _candidate_paths(graph: OpGraph, pattern: FusionPattern) -> Iterable[Tuple[str, ...]]:
+    custom = getattr(pattern, "candidate_node_ids", None)
+    if custom is not None:
+        yield from (ids for ids in custom(graph) if pattern.matches(graph, ids))
+        return
     if pattern.fallback:
         for node_id in graph.topological_order():
             yield (node_id,)

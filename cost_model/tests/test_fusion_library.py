@@ -90,7 +90,7 @@ class Scopes(unittest.TestCase):
     def test_development_is_calibrated_subset_full_is_all_implemented(self):
         lib = load_library()
         self.assertEqual({e.fusion_id for e in lib.eligible("full")},
-                         {"lightop_silu_mul", "lightop_add_rmsnorm"})
+                         {"lightop_silu_mul", "lightop_add_rmsnorm", "lightop_qk_rmsnorm_rope"})
         self.assertEqual({e.fusion_id for e in lib.eligible("development")}, {"lightop_silu_mul"})
 
     def test_calibration_flags_must_match_observations(self):

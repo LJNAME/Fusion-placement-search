@@ -1,0 +1,2725 @@
+{
+  "method": "joint_hybrid",
+  "seed": 23,
+  "budget": 64,
+  "budget_used": 64,
+  "unique_candidates": 64,
+  "budget_remaining": 0,
+  "scorer_requests": 87,
+  "feasible_evaluations": 36,
+  "initial_best_ms": null,
+  "best": {
+    "evaluation": 49,
+    "phase": "joint_hybrid",
+    "makespan_ms": 30.13276451855148,
+    "feasible": true,
+    "peak_memory_bytes": [
+      1590427648.0,
+      4672425984.0
+    ],
+    "cross_device_edges": 70,
+    "cross_device_bytes": 233963520.0,
+    "fused_groups": 37,
+    "best_ms": 30.13276451855148,
+    "compute_overlap_us": 4111.680050737257,
+    "branch_overlap_us": 4111.680050737257,
+    "branch_overlap_fraction": 0.13645213495780875,
+    "max_compute_devices": 2,
+    "max_parallel_branch_devices": 2,
+    "tree_choices": 16,
+    "tree_assigned_nodes": 17,
+    "rollout_completed_nodes": 670,
+    "tree_prefix_id": "aa9cf03abca11236aef1d8d43adfc03d107ff11d8db39fcbed51f587f6f01a2e",
+    "measured_call_count": 37,
+    "measured_execution_keys": {
+      "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 26,
+      "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 11
+    },
+    "candidate_id": "33b5d2e75793dd007164a5ef3634051edf81e2971276c5109bb695ff635a61fa",
+    "cost_sources": {
+      "analytic_roofline": 577,
+      "logical_input": 36,
+      "transferred_complete_call": 37
+    },
+    "fused_patterns": {
+      "lightop_add_rmsnorm": 26,
+      "lightop_silu_mul": 11
+    },
+    "nodes_per_device": {
+      "1": 633,
+      "0": 54
+    }
+  },
+  "first_final_best_evaluation": 49,
+  "first_feasible_evaluation": 4,
+  "elapsed_s": 18.43335860001389,
+  "stop": "evaluation_budget",
+  "random_draws": null,
+  "reason": null,
+  "trace": [
+    {
+      "evaluation": 1,
+      "phase": "initialization",
+      "makespan_ms": 29.3773945352571,
+      "feasible": false,
+      "peak_memory_bytes": [
+        6250532864.0,
+        0.0
+      ],
+      "cross_device_edges": 0,
+      "cross_device_bytes": 0.0,
+      "fused_groups": 0,
+      "best_ms": null,
+      "compute_overlap_us": 0.0,
+      "branch_overlap_us": 0.0,
+      "branch_overlap_fraction": 0.0,
+      "max_compute_devices": 1,
+      "max_parallel_branch_devices": 1,
+      "measured_call_count": 0,
+      "measured_execution_keys": {},
+      "candidate_id": "e8aed37edca4ebadcf5c245d211f5fcd9328e22192540a7aa466cc245ba7b38f",
+      "cost_sources": {
+        "analytic_roofline": 651,
+        "logical_input": 36
+      },
+      "fused_patterns": {},
+      "nodes_per_device": {
+        "0": 687
+      }
+    },
+    {
+      "evaluation": 2,
+      "phase": "initialization",
+      "makespan_ms": 29.3936118406066,
+      "feasible": false,
+      "peak_memory_bytes": [
+        0.0,
+        6250532864.0
+      ],
+      "cross_device_edges": 0,
+      "cross_device_bytes": 0.0,
+      "fused_groups": 0,
+      "best_ms": null,
+      "compute_overlap_us": 0.0,
+      "branch_overlap_us": 0.0,
+      "branch_overlap_fraction": 0.0,
+      "max_compute_devices": 1,
+      "max_parallel_branch_devices": 1,
+      "measured_call_count": 0,
+      "measured_execution_keys": {},
+      "candidate_id": "50e55612ea39d3676749c4026629e09d263a43e6d39eaa0122715d2a5212e1a2",
+      "cost_sources": {
+        "analytic_roofline": 651,
+        "logical_input": 36
+      },
+      "fused_patterns": {},
+      "nodes_per_device": {
+        "1": 687
+      }
+    },
+    {
+      "evaluation": 3,
+      "phase": "joint_hybrid",
+      "makespan_ms": 29.911978700567047,
+      "feasible": false,
+      "peak_memory_bytes": [
+        6250532864.0,
+        0.0
+      ],
+      "cross_device_edges": 0,
+      "cross_device_bytes": 0.0,
+      "fused_groups": 72,
+      "best_ms": null,
+      "compute_overlap_us": 0.0,
+      "branch_overlap_us": 0.0,
+      "branch_overlap_fraction": 0.0,
+      "max_compute_devices": 1,
+      "max_parallel_branch_devices": 1,
+      "tree_choices": 1,
+      "tree_assigned_nodes": 1,
+      "rollout_completed_nodes": 686,
+      "tree_prefix_id": "d27c0fb2dc6727acf99b3eac99f6b08a867046361455b0cfeec718fe7f267cf6",
+      "measured_call_count": 72,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 36,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 36
+      },
+      "candidate_id": "b3d8345cc518c01de5045958ccf1c0b150f02884d04f95486a069c8cb220e64e",
+      "cost_sources": {
+        "analytic_roofline": 507,
+        "logical_input": 36,
+        "measured_complete_call": 72
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 36,
+        "lightop_silu_mul": 36
+      },
+      "nodes_per_device": {
+        "0": 687
+      }
+    },
+    {
+      "evaluation": 4,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.67587456418283,
+      "feasible": true,
+      "peak_memory_bytes": [
+        4537159680.0,
+        1725693952.0
+      ],
+      "cross_device_edges": 76,
+      "cross_device_bytes": 254017536.0,
+      "fused_groups": 37,
+      "best_ms": 31.67587456418283,
+      "compute_overlap_us": 2631.1595400662322,
+      "branch_overlap_us": 2631.1595400662322,
+      "branch_overlap_fraction": 0.08306509532151604,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 1,
+      "tree_assigned_nodes": 1,
+      "rollout_completed_nodes": 686,
+      "tree_prefix_id": "d27c0fb2dc6727acf99b3eac99f6b08a867046361455b0cfeec718fe7f267cf6",
+      "measured_call_count": 37,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 25,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 12
+      },
+      "candidate_id": "7ec167d3cbc8703b8e4499c17ebf0368e3677ba82a55feaf324201a4402780a2",
+      "cost_sources": {
+        "analytic_roofline": 577,
+        "logical_input": 36,
+        "measured_complete_call": 37
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 25,
+        "lightop_silu_mul": 12
+      },
+      "nodes_per_device": {
+        "0": 632,
+        "1": 55
+      }
+    },
+    {
+      "evaluation": 5,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.857986337332946,
+      "feasible": true,
+      "peak_memory_bytes": [
+        4401893376.0,
+        1860960256.0
+      ],
+      "cross_device_edges": 82,
+      "cross_device_bytes": 274071552.0,
+      "fused_groups": 33,
+      "best_ms": 31.67587456418283,
+      "compute_overlap_us": 2795.247057986278,
+      "branch_overlap_us": 2795.247057986278,
+      "branch_overlap_fraction": 0.08774085808149944,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 1,
+      "tree_assigned_nodes": 1,
+      "rollout_completed_nodes": 686,
+      "tree_prefix_id": "d27c0fb2dc6727acf99b3eac99f6b08a867046361455b0cfeec718fe7f267cf6",
+      "measured_call_count": 33,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 25,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 8
+      },
+      "candidate_id": "39998b9450c55b399587ac598f31df3e865fc913bdf6c399b024a2412f88b6cb",
+      "cost_sources": {
+        "analytic_roofline": 585,
+        "logical_input": 36,
+        "measured_complete_call": 33
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 25,
+        "lightop_silu_mul": 8
+      },
+      "nodes_per_device": {
+        "0": 623,
+        "1": 64
+      }
+    },
+    {
+      "evaluation": 6,
+      "phase": "joint_hybrid",
+      "makespan_ms": 29.927767432694818,
+      "feasible": false,
+      "peak_memory_bytes": [
+        0.0,
+        6250532864.0
+      ],
+      "cross_device_edges": 0,
+      "cross_device_bytes": 0.0,
+      "fused_groups": 72,
+      "best_ms": 31.67587456418283,
+      "compute_overlap_us": 0.0,
+      "branch_overlap_us": 0.0,
+      "branch_overlap_fraction": 0.0,
+      "max_compute_devices": 1,
+      "max_parallel_branch_devices": 1,
+      "tree_choices": 2,
+      "tree_assigned_nodes": 2,
+      "rollout_completed_nodes": 685,
+      "tree_prefix_id": "6502630ffdab2c1f265d346b7a20bbed825e66242add9cde17167e336d5fb7bc",
+      "measured_call_count": 72,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 36,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 36
+      },
+      "candidate_id": "a7426ba8a5ebad8091b083bd0aad621692c01bc85f32fba05419e18ba76ddd24",
+      "cost_sources": {
+        "analytic_roofline": 507,
+        "logical_input": 36,
+        "transferred_complete_call": 72
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 36,
+        "lightop_silu_mul": 36
+      },
+      "nodes_per_device": {
+        "1": 687
+      }
+    },
+    {
+      "evaluation": 7,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.358889066121442,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1274806272.0,
+        4988047360.0
+      ],
+      "cross_device_edges": 56,
+      "cross_device_bytes": 187170816.0,
+      "fused_groups": 43,
+      "best_ms": 31.67587456418283,
+      "compute_overlap_us": 2960.614409983112,
+      "branch_overlap_us": 2960.614409983112,
+      "branch_overlap_fraction": 0.0975205121483502,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 2,
+      "tree_assigned_nodes": 2,
+      "rollout_completed_nodes": 685,
+      "tree_prefix_id": "6502630ffdab2c1f265d346b7a20bbed825e66242add9cde17167e336d5fb7bc",
+      "measured_call_count": 43,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 28,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 15
+      },
+      "candidate_id": "245e7b2dc9a31122616fc372bf05526eedb1009cb8b39cad2dcc976dffbdc581",
+      "cost_sources": {
+        "analytic_roofline": 565,
+        "logical_input": 36,
+        "transferred_complete_call": 43
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 28,
+        "lightop_silu_mul": 15
+      },
+      "nodes_per_device": {
+        "1": 642,
+        "0": 45
+      }
+    },
+    {
+      "evaluation": 8,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.98111873882175,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1635516416.0,
+        4627337216.0
+      ],
+      "cross_device_edges": 72,
+      "cross_device_bytes": 240648192.0,
+      "fused_groups": 43,
+      "best_ms": 30.98111873882175,
+      "compute_overlap_us": 3289.216057182128,
+      "branch_overlap_us": 3289.216057182128,
+      "branch_overlap_fraction": 0.10616840808464689,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 2,
+      "tree_assigned_nodes": 2,
+      "rollout_completed_nodes": 685,
+      "tree_prefix_id": "6502630ffdab2c1f265d346b7a20bbed825e66242add9cde17167e336d5fb7bc",
+      "measured_call_count": 43,
+      "measured_execution_keys": {
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 14,
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 29
+      },
+      "candidate_id": "6a6ad970b75067411df54b4799e02ceeae38d0399616cb9971ef806baf7f45ec",
+      "cost_sources": {
+        "analytic_roofline": 565,
+        "logical_input": 36,
+        "transferred_complete_call": 43
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 14,
+        "lightop_add_rmsnorm": 29
+      },
+      "nodes_per_device": {
+        "1": 633,
+        "0": 54
+      }
+    },
+    {
+      "evaluation": 9,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.9386857476561,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1860960256.0,
+        4401893376.0
+      ],
+      "cross_device_edges": 82,
+      "cross_device_bytes": 274071552.0,
+      "fused_groups": 38,
+      "best_ms": 30.98111873882175,
+      "compute_overlap_us": 2795.9936278644054,
+      "branch_overlap_us": 2795.9936278644054,
+      "branch_overlap_fraction": 0.08754253853634528,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 3,
+      "tree_assigned_nodes": 3,
+      "rollout_completed_nodes": 684,
+      "tree_prefix_id": "39aaf8e3a01fb563d2e6e8401375d629b89d6a5338b0555b1ca9312a07691672",
+      "measured_call_count": 38,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 28,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 10
+      },
+      "candidate_id": "e4dcf2ee85972d99c4cde73fe78f18259256d0d1c53ac48ad924ff250e8f3eb8",
+      "cost_sources": {
+        "analytic_roofline": 575,
+        "logical_input": 36,
+        "transferred_complete_call": 38
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 28,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "1": 624,
+        "0": 63
+      }
+    },
+    {
+      "evaluation": 10,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.35692288697333,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1635516416.0,
+        4627337216.0
+      ],
+      "cross_device_edges": 72,
+      "cross_device_bytes": 240648192.0,
+      "fused_groups": 42,
+      "best_ms": 30.98111873882175,
+      "compute_overlap_us": 2960.4011043036567,
+      "branch_overlap_us": 2960.4011043036567,
+      "branch_overlap_fraction": 0.09440980911853127,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 3,
+      "tree_assigned_nodes": 3,
+      "rollout_completed_nodes": 684,
+      "tree_prefix_id": "39aaf8e3a01fb563d2e6e8401375d629b89d6a5338b0555b1ca9312a07691672",
+      "measured_call_count": 42,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 26,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 16
+      },
+      "candidate_id": "f7991befc42e81bb8bc27e9558b0921496b2e970310fc22ba76f2ce143c9f321",
+      "cost_sources": {
+        "analytic_roofline": 567,
+        "logical_input": 36,
+        "transferred_complete_call": 42
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 26,
+        "lightop_silu_mul": 16
+      },
+      "nodes_per_device": {
+        "1": 632,
+        "0": 55
+      }
+    },
+    {
+      "evaluation": 11,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.56747687926422,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1500250112.0,
+        4762603520.0
+      ],
+      "cross_device_edges": 66,
+      "cross_device_bytes": 220594176.0,
+      "fused_groups": 41,
+      "best_ms": 30.98111873882175,
+      "compute_overlap_us": 3453.8368393008373,
+      "branch_overlap_us": 3453.8368393008373,
+      "branch_overlap_fraction": 0.1129905766492551,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 4,
+      "tree_assigned_nodes": 4,
+      "rollout_completed_nodes": 683,
+      "tree_prefix_id": "00df5c1b5fe4f54ec305b791511bf947fe93e0c3dd62af647b334683c46b26a4",
+      "measured_call_count": 41,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 26,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 15
+      },
+      "candidate_id": "46595d32c35606e67341699ed199242a86c27e75dbfc18adca04c6cdf82f921e",
+      "cost_sources": {
+        "analytic_roofline": 569,
+        "logical_input": 36,
+        "transferred_complete_call": 41
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 26,
+        "lightop_silu_mul": 15
+      },
+      "nodes_per_device": {
+        "1": 636,
+        "0": 51
+      }
+    },
+    {
+      "evaluation": 12,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.39290473664577,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1860960256.0,
+        4401893376.0
+      ],
+      "cross_device_edges": 82,
+      "cross_device_bytes": 274071552.0,
+      "fused_groups": 34,
+      "best_ms": 30.98111873882175,
+      "compute_overlap_us": 3453.7301864611045,
+      "branch_overlap_us": 3453.7301864611045,
+      "branch_overlap_fraction": 0.11001626690598891,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 4,
+      "tree_assigned_nodes": 4,
+      "rollout_completed_nodes": 683,
+      "tree_prefix_id": "00df5c1b5fe4f54ec305b791511bf947fe93e0c3dd62af647b334683c46b26a4",
+      "measured_call_count": 34,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 24,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 10
+      },
+      "candidate_id": "fe511d608f70888d7c872c3d19ab990680ca926cb2e38284e81d3955ced19b15",
+      "cost_sources": {
+        "analytic_roofline": 583,
+        "logical_input": 36,
+        "transferred_complete_call": 34
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 24,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "1": 625,
+        "0": 62
+      }
+    },
+    {
+      "evaluation": 13,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.76982379231992,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1545338880.0,
+        4717514752.0
+      ],
+      "cross_device_edges": 68,
+      "cross_device_bytes": 227278848.0,
+      "fused_groups": 41,
+      "best_ms": 30.98111873882175,
+      "compute_overlap_us": 3289.002751502664,
+      "branch_overlap_us": 3289.002751502664,
+      "branch_overlap_fraction": 0.10689052929590034,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 5,
+      "tree_assigned_nodes": 5,
+      "rollout_completed_nodes": 682,
+      "tree_prefix_id": "44bd1416836181f0b6dcd6bc1afa481e72bc3153551d4b46c1ccf300d920f227",
+      "measured_call_count": 41,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 26,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 15
+      },
+      "candidate_id": "f0a58135ca8eec90730ddb7e5e2be95a27f17a0b7552f412c4833dffc5b97de0",
+      "cost_sources": {
+        "analytic_roofline": 569,
+        "logical_input": 36,
+        "transferred_complete_call": 41
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 26,
+        "lightop_silu_mul": 15
+      },
+      "nodes_per_device": {
+        "1": 638,
+        "0": 49
+      }
+    },
+    {
+      "evaluation": 14,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.098438621531855,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1635516416.0,
+        4627337216.0
+      ],
+      "cross_device_edges": 72,
+      "cross_device_bytes": 240648192.0,
+      "fused_groups": 28,
+      "best_ms": 30.98111873882175,
+      "compute_overlap_us": 2960.721062822848,
+      "branch_overlap_us": 2960.721062822848,
+      "branch_overlap_fraction": 0.09520481394113824,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 5,
+      "tree_assigned_nodes": 5,
+      "rollout_completed_nodes": 682,
+      "tree_prefix_id": "44bd1416836181f0b6dcd6bc1afa481e72bc3153551d4b46c1ccf300d920f227",
+      "measured_call_count": 28,
+      "measured_execution_keys": {
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 5,
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 23
+      },
+      "candidate_id": "f2a61d6ab57b1d354f2c56d68002ddb914b33c25e40a4cad29f36232314bc390",
+      "cost_sources": {
+        "analytic_roofline": 595,
+        "logical_input": 36,
+        "transferred_complete_call": 28
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 5,
+        "lightop_add_rmsnorm": 23
+      },
+      "nodes_per_device": {
+        "1": 629,
+        "0": 58
+      }
+    },
+    {
+      "evaluation": 15,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.809674859566503,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1590427648.0,
+        4672425984.0
+      ],
+      "cross_device_edges": 70,
+      "cross_device_bytes": 233963520.0,
+      "fused_groups": 43,
+      "best_ms": 30.98111873882175,
+      "compute_overlap_us": 2138.150416427985,
+      "branch_overlap_us": 2138.150416427985,
+      "branch_overlap_fraction": 0.06721698432528786,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 6,
+      "tree_assigned_nodes": 6,
+      "rollout_completed_nodes": 681,
+      "tree_prefix_id": "435c66b26709d6f8d8dc56a5ecd14e38f4c499e72073b667d21633d25a922b42",
+      "measured_call_count": 43,
+      "measured_execution_keys": {
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 13,
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 30
+      },
+      "candidate_id": "31eef507318e63743c11a8671b1d981da18199c5793270c146dd0fc648efdad2",
+      "cost_sources": {
+        "analytic_roofline": 565,
+        "logical_input": 36,
+        "transferred_complete_call": 43
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 13,
+        "lightop_add_rmsnorm": 30
+      },
+      "nodes_per_device": {
+        "1": 633,
+        "0": 54
+      }
+    },
+    {
+      "evaluation": 16,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.882938579917898,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1996226560.0,
+        4266627072.0
+      ],
+      "cross_device_edges": 88,
+      "cross_device_bytes": 294125568.0,
+      "fused_groups": 33,
+      "best_ms": 30.98111873882175,
+      "compute_overlap_us": 3289.21605718213,
+      "branch_overlap_us": 3289.21605718213,
+      "branch_overlap_fraction": 0.10316539828778229,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 6,
+      "tree_assigned_nodes": 6,
+      "rollout_completed_nodes": 681,
+      "tree_prefix_id": "435c66b26709d6f8d8dc56a5ecd14e38f4c499e72073b667d21633d25a922b42",
+      "measured_call_count": 33,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 23,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 10
+      },
+      "candidate_id": "b87c7208e75637ffad28203748ab5bf0838565347ce24eb1804c7d454affacbe",
+      "cost_sources": {
+        "analytic_roofline": 585,
+        "logical_input": 36,
+        "transferred_complete_call": 33
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 23,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "1": 621,
+        "0": 66
+      }
+    },
+    {
+      "evaluation": 17,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.054956954179275,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1319895040.0,
+        4942958592.0
+      ],
+      "cross_device_edges": 58,
+      "cross_device_bytes": 193855488.0,
+      "fused_groups": 37,
+      "best_ms": 30.98111873882175,
+      "compute_overlap_us": 3454.156797820033,
+      "branch_overlap_us": 3454.156797820033,
+      "branch_overlap_fraction": 0.11492802345670028,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 7,
+      "tree_assigned_nodes": 7,
+      "rollout_completed_nodes": 680,
+      "tree_prefix_id": "123999195df72d59ffd385b202bb16fadb953cbb34b7024b301c18540efbebea",
+      "measured_call_count": 37,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 24,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 13
+      },
+      "candidate_id": "833706ac001a06d97598563acbf77e7582e28dff8f5b06fffe0c7961bbf1bc16",
+      "cost_sources": {
+        "analytic_roofline": 577,
+        "logical_input": 36,
+        "transferred_complete_call": 37
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 24,
+        "lightop_silu_mul": 13
+      },
+      "nodes_per_device": {
+        "1": 639,
+        "0": 48
+      }
+    },
+    {
+      "evaluation": 18,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.731608188766387,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1590427648.0,
+        4672425984.0
+      ],
+      "cross_device_edges": 70,
+      "cross_device_bytes": 233963520.0,
+      "fused_groups": 40,
+      "best_ms": 30.731608188766387,
+      "compute_overlap_us": 3453.5168807816394,
+      "branch_overlap_us": 3453.5168807816394,
+      "branch_overlap_fraction": 0.11237670542877855,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 7,
+      "tree_assigned_nodes": 7,
+      "rollout_completed_nodes": 680,
+      "tree_prefix_id": "123999195df72d59ffd385b202bb16fadb953cbb34b7024b301c18540efbebea",
+      "measured_call_count": 40,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 26,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 14
+      },
+      "candidate_id": "d1dbb775b19b329c90d3e868ae5b5cf47745d42129814598aaeeac5aea2ca7db",
+      "cost_sources": {
+        "analytic_roofline": 571,
+        "logical_input": 36,
+        "transferred_complete_call": 40
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 26,
+        "lightop_silu_mul": 14
+      },
+      "nodes_per_device": {
+        "1": 636,
+        "0": 51
+      }
+    },
+    {
+      "evaluation": 19,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.727866506767107,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1815871488.0,
+        4446982144.0
+      ],
+      "cross_device_edges": 80,
+      "cross_device_bytes": 267386880.0,
+      "fused_groups": 41,
+      "best_ms": 30.731608188766387,
+      "compute_overlap_us": 2959.974492944715,
+      "branch_overlap_us": 2959.974492944715,
+      "branch_overlap_fraction": 0.09329257901136827,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 8,
+      "tree_assigned_nodes": 8,
+      "rollout_completed_nodes": 679,
+      "tree_prefix_id": "a3363e447058b2b02e26a07bd587c974bbd61e992ee9b48f444111135bf064f2",
+      "measured_call_count": 41,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 27,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 14
+      },
+      "candidate_id": "7542db4e8e6c141001fde1cf487b7265b19e72ba22b1ac182cf07df8d105f1cd",
+      "cost_sources": {
+        "analytic_roofline": 569,
+        "logical_input": 36,
+        "transferred_complete_call": 41
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 27,
+        "lightop_silu_mul": 14
+      },
+      "nodes_per_device": {
+        "1": 630,
+        "0": 57
+      }
+    },
+    {
+      "evaluation": 20,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.41466901531939,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1590427648.0,
+        4672425984.0
+      ],
+      "cross_device_edges": 70,
+      "cross_device_bytes": 233963520.0,
+      "fused_groups": 41,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3782.5451393395806,
+      "branch_overlap_us": 3782.5451393395806,
+      "branch_overlap_fraction": 0.1243658162919469,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 8,
+      "tree_assigned_nodes": 8,
+      "rollout_completed_nodes": 679,
+      "tree_prefix_id": "a3363e447058b2b02e26a07bd587c974bbd61e992ee9b48f444111135bf064f2",
+      "measured_call_count": 41,
+      "measured_execution_keys": {
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 13,
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 28
+      },
+      "candidate_id": "091832b3db4b579ebcd56fba2f8c8bb53fbfb8b50510aaf81d982069672fc272",
+      "cost_sources": {
+        "analytic_roofline": 569,
+        "logical_input": 36,
+        "transferred_complete_call": 41
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 13,
+        "lightop_add_rmsnorm": 28
+      },
+      "nodes_per_device": {
+        "1": 635,
+        "0": 52
+      }
+    },
+    {
+      "evaluation": 21,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.316502811905416,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1906049024.0,
+        4356804608.0
+      ],
+      "cross_device_edges": 84,
+      "cross_device_bytes": 280756224.0,
+      "fused_groups": 34,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3618.0310100606057,
+      "branch_overlap_us": 3618.0310100606057,
+      "branch_overlap_fraction": 0.11553113167812466,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 9,
+      "tree_assigned_nodes": 9,
+      "rollout_completed_nodes": 678,
+      "tree_prefix_id": "87e8371710cf8731b24a0c031620262fb94f5e6b022aab27d60672b3f7ade40f",
+      "measured_call_count": 34,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 25,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 9
+      },
+      "candidate_id": "89a1f3e70ef28dedac930cc34bce7ab35c11bd8fb695a1c72bbff091142fba13",
+      "cost_sources": {
+        "analytic_roofline": 583,
+        "logical_input": 36,
+        "transferred_complete_call": 34
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 25,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "1": 625,
+        "0": 62
+      }
+    },
+    {
+      "evaluation": 22,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.09439934885154,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1590427648.0,
+        4672425984.0
+      ],
+      "cross_device_edges": 70,
+      "cross_device_bytes": 233963520.0,
+      "fused_groups": 43,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3124.4886222236855,
+      "branch_overlap_us": 3124.4886222236855,
+      "branch_overlap_fraction": 0.10048396777727393,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 9,
+      "tree_assigned_nodes": 9,
+      "rollout_completed_nodes": 678,
+      "tree_prefix_id": "87e8371710cf8731b24a0c031620262fb94f5e6b022aab27d60672b3f7ade40f",
+      "measured_call_count": 43,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 26,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 17
+      },
+      "candidate_id": "b2843c79a0d4974045ee38e3b992dacdbd97aa9d07ef997472747891f016a650",
+      "cost_sources": {
+        "analytic_roofline": 565,
+        "logical_input": 36,
+        "transferred_complete_call": 43
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 26,
+        "lightop_silu_mul": 17
+      },
+      "nodes_per_device": {
+        "1": 637,
+        "0": 50
+      }
+    },
+    {
+      "evaluation": 23,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.020199569490693,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1500250112.0,
+        4762603520.0
+      ],
+      "cross_device_edges": 66,
+      "cross_device_bytes": 220594176.0,
+      "fused_groups": 40,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2796.3135863836083,
+      "branch_overlap_us": 2796.3135863836083,
+      "branch_overlap_fraction": 0.09014492573200165,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 10,
+      "tree_assigned_nodes": 10,
+      "rollout_completed_nodes": 677,
+      "tree_prefix_id": "b32fcf612bb2094f4a186fa089fd561223c912fdb3620a25742d83e7889d4ace",
+      "measured_call_count": 40,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 29,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 11
+      },
+      "candidate_id": "5423772477b647507533b952cd8bc08d5486f901af2391bccba4da4ca7dd66d5",
+      "cost_sources": {
+        "analytic_roofline": 571,
+        "logical_input": 36,
+        "transferred_complete_call": 40
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 29,
+        "lightop_silu_mul": 11
+      },
+      "nodes_per_device": {
+        "1": 633,
+        "0": 54
+      }
+    },
+    {
+      "evaluation": 24,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.752116980048836,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1680605184.0,
+        4582248448.0
+      ],
+      "cross_device_edges": 74,
+      "cross_device_bytes": 247332864.0,
+      "fused_groups": 35,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2467.0720221461997,
+      "branch_overlap_us": 2467.0720221461997,
+      "branch_overlap_fraction": 0.07769787519038061,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 10,
+      "tree_assigned_nodes": 10,
+      "rollout_completed_nodes": 677,
+      "tree_prefix_id": "b32fcf612bb2094f4a186fa089fd561223c912fdb3620a25742d83e7889d4ace",
+      "measured_call_count": 35,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 24,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 11
+      },
+      "candidate_id": "05b22f9c6d98396d322246b6ee492ba4331a98f8038b7c4178a42fb0a0afd893",
+      "cost_sources": {
+        "analytic_roofline": 581,
+        "logical_input": 36,
+        "transferred_complete_call": 35
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 24,
+        "lightop_silu_mul": 11
+      },
+      "nodes_per_device": {
+        "1": 630,
+        "0": 57
+      }
+    },
+    {
+      "evaluation": 25,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.33175949487869,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1590427648.0,
+        4672425984.0
+      ],
+      "cross_device_edges": 70,
+      "cross_device_bytes": 233963520.0,
+      "fused_groups": 42,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2795.9936278644154,
+      "branch_overlap_us": 2795.9936278644154,
+      "branch_overlap_fraction": 0.08923832152871698,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 11,
+      "tree_assigned_nodes": 11,
+      "rollout_completed_nodes": 676,
+      "tree_prefix_id": "01c01b632dcfcc3e95d3ac0cd112912043c9432681843d61d60b7b386cca70a2",
+      "measured_call_count": 42,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 27,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 15
+      },
+      "candidate_id": "8723b0562448f668e0765bc1c2c2737af27e27895cb30edf7ca9b2e5547ef74b",
+      "cost_sources": {
+        "analytic_roofline": 567,
+        "logical_input": 36,
+        "transferred_complete_call": 42
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 27,
+        "lightop_silu_mul": 15
+      },
+      "nodes_per_device": {
+        "1": 633,
+        "0": 54
+      }
+    },
+    {
+      "evaluation": 26,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.444187878535008,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1725693952.0,
+        4537159680.0
+      ],
+      "cross_device_edges": 76,
+      "cross_device_bytes": 254017536.0,
+      "fused_groups": 35,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2960.081145784446,
+      "branch_overlap_us": 2960.081145784446,
+      "branch_overlap_fraction": 0.09413762432723248,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 11,
+      "tree_assigned_nodes": 11,
+      "rollout_completed_nodes": 676,
+      "tree_prefix_id": "01c01b632dcfcc3e95d3ac0cd112912043c9432681843d61d60b7b386cca70a2",
+      "measured_call_count": 35,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 23,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 12
+      },
+      "candidate_id": "e2cb2d2a8eb07dc80b5a3f45227c90c97e7fa1b51de41b3f8fa239dccc048eb8",
+      "cost_sources": {
+        "analytic_roofline": 581,
+        "logical_input": 36,
+        "transferred_complete_call": 35
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 23,
+        "lightop_silu_mul": 12
+      },
+      "nodes_per_device": {
+        "1": 632,
+        "0": 55
+      }
+    },
+    {
+      "evaluation": 27,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.92568005753823,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1860960256.0,
+        4401893376.0
+      ],
+      "cross_device_edges": 82,
+      "cross_device_bytes": 274071552.0,
+      "fused_groups": 41,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2795.7803221849395,
+      "branch_overlap_us": 2795.7803221849395,
+      "branch_overlap_fraction": 0.08757151976547499,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 12,
+      "tree_assigned_nodes": 12,
+      "rollout_completed_nodes": 675,
+      "tree_prefix_id": "4f8c9e467f5d168b6655c0ce666666553be55f91b325f9d331119eae079ebc63",
+      "measured_call_count": 41,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 29,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 12
+      },
+      "candidate_id": "f18fd3e4cf15e8b789522c331ff7a6476cf2d49001f83badf4fdb911ef367998",
+      "cost_sources": {
+        "analytic_roofline": 569,
+        "logical_input": 36,
+        "transferred_complete_call": 41
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 29,
+        "lightop_silu_mul": 12
+      },
+      "nodes_per_device": {
+        "1": 626,
+        "0": 61
+      }
+    },
+    {
+      "evaluation": 28,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.586243464526362,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1410072576.0,
+        4852781056.0
+      ],
+      "cross_device_edges": 62,
+      "cross_device_bytes": 207224832.0,
+      "fused_groups": 40,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 1809.2288107097706,
+      "branch_overlap_us": 1809.2288107097706,
+      "branch_overlap_fraction": 0.05727901175528092,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 12,
+      "tree_assigned_nodes": 12,
+      "rollout_completed_nodes": 675,
+      "tree_prefix_id": "4f8c9e467f5d168b6655c0ce666666553be55f91b325f9d331119eae079ebc63",
+      "measured_call_count": 40,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 28,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 12
+      },
+      "candidate_id": "115b15dbb7aa7ed3fc1694660ca8974d1ca954af3412dcb3408e3fe1ca04c070",
+      "cost_sources": {
+        "analytic_roofline": 571,
+        "logical_input": 36,
+        "transferred_complete_call": 40
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 28,
+        "lightop_silu_mul": 12
+      },
+      "nodes_per_device": {
+        "1": 639,
+        "0": 48
+      }
+    },
+    {
+      "evaluation": 29,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.246376239861366,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1635516416.0,
+        4627337216.0
+      ],
+      "cross_device_edges": 72,
+      "cross_device_bytes": 240648192.0,
+      "fused_groups": 38,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2960.0811457844543,
+      "branch_overlap_us": 2960.0811457844543,
+      "branch_overlap_fraction": 0.0947335820020065,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 13,
+      "tree_assigned_nodes": 14,
+      "rollout_completed_nodes": 673,
+      "tree_prefix_id": "3318a9a74fb20d4f4b1a9749d6bb585849c5d1854b09d6cbd5efda44a0dc57ad",
+      "measured_call_count": 38,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 24,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 14
+      },
+      "candidate_id": "b77778d4f9ecd7bb0083595d56d08c3e8c2b1a5db520675e9a19cc4fd1688dfc",
+      "cost_sources": {
+        "analytic_roofline": 575,
+        "logical_input": 36,
+        "transferred_complete_call": 38
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 24,
+        "lightop_silu_mul": 14
+      },
+      "nodes_per_device": {
+        "1": 635,
+        "0": 52
+      }
+    },
+    {
+      "evaluation": 30,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.1506252819188,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1635516416.0,
+        4627337216.0
+      ],
+      "cross_device_edges": 72,
+      "cross_device_bytes": 240648192.0,
+      "fused_groups": 39,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2960.294451463918,
+      "branch_overlap_us": 2960.294451463918,
+      "branch_overlap_fraction": 0.09503162214795745,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 13,
+      "tree_assigned_nodes": 14,
+      "rollout_completed_nodes": 673,
+      "tree_prefix_id": "3318a9a74fb20d4f4b1a9749d6bb585849c5d1854b09d6cbd5efda44a0dc57ad",
+      "measured_call_count": 39,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 29,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 10
+      },
+      "candidate_id": "eb66526003ce8bda114433cd03c1fe095e089fd5086fcf921336d268013f7a3c",
+      "cost_sources": {
+        "analytic_roofline": 573,
+        "logical_input": 36,
+        "transferred_complete_call": 39
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 29,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "1": 633,
+        "0": 54
+      }
+    },
+    {
+      "evaluation": 31,
+      "phase": "joint_hybrid",
+      "makespan_ms": 29.933608430876784,
+      "feasible": false,
+      "peak_memory_bytes": [
+        0.0,
+        6250532864.0
+      ],
+      "cross_device_edges": 0,
+      "cross_device_bytes": 0.0,
+      "fused_groups": 71,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 0.0,
+      "branch_overlap_us": 0.0,
+      "branch_overlap_fraction": 0.0,
+      "max_compute_devices": 1,
+      "max_parallel_branch_devices": 1,
+      "tree_choices": 14,
+      "tree_assigned_nodes": 14,
+      "rollout_completed_nodes": 673,
+      "tree_prefix_id": "aff2ab1c1476ba00792bcf9b06c4ec6b2e8b1d6c468c7492f9298fa340c7ea39",
+      "measured_call_count": 71,
+      "measured_execution_keys": {
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 36,
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 35
+      },
+      "candidate_id": "399062554165531505b9fe5f2e01ea2bb895c340d837026d2ccb94a060cc502d",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 36,
+        "transferred_complete_call": 71
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 36,
+        "lightop_add_rmsnorm": 35
+      },
+      "nodes_per_device": {
+        "1": 687
+      }
+    },
+    {
+      "evaluation": 32,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.708036481797723,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1815871488.0,
+        4446982144.0
+      ],
+      "cross_device_edges": 80,
+      "cross_device_bytes": 267386880.0,
+      "fused_groups": 29,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2960.507757143384,
+      "branch_overlap_us": 2960.507757143384,
+      "branch_overlap_fraction": 0.09336774160843701,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 14,
+      "tree_assigned_nodes": 14,
+      "rollout_completed_nodes": 673,
+      "tree_prefix_id": "aff2ab1c1476ba00792bcf9b06c4ec6b2e8b1d6c468c7492f9298fa340c7ea39",
+      "measured_call_count": 29,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 19,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 10
+      },
+      "candidate_id": "d8db5f4e5ccfca616bed71e291d3a9445a0d858f3070c4a94797d12e6f15f857",
+      "cost_sources": {
+        "analytic_roofline": 593,
+        "logical_input": 36,
+        "transferred_complete_call": 29
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 19,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "1": 625,
+        "0": 62
+      }
+    },
+    {
+      "evaluation": 33,
+      "phase": "joint_hybrid",
+      "makespan_ms": 32.190922231700995,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1860960256.0,
+        4401893376.0
+      ],
+      "cross_device_edges": 82,
+      "cross_device_bytes": 274071552.0,
+      "fused_groups": 37,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2466.8587164667315,
+      "branch_overlap_us": 2466.8587164667315,
+      "branch_overlap_fraction": 0.07663212314052367,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 14,
+      "tree_assigned_nodes": 14,
+      "rollout_completed_nodes": 673,
+      "tree_prefix_id": "aff2ab1c1476ba00792bcf9b06c4ec6b2e8b1d6c468c7492f9298fa340c7ea39",
+      "measured_call_count": 37,
+      "measured_execution_keys": {
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 11,
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 26
+      },
+      "candidate_id": "6b21dee76aa05014239ed91469444c0571593014a1defe67be0bedea5f221985",
+      "cost_sources": {
+        "analytic_roofline": 577,
+        "logical_input": 36,
+        "transferred_complete_call": 37
+      },
+      "fused_patterns": {
+        "lightop_silu_mul": 11,
+        "lightop_add_rmsnorm": 26
+      },
+      "nodes_per_device": {
+        "1": 626,
+        "0": 61
+      }
+    },
+    {
+      "evaluation": 34,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.140416726704263,
+      "feasible": false,
+      "peak_memory_bytes": [
+        102498304.0,
+        6160355328.0
+      ],
+      "cross_device_edges": 4,
+      "cross_device_bytes": 13369344.0,
+      "fused_groups": 71,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 0.0,
+      "branch_overlap_us": 0.0,
+      "branch_overlap_fraction": 0.0,
+      "max_compute_devices": 1,
+      "max_parallel_branch_devices": 1,
+      "tree_choices": 14,
+      "tree_assigned_nodes": 15,
+      "rollout_completed_nodes": 672,
+      "tree_prefix_id": "681b58ec0d03843e131cf1ee383b8c430aa3585b1b44be763c4abaeed8244bb2",
+      "measured_call_count": 71,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 36,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 35
+      },
+      "candidate_id": "d18e88476f5dd7137c4719d3330cd6c8047a693d0fef93072561354680fa0f97",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 36,
+        "transferred_complete_call": 71
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 36,
+        "lightop_silu_mul": 35
+      },
+      "nodes_per_device": {
+        "1": 684,
+        "0": 3
+      }
+    },
+    {
+      "evaluation": 35,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.731134395251015,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1500250112.0,
+        4762603520.0
+      ],
+      "cross_device_edges": 66,
+      "cross_device_bytes": 220594176.0,
+      "fused_groups": 38,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3125.1285392620875,
+      "branch_overlap_us": 3125.1285392620875,
+      "branch_overlap_fraction": 0.1016925863870819,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 14,
+      "tree_assigned_nodes": 15,
+      "rollout_completed_nodes": 672,
+      "tree_prefix_id": "681b58ec0d03843e131cf1ee383b8c430aa3585b1b44be763c4abaeed8244bb2",
+      "measured_call_count": 38,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 27,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 11
+      },
+      "candidate_id": "cbd91937a4b9a78cdc44f46a76eb8df063c3e4036187456ad4f590f9265b3001",
+      "cost_sources": {
+        "analytic_roofline": 575,
+        "logical_input": 36,
+        "transferred_complete_call": 38
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 27,
+        "lightop_silu_mul": 11
+      },
+      "nodes_per_device": {
+        "1": 634,
+        "0": 53
+      }
+    },
+    {
+      "evaluation": 36,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.008522418267358,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1635516416.0,
+        4627337216.0
+      ],
+      "cross_device_edges": 72,
+      "cross_device_bytes": 240648192.0,
+      "fused_groups": 31,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3289.0027515026572,
+      "branch_overlap_us": 3289.0027515026572,
+      "branch_overlap_fraction": 0.10606770316682618,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 14,
+      "tree_assigned_nodes": 15,
+      "rollout_completed_nodes": 672,
+      "tree_prefix_id": "681b58ec0d03843e131cf1ee383b8c430aa3585b1b44be763c4abaeed8244bb2",
+      "measured_call_count": 31,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 18,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 13
+      },
+      "candidate_id": "3c795a87544b566aa2eefe449f8b35c6506871f2432a1f5896e0f94a29ca2b73",
+      "cost_sources": {
+        "analytic_roofline": 589,
+        "logical_input": 36,
+        "transferred_complete_call": 31
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 18,
+        "lightop_silu_mul": 13
+      },
+      "nodes_per_device": {
+        "1": 635,
+        "0": 52
+      }
+    },
+    {
+      "evaluation": 37,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.352003793882115,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1906049024.0,
+        4356804608.0
+      ],
+      "cross_device_edges": 84,
+      "cross_device_bytes": 280756224.0,
+      "fused_groups": 38,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3618.244315740076,
+      "branch_overlap_us": 3618.244315740076,
+      "branch_overlap_fraction": 0.11540711526853424,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 15,
+      "tree_assigned_nodes": 17,
+      "rollout_completed_nodes": 670,
+      "tree_prefix_id": "23613340f656fb46e27c9d9429486179147253311258d4679cf6a46c556e33e5",
+      "measured_call_count": 38,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 28,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 10
+      },
+      "candidate_id": "56943310a0263080eae052208902e72f96048478f51e116d75563322dee2a030",
+      "cost_sources": {
+        "analytic_roofline": 575,
+        "logical_input": 36,
+        "transferred_complete_call": 38
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 28,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "1": 623,
+        "0": 64
+      }
+    },
+    {
+      "evaluation": 38,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.567462923774343,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1545338880.0,
+        4717514752.0
+      ],
+      "cross_device_edges": 68,
+      "cross_device_bytes": 227278848.0,
+      "fused_groups": 38,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3618.3509685798103,
+      "branch_overlap_us": 3618.3509685798103,
+      "branch_overlap_fraction": 0.11837262966844327,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 15,
+      "tree_assigned_nodes": 17,
+      "rollout_completed_nodes": 670,
+      "tree_prefix_id": "23613340f656fb46e27c9d9429486179147253311258d4679cf6a46c556e33e5",
+      "measured_call_count": 38,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 23,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 15
+      },
+      "candidate_id": "cb36e1a72dcabbb7f8d81ec008c2bcccb7366b2f5ea97d46533023395e95e006",
+      "cost_sources": {
+        "analytic_roofline": 575,
+        "logical_input": 36,
+        "transferred_complete_call": 38
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 23,
+        "lightop_silu_mul": 15
+      },
+      "nodes_per_device": {
+        "1": 634,
+        "0": 53
+      }
+    },
+    {
+      "evaluation": 39,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.699222270982137,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1635516416.0,
+        4627337216.0
+      ],
+      "cross_device_edges": 72,
+      "cross_device_bytes": 240648192.0,
+      "fused_groups": 39,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3618.1376629003425,
+      "branch_overlap_us": 3618.1376629003425,
+      "branch_overlap_fraction": 0.11785763271013934,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 15,
+      "tree_assigned_nodes": 16,
+      "rollout_completed_nodes": 671,
+      "tree_prefix_id": "02d9e2dd036646c1651558536d2b5ecec185ea63d6f98c1752a565d1e5241fb3",
+      "measured_call_count": 39,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 27,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 12
+      },
+      "candidate_id": "6b6a0c38de9de7b4d53096bdba51ead8fc311276c37534d5aa4fdedbde1410b5",
+      "cost_sources": {
+        "analytic_roofline": 573,
+        "logical_input": 36,
+        "transferred_complete_call": 39
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 27,
+        "lightop_silu_mul": 12
+      },
+      "nodes_per_device": {
+        "1": 633,
+        "0": 54
+      }
+    },
+    {
+      "evaluation": 40,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.51834167726534,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1815871488.0,
+        4446982144.0
+      ],
+      "cross_device_edges": 80,
+      "cross_device_bytes": 267386880.0,
+      "fused_groups": 41,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3288.896098662929,
+      "branch_overlap_us": 3288.896098662929,
+      "branch_overlap_fraction": 0.10434864030410775,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 15,
+      "tree_assigned_nodes": 16,
+      "rollout_completed_nodes": 671,
+      "tree_prefix_id": "02d9e2dd036646c1651558536d2b5ecec185ea63d6f98c1752a565d1e5241fb3",
+      "measured_call_count": 41,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 26,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 15
+      },
+      "candidate_id": "d242b3ab0a798b830fa3f08f0633ce066b3dff6e9457032a7287d19b4c12258d",
+      "cost_sources": {
+        "analytic_roofline": 569,
+        "logical_input": 36,
+        "transferred_complete_call": 41
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 26,
+        "lightop_silu_mul": 15
+      },
+      "nodes_per_device": {
+        "1": 630,
+        "0": 57
+      }
+    },
+    {
+      "evaluation": 41,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.836637110317422,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1770782720.0,
+        4492070912.0
+      ],
+      "cross_device_edges": 78,
+      "cross_device_bytes": 260702208.0,
+      "fused_groups": 40,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2795.460363665742,
+      "branch_overlap_us": 2795.460363665742,
+      "branch_overlap_fraction": 0.0878063959449978,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 16,
+      "tree_assigned_nodes": 17,
+      "rollout_completed_nodes": 670,
+      "tree_prefix_id": "04b287d91f2e0981c835f755b6e6b42584653b27d9cece3bdd0b1c19ee8f9bc0",
+      "measured_call_count": 40,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 24,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 16
+      },
+      "candidate_id": "b848c4a6901ad265259e5a1f283ac24345e8ff1f25046cc416e70c76a7d0d534",
+      "cost_sources": {
+        "analytic_roofline": 571,
+        "logical_input": 36,
+        "transferred_complete_call": 40
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 24,
+        "lightop_silu_mul": 16
+      },
+      "nodes_per_device": {
+        "1": 632,
+        "0": 55
+      }
+    },
+    {
+      "evaluation": 42,
+      "phase": "joint_hybrid",
+      "makespan_ms": 32.030883813138274,
+      "feasible": true,
+      "peak_memory_bytes": [
+        2041315328.0,
+        4221538304.0
+      ],
+      "cross_device_edges": 90,
+      "cross_device_bytes": 300810240.0,
+      "fused_groups": 36,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3124.8085807428856,
+      "branch_overlap_us": 3124.8085807428856,
+      "branch_overlap_fraction": 0.09755611487252083,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 16,
+      "tree_assigned_nodes": 17,
+      "rollout_completed_nodes": 670,
+      "tree_prefix_id": "04b287d91f2e0981c835f755b6e6b42584653b27d9cece3bdd0b1c19ee8f9bc0",
+      "measured_call_count": 36,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 28,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 8
+      },
+      "candidate_id": "33a4a084ab941ced85cecabf8a333d0bd7a8589d2bd5bac5c8d7dbea0267d6ff",
+      "cost_sources": {
+        "analytic_roofline": 579,
+        "logical_input": 36,
+        "transferred_complete_call": 36
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 28,
+        "lightop_silu_mul": 8
+      },
+      "nodes_per_device": {
+        "1": 619,
+        "0": 68
+      }
+    },
+    {
+      "evaluation": 43,
+      "phase": "joint_hybrid",
+      "makespan_ms": 29.889551829141283,
+      "feasible": false,
+      "peak_memory_bytes": [
+        56360960.0,
+        6205444096.0
+      ],
+      "cross_device_edges": 2,
+      "cross_device_bytes": 6684672.0,
+      "fused_groups": 71,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 164.514129278972,
+      "branch_overlap_us": 164.514129278972,
+      "branch_overlap_fraction": 0.005504068117828933,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 17,
+      "tree_assigned_nodes": 18,
+      "rollout_completed_nodes": 669,
+      "tree_prefix_id": "94a818f8ff85719c66d6bd6a16c3835b150a6511955c6da4354547c6ac27b2dd",
+      "measured_call_count": 71,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 36,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 35
+      },
+      "candidate_id": "497e978aef169eab4cf757f8928d4e9baa84462192c6e3cee27604932b3b0f02",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 36,
+        "transferred_complete_call": 71
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 36,
+        "lightop_silu_mul": 35
+      },
+      "nodes_per_device": {
+        "1": 685,
+        "0": 2
+      }
+    },
+    {
+      "evaluation": 44,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.541868435310416,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1410072576.0,
+        4852781056.0
+      ],
+      "cross_device_edges": 62,
+      "cross_device_bytes": 207224832.0,
+      "fused_groups": 34,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3124.8085807428843,
+      "branch_overlap_us": 3124.8085807428843,
+      "branch_overlap_fraction": 0.10231229262746068,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 17,
+      "tree_assigned_nodes": 18,
+      "rollout_completed_nodes": 669,
+      "tree_prefix_id": "94a818f8ff85719c66d6bd6a16c3835b150a6511955c6da4354547c6ac27b2dd",
+      "measured_call_count": 34,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 21,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 13
+      },
+      "candidate_id": "f9a8ae7bd36c4a3c5b83d0440511e010c78124011dda6ec2730fc3b93366d60c",
+      "cost_sources": {
+        "analytic_roofline": 583,
+        "logical_input": 36,
+        "transferred_complete_call": 34
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 21,
+        "lightop_silu_mul": 13
+      },
+      "nodes_per_device": {
+        "1": 640,
+        "0": 47
+      }
+    },
+    {
+      "evaluation": 45,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.876682352953996,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1815871488.0,
+        4446982144.0
+      ],
+      "cross_device_edges": 80,
+      "cross_device_bytes": 267386880.0,
+      "fused_groups": 36,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2631.3728457457014,
+      "branch_overlap_us": 2631.3728457457014,
+      "branch_overlap_fraction": 0.0825485167060321,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 17,
+      "tree_assigned_nodes": 18,
+      "rollout_completed_nodes": 669,
+      "tree_prefix_id": "94a818f8ff85719c66d6bd6a16c3835b150a6511955c6da4354547c6ac27b2dd",
+      "measured_call_count": 36,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 27,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 9
+      },
+      "candidate_id": "0d9a4777270a364820ae803e66e74cede2b296542428b54d966730553dc12440",
+      "cost_sources": {
+        "analytic_roofline": 579,
+        "logical_input": 36,
+        "transferred_complete_call": 36
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 27,
+        "lightop_silu_mul": 9
+      },
+      "nodes_per_device": {
+        "1": 627,
+        "0": 60
+      }
+    },
+    {
+      "evaluation": 46,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.742265036805364,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1725693952.0,
+        4537159680.0
+      ],
+      "cross_device_edges": 76,
+      "cross_device_bytes": 254017536.0,
+      "fused_groups": 39,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 2631.0528872265045,
+      "branch_overlap_us": 2631.0528872265045,
+      "branch_overlap_fraction": 0.08288800072004256,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 17,
+      "tree_assigned_nodes": 18,
+      "rollout_completed_nodes": 669,
+      "tree_prefix_id": "0331c32407e174b5e444e9d3fbc3c4e948b842e9b40be56d2e0d453181412679",
+      "measured_call_count": 39,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 25,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 14
+      },
+      "candidate_id": "cee03bfe679eb31e1c7728f0d6a0226df7a8a9a1a08aaf4449e243191359a91d",
+      "cost_sources": {
+        "analytic_roofline": 573,
+        "logical_input": 36,
+        "transferred_complete_call": 39
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 25,
+        "lightop_silu_mul": 14
+      },
+      "nodes_per_device": {
+        "1": 633,
+        "0": 54
+      }
+    },
+    {
+      "evaluation": 47,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.239788901617374,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1364983808.0,
+        4897869824.0
+      ],
+      "cross_device_edges": 60,
+      "cross_device_bytes": 200540160.0,
+      "fused_groups": 40,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 3289.1094043424014,
+      "branch_overlap_us": 3289.1094043424014,
+      "branch_overlap_fraction": 0.10876760466295726,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 17,
+      "tree_assigned_nodes": 18,
+      "rollout_completed_nodes": 669,
+      "tree_prefix_id": "0331c32407e174b5e444e9d3fbc3c4e948b842e9b40be56d2e0d453181412679",
+      "measured_call_count": 40,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 27,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 13
+      },
+      "candidate_id": "bc6f158b52ddd56f800716451d007bb6f60ee672694a4c00eabbd935acf6929d",
+      "cost_sources": {
+        "analytic_roofline": 571,
+        "logical_input": 36,
+        "transferred_complete_call": 40
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 27,
+        "lightop_silu_mul": 13
+      },
+      "nodes_per_device": {
+        "1": 643,
+        "0": 44
+      }
+    },
+    {
+      "evaluation": 48,
+      "phase": "joint_hybrid",
+      "makespan_ms": 29.87337916763886,
+      "feasible": false,
+      "peak_memory_bytes": [
+        51773440.0,
+        6205444096.0
+      ],
+      "cross_device_edges": 2,
+      "cross_device_bytes": 6684672.0,
+      "fused_groups": 71,
+      "best_ms": 30.41466901531939,
+      "compute_overlap_us": 164.40747643923928,
+      "branch_overlap_us": 164.40747643923928,
+      "branch_overlap_fraction": 0.005503477712268256,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 16,
+      "tree_assigned_nodes": 17,
+      "rollout_completed_nodes": 670,
+      "tree_prefix_id": "aa9cf03abca11236aef1d8d43adfc03d107ff11d8db39fcbed51f587f6f01a2e",
+      "measured_call_count": 71,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 36,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 35
+      },
+      "candidate_id": "843e5bd7f1c8311a9c467adf8369f544ace5f9f112049672d26b05ffb0c60cf0",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 36,
+        "transferred_complete_call": 71
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 36,
+        "lightop_silu_mul": 35
+      },
+      "nodes_per_device": {
+        "1": 686,
+        "0": 1
+      }
+    },
+    {
+      "evaluation": 49,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.13276451855148,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1590427648.0,
+        4672425984.0
+      ],
+      "cross_device_edges": 70,
+      "cross_device_bytes": 233963520.0,
+      "fused_groups": 37,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 4111.680050737257,
+      "branch_overlap_us": 4111.680050737257,
+      "branch_overlap_fraction": 0.13645213495780875,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 16,
+      "tree_assigned_nodes": 17,
+      "rollout_completed_nodes": 670,
+      "tree_prefix_id": "aa9cf03abca11236aef1d8d43adfc03d107ff11d8db39fcbed51f587f6f01a2e",
+      "measured_call_count": 37,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 26,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 11
+      },
+      "candidate_id": "33b5d2e75793dd007164a5ef3634051edf81e2971276c5109bb695ff635a61fa",
+      "cost_sources": {
+        "analytic_roofline": 577,
+        "logical_input": 36,
+        "transferred_complete_call": 37
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 26,
+        "lightop_silu_mul": 11
+      },
+      "nodes_per_device": {
+        "1": 633,
+        "0": 54
+      }
+    },
+    {
+      "evaluation": 50,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.09411877337659,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1410072576.0,
+        4852781056.0
+      ],
+      "cross_device_edges": 62,
+      "cross_device_bytes": 207224832.0,
+      "fused_groups": 46,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 3782.1185279806487,
+      "branch_overlap_us": 3782.1185279806487,
+      "branch_overlap_fraction": 0.12567633418548813,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 16,
+      "tree_assigned_nodes": 17,
+      "rollout_completed_nodes": 670,
+      "tree_prefix_id": "aa9cf03abca11236aef1d8d43adfc03d107ff11d8db39fcbed51f587f6f01a2e",
+      "measured_call_count": 46,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 27,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 19
+      },
+      "candidate_id": "5fe0a899ea1802fab951408d481e4f3bba2a5acd075474baed0eaabdac00323b",
+      "cost_sources": {
+        "analytic_roofline": 559,
+        "logical_input": 36,
+        "transferred_complete_call": 46
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 27,
+        "lightop_silu_mul": 19
+      },
+      "nodes_per_device": {
+        "1": 645,
+        "0": 42
+      }
+    },
+    {
+      "evaluation": 51,
+      "phase": "joint_hybrid",
+      "makespan_ms": 29.907088779177066,
+      "feasible": false,
+      "peak_memory_bytes": [
+        0.0,
+        6250532864.0
+      ],
+      "cross_device_edges": 0,
+      "cross_device_bytes": 0.0,
+      "fused_groups": 71,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 0.0,
+      "branch_overlap_us": 0.0,
+      "branch_overlap_fraction": 0.0,
+      "max_compute_devices": 1,
+      "max_parallel_branch_devices": 1,
+      "tree_choices": 17,
+      "tree_assigned_nodes": 18,
+      "rollout_completed_nodes": 669,
+      "tree_prefix_id": "cf6cd0dacd196a8c3e67dede83768753819bdf05ae0182398f45ab076551fce0",
+      "measured_call_count": 71,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 36,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 35
+      },
+      "candidate_id": "2609ca7d1738667fc62912e55fa032b19c91f31e5a55dc1f5a07a1252c002df2",
+      "cost_sources": {
+        "analytic_roofline": 509,
+        "logical_input": 36,
+        "transferred_complete_call": 71
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 36,
+        "lightop_silu_mul": 35
+      },
+      "nodes_per_device": {
+        "1": 687
+      }
+    },
+    {
+      "evaluation": 52,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.765307859278852,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1590427648.0,
+        4672425984.0
+      ],
+      "cross_device_edges": 70,
+      "cross_device_bytes": 233963520.0,
+      "fused_groups": 37,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 3453.516880781636,
+      "branch_overlap_us": 3453.516880781636,
+      "branch_overlap_fraction": 0.11225361035157173,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 17,
+      "tree_assigned_nodes": 18,
+      "rollout_completed_nodes": 669,
+      "tree_prefix_id": "cf6cd0dacd196a8c3e67dede83768753819bdf05ae0182398f45ab076551fce0",
+      "measured_call_count": 37,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 23,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 14
+      },
+      "candidate_id": "3fbd7221afe90f366ca2e55d04f9fdc503ff460b930d1c0e373b4afe98423680",
+      "cost_sources": {
+        "analytic_roofline": 577,
+        "logical_input": 36,
+        "transferred_complete_call": 37
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 23,
+        "lightop_silu_mul": 14
+      },
+      "nodes_per_device": {
+        "1": 636,
+        "0": 51
+      }
+    },
+    {
+      "evaluation": 53,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.843538465752687,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1545338880.0,
+        4717514752.0
+      ],
+      "cross_device_edges": 68,
+      "cross_device_bytes": 227278848.0,
+      "fused_groups": 43,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 3288.8960986629254,
+      "branch_overlap_us": 3288.8960986629254,
+      "branch_overlap_fraction": 0.10663160785896117,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 17,
+      "tree_assigned_nodes": 18,
+      "rollout_completed_nodes": 669,
+      "tree_prefix_id": "cf6cd0dacd196a8c3e67dede83768753819bdf05ae0182398f45ab076551fce0",
+      "measured_call_count": 43,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 26,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 17
+      },
+      "candidate_id": "0d436cec0296feaab3684b2ed2c1e9ebcc598c82591b2ee6bfc8a8fbd5bde6e0",
+      "cost_sources": {
+        "analytic_roofline": 565,
+        "logical_input": 36,
+        "transferred_complete_call": 43
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 26,
+        "lightop_silu_mul": 17
+      },
+      "nodes_per_device": {
+        "1": 639,
+        "0": 48
+      }
+    },
+    {
+      "evaluation": 54,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.63583524640566,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1635516416.0,
+        4627337216.0
+      ],
+      "cross_device_edges": 72,
+      "cross_device_bytes": 240648192.0,
+      "fused_groups": 38,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 3618.4576214195367,
+      "branch_overlap_us": 3618.4576214195367,
+      "branch_overlap_fraction": 0.11811192978145002,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 17,
+      "tree_assigned_nodes": 18,
+      "rollout_completed_nodes": 669,
+      "tree_prefix_id": "b938d7d4dcfa56a6bedd1daec3d84fa92625ab3b6da183d01e21b61d2627db89",
+      "measured_call_count": 38,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 28,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 10
+      },
+      "candidate_id": "f828689d3351460c848a743d209c27131780fdaffdb364b69706d4be8d5a550d",
+      "cost_sources": {
+        "analytic_roofline": 575,
+        "logical_input": 36,
+        "transferred_complete_call": 38
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 28,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "1": 630,
+        "0": 57
+      }
+    },
+    {
+      "evaluation": 55,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.409106655175524,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1410072576.0,
+        4852781056.0
+      ],
+      "cross_device_edges": 62,
+      "cross_device_bytes": 207224832.0,
+      "fused_groups": 38,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 2137.617152229313,
+      "branch_overlap_us": 2137.617152229313,
+      "branch_overlap_fraction": 0.06805724135032287,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 17,
+      "tree_assigned_nodes": 18,
+      "rollout_completed_nodes": 669,
+      "tree_prefix_id": "b938d7d4dcfa56a6bedd1daec3d84fa92625ab3b6da183d01e21b61d2627db89",
+      "measured_call_count": 38,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 23,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 15
+      },
+      "candidate_id": "de48cd08c896f90747654a76493a1f5d636d78a5bdee2742a1d67c19aa95278b",
+      "cost_sources": {
+        "analytic_roofline": 575,
+        "logical_input": 36,
+        "transferred_complete_call": 38
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 23,
+        "lightop_silu_mul": 15
+      },
+      "nodes_per_device": {
+        "1": 644,
+        "0": 43
+      }
+    },
+    {
+      "evaluation": 56,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.183576924039954,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1274806272.0,
+        4988047360.0
+      ],
+      "cross_device_edges": 56,
+      "cross_device_bytes": 187170816.0,
+      "fused_groups": 47,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 3288.789445823193,
+      "branch_overlap_us": 3288.789445823193,
+      "branch_overlap_fraction": 0.10895956612762518,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 18,
+      "tree_assigned_nodes": 19,
+      "rollout_completed_nodes": 668,
+      "tree_prefix_id": "5f8529eb6cded305b8d34adfad20534ea5cd2c8431abec9f52f092e78f254a90",
+      "measured_call_count": 47,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 27,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 20
+      },
+      "candidate_id": "dba3e39d424a308e9012c8f8606a6cc2154973d1f925aa7dad37b16c4ad1ebc4",
+      "cost_sources": {
+        "analytic_roofline": 557,
+        "logical_input": 36,
+        "transferred_complete_call": 47
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 27,
+        "lightop_silu_mul": 20
+      },
+      "nodes_per_device": {
+        "1": 649,
+        "0": 38
+      }
+    },
+    {
+      "evaluation": 57,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.679460751771895,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1500250112.0,
+        4762603520.0
+      ],
+      "cross_device_edges": 66,
+      "cross_device_bytes": 220594176.0,
+      "fused_groups": 34,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 3124.808580742885,
+      "branch_overlap_us": 3124.808580742885,
+      "branch_overlap_fraction": 0.10185343888622331,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 18,
+      "tree_assigned_nodes": 19,
+      "rollout_completed_nodes": 668,
+      "tree_prefix_id": "5f8529eb6cded305b8d34adfad20534ea5cd2c8431abec9f52f092e78f254a90",
+      "measured_call_count": 34,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 24,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 10
+      },
+      "candidate_id": "1ad4d406f635ed9eeb1a0f4fcf3cf1d91f46aee94e381176c248d28ca91a9f56",
+      "cost_sources": {
+        "analytic_roofline": 583,
+        "logical_input": 36,
+        "transferred_complete_call": 34
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 24,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "1": 637,
+        "0": 50
+      }
+    },
+    {
+      "evaluation": 58,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.3966856420375,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1545338880.0,
+        4717514752.0
+      ],
+      "cross_device_edges": 68,
+      "cross_device_bytes": 227278848.0,
+      "fused_groups": 38,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 3618.137662900341,
+      "branch_overlap_us": 3618.137662900341,
+      "branch_overlap_fraction": 0.11903066358973656,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 19,
+      "tree_assigned_nodes": 20,
+      "rollout_completed_nodes": 667,
+      "tree_prefix_id": "8c2b2bf3ee5ac73a947124a47292dd3a1091bfdb16d543dce5e9ed019b939778",
+      "measured_call_count": 38,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 27,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 11
+      },
+      "candidate_id": "ac7c0c029fd422f6994b4f1ec3782c6d29c83113d49877bf6368b4e8dd7780e4",
+      "cost_sources": {
+        "analytic_roofline": 575,
+        "logical_input": 36,
+        "transferred_complete_call": 38
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 27,
+        "lightop_silu_mul": 11
+      },
+      "nodes_per_device": {
+        "1": 636,
+        "0": 51
+      }
+    },
+    {
+      "evaluation": 59,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.348875314910305,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1815871488.0,
+        4446982144.0
+      ],
+      "cross_device_edges": 80,
+      "cross_device_bytes": 267386880.0,
+      "fused_groups": 39,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 3289.429362861599,
+      "branch_overlap_us": 3289.429362861599,
+      "branch_overlap_fraction": 0.10492974085411813,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 19,
+      "tree_assigned_nodes": 20,
+      "rollout_completed_nodes": 667,
+      "tree_prefix_id": "8c2b2bf3ee5ac73a947124a47292dd3a1091bfdb16d543dce5e9ed019b939778",
+      "measured_call_count": 39,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 29,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 10
+      },
+      "candidate_id": "09df517ea4c5b7513f6a0d029915e3fb9a0cbb73a6335db2e410c81b64021827",
+      "cost_sources": {
+        "analytic_roofline": 573,
+        "logical_input": 36,
+        "transferred_complete_call": 39
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 29,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "1": 625,
+        "0": 62
+      }
+    },
+    {
+      "evaluation": 60,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.020683304031788,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1545338880.0,
+        4717514752.0
+      ],
+      "cross_device_edges": 68,
+      "cross_device_bytes": 227278848.0,
+      "fused_groups": 45,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 2960.294451463918,
+      "branch_overlap_us": 2960.294451463918,
+      "branch_overlap_fraction": 0.09542969838704893,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 18,
+      "tree_assigned_nodes": 19,
+      "rollout_completed_nodes": 668,
+      "tree_prefix_id": "300f8b20b1a80fdbc88c35ba5c60053ecbd418d8ebec71fde0bb9fd09d18ad36",
+      "measured_call_count": 45,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 31,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 14
+      },
+      "candidate_id": "a3582e3a7a4b281d275decaace909567d22b608ea18ee672e2821221e6df5364",
+      "cost_sources": {
+        "analytic_roofline": 561,
+        "logical_input": 36,
+        "transferred_complete_call": 45
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 31,
+        "lightop_silu_mul": 14
+      },
+      "nodes_per_device": {
+        "1": 636,
+        "0": 51
+      }
+    },
+    {
+      "evaluation": 61,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.420373448096896,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1635516416.0,
+        4627337216.0
+      ],
+      "cross_device_edges": 72,
+      "cross_device_bytes": 240648192.0,
+      "fused_groups": 36,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 2631.266192905971,
+      "branch_overlap_us": 2631.266192905971,
+      "branch_overlap_fraction": 0.08374395031467535,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 18,
+      "tree_assigned_nodes": 19,
+      "rollout_completed_nodes": 668,
+      "tree_prefix_id": "300f8b20b1a80fdbc88c35ba5c60053ecbd418d8ebec71fde0bb9fd09d18ad36",
+      "measured_call_count": 36,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 26,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 10
+      },
+      "candidate_id": "968b2917a23577b066d812037e8fcb8cfa08d1c55481bccad3d2cc06493ada08",
+      "cost_sources": {
+        "analytic_roofline": 579,
+        "logical_input": 36,
+        "transferred_complete_call": 36
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 26,
+        "lightop_silu_mul": 10
+      },
+      "nodes_per_device": {
+        "1": 634,
+        "0": 53
+      }
+    },
+    {
+      "evaluation": 62,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.931657595785275,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1410072576.0,
+        4852781056.0
+      ],
+      "cross_device_edges": 62,
+      "cross_device_bytes": 207224832.0,
+      "fused_groups": 46,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 2795.567016505475,
+      "branch_overlap_us": 2795.567016505475,
+      "branch_overlap_fraction": 0.09037882977491633,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 20,
+      "tree_assigned_nodes": 21,
+      "rollout_completed_nodes": 666,
+      "tree_prefix_id": "075d5b3f40e37f227f608edd1613a768b1443a61e0bfdfa51f99420a54ee04d4",
+      "measured_call_count": 46,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 27,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 19
+      },
+      "candidate_id": "f7607bc45ae2f87b6442bc5899c2b398e564e33c5924bb8c85f927f1187319b3",
+      "cost_sources": {
+        "analytic_roofline": 559,
+        "logical_input": 36,
+        "transferred_complete_call": 46
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 27,
+        "lightop_silu_mul": 19
+      },
+      "nodes_per_device": {
+        "1": 643,
+        "0": 44
+      }
+    },
+    {
+      "evaluation": 63,
+      "phase": "joint_hybrid",
+      "makespan_ms": 31.17174443212108,
+      "feasible": true,
+      "peak_memory_bytes": [
+        1770782720.0,
+        4492070912.0
+      ],
+      "cross_device_edges": 78,
+      "cross_device_bytes": 260702208.0,
+      "fused_groups": 40,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 3453.516880781638,
+      "branch_overlap_us": 3453.516880781638,
+      "branch_overlap_fraction": 0.11078997802968461,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 20,
+      "tree_assigned_nodes": 21,
+      "rollout_completed_nodes": 666,
+      "tree_prefix_id": "075d5b3f40e37f227f608edd1613a768b1443a61e0bfdfa51f99420a54ee04d4",
+      "measured_call_count": 40,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 27,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 13
+      },
+      "candidate_id": "8acbffe5b3923ddbc92fcf5ba97b05ee5c271e435758a2c4263232376aacb8f1",
+      "cost_sources": {
+        "analytic_roofline": 571,
+        "logical_input": 36,
+        "transferred_complete_call": 40
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 27,
+        "lightop_silu_mul": 13
+      },
+      "nodes_per_device": {
+        "1": 630,
+        "0": 57
+      }
+    },
+    {
+      "evaluation": 64,
+      "phase": "joint_hybrid",
+      "makespan_ms": 30.55855009925653,
+      "feasible": false,
+      "peak_memory_bytes": [
+        1410072576.0,
+        4852781056.0
+      ],
+      "cross_device_edges": 62,
+      "cross_device_bytes": 207224832.0,
+      "fused_groups": 41,
+      "best_ms": 30.13276451855148,
+      "compute_overlap_us": 3124.2753165442236,
+      "branch_overlap_us": 3124.2753165442236,
+      "branch_overlap_fraction": 0.10223899060643703,
+      "max_compute_devices": 2,
+      "max_parallel_branch_devices": 2,
+      "tree_choices": 21,
+      "tree_assigned_nodes": 22,
+      "rollout_completed_nodes": 665,
+      "tree_prefix_id": "7168491a9390245e71b41236d290818922a4bd636a66c13554258ab00ce7ad2d",
+      "measured_call_count": 41,
+      "measured_execution_keys": {
+        "sha256:7d494c1a2756ee9482965f84e320bcb2465fdb2859eecaa0a9685b106fc243a9": 24,
+        "sha256:29bffb1c474c08a1c1425e88b909586051835b9a8368be284828ade216011456": 17
+      },
+      "candidate_id": "0ec4292e284a110d7d8b24771875b6ee84cecb2174b0bfd6a93b65632ef9c9c6",
+      "cost_sources": {
+        "analytic_roofline": 569,
+        "logical_input": 36,
+        "transferred_complete_call": 41
+      },
+      "fused_patterns": {
+        "lightop_add_rmsnorm": 24,
+        "lightop_silu_mul": 17
+      },
+      "nodes_per_device": {
+        "1": 645,
+        "0": 42
+      }
+    }
+  ],
+  "graph_fingerprint": "sha256:e8e90ec0105365c35e17698b3742ff263a5ea2f3a67d48190dee553590b251fc",
+  "plan_path": "plans/33b5d2e75793dd007164a5ef3634051edf81e2971276c5109bb695ff635a61fa.json",
+  "known_reference_gap_percent": 2.857327343953475,
+  "first_within_1pct_of_reference": null
+}

@@ -119,3 +119,7 @@
 ## 2026-11-09：三类融合调用测时回传
 
 `fusion_timing_expansion_20261109_01/`原41文件，`fusion_timing_expansion_20261109_01_review/`含review与逐文件SHA验证。GPU0 BF16，SiLU×Mul11008／AddRMS2048／QK RMSNorm＋RoPE完整调用中位57.2351／13.6128／15.7696μs，IQR/Median3.46%／9.30%／9.58%，3/3质量通过。7×50原始轮次不替换；含打包或输入复制，不视为纯Kernel或整图耗时，不与旧KERV直接作速度对照。新增局部证据3条、accepted搜索Profile0、规则/MCTS修改0。说明：[FUSION_TIMING_EXPANSION.md](../calibration/FUSION_TIMING_EXPANSION.md)。
+
+## 2026-11-10：新融合完整调用成本与完整图复跑
+
+`fusion_refresh_20261110_v2/`：Qwen3/3B、混合Joint/Random、free/cap75、三种子，24运行1536实评。3B命中新SiLU11008/AddRMS2048完整调用，0.6B维持旧来源；联合Q/K规则已注册但缺图语义不开放。3B cap75 Joint/Random中位30.352663/30.659213ms，free均29.377395ms；Qwen3 free10.123956/10.187843ms，cap75仍无可行结果。diagnosis记录478/591唯一动作、树最深18节点等浅层证据；38项CPU测试、原评分预算/最佳图与221实测绑定校验通过。无新GPU或MCTS核心算法改动。说明：[FUSION_REFRESH_SEARCH.md](../cost_model/FUSION_REFRESH_SEARCH.md)。
